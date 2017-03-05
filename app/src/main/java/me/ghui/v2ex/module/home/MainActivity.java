@@ -1,11 +1,11 @@
 package me.ghui.v2ex.module.home;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.module.base.BaseActivity;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
