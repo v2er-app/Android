@@ -1,4 +1,4 @@
-package me.ghui.v2ex.PRESENTATION;
+package me.ghui.v2ex.module.home;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
