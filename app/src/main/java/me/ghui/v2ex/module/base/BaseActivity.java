@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.base;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -33,6 +34,9 @@ public abstract class BaseActivity extends AppCompatActivity {
 	protected abstract int attachLayoutRes();
 
 	protected void initViews() {
+	}
 
+	protected Context getContext() {
+		return this;
 	}
 }

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/activity_main"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context="me.ghui.v2ex.module.home.MainActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/activity_main"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context="me.ghui.v2ex.module.home.MainActivity">
 
     <me.ghui.v2ex.widget.BaseToolBar
         android:id="@+id/main_toolbar"
@@ -17,4 +17,9 @@
             android:gravity="center"
             android:src="@drawable/v2ex_title_logo"/>
     </me.ghui.v2ex.widget.BaseToolBar>
-</RelativeLayout>
+
+    <include
+        layout="@layout/act_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
