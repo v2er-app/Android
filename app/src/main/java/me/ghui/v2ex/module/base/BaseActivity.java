@@ -21,6 +21,7 @@ public abstract class BaseActivity extends AppCompatActivity {
 			setContentView(layoutResId);
 			ButterKnife.bind(this);
 		}
+		initViews();
 	}
 
 	/**
@@ -30,4 +31,8 @@ public abstract class BaseActivity extends AppCompatActivity {
 	 */
 	@LayoutRes
 	protected abstract int attachLayoutRes();
+
+	protected void initViews() {
+
+	}
 }
