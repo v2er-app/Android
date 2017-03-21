@@ -1,5 +1,8 @@
 package me.ghui.v2ex.module.base;
 
+import android.widget.Toolbar;
+
+import butterknife.BindView;
 import me.ghui.v2ex.R;
 
 /**
@@ -7,10 +10,14 @@ import me.ghui.v2ex.R;
  * Fragment with a toobar
  */
 
-public abstract class BaseToolBarFragment extends BaseFragment {
+public abstract class BaseBarFragment extends BaseFragment {
+
+	@BindView(R.id.basebar)
+	Toolbar mToolbar;
 
 	@Override
 	protected int attachLayoutId() {
 		return R.layout.frag_base_bar_fragment;
 	}
+
 }
