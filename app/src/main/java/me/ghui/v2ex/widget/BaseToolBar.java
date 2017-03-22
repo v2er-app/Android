@@ -29,6 +29,7 @@ public class BaseToolBar extends Toolbar {
 	}
 
 	private void init() {
+		this.setContentInsetStartWithNavigation(0);
 		this.setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
 		this.setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
 	}
