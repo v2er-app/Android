@@ -4,4 +4,10 @@
     <color name="colorPrimaryDark">#fafafa</color>
     <color name="colorAccent">#555555</color>
     <color name="bodyTextColor">#555555</color>
+    <color name="mainDarkColor">#555555</color>
+
+    <color name="white">@android:color/white</color>
+
+
+    <color name="ripple_color">#d4d4d4</color>
 </resources>

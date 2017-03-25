@@ -3,7 +3,6 @@ package me.ghui.v2ex.module.home;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +34,7 @@ public class MainActivity extends BaseActivity {
 	SlidingTabLayout mSlidingTabLayout;
 	@BindView(R.id.viewpager_main)
 	ViewPager mViewPager;
+
 
 	@Override
 	protected int attachLayoutRes() {
@@ -84,14 +84,5 @@ public class MainActivity extends BaseActivity {
 
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				mDrawerLayout.openDrawer(GravityCompat.START);  // OPEN DRAWER
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 
 }

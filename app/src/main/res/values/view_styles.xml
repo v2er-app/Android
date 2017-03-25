@@ -4,6 +4,7 @@
     <style name="Text">
         <item name="android:textColor">@color/bodyTextColor</item>
         <item name="android:singleLine">true</item>
+        <item name="android:padding">8dp</item>
     </style>
 
 </resources>
