@@ -10,15 +10,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 
 /**
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseFragment extends Fragment {
+public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> extends Fragment implements IBaseContract.IBaseView {
 
+	//root view of this fragment
 	protected ViewGroup mBaseRootView;
+	@Inject
+	protected T mPresenter;
+
 
 	/**
 	 * bind a layout resID to the content of this page
@@ -36,10 +42,10 @@ public abstract class BaseFragment extends Fragment {
 	/**
 	 * init views in this page
 	 */
-	protected abstract void initViews();
+	protected abstract void init();
 
 	/**
-	 * fill data to views in this page
+	 * fetch data from server to views in this page
 	 */
 	protected abstract void fetchData();
 
@@ -52,7 +58,7 @@ public abstract class BaseFragment extends Fragment {
 			mBaseRootView = (ViewGroup) inflater.inflate(attachLayoutId(), null);
 			ButterKnife.bind(this, mBaseRootView);
 			initInjector();
-			initViews();
+			init();
 		}
 		ViewGroup parent = (ViewGroup) mBaseRootView.getParent();
 		if (parent != null) {
@@ -61,5 +67,13 @@ public abstract class BaseFragment extends Fragment {
 		return mBaseRootView;
 	}
 
+	@Override
+	public void showLoading() {
 
+	}
+
+	@Override
+	public void hideLoading() {
+
+	}
 }

@@ -46,10 +46,7 @@ public class MainActivity extends BaseActivity {
 		mFragments.add(NewsFragment.newInstance());
 		mFragments.add(MsgFragment.newInstance());
 		mFragments.add(NodesFragment.newInstance());
-	}
 
-	@Override
-	protected void initViews() {
 		mToolbar.setNavigationIcon(R.drawable.main_navigation_icon);
 		mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
 		mToolbar.setNavigationOnClickListener(new View.OnClickListener() {

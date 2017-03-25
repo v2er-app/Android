@@ -31,7 +31,7 @@ public class MsgFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void initViews() {
+	protected void init() {
 
 	}
 

@@ -31,7 +31,7 @@ public class NewsFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void initViews() {
+	protected void init() {
 
 	}
 

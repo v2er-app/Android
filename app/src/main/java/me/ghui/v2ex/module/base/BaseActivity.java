@@ -23,7 +23,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 			ButterKnife.bind(this);
 		}
 		init();
-		initViews();
 	}
 
 	/**
@@ -36,8 +35,6 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	protected void init() {
 
-	}
-	protected void initViews() {
 	}
 
 	protected AppCompatActivity getActivity() {
