@@ -1,7 +1,8 @@
-package me.ghui.v2ex.network.bean;
+package me.ghui.v2ex.network;
 
 
 import io.reactivex.Observable;
+import me.ghui.v2ex.network.bean.ResponseResult;
 import retrofit2.http.GET;
 
 /**

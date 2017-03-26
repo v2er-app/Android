@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<T extends IBaseContract.IBasePresenter> extends AppCompatActivity implements IBaseContract.IBaseView {
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -43,5 +43,15 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 	protected Context getContext() {
 		return this;
+	}
+
+	@Override
+	public void showLoading() {
+
+	}
+
+	@Override
+	public void hideLoading() {
+
 	}
 }

@@ -5,13 +5,12 @@ import com.orhanobut.logger.Logger;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import me.ghui.v2ex.network.bean.IServiceAPI;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
@@ -33,7 +32,7 @@ public class APIService {
 			Retrofit retrofit = new Retrofit.Builder()
 					.client(httpClient)
 					.addConverterFactory(GsonConverterFactory.create())
-					.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
 					.baseUrl(Constants.BASE_URL)
 					.build();
 			mAPI_SERVICE = retrofit.create(IServiceAPI.class);

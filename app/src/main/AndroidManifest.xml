@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="me.ghui.v2ex">
+          package="me.ghui.v2ex">
 
     <application
         android:name=".general.App"
@@ -11,10 +11,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".module.home.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".module.drawer.DailyHotActivity"/>
     </application>
 
 </manifest>
