@@ -26,19 +26,19 @@ public abstract class BaseBarFragment extends BaseFragment {
 	FrameLayout mContentLayout;
 
 	@Override
-	protected int attachLayoutId() {
+	protected int attachLayoutRes() {
 		return R.layout.frag_basebar_fragment;
 	}
 
 	@LayoutRes
-	protected abstract int attachContentLayoutId();
+	protected abstract int attachContentLayoutRes();
 
 	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		View view = super.onCreateView(inflater, container, savedInstanceState);
-		if (attachContentLayoutId() != 0) {
-			inflater.inflate(attachContentLayoutId(), mContentLayout);
+		if (attachContentLayoutRes() != 0) {
+			inflater.inflate(attachContentLayoutRes(), mContentLayout);
 		}
 		return view;
 	}

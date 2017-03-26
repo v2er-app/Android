@@ -5,6 +5,7 @@ import android.app.Application;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.injector.component.DaggerAppComponent;
 import me.ghui.v2ex.injector.module.AppModule;
+import me.ghui.v2ex.network.APIService;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -29,6 +30,7 @@ public class App extends Application {
 		sInstance = this;
 		mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
 				.build();
+		APIService.init();
 	}
 
 	public AppComponent getAppComponent() {

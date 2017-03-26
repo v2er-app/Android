@@ -36,6 +36,8 @@ dependencies {
     compile "io.reactivex.rxjava2:rxandroid:$latest_version"     //rxAndroid
     compile "io.reactivex.rxjava2:rxjava:2.0.1$latest_version"        //rxJava
     compile "com.squareup.retrofit2:retrofit:$latest_version"    //retrofit
+    compile "com.squareup.retrofit2:converter-gson:$latest_version" //retrofit gson convertor
+    compile "com.squareup.retrofit2:adapter-rxjava:$latest_version"
     compile "com.jakewharton:butterknife:$latest_version"        //butterknife
     annotationProcessor "com.jakewharton:butterknife-compiler:$latest_version" //butterknife
     compile "com.google.dagger:dagger:$latest_version"             //dagger
@@ -44,4 +46,5 @@ dependencies {
     compile "de.hdodenhof:circleimageview:$latest_version"
     compile "com.flyco.tablayout:FlycoTabLayout_Lib:$latest_version"
     compile "org.jsoup:jsoup:$latest_version"
+    compile "com.orhanobut:logger:$latest_version"
 }

@@ -23,7 +23,7 @@ public class NodesFragment extends BaseFragment {
 
 
 	@Override
-	protected int attachLayoutId() {
+	protected int attachLayoutRes() {
 		return R.layout.frag_simple_card;
 	}
 

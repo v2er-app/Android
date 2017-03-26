@@ -32,7 +32,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
 	 * @return
 	 */
 	@LayoutRes
-	protected abstract int attachLayoutId();
+	protected abstract int attachLayoutRes();
 
 	/**
 	 * init Dagger2 injector
@@ -55,7 +55,7 @@ public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> exten
 	@CallSuper
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		if (mBaseRootView == null) {
-			mBaseRootView = (ViewGroup) inflater.inflate(attachLayoutId(), null);
+			mBaseRootView = (ViewGroup) inflater.inflate(attachLayoutRes(), null);
 			ButterKnife.bind(this, mBaseRootView);
 			initInjector();
 			init();
