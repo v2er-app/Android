@@ -13,4 +13,5 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 	protected int attachContentLayoutRes() {
 		return 0;
 	}
+
 }
