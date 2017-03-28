@@ -28,7 +28,7 @@ public class DailyHotModule {
 
 	@PerActivity
 	@Provides
-	public DailyHotContract.IDailyHotPresenter provideDailyHotPresenter() {
+	public DailyHotContract.IPresenter provideDailyHotPresenter() {
 		return new DailyHotPresenter(mView);
 	}
 

@@ -8,11 +8,11 @@ import me.ghui.v2ex.module.base.BaseContract;
 
 public class DailyHotContract {
 
-	public interface IDailyHotView extends BaseContract.IBaseView {
+	public interface IView extends BaseContract.IBaseView {
 
 	}
 
-	public interface IDailyHotPresenter extends BaseContract.IBasePresenter {
+	public interface IPresenter extends BaseContract.IBasePresenter {
 
 	}
 
