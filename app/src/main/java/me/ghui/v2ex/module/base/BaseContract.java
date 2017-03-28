@@ -4,7 +4,7 @@ package me.ghui.v2ex.module.base;
  * Created by ghui on 25/03/2017.
  */
 
-public class IBaseContract {
+public class BaseContract {
 
 	public interface IBaseView {
 

@@ -18,7 +18,7 @@ import butterknife.ButterKnife;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseFragment<T extends IBaseContract.IBasePresenter> extends Fragment implements IBaseContract.IBaseView {
+public abstract class BaseFragment<T extends BaseContract.IBasePresenter> extends Fragment implements BaseContract.IBaseView {
 
 	//root view of this fragment
 	protected ViewGroup mBaseRootView;

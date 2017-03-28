@@ -14,7 +14,7 @@ import me.ghui.v2ex.R;
  * Created by ghui on 26/03/2017.
  */
 
-public abstract class BaseBarActivity extends BaseActivity {
+public abstract class BaseBarActivity<T extends BaseContract.IBasePresenter> extends BaseActivity {
 
 	@BindView(R.id.basebar)
 	Toolbar mToolbar;
