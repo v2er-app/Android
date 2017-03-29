@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.drawer.dailyhot;
 
+import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseBarActivity;
 
 /**
@@ -11,7 +12,7 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 
 	@Override
 	protected int attachContentLayoutRes() {
-		return 0;
+		return R.layout.act_daily_hot;
 	}
 
 }

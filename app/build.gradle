@@ -20,11 +20,15 @@ android {
     }
 }
 
-ext.latest_version = '+'
+ext {
+    latest_version = '+'
+    rxLifeCycleVersion = '2.0.1'
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
+        exclude group: 'com.google.code.findbugs'
     })
     testCompile 'junit:junit:4.12'
     compile "com.android.support:appcompat-v7:25.3.1"
@@ -34,7 +38,7 @@ dependencies {
 
     // 3rd part Dependencies...
     compile "io.reactivex.rxjava2:rxandroid:$latest_version"     //rxAndroid
-    compile "io.reactivex.rxjava2:rxjava:2.0.1$latest_version"        //rxJava
+    compile "io.reactivex.rxjava2:rxjava:$latest_version"        //rxJava
     compile "com.squareup.retrofit2:retrofit:$latest_version"    //retrofit
     compile "com.squareup.retrofit2:converter-gson:$latest_version" //retrofit gson convertor
     compile "com.squareup.retrofit2:adapter-rxjava2:$latest_version"
@@ -47,4 +51,7 @@ dependencies {
     compile "com.flyco.tablayout:FlycoTabLayout_Lib:$latest_version"
     compile "org.jsoup:jsoup:$latest_version"
     compile "com.orhanobut:logger:$latest_version"
+    compile "com.trello.rxlifecycle2:rxlifecycle:$rxLifeCycleVersion"
+    compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifeCycleVersion"
+    compile "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifeCycleVersion"
 }

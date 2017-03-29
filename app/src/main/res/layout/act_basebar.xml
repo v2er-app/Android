@@ -9,8 +9,8 @@
         android:id="@+id/basebar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        toolbar:title="V2EX"
-        />
+        toolbar:navigationIcon="@drawable/ic_arrow_back_black"
+        toolbar:title="V2EX"/>
 
     <FrameLayout
         android:id="@+id/content_container"

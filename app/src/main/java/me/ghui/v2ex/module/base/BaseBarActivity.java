@@ -1,10 +1,11 @@
 package me.ghui.v2ex.module.base;
 
-import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
@@ -18,8 +19,7 @@ public abstract class BaseBarActivity<T extends BaseContract.IBasePresenter> ext
 
 	@BindView(R.id.basebar)
 	Toolbar mToolbar;
-	@BindView(R.id.content_container)
-	FrameLayout mContentLayout;
+	FrameLayout mContainerLayout;
 
 	@Override
 	protected int attachLayoutRes() {
@@ -27,11 +27,28 @@ public abstract class BaseBarActivity<T extends BaseContract.IBasePresenter> ext
 	}
 
 	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected ViewGroup onCreateRootView() {
+		ViewGroup rootView = super.onCreateRootView();
+		mContainerLayout = (FrameLayout) rootView.findViewById(R.id.content_container);
 		if (attachContentLayoutRes() != 0) {
-			LayoutInflater.from(this).inflate(attachContentLayoutRes(), mContentLayout);
+			LayoutInflater.from(this).inflate(attachContentLayoutRes(), mContainerLayout);
 		}
+		return rootView;
+	}
+
+	@CallSuper
+	@Override
+	protected void init() {
+		mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				onNavigationBackClick();
+			}
+		});
+	}
+
+	protected void onNavigationBackClick() {
+		this.onBackPressed();
 	}
 
 	@LayoutRes

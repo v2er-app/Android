@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.home;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseActivity;
+import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 
 public class MainActivity extends BaseActivity {
 
@@ -72,6 +74,11 @@ public class MainActivity extends BaseActivity {
 		mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 			@Override
 			public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+				switch (item.getItemId()) {
+					case R.id.hot_nav_item:
+						startActivity(new Intent(getContext(), DailyHotActivity.class));
+						break;
+				}
 				mDrawerLayout.closeDrawers();
 				return true;
 			}

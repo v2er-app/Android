@@ -5,16 +5,23 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import io.reactivex.ObservableTransformer;
+import me.ghui.v2ex.network.bean.ResponseResult;
+import me.ghui.v2ex.util.RxUtils;
 
 /**
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extends AppCompatActivity implements BaseContract.IBaseView {
+public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extends RxActivity implements BaseContract.IBaseView {
+
+	protected ViewGroup mRootView;
 
 	@Inject
 	protected T mPresenter;
@@ -51,14 +58,18 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		int layoutResId = attachLayoutRes();
-		if (layoutResId != 0) {
-			setContentView(layoutResId);
-			ButterKnife.bind(this);
-		}
+		setContentView(onCreateRootView());
+		ButterKnife.bind(this);
 		initInjector();
 		init();
 		updateUI();
+	}
+
+	protected ViewGroup onCreateRootView() {
+		if (attachLayoutRes() != 0) {
+			mRootView = (ViewGroup) LayoutInflater.from(getContext()).inflate(attachLayoutRes(), null);
+		}
+		return mRootView;
 	}
 
 
@@ -79,4 +90,10 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 	public void hideLoading() {
 
 	}
+
+	protected <T> ObservableTransformer<ResponseResult<T>, T> rx() {
+		return RxUtils.rx(this);
+	}
+
+
 }
