@@ -8,12 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.trello.rxlifecycle2.LifecycleTransformer;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import io.reactivex.ObservableTransformer;
-import me.ghui.v2ex.network.bean.ResponseResult;
-import me.ghui.v2ex.util.RxUtils;
+import me.ghui.v2ex.general.App;
+import me.ghui.v2ex.injector.component.AppComponent;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -81,6 +82,10 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 		return this;
 	}
 
+	protected AppComponent getAppComponent() {
+		return App.get().getAppComponent();
+	}
+
 	@Override
 	public void showLoading() {
 
@@ -91,9 +96,8 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 
 	}
 
-	protected <T> ObservableTransformer<ResponseResult<T>, T> rx() {
-		return RxUtils.rx(this);
+	@Override
+	public <T> LifecycleTransformer<T> bindToLife() {
+		return bindToLifecycle();
 	}
-
-
 }

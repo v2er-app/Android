@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.trello.rxlifecycle2.LifecycleTransformer;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -74,5 +76,10 @@ public abstract class BaseFragment<T extends BaseContract.IBasePresenter> extend
 	@Override
 	public void hideLoading() {
 
+	}
+
+	@Override
+	public <T> LifecycleTransformer<T> bindToLife() {
+		return bindToLifecycle();
 	}
 }

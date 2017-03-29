@@ -39,7 +39,7 @@ public class APIService {
 		}
 	}
 
-	public IServiceAPI get() {
+	public static IServiceAPI get() {
 		return mAPI_SERVICE;
 	}
 

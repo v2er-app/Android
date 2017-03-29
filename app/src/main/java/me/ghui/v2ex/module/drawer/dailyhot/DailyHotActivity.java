@@ -1,9 +1,15 @@
 package me.ghui.v2ex.module.drawer.dailyhot;
 
+import android.support.v7.widget.RecyclerView;
+
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.injector.component.DaggerDailyHotComponent;
+import me.ghui.v2ex.injector.module.DailyHotModule;
 import me.ghui.v2ex.module.base.BaseBarActivity;
 import me.ghui.v2ex.util.ScaleUtils;
 
@@ -15,6 +21,11 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 
 	@BindView(R.id.ptr_act_daily_hot)
 	PtrFrameLayout mPtrFrameLayout;
+	@BindView(R.id.recyclerview_act_daily)
+	RecyclerView mRecyclerView;
+
+	@Inject
+	DailyHotAdapter mDailyHotAdapter;
 
 	@Override
 	protected int attachContentLayoutRes() {
@@ -22,9 +33,24 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 	}
 
 	@Override
+	protected void initInjector() {
+		DaggerDailyHotComponent.builder()
+				.appComponent(getAppComponent())
+				.dailyHotModule(new DailyHotModule(DailyHotActivity.this))
+				.build()
+				.inject(this);
+	}
+
+	@Override
 	protected void init() {
 		super.init();
 		initPullToRefresh();
+		mRecyclerView.setAdapter(mDailyHotAdapter);
+	}
+
+	@Override
+	protected void updateUI() {
+		mPresenter.fetchData();
 	}
 
 	private void initPullToRefresh() {
