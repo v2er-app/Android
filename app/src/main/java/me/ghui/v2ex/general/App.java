@@ -16,7 +16,7 @@ public class App extends Application {
 	private static App sInstance;
 	private AppComponent mAppComponent;
 
-	public static App getInstance() {
+	public static App get() {
 		return sInstance;
 	}
 

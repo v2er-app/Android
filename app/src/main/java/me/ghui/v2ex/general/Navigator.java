@@ -24,10 +24,7 @@ public class Navigator {
 	}
 
 	public static Navigator from(Context context) {
-		if (navigator == null) {
-			navigator = new Navigator(context);
-		}
-		return navigator;
+		return navigator = new Navigator(context);
 	}
 
 	public <T extends Activity> Navigator to(Class<T> page) {
@@ -36,19 +33,36 @@ public class Navigator {
 	}
 
 	public void start() {
-		Intent intent = new Intent(mFrom.get(), mTo);
-		mFrom.get().startActivity(intent);
-		mFrom.clear();
-		mTo = null;
+		Context context = mFrom.get();
+		if (context != null) {
+			Intent intent = new Intent(context, mTo);
+			if (mExtras != null) {
+				intent.putExtras(mExtras);
+			}
+			context.startActivity(intent);
+		}
+		clear();
 	}
 
-	public Navigator putExtra(String name, boolean value) {
+	private void clear() {
+		mFrom.clear();
+		mFrom = null;
+		mTo = null;
+		mExtras = null;
+		navigator = null;
+	}
+
+	private Bundle getExtras() {
 		if (mExtras == null) {
 			mExtras = new Bundle();
 		}
-		mExtras.putBoolean(name, value);
-		return navigator;
+		return mExtras;
 	}
 
+	public Navigator putExtra(String name, boolean value) {
+		getExtras().putBoolean(name, value);
+		return this;
+	}
 
 }
+
