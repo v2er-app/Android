@@ -1,14 +1,9 @@
 package me.ghui.v2ex.network;
 
-import com.orhanobut.logger.Logger;
-
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -27,7 +22,8 @@ public class APIService {
 			OkHttpClient httpClient = new OkHttpClient.Builder()
 					.connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
 					.retryOnConnectionFailure(true)
-					.addInterceptor(sLOG_INTERCEPTOR)
+					.addInterceptor(new HttpLoggingInterceptor()
+							.setLevel(HttpLoggingInterceptor.Level.BODY))
 					.build();
 			Retrofit retrofit = new Retrofit.Builder()
 					.client(httpClient)
@@ -42,24 +38,6 @@ public class APIService {
 	public static IServiceAPI get() {
 		return mAPI_SERVICE;
 	}
-
-	private static final Interceptor sLOG_INTERCEPTOR = new Interceptor() {
-		@Override
-		public Response intercept(Chain chain) throws IOException {
-			final Request request = chain.request();
-			String logStr = "Request{method="
-					+ request.method()
-					+ ", url="
-					+ request.url()
-					+ ", tag="
-					+ (request.tag() != request ? request.tag() : null)
-					+ ", body="
-					+ request.body()
-					+ '}';
-			Logger.i(logStr);
-			return chain.proceed(request);
-		}
-	};
 
 
 }

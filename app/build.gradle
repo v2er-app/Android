@@ -42,6 +42,7 @@ dependencies {
     compile "com.squareup.retrofit2:retrofit:$latest_version"    //retrofit
     compile "com.squareup.retrofit2:converter-gson:$latest_version" //retrofit gson convertor
     compile "com.squareup.retrofit2:adapter-rxjava2:$latest_version"
+    compile "com.squareup.okhttp3:logging-interceptor:$latest_version"
     compile "com.jakewharton:butterknife:$latest_version"        //butterknife
     annotationProcessor "com.jakewharton:butterknife-compiler:$latest_version" //butterknife
     compile "com.google.dagger:dagger:$latest_version"             //dagger
