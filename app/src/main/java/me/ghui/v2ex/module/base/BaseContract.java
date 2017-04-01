@@ -18,6 +18,6 @@ public class BaseContract {
 	}
 
 	public interface IBasePresenter {
-		void fetchData();
+		void start();
 	}
 }

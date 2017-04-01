@@ -49,8 +49,8 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 	}
 
 	@Override
-	protected void updateUI() {
-		mPresenter.fetchData();
+	protected void fetchData() {
+		mPresenter.start();
 	}
 
 	private void initPullToRefresh() {

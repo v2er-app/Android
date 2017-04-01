@@ -52,7 +52,7 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 	/**
 	 * start to update UI, such as start to fetch data
 	 */
-	protected void updateUI() {
+	protected void fetchData() {
 
 	}
 
@@ -63,7 +63,7 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 		ButterKnife.bind(this);
 		initInjector();
 		init();
-		updateUI();
+		fetchData();
 	}
 
 	protected ViewGroup onCreateRootView() {
