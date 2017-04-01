@@ -24,7 +24,6 @@ public class RxUtils {
 				}
 			};
 		}
-		//noinspection unchecked
 		return IO_TRANSFORMER;
 	}
 
