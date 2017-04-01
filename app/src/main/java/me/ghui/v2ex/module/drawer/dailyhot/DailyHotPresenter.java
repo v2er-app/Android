@@ -5,7 +5,7 @@ import com.orhanobut.logger.Logger;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.ghui.v2ex.network.APIService;
-import me.ghui.v2ex.network.bean.ResponseResult;
+import me.ghui.v2ex.network.bean.ResponseWrapper;
 import me.ghui.v2ex.util.RxUtils;
 
 /**
@@ -23,22 +23,23 @@ public class DailyHotPresenter implements DailyHotContract.IPresenter {
 	@Override
 	public void fetchData() {
 		APIService.get().dailyHot()
-				.compose(RxUtils.<ResponseResult>io_main())
-				.compose(mView.<ResponseResult>bindToLife())
-				.subscribe(new Observer<ResponseResult>() {
+				.compose(RxUtils.<ResponseWrapper>io_main())
+				.compose(mView.<ResponseWrapper>bindToLife())
+				.subscribe(new Observer<ResponseWrapper>() {
 					@Override
 					public void onSubscribe(Disposable d) {
 						mView.showLoading();
 					}
 
 					@Override
-					public void onNext(ResponseResult responseResult) {
-						Logger.i(" ResponseResult :" +responseResult.toString());
+					public void onNext(ResponseWrapper responseResult) {
+						Logger.i(" ResponseResult :" + responseResult.toString());
 					}
 
 					@Override
 					public void onError(Throwable e) {
-						// TODO: 30/03/2017  
+						// TODO: 30/03/2017
+						Logger.e(e.toString());
 						mView.hideLoading();
 					}
 
