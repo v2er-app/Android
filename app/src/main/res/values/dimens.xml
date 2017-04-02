@@ -5,4 +5,7 @@
 
     <dimen name="normal_dimen">16dp</dimen>
     <dimen name="small_dimen">8dp</dimen>
+
+    <dimen name="bodyTextSize">14dp</dimen>
+    <dimen name="smallTextSize">10dp</dimen>
 </resources>

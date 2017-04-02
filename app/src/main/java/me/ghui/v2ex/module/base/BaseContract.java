@@ -14,7 +14,7 @@ public class BaseContract {
 
 		void hideLoading();
 
-		<T> LifecycleTransformer<T> bindToLife();
+		<K> LifecycleTransformer<K> bindToLife();
 	}
 
 	public interface IBasePresenter {

@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Text">
+    <style name="BodyText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/bodyTextColor</item>
+        <item name="android:textSize">@dimen/bodyTextSize</item>
         <item name="android:singleLine">true</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:padding">4dp</item>
+    </style>
+
+    <style name="smallText" parent="BodyText">
+        <item name="android:textSize">@dimen/smallTextSize</item>
     </style>
 
 </resources>

@@ -33,7 +33,7 @@ public class DailyHotPresenter implements DailyHotContract.IPresenter {
 
 					@Override
 					public void onNext(DailyHotInfo dailyHotInfo) {
-//						Logger.i(" DailyHotInfo :" + dailyHotInfo.toString());
+						mView.fillView(dailyHotInfo);
 					}
 
 					@Override

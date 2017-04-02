@@ -112,7 +112,9 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
 
 		public static class Member {
 			private String id;
+			@SerializedName("username")
 			private String userName;
+			@SerializedName("avatar_large")
 			private String avatar;
 
 			public String getId() {
@@ -155,6 +157,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
 			private String title;
 			private String url;
 			private int topics;
+			@SerializedName("avatar_large")
 			private String avatar;
 
 			public String getId() {
