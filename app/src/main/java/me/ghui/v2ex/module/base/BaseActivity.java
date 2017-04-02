@@ -49,13 +49,6 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 
 	}
 
-	/**
-	 * start to update UI, such as start to fetch data
-	 */
-	protected void fetchData() {
-
-	}
-
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,7 +56,7 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 		ButterKnife.bind(this);
 		initInjector();
 		init();
-		fetchData();
+		updateUI();
 	}
 
 	protected ViewGroup onCreateRootView() {
@@ -99,5 +92,16 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 	@Override
 	public <K> LifecycleTransformer<K> bindToLife() {
 		return bindToLifecycle();
+	}
+
+	protected void updateUI() {
+	}
+
+	protected void delay(long millisecond, Runnable runnable) {
+		mRootView.postDelayed(runnable, millisecond);
+	}
+
+	protected void post(Runnable runnable) {
+		mRootView.post(runnable);
 	}
 }

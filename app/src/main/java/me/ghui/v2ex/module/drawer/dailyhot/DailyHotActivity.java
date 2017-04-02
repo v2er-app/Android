@@ -64,18 +64,14 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 		header.setPtrFrameLayout(mPtrFrameLayout);
 		mPtrFrameLayout.setHeaderView(header);
 		mPtrFrameLayout.addPtrUIHandler(header);
+		mPtrFrameLayout.setPinContent(true);
 		mPtrFrameLayout.setPtrHandler(this);
-		mPtrFrameLayout.post(new Runnable() {
+		post(new Runnable() {
 			@Override
 			public void run() {
 				mPtrFrameLayout.autoRefresh();
 			}
 		});
-	}
-
-	@Override
-	protected void fetchData() {
-		mPresenter.start();
 	}
 
 	@Override
@@ -85,7 +81,6 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 
 	@Override
 	public void hideLoading() {
-		super.hideLoading();
 		mPtrFrameLayout.refreshComplete();
 	}
 
@@ -96,6 +91,6 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 
 	@Override
 	public void onRefreshBegin(PtrFrameLayout frame) {
-		fetchData();
+		mPresenter.start();
 	}
 }
