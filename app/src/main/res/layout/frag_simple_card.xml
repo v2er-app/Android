@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:text="Content"
-        android:background="@drawable/background_card"
+        android:background="@android:color/holo_blue_dark"
         android:gravity="center"
         android:textSize="18sp"/>
 

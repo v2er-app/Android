@@ -90,8 +90,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 				View content = inflater.inflate(attachLayoutRes(), mRootView, false);
 				ptrLayout.setContentView(content);
 				ptrLayout.setPtrHandler(attachPtrHandler());
-				// TODO: 03/04/2017
-//				ptrLayout.setPinContent(true);
+				ptrLayout.setPinContent(true);
 				mRootView = ptrLayout;
 			}
 		} else {

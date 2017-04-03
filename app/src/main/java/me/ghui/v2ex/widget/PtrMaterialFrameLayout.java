@@ -56,7 +56,7 @@ public class PtrMaterialFrameLayout extends PtrFrameLayout {
 			contentView.setLayoutParams(lp);
 		}
 		mContent = contentView;
-		addView(mContent);
+		addView(mContent, 0);
 	}
 
 	public MaterialHeader getHeader() {
