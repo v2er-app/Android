@@ -5,8 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.util.ScaleUtils;
@@ -15,7 +15,7 @@ import me.ghui.v2ex.util.ScaleUtils;
  * Created by ghui on 01/04/2017.
  */
 
-public class TagView extends TextView {
+public class TagView extends AppCompatTextView {
 
 	private int mColor = 0xFFF5F5F5;
 	private float mCorner;
@@ -37,6 +37,8 @@ public class TagView extends TextView {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
+		int padding = ScaleUtils.dp(5, context);
+		setPadding(padding * 2, padding, padding * 2, padding);
 		TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TagView, 0, 0);
 		try {
 			mColor = a.getColor(R.styleable.TagView_tagColor, mColor);

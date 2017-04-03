@@ -5,7 +5,7 @@
         <item
             android:id="@+id/hot_nav_item"
             android:icon="@drawable/hot_nav_item"
-            android:title="今日热议"
+            android:title="@string/daily_hot"
             />
         <item
             android:id="@+id/follow_nav_item"

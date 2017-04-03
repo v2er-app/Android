@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">V2EX</string>
+    <string name="daily_hot">今日热议</string>
 </resources>

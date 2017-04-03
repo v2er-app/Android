@@ -2,6 +2,7 @@ package me.ghui.v2ex.module.base;
 
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,14 @@ public abstract class BaseBarActivity<T extends BaseContract.IBasePresenter> ext
 				onNavigationBackClick();
 			}
 		});
+	}
+
+	protected void setBarTitle(CharSequence title) {
+		mToolbar.setTitle(title);
+	}
+
+	protected void setBarTitle(@StringRes int strId) {
+		setBarTitle(getResources().getText(strId));
 	}
 
 	protected void onNavigationBackClick() {

@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.util.ResUtils;
+import me.ghui.v2ex.util.ScaleUtils;
 
 /**
  * Created by ghui on 21/03/2017.
@@ -32,6 +33,7 @@ public class BaseToolBar extends Toolbar {
 		this.setContentInsetStartWithNavigation(0);
 		this.setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
 		this.setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
+		this.setElevation(ScaleUtils.dp(2, getContext()));
 	}
 
 

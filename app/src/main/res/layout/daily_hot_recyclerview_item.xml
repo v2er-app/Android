@@ -1,14 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="10dp">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="15dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="15dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avtar_img"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="10dp"
         android:src="@drawable/me"/>
 
@@ -16,7 +20,10 @@
         android:id="@+id/username_tv"
         style="@style/smallText"
         android:layout_toRightOf="@id/avtar_img"
+        android:gravity="top"
         android:paddingLeft="0dp"
+        android:paddingRight="5dp"
+        android:paddingTop="0dp"
         android:text="ghui"
         android:textColor="#B3555555"/>
 
@@ -24,6 +31,8 @@
         android:id="@+id/time_tv"
         style="@style/smallText"
         android:layout_toRightOf="@id/username_tv"
+        android:gravity="top"
+        android:paddingTop="0dp"
         android:text="1小时17分钟前"
         android:textColor="#9B9B9B"/>
 
