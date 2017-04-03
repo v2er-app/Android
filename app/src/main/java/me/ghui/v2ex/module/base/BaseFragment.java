@@ -84,15 +84,15 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	protected View onCreateRootView(LayoutInflater inflater, ViewGroup container) {
 		if (attachPtrHandler() != null) {
 			if (mRootView == null) {
-				mRootView = new PtrMaterialFrameLayout(getContext());
-				mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+				PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(getContext());
+				ptrLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
 						, ViewGroup.LayoutParams.MATCH_PARENT));
-				container.addView(mRootView);
-				PtrMaterialFrameLayout ptrMaterialFrameLayout = (PtrMaterialFrameLayout) mRootView;
 				View content = inflater.inflate(attachLayoutRes(), mRootView, false);
-				ptrMaterialFrameLayout.setContentView(content);
-				ptrMaterialFrameLayout.setPtrHandler(attachPtrHandler());
-				ptrMaterialFrameLayout.setPinContent(true);
+				ptrLayout.setContentView(content);
+				ptrLayout.setPtrHandler(attachPtrHandler());
+				// TODO: 03/04/2017
+//				ptrLayout.setPinContent(true);
+				mRootView = ptrLayout;
 			}
 		} else {
 			if (mRootView == null) {

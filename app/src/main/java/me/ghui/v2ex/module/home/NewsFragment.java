@@ -8,6 +8,8 @@ import javax.inject.Inject;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.injector.component.DaggerNewsComponent;
+import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 
 /**
@@ -34,7 +36,11 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
 	@Override
 	protected void startInject() {
-
+		DaggerNewsComponent.builder()
+				.appComponent(getAppComponent())
+				.newsModule(new NewsModule(this))
+				.build()
+				.inject(this);
 	}
 
 	@Override

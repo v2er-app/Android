@@ -62,4 +62,9 @@ public class PtrMaterialFrameLayout extends PtrFrameLayout {
 	public MaterialHeader getHeader() {
 		return mMaterialHeader;
 	}
+
+	@Override
+	public void setPinContent(boolean pinContent) {
+		super.setPinContent(pinContent);
+	}
 }
