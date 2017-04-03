@@ -37,8 +37,4 @@ public class NodesFragment extends BaseFragment {
 
 	}
 
-	@Override
-	protected void fetchData() {
-
-	}
 }

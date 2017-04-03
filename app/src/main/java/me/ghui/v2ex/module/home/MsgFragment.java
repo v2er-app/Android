@@ -35,9 +35,4 @@ public class MsgFragment extends BaseFragment {
 
 	}
 
-	@Override
-	protected void fetchData() {
-
-	}
-
 }

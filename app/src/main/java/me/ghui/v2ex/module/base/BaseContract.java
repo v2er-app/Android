@@ -8,7 +8,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 
 public class BaseContract {
 
-	public interface IBaseView {
+	public interface IView {
 
 		void showLoading();
 
@@ -17,7 +17,7 @@ public class BaseContract {
 		<K> LifecycleTransformer<K> bindToLife();
 	}
 
-	public interface IBasePresenter {
+	public interface IPresenter {
 		void start();
 	}
 }

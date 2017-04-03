@@ -20,7 +20,7 @@ import me.ghui.v2ex.injector.component.AppComponent;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extends RxActivity implements BaseContract.IBaseView {
+public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView {
 
 	protected ViewGroup mRootView;
 
@@ -102,6 +102,6 @@ public abstract class BaseActivity<T extends BaseContract.IBasePresenter> extend
 	}
 
 	protected void post(Runnable runnable) {
-		mRootView.post(runnable);
+		delay(0, runnable);
 	}
 }

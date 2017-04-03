@@ -9,12 +9,12 @@ import me.ghui.v2ex.network.bean.DailyHotInfo;
 
 public class DailyHotContract {
 
-	public interface IView extends BaseContract.IBaseView {
+	public interface IView extends BaseContract.IView {
 
 		void fillView(DailyHotInfo dailyHotInfo);
 	}
 
-	public interface IPresenter extends BaseContract.IBasePresenter {
+	public interface IPresenter extends BaseContract.IPresenter {
 
 	}
 
