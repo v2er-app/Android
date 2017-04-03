@@ -38,7 +38,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 	/**
 	 * init Dagger2 injector
 	 */
-	protected void initInjector() {
+	protected void startInject() {
 
 	}
 
@@ -54,7 +54,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 		super.onCreate(savedInstanceState);
 		setContentView(onCreateRootView());
 		ButterKnife.bind(this);
-		initInjector();
+		startInject();
 		init();
 		updateUI();
 	}
@@ -65,7 +65,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 		}
 		return mRootView;
 	}
-
 
 	protected AppCompatActivity getActivity() {
 		return this;

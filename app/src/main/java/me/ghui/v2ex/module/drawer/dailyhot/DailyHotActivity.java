@@ -40,7 +40,7 @@ public class DailyHotActivity extends BaseBarActivity<DailyHotContract.IPresente
 	}
 
 	@Override
-	protected void initInjector() {
+	protected void startInject() {
 		DaggerDailyHotComponent.builder()
 				.appComponent(getAppComponent())
 				.dailyHotModule(new DailyHotModule(DailyHotActivity.this))

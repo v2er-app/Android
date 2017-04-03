@@ -3,6 +3,8 @@ package me.ghui.v2ex.module.home;
 import android.os.Bundle;
 import android.view.View;
 
+import javax.inject.Inject;
+
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
@@ -12,7 +14,10 @@ import me.ghui.v2ex.module.base.BaseFragment;
  * Created by ghui on 22/03/2017.
  */
 
-public class NewsFragment extends BaseFragment {
+public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView {
+
+	@Inject
+	NewsAdapter mNewsAdapter;
 
 	public static NewsFragment newInstance() {
 		Bundle args = new Bundle();
@@ -28,7 +33,7 @@ public class NewsFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void inject() {
+	protected void startInject() {
 
 	}
 

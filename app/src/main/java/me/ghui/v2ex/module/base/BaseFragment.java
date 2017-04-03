@@ -16,6 +16,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrHandler;
+import me.ghui.v2ex.general.App;
+import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
 
 /**
@@ -24,11 +26,7 @@ import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
 
 public abstract class BaseFragment<T extends BaseContract.IPresenter> extends RxFragment implements BaseContract.IView {
 
-	//root view of this fragment
 	protected ViewGroup mRootView;
-
-//	@Nullable
-//	private PtrMaterialFrameLayout mPtrMaterialFrameLayout;
 
 	@Inject
 	protected T mPresenter;
@@ -53,7 +51,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	/**
 	 * init Dagger2 injector
 	 */
-	protected abstract void inject();
+	protected abstract void startInject();
 
 	/**
 	 * init views in this page
@@ -74,7 +72,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		onCreateRootView(inflater, container);
 		ButterKnife.bind(this, mRootView);
-		inject();
+		startInject();
 		init();
 		ViewGroup parent = (ViewGroup) mRootView.getParent();
 		if (parent != null) {
@@ -110,7 +108,6 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 		else return null;
 	}
 
-
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
@@ -126,6 +123,9 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 		}
 	}
 
+	protected AppComponent getAppComponent() {
+		return App.get().getAppComponent();
+	}
 
 	@Override
 	public void showLoading() {
@@ -138,7 +138,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	}
 
 	@Override
-	public <T> LifecycleTransformer<T> bindToLife() {
+	public <K> LifecycleTransformer<K> bindToLife() {
 		return bindToLifecycle();
 	}
 }
