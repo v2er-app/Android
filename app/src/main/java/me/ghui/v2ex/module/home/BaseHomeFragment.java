@@ -15,7 +15,7 @@ public class BaseHomeFragment<T extends BaseContract.IPresenter> extends BaseFra
 	}
 
 	@Override
-	protected void initInjector() {
+	protected void inject() {
 
 	}
 

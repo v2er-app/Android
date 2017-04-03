@@ -39,7 +39,7 @@ public class DailyHotAdapter extends RecyclerView.Adapter<DailyHotAdapter.ViewHo
 
 	@Override
 	public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		View itemView = mLayoutInflater.inflate(R.layout.daily_hot_recyclerview_item, parent, false);
+		View itemView = mLayoutInflater.inflate(R.layout.common_list_item, parent, false);
 		return new ViewHolder(itemView);
 	}
 

@@ -53,7 +53,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	/**
 	 * init Dagger2 injector
 	 */
-	protected abstract void initInjector();
+	protected abstract void inject();
 
 	/**
 	 * init views in this page
@@ -74,7 +74,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		onCreateRootView(inflater, container);
 		ButterKnife.bind(this, mRootView);
-		initInjector();
+		inject();
 		init();
 		ViewGroup parent = (ViewGroup) mRootView.getParent();
 		if (parent != null) {

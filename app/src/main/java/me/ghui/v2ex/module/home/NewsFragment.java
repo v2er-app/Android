@@ -21,6 +21,22 @@ public class NewsFragment extends BaseFragment {
 		return fragment;
 	}
 
+
+	@Override
+	protected int attachLayoutRes() {
+		return R.layout.frag_simple_card;
+	}
+
+	@Override
+	protected void inject() {
+
+	}
+
+	@Override
+	protected void init() {
+
+	}
+
 	@Override
 	protected PtrHandler attachPtrHandler() {
 		return new PtrHandler() {
@@ -35,20 +51,4 @@ public class NewsFragment extends BaseFragment {
 			}
 		};
 	}
-
-	@Override
-	protected int attachLayoutRes() {
-		return R.layout.frag_simple_card;
-	}
-
-	@Override
-	protected void initInjector() {
-
-	}
-
-	@Override
-	protected void init() {
-
-	}
-
 }

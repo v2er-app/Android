@@ -26,7 +26,7 @@ public class MsgFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void initInjector() {
+	protected void inject() {
 
 	}
 

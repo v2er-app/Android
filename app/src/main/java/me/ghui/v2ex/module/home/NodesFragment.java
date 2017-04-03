@@ -28,7 +28,7 @@ public class NodesFragment extends BaseFragment {
 	}
 
 	@Override
-	protected void initInjector() {
+	protected void inject() {
 
 	}
 
