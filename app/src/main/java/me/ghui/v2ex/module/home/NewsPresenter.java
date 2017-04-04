@@ -15,7 +15,6 @@ public class NewsPresenter implements NewsContract.IPresenter {
 	@Override
 	public void start() {
 		// TODO: 03/04/2017
-
 	}
 
 }
