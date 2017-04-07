@@ -43,6 +43,17 @@ public class PtrMaterialFrameLayout extends PtrFrameLayout {
 		mMaterialHeader.setPadding(0, padding, 0, padding);
 		setHeaderView(mMaterialHeader);
 		addPtrUIHandler(mMaterialHeader);
+		autoRefresh();
+	}
+
+	@Override
+	public void autoRefresh(final boolean atOnce, final int duration) {
+		post(new Runnable() {
+			@Override
+			public void run() {
+				PtrMaterialFrameLayout.super.autoRefresh(atOnce, duration);
+			}
+		});
 	}
 
 	public void setContentView(View contentView) {

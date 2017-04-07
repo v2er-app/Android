@@ -56,4 +56,7 @@ dependencies {
     compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifeCycleVersion"
     compile "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifeCycleVersion"
     compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile 'com.github.florent37:retrojsoup:1.0.2'
+    compile 'com.github.florent37:rxjsoup:1.0.2'
+    annotationProcessor 'com.github.florent37:retrojsoup-compiler:1.0.2'
 }

@@ -7,6 +7,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
+
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -17,6 +21,7 @@ import me.ghui.v2ex.R;
 import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
+import me.ghui.v2ex.network.bean.NewsInfo;
 
 /**
  * Created by ghui on 22/03/2017.
@@ -76,5 +81,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 		};
 	}
 
-
+	@Override
+	public void fillView(List<NewsInfo> newsInfos) {
+		Logger.i("newsInfo: " + newsInfos.toString());
+	}
 }
