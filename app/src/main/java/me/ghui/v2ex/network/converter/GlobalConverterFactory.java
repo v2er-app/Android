@@ -14,15 +14,23 @@ import retrofit2.Retrofit;
  * Created by ghui on 07/04/2017.
  */
 
-public class RetrofitUniversalConverterFactory extends Converter.Factory {
+public class GlobalConverterFactory extends Converter.Factory {
 
 	private HashMap<Class<? extends Annotation>, Converter.Factory> mFactoryClassHashMap = new HashMap<>();
 
-	public void addConverterFactory(Converter.Factory factory, Class<? extends Annotation> clazz) {
+	public static GlobalConverterFactory create() {
+		return new GlobalConverterFactory();
+	}
+
+	private GlobalConverterFactory() {
+	}
+
+	public GlobalConverterFactory add(Converter.Factory factory, Class<? extends Annotation> clazz) {
 		if (factory != null && clazz == null) {
 			throw new NullPointerException("Converter.Factory or Class cannot be null");
 		}
 		mFactoryClassHashMap.put(clazz, factory);
+		return this;
 	}
 
 	@Override
