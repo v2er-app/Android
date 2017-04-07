@@ -14,7 +14,7 @@ import retrofit2.Retrofit;
  * Created by ghui on 07/04/2017.
  */
 
-public class RetrofitUniversalConverterFactory extends Converter.Factory {
+public class GlobalConverterFactory extends Converter.Factory {
 
 	private HashMap<Class<? extends Annotation>, Converter.Factory> mFactoryClassHashMap = new HashMap<>();
 

@@ -5,7 +5,7 @@ import java.util.concurrent.TimeUnit;
 import me.ghui.v2ex.network.converter.Html;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
 import me.ghui.v2ex.network.converter.Json;
-import me.ghui.v2ex.network.converter.RetrofitUniversalConverterFactory;
+import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -30,7 +30,7 @@ public class APIService {
 							.setLevel(HttpLoggingInterceptor.Level.BODY))
 					.build();
 
-			RetrofitUniversalConverterFactory factory = new RetrofitUniversalConverterFactory();
+			GlobalConverterFactory factory = new GlobalConverterFactory();
 			factory.addConverterFactory(GsonConverterFactory.create(), Json.class);
 			factory.addConverterFactory(HtmlConverterFactory.create(), Html.class);
 
