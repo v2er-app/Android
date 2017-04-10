@@ -1,4 +1,4 @@
-package me.ghui.v2ex.network.converter;
+package me.ghui.v2ex.network.converter.annotations;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

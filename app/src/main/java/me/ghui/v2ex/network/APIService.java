@@ -4,16 +4,18 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
+import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.network.converter.GlobalConverterFactory;
-import me.ghui.v2ex.network.converter.Html;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
-import me.ghui.v2ex.network.converter.Json;
+import me.ghui.v2ex.network.converter.annotations.Html;
+import me.ghui.v2ex.network.converter.annotations.Json;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * Created by ghui on 25/03/2017.
@@ -58,9 +60,9 @@ public class APIService {
 		@GET("api/topics/hot.json")
 		Observable<DailyHotInfo> dailyHot();
 
-//		@Html
-//		@GET("/")
-//		Observable<>
+		@Html
+		@GET("/")
+		Observable<NewsInfo> homeNews(@Query("tab") String tab);
 
 	}
 
