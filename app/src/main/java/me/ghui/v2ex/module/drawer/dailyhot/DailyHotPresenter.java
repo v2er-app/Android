@@ -22,7 +22,8 @@ public class DailyHotPresenter implements DailyHotContract.IPresenter {
 
 	@Override
 	public void start() {
-		APIService.get().dailyHot()
+		APIService.get()
+				.dailyHot()
 				.compose(RxUtils.<DailyHotInfo>io_main())
 				.compose(mView.<DailyHotInfo>bindToLife())
 				.subscribe(new Observer<DailyHotInfo>() {

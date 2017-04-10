@@ -58,6 +58,10 @@ public class APIService {
 		@GET("api/topics/hot.json")
 		Observable<DailyHotInfo> dailyHot();
 
+//		@Html
+//		@GET("/")
+//		Observable<>
+
 	}
 
 
