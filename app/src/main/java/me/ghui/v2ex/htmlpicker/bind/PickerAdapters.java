@@ -29,6 +29,8 @@ public final class PickerAdapters {
 
 	public static final PickerAdapterFactory STRING_FACTORY = newFactory(String.class, STRING);
 
+	public static final PickerAdapterFactory COLLECTION_FACTORY = new CollectionPickerAdapterFactory();
+
 
 //**************************************************************************************************
 

@@ -10,11 +10,11 @@ public class Picker {
 	private String path;
 	private String attr;
 
-	public Picker create(Select select) {
+	public static Picker create(Select select) {
 		return create(select.value(), select.attr());
 	}
 
-	public Picker create(String path, String attr) {
+	public static Picker create(String path, String attr) {
 		return new Picker(path, attr);
 	}
 

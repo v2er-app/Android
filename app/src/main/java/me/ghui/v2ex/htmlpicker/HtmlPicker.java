@@ -30,7 +30,7 @@ public class HtmlPicker {
 	public HtmlPicker() {
 		List<PickerAdapterFactory> factories = new ArrayList<>();
 		factories.add(PickerAdapters.STRING_FACTORY);
-
+		factories.add(PickerAdapters.COLLECTION_FACTORY);
 		mFactories = Collections.unmodifiableList(factories);
 	}
 
