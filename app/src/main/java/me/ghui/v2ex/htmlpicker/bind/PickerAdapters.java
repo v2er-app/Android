@@ -11,8 +11,11 @@ import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
  * Created by ghui on 13/04/2017.
  */
 
-public class PickerAdapters {
+public final class PickerAdapters {
 
+	private PickerAdapters() {
+		throw new UnsupportedOperationException();
+	}
 
 	private static final PickerAdapter<String> STRING = new PickerAdapter<String>() {
 		@Override
@@ -25,7 +28,6 @@ public class PickerAdapters {
 	};
 
 	public static final PickerAdapterFactory STRING_FACTORY = newFactory(String.class, STRING);
-
 
 
 //**************************************************************************************************
