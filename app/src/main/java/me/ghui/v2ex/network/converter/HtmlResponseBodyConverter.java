@@ -2,7 +2,9 @@ package me.ghui.v2ex.network.converter;
 
 
 import java.io.IOException;
+import java.lang.reflect.Type;
 
+import me.ghui.v2ex.htmlpicker.HtmlPicker;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
@@ -12,10 +14,16 @@ import retrofit2.Converter;
 
 public class HtmlResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
+	private HtmlPicker mPicker;
+	private Type mType;
+
+	public HtmlResponseBodyConverter(HtmlPicker htmlPicker, Type type) {
+		mPicker = htmlPicker;
+		mType = type;
+	}
 
 	@Override
 	public T convert(ResponseBody value) throws IOException {
-
-		return null;
+		return mPicker.fromHtml(value.string(), mType);
 	}
 }
