@@ -3,7 +3,6 @@ package me.ghui.v2ex.network.converter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -13,8 +12,6 @@ import retrofit2.Retrofit;
  */
 
 public class HtmlConverterFactory extends Converter.Factory {
-	// TODO: 07/04/2017
-
 
 	public static HtmlConverterFactory create() {
 		return new HtmlConverterFactory();
@@ -27,12 +24,10 @@ public class HtmlConverterFactory extends Converter.Factory {
 
 	@Override
 	public Converter<ResponseBody, ?> responseBodyConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-		return super.responseBodyConverter(type, annotations, retrofit);
+		// TODO: 11/04/2017
+		//HtmlPicker.getAdapter(type);
+		//Adapter 负责将 Element解析成具体的类
+		return new HtmlResponseBodyConverter<>();
 	}
 
-	@Override
-	public Converter<?, RequestBody> requestBodyConverter(Type type, Annotation[] parameterAnnotations,
-	                                                      Annotation[] methodAnnotations, Retrofit retrofit) {
-		return super.requestBodyConverter(type, parameterAnnotations, methodAnnotations, retrofit);
-	}
 }
