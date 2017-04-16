@@ -15,6 +15,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
@@ -102,8 +103,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 	}
 
 	@Nullable
-	protected PtrMaterialFrameLayout getPtrLayout() {
-		if (attachPtrHandler() != null) return (PtrMaterialFrameLayout) mRootView;
+	protected PtrFrameLayout getPtrLayout() {
+		if (attachPtrHandler() != null) return (PtrFrameLayout) mRootView;
 		else return null;
 	}
 
@@ -128,12 +129,11 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
 	@Override
 	public void showLoading() {
-
 	}
 
 	@Override
 	public void hideLoading() {
-
+		if (getPtrLayout() != null) getPtrLayout().refreshComplete();
 	}
 
 	@Override
