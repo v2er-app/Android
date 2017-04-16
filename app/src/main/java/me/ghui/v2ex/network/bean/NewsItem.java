@@ -8,7 +8,7 @@ import me.ghui.v2ex.htmlpicker.annotations.Select;
 @Select("table > tbody > tr")
 public class NewsItem {
 
-	@Select(value = "span.item_title > a", attr = "text")
+	@Select(value = "span.item_title > a")
 	private String title;
 	@Select(value = "span.item_title > a", attr = "href")
 	private String link;
@@ -16,13 +16,13 @@ public class NewsItem {
 	private String avatar;
 	@Select(value = "td > a", attr = "href")
 	private String avatarLink;
-	@Select(value = "span.'small fade' > strong > a", attr = "text")
+	@Select(value = "span.small.fade > strong > a")
 	private String user;
-	@Select(value = "span.'small fade'", attr = "text")
+	@Select(value = "span.small.fade", attr = "ownText")
 	private String time;
-	@Select(value = "span.'small fade' > a", attr = "text")
+	@Select(value = "span.small.fade > a")
 	private String tagName;
-	@Select(value = "span.'small fade' > a", attr = "href")
+	@Select(value = "span.small.fade > a", attr = "href")
 	private String tagLink;
 
 
@@ -67,6 +67,15 @@ public class NewsItem {
 	}
 
 	public String getTime() {
+		//  •  1 小时 48 分钟前  •  最后回复来自
+		if (time != null && time.length() > 0) {
+			String[] strs = time.split("•");
+			if (strs.length >= 3) {
+				time = strs[2].replaceAll("\\u00A0", "").trim();
+			} else {
+				time = null;
+			}
+		}
 		return time;
 	}
 
@@ -75,7 +84,6 @@ public class NewsItem {
 	}
 
 	public String getTagName() {
-		// TODO: 11/04/2017 filtor
 		return tagName;
 	}
 
@@ -99,7 +107,7 @@ public class NewsItem {
 				", avatar='" + avatar + '\'' +
 				", avatarLink='" + avatarLink + '\'' +
 				", user='" + user + '\'' +
-				", time='" + time + '\'' +
+				", time='" + getTime() + '\'' +
 				", tagName='" + tagName + '\'' +
 				", tagLink='" + tagLink + '\'' +
 				'}';

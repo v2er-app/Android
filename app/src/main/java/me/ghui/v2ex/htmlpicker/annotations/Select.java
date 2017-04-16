@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 public @interface Select {
 	String value();
 
-	String attr() default "";
+	String attr() default "text";
 }

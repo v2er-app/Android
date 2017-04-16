@@ -4,7 +4,7 @@ import org.jsoup.nodes.Element;
 
 import javax.annotation.Nullable;
 
-import me.ghui.v2ex.htmlpicker.bind.Picker;
+import me.ghui.v2ex.htmlpicker.annotations.Select;
 
 /**
  * Created by ghui on 13/04/2017.
@@ -12,7 +12,7 @@ import me.ghui.v2ex.htmlpicker.bind.Picker;
 
 public abstract class PickerAdapter<T> {
 
-	public abstract T read(Element element, @Nullable Picker picker);
+	public abstract T read(Element element, @Nullable Select select);
 
 //	public abstract void write(T value);
 

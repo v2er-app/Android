@@ -1,8 +1,11 @@
 package me.ghui.v2ex.htmlpicker;
 
 import org.jsoup.Jsoup;
+import org.jsoup.helper.DataUtil;
 import org.jsoup.nodes.Element;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +34,7 @@ public class HtmlPicker {
 		List<PickerAdapterFactory> factories = new ArrayList<>();
 		factories.add(PickerAdapters.STRING_FACTORY);
 		factories.add(PickerAdapters.COLLECTION_FACTORY);
+		factories.add(PickerAdapters.REFLECTIVE_ADAPTER);
 		mFactories = Collections.unmodifiableList(factories);
 	}
 
@@ -40,6 +44,11 @@ public class HtmlPicker {
 
 	public <T> T fromHtml(String html, Type typeOfT) {
 		return fromHtml(Jsoup.parse(html), typeOfT);
+	}
+
+	public <T> T fromHtml(File file, String charsetName, String baseUri, Class<T> classOfT) throws IOException {
+		Element element = DataUtil.load(file, charsetName, baseUri);
+		return fromHtml(element, classOfT);
 	}
 
 	@SuppressWarnings("unchecked")

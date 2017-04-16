@@ -11,6 +11,21 @@ import me.ghui.v2ex.htmlpicker.annotations.Select;
 
 @Select("div.box")
 public class NewsInfo {
-	@Select("div.'cell item'")
+	@Select("div.cell.item")
 	private List<NewsItem> items;
+
+	public List<NewsItem> getItems() {
+		return items;
+	}
+
+	public void setItems(List<NewsItem> items) {
+		this.items = items;
+	}
+
+	@Override
+	public String toString() {
+		return "NewsInfo{" +
+				"items=" + items +
+				'}';
+	}
 }

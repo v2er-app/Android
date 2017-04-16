@@ -36,37 +36,36 @@ public final class CollectionPickerAdapterFactory implements PickerAdapterFactor
 		Type elementType = Types.getCollectionElementType(type, rawType);
 		PickerAdapter<?> elementAdapter = htmlPicker.getAdapter(TypeToken.get(elementType));
 		@SuppressWarnings({"unchecked"})
-		PickerAdapter<C> adapter = new Adapter(rawType, elementType, elementAdapter);
+		PickerAdapter<C> adapter = new Adapter(rawType, elementAdapter);
 		return adapter;
 	}
 
 	private static final class Adapter<E> extends PickerAdapter<Collection<E>> {
 
 		private Class<Collection<E>> type;
-		private Type elementType;
 		private PickerAdapter<E> elementAdapter;
 
-		public Adapter(Class<Collection<E>> type, Type elementType, PickerAdapter<E> elementAdapter) {
+		public Adapter(Class<Collection<E>> type, PickerAdapter<E> elementAdapter) {
 			this.type = type;
-			this.elementType = elementType;
 			this.elementAdapter = elementAdapter;
 		}
 
 		@Override
-		public Collection<E> read(Element element, @Nullable Picker picker) {
+		public Collection<E> read(Element element, @Nullable Select select) {
 			List<E> list;
-			if (ArrayList.class.isAssignableFrom(type)) {
-				list = new ArrayList<>();
-			} else if (LinkedList.class.isAssignableFrom(type)) {
+			if (LinkedList.class.isAssignableFrom(type)) {
 				list = new LinkedList<>();
+			} else if (List.class.isAssignableFrom(type)) {
+				//default ArrayList
+				list = new ArrayList<>();
 			} else {
 				throw new UnsupportedOperationException("Only support ArrayList and LinkedList Collection type for now");
 			}
 
-			if (picker != null) {
-				Elements elements = element.select(picker.getPath());
+			if (select != null) {
+				Elements elements = element.select(select.value());
 				for (Element e : elements) {
-					E instance = elementAdapter.read(e, Picker.create(elementType.getClass().getAnnotation(Select.class)));
+					E instance = elementAdapter.read(e, select);
 					list.add(instance);
 				}
 			}

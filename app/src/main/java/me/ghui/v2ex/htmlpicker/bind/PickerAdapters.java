@@ -5,6 +5,7 @@ import org.jsoup.nodes.Element;
 import me.ghui.v2ex.htmlpicker.HtmlPicker;
 import me.ghui.v2ex.htmlpicker.PickerAdapter;
 import me.ghui.v2ex.htmlpicker.PickerAdapterFactory;
+import me.ghui.v2ex.htmlpicker.annotations.Select;
 import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
 
 /**
@@ -19,11 +20,20 @@ public final class PickerAdapters {
 
 	private static final PickerAdapter<String> STRING = new PickerAdapter<String>() {
 		@Override
-		public String read(Element element, Picker picker) {
-			if (picker != null) {
-				return element.select(picker.getPath()).first().attr(picker.getAttr());
+		public String read(Element element, Select select) {
+			String value = null;
+			if (select != null) {
+				element = element.select(select.value()).first();
+				String attr = select.attr();
+				if ("text".equals(attr)) {
+					value = element.text();
+				} else if ("ownText".equals(attr)) {
+					value = element.ownText();
+				} else {
+					value = element.attr(attr);
+				}
 			}
-			return null;
+			return value;
 		}
 	};
 
@@ -31,6 +41,7 @@ public final class PickerAdapters {
 
 	public static final PickerAdapterFactory COLLECTION_FACTORY = new CollectionPickerAdapterFactory();
 
+	public static final ReflectivePickerAdapterFactory REFLECTIVE_ADAPTER = new ReflectivePickerAdapterFactory();
 
 //**************************************************************************************************
 
