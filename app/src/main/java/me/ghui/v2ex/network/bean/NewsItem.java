@@ -24,7 +24,16 @@ public class NewsItem {
 	private String tagName;
 	@Select(value = "span.small.fade > a", attr = "href")
 	private String tagLink;
+	@Select(value = "a.count_livid")
+	private int replies;
 
+	public int getReplies() {
+		return replies;
+	}
+
+	public void setReplies(int replies) {
+		this.replies = replies;
+	}
 
 	public String getTitle() {
 		return title;
@@ -107,10 +116,10 @@ public class NewsItem {
 				", avatar='" + avatar + '\'' +
 				", avatarLink='" + avatarLink + '\'' +
 				", user='" + user + '\'' +
-				", time='" + getTime() + '\'' +
+				", time='" + time + '\'' +
 				", tagName='" + tagName + '\'' +
 				", tagLink='" + tagLink + '\'' +
+				", replies=" + replies +
 				'}';
 	}
-
 }

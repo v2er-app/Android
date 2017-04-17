@@ -1,7 +1,5 @@
 package me.ghui.v2ex.module.home;
 
-import java.util.List;
-
 import me.ghui.v2ex.module.base.BaseContract;
 import me.ghui.v2ex.network.bean.NewsInfo;
 
@@ -12,7 +10,7 @@ import me.ghui.v2ex.network.bean.NewsInfo;
 public class NewsContract {
 
 	public interface IView extends BaseContract.IView {
-		void fillView(List<NewsInfo> newsInfos);
+		void fillView(NewsInfo newsInfos);
 	}
 
 	public interface IPresenter extends BaseContract.IPresenter {

@@ -1,9 +1,6 @@
 package me.ghui.v2ex.module.home;
 
-import java.util.List;
-
-import io.reactivex.SingleObserver;
-import io.reactivex.annotations.NonNull;
+import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.NewsInfo;
@@ -27,21 +24,25 @@ public class NewsPresenter implements NewsContract.IPresenter {
 				.homeNews("all")
 				.compose(RxUtils.<NewsInfo>io_main())
 				.compose(mView.<NewsInfo>bindToLife())
-				.toList()
-				.subscribe(new SingleObserver<List<NewsInfo>>() {
+				.subscribe(new Observer<NewsInfo>() {
 					@Override
-					public void onSubscribe(@NonNull Disposable d) {
+					public void onSubscribe(Disposable d) {
 						mView.showLoading();
 					}
 
 					@Override
-					public void onSuccess(@NonNull List<NewsInfo> newsInfos) {
-						mView.fillView(newsInfos);
+					public void onNext(NewsInfo newsInfo) {
+						mView.fillView(newsInfo);
+					}
+
+					@Override
+					public void onError(Throwable e) {
+						e.printStackTrace();
 						mView.hideLoading();
 					}
 
 					@Override
-					public void onError(@NonNull Throwable e) {
+					public void onComplete() {
 						mView.hideLoading();
 					}
 				});

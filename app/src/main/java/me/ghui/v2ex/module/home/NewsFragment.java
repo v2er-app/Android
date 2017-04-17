@@ -7,10 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
-
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -82,7 +78,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 	}
 
 	@Override
-	public void fillView(List<NewsInfo> newsInfos) {
-		Logger.i("newsInfo: " + newsInfos.toString());
+	public void fillView(NewsInfo newsInfos) {
+		mNewsAdapter.setData(newsInfos);
 	}
 }
