@@ -33,6 +33,7 @@ public class HtmlPicker {
 	public HtmlPicker() {
 		List<PickerAdapterFactory> factories = new ArrayList<>();
 		factories.add(PickerAdapters.INTEGER_FACTORY);
+		factories.add(PickerAdapters.LONG_FACTORY);
 		factories.add(PickerAdapters.STRING_FACTORY);
 		factories.add(PickerAdapters.COLLECTION_FACTORY);
 		factories.add(PickerAdapters.REFLECTIVE_ADAPTER);

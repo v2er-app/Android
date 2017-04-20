@@ -5,12 +5,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrDefaultHandler2;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
@@ -64,15 +63,15 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
 	@Override
 	protected PtrHandler attachPtrHandler() {
-		return new PtrHandler() {
-			@Override
-			public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-				return PtrDefaultHandler.checkContentCanBePulledDown(frame, mRecyclerView, header);
-			}
-
+		return new PtrDefaultHandler2() {
 			@Override
 			public void onRefreshBegin(PtrFrameLayout frame) {
 				mPresenter.start();
+			}
+
+			@Override
+			public void onLoadMoreBegin(PtrFrameLayout frame) {
+
 			}
 		};
 	}
