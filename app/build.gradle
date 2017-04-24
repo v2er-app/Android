@@ -55,5 +55,5 @@ dependencies {
     compile "com.trello.rxlifecycle2:rxlifecycle:$rxLifeCycleVersion"
     compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifeCycleVersion"
     compile "com.trello.rxlifecycle2:rxlifecycle-components:$rxLifeCycleVersion"
-    compile "in.srain.cube:ptr-load-more:1.0.6"
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
 }

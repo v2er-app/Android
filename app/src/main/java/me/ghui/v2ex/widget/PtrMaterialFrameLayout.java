@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import in.srain.cube.views.ptr.PtrClassicDefaultFooter;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.header.MaterialHeader;
 import me.ghui.v2ex.R;
@@ -19,7 +18,6 @@ import me.ghui.v2ex.util.ScaleUtils;
 public class PtrMaterialFrameLayout extends PtrFrameLayout {
 
 	private MaterialHeader mMaterialHeader;
-	private PtrClassicDefaultFooter mDefaultFooter;
 
 	public PtrMaterialFrameLayout(Context context) {
 		super(context);
@@ -45,19 +43,15 @@ public class PtrMaterialFrameLayout extends PtrFrameLayout {
 		mMaterialHeader.setPadding(0, padding, 0, padding);
 		setHeaderView(mMaterialHeader);
 		addPtrUIHandler(mMaterialHeader);
-
-		mDefaultFooter = new PtrClassicDefaultFooter(getContext());
-		setFooterView(mDefaultFooter);
-		addPtrUIHandler(mDefaultFooter);
 		autoRefresh();
 	}
 
 	@Override
-	public void autoRefresh(final boolean atOnce, final boolean isHeader) {
+	public void autoRefresh(final boolean atOnce, final int duration) {
 		post(new Runnable() {
 			@Override
 			public void run() {
-				PtrMaterialFrameLayout.super.autoRefresh(atOnce, isHeader);
+				PtrMaterialFrameLayout.super.autoRefresh(atOnce, duration);
 			}
 		});
 	}
