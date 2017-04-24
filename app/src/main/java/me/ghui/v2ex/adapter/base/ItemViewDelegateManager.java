@@ -1,4 +1,4 @@
-package me.ghui.v2ex.adapter;
+package me.ghui.v2ex.adapter.base;
 
 import android.support.v4.util.SparseArrayCompat;
 
@@ -8,7 +8,7 @@ import android.support.v4.util.SparseArrayCompat;
  */
 public class ItemViewDelegateManager<T>
 {
-    SparseArrayCompat<ItemViewDelegate<T>> delegates = new SparseArrayCompat();
+    private SparseArrayCompat<ItemViewDelegate<T>> delegates = new SparseArrayCompat();
 
     public int getItemViewDelegateCount()
     {

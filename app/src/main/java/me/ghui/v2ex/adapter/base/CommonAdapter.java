@@ -1,4 +1,4 @@
-package me.ghui.v2ex.adapter;
+package me.ghui.v2ex.adapter.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;

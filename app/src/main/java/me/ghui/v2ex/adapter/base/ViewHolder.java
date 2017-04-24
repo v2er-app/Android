@@ -1,4 +1,4 @@
-package me.ghui.v2ex.adapter;
+package me.ghui.v2ex.adapter.base;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
