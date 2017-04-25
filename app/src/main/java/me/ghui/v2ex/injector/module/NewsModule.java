@@ -2,6 +2,7 @@ package me.ghui.v2ex.injector.module;
 
 import dagger.Module;
 import dagger.Provides;
+import me.ghui.v2ex.R;
 import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.NewsAdapter;
 import me.ghui.v2ex.module.home.NewsContract;
@@ -15,21 +16,21 @@ import me.ghui.v2ex.module.home.NewsPresenter;
 @Module
 public class NewsModule {
 
-	private final NewsFragment mView;
+    private final NewsFragment mView;
 
-	public NewsModule(NewsFragment view) {
-		mView = view;
-	}
+    public NewsModule(NewsFragment view) {
+        mView = view;
+    }
 
-	@Provides
-	public NewsAdapter provideNewsAdapter() {
-		return new NewsAdapter(mView.getContext());
-	}
+    @Provides
+    public NewsAdapter provideNewsAdapter() {
+        return new NewsAdapter(mView.getContext(), R.layout.common_list_item);
+    }
 
-	@PerFragment
-	@Provides
-	public NewsContract.IPresenter provideNewsPresenter() {
-		return new NewsPresenter(mView);
-	}
+    @PerFragment
+    @Provides
+    public NewsContract.IPresenter provideNewsPresenter() {
+        return new NewsPresenter(mView);
+    }
 
 }

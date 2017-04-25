@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import me.ghui.v2ex.util.Utils;
+
 /**
  * Created by zhy on 16/4/9.
  */
@@ -85,8 +87,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        int itemCount = mDatas.size();
-        return itemCount;
+        return Utils.sizeOfList(mDatas);
     }
 
 

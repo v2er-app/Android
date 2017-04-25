@@ -1,56 +1,47 @@
 package me.ghui.v2ex.module.home;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.ViewGroup;
+import android.support.annotation.LayoutRes;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
 import me.ghui.v2ex.R;
-import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.adapter.base.ItemViewDelegate;
+import me.ghui.v2ex.adapter.base.LoadMoreAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.network.bean.NewsItem;
-import me.ghui.v2ex.util.Utils;
 
 /**
  * Created by ghui on 03/04/2017.
  */
 
-public class NewsAdapter extends RecyclerView.Adapter<CommonItemViewHolder> {
+public class NewsAdapter extends LoadMoreAdapter<NewsItem> {
 
-	private Context mContext;
-	private NewsInfo mNewsInfo;
-	private LayoutInflater mLayoutInflater;
+    public NewsAdapter(Context context, @LayoutRes int layoutId) {
+        super(context, layoutId);
+        addItemViewDelegate(new ItemViewDelegate<NewsItem>() {
+            @Override
+            public int getItemViewLayoutId() {
+                return R.layout.common_list_item;
+            }
 
-	public NewsAdapter(Context context) {
-		mContext = context;
-		mLayoutInflater = LayoutInflater.from(context);
-	}
+            @Override
+            public boolean isForViewType(NewsItem item, int position) {
+                return position < getItemCount() - 1;
+            }
 
-	public void setData(NewsInfo newsInfo) {
-		mNewsInfo = newsInfo;
-		notifyDataSetChanged();
-	}
+            @Override
+            public void convert(ViewHolder holder, NewsItem newsItem, int position) {
+                Glide.with(mContext)
+                        .load("https:" + newsItem.getAvatar())
+                        .into((ImageView) holder.getView(R.id.avtar_img));
+                holder.setText(R.id.username_tv, newsItem.getUser());
+                holder.setText(R.id.tagview, newsItem.getTagName());
+                holder.setText(R.id.title_tv, newsItem.getTitle());
+                holder.setText(R.id.comment_num_tv, "评论" + newsItem.getReplies());
+            }
+        });
+    }
 
-	@Override
-	public CommonItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		return new CommonItemViewHolder(mLayoutInflater.inflate(R.layout.common_list_item, parent, false));
-	}
-
-	@Override
-	public void onBindViewHolder(CommonItemViewHolder holder, int position) {
-		NewsItem item = mNewsInfo.getItems().get(position);
-		Glide.with(mContext)
-				.load("https:" + item.getAvatar())
-				.into(holder.avtarImg);
-		holder.userNameTv.setText(item.getUser());
-		holder.tagView.setText(item.getTagName());
-		holder.titleTv.setText(item.getTitle());
-		holder.commentNumTv.setText("评论" + item.getReplies());
-	}
-
-	@Override
-	public int getItemCount() {
-		return mNewsInfo != null ? Utils.sizeOfList(mNewsInfo.getItems()) : 0;
-	}
 }
