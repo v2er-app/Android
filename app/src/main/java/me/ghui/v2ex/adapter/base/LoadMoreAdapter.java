@@ -1,8 +1,6 @@
 package me.ghui.v2ex.adapter.base;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
-import android.view.LayoutInflater;
 
 import java.util.List;
 
@@ -14,15 +12,8 @@ import me.ghui.v2ex.R;
 
 public class LoadMoreAdapter<T> extends MultiItemTypeAdapter<T> {
 
-    protected Context mContext;
-    protected int mLayoutId;
-    protected LayoutInflater mInflater;
-
-    public LoadMoreAdapter(Context context, @LayoutRes int layoutId) {
+    public LoadMoreAdapter(Context context) {
         super(context, null);
-        mContext = context;
-        mInflater = LayoutInflater.from(context);
-        mLayoutId = layoutId;
 
         addItemViewDelegate(new ItemViewDelegate<T>() {
 

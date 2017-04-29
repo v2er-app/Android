@@ -1,5 +1,6 @@
 package me.ghui.v2ex.network;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -9,7 +10,10 @@ import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
 import me.ghui.v2ex.network.converter.annotations.Html;
 import me.ghui.v2ex.network.converter.annotations.Json;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -24,48 +28,62 @@ import retrofit2.http.Query;
 
 public class APIService {
 
-	private static final long TIMEOUT_LENGTH = 30;
-	private static IApis mAPI_SERVICE;
+    private static final long TIMEOUT_LENGTH = 30;
+    private static IApis mAPI_SERVICE;
+    private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
 
-	public static void init() {
-		if (mAPI_SERVICE == null) {
-			OkHttpClient httpClient = new OkHttpClient.Builder()
-					.connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
-					.retryOnConnectionFailure(true)
-					.addInterceptor(new HttpLoggingInterceptor()
-							.setLevel(HttpLoggingInterceptor.Level.BODY))
-					.build();
+    public static void init() {
+        if (mAPI_SERVICE == null) {
+            OkHttpClient httpClient = new OkHttpClient.Builder()
+                    .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
+                    .retryOnConnectionFailure(true)
+                    .addInterceptor(new ConfigInterceptor())
+                    .addInterceptor(new HttpLoggingInterceptor()
+                            .setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .build();
 
-			Retrofit retrofit = new Retrofit.Builder()
-					.client(httpClient)
-					.addConverterFactory(GlobalConverterFactory
-							.create()
-							.add(GsonConverterFactory.create(), Json.class)
-							.add(HtmlConverterFactory.create(), Html.class))
-					.addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-					.baseUrl(Constants.BASE_URL)
-					.build();
-			mAPI_SERVICE = retrofit.create(IApis.class);
-		}
-	}
+            Retrofit retrofit = new Retrofit.Builder()
+                    .client(httpClient)
+                    .addConverterFactory(GlobalConverterFactory
+                            .create()
+                            .add(GsonConverterFactory.create(), Json.class)
+                            .add(HtmlConverterFactory.create(), Html.class))
+                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                    .baseUrl(Constants.BASE_URL)
+                    .build();
+            mAPI_SERVICE = retrofit.create(IApis.class);
+        }
+    }
 
-	public static IApis get() {
-		return mAPI_SERVICE;
-	}
+    private static class ConfigInterceptor implements Interceptor {
 
-	//************************ below is apis ************************
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request()
+                    .newBuilder()
+                    .addHeader("user-agent", USER_AGENT)
+                    .build();
+            return chain.proceed(request);
+        }
+    }
 
-	public interface IApis {
+    public static IApis get() {
+        return mAPI_SERVICE;
+    }
 
-		@Json
-		@GET("api/topics/hot.json")
-		Observable<DailyHotInfo> dailyHot();
+    //************************ below is apis ************************
 
-		@Html
-		@GET("/")
-		Observable<NewsInfo> homeNews(@Query("tab") String tab);
+    public interface IApis {
 
-	}
+        @Json
+        @GET("api/topics/hot.json")
+        Observable<DailyHotInfo> dailyHot();
+
+        @Html
+        @GET("/")
+        Observable<NewsInfo> homeNews(@Query("tab") String tab);
+
+    }
 
 
 }

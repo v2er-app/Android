@@ -6,6 +6,8 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -13,11 +15,11 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
-import me.ghui.v2ex.adapter.base.EndlessRecyclerViewScrollListener;
 import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
  * Created by ghui on 22/03/2017.
@@ -26,7 +28,7 @@ import me.ghui.v2ex.network.bean.NewsInfo;
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView {
 
     @BindView(R.id.news_recyclerview)
-    RecyclerView mRecyclerView;
+    LoadMoreRecyclerView mRecyclerView;
 
     @Inject
     NewsAdapter mNewsAdapter;
@@ -61,9 +63,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setAdapter(mNewsAdapter);
-        mRecyclerView.addOnScrollListener(new EndlessRecyclerViewScrollListener(layoutManager) {
+        mRecyclerView.setOnLoadMoreListener(new LoadMoreRecyclerView.OnLoadMoreListener(layoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                Logger.d("onLoadMore");
                 mPresenter.start();
             }
         });

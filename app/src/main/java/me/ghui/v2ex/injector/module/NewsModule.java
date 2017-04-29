@@ -2,7 +2,6 @@ package me.ghui.v2ex.injector.module;
 
 import dagger.Module;
 import dagger.Provides;
-import me.ghui.v2ex.R;
 import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.NewsAdapter;
 import me.ghui.v2ex.module.home.NewsContract;
@@ -24,7 +23,7 @@ public class NewsModule {
 
     @Provides
     public NewsAdapter provideNewsAdapter() {
-        return new NewsAdapter(mView.getContext(), R.layout.common_list_item);
+        return new NewsAdapter(mView.getContext());
     }
 
     @PerFragment

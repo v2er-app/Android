@@ -1,7 +1,6 @@
 package me.ghui.v2ex.module.home;
 
 import android.content.Context;
-import android.support.annotation.LayoutRes;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -18,8 +17,8 @@ import me.ghui.v2ex.network.bean.NewsItem;
 
 public class NewsAdapter extends LoadMoreAdapter<NewsItem> {
 
-    public NewsAdapter(Context context, @LayoutRes int layoutId) {
-        super(context, layoutId);
+    public NewsAdapter(Context context) {
+        super(context);
         addItemViewDelegate(new ItemViewDelegate<NewsItem>() {
             @Override
             public int getItemViewLayoutId() {
