@@ -7,15 +7,15 @@ import com.bumptech.glide.Glide;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.ItemViewDelegate;
-import me.ghui.v2ex.adapter.base.LoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.network.bean.NewsItem;
+import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
  * Created by ghui on 03/04/2017.
  */
 
-public class NewsAdapter extends LoadMoreAdapter<NewsItem> {
+public class NewsAdapter extends LoadMoreRecyclerView.Adapter<NewsItem> {
 
     public NewsAdapter(Context context) {
         super(context);

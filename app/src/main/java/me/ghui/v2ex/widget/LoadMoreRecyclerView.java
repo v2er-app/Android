@@ -11,8 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
 import me.ghui.v2ex.R;
-import me.ghui.v2ex.adapter.base.LoadMoreAdapter;
+import me.ghui.v2ex.adapter.base.ItemViewDelegateAdapter;
+import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.util.ScaleUtils;
 
 /**
@@ -66,7 +69,7 @@ public class LoadMoreRecyclerView extends RecyclerView {
         mWillLoadPage = loadSuccess ? mWillLoadPage + 1 : 1;
     }
 
-    public void setAdapter(LoadMoreAdapter loadMoreAdapter) {
+    public void setAdapter(Adapter loadMoreAdapter) {
         super.setAdapter(loadMoreAdapter);
     }
 
@@ -153,6 +156,33 @@ public class LoadMoreRecyclerView extends RecyclerView {
                 }
             }
         }
+    }
+
+    public static class Adapter<T> extends MultiItemTypeAdapter<T> {
+
+        public Adapter(final Context context) {
+            super(context, null);
+
+            addItemViewDelegate(new ItemViewDelegateAdapter<T>() {
+
+                @Override
+                public View getItemView() {
+                    return new LoadMoreRecyclerView.CommonLoadMoreFooter(context);
+                }
+
+                @Override
+                public boolean isForViewType(T item, int position) {
+                    return position == getItemCount() - 1;
+                }
+
+            });
+        }
+
+        public void setData(List<T> data) {
+            mDatas = data;
+            notifyDataSetChanged();
+        }
+
     }
 
 }
