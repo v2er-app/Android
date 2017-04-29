@@ -178,9 +178,17 @@ public class LoadMoreRecyclerView extends RecyclerView {
             });
         }
 
-        public void setData(List<T> data) {
-            mDatas = data;
+        public void setData(List<T> data, boolean shouldAppend) {
+            if (shouldAppend) {
+                mDatas.addAll(data);
+            } else {
+                mDatas = data;
+            }
             notifyDataSetChanged();
+        }
+
+        public void setData(List<T> data) {
+            setData(data, false);
         }
 
     }

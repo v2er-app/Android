@@ -83,6 +83,10 @@ public class APIService {
         @GET("/")
         Observable<NewsInfo> homeNews(@Query("tab") String tab);
 
+        @Html
+        @GET("/recent")
+        Observable<NewsInfo> recentNews();
+
     }
 
 

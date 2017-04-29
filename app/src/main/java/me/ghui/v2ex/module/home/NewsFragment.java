@@ -5,6 +5,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -62,9 +64,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         mRecyclerView.setOnLoadMoreListener(new LoadMoreRecyclerView.OnLoadMoreListener() {
             @Override
             public void onLoadMore(int willLoadPage) {
-                com.orhanobut.logger.Logger.e("onLoadMore: " + willLoadPage);
-                mPresenter.start();
-                mRecyclerView.setHasMore(false);
+                Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
+                mPresenter.loadMore();
             }
         });
     }
@@ -80,7 +81,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     }
 
     @Override
-    public void fillView(NewsInfo newsInfos) {
-        mNewsAdapter.setData(newsInfos.getItems());
+    public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
+        mNewsAdapter.setData(newsInfos.getItems(), isLoadMore);
+        mRecyclerView.setHasMore(true);
     }
 }

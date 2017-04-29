@@ -6,7 +6,6 @@ import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
-import me.ghui.v2ex.util.RxUtils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -14,40 +13,39 @@ import me.ghui.v2ex.util.RxUtils;
 
 public class DailyHotPresenter implements DailyHotContract.IPresenter {
 
-	private DailyHotContract.IView mView;
+    private DailyHotContract.IView mView;
 
-	public DailyHotPresenter(DailyHotContract.IView dailyHotView) {
-		this.mView = dailyHotView;
-	}
+    public DailyHotPresenter(DailyHotContract.IView dailyHotView) {
+        this.mView = dailyHotView;
+    }
 
-	@Override
-	public void start() {
-		APIService.get()
-				.dailyHot()
-				.compose(RxUtils.<DailyHotInfo>io_main())
-				.compose(mView.<DailyHotInfo>bindToLife())
-				.subscribe(new Observer<DailyHotInfo>() {
-					@Override
-					public void onSubscribe(Disposable d) {
-						mView.showLoading();
-					}
+    @Override
+    public void start() {
+        APIService.get()
+                .dailyHot()
+                .compose(mView.<DailyHotInfo>rx())
+                .subscribe(new Observer<DailyHotInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mView.showLoading();
+                    }
 
-					@Override
-					public void onNext(DailyHotInfo dailyHotInfo) {
-						mView.fillView(dailyHotInfo);
-					}
+                    @Override
+                    public void onNext(DailyHotInfo dailyHotInfo) {
+                        mView.fillView(dailyHotInfo);
+                    }
 
-					@Override
-					public void onError(Throwable e) {
-						Logger.e(e.toString());
-						mView.hideLoading();
-					}
+                    @Override
+                    public void onError(Throwable e) {
+                        Logger.e(e.toString());
+                        mView.hideLoading();
+                    }
 
-					@Override
-					public void onComplete() {
-						mView.hideLoading();
-					}
-				});
-	}
+                    @Override
+                    public void onComplete() {
+                        mView.hideLoading();
+                    }
+                });
+    }
 
 }

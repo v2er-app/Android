@@ -10,11 +10,11 @@ import me.ghui.v2ex.network.bean.NewsInfo;
 public class NewsContract {
 
 	public interface IView extends BaseContract.IView {
-		void fillView(NewsInfo newsInfos);
+		void fillView(NewsInfo newsInfos, boolean isLoadMore);
 	}
 
 	public interface IPresenter extends BaseContract.IPresenter {
-
+		void loadMore();
 	}
 
 }

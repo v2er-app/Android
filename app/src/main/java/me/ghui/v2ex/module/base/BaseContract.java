@@ -1,6 +1,6 @@
 package me.ghui.v2ex.module.base;
 
-import com.trello.rxlifecycle2.LifecycleTransformer;
+import io.reactivex.ObservableTransformer;
 
 /**
  * Created by ghui on 25/03/2017.
@@ -8,16 +8,11 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 
 public class BaseContract {
 
-	public interface IView {
+    public interface IView extends IViewLoading {
+        <K> ObservableTransformer<K, K> rx();
+    }
 
-		void showLoading();
-
-		void hideLoading();
-
-		<K> LifecycleTransformer<K> bindToLife();
-	}
-
-	public interface IPresenter {
-		void start();
-	}
+    public interface IPresenter {
+        void start();
+    }
 }
