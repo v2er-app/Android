@@ -37,13 +37,18 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemViewDelegate itemViewDelegate = mItemViewDelegateManager.getItemViewDelegate(viewType);
         int layoutId = itemViewDelegate.getItemViewLayoutId();
-        ViewHolder holder = ViewHolder.createViewHolder(mContext, parent, layoutId);
-        onViewHolderCreated(holder,holder.getConvertView());
+        ViewHolder holder;
+        if (itemViewDelegate instanceof ItemViewDelegateAdapter) {
+            holder = ViewHolder.createViewHolder(mContext, ((ItemViewDelegateAdapter) itemViewDelegate).getItemView());
+        } else {
+            holder = ViewHolder.createViewHolder(mContext, parent, layoutId);
+        }
+        onViewHolderCreated(holder, holder.getConvertView());
         setListener(parent, holder, viewType);
         return holder;
     }
 
-    public void onViewHolderCreated(ViewHolder holder,View itemView){
+    public void onViewHolderCreated(ViewHolder holder, View itemView) {
 
     }
 
@@ -63,7 +68,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             public void onClick(View v) {
                 if (mOnItemClickListener != null) {
                     int position = viewHolder.getAdapterPosition();
-                    mOnItemClickListener.onItemClick(v, viewHolder , position);
+                    mOnItemClickListener.onItemClick(v, viewHolder, position);
                 }
             }
         });

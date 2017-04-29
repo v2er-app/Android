@@ -64,6 +64,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             public void onLoadMore(int willLoadPage) {
                 com.orhanobut.logger.Logger.e("onLoadMore: " + willLoadPage);
                 mPresenter.start();
+                mRecyclerView.setHasMore(false);
             }
         });
     }

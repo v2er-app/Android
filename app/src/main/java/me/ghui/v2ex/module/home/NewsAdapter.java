@@ -20,6 +20,7 @@ public class NewsAdapter extends LoadMoreAdapter<NewsItem> {
     public NewsAdapter(Context context) {
         super(context);
         addItemViewDelegate(new ItemViewDelegate<NewsItem>() {
+
             @Override
             public int getItemViewLayoutId() {
                 return R.layout.common_list_item;

@@ -6,9 +6,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 
+import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.LoadMoreAdapter;
+import me.ghui.v2ex.util.ScaleUtils;
 
 /**
  * Created by ghui on 26/04/2017.
@@ -79,14 +84,26 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
         public CommonLoadMoreFooter(Context context) {
             super(context);
+            init();
         }
 
         public CommonLoadMoreFooter(Context context, AttributeSet attrs) {
             super(context, attrs);
+            init();
         }
 
         public CommonLoadMoreFooter(Context context, AttributeSet attrs, int defStyleAttr) {
             super(context, attrs, defStyleAttr);
+            init();
+        }
+
+        private void init() {
+            setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.smallTextSize));
+            LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            setLayoutParams(layoutParams);
+            int padding = ScaleUtils.dp(20, getContext());
+            setPadding(padding, padding, padding, padding);
+            setGravity(Gravity.CENTER);
         }
 
         @Override
