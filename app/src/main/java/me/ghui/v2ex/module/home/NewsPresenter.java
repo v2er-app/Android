@@ -23,12 +23,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .homeNews("all")
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(new Consumer<NewsInfo>() {
-                    @Override
-                    public void accept(@NonNull NewsInfo newsInfo) throws Exception {
-                        mView.fillView(newsInfo, false);
-                    }
-                });
+                .subscribe(newsInfo -> mView.fillView(newsInfo, false));
 
     }
 
@@ -37,12 +32,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .recentNews()
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(new Consumer<NewsInfo>() {
-                    @Override
-                    public void accept(@NonNull NewsInfo newsInfo) throws Exception {
-                        mView.fillView(newsInfo, true);
-                    }
-                });
+                .subscribe(newsInfo -> mView.fillView(newsInfo, true));
     }
 
 
