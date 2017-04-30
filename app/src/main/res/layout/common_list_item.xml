@@ -17,7 +17,7 @@
         android:src="@drawable/me"/>
 
     <TextView
-        android:id="@+id/username_tv"
+        android:id="@+id/leftdrawer_username_tv"
         style="@style/smallText"
         android:layout_toRightOf="@id/avtar_img"
         android:gravity="top"
@@ -30,7 +30,7 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/smallText"
-        android:layout_toRightOf="@id/username_tv"
+        android:layout_toRightOf="@id/leftdrawer_username_tv"
         android:gravity="top"
         android:paddingTop="0dp"
         android:text="1小时17分钟前"
@@ -46,7 +46,7 @@
         android:id="@+id/title_tv"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:layout_alignLeft="@id/username_tv"
+        android:layout_alignLeft="@id/leftdrawer_username_tv"
         android:layout_below="@id/tagview"
         android:singleLine="false"
         android:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里"/>

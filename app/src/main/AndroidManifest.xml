@@ -17,8 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".module.drawer.dailyhot.DailyHotActivity">
-        </activity>
+        <activity android:name=".module.drawer.dailyhot.DailyHotActivity"/>
+        <activity android:name=".module.login.LoginActivity"/>
     </application>
 
 </manifest>

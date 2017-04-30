@@ -18,7 +18,7 @@ public class CommonItemViewHolder extends RecyclerView.ViewHolder {
 
 	@BindView(R.id.avtar_img)
 	public ImageView avtarImg;
-	@BindView(R.id.username_tv)
+	@BindView(R.id.leftdrawer_username_tv)
 	public TextView userNameTv;
 	@BindView(R.id.time_tv)
 	public TextView TimeTv;

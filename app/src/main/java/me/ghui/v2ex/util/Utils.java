@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class Utils {
-	public static int sizeOfList(List list) {
+	public static int listSize(List list) {
 		return list == null ? 0 : list.size();
 	}
 }

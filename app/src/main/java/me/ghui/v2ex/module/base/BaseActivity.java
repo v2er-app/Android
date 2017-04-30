@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
+import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.util.RxUtils;
@@ -66,6 +67,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      * config toolbar here
      */
     protected void configToolBar(BaseToolBar toolBar) {
+        toolBar.setTitle(R.string.app_name);
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
     }
 

@@ -53,7 +53,7 @@ public class DailyHotAdapter extends RecyclerView.Adapter<CommonItemViewHolder> 
 
 	@Override
 	public int getItemCount() {
-		return Utils.sizeOfList(mDailyHotInfo);
+		return Utils.listSize(mDailyHotInfo);
 	}
 
 }
