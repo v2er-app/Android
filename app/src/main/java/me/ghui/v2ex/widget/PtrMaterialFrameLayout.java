@@ -48,12 +48,7 @@ public class PtrMaterialFrameLayout extends PtrFrameLayout {
 
 	@Override
 	public void autoRefresh(final boolean atOnce, final int duration) {
-		post(new Runnable() {
-			@Override
-			public void run() {
-				PtrMaterialFrameLayout.super.autoRefresh(atOnce, duration);
-			}
-		});
+		post(() -> PtrMaterialFrameLayout.super.autoRefresh(atOnce, duration));
 	}
 
 	public void setContentView(View contentView) {

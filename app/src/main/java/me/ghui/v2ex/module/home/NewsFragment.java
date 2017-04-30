@@ -61,12 +61,9 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
         mRecyclerView.addItemDecoration(itemDecoration);
         mRecyclerView.setAdapter(mNewsAdapter);
-        mRecyclerView.setOnLoadMoreListener(new LoadMoreRecyclerView.OnLoadMoreListener() {
-            @Override
-            public void onLoadMore(int willLoadPage) {
-                Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
-                mPresenter.loadMore();
-            }
+        mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
+            Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
+            mPresenter.loadMore();
         });
     }
 

@@ -90,7 +90,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
                 PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(getContext());
                 ptrLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                         , ViewGroup.LayoutParams.MATCH_PARENT));
-                View content = inflater.inflate(attachLayoutRes(), mRootView, false);
+                View content = inflater.inflate(attachLayoutRes(), ptrLayout, false);
                 ptrLayout.setContentView(content);
                 ptrLayout.setPtrHandler(attachPtrHandler());
                 ptrLayout.setPinContent(true);
