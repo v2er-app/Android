@@ -8,6 +8,6 @@
 
     <color name="white">@android:color/white</color>
 
-
     <color name="ripple_color">#d4d4d4</color>
+    <color name="button_background_color">#3A3636</color>
 </resources>

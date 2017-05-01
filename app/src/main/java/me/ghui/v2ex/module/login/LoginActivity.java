@@ -22,7 +22,6 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        toolBar.setTitle("登录");
         toolBar.setElevation(0);
     }
 

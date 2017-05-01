@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
+import me.ghui.v2ex.network.bean.LoginInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
@@ -86,6 +87,10 @@ public class APIService {
         @Html
         @GET("/recent")
         Observable<NewsInfo> recentNews();
+
+        @Html
+        @GET("/signin")
+        Observable<LoginInfo> loginInfo();
 
     }
 

@@ -17,8 +17,12 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".module.drawer.dailyhot.DailyHotActivity"/>
-        <activity android:name=".module.login.LoginActivity"/>
+        <activity android:name=".module.drawer.dailyhot.DailyHotActivity"
+            android:label="今日最热"
+            />
+        <activity android:name=".module.login.LoginActivity"
+            android:label="登录V2EX"
+            />
     </application>
 
 </manifest>
