@@ -10,6 +10,8 @@ public class BaseContract {
 
     public interface IView extends IViewLoading {
         <K> ObservableTransformer<K, K> rx();
+
+        <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading);
     }
 
     public interface IPresenter {

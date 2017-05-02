@@ -4,10 +4,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.v2ex.module.base.IBindToLife;
 import me.ghui.v2ex.module.base.IViewLoading;
@@ -34,35 +30,22 @@ public class RxUtils {
     }
 
     public static <K> ObservableTransformer<K, K> rx(final IBindToLife bindToLife, final IViewLoading viewLoading) {
-        return new ObservableTransformer<K, K>() {
-            @Override
-            public ObservableSource<K> apply(@NonNull Observable<K> upstream) {
-                return upstream
-                        .compose(RxUtils.<K>io_main())
-                        .compose(bindToLife.<K>bindToLife())
-                        .compose(new ObservableTransformer<K, K>() {
-                            @Override
-                            public ObservableSource<K> apply(@NonNull Observable<K> upstream) {
-                                return upstream.doOnSubscribe(new Consumer<Disposable>() {
-                                    @Override
-                                    public void accept(@NonNull Disposable disposable) throws Exception {
-                                        viewLoading.showLoading();
-                                    }
-                                }).doOnComplete(new Action() {
-                                    @Override
-                                    public void run() throws Exception {
-                                        viewLoading.hideLoading();
-                                    }
-                                }).doOnError(new Consumer<Throwable>() {
-                                    @Override
-                                    public void accept(@NonNull Throwable throwable) throws Exception {
-                                        viewLoading.hideLoading();
-                                    }
-                                });
-                            }
-                        });
-            }
-        };
+        return upstream -> upstream
+                .compose(RxUtils.io_main())
+                .compose(bindToLife.bindToLife())
+                .compose(upstream1 -> upstream1.
+                        doOnSubscribe(disposable -> {
+                            if (viewLoading != null)
+                                viewLoading.showLoading();
+                        })
+                        .doOnComplete(() -> {
+                            if (viewLoading != null)
+                                viewLoading.hideLoading();
+                        })
+                        .doOnError(throwable -> {
+                            if (viewLoading != null)
+                                viewLoading.hideLoading();
+                        }));
     }
 
 }

@@ -47,6 +47,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * Set a default Toolbar, if you don't want certain page to have a toolbar,
      * just return null;
+     *
      * @return
      */
     protected BaseToolBar attachToolbar() {
@@ -125,7 +126,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             ptrLayout.setPinContent(true);
             viewBelowToolbar = ptrLayout;
         } else {
-            viewBelowToolbar  = (ViewGroup) getLayoutInflater().inflate(attachLayoutRes(),null);
+            viewBelowToolbar = (ViewGroup) getLayoutInflater().inflate(attachLayoutRes(), null);
         }
 
         if (mRootView != null) { //has toolbar
@@ -150,6 +151,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
         return ptrLayout;
     }
+
     protected AppCompatActivity getActivity() {
         return this;
     }
@@ -181,9 +183,13 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public <K> ObservableTransformer<K, K> rx() {
-        return RxUtils.rx(this, this);
+        return rx(this);
     }
 
+    @Override
+    public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
+        return RxUtils.rx(this, viewLoading);
+    }
 
     protected void delay(long millisecond, Runnable runnable) {
         mRootView.postDelayed(runnable, millisecond);

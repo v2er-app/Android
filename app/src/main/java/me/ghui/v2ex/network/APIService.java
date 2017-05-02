@@ -1,12 +1,14 @@
 package me.ghui.v2ex.network;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
-import me.ghui.v2ex.network.bean.LoginInfo;
+import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.network.bean.SimpleInfo;
 import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
 import me.ghui.v2ex.network.converter.annotations.Html;
@@ -20,7 +22,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 
 
 /**
@@ -90,7 +94,11 @@ public class APIService {
 
         @Html
         @GET("/signin")
-        Observable<LoginInfo> loginInfo();
+        Observable<LoginParam> loginParam();
+
+        @Html
+        @POST("/signin")
+        Observable<SimpleInfo> login(@QueryMap Map<String, String> loginParams);
 
     }
 

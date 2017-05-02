@@ -22,59 +22,59 @@ import me.ghui.v2ex.widget.BaseToolBar;
  * Created by ghui on 27/03/2017.
  */
 
-public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> implements DailyHotContract.IView{
+public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> implements DailyHotContract.IView {
 
-	@BindView(R.id.recyclerview_act_daily)
-	RecyclerView mRecyclerView;
+    @BindView(R.id.recyclerview_act_daily)
+    RecyclerView mRecyclerView;
 
-	@Inject
-	DailyHotAdapter mDailyHotAdapter;
+    @Inject
+    DailyHotAdapter mDailyHotAdapter;
 
 
-	@Override
-	protected void startInject() {
-		DaggerDailyHotComponent.builder()
-				.appComponent(getAppComponent())
-				.dailyHotModule(new DailyHotModule(DailyHotActivity.this))
-				.build()
-				.inject(this);
-	}
+    @Override
+    protected void startInject() {
+        DaggerDailyHotComponent.builder()
+                .appComponent(getAppComponent())
+                .dailyHotModule(new DailyHotModule(DailyHotActivity.this))
+                .build()
+                .inject(this);
+    }
 
-	@Override
-	protected int attachLayoutRes() {
-		return R.layout.act_daily_hot;
-	}
+    @Override
+    protected int attachLayoutRes() {
+        return R.layout.act_daily_hot;
+    }
 
-	@Override
-	protected void configToolBar(BaseToolBar toolBar) {
-		super.configToolBar(toolBar);
-		toolBar.setTitle("今日热议");
-	}
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        toolBar.setTitle("今日热议");
+    }
 
-	@Override
-	protected PtrHandler attachPtrHandler() {
-	    return new PtrDefaultHandler() {
-			@Override
-			public void onRefreshBegin(PtrFrameLayout frame) {
-				mPresenter.start();
-			}
-		};
-	}
+    @Override
+    protected PtrHandler attachPtrHandler() {
+        return new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mPresenter.start();
+            }
+        };
+    }
 
-	@Override
-	protected void init() {
-		super.init();
-		DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-		itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
-		mRecyclerView.addItemDecoration(itemDecoration);
-		mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-		mRecyclerView.setAdapter(mDailyHotAdapter);
-	}
+    @Override
+    protected void init() {
+        super.init();
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
+        mRecyclerView.addItemDecoration(itemDecoration);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setAdapter(mDailyHotAdapter);
+    }
 
-	@Override
-	public void fillView(DailyHotInfo dailyHotInfo) {
-		mDailyHotAdapter.setData(dailyHotInfo);
-	}
+    @Override
+    public void fillView(DailyHotInfo dailyHotInfo) {
+        mDailyHotAdapter.setData(dailyHotInfo);
+    }
 
 
 }

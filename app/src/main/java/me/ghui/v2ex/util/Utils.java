@@ -7,7 +7,12 @@ import java.util.List;
  */
 
 public class Utils {
-	public static int listSize(List list) {
-		return list == null ? 0 : list.size();
-	}
+    public static int listSize(List list) {
+        return list == null ? 0 : list.size();
+    }
+
+    public static boolean isEmpty(CharSequence text) {
+        return text == null || text.length() == 0;
+    }
+
 }

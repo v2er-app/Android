@@ -31,7 +31,6 @@ public class App extends Application {
 		mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
 				.build();
 		APIService.init();
-//		JsoupService.init();
 	}
 
 	public AppComponent getAppComponent() {

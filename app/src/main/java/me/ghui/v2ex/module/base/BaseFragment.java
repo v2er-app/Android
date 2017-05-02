@@ -147,4 +147,9 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     public <K> ObservableTransformer<K, K> rx() {
         return RxUtils.rx(this, this);
     }
+
+    @Override
+    public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
+        return RxUtils.rx(this, viewLoading);
+    }
 }
