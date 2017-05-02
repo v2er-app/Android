@@ -84,7 +84,7 @@ public class APIService {
         return mAPI_SERVICE;
     }
 
-    //************************ below is apis ************************
+    //************************ BELOW IS APIS ************************************************
 
     public interface IApis {
 
@@ -106,10 +106,7 @@ public class APIService {
 
         @Html
         @FormUrlEncoded
-        @Headers({
-                "Referer: " + Constants.BASE_URL + "/signin",
-                "next: /mission"
-        })
+        @Headers("Referer: " + Constants.BASE_URL + "/signin")
         @POST("/signin")
         Observable<SimpleInfo> login(@FieldMap Map<String, String> loginParams);
 

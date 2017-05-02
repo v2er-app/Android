@@ -6,9 +6,11 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerLoginComponent;
 import me.ghui.v2ex.injector.module.LoginModule;
 import me.ghui.v2ex.module.base.BaseActivity;
+import me.ghui.v2ex.module.home.MainActivity;
 import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.BaseToolBar;
 
@@ -68,6 +70,6 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     @Override
     public void onLoginSuccess() {
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
-//        Navigator.from(this).to(MainActivity.class).start();
+        Navigator.from(this).to(MainActivity.class).start();
     }
 }
