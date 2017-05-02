@@ -9,11 +9,10 @@ import me.ghui.v2ex.htmlpicker.annotations.Select;
  * Created by ghui on 01/05/2017.
  */
 
-@Select("input.sl")
 public class LoginParam {
-    @Select(value = "[type=text]", attr = "name")
+    @Select(value = "input[type=text]", attr = "name")
     private String nameParam;
-    @Select(value = "[type=password]", attr = "name")
+    @Select(value = "input[type=password]", attr = "name")
     private String pswParam;
 
     public String getNameParam() {
