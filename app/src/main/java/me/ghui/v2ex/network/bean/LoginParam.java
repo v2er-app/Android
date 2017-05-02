@@ -14,6 +14,8 @@ public class LoginParam {
     private String nameParam;
     @Select(value = "input[type=password]", attr = "name")
     private String pswParam;
+    @Select(value = "input[name=once]", attr = "value")
+    private String once;
 
     public String getNameParam() {
         return nameParam;
@@ -31,18 +33,19 @@ public class LoginParam {
         this.pswParam = pswParam;
     }
 
-    @Override
-    public String toString() {
-        return "LoginParam{" +
-                "nameParam='" + nameParam + '\'' +
-                ", pswParam='" + pswParam + '\'' +
-                '}';
+    public String getOnce() {
+        return once;
+    }
+
+    public void setOnce(String once) {
+        this.once = once;
     }
 
     public Map<String, String> toMap(String userName, String psw) {
         Map map = new HashMap<String, String>();
         map.put(nameParam, userName);
-        map.put(pswParam, userName);
+        map.put(pswParam, psw);
+        map.put("once", once);
         return map;
     }
 }

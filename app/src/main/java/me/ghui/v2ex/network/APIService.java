@@ -1,10 +1,15 @@
 package me.ghui.v2ex.network;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
+import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.NewsInfo;
@@ -21,10 +26,12 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import retrofit2.http.QueryMap;
 
 
 /**
@@ -41,6 +48,7 @@ public class APIService {
         if (mAPI_SERVICE == null) {
             OkHttpClient httpClient = new OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
+                    .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.get())))
                     .retryOnConnectionFailure(true)
                     .addInterceptor(new ConfigInterceptor())
                     .addInterceptor(new HttpLoggingInterceptor()
@@ -90,15 +98,20 @@ public class APIService {
 
         @Html
         @GET("/recent")
-        Observable<NewsInfo> recentNews();
+        Observable<NewsInfo> recentNews(@Query("p") int page);
 
         @Html
         @GET("/signin")
         Observable<LoginParam> loginParam();
 
         @Html
+        @FormUrlEncoded
+        @Headers({
+                "Referer: " + Constants.BASE_URL + "/signin",
+                "next: /mission"
+        })
         @POST("/signin")
-        Observable<SimpleInfo> login(@QueryMap Map<String, String> loginParams);
+        Observable<SimpleInfo> login(@FieldMap Map<String, String> loginParams);
 
     }
 

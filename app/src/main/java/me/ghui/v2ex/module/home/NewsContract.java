@@ -14,7 +14,7 @@ public class NewsContract {
 	}
 
 	public interface IPresenter extends BaseContract.IPresenter {
-		void loadMore();
+		void loadMore(int page);
 	}
 
 }

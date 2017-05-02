@@ -1,7 +1,5 @@
 package me.ghui.v2ex.module.home;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.functions.Consumer;
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.NewsInfo;
 
@@ -28,9 +26,9 @@ public class NewsPresenter implements NewsContract.IPresenter {
     }
 
     @Override
-    public void loadMore() {
+    public void loadMore(int page) {
         APIService.get()
-                .recentNews()
+                .recentNews(page - 1)
                 .compose(mView.<NewsInfo>rx())
                 .subscribe(newsInfo -> mView.fillView(newsInfo, true));
     }

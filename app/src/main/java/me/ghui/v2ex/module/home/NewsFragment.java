@@ -7,6 +7,8 @@ import android.support.v7.widget.LinearLayoutManager;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -18,6 +20,7 @@ import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.network.bean.NewsItem;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -63,7 +66,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         mRecyclerView.setAdapter(mNewsAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
-            mPresenter.loadMore();
+            mPresenter.loadMore(willLoadPage);
         });
     }
 
@@ -79,7 +82,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
-        mNewsAdapter.setData(newsInfos.getItems(), isLoadMore);
+        List<NewsItem> items = newsInfos.getItems();
+        mNewsAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
     }
 }

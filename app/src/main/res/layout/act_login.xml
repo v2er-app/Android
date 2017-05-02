@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="用户名"
-            android:inputType="textPersonName" />
+            android:inputType="textVisiblePassword" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout

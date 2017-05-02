@@ -5,5 +5,5 @@ package me.ghui.v2ex.network;
  */
 
 public interface Constants {
-	String BASE_URL = "https://www.v2ex.com/";
+	String BASE_URL = "https://www.v2ex.com";
 }
