@@ -1,7 +1,11 @@
 package me.ghui.v2ex.module.login;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.LoginParam;
+import me.ghui.v2ex.network.bean.UserInfo;
+import me.ghui.v2ex.util.UserManager;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -27,7 +31,12 @@ public class LoginPresenter implements LoginContract.IPresenter {
     public void login(String userName, String psw) {
         APIService.get().login(mLoginParam.toMap(userName, psw))
                 .compose(mView.rx())
-                .subscribe(simpleInfo -> mView.onLoginSuccess());
+                .subscribe(result -> {
+                            Logger.d("loginResultInfo: " + result);
+                            UserManager.saveLogin(UserInfo.build(result.getUserName(), result.getAvatar()));
+                            mView.onLoginSuccess();
+                        }
+                );
     }
 
 }

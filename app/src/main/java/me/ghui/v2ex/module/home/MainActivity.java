@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
+import me.ghui.v2ex.module.user.UserInfoActivity;
+import me.ghui.v2ex.network.bean.UserInfo;
 import me.ghui.v2ex.util.UserManager;
 import me.ghui.v2ex.widget.BaseToolBar;
 
@@ -70,6 +73,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
             return true;
         });
+
     }
 
     @Override
@@ -79,6 +83,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.leftdrawer_username_tv);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
+        updateHeaderView();
 
         mFragments.add(NewsFragment.newInstance());
         mFragments.add(MsgFragment.newInstance());
@@ -93,7 +98,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mDrawerLayout.closeDrawers();
             return true;
         });
+
+        mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                updateHeaderView();
+            }
+        });
+
         mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
+    }
+
+    private void updateHeaderView() {
+        UserInfo userInfo = UserManager.getUserInfo();
+        if (userInfo != null) {
+            mUserNameTv.setText(userInfo.getUserName());
+            Glide.with(getContext())
+                    .load(userInfo.getAvatar())
+                    .into(mAvatarImg);
+        }
     }
 
     @Override
@@ -102,7 +125,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.leftdrawer_avatar_img:
             case R.id.leftdrawer_username_tv:
                 if (UserManager.isLogin()) {
-                    // TODO: 30/04/2017 go to profile page
+                    Navigator.from(this).to(UserInfoActivity.class).start();
                 } else {
                     Navigator.from(this).to(LoginActivity.class).start();
                 }

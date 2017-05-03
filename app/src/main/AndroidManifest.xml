@@ -25,6 +25,9 @@
         <activity
             android:name=".module.login.LoginActivity"
             android:label="登录V2EX" />
+        <activity
+            android:name=".module.user.UserInfoActivity"
+            android:label="我" />
     </application>
 
 </manifest>

@@ -3,6 +3,8 @@ package me.ghui.v2ex.module.login;
 import android.support.design.widget.TextInputLayout;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2ex.R;
@@ -69,6 +71,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
 
     @Override
     public void onLoginSuccess() {
+        Logger.d("--- Login success ---");
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
         Navigator.from(this).to(MainActivity.class).start();
     }

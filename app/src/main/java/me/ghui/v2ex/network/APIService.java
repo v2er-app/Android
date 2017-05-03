@@ -3,6 +3,9 @@ package me.ghui.v2ex.network;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.util.Map;
@@ -12,8 +15,8 @@ import io.reactivex.Observable;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
+import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
-import me.ghui.v2ex.network.bean.SimpleInfo;
 import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
 import me.ghui.v2ex.network.converter.annotations.Html;
@@ -40,15 +43,18 @@ import retrofit2.http.Query;
 
 public class APIService {
 
+    private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
     private static final long TIMEOUT_LENGTH = 30;
     private static IApis mAPI_SERVICE;
-    private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
+    private static Gson sGson;
+    private static PersistentCookieJar sCookieJar;
+
 
     public static void init() {
         if (mAPI_SERVICE == null) {
             OkHttpClient httpClient = new OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
-                    .cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.get())))
+                    .cookieJar(cookieJar())
                     .retryOnConnectionFailure(true)
                     .addInterceptor(new ConfigInterceptor())
                     .addInterceptor(new HttpLoggingInterceptor()
@@ -59,7 +65,7 @@ public class APIService {
                     .client(httpClient)
                     .addConverterFactory(GlobalConverterFactory
                             .create()
-                            .add(GsonConverterFactory.create(), Json.class)
+                            .add(GsonConverterFactory.create(gson()), Json.class)
                             .add(HtmlConverterFactory.create(), Html.class))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(Constants.BASE_URL)
@@ -82,6 +88,22 @@ public class APIService {
 
     public static IApis get() {
         return mAPI_SERVICE;
+    }
+
+    public static Gson gson() {
+        if (sGson == null) {
+            sGson = new GsonBuilder()
+                    .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                    .create();
+        }
+        return sGson;
+    }
+
+    public static PersistentCookieJar cookieJar() {
+        if (sCookieJar == null) {
+            sCookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.get()));
+        }
+        return sCookieJar;
     }
 
     //************************ BELOW IS APIS ************************************************
@@ -108,7 +130,7 @@ public class APIService {
         @FormUrlEncoded
         @Headers("Referer: " + Constants.BASE_URL + "/signin")
         @POST("/signin")
-        Observable<SimpleInfo> login(@FieldMap Map<String, String> loginParams);
+        Observable<LoginResultInfo> login(@FieldMap Map<String, String> loginParams);
 
     }
 
