@@ -25,56 +25,55 @@ import me.ghui.v2ex.widget.BaseToolBar;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-	private final String[] TAB_TITLES = {"最新", "消息", "节点"};
-	private ArrayList<Fragment> mFragments = new ArrayList<>(3);
+    private final String[] TAB_TITLES = {"最新", "消息", "节点"};
+    private ArrayList<Fragment> mFragments = new ArrayList<>(3);
 
-	@BindView(R.id.left_draw_layout)
-	DrawerLayout mDrawerLayout;
-	@BindView(R.id.navigationview_main)
-	NavigationView mNavigationView;
-	@BindView(R.id.tablayout_main)
-	SlidingTabLayout mSlidingTabLayout;
-	@BindView(R.id.viewpager_main)
-	ViewPager mViewPager;
+    @BindView(R.id.left_draw_layout)
+    DrawerLayout mDrawerLayout;
+    @BindView(R.id.navigationview_main)
+    NavigationView mNavigationView;
+    @BindView(R.id.tablayout_main)
+    SlidingTabLayout mSlidingTabLayout;
+    @BindView(R.id.viewpager_main)
+    ViewPager mViewPager;
 
-	private View mNavHeaderView;
-	private ImageView mAvatarImg;
-	private TextView mUserNameTv;
+    private View mNavHeaderView;
+    private ImageView mAvatarImg;
+    private TextView mUserNameTv;
 
 
+    @Override
+    protected int attachToolBar() {
+        return R.layout.toolbar_main_act;
+    }
 
-	@Override
-	protected int attachToolBar() {
-	    return R.layout.toolbar_main_act;
-	}
+    @Override
+    protected int attachLayoutRes() {
+        return R.layout.act_main;
+    }
 
-	@Override
-	protected int attachLayoutRes() {
-		return R.layout.act_main;
-	}
-
-	@Override
-	protected void configToolBar(BaseToolBar toolBar) {
-		toolBar.setElevation(0);
-		toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
-		toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
-		toolBar.setNavigationOnClickListener(v -> {
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        toolBar.setElevation(0);
+        toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
+        toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
+        toolBar.setNavigationOnClickListener(v -> {
             if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
                 mDrawerLayout.closeDrawer(Gravity.START);
             } else {
                 mDrawerLayout.openDrawer(Gravity.START);
             }
         });
-		toolBar.setOnMenuItemClickListener(item -> {
+        toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 Toast.makeText(getContext(), "do Search...", Toast.LENGTH_SHORT).show();
             }
             return true;
         });
-	}
+    }
 
-	@Override
-	protected void init() {
+    @Override
+    protected void init() {
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.leftdrawer_avatar_img);
         mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.leftdrawer_username_tv);
@@ -82,10 +81,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserNameTv.setOnClickListener(this);
 
         mFragments.add(NewsFragment.newInstance());
-		mFragments.add(MsgFragment.newInstance());
-		mFragments.add(NodesFragment.newInstance());
+        mFragments.add(MsgFragment.newInstance());
+        mFragments.add(NodesFragment.newInstance());
 
-		mNavigationView.setNavigationItemSelectedListener(item -> {
+        mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
                     Navigator.from(getContext()).to(DailyHotActivity.class).start();
@@ -94,24 +93,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             mDrawerLayout.closeDrawers();
             return true;
         });
-		mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
-	}
+        mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
+    }
 
     @Override
     public void onClick(View v) {
-	    switch (v.getId()){
+        switch (v.getId()) {
             case R.id.leftdrawer_avatar_img:
             case R.id.leftdrawer_username_tv:
-            if (UserManager.isLogin()) {
-                // TODO: 30/04/2017 go to profile page
-            } else {
-                Navigator.from(this).to(LoginActivity.class).start();
-            }
+                if (UserManager.isLogin()) {
+                    // TODO: 30/04/2017 go to profile page
+                } else {
+                    Navigator.from(this).to(LoginActivity.class).start();
+                }
                 break;
         }
+        mDrawerLayout.closeDrawers();
     }
-
-
 
 
 }
