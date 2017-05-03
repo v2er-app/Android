@@ -46,7 +46,7 @@ public class LoginParam {
         map.put(nameParam, userName);
         map.put(pswParam, psw);
         map.put("once", once);
-        map.put("next", "/mission");
+        map.put("next", "/mission/daily");
         return map;
     }
 }
