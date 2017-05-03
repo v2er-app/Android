@@ -75,6 +75,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         return new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                mRecyclerView.resetWillLoadPage();
                 mPresenter.start();
             }
         };

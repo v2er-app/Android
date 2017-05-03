@@ -52,6 +52,14 @@ public class LoadMoreRecyclerView extends RecyclerView {
         }
     }
 
+    public void resetWillLoadPage() {
+        resetWillLoadPage(1);
+    }
+
+    public void resetWillLoadPage(int willLoadPage) {
+        mWillLoadPage = willLoadPage;
+    }
+
     public void setHasMore(boolean hasMore) {
         setHasMore(hasMore, true);
     }
