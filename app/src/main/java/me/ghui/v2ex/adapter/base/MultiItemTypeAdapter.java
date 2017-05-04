@@ -18,6 +18,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     protected ItemViewDelegateManager mItemViewDelegateManager;
     protected OnItemClickListener mOnItemClickListener;
+    protected OnItemLongClickListener mOnItemLongClickListener;
 
 
     public MultiItemTypeAdapter(Context context, List<T> datas) {
@@ -63,25 +64,19 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
         if (!isEnabled(viewType)) return;
-        viewHolder.getConvertView().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    mOnItemClickListener.onItemClick(v, viewHolder, position);
-                }
+        viewHolder.getConvertView().setOnClickListener(v -> {
+            if (mOnItemClickListener != null) {
+                int position = viewHolder.getAdapterPosition();
+                mOnItemClickListener.onItemClick(v, viewHolder, position);
             }
         });
 
-        viewHolder.getConvertView().setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (mOnItemClickListener != null) {
-                    int position = viewHolder.getAdapterPosition();
-                    return mOnItemClickListener.onItemLongClick(v, viewHolder, position);
-                }
-                return false;
+        viewHolder.getConvertView().setOnLongClickListener(v -> {
+            if (mOnItemLongClickListener != null) {
+                int position = viewHolder.getAdapterPosition();
+                return mOnItemLongClickListener.onItemLongClick(v, viewHolder, position);
             }
+            return false;
         });
     }
 
@@ -116,11 +111,18 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     public interface OnItemClickListener {
         void onItemClick(View view, RecyclerView.ViewHolder holder, int position);
+    }
 
+    public interface OnItemLongClickListener {
         boolean onItemLongClick(View view, RecyclerView.ViewHolder holder, int position);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.mOnItemClickListener = onItemClickListener;
     }
+
+    public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
+        this.mOnItemLongClickListener = onItemLongClickListener;
+    }
+
 }

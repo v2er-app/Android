@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.orhanobut.logger.Logger;
 
@@ -16,6 +18,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
@@ -27,7 +30,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
  * Created by ghui on 22/03/2017.
  */
 
-public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView {
+public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
     @BindView(R.id.news_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -68,6 +71,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
             mPresenter.loadMore(willLoadPage);
         });
+        mNewsAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -86,5 +90,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         List<NewsItem> items = newsInfos.getItems();
         mNewsAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
+    }
+
+    @Override
+    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+        // TODO: 04/05/2017  
     }
 }
