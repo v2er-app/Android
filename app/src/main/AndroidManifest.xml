@@ -23,6 +23,9 @@
             android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="今日最热" />
         <activity
+            android:name=".module.topic.TopicActivity"
+            android:label="话题" />
+        <activity
             android:name=".module.login.LoginActivity"
             android:label="登录V2EX" />
         <activity

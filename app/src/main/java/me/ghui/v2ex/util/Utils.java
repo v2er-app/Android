@@ -2,6 +2,8 @@ package me.ghui.v2ex.util;
 
 import java.util.List;
 
+import me.ghui.v2ex.network.Constants;
+
 /**
  * Created by ghui on 01/04/2017.
  */
@@ -21,6 +23,10 @@ public class Utils {
 
     public static boolean isEmpty(List list) {
         return list == null || list.isEmpty();
+    }
+
+    public static String KEY(String key) {
+        return Constants.PACKAGE_NAME + "_" + key;
     }
 
 }

@@ -11,7 +11,7 @@ public class NewsItem {
 	@Select(value = "span.item_title > a")
 	private String title;
 	@Select(value = "span.item_title > a", attr = "href")
-	private String link;
+	private String linkPath;
 	@Select(value = "td > a > img", attr = "src")
 	private String avatar;
 	@Select(value = "td > a", attr = "href")
@@ -43,12 +43,12 @@ public class NewsItem {
 		this.title = title;
 	}
 
-	public String getLink() {
-		return link;
+	public String getLinkPath() {
+		return linkPath;
 	}
 
-	public void setLink(String link) {
-		this.link = link;
+	public void setLinkPath(String linkPath) {
+		this.linkPath = linkPath;
 	}
 
 	public String getAvatar() {
@@ -112,7 +112,7 @@ public class NewsItem {
 	public String toString() {
 		return "NewsItem{" +
 				"title='" + title + '\'' +
-				", link='" + link + '\'' +
+				", linkPath='" + linkPath + '\'' +
 				", avatar='" + avatar + '\'' +
 				", avatarLink='" + avatarLink + '\'' +
 				", user='" + user + '\'' +

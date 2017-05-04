@@ -1,5 +1,7 @@
 package me.ghui.v2ex.module.home;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.NewsInfo;
 
@@ -21,7 +23,10 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .homeNews("all")
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(newsInfo -> mView.fillView(newsInfo, false));
+                .subscribe(newsInfo -> {
+                    Logger.d("newsInfo: " + newsInfo);
+                    mView.fillView(newsInfo, false);
+                });
 
     }
 
