@@ -9,7 +9,7 @@ import static me.ghui.v2ex.util.Utils.KEY;
  * Created by ghui on 04/05/2017.
  */
 
-public class TopicActivity extends BaseActivity {
+public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView {
     public static final String TOPIC_LINK_KEY = KEY("topic_link_key");
 
     @Override

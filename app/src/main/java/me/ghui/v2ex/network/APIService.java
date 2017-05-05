@@ -8,15 +8,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Observable;
 import me.ghui.v2ex.general.App;
-import me.ghui.v2ex.network.bean.DailyHotInfo;
-import me.ghui.v2ex.network.bean.LoginParam;
-import me.ghui.v2ex.network.bean.LoginResultInfo;
-import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.network.converter.GlobalConverterFactory;
 import me.ghui.v2ex.network.converter.HtmlConverterFactory;
 import me.ghui.v2ex.network.converter.annotations.Html;
@@ -29,12 +23,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.GET;
-import retrofit2.http.Headers;
-import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 
 /**
@@ -45,7 +33,7 @@ public class APIService {
 
     private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
     private static final long TIMEOUT_LENGTH = 30;
-    private static IApis mAPI_SERVICE;
+    private static APIs mAPI_SERVICE;
     private static Gson sGson;
     private static PersistentCookieJar sCookieJar;
 
@@ -70,7 +58,7 @@ public class APIService {
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(Constants.BASE_URL)
                     .build();
-            mAPI_SERVICE = retrofit.create(IApis.class);
+            mAPI_SERVICE = retrofit.create(APIs.class);
         }
     }
 
@@ -86,7 +74,7 @@ public class APIService {
         }
     }
 
-    public static IApis get() {
+    public static APIs get() {
         return mAPI_SERVICE;
     }
 
@@ -105,34 +93,5 @@ public class APIService {
         }
         return sCookieJar;
     }
-
-    //************************ BELOW IS APIS ************************************************
-
-    public interface IApis {
-
-        @Json
-        @GET("api/topics/hot.json")
-        Observable<DailyHotInfo> dailyHot();
-
-        @Html
-        @GET("/")
-        Observable<NewsInfo> homeNews(@Query("tab") String tab);
-
-        @Html
-        @GET("/recent")
-        Observable<NewsInfo> recentNews(@Query("p") int page);
-
-        @Html
-        @GET("/signin")
-        Observable<LoginParam> loginParam();
-
-        @Html
-        @FormUrlEncoded
-        @Headers("Referer: " + Constants.BASE_URL + "/signin")
-        @POST("/signin")
-        Observable<LoginResultInfo> login(@FieldMap Map<String, String> loginParams);
-
-    }
-
 
 }
