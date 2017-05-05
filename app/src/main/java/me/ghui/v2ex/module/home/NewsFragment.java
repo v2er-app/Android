@@ -96,10 +96,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String link = mNewsAdapter.getDatas().get(position).getLinkPath();
+        String id = mNewsAdapter.getDatas().get(position).getTopicId();
         Navigator.from(getContext())
                 .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
                 .start();
     }
 }

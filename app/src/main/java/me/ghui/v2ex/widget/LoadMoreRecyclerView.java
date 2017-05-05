@@ -22,7 +22,7 @@ import me.ghui.v2ex.util.ScaleUtils;
  * Created by ghui on 26/04/2017.
  */
 
-public class LoadMoreRecyclerView extends RecyclerView {
+public class LoadMoreRecyclerView extends BaseRecyclerView {
 
     private OnLoadMoreListener mOnLoadMoreListener;
     private LoadMoreScrollListener mScrollListener;
@@ -197,6 +197,10 @@ public class LoadMoreRecyclerView extends RecyclerView {
 
         public void setData(List<T> data) {
             setData(data, false);
+        }
+
+        public int getItemCountWithoutFooter() {
+            return getItemCount() - 1;
         }
 
     }

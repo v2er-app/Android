@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.RecyclerView
+<me.ghui.v2ex.widget.BaseRecyclerView
     android:id="@+id/recyclerview_act_daily"
     android:layout_width="match_parent"
     android:layout_height="match_parent"

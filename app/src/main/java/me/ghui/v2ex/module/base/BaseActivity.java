@@ -1,6 +1,7 @@
 package me.ghui.v2ex.module.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -87,6 +88,12 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
+    /**
+     * parse the intent extra data
+     */
+    protected void parseExtras(Intent intent) {
+
+    }
 
     /**
      * init views in this page
@@ -101,6 +108,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         setContentView(onCreateRootView());
         ButterKnife.bind(this);
         startInject();
+        parseExtras(getIntent());
         init();
     }
 
