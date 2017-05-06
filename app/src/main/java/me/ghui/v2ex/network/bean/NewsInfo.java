@@ -3,7 +3,8 @@ package me.ghui.v2ex.network.bean;
 
 import java.util.List;
 
-import me.ghui.v2ex.htmlpicker.annotations.Pick;
+import me.ghui.fruit.annotations.Pick;
+
 
 /**
  * Created by ghui on 04/04/2017.

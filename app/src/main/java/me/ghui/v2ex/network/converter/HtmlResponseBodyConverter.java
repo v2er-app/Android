@@ -4,7 +4,7 @@ package me.ghui.v2ex.network.converter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import me.ghui.v2ex.htmlpicker.Fruit;
+import me.ghui.fruit.Fruit;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
