@@ -1,6 +1,6 @@
 package me.ghui.v2ex.network.bean;
 
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 
 /**
  * Created by ghui on 03/05/2017.
@@ -8,9 +8,9 @@ import me.ghui.v2ex.htmlpicker.annotations.Select;
 
 public class LoginResultInfo {
 
-    @Select(value = "[href^=/member]", attr = "href")
+    @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;
-    @Select(value = "img[src*=/avatar/]", attr = "src")
+    @Pick(value = "img[src*=/avatar/]", attr = "src")
     private String avatar;
 
 

@@ -20,18 +20,18 @@ import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
  * Created by ghui on 13/04/2017.
  */
 
-public class HtmlPicker {
+public class Fruit {
 
 
 	private static final TypeToken<?> NULL_KEY_SURROGATE = new TypeToken<Object>() {
 	};
-	private final Map<TypeToken<?>, PickerAdapter<?>> mTypeTokenCache = new ConcurrentHashMap<>();
+	private final Map<TypeToken<?>, PickAdapter<?>> mTypeTokenCache = new ConcurrentHashMap<>();
 
-	private final List<PickerAdapterFactory> mFactories;
+	private final List<PickAdapterFactory> mFactories;
 
 
-	public HtmlPicker() {
-		List<PickerAdapterFactory> factories = new ArrayList<>();
+	public Fruit() {
+		List<PickAdapterFactory> factories = new ArrayList<>();
 		factories.add(PickerAdapters.INTEGER_FACTORY);
 		factories.add(PickerAdapters.LONG_FACTORY);
 		factories.add(PickerAdapters.STRING_FACTORY);
@@ -56,28 +56,28 @@ public class HtmlPicker {
 	@SuppressWarnings("unchecked")
 	public <T> T fromHtml(Element element, Type typeOfT) {
 		TypeToken<T> typeToken = (TypeToken<T>) TypeToken.get(typeOfT);
-		PickerAdapter<T> pickerAdapter = getAdapter(typeToken);
-		return pickerAdapter.read(element, null);
+		PickAdapter<T> pickAdapter = getAdapter(typeToken);
+		return pickAdapter.read(element, null);
 	}
 
-	public <T> PickerAdapter<T> getAdapter(Class<T> type) {
+	public <T> PickAdapter<T> getAdapter(Class<T> type) {
 		return getAdapter(TypeToken.get(type));
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> PickerAdapter<T> getAdapter(TypeToken<T> type) {
-		PickerAdapter<?> cached = mTypeTokenCache.get(type == null ? NULL_KEY_SURROGATE : type);
+	public <T> PickAdapter<T> getAdapter(TypeToken<T> type) {
+		PickAdapter<?> cached = mTypeTokenCache.get(type == null ? NULL_KEY_SURROGATE : type);
 		if (cached != null) {
-			return (PickerAdapter<T>) cached;
+			return (PickAdapter<T>) cached;
 		}
 
-		for (PickerAdapterFactory factory : mFactories) {
-			PickerAdapter<T> pickerAdapter = factory.create(this, type);
-			if (pickerAdapter != null) {
-				mTypeTokenCache.put(type, pickerAdapter);
-				return pickerAdapter;
+		for (PickAdapterFactory factory : mFactories) {
+			PickAdapter<T> pickAdapter = factory.create(this, type);
+			if (pickAdapter != null) {
+				mTypeTokenCache.put(type, pickAdapter);
+				return pickAdapter;
 			}
 		}
-		throw new IllegalArgumentException("HtmlPicker cannot handle " + type);
+		throw new IllegalArgumentException("Fruit cannot handle " + type);
 	}
 }

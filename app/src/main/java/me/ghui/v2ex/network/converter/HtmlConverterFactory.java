@@ -3,7 +3,7 @@ package me.ghui.v2ex.network.converter;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
-import me.ghui.v2ex.htmlpicker.HtmlPicker;
+import me.ghui.v2ex.htmlpicker.Fruit;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 import retrofit2.Retrofit;
@@ -14,18 +14,18 @@ import retrofit2.Retrofit;
 
 public class HtmlConverterFactory extends Converter.Factory {
 
-	private HtmlPicker mPicker;
+	private Fruit mPicker;
 
-	public static HtmlConverterFactory create(HtmlPicker htmlPicker) {
-		return new HtmlConverterFactory(htmlPicker);
+	public static HtmlConverterFactory create(Fruit fruit) {
+		return new HtmlConverterFactory(fruit);
 	}
 
 	public static HtmlConverterFactory create() {
-		return new HtmlConverterFactory(new HtmlPicker());
+		return new HtmlConverterFactory(new Fruit());
 	}
 
-	private HtmlConverterFactory(HtmlPicker htmlPicker) {
-		mPicker = htmlPicker;
+	private HtmlConverterFactory(Fruit fruit) {
+		mPicker = fruit;
 	}
 
 	@Override

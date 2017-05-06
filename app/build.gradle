@@ -55,7 +55,7 @@ dependencies {
     compile "com.github.bumptech.glide:glide:$latest_version"  //Glide
     compile "de.hdodenhof:circleimageview:$latest_version"
     compile "com.flyco.tablayout:FlycoTabLayout_Lib:$latest_version"
-    compile "org.jsoup:jsoup:$latest_version"
+//    compile "org.jsoup:jsoup:$latest_version"
     compile "com.orhanobut:logger:$latest_version"
     compile "com.trello.rxlifecycle2:rxlifecycle:$rxLifeCycleVersion"
     compile "com.trello.rxlifecycle2:rxlifecycle-android:$rxLifeCycleVersion"
@@ -63,4 +63,5 @@ dependencies {
     compile 'in.srain.cube:ultra-ptr:1.0.11'
     compile 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
     compile 'com.github.GrenderG:Prefs:1.3'
+    compile 'me.ghui:Fruit:0.1.0'
 }

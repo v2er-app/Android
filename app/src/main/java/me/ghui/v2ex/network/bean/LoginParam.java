@@ -3,18 +3,18 @@ package me.ghui.v2ex.network.bean;
 import java.util.HashMap;
 import java.util.Map;
 
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 
 /**
  * Created by ghui on 01/05/2017.
  */
 
 public class LoginParam {
-    @Select(value = "input[type=text]", attr = "name")
+    @Pick(value = "input[type=text]", attr = "name")
     private String nameParam;
-    @Select(value = "input[type=password]", attr = "name")
+    @Pick(value = "input[type=password]", attr = "name")
     private String pswParam;
-    @Select(value = "input[name=once]", attr = "value")
+    @Pick(value = "input[name=once]", attr = "value")
     private String once;
 
     public String getNameParam() {

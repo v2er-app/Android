@@ -25,7 +25,6 @@ import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
-import me.ghui.v2ex.network.bean.NewsItem;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -89,7 +88,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
-        List<NewsItem> items = newsInfos.getItems();
+        List<NewsInfo.Item> items = newsInfos.getItems();
         mNewsAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
     }

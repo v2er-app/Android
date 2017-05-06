@@ -4,10 +4,10 @@ import org.jsoup.nodes.Element;
 
 import javax.annotation.Nullable;
 
-import me.ghui.v2ex.htmlpicker.HtmlPicker;
-import me.ghui.v2ex.htmlpicker.PickerAdapter;
-import me.ghui.v2ex.htmlpicker.PickerAdapterFactory;
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.Fruit;
+import me.ghui.v2ex.htmlpicker.PickAdapter;
+import me.ghui.v2ex.htmlpicker.PickAdapterFactory;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
 
 /**
@@ -20,68 +20,68 @@ public final class PickerAdapters {
         throw new UnsupportedOperationException();
     }
 
-    private static final PickerAdapter<String> STRING = new PickerAdapter<String>() {
+    private static final PickAdapter<String> STRING = new PickAdapter<String>() {
         @Override
-        public String read(Element element, Select select) {
-            return parseElement(element, select, String.class);
+        public String read(Element element, Pick pick) {
+            return parseElement(element, pick, String.class);
         }
     };
 
-    private static final PickerAdapter<Number> INTEGER = new PickerAdapter<Number>() {
+    private static final PickAdapter<Number> INTEGER = new PickAdapter<Number>() {
         @Override
-        public Number read(Element element, @Nullable Select select) {
-            return parseElement(element, select, int.class);
+        public Number read(Element element, @Nullable Pick pick) {
+            return parseElement(element, pick, int.class);
         }
     };
 
-    private static final PickerAdapter<Number> LONG = new PickerAdapter<Number>() {
+    private static final PickAdapter<Number> LONG = new PickAdapter<Number>() {
         @Override
-        public Number read(Element element, @Nullable Select select) {
-            return parseElement(element, select, Long.class);
+        public Number read(Element element, @Nullable Pick pick) {
+            return parseElement(element, pick, Long.class);
         }
     };
 
-    public static final PickerAdapterFactory STRING_FACTORY = newFactory(String.class, STRING);
-    public static final PickerAdapterFactory INTEGER_FACTORY
+    public static final PickAdapterFactory STRING_FACTORY = newFactory(String.class, STRING);
+    public static final PickAdapterFactory INTEGER_FACTORY
             = newFactory(int.class, Integer.class, INTEGER);
-    public static final PickerAdapterFactory LONG_FACTORY
+    public static final PickAdapterFactory LONG_FACTORY
             = newFactory(long.class, Long.class, LONG);
 
-    public static final PickerAdapterFactory COLLECTION_FACTORY = new CollectionPickerAdapterFactory();
+    public static final PickAdapterFactory COLLECTION_FACTORY = new CollectionPickAdapterFactory();
 
-    public static final ReflectivePickerAdapterFactory REFLECTIVE_ADAPTER = new ReflectivePickerAdapterFactory();
+    public static final ReflectivePickAdapterFactory REFLECTIVE_ADAPTER = new ReflectivePickAdapterFactory();
 
 //**************************************************************************************************
 
-    public static <T> PickerAdapterFactory newFactory(final Class<T> type, final PickerAdapter<T> adapter) {
-        return new PickerAdapterFactory() {
+    public static <T> PickAdapterFactory newFactory(final Class<T> type, final PickAdapter<T> adapter) {
+        return new PickAdapterFactory() {
             @SuppressWarnings("unchecked")
             @Override
-            public <TT> PickerAdapter<TT> create(HtmlPicker picker, TypeToken<TT> typeToken) {
-                return typeToken.getRawType() == type ? (PickerAdapter<TT>) adapter : null;
+            public <TT> PickAdapter<TT> create(Fruit picker, TypeToken<TT> typeToken) {
+                return typeToken.getRawType() == type ? (PickAdapter<TT>) adapter : null;
             }
         };
     }
 
-    public static <TT> PickerAdapterFactory newFactory(
-            final Class<TT> unboxed, final Class<TT> boxed, final PickerAdapter<? super TT> adapter) {
-        return new PickerAdapterFactory() {
+    public static <TT> PickAdapterFactory newFactory(
+            final Class<TT> unboxed, final Class<TT> boxed, final PickAdapter<? super TT> adapter) {
+        return new PickAdapterFactory() {
             @SuppressWarnings("unchecked")
             @Override
-            public <T> PickerAdapter<T> create(HtmlPicker picker, TypeToken<T> typeToken) {
+            public <T> PickAdapter<T> create(Fruit picker, TypeToken<T> typeToken) {
                 return (unboxed == typeToken.getRawType() || boxed == typeToken.getRawType())
-                        ? (PickerAdapter<T>) adapter : null;
+                        ? (PickAdapter<T>) adapter : null;
             }
         };
     }
 
     @SuppressWarnings("unchecked")
-    private static <T> T parseElement(Element element, Select select, Class<T> type) {
+    private static <T> T parseElement(Element element, Pick pick, Class<T> type) {
         String value = null;
-        if (select != null) {
-            element = element.select(select.value()).first();
+        if (pick != null) {
+            element = element.select(pick.value()).first();
             if (element == null) return (T) value;
-            String attr = select.attr();
+            String attr = pick.attr();
             if ("text".equals(attr)) {
                 value = element.text();
             } else if ("ownText".equals(attr)) {

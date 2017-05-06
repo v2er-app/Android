@@ -2,7 +2,7 @@ package me.ghui.v2ex.network.bean;
 
 import java.util.List;
 
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -10,13 +10,13 @@ import me.ghui.v2ex.htmlpicker.annotations.Select;
 
 public class TopicInfo {
 
-    @Select("a.page_normal:last-child")
+    @Pick("a.page_normal:last-child")
     private int page;
-    @Select("h1")
+    @Pick("h1")
     private String title;
-    @Select("div.topic_content")
+    @Pick("div.topic_content")
     private String contentHtml;
-    @Select("div.cell[id^=r_]")
+    @Pick("div.cell[id^=r_]")
     private List<Reply> replies;
 
     public String getTitle() {
@@ -58,15 +58,15 @@ public class TopicInfo {
     }
 
     public static class Reply {
-        @Select("div.reply_content")
+        @Pick("div.reply_content")
         private String replyContent;
-        @Select("strong a.dark[href^=/member]")
+        @Pick("strong a.dark[href^=/member]")
         private String userName;
-        @Select(value = "img.avatar", attr = "src")
+        @Pick(value = "img.avatar", attr = "src")
         private String avatar;
-        @Select("span.fade.small:contains(前)")
+        @Pick("span.fade.small:contains(前)")
         private String time;
-        @Select("span.fade.small:contains(♥)")
+        @Pick("span.fade.small:contains(♥)")
         private String love;
 
         @Override

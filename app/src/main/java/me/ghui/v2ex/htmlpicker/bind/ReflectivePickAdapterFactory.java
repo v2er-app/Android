@@ -11,11 +11,11 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import me.ghui.v2ex.htmlpicker.HtmlPicker;
-import me.ghui.v2ex.htmlpicker.PickerAdapter;
-import me.ghui.v2ex.htmlpicker.PickerAdapterFactory;
-import me.ghui.v2ex.htmlpicker.SelectFactory;
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.Fruit;
+import me.ghui.v2ex.htmlpicker.PickAdapter;
+import me.ghui.v2ex.htmlpicker.PickAdapterFactory;
+import me.ghui.v2ex.htmlpicker.PickFactory;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 import me.ghui.v2ex.htmlpicker.internal.Types;
 import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
 
@@ -23,10 +23,10 @@ import me.ghui.v2ex.htmlpicker.reflect.TypeToken;
  * Created by ghui on 13/04/2017.
  */
 
-public final class ReflectivePickerAdapterFactory implements PickerAdapterFactory {
+public final class ReflectivePickAdapterFactory implements PickAdapterFactory {
 
     @Override
-    public <T> PickerAdapter<T> create(HtmlPicker picker, TypeToken<T> type) {
+    public <T> PickAdapter<T> create(Fruit picker, TypeToken<T> type) {
         Class<? super T> raw = type.getRawType();
         if (!Object.class.isAssignableFrom(raw)) {
             return null; // it's a primitive!
@@ -34,11 +34,11 @@ public final class ReflectivePickerAdapterFactory implements PickerAdapterFactor
         return new Adapter<>(type, getBoundFields(picker, type, raw));
     }
 
-    private List<BoundField> getBoundFields(HtmlPicker htmlPicker, TypeToken<?> type, Class<?> raw) {
+    private List<BoundField> getBoundFields(Fruit fruit, TypeToken<?> type, Class<?> raw) {
         List<BoundField> boundFields = new ArrayList<>();
         if (raw.isInterface()) return boundFields;
         //only support current class annotation(exclude the super class annotion)
-        Select classSelect = raw.getAnnotation(Select.class);
+        Pick classPick = raw.getAnnotation(Pick.class);
         while (raw != Object.class) {
             for (Field field : raw.getDeclaredFields()) {
                 String name = field.getName();
@@ -47,7 +47,7 @@ public final class ReflectivePickerAdapterFactory implements PickerAdapterFactor
                 }
                 field.setAccessible(true);
                 Type fieldType = Types.resolve(type.getType(), raw, field.getGenericType());
-                BoundField boundField = createBoundField(htmlPicker, field, classSelect, TypeToken.get(fieldType));
+                BoundField boundField = createBoundField(fruit, field, classPick, TypeToken.get(fieldType));
                 boundFields.add(boundField);
             }
             type = TypeToken.get(Types.resolve(type.getType(), raw, raw.getGenericSuperclass()));
@@ -56,20 +56,20 @@ public final class ReflectivePickerAdapterFactory implements PickerAdapterFactor
         return boundFields;
     }
 
-    private BoundField createBoundField(HtmlPicker htmlPicker, Field field, final Select parentSelect, final TypeToken<?> fieldType) {
-        final PickerAdapter<?> pickerAdapter = htmlPicker.getAdapter(fieldType);
+    private BoundField createBoundField(Fruit fruit, Field field, final Pick parentPick, final TypeToken<?> fieldType) {
+        final PickAdapter<?> pickAdapter = fruit.getAdapter(fieldType);
         return new BoundField(field) {
             @Override
             public void read(Element element, Object instance) throws IllegalAccessException {
-                Select select = field.getAnnotation(Select.class);
-                if (parentSelect != null) {
-                    if (select == null) {
-                        throw new IllegalArgumentException("ignore Field: " + field.getName() + " without a Select anotation");
+                Pick pick = field.getAnnotation(Pick.class);
+                if (parentPick != null) {
+                    if (pick == null) {
+                        throw new IllegalArgumentException("ignore Field: " + field.getName() + " without a Pick anotation");
                     }
-                    String query = parentSelect.value() + " " + select.value();//ancestor child
-                    select = SelectFactory.create(query, select.attr());
+                    String query = parentPick.value() + " " + pick.value();//ancestor child
+                    pick = PickFactory.create(query, pick.attr());
                 }
-                Object fieldValue = pickerAdapter.read(element, select);
+                Object fieldValue = pickAdapter.read(element, pick);
                 if (fieldValue != null) {
                     field.set(instance, fieldValue);
                 }
@@ -87,7 +87,7 @@ public final class ReflectivePickerAdapterFactory implements PickerAdapterFactor
         public abstract void read(Element element, Object instance) throws IllegalAccessException;
     }
 
-    private static final class Adapter<T> extends PickerAdapter<T> {
+    private static final class Adapter<T> extends PickAdapter<T> {
 
         private TypeToken<T> type;
         private List<BoundField> boundFields;
@@ -98,7 +98,7 @@ public final class ReflectivePickerAdapterFactory implements PickerAdapterFactor
         }
 
         @Override
-        public T read(Element element, @Nullable Select select) {
+        public T read(Element element, @Nullable Pick pick) {
             T instance = null;
             try {
                 final Constructor<? super T> constructor

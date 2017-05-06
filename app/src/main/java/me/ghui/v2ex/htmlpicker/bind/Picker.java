@@ -1,6 +1,6 @@
 package me.ghui.v2ex.htmlpicker.bind;
 
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 
 /**
  * Created by ghui on 13/04/2017.
@@ -10,8 +10,8 @@ public class Picker {
 	private String path;
 	private String attr;
 
-	public static Picker create(Select select) {
-		return create(select.value(), select.attr());
+	public static Picker create(Pick pick) {
+		return create(pick.value(), pick.attr());
 	}
 
 	public static Picker create(String path, String attr) {

@@ -4,7 +4,7 @@ package me.ghui.v2ex.network.converter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import me.ghui.v2ex.htmlpicker.HtmlPicker;
+import me.ghui.v2ex.htmlpicker.Fruit;
 import okhttp3.ResponseBody;
 import retrofit2.Converter;
 
@@ -14,11 +14,11 @@ import retrofit2.Converter;
 
 public class HtmlResponseBodyConverter<T> implements Converter<ResponseBody, T> {
 
-	private HtmlPicker mPicker;
+	private Fruit mPicker;
 	private Type mType;
 
-	public HtmlResponseBodyConverter(HtmlPicker htmlPicker, Type type) {
-		mPicker = htmlPicker;
+	public HtmlResponseBodyConverter(Fruit fruit, Type type) {
+		mPicker = fruit;
 		mType = type;
 	}
 

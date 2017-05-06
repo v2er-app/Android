@@ -2,19 +2,19 @@ package me.ghui.v2ex.htmlpicker;
 
 import java.lang.annotation.Annotation;
 
-import me.ghui.v2ex.htmlpicker.annotations.Select;
+import me.ghui.v2ex.htmlpicker.annotations.Pick;
 
 /**
  * Created by ghui on 16/04/2017.
  */
 
-public class SelectFactory {
+public class PickFactory {
 
-	public static Select create(final String query, final String attr) {
-		return new Select() {
+	public static Pick create(final String query, final String attr) {
+		return new Pick() {
 			@Override
 			public Class<? extends Annotation> annotationType() {
-				return Select.class;
+				return Pick.class;
 			}
 
 			@Override
