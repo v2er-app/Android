@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "me.ghui.v2ex"
-        minSdkVersion 23
+        minSdkVersion 21
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -36,6 +36,7 @@ dependencies {
     compile "com.android.support:design:25.3.1"
     compile "com.android.support:recyclerview-v7:25.3.1"
     compile "com.android.support:cardview-v7:25.3.1"
+    compile 'com.android.support.constraint:constraint-layout:latest.release'
 
     // 3rd part Dependencies...
     compile "io.reactivex.rxjava2:rxandroid:latest.release"

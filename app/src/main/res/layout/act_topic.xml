@@ -1,11 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avtar_img"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:src="@drawable/me"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        style="@style/TitleText"
+        android:layout_marginStart="12dp"
+        android:text="ghui"
+        app:layout_constraintStart_toEndOf="@id/avtar_img"
+        app:layout_constraintTop_toTopOf="@id/avtar_img" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/hintText"
+        android:layout_marginStart="11dp"
+        android:text="1小时17分钟前"
+        app:layout_constraintBaseline_toBaselineOf="@id/user_name_tv"
+        app:layout_constraintLeft_toRightOf="@id/user_name_tv" />
+
+    <me.ghui.v2ex.widget.TagView
+        android:id="@+id/tagview"
+        style="@style/smallText"
+        android:text="问与答"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView3"
+        style="@style/hintText"
+        android:gravity="top"
+        android:paddingTop="0dp"
+        android:text="点击 164"
+        app:layout_constraintBottom_toBottomOf="@id/avtar_img"
+        app:layout_constraintLeft_toLeftOf="@id/user_name_tv"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/comment_num_tv"
+        style="@style/hintText"
+        android:layout_marginStart="8dp"
+        android:text="评论32"
+        app:layout_constraintBaseline_toBaselineOf="@id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        tools:layout_editor_absoluteY="33dp" />
+
+    <TextView
+        android:id="@+id/title_tv"
+        style="@style/TitleText"
+        android:layout_marginTop="10dp"
+        android:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？"
+        app:layout_constraintStart_toStartOf="@id/avtar_img"
+        app:layout_constraintTop_toBottomOf="@+id/avtar_img" />
+
     <me.ghui.v2ex.widget.LoadMoreRecyclerView
         android:id="@+id/recyclerview_act_topic"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/title_tv" />
+
+</android.support.constraint.ConstraintLayout>

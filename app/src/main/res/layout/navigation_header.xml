@@ -10,7 +10,7 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/leftdrawer_avatar_img"
+        android:id="@+id/avatar_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:src="@mipmap/ic_launcher"
@@ -19,7 +19,7 @@
         app:civ_border_width="2dp"/>
 
     <TextView
-        android:id="@+id/leftdrawer_username_tv"
+        android:id="@+id/user_name_tv"
         style="@style/BodyText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

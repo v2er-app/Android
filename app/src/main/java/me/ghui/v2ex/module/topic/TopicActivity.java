@@ -29,7 +29,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @BindView(R.id.recyclerview_act_topic)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @Inject
-    TopicAdapter mAdapter;
+    TopicReplyListAdapter mAdapter;
     private String mTopicId;
 
     @Override

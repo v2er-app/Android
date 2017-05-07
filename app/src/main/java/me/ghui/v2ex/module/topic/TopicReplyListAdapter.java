@@ -12,9 +12,9 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
  * Created by ghui on 05/05/2017.
  */
 
-public class TopicAdapter extends LoadMoreRecyclerView.Adapter<TopicInfo.Reply> {
+public class TopicReplyListAdapter extends LoadMoreRecyclerView.Adapter<TopicInfo.Reply> {
 
-    public TopicAdapter(Context context) {
+    public TopicReplyListAdapter(Context context) {
         super(context);
 
         addItemViewDelegate(new ItemViewDelegate<TopicInfo.Reply>() {

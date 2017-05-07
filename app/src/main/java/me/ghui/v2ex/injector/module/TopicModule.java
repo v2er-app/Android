@@ -4,7 +4,7 @@ import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2ex.injector.scope.PerActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
-import me.ghui.v2ex.module.topic.TopicAdapter;
+import me.ghui.v2ex.module.topic.TopicReplyListAdapter;
 import me.ghui.v2ex.module.topic.TopicContract;
 import me.ghui.v2ex.module.topic.TopicPresenter;
 
@@ -22,8 +22,8 @@ public class TopicModule {
     }
 
     @Provides
-    public TopicAdapter provideAdapter() {
-        return new TopicAdapter(mView);
+    public TopicReplyListAdapter provideAdapter() {
+        return new TopicReplyListAdapter(mView);
     }
 
     @Provides

@@ -79,8 +79,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void init() {
         mNavHeaderView = mNavigationView.getHeaderView(0);
-        mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.leftdrawer_avatar_img);
-        mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.leftdrawer_username_tv);
+        mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.avatar_img);
+        mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.user_name_tv);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         updateHeaderView();
@@ -122,8 +122,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.leftdrawer_avatar_img:
-            case R.id.leftdrawer_username_tv:
+            case R.id.avatar_img:
+            case R.id.user_name_tv:
                 if (UserManager.isLogin()) {
                     Navigator.from(this).to(UserInfoActivity.class).start();
                 } else {
