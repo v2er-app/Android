@@ -2,6 +2,11 @@ package me.ghui.v2ex.module.topic;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import javax.inject.Inject;
 
@@ -14,7 +19,9 @@ import me.ghui.v2ex.injector.component.DaggerTopicComponent;
 import me.ghui.v2ex.injector.module.TopicModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.network.bean.TopicInfo;
+import me.ghui.v2ex.widget.AppendTopicContentView;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
+import me.ghui.v2ex.widget.TagView;
 
 import static me.ghui.v2ex.util.Utils.KEY;
 
@@ -26,8 +33,27 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         LoadMoreRecyclerView.OnLoadMoreListener {
     public static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
+    @BindView(R.id.avatar_img)
+    ImageView mAvatarImg;
+    @BindView(R.id.user_name_tv)
+    TextView mUserNameTv;
+    @BindView(R.id.time_tv)
+    TextView mTimeTv;
+    @BindView(R.id.tagview)
+    TagView mTagView;
+    @BindView(R.id.view_count_tv)
+    TextView mViewCountTv;
+    @BindView(R.id.comment_num_tv)
+    TextView mCommentNumTv;
+    @BindView(R.id.title_tv)
+    TextView mTitleTv;
+    @BindView(R.id.content_tv)
+    TextView mContentTv;
+    @BindView(R.id.append_topic_contentview)
+    AppendTopicContentView mAppendTopicContentView;
     @BindView(R.id.recyclerview_act_topic)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
+
     @Inject
     TopicReplyListAdapter mAdapter;
     private String mTopicId;
@@ -65,6 +91,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             public void onRefreshBegin(PtrFrameLayout frame) {
                 mPresenter.loadData(mTopicId);
             }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return super.checkCanDoRefresh(frame, mLoadMoreRecyclerView, header);
+            }
         };
     }
 
@@ -79,6 +110,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             mAdapter.setData(null);
             return;
         }
+        Glide.with(this)
+                .load("https:" + topicInfo.getAvatar())
+                .into(mAvatarImg);
+        mUserNameTv.setText(topicInfo.getUserName());
+        mTimeTv.setText(topicInfo.getTime());
+        mTagView.setText(topicInfo.getTag());
+        mViewCountTv.setText(topicInfo.getViewCount());
+        mCommentNumTv.setText(topicInfo.getCommentNum());
+        mTitleTv.setText(topicInfo.getTitle());
+        mContentTv.setText(topicInfo.getContentHtml());
+        mAppendTopicContentView.setData(topicInfo.getPostScripts());
+
         mAdapter.setData(topicInfo.getReplies(), isLoadMore);
         boolean hasMore = mAdapter.getItemCountWithoutFooter() < topicInfo.getPage();
         mLoadMoreRecyclerView.setHasMore(hasMore);

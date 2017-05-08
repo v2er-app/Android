@@ -11,14 +11,58 @@ import me.ghui.fruit.annotations.Pick;
 
 public class TopicInfo {
 
+    @Pick(value = "div.header img.avatar", attr = "src")
+    private String avatar;
+    @Pick("small.gray a")
+    private String userName;
+    @Pick(value = "small.gray", attr = "ownText")
+    private String time;
+    @Pick("div.header a[href^=/go]")
+    private String tag;
+    @Pick("div.cell span.gray")
+    private String comment;
     @Pick("a.page_normal:last-child")
     private int page;
     @Pick("h1")
     private String title;
-    @Pick("div.topic_content")
+    @Pick("div.cell div.topic_content")
     private String contentHtml;
+    @Pick("div.subtle")
+    private List<PostScript> postScripts;
     @Pick("div.cell[id^=r_]")
     private List<Reply> replies;
+
+    public String getCommentNum() {
+        return "评论" + comment.split(" ")[0];
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public String getTime() {
+        return time.split(",")[0].trim().substring(2);
+    }
+
+    public String getViewCount() {
+        return time.split(",")[1].trim();
+    }
+
+    public List<PostScript> getPostScripts() {
+        return postScripts;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
 
     public String getTitle() {
         return title;
@@ -51,11 +95,37 @@ public class TopicInfo {
     @Override
     public String toString() {
         return "TopicInfo{" +
-                "page=" + getPage() +
+                "avatar='" + avatar + '\'' +
+                ", userName='" + userName + '\'' +
+                ", page=" + page +
                 ", title='" + title + '\'' +
                 ", contentHtml='" + contentHtml + '\'' +
+                ", postScripts=" + postScripts +
                 ", replies=" + replies +
                 '}';
+    }
+
+    public static class PostScript {
+        @Pick("span.fade")
+        private String header;
+        @Pick("div.topic_content")
+        private String content;
+
+        public String getHeader() {
+            return header;
+        }
+
+        public String getContent() {
+            return content;
+        }
+
+        @Override
+        public String toString() {
+            return "PostScript{" +
+                    "header='" + header + '\'' +
+                    ", content='" + content + '\'' +
+                    '}';
+        }
     }
 
     public static class Reply {

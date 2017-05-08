@@ -1,6 +1,9 @@
 package me.ghui.v2ex.module.topic;
 
 import android.content.Context;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.ItemViewDelegate;
@@ -30,8 +33,12 @@ public class TopicReplyListAdapter extends LoadMoreRecyclerView.Adapter<TopicInf
 
             @Override
             public void convert(ViewHolder holder, TopicInfo.Reply reply, int position) {
-                super.convert(holder, reply, position);
-                // TODO: 05/05/2017
+                Glide.with(mContext)
+                        .load("https:" + reply.getAvatar())
+                        .into((ImageView) holder.getView(R.id.avatar_img));
+                holder.setText(R.id.user_name_tv, reply.getUserName());
+                holder.setText(R.id.time_tv, reply.getTime());
+                holder.setText(R.id.content_tv, reply.getReplyContent());
             }
         });
     }

@@ -1,6 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/avatar_img"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@android:drawable/btn_star" />
+
+    <TextView
+        android:id="@+id/user_name_tv"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintLeft_toRightOf="@id/avatar_img"
+        app:layout_constraintTop_toTopOf="@id/avatar_img"
+        tools:text="ghui" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/hintText"
+        app:layout_constraintLeft_toRightOf="@id/user_name_tv"
+        app:layout_constraintTop_toTopOf="@id/avatar_img"
+        tools:text="1小时17分钟前" />
+
+    <TextView
+        android:id="@+id/floor_tv"
+        style="@style/hintText"
+        app:layout_constraintBottom_toBottomOf="@id/avatar_img"
+        app:layout_constraintLeft_toLeftOf="@id/user_name_tv"
+        tools:text="1楼 · via Android" />
+
+    <TextView
+        android:id="@+id/content_tv"
+        style="@style/BodyText"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/avatar_img"
+        app:layout_constraintTop_toBottomOf="@+id/avatar_img"
+        tools:text="TextView" />
+</android.support.constraint.ConstraintLayout>

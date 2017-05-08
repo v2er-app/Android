@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@color/mainDarkColor"
-              android:gravity="center"
-              android:orientation="vertical"
-              android:paddingBottom="@dimen/normal_dimen"
-              android:paddingTop="@dimen/normal_dimen">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorAccent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/normal_dimen"
+    android:paddingTop="@dimen/normal_dimen">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <ImageView
         android:id="@+id/avatar_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:src="@mipmap/ic_launcher"
-        android:padding="@dimen/small_dimen"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"/>
+        android:background="@color/colorPrimary"
+        android:padding="@dimen/small_dimen" />
 
     <TextView
         android:id="@+id/user_name_tv"
@@ -24,5 +21,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="请先登录"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white" />
 </LinearLayout>

@@ -50,7 +50,6 @@ dependencies {
     compile "com.google.dagger:dagger:latest.release"
     annotationProcessor "com.google.dagger:dagger-compiler:latest.release"
     compile "com.github.bumptech.glide:glide:latest.release"
-    compile "de.hdodenhof:circleimageview:latest.release"
     compile "com.flyco.tablayout:FlycoTabLayout_Lib:latest.release"
     compile "com.orhanobut:logger:latest.release"
     compile "com.trello.rxlifecycle2:rxlifecycle:latest.release"

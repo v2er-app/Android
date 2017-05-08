@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -9,53 +9,53 @@
     android:paddingRight="10dp"
     android:paddingTop="15dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/avtar_img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <ImageView
+        android:id="@+id/avatar_img"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_marginEnd="10dp"
-        android:src="@drawable/me"/>
+        android:background="@color/colorPrimary" />
 
     <TextView
-        android:id="@+id/user_name"
+        android:id="@+id/user_name_tv"
         style="@style/smallText"
-        android:layout_toRightOf="@id/avtar_img"
+        android:layout_toRightOf="@id/avatar_img"
         android:gravity="top"
         android:paddingLeft="0dp"
         android:paddingRight="5dp"
         android:paddingTop="0dp"
-        android:text="ghui"
-        android:textColor="#B3555555"/>
+        android:textColor="#B3555555"
+        tools:text="ghui" />
 
     <TextView
         android:id="@+id/time_tv"
         style="@style/smallText"
-        android:layout_toRightOf="@id/user_name"
+        android:layout_toRightOf="@id/user_name_tv"
         android:gravity="top"
         android:paddingTop="0dp"
-        android:text="1小时17分钟前"
-        android:textColor="#9B9B9B"/>
+        tools:text="1小时17分钟前"
+        android:textColor="#9B9B9B" />
 
     <me.ghui.v2ex.widget.TagView
         android:id="@+id/tagview"
         style="@style/smallText"
         android:layout_alignParentEnd="true"
-        android:text="问与答"/>
+        tools:text="问与答" />
 
     <TextView
         android:id="@+id/title_tv"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:layout_alignLeft="@id/user_name"
+        android:layout_alignLeft="@id/user_name_tv"
         android:layout_below="@id/tagview"
         android:singleLine="false"
-        android:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里"/>
+        tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 
     <TextView
         android:id="@+id/comment_num_tv"
         style="@style/smallText"
         android:layout_alignParentRight="true"
         android:layout_below="@id/title_tv"
-        android:text="评论38"
-        android:textColor="#9B9B9B"/>
+        tools:text="评论38"
+        android:textColor="#9B9B9B" />
 </RelativeLayout>

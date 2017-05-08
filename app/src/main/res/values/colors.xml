@@ -4,10 +4,10 @@
     <color name="colorPrimaryDark">#fafafa</color>
     <color name="colorAccent">#555555</color>
     <color name="bodyTextColor">#555555</color>
-    <color name="mainDarkColor">#555555</color>
 
     <color name="white">@android:color/white</color>
 
     <color name="ripple_color">#d4d4d4</color>
     <color name="button_background_color">#3A3636</color>
+    <color name="divider_color">#9ae2e2e2</color>
 </resources>

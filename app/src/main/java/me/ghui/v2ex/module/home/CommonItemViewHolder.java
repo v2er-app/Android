@@ -16,9 +16,9 @@ import me.ghui.v2ex.widget.TagView;
 
 public class CommonItemViewHolder extends RecyclerView.ViewHolder {
 
-	@BindView(R.id.avtar_img)
+	@BindView(R.id.avatar_img)
 	public ImageView avtarImg;
-	@BindView(R.id.user_name)
+	@BindView(R.id.user_name_tv)
 	public TextView userNameTv;
 	@BindView(R.id.time_tv)
 	public TextView TimeTv;

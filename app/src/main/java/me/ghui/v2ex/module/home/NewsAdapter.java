@@ -35,8 +35,8 @@ public class NewsAdapter extends LoadMoreRecyclerView.Adapter<NewsInfo.Item> {
             public void convert(ViewHolder holder, NewsInfo.Item item, int position) {
                 Glide.with(mContext)
                         .load("https:" + item.getAvatar())
-                        .into((ImageView) holder.getView(R.id.avtar_img));
-                holder.setText(R.id.user_name, item.getUser());
+                        .into((ImageView) holder.getView(R.id.avatar_img));
+                holder.setText(R.id.user_name_tv, item.getUser());
                 holder.setText(R.id.tagview, item.getTagName());
                 holder.setText(R.id.title_tv, item.getTitle());
                 holder.setText(R.id.comment_num_tv, "评论" + item.getReplies());
