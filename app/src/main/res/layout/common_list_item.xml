@@ -4,37 +4,29 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingBottom="15dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="15dp">
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/avatar_img"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
         android:background="@color/colorPrimary" />
 
     <TextView
         android:id="@+id/user_name_tv"
-        style="@style/smallText"
+        style="@style/SubTitleText"
+        android:layout_alignTop="@id/avatar_img"
         android:layout_toRightOf="@id/avatar_img"
-        android:gravity="top"
-        android:paddingLeft="0dp"
-        android:paddingRight="5dp"
-        android:paddingTop="0dp"
-        android:textColor="#B3555555"
         tools:text="ghui" />
 
     <TextView
         android:id="@+id/time_tv"
-        style="@style/smallText"
-        android:layout_toRightOf="@id/user_name_tv"
-        android:gravity="top"
-        android:paddingTop="0dp"
-        tools:text="1小时17分钟前"
-        android:textColor="#9B9B9B" />
+        style="@style/hintText"
+        android:layout_alignBottom="@id/avatar_img"
+        android:layout_alignLeft="@id/user_name_tv"
+        tools:text="1小时17分钟前" />
 
     <me.ghui.v2ex.widget.TagView
         android:id="@+id/tagview"
@@ -46,16 +38,14 @@
         android:id="@+id/title_tv"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:layout_alignLeft="@id/user_name_tv"
-        android:layout_below="@id/tagview"
-        android:singleLine="false"
+        android:layout_below="@id/avatar_img"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 
     <TextView
         android:id="@+id/comment_num_tv"
-        style="@style/smallText"
+        style="@style/hintText"
         android:layout_alignParentRight="true"
         android:layout_below="@id/title_tv"
-        tools:text="评论38"
-        android:textColor="#9B9B9B" />
+        android:layout_marginTop="8dp"
+        tools:text="评论38" />
 </RelativeLayout>

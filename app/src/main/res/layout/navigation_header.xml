@@ -5,15 +5,15 @@
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/normal_dimen"
-    android:paddingTop="@dimen/normal_dimen">
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
 
     <ImageView
         android:id="@+id/avatar_img"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:background="@color/colorPrimary"
-        android:padding="@dimen/small_dimen" />
+        android:padding="16dp" />
 
     <TextView
         android:id="@+id/user_name_tv"

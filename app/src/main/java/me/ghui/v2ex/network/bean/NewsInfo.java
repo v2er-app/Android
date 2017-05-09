@@ -4,6 +4,7 @@ package me.ghui.v2ex.network.bean;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.util.Utils;
 
 
 /**
@@ -41,7 +42,7 @@ public class NewsInfo {
         private String avatarLink;
         @Pick(value = "span.small.fade > strong > a")
         private String user;
-        @Pick(value = "span.small.fade", attr = "ownText")
+        @Pick(value = "span.small.fade:last-child", attr = "ownText")
         private String time;
         @Pick(value = "span.small.fade > a")
         private String tagName;
@@ -104,14 +105,8 @@ public class NewsInfo {
         }
 
         public String getTime() {
-            //  •  1 小时 48 分钟前  •  最后回复来自
-            if (time != null && time.length() > 0) {
-                String[] strs = time.split("•");
-                if (strs.length >= 3) {
-                    time = strs[2].replaceAll("\\u00A0", "").trim();
-                } else {
-                    time = null;
-                }
+            if (!Utils.isEmpty(time)) {
+                return time.split("•")[0];
             }
             return time;
         }
