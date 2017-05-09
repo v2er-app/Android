@@ -19,7 +19,7 @@ public class NewsAdapter extends LoadMoreRecyclerView.Adapter<NewsInfo.Item> {
 
     public NewsAdapter(Context context) {
         super(context);
-        addItemViewDelegate(new ItemViewDelegate<NewsInfo.Item>() {
+        addItemViewDelegate(new ItemViewDelegate<NewsInfo.Item>(context) {
 
             @Override
             public int getItemViewLayoutId() {

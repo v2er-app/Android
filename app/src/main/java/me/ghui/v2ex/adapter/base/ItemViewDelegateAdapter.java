@@ -1,5 +1,6 @@
 package me.ghui.v2ex.adapter.base;
 
+import android.content.Context;
 import android.view.View;
 
 /**
@@ -7,6 +8,10 @@ import android.view.View;
  */
 
 public abstract class ItemViewDelegateAdapter<T> extends ItemViewDelegate<T> {
+
+    public ItemViewDelegateAdapter(Context context) {
+        super(context);
+    }
 
     public abstract View getItemView();
 

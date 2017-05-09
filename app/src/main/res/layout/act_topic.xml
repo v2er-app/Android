@@ -1,103 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<me.ghui.v2ex.widget.LoadMoreRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/recyclerview_act_topic"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:clipToPadding="false"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingTop="16dp" />
 
-    <ImageView
-        android:id="@+id/avatar_img"
-        android:layout_width="@dimen/common_avatar_size"
-        android:layout_height="@dimen/common_avatar_size"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/user_name_tv"
-        style="@style/TitleText"
-        android:layout_marginStart="12dp"
-        app:layout_constraintStart_toEndOf="@id/avatar_img"
-        app:layout_constraintTop_toTopOf="@id/avatar_img"
-        tools:text="ghui" />
-
-
-    <me.ghui.v2ex.widget.TagView
-        android:id="@+id/tagview"
-        style="@style/smallText"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/avatar_img"
-        tools:text="问与答" />
-
-    <TextView
-        android:id="@+id/time_tv"
-        style="@style/hintText"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatar_img"
-        app:layout_constraintLeft_toRightOf="@id/avatar_img"
-        tools:text="1小时17分钟前" />
-
-    <TextView
-        android:id="@+id/view_count_tv"
-        style="@style/hintText"
-        android:gravity="top"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatar_img"
-        app:layout_constraintLeft_toRightOf="@id/time_tv"
-        app:layout_constraintVertical_bias="0.0"
-        tools:text="点击164" />
-
-    <TextView
-        android:id="@+id/comment_num_tv"
-        style="@style/hintText"
-        app:layout_constraintBaseline_toBaselineOf="@id/view_count_tv"
-        app:layout_constraintStart_toEndOf="@+id/view_count_tv"
-        tools:text="评论32" />
-
-    <TextView
-        android:id="@+id/title_tv"
-        style="@style/TitleText"
-        android:layout_width="match_parent"
-        android:background="@drawable/common_bottom_divider"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        app:layout_constraintEnd_toEndOf="@+id/tagview"
-        app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@id/avatar_img"
-        tools:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？" />
-
-    <TextView
-        android:id="@+id/content_tv"
-        style="@style/BodyText"
-        android:layout_width="match_parent"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        app:layout_constraintEnd_toEndOf="@id/tagview"
-        app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@id/title_tv"
-        tools:text="媳妇的 iphone 掉了, 想买个安卓机, 2000 以下, 丢了不容易心疼." />
-
-    <me.ghui.v2ex.widget.AppendTopicContentView
-        android:id="@+id/append_topic_contentview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@id/content_tv" />
-
-    <me.ghui.v2ex.widget.LoadMoreRecyclerView
-        android:id="@+id/recyclerview_act_topic"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/append_topic_contentview" />
-
-</android.support.constraint.ConstraintLayout>

@@ -145,5 +145,6 @@ public class NewsInfo {
                     ", replies=" + replies +
                     '}';
         }
+
     }
 }

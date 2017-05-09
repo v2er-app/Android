@@ -1,11 +1,10 @@
 package me.ghui.v2ex.module.home;
 
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
@@ -25,6 +24,7 @@ import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -62,17 +62,19 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected void init() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        mRecyclerView.setLayoutManager(layoutManager);
-        DividerItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.recyclerview_divider));
-        mRecyclerView.addItemDecoration(itemDecoration);
+        mNewsAdapter.setOnItemClickListener(this);
+        mRecyclerView.addDivider();
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mNewsAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
+            if (!UserUtils.isLogin()) {
+                Toast.makeText(getContext(), "登录后才能加载更多", Toast.LENGTH_SHORT).show();
+                mRecyclerView.setHasMore(false);
+                return;
+            }
             mPresenter.loadMore(willLoadPage);
         });
-        mNewsAdapter.setOnItemClickListener(this);
     }
 
     @Override

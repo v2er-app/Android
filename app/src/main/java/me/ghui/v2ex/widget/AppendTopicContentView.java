@@ -10,6 +10,7 @@ import java.util.List;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.network.bean.TopicInfo;
+import me.ghui.v2ex.util.ScaleUtils;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -37,13 +38,13 @@ public class AppendTopicContentView extends LinearLayout {
         setBackgroundColor(0xfffafafa);
     }
 
-    public void setData(List<TopicInfo.PostScript> data) {
+    public void setData(List<TopicInfo.HeaderInfo.PostScript> data) {
         if (Utils.isEmpty(data)) {
             setVisibility(GONE);
         } else {
             setVisibility(VISIBLE);
             this.removeAllViews();
-            for (TopicInfo.PostScript postScript : data) {
+            for (TopicInfo.HeaderInfo.PostScript postScript : data) {
                 addView(ItemView.create(postScript, getContext()));
             }
         }
@@ -72,6 +73,8 @@ public class AppendTopicContentView extends LinearLayout {
 
         private void init(Context context) {
             setOrientation(VERTICAL);
+            int padding = ScaleUtils.dp(8, context);
+            setPadding(padding, padding, padding, padding);
             headerTV = new TextView(context);
             headerTV.setTextAppearance(context, R.style.hintText);
             addView(headerTV);
@@ -80,7 +83,7 @@ public class AppendTopicContentView extends LinearLayout {
             addView(contentTV);
         }
 
-        public static ItemView create(TopicInfo.PostScript post, Context context) {
+        public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
             itemView.headerTV.setText(post.getHeader());
             itemView.contentTV.setText(post.getContent());

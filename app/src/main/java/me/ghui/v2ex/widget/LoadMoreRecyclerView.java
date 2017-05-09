@@ -11,8 +11,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
@@ -27,7 +25,8 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     private OnLoadMoreListener mOnLoadMoreListener;
     private LoadMoreScrollListener mScrollListener;
     private boolean mLoading = false;
-    private boolean mHasMore = true;
+    private ILoadMoreFooter.IdleStatus mStatus = ILoadMoreFooter.IdleStatus.INIT;
+    private int mTotalPage = 0;
     private int mWillLoadPage = 1;
     private ILoadMoreFooter mLoadMoreFooter;
 
@@ -60,21 +59,39 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         mWillLoadPage = willLoadPage;
     }
 
+
     public void setHasMore(boolean hasMore) {
         setHasMore(hasMore, true);
     }
 
-    public boolean hasMore() {
-        return mHasMore;
-    }
 
     public void setHasMore(boolean hasMore, boolean loadSuccess) {
         mLoading = false;
-        mHasMore = hasMore;
+        if (hasMore) {
+            mStatus = ILoadMoreFooter.IdleStatus.HAS_MORE;
+        } else {
+            mStatus = ILoadMoreFooter.IdleStatus.NO_MORE;
+        }
         if (mLoadMoreFooter != null) {
-            mLoadMoreFooter.onIdle(mHasMore);
+            mLoadMoreFooter.onIdle(mStatus);
         }
         mWillLoadPage = loadSuccess ? mWillLoadPage + 1 : 1;
+    }
+
+    public void setHasMore(int totalPage) {
+        setHasMore(mWillLoadPage + 1 <= totalPage);
+    }
+
+    public boolean hasMore() {
+        return mStatus == ILoadMoreFooter.IdleStatus.HAS_MORE;
+    }
+
+    public ILoadMoreFooter.IdleStatus getStatus() {
+        return mStatus;
+    }
+
+    public int getWillLoadPage() {
+        return mWillLoadPage;
     }
 
     public void setAdapter(Adapter loadMoreAdapter) {
@@ -86,7 +103,11 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     }
 
     public interface ILoadMoreFooter {
-        void onIdle(boolean hasMore);
+        public enum IdleStatus {
+            INIT, HAS_MORE, NO_MORE
+        }
+
+        void onIdle(IdleStatus status);
 
         void onLoading();
     }
@@ -109,6 +130,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
 
         private void init() {
+            setVisibility(GONE);//default is gone
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.smallTextSize));
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             setLayoutParams(layoutParams);
@@ -122,20 +144,27 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
             super.onAttachedToWindow();
             if (getParent() instanceof LoadMoreRecyclerView) {
                 LoadMoreRecyclerView parent = (LoadMoreRecyclerView) getParent();
-                onIdle(parent.hasMore());
+                onIdle(parent.getStatus());
             }
         }
 
         @Override
-        public void onIdle(boolean hasMore) {
-            String text;
-            if (hasMore) text = "继续滑动加载更多";
-            else text = "全部加载完成";
-            setText(text);
+        public void onIdle(IdleStatus status) {
+            if (status == IdleStatus.HAS_MORE) {
+                setVisibility(VISIBLE);
+                setText("继续滑动加载更多");
+            } else if (status == IdleStatus.NO_MORE) {
+                setVisibility(VISIBLE);
+                setText("全部加载完成");
+            } else {
+                setVisibility(GONE);
+                setText(null);
+            }
         }
 
         @Override
         public void onLoading() {
+            setVisibility(VISIBLE);
             setText("加载中...");
         }
     }
@@ -143,7 +172,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     private class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (!mLoading && mHasMore && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (!mLoading && hasMore() && newState == RecyclerView.SCROLL_STATE_IDLE) {
                 LayoutManager layoutManager = getLayoutManager();
                 View lastItem = null;
                 if (layoutManager instanceof LinearLayoutManager) {
@@ -169,9 +198,9 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     public static class Adapter<T> extends MultiItemTypeAdapter<T> {
 
         public Adapter(final Context context) {
-            super(context, null);
+            super(context);
 
-            addItemViewDelegate(new ItemViewDelegateAdapter<T>() {
+            addItemViewDelegate(new ItemViewDelegateAdapter<T>(context) {
 
                 @Override
                 public View getItemView() {
@@ -180,26 +209,28 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
 
                 @Override
                 public boolean isForViewType(T item, int position) {
-                    return position == getItemCount() - 1;
+                    return isLoadMoreFooterItem(position);
                 }
 
             });
         }
 
-        public void setData(List<T> data, boolean shouldAppend) {
-            if (shouldAppend) {
-                mDatas.addAll(data);
-            } else {
-                mDatas = data;
-            }
-            notifyDataSetChanged();
+        private boolean isLoadMoreFooterItem(int position) {
+            return position == getItemCount() - 1;
         }
 
-        public void setData(List<T> data) {
-            setData(data, false);
+        @Override
+        public T getItem(int position) {
+            if (isLoadMoreFooterItem(position)) return null;
+            return super.getItem(position);
         }
 
-        public int getItemCountWithoutFooter() {
+        @Override
+        public int getItemCount() {
+            return super.getItemCount() + 1;
+        }
+
+        public int getContentItemCount() {
             return getItemCount() - 1;
         }
 

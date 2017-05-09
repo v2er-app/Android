@@ -23,7 +23,7 @@ import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
 import me.ghui.v2ex.module.user.UserInfoActivity;
 import me.ghui.v2ex.network.bean.UserInfo;
-import me.ghui.v2ex.util.UserManager;
+import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.BaseToolBar;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void updateHeaderView() {
-        UserInfo userInfo = UserManager.getUserInfo();
+        UserInfo userInfo = UserUtils.getUserInfo();
         if (userInfo != null) {
             mUserNameTv.setText(userInfo.getUserName());
             Glide.with(getContext())
@@ -124,7 +124,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.avatar_img:
             case R.id.user_name_tv:
-                if (UserManager.isLogin()) {
+                if (UserUtils.isLogin()) {
                     Navigator.from(this).to(UserInfoActivity.class).start();
                 } else {
                     Navigator.from(this).to(LoginActivity.class).start();

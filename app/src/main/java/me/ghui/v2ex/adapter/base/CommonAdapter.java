@@ -14,13 +14,13 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     protected LayoutInflater mInflater;
 
     public CommonAdapter(final Context context, final int layoutId, List<T> datas) {
-        super(context, datas);
+        super(context);
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mLayoutId = layoutId;
         mDatas = datas;
 
-        addItemViewDelegate(new ItemViewDelegate<T>() {
+        addItemViewDelegate(new ItemViewDelegate<T>(context) {
             @Override
             public int getItemViewLayoutId() {
                 return layoutId;
@@ -39,6 +39,5 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     }
 
     protected abstract void convert(ViewHolder holder, T t, int position);
-
 
 }

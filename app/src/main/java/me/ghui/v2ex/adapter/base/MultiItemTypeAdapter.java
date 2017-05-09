@@ -21,25 +21,41 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected OnItemLongClickListener mOnItemLongClickListener;
 
 
-    public MultiItemTypeAdapter(Context context, List<T> datas) {
+    public MultiItemTypeAdapter(Context context) {
         mContext = context;
-        mDatas = datas;
         mItemViewDelegateManager = new ItemViewDelegateManager();
+    }
+
+    public void setData(List<T> data, boolean shouldAppend) {
+        if (shouldAppend) {
+            mDatas.addAll(data);
+        } else {
+            mDatas = data;
+        }
+        notifyDataSetChanged();
+    }
+
+    public void setData(List<T> data) {
+        setData(data, false);
+    }
+
+
+    public T getItem(int position) {
+        return Utils.isEmpty(mDatas) ? null : mDatas.get(position);
     }
 
     @Override
     public int getItemViewType(int position) {
         if (!useItemViewDelegateManager()) return super.getItemViewType(position);
-        return mItemViewDelegateManager.getItemViewType(mDatas.get(position), position);
+        return mItemViewDelegateManager.getItemViewType(getItem(position), position);
     }
-
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ItemViewDelegate itemViewDelegate = mItemViewDelegateManager.getItemViewDelegate(viewType);
         int layoutId = itemViewDelegate.getItemViewLayoutId();
         ViewHolder holder;
-        if (itemViewDelegate instanceof ItemViewDelegateAdapter) {
+        if (itemViewDelegate instanceof ItemViewDelegateAdapter && ((ItemViewDelegateAdapter) itemViewDelegate).getItemView() != null) {
             holder = ViewHolder.createViewHolder(mContext, ((ItemViewDelegateAdapter) itemViewDelegate).getItemView());
         } else {
             holder = ViewHolder.createViewHolder(mContext, parent, layoutId);
@@ -82,7 +98,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        convert(holder, mDatas.get(position));
+        convert(holder, getItem(position));
     }
 
     @Override

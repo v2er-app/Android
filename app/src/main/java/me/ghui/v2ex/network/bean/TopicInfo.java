@@ -1,8 +1,10 @@
 package me.ghui.v2ex.network.bean;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.util.Utils;
 
 
 /**
@@ -11,129 +13,139 @@ import me.ghui.fruit.annotations.Pick;
 
 public class TopicInfo {
 
-    @Pick(value = "div.header img.avatar", attr = "src")
-    private String avatar;
-    @Pick("small.gray a")
-    private String userName;
-    @Pick(value = "small.gray", attr = "ownText")
-    private String time;
-    @Pick("div.header a[href^=/go]")
-    private String tag;
-    @Pick("div.cell span.gray")
-    private String comment;
-    @Pick("a.page_normal:last-child")
-    private int page;
-    @Pick("h1")
-    private String title;
-    @Pick("div.cell div.topic_content")
-    private String contentHtml;
-    @Pick("div.subtle")
-    private List<PostScript> postScripts;
-    @Pick("div.cell[id^=r_]")
+    @Pick("div.header")
+    private HeaderInfo headerInfo;
+    @Pick("div[id^=r_]")
     private List<Reply> replies;
 
-    public String getCommentNum() {
-        return "评论" + comment.split(" ")[0];
+    public List<Item> getItems() {
+        // TODO: 09/05/2017
+        List<Item> items = new ArrayList<>(Utils.listSize(replies) + 1);
+        items.add(headerInfo);
+        items.addAll(replies);
+        return items;
     }
 
-    public String getTag() {
-        return tag;
-    }
-
-    public String getTime() {
-        return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
-    }
-
-    public int getViewCount() {
-        String count = time.split(",")[1].trim();
-        return Integer.parseInt(count.substring(0, count.indexOf(" ")));
-    }
-
-    public List<PostScript> getPostScripts() {
-        return postScripts;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public int getPage() {
-        return page < 1 ? 1 : page;
-    }
-
-    public String getContentHtml() {
-        return contentHtml;
-    }
-
-    public void setContentHtml(String contentHtml) {
-        this.contentHtml = contentHtml;
-    }
-
-    public List<Reply> getReplies() {
-        return replies;
-    }
-
-    public void setReplies(List<Reply> replies) {
-        this.replies = replies;
+    public int getTotalPage() {
+        return headerInfo.getPage();
     }
 
     @Override
     public String toString() {
         return "TopicInfo{" +
-                "avatar='" + avatar + '\'' +
-                ", userName='" + userName + '\'' +
-                ", time='" + getTime() + '\'' +
-                ", viewCount='" + getViewCount() + '\'' +
-                ", tag='" + tag + '\'' +
-                ", comment='" + comment + '\'' +
-                ", page=" + page +
-                ", title='" + title + '\'' +
-                ", contentHtml='" + contentHtml + '\'' +
-                ", postScripts=" + postScripts +
+                "headerInfo=" + headerInfo +
                 ", replies=" + replies +
                 '}';
     }
 
-    public static class PostScript {
-        @Pick("span.fade")
-        private String header;
-        @Pick("div.topic_content")
-        private String content;
+    public static class HeaderInfo implements Item {
+        @Pick(value = "div.header img.avatar", attr = "src")
+        private String avatar;
+        @Pick("small.gray a")
+        private String userName;
+        @Pick(value = "small.gray", attr = "ownText")
+        private String time;
+        @Pick("div.header a[href^=/go]")
+        private String tag;
+        @Pick("div.cell span.gray")
+        private String comment;
+        @Pick("a.page_normal:last-child")
+        private int page;
+        @Pick("h1")
+        private String title;
+        @Pick("div.cell div.topic_content")
+        private String contentHtml;
+        @Pick("div.subtle")
+        private List<PostScript> postScripts;
 
-        public String getHeader() {
-            return header;
+        public String getCommentNum() {
+            if (Utils.isEmpty(comment)) return "评论0";
+            return "评论" + comment.split(" ")[0];
         }
 
-        public String getContent() {
-            return content;
+        public String getTag() {
+            return tag;
         }
+
+        public String getTime() {
+            return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
+        }
+
+        public int getViewCount() {
+            String count = time.split(",")[1].trim();
+            return Integer.parseInt(count.substring(0, count.indexOf(" ")));
+        }
+
+        public List<PostScript> getPostScripts() {
+            return postScripts;
+        }
+
+        public String getUserName() {
+            return userName;
+        }
+
+        public String getAvatar() {
+            return avatar;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        public int getPage() {
+            return page < 1 ? 1 : page;
+        }
+
+        public String getContentHtml() {
+            return contentHtml;
+        }
+
 
         @Override
         public String toString() {
-            return "PostScript{" +
-                    "header='" + header + '\'' +
-                    ", content='" + content + '\'' +
+            return "HeaderInfo{" +
+                    "avatar='" + avatar + '\'' +
+                    ", userName='" + userName + '\'' +
+                    ", time='" + time + '\'' +
+                    ", tag='" + tag + '\'' +
+                    ", comment='" + comment + '\'' +
+                    ", page=" + page +
+                    ", title='" + title + '\'' +
+                    ", contentHtml='" + contentHtml + '\'' +
+                    ", postScripts=" + postScripts +
                     '}';
+        }
+
+        @Override
+        public boolean isHeaderItem() {
+            return true;
+        }
+
+        public static class PostScript {
+            @Pick("span.fade")
+            private String header;
+            @Pick("div.topic_content")
+            private String content;
+
+            public String getHeader() {
+                return header;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            @Override
+            public String toString() {
+                return "PostScript{" +
+                        "header='" + header + '\'' +
+                        ", content='" + content + '\'' +
+                        '}';
+            }
         }
     }
 
-    public static class Reply {
+    public static class Reply implements Item {
         @Pick("div.reply_content")
         private String replyContent;
         @Pick("strong a.dark[href^=/member]")
@@ -144,6 +156,12 @@ public class TopicInfo {
         private String time;
         @Pick("span.fade.small:contains(♥)")
         private String love;
+        @Pick("span.no")
+        private int floor;
+
+        public String getFloor() {
+            return floor + "楼";
+        }
 
         @Override
         public String toString() {
@@ -153,6 +171,7 @@ public class TopicInfo {
                     ", avatar='" + avatar + '\'' +
                     ", time='" + time + '\'' +
                     ", love='" + love + '\'' +
+                    ", floor='" + floor + '\'' +
                     '}';
         }
 
@@ -195,6 +214,15 @@ public class TopicInfo {
         public void setLove(String love) {
             this.love = love;
         }
+
+        @Override
+        public boolean isHeaderItem() {
+            return false;
+        }
+    }
+
+    public interface Item {
+        boolean isHeaderItem();
     }
 
 }

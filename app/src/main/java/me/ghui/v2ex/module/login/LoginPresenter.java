@@ -5,7 +5,7 @@ import com.orhanobut.logger.Logger;
 import me.ghui.v2ex.network.APIService;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.UserInfo;
-import me.ghui.v2ex.util.UserManager;
+import me.ghui.v2ex.util.UserUtils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -33,7 +33,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .compose(mView.rx())
                 .subscribe(result -> {
                             Logger.d("loginResultInfo: " + result);
-                            UserManager.saveLogin(UserInfo.build(result.getUserName(), result.getAvatar()));
+                            UserUtils.saveLogin(UserInfo.build(result.getUserName(), result.getAvatar()));
                             mView.onLoginSuccess();
                         }
                 );

@@ -10,7 +10,7 @@ import me.ghui.v2ex.network.bean.UserInfo;
  * Created by ghui on 30/04/2017.
  */
 
-public class UserManager {
+public class UserUtils {
 
     private static final String USER_INFO_KEY = Constants.PACKAGE_NAME + "user_info_key";
 
