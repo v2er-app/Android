@@ -28,8 +28,8 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
+        app:layout_constraintBaseline_toBaselineOf="@id/user_name_tv"
         app:layout_constraintLeft_toRightOf="@id/user_name_tv"
-        app:layout_constraintTop_toTopOf="@id/avatar_img"
         tools:text="1小时17分钟前" />
 
     <TextView

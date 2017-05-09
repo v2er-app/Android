@@ -181,7 +181,7 @@ public class TopicInfo {
         }
 
         public String getTime() {
-            return time.substring(2);
+            return time;
         }
 
         public void setTime(String time) {
