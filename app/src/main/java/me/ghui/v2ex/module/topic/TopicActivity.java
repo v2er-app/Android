@@ -27,7 +27,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         LoadMoreRecyclerView.OnLoadMoreListener {
     public static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
-    @BindView(R.id.recyclerview_act_topic)
+    @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
 
     @Inject
@@ -36,7 +36,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.act_topic;
+        return R.layout.common_load_more_recyclerview;
     }
 
     @Override

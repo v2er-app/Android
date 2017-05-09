@@ -26,7 +26,6 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     private LoadMoreScrollListener mScrollListener;
     private boolean mLoading = false;
     private ILoadMoreFooter.IdleStatus mStatus = ILoadMoreFooter.IdleStatus.INIT;
-    private int mTotalPage = 0;
     private int mWillLoadPage = 1;
     private ILoadMoreFooter mLoadMoreFooter;
 

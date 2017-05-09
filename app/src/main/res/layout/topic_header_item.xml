@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/user_name_tv"
         style="@style/TitleText"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintStart_toEndOf="@id/avatar_img"
         app:layout_constraintTop_toTopOf="@id/avatar_img"
         tools:text="ghui" />
@@ -33,9 +33,8 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
-        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@id/avatar_img"
-        app:layout_constraintLeft_toRightOf="@id/avatar_img"
+        app:layout_constraintLeft_toLeftOf="@id/user_name_tv"
         tools:text="1小时17分钟前" />
 
     <TextView
@@ -46,7 +45,6 @@
         android:paddingRight="8dp"
         app:layout_constraintBottom_toBottomOf="@id/avatar_img"
         app:layout_constraintLeft_toRightOf="@id/time_tv"
-        app:layout_constraintVertical_bias="0.0"
         tools:text="点击164" />
 
     <TextView

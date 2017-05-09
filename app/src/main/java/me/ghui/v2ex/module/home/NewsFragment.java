@@ -33,7 +33,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.news_recyclerview)
+    @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
 
     @Inject
@@ -48,7 +48,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.frag_news;
+        return R.layout.common_load_more_recyclerview;
     }
 
     @Override
