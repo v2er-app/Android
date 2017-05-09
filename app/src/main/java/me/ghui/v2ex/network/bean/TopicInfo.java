@@ -41,11 +41,12 @@ public class TopicInfo {
     }
 
     public String getTime() {
-        return time.split(",")[0].trim().substring(2);
+        return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
     }
 
-    public String getViewCount() {
-        return time.split(",")[1].trim();
+    public int getViewCount() {
+        String count = time.split(",")[1].trim();
+        return Integer.parseInt(count.substring(0, count.indexOf(" ")));
     }
 
     public List<PostScript> getPostScripts() {
@@ -97,6 +98,10 @@ public class TopicInfo {
         return "TopicInfo{" +
                 "avatar='" + avatar + '\'' +
                 ", userName='" + userName + '\'' +
+                ", time='" + getTime() + '\'' +
+                ", viewCount='" + getViewCount() + '\'' +
+                ", tag='" + tag + '\'' +
+                ", comment='" + comment + '\'' +
                 ", page=" + page +
                 ", title='" + title + '\'' +
                 ", contentHtml='" + contentHtml + '\'' +
@@ -176,7 +181,7 @@ public class TopicInfo {
         }
 
         public String getTime() {
-            return time;
+            return time.substring(2);
         }
 
         public void setTime(String time) {

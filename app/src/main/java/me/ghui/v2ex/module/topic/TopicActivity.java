@@ -116,7 +116,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mUserNameTv.setText(topicInfo.getUserName());
         mTimeTv.setText(topicInfo.getTime());
         mTagView.setText(topicInfo.getTag());
-        mViewCountTv.setText(topicInfo.getViewCount());
+        mViewCountTv.setText("点击" + topicInfo.getViewCount());
         mCommentNumTv.setText(topicInfo.getCommentNum());
         mTitleTv.setText(topicInfo.getTitle());
         mContentTv.setText(topicInfo.getContentHtml());

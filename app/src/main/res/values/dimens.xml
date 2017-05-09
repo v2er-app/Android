@@ -3,4 +3,5 @@
     <dimen name="mediumTextSize">16dp</dimen>
     <dimen name="smallTextSize">14dp</dimen>
     <dimen name="microTextSize">12dp</dimen>
+    <dimen name="common_avatar_size">40dp</dimen>
 </resources>

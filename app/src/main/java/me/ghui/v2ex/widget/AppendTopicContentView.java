@@ -10,6 +10,7 @@ import java.util.List;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.network.bean.TopicInfo;
+import me.ghui.v2ex.util.Utils;
 
 /**
  * Created by ghui on 07/05/2017.
@@ -37,9 +38,14 @@ public class AppendTopicContentView extends LinearLayout {
     }
 
     public void setData(List<TopicInfo.PostScript> data) {
-        this.removeAllViews();
-        for (TopicInfo.PostScript postScript : data) {
-            addView(ItemView.create(postScript, getContext()));
+        if (Utils.isEmpty(data)) {
+            setVisibility(GONE);
+        } else {
+            setVisibility(VISIBLE);
+            this.removeAllViews();
+            for (TopicInfo.PostScript postScript : data) {
+                addView(ItemView.create(postScript, getContext()));
+            }
         }
     }
 

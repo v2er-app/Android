@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/avatar_img"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="@dimen/common_avatar_size"
+        android:layout_height="@dimen/common_avatar_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@android:drawable/btn_star" />
