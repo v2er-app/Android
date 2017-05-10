@@ -3,6 +3,7 @@ package me.ghui.v2ex.network.bean;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2ex.util.Utils;
 
@@ -18,9 +19,14 @@ public class TopicInfo {
     @Pick("div[id^=r_]")
     private List<Reply> replies;
 
+    private List<Item> items;
+
     public List<Item> getItems() {
-        // TODO: 09/05/2017
-        List<Item> items = new ArrayList<>(Utils.listSize(replies) + 1);
+        if (items == null) {
+            items = new ArrayList<>(Utils.listSize(replies) + 1);
+        } else {
+            items.clear();
+        }
         items.add(headerInfo);
         items.addAll(replies);
         return items;
@@ -53,7 +59,7 @@ public class TopicInfo {
         private int page;
         @Pick("h1")
         private String title;
-        @Pick("div.cell div.topic_content")
+        @Pick(value = "div.cell div.topic_content", attr = Attrs.HTML)
         private String contentHtml;
         @Pick("div.subtle")
         private List<PostScript> postScripts;
@@ -124,7 +130,7 @@ public class TopicInfo {
         public static class PostScript {
             @Pick("span.fade")
             private String header;
-            @Pick("div.topic_content")
+            @Pick(value = "div.topic_content", attr = Attrs.HTML)
             private String content;
 
             public String getHeader() {
