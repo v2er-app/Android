@@ -30,7 +30,7 @@ public class DailyHotModule {
     }
 
     @Provides
-    public CommonAdapter provideDailyHotAdapter() {
+    public CommonAdapter<DailyHotInfo.Item> provideDailyHotAdapter() {
         return new CommonAdapter<DailyHotInfo.Item>(mView, R.layout.common_list_item, null) {
 
             @Override
