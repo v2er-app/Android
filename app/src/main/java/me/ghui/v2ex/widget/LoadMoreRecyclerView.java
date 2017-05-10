@@ -11,6 +11,8 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
@@ -75,6 +77,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
             mLoadMoreFooter.onIdle(mStatus);
         }
         mWillLoadPage = loadSuccess ? mWillLoadPage + 1 : 1;
+        Logger.i("mWillLoadPage: " + mWillLoadPage);
     }
 
     public void setHasMore(int totalPage) {

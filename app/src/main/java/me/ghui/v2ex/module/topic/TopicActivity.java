@@ -65,6 +65,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         return new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
+                mLoadMoreRecyclerView.resetWillLoadPage();
                 mPresenter.loadData(mTopicId);
             }
 
