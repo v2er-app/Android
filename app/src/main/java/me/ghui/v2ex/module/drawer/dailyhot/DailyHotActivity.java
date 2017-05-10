@@ -71,7 +71,6 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
         mDailyHotAdapter.setData(dailyHotInfo);
     }
 
-
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = mDailyHotAdapter.getDatas().get(position).getId();
