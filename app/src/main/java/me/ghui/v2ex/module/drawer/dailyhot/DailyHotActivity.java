@@ -9,6 +9,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.adapter.base.CommonAdapter;
 import me.ghui.v2ex.injector.component.DaggerDailyHotComponent;
 import me.ghui.v2ex.injector.module.DailyHotModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -25,7 +26,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     BaseRecyclerView mRecyclerView;
 
     @Inject
-    DailyHotAdapter mDailyHotAdapter;
+    CommonAdapter mDailyHotAdapter;
 
 
     @Override
