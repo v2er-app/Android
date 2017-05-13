@@ -7,6 +7,7 @@ import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.network.converter.annotations.Html;
 import me.ghui.v2ex.network.converter.annotations.Json;
@@ -48,4 +49,9 @@ public interface APIs {
     @Html
     @GET("/t/{id}")
     Observable<TopicInfo> topicDetails(@Path("id") String topicId, @Query("p") int page);
+
+    @Html
+    @GET("/notifications")
+    Observable<NotificationInfo> notifications(@Query("p") int page);
+
 }

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <style name="TitleText" parent="BodyText">
         <item name="android:textSize">@dimen/largeTextSize</item>
         <item name="android:textStyle">bold</item>
@@ -16,7 +15,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/bodyTextColor</item>
         <item name="android:textSize">@dimen/smallTextSize</item>
-        <item name="android:singleLine">false</item>
+        <!--<item name="android:singleLine">false</item>-->
     </style>
 
     <style name="smallText" parent="BodyText">

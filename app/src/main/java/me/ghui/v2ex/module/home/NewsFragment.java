@@ -31,7 +31,8 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
  * Created by ghui on 22/03/2017.
  */
 
-public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView, MultiItemTypeAdapter.OnItemClickListener {
+public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
+        MultiItemTypeAdapter.OnItemClickListener {
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;

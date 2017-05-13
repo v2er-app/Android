@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <ImageView
+        android:id="@+id/avatar_img"
+        android:layout_width="@dimen/small_avatar_size"
+        android:layout_height="@dimen/small_avatar_size"
+        android:background="@color/colorPrimary"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/msg_title_tv"
+        style="@style/hintText"
+        android:layout_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/avatar_img"
+        app:layout_constraintTop_toTopOf="@id/avatar_img"
+        tools:ignore="RtlHardcoded"
+        tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />
+
+    <TextView
+        android:id="@+id/msg_content_tv"
+        style="@style/BodyText"
+        android:layout_width="match_parent"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/msg_title_tv"
+        tools:text="不建议华为，高价低质。小米、魅族之类的吧。还有一个 360N5 也可以。" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/hintText"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/msg_content_tv"
+        tools:text="1分钟前" />
+
+</android.support.constraint.ConstraintLayout>

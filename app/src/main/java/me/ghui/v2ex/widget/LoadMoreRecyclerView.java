@@ -217,7 +217,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
             });
         }
 
-        private boolean isLoadMoreFooterItem(int position) {
+        protected boolean isLoadMoreFooterItem(int position) {
             return position == getItemCount() - 1;
         }
 

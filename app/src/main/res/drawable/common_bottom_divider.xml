@@ -6,7 +6,7 @@
         android:top="-10dp">
         <shape android:shape="rectangle">
             <stroke
-                android:width="0.5dp"
+                android:width="@dimen/divider_size"
                 android:color="@color/divider_color" />
             <solid android:color="@android:color/transparent" />
         </shape>

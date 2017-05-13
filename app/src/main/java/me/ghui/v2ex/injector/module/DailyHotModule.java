@@ -31,7 +31,7 @@ public class DailyHotModule {
 
     @Provides
     public CommonAdapter<DailyHotInfo.Item> provideDailyHotAdapter() {
-        return new CommonAdapter<DailyHotInfo.Item>(mView, R.layout.common_list_item, null) {
+        return new CommonAdapter<DailyHotInfo.Item>(mView, R.layout.common_list_item) {
 
             @Override
             protected void convert(ViewHolder holder, DailyHotInfo.Item item, int position) {

@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/avatar_img"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="@dimen/small_avatar_size"
+        android:layout_height="@dimen/small_avatar_size"
         android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,10 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
+        android:layout_width="0dp"
+        android:layout_marginEnd="0dp"
         app:layout_constraintBaseline_toBaselineOf="@id/user_name_tv"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toRightOf="@id/user_name_tv"
         tools:text="1小时17分钟前" />
 

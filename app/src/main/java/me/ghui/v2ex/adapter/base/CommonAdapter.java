@@ -3,8 +3,6 @@ package me.ghui.v2ex.adapter.base;
 import android.content.Context;
 import android.view.LayoutInflater;
 
-import java.util.List;
-
 /**
  * Created by zhy on 16/4/9.
  */
@@ -13,12 +11,11 @@ public abstract class CommonAdapter<T> extends MultiItemTypeAdapter<T> {
     protected int mLayoutId;
     protected LayoutInflater mInflater;
 
-    public CommonAdapter(final Context context, final int layoutId, List<T> datas) {
+    public CommonAdapter(final Context context, final int layoutId) {
         super(context);
         mContext = context;
         mInflater = LayoutInflater.from(context);
         mLayoutId = layoutId;
-        mDatas = datas;
 
         addItemViewDelegate(new ItemViewDelegate<T>(context) {
             @Override
