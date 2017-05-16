@@ -11,8 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".module.home.MainActivity">
+        <activity android:name=".module.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -30,6 +29,9 @@
         <activity
             android:name=".module.user.UserInfoActivity"
             android:label="我" />
+        <activity
+            android:name=".module.drawer.care.SpecialCareActivity"
+            android:label="特别关注" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package me.ghui.v2ex.network;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import me.ghui.v2ex.network.bean.CareInfo;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
@@ -53,5 +54,9 @@ public interface APIs {
     @Html
     @GET("/notifications")
     Observable<NotificationInfo> notifications(@Query("p") int page);
+
+    @Html
+    @GET("/my/following")
+    Observable<CareInfo> specialCareInfo(@Query("p") int page);
 
 }

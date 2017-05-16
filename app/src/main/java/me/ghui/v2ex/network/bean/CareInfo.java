@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -18,8 +19,24 @@ public class CareInfo {
     @Pick("div.cell.item")
     private List<Item> items;
 
+    @Override
+    public String toString() {
+        return "CareInfo{" +
+                "total=" + total +
+                ", items=" + items +
+                '}';
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
     public static class Item {
-        @Pick("img.avatar")
+        @Pick(value = "img.avatar", attr = Attrs.SRC)
         private String avatar;
         @Pick("strong a[href^=/member/]")
         private String userName;
@@ -59,7 +76,7 @@ public class CareInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return Constants.HTTP_SCHEME + avatar;
         }
 
         public String getUserName() {
@@ -70,8 +87,9 @@ public class CareInfo {
             return title;
         }
 
-        public String getLink() {
-            return link;
+        public String getTopicId() {
+            // /t/358992#reply458
+            return link.substring(3, link.indexOf("#"));
         }
 
         public String getComentNum() {

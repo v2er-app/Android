@@ -19,6 +19,7 @@ import butterknife.BindView;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.base.BaseActivity;
+import me.ghui.v2ex.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
 import me.ghui.v2ex.module.user.UserInfoActivity;
@@ -93,6 +94,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
                     Navigator.from(getContext()).to(DailyHotActivity.class).start();
+                    break;
+                case R.id.care_nav_item:
+                    Navigator.from(getContext()).to(SpecialCareActivity.class).start();
                     break;
             }
             mDrawerLayout.closeDrawers();

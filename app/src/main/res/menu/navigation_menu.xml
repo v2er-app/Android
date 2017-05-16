@@ -8,7 +8,7 @@
             android:title="@string/daily_hot"
             />
         <item
-            android:id="@+id/follow_nav_item"
+            android:id="@+id/care_nav_item"
             android:icon="@drawable/follow_nav_item"
             android:title="特别关注"/>
         <item
