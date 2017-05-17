@@ -10,6 +10,7 @@ import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
+import me.ghui.v2ex.network.bean.TopicStarInfo;
 import me.ghui.v2ex.network.converter.annotations.Html;
 import me.ghui.v2ex.network.converter.annotations.Json;
 import retrofit2.http.FieldMap;
@@ -58,5 +59,9 @@ public interface APIs {
     @Html
     @GET("/my/following")
     Observable<CareInfo> specialCareInfo(@Query("p") int page);
+
+    @Html
+    @GET("/my/topics")
+    Observable<TopicStarInfo> topicStarInfo(@Query("p") int page);
 
 }

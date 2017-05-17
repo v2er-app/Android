@@ -14,6 +14,7 @@
         <activity android:name=".module.home.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -32,6 +33,12 @@
         <activity
             android:name=".module.drawer.care.SpecialCareActivity"
             android:label="特别关注" />
+        <activity
+            android:name=".module.drawer.star.StarActivity"
+            android:label="收藏" />
+        <activity
+            android:name=".module.drawer.setting.SettingActivity"
+            android:label="设置" />
     </application>
 
 </manifest>
