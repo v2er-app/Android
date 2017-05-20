@@ -17,6 +17,10 @@ public class Utils {
         return text == null || text.length() == 0;
     }
 
+    public static boolean isNotEmpty(CharSequence text) {
+        return !isEmpty(text);
+    }
+
     public static boolean notEmpty(CharSequence text) {
         return !isEmpty(text);
     }

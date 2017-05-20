@@ -73,11 +73,17 @@ public class TopicStarInfo {
 
         public String getTime() {
             //   • •  36 天前  •  最后回复来自
-            if (!Utils.isEmpty(time)) {
-                return time.trim().split("•")[2].trim();
-                // TODO: 18/05/2017  
+            if (Utils.isEmpty(time) || !time.contains("前")) return "";
+            time = time.replaceAll(" ", "");
+            int endIndex = time.indexOf("前");
+            int startIndex = 0;
+            for (int i = endIndex - 1; i >= 0; i--) {
+                if (time.charAt(i) == '•') {
+                    startIndex = i;
+                    break;
+                }
             }
-            return time;
+            return time.substring(startIndex + 1, endIndex + 1).trim();
         }
 
         public String getUserName() {

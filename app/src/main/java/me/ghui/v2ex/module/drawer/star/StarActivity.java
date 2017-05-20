@@ -38,7 +38,7 @@ public class StarActivity extends BaseActivity {
     @Override
     protected void init() {
         mFragments.add(TopicStarFragment.newInstance());
-//        mFragments.add(NodeStarFragment.newInstance());
+        mFragments.add(NodeStarFragment.newInstance());
         mSlidingTabLayout.setViewPager(mViewPager, new String[]{"主题", "节点"}, getActivity(), mFragments);
     }
 }

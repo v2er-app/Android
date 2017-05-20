@@ -5,6 +5,7 @@ import java.util.List;
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2ex.network.Constants;
+import me.ghui.v2ex.util.Utils;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -65,7 +66,9 @@ public class NotificationInfo {
         }
 
         public String getTitle() {
-            return title.replaceFirst(name, "").trim();
+            if (Utils.isNotEmpty(title))
+                return title.replaceFirst(name, "").trim();
+            return title;
         }
 
         public String getName() {

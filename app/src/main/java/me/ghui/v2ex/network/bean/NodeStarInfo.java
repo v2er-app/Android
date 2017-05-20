@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -28,7 +29,7 @@ public class NodeStarInfo {
         private String name;
         @Pick(value = "span.fade.f12")
         private int topicNum;
-        @Pick(value = "", attr = Attrs.HREF)
+        @Pick(attr = Attrs.HREF)
         private String link;
 
         @Override
@@ -50,7 +51,7 @@ public class NodeStarInfo {
         }
 
         public String getImg() {
-            return img;
+            return Constants.HTTP_SCHEME + img;
         }
 
         public String getName() {
