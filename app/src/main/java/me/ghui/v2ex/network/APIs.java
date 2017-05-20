@@ -8,6 +8,7 @@ import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.network.bean.NodeStarInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
@@ -26,6 +27,7 @@ import retrofit2.http.Query;
  */
 
 public interface APIs {
+
     @Json
     @GET("/api/topics/hot.json")
     Observable<DailyHotInfo> dailyHot();
@@ -63,5 +65,9 @@ public interface APIs {
     @Html
     @GET("/my/topics")
     Observable<TopicStarInfo> topicStarInfo(@Query("p") int page);
+
+    @Html
+    @GET("/my/nodes")
+    Observable<NodeStarInfo> nodeStarInfo();
 
 }

@@ -35,7 +35,7 @@ public class TopicStarInfo {
     }
 
     public static class Item {
-        @Pick("td>a[href^=/member]")
+        @Pick(value = "td>a[href^=/member]", attr = Attrs.HREF)
         private String userLink;
         @Pick(value = "img.avatar", attr = Attrs.SRC)
         private String avatar;
@@ -72,9 +72,10 @@ public class TopicStarInfo {
         }
 
         public String getTime() {
-            //  •  36 天前  •  最后回复来自
+            //   • •  36 天前  •  最后回复来自
             if (!Utils.isEmpty(time)) {
-                return time.trim().split("•")[1].trim();
+                return time.trim().split("•")[2].trim();
+                // TODO: 18/05/2017  
             }
             return time;
         }
@@ -82,8 +83,7 @@ public class TopicStarInfo {
         public String getUserName() {
             if (Utils.isEmpty(userLink)) return null;
             else {
-                String[] ss = userLink.split("/");
-                return ss[ss.length - 1];
+                return userLink.substring(userLink.lastIndexOf("/") + 1);
             }
         }
 

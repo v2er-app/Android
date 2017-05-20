@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <me.ghui.v2ex.widget.BaseRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/recyclerview_act_daily"
+    android:id="@+id/common_recyclerview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbarStyle="outsideOverlay"

@@ -27,7 +27,7 @@ import me.ghui.v2ex.widget.BaseRecyclerView;
 
 public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> implements DailyHotContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.recyclerview_act_daily)
+    @BindView(R.id.common_recyclerview)
     BaseRecyclerView mRecyclerView;
 
     @Inject
@@ -45,7 +45,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.act_daily_hot;
+        return R.layout.common_recyclerview_layout;
     }
 
     @Override

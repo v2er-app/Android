@@ -13,6 +13,7 @@ import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.drawer.star.TopicStarContract;
 import me.ghui.v2ex.module.drawer.star.TopicStarFragment;
 import me.ghui.v2ex.module.drawer.star.TopicStarPresenter;
+import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
@@ -34,7 +35,7 @@ public class TopicStarModule {
             @Override
             protected void convert(ViewHolder holder, TopicStarInfo.Item item, int position) {
                 Glide.with(mContext)
-                        .load(item.getAvatar())
+                        .load(Constants.HTTP_SCHEME + item.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());

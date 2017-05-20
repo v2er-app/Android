@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/node_img"
+        android:layout_width="60dp"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/node_name"
+        style="@style/TitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="v2ex" />
+
+    <TextView
+        android:id="@+id/node_topic__num"
+        style="@style/BodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="2333" />
+</LinearLayout>

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseActivity;
+import me.ghui.v2ex.widget.BaseToolBar;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -29,9 +30,15 @@ public class StarActivity extends BaseActivity {
     }
 
     @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        toolBar.setElevation(0);
+    }
+
+    @Override
     protected void init() {
         mFragments.add(TopicStarFragment.newInstance());
-        mFragments.add(NodeStarFragment.newInstance());
+//        mFragments.add(NodeStarFragment.newInstance());
         mSlidingTabLayout.setViewPager(mViewPager, new String[]{"主题", "节点"}, getActivity(), mFragments);
     }
 }
