@@ -11,30 +11,26 @@ import me.ghui.v2ex.module.base.BaseFragment;
 
 public class NodesFragment extends BaseFragment {
 
+    public static NodesFragment newInstance() {
+        Bundle args = new Bundle();
+        NodesFragment fragment = new NodesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
-	public static NodesFragment newInstance() {
+    @Override
+    protected int attachLayoutRes() {
+        return R.layout.common_recyclerview_layout;
+    }
 
-		Bundle args = new Bundle();
+    @Override
+    protected void startInject() {
 
-		NodesFragment fragment = new NodesFragment();
-		fragment.setArguments(args);
-		return fragment;
-	}
+    }
 
+    @Override
+    protected void init() {
 
-	@Override
-	protected int attachLayoutRes() {
-		return R.layout.frag_simple_card;
-	}
-
-	@Override
-	protected void startInject() {
-
-	}
-
-	@Override
-	protected void init() {
-
-	}
+    }
 
 }
