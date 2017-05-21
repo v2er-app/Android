@@ -33,6 +33,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Inject
     protected T mPresenter;
+    private boolean mHasAutoLoaded = false;
+    private boolean isPageShow;
 
     /**
      * if you want to support ptr, then attach a PtrHandler to it
@@ -61,13 +63,6 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
      */
     protected abstract void init();
 
-    /**
-     * fetch data from server to views in this page
-     */
-    protected void updateUI() {
-
-    }
-
 
     @Nullable
     @Override
@@ -84,7 +79,18 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         return mRootView;
     }
 
+    @CallSuper
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (isPageShow) {
+            Logger.d("lazyLoad in onViewCreated");
+            lazyLoad();
+        }
+    }
+
     protected View onCreateRootView(LayoutInflater inflater, ViewGroup container) {
+        Logger.d("onCreateRootView");
         if (attachPtrHandler() != null) {
             if (mRootView == null) {
                 PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(getContext());
@@ -116,13 +122,39 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         Logger.i("onActivityCreated." + this.getClass().getSimpleName());
     }
 
+    /**
+     * fetch data from server to views in this page
+     * , default auto load
+     */
+    protected void lazyLoad() {
+        if (getPtrLayout() != null && !mHasAutoLoaded) {
+            getPtrLayout().autoRefresh();
+            mHasAutoLoaded = true;
+        }
+    }
+
+    @CallSuper
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        Logger.i("setUserVisibleHint: " + isVisibleToUser + ", " + this.getClass().getSimpleName());
         if (isVisibleToUser) {
-            updateUI();
+            isPageShow = true;
+            onFragmentShow();
+        } else {
+            isPageShow = false;
+            onFragmentHide();
         }
+    }
+
+    protected void onFragmentShow() {
+        if (mRootView != null) {
+            Logger.d("lazyLoad in onFragmentShow");
+            lazyLoad();
+        }
+    }
+
+    protected void onFragmentHide() {
+
     }
 
     protected AppComponent getAppComponent() {
