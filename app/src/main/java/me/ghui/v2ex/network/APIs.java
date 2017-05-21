@@ -9,6 +9,7 @@ import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.network.bean.NodeStarInfo;
+import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
@@ -69,5 +70,9 @@ public interface APIs {
     @Html
     @GET("/my/nodes")
     Observable<NodeStarInfo> nodeStarInfo();
+
+    @Html
+    @GET("/")
+    Observable<NodesNavInfo> nodeNavInfo();
 
 }

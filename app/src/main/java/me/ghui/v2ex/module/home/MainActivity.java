@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
         mFragments.add(NewsFragment.newInstance());
         mFragments.add(MsgFragment.newInstance());
-        mFragments.add(NodesFragment.newInstance());
+        mFragments.add(NodesNavFragment.newInstance());
 
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {

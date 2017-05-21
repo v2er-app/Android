@@ -9,11 +9,11 @@ import me.ghui.v2ex.module.base.BaseFragment;
  * Created by ghui on 22/03/2017.
  */
 
-public class NodesFragment extends BaseFragment {
+public class NodesNavFragment extends BaseFragment<NodesNavConstract.IPresenter> {
 
-    public static NodesFragment newInstance() {
+    public static NodesNavFragment newInstance() {
         Bundle args = new Bundle();
-        NodesFragment fragment = new NodesFragment();
+        NodesNavFragment fragment = new NodesNavFragment();
         fragment.setArguments(args);
         return fragment;
     }
