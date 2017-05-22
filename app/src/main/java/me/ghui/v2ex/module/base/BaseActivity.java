@@ -110,6 +110,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         startInject();
         parseExtras(getIntent());
         init();
+        autoLoad();
+    }
+
+    protected void autoLoad() {
+        if (getPtrLayout() != null) getPtrLayout().autoRefresh();
     }
 
     protected ViewGroup onCreateRootView() {
