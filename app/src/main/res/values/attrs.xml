@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="TagView">
-        <attr name="tagColor" format="integer|reference"/>
-        <attr name="tagCorner" format="dimension|reference"/>
+        <attr name="tagColor" format="integer|reference" />
+        <attr name="tagCorner" format="dimension|reference" />
     </declare-styleable>
+
+    <!--<declare-styleable name="AutoNewLineLayout">-->
+        <!--<attr name="itemHoriMargin" format="dimension|reference" />-->
+        <!--<attr name="itemVertMargin" format="dimension|reference" />-->
+    <!--</declare-styleable>-->
 </resources>

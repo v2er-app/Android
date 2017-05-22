@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
 
     <TextView
-        style="@style/SubTitleText"
+        android:id="@+id/node_nav_category_tv"
+        style="@style/BodyText"
         android:drawableLeft="@drawable/node_nav_indicator"
         android:drawablePadding="5dp"
+        android:paddingBottom="8dp"
         tools:text="Geek" />
 
     <me.ghui.v2ex.widget.NavNodesWrapper
+        android:id="@+id/nodes_nav_node_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        app:alignContent="flex_start"
+        app:alignItems="flex_start"
+        app:dividerDrawable="@drawable/nodes_nav_divider"
+        app:flexWrap="wrap"
+        app:showDivider="middle" />
 </LinearLayout>

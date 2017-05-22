@@ -73,6 +73,6 @@ public interface APIs {
 
     @Html
     @GET("/")
-    Observable<NodesNavInfo> nodeNavInfo();
+    Observable<NodesNavInfo> nodesNavInfo();
 
 }

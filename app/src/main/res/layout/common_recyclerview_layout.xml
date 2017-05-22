@@ -3,6 +3,8 @@
     android:id="@+id/common_recyclerview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:clipToPadding="false"
     android:scrollbarStyle="outsideOverlay"
     android:scrollbars="vertical" />
 
