@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true"
-    android:focusable="true">
+    android:focusable="true"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/avatar_img"
@@ -14,7 +15,9 @@
         android:layout_height="@dimen/small_avatar_size"
         android:background="@color/colorPrimary"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/msg_title_tv"
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/msg_title_tv"
@@ -29,9 +32,11 @@
     <TextView
         android:id="@+id/msg_content_tv"
         style="@style/BodyText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/msg_title_tv"
         tools:text="不建议华为，高价低质。小米、魅族之类的吧。还有一个 360N5 也可以。" />
 
