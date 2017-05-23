@@ -31,6 +31,11 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
 
     @Inject
     LoadMoreRecyclerView.Adapter<NotificationInfo.Reply> mAdapter;
+    private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
+
+    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
+        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
+    }
 
     public static MsgFragment newInstance() {
         Bundle args = new Bundle();
@@ -80,6 +85,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
         }
         mAdapter.setData(info.getReplies(), isLoadMore);
         mRecyclerView.setHasMore(info.getPage());
+        mUpdateUnReadMsgDelegate.updateUnReadMsg(1, 0);
     }
 
     @Override

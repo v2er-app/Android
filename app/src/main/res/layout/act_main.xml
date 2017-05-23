@@ -18,6 +18,7 @@
             app:tl_indicator_height="2.5dp"
             app:tl_indicator_width_equal_title="true"
             app:tl_tab_padding="22dp"
+            app:tl_textsize="@dimen/mediumTextSize"
             app:tl_tab_space_equal="true"
             app:tl_textSelectColor="@color/bodyTextColor"
             app:tl_textUnselectColor="#66000000"

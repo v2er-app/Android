@@ -4,6 +4,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.widget.MsgView;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,7 @@ import me.ghui.v2ex.network.bean.UserInfo;
 import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.BaseToolBar;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate {
 
     private final String[] TAB_TITLES = {"最新", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
@@ -88,8 +90,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mUserNameTv.setOnClickListener(this);
         updateHeaderView();
 
-        mFragments.add(NewsFragment.newInstance());
-        mFragments.add(MsgFragment.newInstance());
+        NewsFragment newsFragment = NewsFragment.newInstance();
+        newsFragment.setUpdateUnReadMsgDelegate(this);
+        MsgFragment msgFragment = MsgFragment.newInstance();
+        msgFragment.setUpdateUnReadMsgDelegate(this);
+        mFragments.add(newsFragment);
+        mFragments.add(msgFragment);
         mFragments.add(NodesNavFragment.newInstance());
 
         mNavigationView.setNavigationItemSelectedListener(item -> {
@@ -144,6 +150,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
         mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void updateUnReadMsg(int position, int count) {
+        if (count <= 0) {//hide
+            mSlidingTabLayout.hideMsg(position);
+        } else {
+            mSlidingTabLayout.showMsg(position, count);
+            //config sliding msgview
+            float padding = getResources().getDimension(R.dimen.mediumTextSize) / 2f;
+            mSlidingTabLayout.setMsgMargin(1, padding * 0.92f, padding * 0.28f);
+            MsgView msgView = mSlidingTabLayout.getMsgView(1);
+            msgView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.tinyTextSize));
+        }
+
+
     }
 
 

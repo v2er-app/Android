@@ -13,8 +13,22 @@ import me.ghui.v2ex.util.Utils;
 
 @Pick("div.box")
 public class NewsInfo {
+
+    @Pick("a[href=/notifications]")
+    private String unRead;
     @Pick("div.cell.item")
     private List<Item> items;
+
+    public int getUnReadCount() {
+        if (Utils.isEmpty(unRead)) return 0;
+        else {
+            return Integer.parseInt(unRead.split(" ")[0]);
+        }
+    }
+
+//    public void setUnRead(int count) {
+//        unRead = count + " " + "消息";
+//    }
 
     public List<Item> getItems() {
         return items;

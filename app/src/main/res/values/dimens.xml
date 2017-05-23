@@ -3,6 +3,7 @@
     <dimen name="mediumTextSize">16dp</dimen>
     <dimen name="smallTextSize">14dp</dimen>
     <dimen name="microTextSize">12dp</dimen>
+    <dimen name="tinyTextSize">10dp</dimen>
     <dimen name="common_avatar_size">40dp</dimen>
     <dimen name="small_avatar_size">25dp</dimen>
     <dimen name="divider_size">0.5dp</dimen>

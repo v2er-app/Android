@@ -36,9 +36,14 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
-
     @Inject
     NewsAdapter mNewsAdapter;
+
+    private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
+
+    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
+        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
+    }
 
     public static NewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -91,6 +96,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
+        mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
+
         List<NewsInfo.Item> items = newsInfos.getItems();
         mNewsAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
