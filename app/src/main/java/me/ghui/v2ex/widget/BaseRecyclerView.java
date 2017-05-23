@@ -1,13 +1,12 @@
 package me.ghui.v2ex.widget;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
+import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import me.ghui.v2ex.R;
 
@@ -17,7 +16,6 @@ import me.ghui.v2ex.R;
 
 public class BaseRecyclerView extends RecyclerView {
 
-    private DividerItemDecoration mDividerItemDecoration;
 
     public BaseRecyclerView(Context context) {
         super(context);
@@ -38,24 +36,15 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     public void addDivider() {
-        setDivider(R.drawable.recyclerview_divider);
+        setDivider(getResources().getColor(R.color.divider_color), getResources().getDimension(R.dimen.divider_size));
     }
 
-    public void setDivider(@DrawableRes int dividerRes) {
-        setDivider(ContextCompat.getDrawable(getContext(), dividerRes));
+    public void setDivider(@ColorInt int dividerColor, float dividerWidth) {
+        addItemDecoration(
+                new HorizontalDividerItemDecoration.Builder(getContext())
+                        .color(dividerColor)
+                        .size(Math.round(dividerWidth))
+                        .build());
     }
 
-    public void setDivider(Drawable divider) {
-        if (mDividerItemDecoration == null) {
-            mDividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-            addItemDecoration(mDividerItemDecoration);
-        }
-
-        if (divider != null) {
-            mDividerItemDecoration.setDrawable(divider);
-        } else {
-            removeItemDecoration(mDividerItemDecoration);
-            mDividerItemDecoration = null;
-        }
-    }
 }
