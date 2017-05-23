@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -162,7 +163,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             float padding = getResources().getDimension(R.dimen.mediumTextSize) / 2f;
             mSlidingTabLayout.setMsgMargin(1, padding * 0.92f, padding * 0.28f);
             MsgView msgView = mSlidingTabLayout.getMsgView(1);
-            msgView.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.tinyTextSize));
+            float textSize = getResources().getDimension(R.dimen.tinyTextSize);
+            msgView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) msgView.getLayoutParams();
+            lp.width = Math.round(textSize * (count + "").length() * 1.5f);
+            lp.height = Math.round(textSize * 1.5f);
+            msgView.setLayoutParams(lp);
         }
 
 
