@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer-array name="google_colors">
-        <item>0xFFC93437</item>
-        <item>0xFF375BF1</item>
-        <item>0xFFF7D23E</item>
-        <item>0xFF34A350</item>
+        <item>@color/colorAccent</item>
+        <!--<item>0xFF375BF1</item>-->
+        <!--<item>0xFFF7D23E</item>-->
+        <!--<item>0xFF34A350</item>-->
     </integer-array>
 </resources>
