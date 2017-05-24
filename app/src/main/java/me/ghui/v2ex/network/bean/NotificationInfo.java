@@ -76,7 +76,7 @@ public class NotificationInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return Constants.HTTP_SCHEME + avatar;
         }
 
         public String getContent() {

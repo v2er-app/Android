@@ -1,5 +1,6 @@
 package me.ghui.v2ex.injector.module;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -13,8 +14,8 @@ import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.MsgContract;
 import me.ghui.v2ex.module.home.MsgFragment;
 import me.ghui.v2ex.module.home.MsgPresenter;
-import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.network.bean.NotificationInfo;
+import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -36,10 +37,18 @@ public class MsgModule {
         return new CommonLoadMoreAdapter<NotificationInfo.Reply>(mView.getContext(), R.layout.notification_item) {
             @Override
             protected void convert(ViewHolder holder, NotificationInfo.Reply reply, int position) {
-                Glide.with(mView).load(Constants.HTTP_SCHEME + reply.getAvatar())
+                Glide.with(mView).load(reply.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.msg_title_tv, reply.getTitle());
-                holder.setText(R.id.msg_content_tv, reply.getContent());
+                CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),
+                        true, new int[]{0, reply.getName().length()});
+                holder.setText(R.id.msg_title_tv, titleWithUserName);
+                holder.getView(R.id.msg_content_tv);
+                if (!Utils.isEmpty(reply.getContent())) {
+                    holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
+                    holder.setText(R.id.msg_content_tv, reply.getContent());
+                } else {
+                    holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
+                }
                 holder.setText(R.id.time_tv, reply.getTime());
             }
         };
