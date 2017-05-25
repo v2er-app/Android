@@ -46,6 +46,14 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return holder;
     }
 
+    public <T> T getItem(MultiItemTypeAdapter<T> adapter) {
+        return adapter.getItem(getAdapterPosition());
+    }
+
+    public int index() {
+        return getAdapterPosition();
+    }
+
     /**
      * 通过viewId获取控件
      *
@@ -56,7 +64,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         View view = mViews.get(viewId);
         if (view == null) {
             view = mConvertView.findViewById(viewId);
-            mViews.put(viewId, view);
+            if (view != null)
+                mViews.put(viewId, view);
         }
         return (T) view;
     }
@@ -211,24 +220,32 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     /**
      * 关于事件的
      */
-    public ViewHolder setOnClickListener(int viewId,
-                                         View.OnClickListener listener) {
-        View view = getView(viewId);
-        view.setOnClickListener(listener);
+    public ViewHolder setOnClickListener(View.OnClickListener listener, int... viewId) {
+        for (int id : viewId) {
+            View view = getView(id);
+            if (view != null) {
+                view.setOnClickListener(listener);
+            }
+        }
         return this;
     }
 
-    public ViewHolder setOnTouchListener(int viewId,
-                                         View.OnTouchListener listener) {
-        View view = getView(viewId);
-        view.setOnTouchListener(listener);
+    public ViewHolder setOnTouchListener(View.OnTouchListener listener, int... viewId) {
+        for (int id : viewId) {
+            View view = getView(id);
+            if (view != null) {
+                view.setOnTouchListener(listener);
+            }
+        }
         return this;
     }
 
-    public ViewHolder setOnLongClickListener(int viewId,
-                                             View.OnLongClickListener listener) {
-        View view = getView(viewId);
-        view.setOnLongClickListener(listener);
+    public ViewHolder setOnLongClickListener(View.OnLongClickListener listener, int... viewId) {
+        for (int id : viewId) {
+            View view = getView(id);
+            if (view != null)
+                view.setOnLongClickListener(listener);
+        }
         return this;
     }
 

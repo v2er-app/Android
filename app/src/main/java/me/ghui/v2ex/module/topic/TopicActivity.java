@@ -17,7 +17,6 @@ import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
-import static me.ghui.v2ex.util.Utils.KEY;
 
 /**
  * Created by ghui on 04/05/2017.

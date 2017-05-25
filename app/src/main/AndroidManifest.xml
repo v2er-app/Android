@@ -28,8 +28,8 @@
             android:name=".module.login.LoginActivity"
             android:label="登录V2EX" />
         <activity
-            android:name=".module.user.UserInfoActivity"
-            android:label="我" />
+            android:name=".module.user.UserHomeActivity"
+            android:label="主页" />
         <activity
             android:name=".module.drawer.care.SpecialCareActivity"
             android:label="特别关注" />

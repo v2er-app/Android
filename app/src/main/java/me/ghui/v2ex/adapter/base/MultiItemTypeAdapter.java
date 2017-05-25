@@ -1,6 +1,7 @@
 package me.ghui.v2ex.adapter.base;
 
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             holder = ViewHolder.createViewHolder(mContext, parent, layoutId);
         }
         onViewHolderCreated(holder, holder.getConvertView());
-        setListener(parent, holder, viewType);
+        bindListener(holder, viewType);
         return holder;
     }
 
@@ -77,20 +78,18 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         return true;
     }
 
-
-    protected void setListener(final ViewGroup parent, final ViewHolder viewHolder, int viewType) {
+    @CallSuper
+    protected void bindListener(ViewHolder viewHolder, int viewType) {
         if (!isEnabled(viewType)) return;
         viewHolder.getConvertView().setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
-                int position = viewHolder.getAdapterPosition();
-                mOnItemClickListener.onItemClick(v, viewHolder, position);
+                mOnItemClickListener.onItemClick(v, viewHolder, viewHolder.getAdapterPosition());
             }
         });
 
         viewHolder.getConvertView().setOnLongClickListener(v -> {
             if (mOnItemLongClickListener != null) {
-                int position = viewHolder.getAdapterPosition();
-                return mOnItemLongClickListener.onItemLongClick(v, viewHolder, position);
+                return mOnItemLongClickListener.onItemLongClick(v, viewHolder, viewHolder.getAdapterPosition());
             }
             return false;
         });

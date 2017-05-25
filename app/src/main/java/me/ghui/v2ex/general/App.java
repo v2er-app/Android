@@ -2,6 +2,8 @@ package me.ghui.v2ex.general;
 
 import android.app.Application;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.injector.component.DaggerAppComponent;
 import me.ghui.v2ex.injector.module.AppModule;
@@ -13,27 +15,28 @@ import me.ghui.v2ex.network.APIService;
 
 public class App extends Application {
 
-	private static App sInstance;
-	private AppComponent mAppComponent;
+    private static App sInstance;
+    private AppComponent mAppComponent;
 
-	public static App get() {
-		return sInstance;
-	}
+    public static App get() {
+        return sInstance;
+    }
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-		init();
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        init();
+    }
 
-	private void init() {
-		sInstance = this;
-		mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
-				.build();
-		APIService.init();
-	}
+    private void init() {
+        sInstance = this;
+        mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
+                .build();
+        APIService.init();
+        Logger.init().methodCount(1).hideThreadInfo();
+    }
 
-	public AppComponent getAppComponent() {
-		return mAppComponent;
-	}
+    public AppComponent getAppComponent() {
+        return mAppComponent;
+    }
 }

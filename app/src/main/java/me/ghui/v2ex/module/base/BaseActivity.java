@@ -21,6 +21,7 @@ import io.reactivex.ObservableTransformer;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.util.RxUtils;
+import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.BaseToolBar;
 import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
 
@@ -210,5 +211,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void post(Runnable runnable) {
         delay(0, runnable);
+    }
+
+    protected static String KEY(String key) {
+        return Utils.KEY(key);
     }
 }

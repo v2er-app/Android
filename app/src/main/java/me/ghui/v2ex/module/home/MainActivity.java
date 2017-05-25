@@ -27,7 +27,7 @@ import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2ex.module.drawer.setting.SettingActivity;
 import me.ghui.v2ex.module.drawer.star.StarActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
-import me.ghui.v2ex.module.user.UserInfoActivity;
+import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.UserInfo;
 import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.BaseToolBar;
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.avatar_img:
             case R.id.user_name_tv:
                 if (UserUtils.isLogin()) {
-                    Navigator.from(this).to(UserInfoActivity.class).start();
+                    Navigator.from(this).to(UserHomeActivity.class).start();
                 } else {
                     Navigator.from(this).to(LoginActivity.class).start();
                 }

@@ -37,7 +37,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @Inject
-    NewsAdapter mNewsAdapter;
+    LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
 
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
 
@@ -68,10 +68,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected void init() {
-        mNewsAdapter.setOnItemClickListener(this);
+        mAdapter.setOnItemClickListener(this);
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mRecyclerView.setAdapter(mNewsAdapter);
+        mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
             if (!UserUtils.isLogin()) {
@@ -101,13 +101,13 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
 
         List<NewsInfo.Item> items = newsInfos.getItems();
-        mNewsAdapter.setData(items, isLoadMore);
+        mAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
     }
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = mNewsAdapter.getDatas().get(position).getTopicId();
+        String id = mAdapter.getDatas().get(position).getTopicId();
         Navigator.from(getContext())
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, id)
