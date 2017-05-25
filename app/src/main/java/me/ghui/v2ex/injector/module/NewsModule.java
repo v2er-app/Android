@@ -52,7 +52,8 @@ public class NewsModule {
                 viewHolder.setOnClickListener(
                         v -> Navigator.from(mContext)
                                 .to(UserHomeActivity.class)
-                                .putExtra(UserHomeActivity.USER_NAME_KEY, getItem(viewHolder.index()).getUser())
+                                .putExtra(UserHomeActivity.USER_NAME_KEY,
+                                        getItem(viewHolder.index()).getUser())
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
             }
