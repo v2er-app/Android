@@ -8,6 +8,7 @@ import me.ghui.v2ex.module.base.BaseActivity;
 
 /**
  * Created by ghui on 25/05/2017.
+ * 节点话题页
  */
 
 // TODO: 25/05/2017

@@ -9,10 +9,13 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.scope.PerActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareContract;
 import me.ghui.v2ex.module.drawer.care.SpecialCarePresenter;
+import me.ghui.v2ex.module.tag.TagActivity;
+import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.CareInfo;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
@@ -42,6 +45,23 @@ public class SpecialCareModule {
                 holder.setText(R.id.tagview, item.getTagName());
                 holder.setText(R.id.title_tv, item.getTitle());
                 holder.setText(R.id.comment_num_tv, "评论" + item.getComentNum());
+            }
+
+            @Override
+            protected void bindListener(ViewHolder holder, int viewType) {
+                super.bindListener(holder, viewType);
+                holder.setOnClickListener(
+                        v -> Navigator.from(mContext)
+                                .to(UserHomeActivity.class)
+                                .putExtra(UserHomeActivity.USER_NAME_KEY,
+                                        getItem(holder.index()).getUserName())
+                                .start(),
+                        R.id.avatar_img, R.id.user_name_tv);
+                holder.setOnClickListener(v -> Navigator.from(mContext)
+                        .to(TagActivity.class)
+                        .putExtra(TagActivity.TAG_LINK_KEY,
+                                getItem(holder.index()).getTagLink())
+                        .start(), R.id.tagview);
             }
         };
     }
