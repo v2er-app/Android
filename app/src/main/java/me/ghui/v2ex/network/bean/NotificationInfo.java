@@ -65,6 +65,11 @@ public class NotificationInfo {
             return Constants.BASE_URL + link;
         }
 
+        public String getTopicId() {
+            // /t/358992#reply458
+            return link.substring(3, link.indexOf("#"));
+        }
+
         public String getTitle() {
             if (Utils.isNotEmpty(title))
                 return title.replaceFirst(name, "").trim();

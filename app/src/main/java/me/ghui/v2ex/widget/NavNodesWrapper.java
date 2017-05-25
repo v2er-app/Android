@@ -2,12 +2,15 @@ package me.ghui.v2ex.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 
 import com.google.android.flexbox.FlexboxLayout;
 
 import java.util.List;
 import java.util.Stack;
 
+import me.ghui.v2ex.general.Navigator;
+import me.ghui.v2ex.module.tag.TagActivity;
 import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.util.Utils;
 
@@ -15,7 +18,7 @@ import me.ghui.v2ex.util.Utils;
  * Created by ghui on 22/05/2017.
  */
 
-public class NavNodesWrapper extends FlexboxLayout {
+public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListener {
 
     private Stack<TagView> sPool = new Stack<>();
 
@@ -34,7 +37,10 @@ public class NavNodesWrapper extends FlexboxLayout {
     public void setData(List<NodesNavInfo.Item.NodeItem> nodes) {
         for (int i = 0; i < Utils.listSize(nodes); i++) {
             NodesNavInfo.Item.NodeItem item = nodes.get(i);
-            obtainChild(i).setData(TagView.TagInfo.build(item.getName(), item.getLink()));
+            TagView view = obtainChild(i);
+            view.setText(item.getName());
+            view.setTag(item.getLink());
+            view.setOnClickListener(this);
         }
 
         //recy
@@ -57,4 +63,13 @@ public class NavNodesWrapper extends FlexboxLayout {
         return tagView;
     }
 
+    @Override
+    public void onClick(View v) {
+        String link = (String) v.getTag();
+        if (Utils.isEmpty(link)) return;
+        Navigator.from(getContext())
+                .to(TagActivity.class)
+                .putExtra(TagActivity.TAG_LINK_KEY, link)
+                .start();
+    }
 }

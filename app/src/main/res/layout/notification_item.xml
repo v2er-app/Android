@@ -37,7 +37,7 @@
         style="@style/BodyText"
         android:layout_width="0dp"
         android:layout_marginTop="8dp"
-        android:background="#FAFAFA"
+        android:background="#FFFAFAFA"
         android:padding="8dp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,6 +48,7 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
+        android:layout_marginTop="8dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/msg_content_tv"
         tools:text="1分钟前" />

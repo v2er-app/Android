@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.view.View;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.util.ScaleUtils;
@@ -16,12 +15,11 @@ import me.ghui.v2ex.util.ScaleUtils;
  * Created by ghui on 01/04/2017.
  */
 
-public class TagView extends AppCompatTextView implements View.OnClickListener {
+public class TagView extends AppCompatTextView {
 
     private int mColor = 0xFFF5F5F5;
     private float mCorner = 0;
     private Paint mPaint;
-    private String mTagLink;
 
     public TagView(Context context) {
         super(context);
@@ -54,12 +52,6 @@ public class TagView extends AppCompatTextView implements View.OnClickListener {
         mPaint.setStyle(Paint.Style.FILL);
     }
 
-    public void setData(TagInfo tagInfo) {
-        setText(tagInfo.getTagName());
-        mTagLink = tagInfo.getTagLink();
-    }
-
-
     @Override
     protected void onDraw(Canvas canvas) {
         if (mCorner > 0) {
@@ -70,30 +62,4 @@ public class TagView extends AppCompatTextView implements View.OnClickListener {
         super.onDraw(canvas);
     }
 
-    @Override
-    public void onClick(View v) {
-        // TODO: 22/05/2017 open tag info page 
-    }
-
-    public static class TagInfo {
-        private String tagName;
-        private String tagLink;
-
-        private TagInfo(String tagName, String tagLink) {
-            this.tagName = tagName;
-            this.tagLink = tagLink;
-        }
-
-        public static TagInfo build(String tagName, String tagLink) {
-            return new TagInfo(tagName, tagLink);
-        }
-
-        public String getTagLink() {
-            return tagLink;
-        }
-
-        public String getTagName() {
-            return tagName;
-        }
-    }
 }

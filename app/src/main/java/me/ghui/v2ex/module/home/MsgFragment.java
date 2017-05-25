@@ -13,9 +13,11 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerMsgComponent;
 import me.ghui.v2ex.injector.module.MsgModule;
 import me.ghui.v2ex.module.base.BaseFragment;
+import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
@@ -91,6 +93,10 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-
+        String id = mAdapter.getDatas().get(position).getTopicId();
+        Navigator.from(getContext())
+                .to(TopicActivity.class)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
+                .start();
     }
 }

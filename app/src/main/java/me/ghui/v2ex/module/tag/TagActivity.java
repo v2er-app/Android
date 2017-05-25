@@ -13,9 +13,10 @@ import me.ghui.v2ex.module.base.BaseActivity;
 // TODO: 25/05/2017
 public class TagActivity extends BaseActivity<TagContract.IPresenter> implements TagContract.IView {
 
-    public static final String TAG_NAME_KEY = KEY("tag_name_key");
+    public static final String TAG_LINK_KEY = KEY("tag_link_key");
 
-    private String mTag;
+    private String mTagId;
+    private String mTagLink;
 
     @Override
     protected int attachLayoutRes() {
@@ -24,12 +25,13 @@ public class TagActivity extends BaseActivity<TagContract.IPresenter> implements
 
     @Override
     protected void parseExtras(Intent intent) {
-        mTag = intent.getStringExtra(TAG_NAME_KEY);
+        mTagLink = intent.getStringExtra(TAG_LINK_KEY);
+        mTagId = mTagLink.substring(mTagLink.lastIndexOf("/") + 1);
     }
 
     @Override
     protected void init() {
         TextView tagView = $(R.id.textView);
-        tagView.append(mTag);
+        tagView.append(mTagId);
     }
 }

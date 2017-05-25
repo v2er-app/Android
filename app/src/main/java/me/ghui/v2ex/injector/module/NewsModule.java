@@ -59,8 +59,8 @@ public class NewsModule {
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v -> Navigator.from(mContext)
                         .to(TagActivity.class)
-                        .putExtra(TagActivity.TAG_NAME_KEY,
-                                getItem(holder.index()).getTagId())
+                        .putExtra(TagActivity.TAG_LINK_KEY,
+                                getItem(holder.index()).getTagLink())
                         .start(), R.id.tagview);
             }
         };
