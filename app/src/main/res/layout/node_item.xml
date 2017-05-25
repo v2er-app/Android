@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="?android:attr/selectableItemBackground"
     android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/node_img"
@@ -14,14 +16,14 @@
 
     <TextView
         android:id="@+id/node_name"
-        style="@style/TitleText"
+        style="@style/SubTitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="v2ex" />
 
     <TextView
         android:id="@+id/node_topic__num"
-        style="@style/BodyText"
+        style="@style/hintText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="2333" />

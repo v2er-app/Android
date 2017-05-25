@@ -56,7 +56,7 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     protected void init() {
-        mRecyclerView.addDivider();
+//        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
