@@ -10,6 +10,7 @@ import me.ghui.v2ex.module.base.BaseActivity;
  * Created by ghui on 25/05/2017.
  */
 
+// TODO: 25/05/2017
 public class TagActivity extends BaseActivity<TagContract.IPresenter> implements TagContract.IView {
 
     public static final String TAG_NAME_KEY = KEY("tag_name_key");

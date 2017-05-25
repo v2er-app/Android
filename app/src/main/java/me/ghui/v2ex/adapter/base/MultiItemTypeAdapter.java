@@ -79,17 +79,17 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     @CallSuper
-    protected void bindListener(ViewHolder viewHolder, int viewType) {
+    protected void bindListener(ViewHolder holder, int viewType) {
         if (!isEnabled(viewType)) return;
-        viewHolder.getConvertView().setOnClickListener(v -> {
+        holder.getConvertView().setOnClickListener(v -> {
             if (mOnItemClickListener != null) {
-                mOnItemClickListener.onItemClick(v, viewHolder, viewHolder.getAdapterPosition());
+                mOnItemClickListener.onItemClick(v, holder, holder.getAdapterPosition());
             }
         });
 
-        viewHolder.getConvertView().setOnLongClickListener(v -> {
+        holder.getConvertView().setOnLongClickListener(v -> {
             if (mOnItemLongClickListener != null) {
-                return mOnItemLongClickListener.onItemLongClick(v, viewHolder, viewHolder.getAdapterPosition());
+                return mOnItemLongClickListener.onItemLongClick(v, holder, holder.getAdapterPosition());
             }
             return false;
         });

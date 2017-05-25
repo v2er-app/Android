@@ -10,10 +10,12 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.MsgContract;
 import me.ghui.v2ex.module.home.MsgFragment;
 import me.ghui.v2ex.module.home.MsgPresenter;
+import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
@@ -30,7 +32,6 @@ public class MsgModule {
     public MsgModule(MsgFragment view) {
         mView = view;
     }
-
 
     @Provides
     public LoadMoreRecyclerView.Adapter<NotificationInfo.Reply> provideAdapter() {
@@ -50,6 +51,16 @@ public class MsgModule {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
                 }
                 holder.setText(R.id.time_tv, reply.getTime());
+            }
+
+            @Override
+            protected void bindListener(ViewHolder holder, int viewType) {
+                super.bindListener(holder, viewType);
+                holder.setOnClickListener(v -> Navigator.from(mContext)
+                        .to(UserHomeActivity.class)
+                        .putExtra(UserHomeActivity.USER_NAME_KEY,
+                                getItem(holder.index()).getName())
+                        .start(), R.id.avatar_img);
             }
         };
     }

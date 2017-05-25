@@ -48,19 +48,19 @@ public class NewsModule {
             }
 
             @Override
-            protected void bindListener(ViewHolder viewHolder, int viewType) {
-                super.bindListener(viewHolder, viewType);
-                viewHolder.setOnClickListener(
+            protected void bindListener(ViewHolder holder, int viewType) {
+                super.bindListener(holder, viewType);
+                holder.setOnClickListener(
                         v -> Navigator.from(mContext)
                                 .to(UserHomeActivity.class)
                                 .putExtra(UserHomeActivity.USER_NAME_KEY,
-                                        getItem(viewHolder.index()).getUser())
+                                        getItem(holder.index()).getUser())
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
-                viewHolder.setOnClickListener(v -> Navigator.from(mContext)
+                holder.setOnClickListener(v -> Navigator.from(mContext)
                         .to(TagActivity.class)
                         .putExtra(TagActivity.TAG_NAME_KEY,
-                                getItem(viewHolder.index()).getTagId())
+                                getItem(holder.index()).getTagId())
                         .start(), R.id.tagview);
             }
         };
