@@ -133,6 +133,11 @@ public class NewsInfo {
             return tagName;
         }
 
+        public String getTagId() {
+            if (Utils.isEmpty(tagLink)) return null;
+            return tagLink.substring(tagLink.lastIndexOf("/") + 1);
+        }
+
         public void setTagName(String tagName) {
             this.tagName = tagName;
         }

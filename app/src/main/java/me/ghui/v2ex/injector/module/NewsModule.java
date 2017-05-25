@@ -14,6 +14,7 @@ import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.NewsContract;
 import me.ghui.v2ex.module.home.NewsFragment;
 import me.ghui.v2ex.module.home.NewsPresenter;
+import me.ghui.v2ex.module.tag.TagActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
@@ -56,6 +57,11 @@ public class NewsModule {
                                         getItem(viewHolder.index()).getUser())
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
+                viewHolder.setOnClickListener(v -> Navigator.from(mContext)
+                        .to(TagActivity.class)
+                        .putExtra(TagActivity.TAG_NAME_KEY,
+                                getItem(viewHolder.index()).getTagId())
+                        .start(), R.id.tagview);
             }
         };
     }

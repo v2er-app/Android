@@ -37,6 +37,9 @@
             android:name=".module.drawer.star.StarActivity"
             android:label="收藏" />
         <activity
+            android:name=".module.tag.TagActivity"
+            android:label="节点" />
+        <activity
             android:name=".module.drawer.setting.SettingActivity"
             android:label="设置" />
     </application>

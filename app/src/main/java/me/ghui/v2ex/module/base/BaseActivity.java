@@ -216,4 +216,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected static String KEY(String key) {
         return Utils.KEY(key);
     }
+
+    @SuppressWarnings("unchecked")
+    public <V extends View> V $(int id) {
+        return (V) findViewById(id);
+    }
 }
