@@ -18,7 +18,7 @@ import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerNodeStarComponent;
 import me.ghui.v2ex.injector.module.NodeStarModule;
 import me.ghui.v2ex.module.base.BaseFragment;
-import me.ghui.v2ex.module.tag.TagActivity;
+import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.network.bean.NodeStarInfo;
 import me.ghui.v2ex.widget.BaseRecyclerView;
 
@@ -81,8 +81,8 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         Navigator.from(getContext())
-                .to(TagActivity.class)
-                .putExtra(TagActivity.TAG_LINK_KEY,
+                .to(NodeTopicActivity.class)
+                .putExtra(NodeTopicActivity.TAG_LINK_KEY,
                         mAdapter.getItem(position).getId())
                 .start();
     }

@@ -85,10 +85,6 @@ public class NewsInfo {
             return linkPath;
         }
 
-        public String getTopicId() {
-            // /t/358992#reply458
-            return linkPath.substring(3, linkPath.indexOf("#"));
-        }
 
         public void setLinkPath(String linkPath) {
             this.linkPath = linkPath;

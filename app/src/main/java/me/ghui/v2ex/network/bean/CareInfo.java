@@ -87,9 +87,8 @@ public class CareInfo {
             return title;
         }
 
-        public String getTopicId() {
-            // /t/358992#reply458
-            return link.substring(3, link.indexOf("#"));
+        public String getLink() {
+            return link;
         }
 
         public String getComentNum() {

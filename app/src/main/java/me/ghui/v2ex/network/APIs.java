@@ -8,7 +8,9 @@ import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
 import me.ghui.v2ex.network.bean.NewsInfo;
+import me.ghui.v2ex.network.bean.NodeInfo;
 import me.ghui.v2ex.network.bean.NodeStarInfo;
+import me.ghui.v2ex.network.bean.NodesInfo;
 import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
@@ -74,5 +76,13 @@ public interface APIs {
     @Html
     @GET("/")
     Observable<NodesNavInfo> nodesNavInfo();
+
+    @Json
+    @GET("/api/nodes/show.json")
+    Observable<NodeInfo> nodeInfo(@Query("name") String name);
+
+    @Html
+    @GET("/go/{node}")
+    Observable<NodesInfo> nodesInfo(@Path("node") String node);
 
 }

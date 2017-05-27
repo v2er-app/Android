@@ -96,7 +96,9 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
-        mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
+        if (mUpdateUnReadMsgDelegate != null) {
+            mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
+        }
 
         List<NewsInfo.Item> items = newsInfos.getItems();
         mAdapter.setData(items, isLoadMore);
@@ -105,10 +107,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = mAdapter.getDatas().get(position).getTopicId();
+        String link = mAdapter.getDatas().get(position).getLinkPath();
         Navigator.from(getContext())
                 .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
+                .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
                 .start();
     }
 }

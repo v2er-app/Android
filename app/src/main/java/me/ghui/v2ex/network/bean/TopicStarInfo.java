@@ -66,11 +66,6 @@ public class TopicStarInfo {
                     '}';
         }
 
-        public String getTopicId() {
-            // /t/358992#reply458
-            return link.substring(3, link.indexOf("#"));
-        }
-
         public String getTime() {
             //   • •  36 天前  •  最后回复来自
             if (Utils.isEmpty(time) || !time.contains("前")) return "";

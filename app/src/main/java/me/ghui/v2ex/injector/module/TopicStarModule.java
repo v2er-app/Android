@@ -14,7 +14,7 @@ import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.drawer.star.TopicStarContract;
 import me.ghui.v2ex.module.drawer.star.TopicStarFragment;
 import me.ghui.v2ex.module.drawer.star.TopicStarPresenter;
-import me.ghui.v2ex.module.tag.TagActivity;
+import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
@@ -58,8 +58,8 @@ public class TopicStarModule {
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(TagActivity.class)
-                        .putExtra(TagActivity.TAG_LINK_KEY,
+                        .to(NodeTopicActivity.class)
+                        .putExtra(NodeTopicActivity.TAG_LINK_KEY,
                                 getItem(holder.index()).getTagLink())
                         .start(), R.id.tagview);
             }

@@ -84,10 +84,10 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = mAdapter.getDatas().get(position).getTopicId();
+        String link = mAdapter.getDatas().get(position).getLink();
         Navigator.from(getContext())
                 .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
+                .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
                 .start();
     }
 }

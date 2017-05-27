@@ -14,7 +14,7 @@ import me.ghui.v2ex.injector.scope.PerActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotContract;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotPresenter;
-import me.ghui.v2ex.module.tag.TagActivity;
+import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.util.DateUtils;
@@ -59,8 +59,8 @@ public class DailyHotModule {
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(TagActivity.class)
-                        .putExtra(TagActivity.TAG_LINK_KEY,
+                        .to(NodeTopicActivity.class)
+                        .putExtra(NodeTopicActivity.TAG_LINK_KEY,
                                 getItem(holder.index()).getNode().getName())
                         .start(), R.id.tagview);
             }
