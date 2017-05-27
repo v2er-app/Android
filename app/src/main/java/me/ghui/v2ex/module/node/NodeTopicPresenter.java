@@ -29,8 +29,6 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void loadData(int page) {
-
-
         APIService.get().nodesInfo(mView.nodeName())
                 .compose(mView.rx())
                 .subscribe(nodesInfo -> {

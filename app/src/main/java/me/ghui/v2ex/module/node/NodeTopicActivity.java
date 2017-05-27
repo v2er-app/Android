@@ -33,9 +33,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 // TODO: 25/05/2017
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
         MultiItemTypeAdapter.OnItemClickListener {
-
     public static final String TAG_LINK_KEY = KEY("tag_link_key");
-
     private String mTagId;
     private String mTagLink;
 
