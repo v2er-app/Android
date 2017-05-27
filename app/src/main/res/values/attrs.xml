@@ -5,8 +5,11 @@
         <attr name="tagCorner" format="dimension|reference" />
     </declare-styleable>
 
-    <!--<declare-styleable name="AutoNewLineLayout">-->
-        <!--<attr name="itemHoriMargin" format="dimension|reference" />-->
-        <!--<attr name="itemVertMargin" format="dimension|reference" />-->
-    <!--</declare-styleable>-->
+    <declare-styleable name="AvatarImageBehavior">
+        <attr name="finalYPosition" format="dimension" />
+        <attr name="startXPosition" format="dimension" />
+        <attr name="startToolbarPosition" format="dimension" />
+        <attr name="startHeight" format="dimension" />
+        <attr name="finalHeight" format="dimension" />
+    </declare-styleable>
 </resources>

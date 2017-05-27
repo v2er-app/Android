@@ -1,10 +1,10 @@
 package me.ghui.v2ex.module.tag;
 
 import android.content.Intent;
-import android.widget.TextView;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseActivity;
+import me.ghui.v2ex.widget.BaseToolBar;
 
 /**
  * Created by ghui on 25/05/2017.
@@ -25,6 +25,11 @@ public class TagActivity extends BaseActivity<TagContract.IPresenter> implements
     }
 
     @Override
+    protected BaseToolBar attachToolbar() {
+        return null;
+    }
+
+    @Override
     protected void parseExtras(Intent intent) {
         mTagLink = intent.getStringExtra(TAG_LINK_KEY);
         mTagId = mTagLink.substring(mTagLink.lastIndexOf("/") + 1);
@@ -32,7 +37,5 @@ public class TagActivity extends BaseActivity<TagContract.IPresenter> implements
 
     @Override
     protected void init() {
-        TextView tagView = $(R.id.textView);
-        tagView.append(mTagId);
     }
 }

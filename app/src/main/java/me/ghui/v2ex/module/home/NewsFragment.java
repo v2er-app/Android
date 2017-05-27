@@ -96,8 +96,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
-//        // TODO: 24/05/2017
-//        newsInfos.setUnRead(3);
         mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
 
         List<NewsInfo.Item> items = newsInfos.getItems();
