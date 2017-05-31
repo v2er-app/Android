@@ -18,11 +18,9 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
-import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.util.RxUtils;
-import me.ghui.v2ex.util.ScaleUtils;
 import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.BaseToolBar;
 import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
@@ -57,8 +55,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected BaseToolBar attachToolbar() {
         if (attachToolBar() == 0) {//default
             BaseToolBar baseToolBar = new BaseToolBar(this);
-            baseToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black);
-            baseToolBar.setElevation(ScaleUtils.dp(2, getContext()));
+//            baseToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black);
+//            baseToolBar.setElevation(ScaleUtils.dp(2, getContext()));
+//            baseToolBar.setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
+//            baseToolBar.setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
             return baseToolBar;
         } else {
             return (BaseToolBar) getLayoutInflater().inflate(attachToolBar(), null);

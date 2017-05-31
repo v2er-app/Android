@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +12,7 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.general.Navigator;
@@ -41,6 +41,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.node_img)
     ImageView mNodeImg;
+    @BindView(R.id.big_img_bg)
+    ImageView mBigImgBg;
     @BindView(R.id.node_name_tv)
     TextView mNodeText;
     @BindView(R.id.node_describtion_tv)
@@ -81,9 +83,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
-        WindowManager.LayoutParams localLayoutParams = getWindow().getAttributes();
-        localLayoutParams.flags = (WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | localLayoutParams.flags);
-
+//        View decorView = getWindow().getDecorView();
+//        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+//        decorView.setSystemUiVisibility(option);
+//        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -109,6 +113,9 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         Glide.with(this)
                 .load(nodeInfo.getAvatar())
                 .into(mNodeImg);
+        Glide.with(this).load(nodeInfo.getAvatar())
+                .bitmapTransform(new BlurTransformation(this))
+                .into(mBigImgBg);
     }
 
     @Override
