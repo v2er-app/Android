@@ -1,8 +1,11 @@
 package me.ghui.v2ex.module.node;
 
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,6 +27,7 @@ import me.ghui.v2ex.network.bean.NodeInfo;
 import me.ghui.v2ex.network.bean.NodesInfo;
 import me.ghui.v2ex.widget.BaseToolBar;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
+import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 
 /**
  * Created by ghui on 25/05/2017.
@@ -32,7 +36,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 // TODO: 25/05/2017
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener {
+        MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
     public static final String TAG_LINK_KEY = KEY("tag_link_key");
     private String mTagId;
     private String mTagLink;
@@ -47,9 +51,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     TextView mNodeText;
     @BindView(R.id.node_describtion_tv)
     TextView mNodeDesTv;
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout mCollapsingToolbarLayout;
+    @BindView(R.id.node_info_appbar_layout)
+    AppBarLayout mAppBarLayout;
+    @BindView(R.id.node_info_toobar)
+    Toolbar mToolbar;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NodesInfo.Item> mAdapter;
+    private NodeInfo mNodeInfo;
 
     @Override
     protected int attachLayoutRes() {
@@ -89,10 +100,27 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 //        decorView.setSystemUiVisibility(option);
 //        getWindow().setStatusBarColor(Color.TRANSPARENT);
 
+        mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, State state) {
+                if (state == State.EXPANDED) {
+                    //展开状态
+                    mToolbar.setTitle(null);
+                } else if (state == State.COLLAPSED) {
+                    //折叠状态
+                    if (mNodeInfo != null) {
+                        mToolbar.setTitle(mNodeInfo.getTitle());
+                    }
+                } else {
+                    //中间状态
+                }
+            }
+        });
     }
 
     @Override
@@ -108,6 +136,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public void fillHeaderView(NodeInfo nodeInfo) {
         if (nodeInfo == null) return;
+        mNodeInfo = nodeInfo;
+        mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
         mNodeDesTv.setText(nodeInfo.getHeader());
         Glide.with(this)
@@ -135,5 +165,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
                 .start();
+    }
+
+    @Override
+    public void onLoadMore(int willLoadPage) {
+        mPresenter.loadData(willLoadPage);
     }
 }

@@ -6,16 +6,18 @@
     tools:ignore="RtlHardcoded">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/main.appbar"
+        android:id="@+id/node_info_appbar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/main.collapsing"
+            android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:contentScrim="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
 
             <ImageView
                 android:id="@+id/big_img_bg"
@@ -30,14 +32,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:background="@color/colorPrimary"
-                android:orientation="vertical">
+                app:layout_collapseMode="parallax">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="vertical">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/node_img"
+                        android:layout_width="@dimen/large_avatar_size"
+                        android:layout_height="@dimen/large_avatar_size"
+                        android:layout_gravity="center_horizontal"
+                        app:civ_border_color="@color/white"
+                        app:civ_border_width="2dp" />
 
                     <TextView
                         android:id="@+id/node_name_tv"
@@ -53,6 +62,15 @@
                         tools:text="这里讨论各种 Python 语言编程话题，也包括 Django，Tornado 等框架的讨论。这里是一个能够帮助你解决实际问题的地方。" />
                 </LinearLayout>
             </FrameLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/node_info_toobar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:elevation="0dp"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_black"
+                app:titleTextColor="@color/bodyTextColor" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
@@ -62,25 +80,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    <me.ghui.v2ex.widget.BaseToolBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:elevation="0dp"
-        app:layout_anchor="@id/desc_wrapper">
-
-    </me.ghui.v2ex.widget.BaseToolBar>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/node_img"
-        android:layout_width="@dimen/large_avatar_size"
-        android:layout_height="@dimen/large_avatar_size"
-        android:layout_gravity="center_horizontal"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"
-        app:finalHeight="32dp"
-        app:finalYPosition="2dp"
-        app:layout_behavior="me.ghui.v2ex.widget.behavior.AvatarImageBehavior"
-        app:startHeight="2dp"
-        app:startToolbarPosition="2dp"
-        app:startXPosition="2dp" />
 </android.support.design.widget.CoordinatorLayout>
