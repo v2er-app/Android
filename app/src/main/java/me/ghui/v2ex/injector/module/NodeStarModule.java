@@ -38,7 +38,7 @@ public class NodeStarModule {
                         .load(item.getImg())
                         .into((ImageView) holder.getView(R.id.node_img));
                 holder.setText(R.id.node_name, item.getName());
-                holder.setText(R.id.node_topic__num, item.getTopicNum() + "");
+                holder.setText(R.id.node_topic_num, item.getTopicNum() + "");
             }
         };
     }

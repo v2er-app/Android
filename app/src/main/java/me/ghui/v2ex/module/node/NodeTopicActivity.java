@@ -57,6 +57,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     AppBarLayout mAppBarLayout;
     @BindView(R.id.node_info_toobar)
     Toolbar mToolbar;
+    @BindView(R.id.node_topic_num)
+    TextView mNodeTopicNumTv;
+    @BindView(R.id.node_star_num)
+    TextView mNodeStarNumTv;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NodesInfo.Item> mAdapter;
@@ -111,10 +115,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 if (state == State.EXPANDED) {
                     //展开状态
                     mToolbar.setTitle(null);
+                    mToolbar.setSubtitle(null);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
                     if (mNodeInfo != null) {
                         mToolbar.setTitle(mNodeInfo.getTitle());
+                        mToolbar.setSubtitle(mNodeInfo.getTopics() + " 个主题");
                     }
                 } else {
                     //中间状态
@@ -140,6 +146,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
         mNodeDesTv.setText(nodeInfo.getHeader());
+        mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
+        mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         Glide.with(this)
                 .load(nodeInfo.getAvatar())
                 .into(mNodeImg);

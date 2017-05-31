@@ -31,4 +31,14 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textColor">@color/bodyTextColor</item>
+    </style>
+
+    <style name="Toolbar.SubTitleText" parent="Toolbar.TitleText">
+        <item name="android:textSize">@dimen/microTextSize</item>
+    </style>
+
+
 </resources>

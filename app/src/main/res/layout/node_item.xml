@@ -22,7 +22,7 @@
         tools:text="v2ex" />
 
     <TextView
-        android:id="@+id/node_topic__num"
+        android:id="@+id/node_topic_num"
         style="@style/hintText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

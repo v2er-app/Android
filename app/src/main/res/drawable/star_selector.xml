@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_checked="true">
+        <shape android:shape="rectangle">
+            <stroke android:color="@color/colorAccent" />
+            <corners android:radius="2dp" />
+            <solid android:color="#a1a1a1" />
+        </shape>
+    </item>
+    <item android:state_pressed="true">
+        <ripple android:color="?android:attr/colorControlHighlight" />
+    </item>
+    <item>
+        <shape android:shape="rectangle">
+            <corners android:radius="2dp" />
+            <solid android:color="@color/colorAccent" />
+        </shape>
+    </item>
+</selector>
