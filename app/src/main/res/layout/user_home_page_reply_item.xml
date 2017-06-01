@@ -9,6 +9,7 @@
     <TextView
         android:id="@+id/reply_title_tv"
         style="@style/hintText"
+        android:layout_width="match_parent"
         android:background="@drawable/common_bottom_divider"
         android:paddingBottom="8dp"
         tools:text="回复了 HRTops 创建的主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！" />

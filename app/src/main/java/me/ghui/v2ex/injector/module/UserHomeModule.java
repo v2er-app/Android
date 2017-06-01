@@ -43,7 +43,7 @@ public class UserHomeModule {
                         .to(NodeTopicActivity.class)
                         .putExtra(NodeTopicActivity.TAG_LINK_KEY,
                                 ((UserPageInfo.TopicItem) getItem(holder.index())).getTagLink())
-                        .start());
+                        .start(), R.id.tagview);
 
             }
         };

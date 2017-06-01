@@ -81,10 +81,16 @@ public class NodesInfo {
             if (Utils.isEmpty(clickedAndContentLength)) {
                 return 0;
             } else {
-                String result = clickedAndContentLength.substring(clickedAndContentLength.lastIndexOf("•") + 1);
-//                return Integer.parseInt(result.split(" ")[1].trim());
-                result = result.replaceAll("[^0-9]", "");
-                return Integer.parseInt(result);
+                int count;
+                try {
+                    String result = clickedAndContentLength.substring(clickedAndContentLength.lastIndexOf("•") + 1);
+                    result = result.replaceAll("[^0-9]", "");
+                    count = Integer.parseInt(result);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    count = 0;
+                }
+                return count;
             }
         }
 

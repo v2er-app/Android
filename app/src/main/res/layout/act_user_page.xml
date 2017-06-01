@@ -117,7 +117,7 @@
                         android:paddingTop="2dp"
                         android:text="ONLINE"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/tinyTextSize"
+                        android:textSize="8dp"
                         android:visibility="gone" />
                 </LinearLayout>
 
