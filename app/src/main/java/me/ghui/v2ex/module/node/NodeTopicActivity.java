@@ -103,6 +103,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_star) {
+                // TODO: 01/06/2017  
                 Toast.makeText(getContext(), "do Star...", Toast.LENGTH_SHORT).show();
             }
             return true;

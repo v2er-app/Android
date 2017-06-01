@@ -38,7 +38,7 @@ public class NewsModule {
             @Override
             protected void convert(ViewHolder holder, NewsInfo.Item item, int position) {
                 Glide.with(mContext)
-                        .load("https:" + item.getAvatar())
+                        .load(item.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUser());
                 holder.setText(R.id.time_tv, item.getTime());

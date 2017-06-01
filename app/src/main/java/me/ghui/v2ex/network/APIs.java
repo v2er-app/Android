@@ -15,6 +15,7 @@ import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
+import me.ghui.v2ex.network.bean.UserPageInfo;
 import me.ghui.v2ex.network.converter.annotations.Html;
 import me.ghui.v2ex.network.converter.annotations.Json;
 import retrofit2.http.FieldMap;
@@ -84,5 +85,9 @@ public interface APIs {
     @Html
     @GET("/go/{node}")
     Observable<NodesInfo> nodesInfo(@Path("node") String node);
+
+    @Html
+    @GET("/member/{user}")
+    Observable<UserPageInfo> userPageInfo(@Path("user") String username);
 
 }

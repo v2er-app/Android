@@ -144,7 +144,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.avatar_img:
             case R.id.user_name_tv:
                 if (UserUtils.isLogin()) {
-                    Navigator.from(this).to(UserHomeActivity.class).start();
+                    Navigator.from(this).to(UserHomeActivity.class)
+                            .putExtra(UserHomeActivity.USER_NAME_KEY, UserUtils.getUserInfo().getUserName())
+                            .start();
                 } else {
                     Navigator.from(this).to(LoginActivity.class).start();
                 }

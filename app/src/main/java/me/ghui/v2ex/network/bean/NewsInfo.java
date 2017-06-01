@@ -4,6 +4,7 @@ package me.ghui.v2ex.network.bean;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.util.Utils;
 
 
@@ -91,7 +92,7 @@ public class NewsInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return Constants.HTTP_SCHEME + avatar;
         }
 
         public void setAvatar(String avatar) {

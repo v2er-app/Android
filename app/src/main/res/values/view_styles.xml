@@ -37,7 +37,8 @@
     </style>
 
     <style name="Toolbar.SubTitleText" parent="Toolbar.TitleText">
-        <item name="android:textSize">@dimen/microTextSize</item>
+        <item name="android:textSize">@dimen/tinyTextSize</item>
+        <item name="android:textColor">@color/hintTextColor</item>
     </style>
 
 
