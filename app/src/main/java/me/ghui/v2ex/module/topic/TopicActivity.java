@@ -94,7 +94,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             mAdapter.setData(null);
             return;
         }
-        mAdapter.setData(topicInfo.getItems(), isLoadMore);
+        mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
     }
 

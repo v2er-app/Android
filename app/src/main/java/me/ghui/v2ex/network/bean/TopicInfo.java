@@ -21,15 +21,28 @@ public class TopicInfo {
 
     private List<Item> items;
 
-    public List<Item> getItems() {
+    /**
+     * 加载分页后的数据
+     *
+     * @param isLoadMore
+     * @return
+     */
+    public List<Item> getItems(boolean isLoadMore) {
         if (items == null) {
             items = new ArrayList<>(Utils.listSize(replies) + 1);
         } else {
             items.clear();
         }
-        items.add(headerInfo);
+
+        if (!isLoadMore) {
+            items.add(headerInfo);
+        }
         items.addAll(replies);
         return items;
+    }
+
+    public void setHeaderInfo(HeaderInfo headerInfo) {
+        this.headerInfo = headerInfo;
     }
 
     public int getTotalPage() {

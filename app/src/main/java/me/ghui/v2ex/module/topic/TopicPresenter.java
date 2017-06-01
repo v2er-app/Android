@@ -22,7 +22,6 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void loadData(String topicId, int page) {
-        // TODO: 25/05/2017 翻页时，过滤掉topic content 
         APIService.get().topicDetails(topicId, page)
                 .compose(mView.rx())
                 .subscribe(topicInfo -> {
