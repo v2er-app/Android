@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -33,7 +34,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected ViewGroup mRootView;
     @Nullable
-    protected BaseToolBar mToolbar;
+    protected Toolbar mToolbar;
 
     @Inject
     protected T mPresenter;
@@ -52,13 +53,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      *
      * @return
      */
-    protected BaseToolBar attachToolbar() {
+    protected Toolbar attachToolbar() {
         if (attachToolBar() == 0) {//default
             BaseToolBar baseToolBar = new BaseToolBar(this);
-//            baseToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black);
-//            baseToolBar.setElevation(ScaleUtils.dp(2, getContext()));
-//            baseToolBar.setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
-//            baseToolBar.setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
             return baseToolBar;
         } else {
             return (BaseToolBar) getLayoutInflater().inflate(attachToolBar(), null);
@@ -73,7 +70,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * config toolbar here
      */
-    protected void configToolBar(BaseToolBar toolBar) {
+    protected void configToolBar(Toolbar toolBar) {
         toolBar.setTitle(getTitle());
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
     }

@@ -58,6 +58,7 @@
                         android:layout_gravity="center_horizontal"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:paddingTop="16dp"
                         tools:text="Python" />
 
                     <TextView
@@ -92,6 +93,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             android:focusableInTouchMode="true"
+                            android:lines="1"
                             android:paddingBottom="8dp"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"

@@ -1,6 +1,7 @@
 package me.ghui.v2ex.module.login;
 
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -14,7 +15,6 @@ import me.ghui.v2ex.injector.module.LoginModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.home.MainActivity;
 import me.ghui.v2ex.util.Utils;
-import me.ghui.v2ex.widget.BaseToolBar;
 
 /**
  * Created by ghui on 30/04/2017.
@@ -37,7 +37,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
-    protected void configToolBar(BaseToolBar toolBar) {
+    protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
     }

@@ -4,6 +4,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -30,7 +31,6 @@ import me.ghui.v2ex.module.login.LoginActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.UserInfo;
 import me.ghui.v2ex.util.UserUtils;
-import me.ghui.v2ex.widget.BaseToolBar;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate {
 
@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    protected void configToolBar(BaseToolBar toolBar) {
+    protected void configToolBar(Toolbar toolBar) {
         toolBar.setElevation(0);
         toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
         toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单

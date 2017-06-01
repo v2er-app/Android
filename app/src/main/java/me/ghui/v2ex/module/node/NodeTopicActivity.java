@@ -6,9 +6,11 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -25,7 +27,6 @@ import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NodeInfo;
 import me.ghui.v2ex.network.bean.NodesInfo;
-import me.ghui.v2ex.widget.BaseToolBar;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 
@@ -66,13 +67,15 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     LoadMoreRecyclerView.Adapter<NodesInfo.Item> mAdapter;
     private NodeInfo mNodeInfo;
 
+    private MenuItem mLoveMenuItem;
+
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_tag_page;
     }
 
     @Override
-    protected BaseToolBar attachToolbar() {
+    protected Toolbar attachToolbar() {
         return null;
     }
 
@@ -91,18 +94,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
-    protected void configToolBar(BaseToolBar toolBar) {
-        super.configToolBar(toolBar);
-        toolBar.setElevation(0);
-    }
-
-    @Override
     protected void init() {
-//        View decorView = getWindow().getDecorView();
-//        int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-//        decorView.setSystemUiVisibility(option);
-//        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        mToolbar.inflateMenu(R.menu.note_info_toolbar_menu);
+        mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
+        mToolbar.setNavigationOnClickListener(view -> onBackPressed());
+        mToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_star) {
+                Toast.makeText(getContext(), "do Star...", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
 
         mRecyclerView.setOnLoadMoreListener(this);
         mRecyclerView.addDivider();
@@ -116,8 +117,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                     //展开状态
                     mToolbar.setTitle(null);
                     mToolbar.setSubtitle(null);
+                    mLoveMenuItem.setVisible(false);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
+                    mLoveMenuItem.setVisible(true);
                     if (mNodeInfo != null) {
                         mToolbar.setTitle(mNodeInfo.getTitle());
                         mToolbar.setSubtitle(mNodeInfo.getTopics() + " 个主题");
@@ -164,6 +167,9 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         }
         mAdapter.setData(nodesInfo.getItems(), isLoadMore);
         mRecyclerView.setHasMore(nodesInfo.getTotal() > mAdapter.getContentItemCount());
+
+        mLoveMenuItem.setIcon(nodesInfo.hasStared() ?
+                R.drawable.love_checked_icon : R.drawable.love_normal_icon);
     }
 
     @Override

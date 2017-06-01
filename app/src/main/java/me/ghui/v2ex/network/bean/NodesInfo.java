@@ -17,6 +17,8 @@ public class NodesInfo {
 
     @Pick("div.fr.f12 > strong.gray")
     private int total;
+    @Pick("a[href^=/unfavorite/node]")
+    private String actionText;
     @Pick("div.cell")
     private List<Item> items;
 
@@ -26,6 +28,10 @@ public class NodesInfo {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    public boolean hasStared() {
+        return !Utils.isEmpty(actionText);
     }
 
     @Override

@@ -2,6 +2,7 @@ package me.ghui.v2ex.module.drawer.star;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -10,7 +11,6 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseActivity;
-import me.ghui.v2ex.widget.BaseToolBar;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -30,7 +30,7 @@ public class StarActivity extends BaseActivity {
     }
 
     @Override
-    protected void configToolBar(BaseToolBar toolBar) {
+    protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
     }
