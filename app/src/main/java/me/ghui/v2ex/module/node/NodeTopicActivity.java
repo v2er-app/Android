@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -62,6 +63,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     TextView mNodeTopicNumTv;
     @BindView(R.id.node_star_num)
     TextView mNodeStarNumTv;
+    @BindView(R.id.node_info_star_ct)
+    CheckedTextView mStarBtn;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NodesInfo.Item> mAdapter;
@@ -167,9 +170,14 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         }
         mAdapter.setData(nodesInfo.getItems(), isLoadMore);
         mRecyclerView.setHasMore(nodesInfo.getTotal() > mAdapter.getContentItemCount());
+        toggleStar(nodesInfo.hasStared());
+    }
 
-        mLoveMenuItem.setIcon(nodesInfo.hasStared() ?
+    private void toggleStar(boolean isStared) {
+        mLoveMenuItem.setIcon(isStared ?
                 R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+        mStarBtn.setChecked(isStared);
+        mStarBtn.setText(isStared ? "已收藏" : "收藏");
     }
 
     @Override
