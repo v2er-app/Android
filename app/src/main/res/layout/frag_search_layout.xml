@@ -2,7 +2,9 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#4D000000"
+    android:clickable="true">
 
     <me.ghui.v2ex.widget.LoadMoreRecyclerView
         android:id="@+id/search_result_recycler_view"
@@ -10,16 +12,16 @@
         android:layout_height="match_parent"
         android:layout_marginTop="4dp"
         android:clipToPadding="false"
-        android:paddingTop="@dimen/toolbar_height"
+        android:paddingTop="@dimen/searchbar_size"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="vertical" />
 
     <android.support.v7.widget.CardView
-        android:id="@+id/card_search"
+        android:id="@+id/search_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:visibility="visible"
+        android:visibility="invisible"
         card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="2dp">
 
@@ -30,22 +32,22 @@
             <LinearLayout
                 android:id="@+id/linearLayout_search"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/toolbar_height"
+                android:layout_height="@dimen/searchbar_size"
                 android:gravity="center_vertical">
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/image_search_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="@dimen/searchbar_size"
+                    android:layout_height="@dimen/searchbar_size"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="back"
-                    android:padding="12dp"
+                    android:padding="17dp"
                     android:src="@drawable/ic_arrow_back_black"
                     android:tint="#b4b4b4" />
 
                 <EditText
-                    android:id="@+id/edit_text_search"
+                    android:id="@+id/search_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -58,15 +60,15 @@
                     android:paddingRight="8dp"
                     android:singleLine="true" />
 
-                <ImageView
+                <ImageButton
                     android:id="@+id/clear_search_img"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?android:attr/selectableItemBackground"
+                    android:layout_width="@dimen/searchbar_size"
+                    android:layout_height="@dimen/searchbar_size"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="clear text"
                     android:focusable="true"
-                    android:padding="12dp"
+                    android:padding="17dp"
                     android:src="@drawable/ic_close_black"
                     android:tint="#b4b4b4" />
             </LinearLayout>

@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -76,7 +75,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
-                Toast.makeText(getContext(), "do Search...", Toast.LENGTH_SHORT).show();
                 if (mSearchFragment == null) {
                     mSearchFragment = SearchFragment.newInstance();
                 }
