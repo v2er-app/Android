@@ -66,6 +66,8 @@ public class TopicInfo {
         private String time;
         @Pick("div.header a[href^=/go]")
         private String tag;
+        @Pick(value = "div.header a[href^=/go]", attr = Attrs.HREF)
+        private String tagLink;
         @Pick("div.cell span.gray")
         private String comment;
         @Pick("a.page_normal:last-child")
@@ -80,6 +82,10 @@ public class TopicInfo {
         public String getCommentNum() {
             if (Utils.isEmpty(comment)) return "评论0";
             return "评论" + comment.split(" ")[0];
+        }
+
+        public String getTagLink() {
+            return tagLink;
         }
 
         public String getTag() {

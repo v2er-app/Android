@@ -10,7 +10,6 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.MsgContract;
 import me.ghui.v2ex.module.home.MsgFragment;
@@ -56,11 +55,8 @@ public class MsgModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(UserHomeActivity.class)
-                        .putExtra(UserHomeActivity.USER_NAME_KEY,
-                                getItem(holder.index()).getName())
-                        .start(), R.id.avatar_img);
+                holder.setOnClickListener(v ->
+                        UserHomeActivity.open(getItem(holder.index()).getName(), mContext), R.id.avatar_img);
             }
         };
     }

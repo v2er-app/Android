@@ -9,7 +9,6 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.scope.PerActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareContract;
@@ -51,11 +50,7 @@ public class SpecialCareModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(
-                        v -> Navigator.from(mContext)
-                                .to(UserHomeActivity.class)
-                                .putExtra(UserHomeActivity.USER_NAME_KEY,
-                                        getItem(holder.index()).getUserName())
-                                .start(),
+                        v -> UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext),
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(), mContext), R.id.tagview);

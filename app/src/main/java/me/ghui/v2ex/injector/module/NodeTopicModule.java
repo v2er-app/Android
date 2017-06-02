@@ -9,7 +9,6 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.node.NodeTopicContract;
 import me.ghui.v2ex.module.node.NodeTopicPresenter;
@@ -48,11 +47,8 @@ public class NodeTopicModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v -> {
-                    String userId = getItem(holder.getAdapterPosition()).getUserName();
-                    Navigator.from(mContext)
-                            .to(UserHomeActivity.class)
-                            .putExtra(UserHomeActivity.USER_NAME_KEY, userId)
-                            .start();
+                    String username = getItem(holder.getAdapterPosition()).getUserName();
+                    UserHomeActivity.open(username, mContext);
                 }, R.id.user_name_tv, R.id.avatar_img);
             }
         };

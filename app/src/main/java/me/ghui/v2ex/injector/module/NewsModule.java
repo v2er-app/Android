@@ -9,7 +9,6 @@ import dagger.Provides;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.scope.PerFragment;
 import me.ghui.v2ex.module.home.NewsContract;
 import me.ghui.v2ex.module.home.NewsFragment;
@@ -51,11 +50,7 @@ public class NewsModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(
-                        v -> Navigator.from(mContext)
-                                .to(UserHomeActivity.class)
-                                .putExtra(UserHomeActivity.USER_NAME_KEY,
-                                        getItem(holder.index()).getUser())
-                                .start(),
+                        v -> UserHomeActivity.open(getItem(holder.index()).getUser(), mContext),
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(),

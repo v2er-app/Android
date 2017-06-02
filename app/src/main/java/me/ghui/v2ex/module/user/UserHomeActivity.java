@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -19,12 +20,12 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerUserHomeComponent;
 import me.ghui.v2ex.injector.module.UserHomeModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.UserPageInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 
@@ -62,7 +63,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Inject
     MultiItemTypeAdapter<UserPageInfo.Item> mAdapter;
-    public static final String USER_NAME_KEY = KEY("user_name");
+    private static final String USER_NAME_KEY = KEY("user_name_key");
     private String mUserName;
 
     @Override
@@ -78,6 +79,13 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
+    }
+
+    public static void open(String userName, Context context) {
+        Navigator.from(context)
+                .to(UserHomeActivity.class)
+                .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                .start();
     }
 
     @Override
