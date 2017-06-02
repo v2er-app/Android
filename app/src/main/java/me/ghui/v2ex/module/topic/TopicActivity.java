@@ -15,7 +15,6 @@ import me.ghui.v2ex.injector.component.DaggerTopicComponent;
 import me.ghui.v2ex.injector.module.TopicModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.network.bean.TopicInfo;
-import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 
@@ -25,7 +24,6 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener {
-    public static final String TOPIC_LINK_KEY = KEY("topic_link_key");
     public static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
     @BindView(R.id.common_recyclerview)
@@ -33,8 +31,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
-    private int mTopicId;
-    private String mTopicLink;
+    private String mTopicId;
 
     @Override
     protected int attachLayoutRes() {
@@ -51,12 +48,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void parseExtras(Intent intent) {
-        mTopicLink = intent.getStringExtra(TOPIC_LINK_KEY);
-        if (Utils.isNotEmpty(mTopicLink)) {
-            mTopicId = Integer.parseInt(mTopicLink.substring(3, mTopicLink.indexOf("#")));
-        } else {
-            mTopicId = intent.getIntExtra(TOPIC_ID_KEY, -1);
-        }
+        mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
     }
 
     @Override

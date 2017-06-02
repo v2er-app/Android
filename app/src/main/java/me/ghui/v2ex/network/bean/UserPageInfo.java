@@ -73,7 +73,7 @@ public class UserPageInfo {
     }
 
     public String getAvatar() {
-        return Constants.HTTP_SCHEME + avatar;
+        return Constants.HTTPS_SCHEME + avatar;
     }
 
     public String getDesc() {

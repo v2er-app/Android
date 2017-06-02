@@ -5,7 +5,6 @@ import java.util.List;
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2ex.network.Constants;
-import me.ghui.v2ex.util.Utils;
 
 /**
  * Created by ghui on 18/05/2017.
@@ -39,19 +38,12 @@ public class NodeStarInfo {
                     ", name='" + name + '\'' +
                     ", topicNum=" + topicNum +
                     ", link='" + link + '\'' +
-                    ", id='" + getId() + '\'' +
+                    ", id='" + getLink() + '\'' +
                     '}';
         }
 
-        public String getId() {
-            if (Utils.isEmpty(link)) return null;
-            else {
-                return link.substring(link.lastIndexOf("/") + 1);
-            }
-        }
-
         public String getImg() {
-            return Constants.HTTP_SCHEME + img;
+            return Constants.HTTPS_SCHEME + img;
         }
 
         public String getName() {

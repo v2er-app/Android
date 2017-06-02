@@ -60,7 +60,7 @@ public class DailyHotModule {
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v -> Navigator.from(mContext)
                         .to(NodeTopicActivity.class)
-                        .putExtra(NodeTopicActivity.TAG_LINK_KEY,
+                        .putExtra(NodeTopicActivity.TAG_ID_KEY,
                                 getItem(holder.index()).getNode().getName())
                         .start(), R.id.tagview);
             }

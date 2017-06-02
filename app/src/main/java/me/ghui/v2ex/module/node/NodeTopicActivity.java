@@ -28,6 +28,7 @@ import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NodeInfo;
 import me.ghui.v2ex.network.bean.NodesInfo;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 
@@ -39,9 +40,8 @@ import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 // TODO: 25/05/2017
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
         MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
-    public static final String TAG_LINK_KEY = KEY("tag_link_key");
+    public static final String TAG_ID_KEY = KEY("tag_id_key");
     private String mTagId;
-    private String mTagLink;
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -84,9 +84,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void parseExtras(Intent intent) {
-        mTagLink = intent.getStringExtra(TAG_LINK_KEY);
-        // TODO: 02/06/2017
-        mTagId = mTagLink.substring(mTagLink.lastIndexOf("/") + 1);
+        mTagId = intent.getStringExtra(TAG_ID_KEY);
     }
 
     @Override
@@ -184,10 +182,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String link = mAdapter.getDatas().get(position).getTopicLink();
+        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getTopicLink());
         Navigator.from(getContext())
                 .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
                 .start();
     }
 

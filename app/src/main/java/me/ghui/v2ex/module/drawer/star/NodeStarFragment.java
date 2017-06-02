@@ -20,6 +20,7 @@ import me.ghui.v2ex.injector.module.NodeStarModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.network.bean.NodeStarInfo;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.BaseRecyclerView;
 
 /**
@@ -82,8 +83,8 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         Navigator.from(getContext())
                 .to(NodeTopicActivity.class)
-                .putExtra(NodeTopicActivity.TAG_LINK_KEY,
-                        mAdapter.getItem(position).getId())
+                .putExtra(NodeTopicActivity.TAG_ID_KEY,
+                        UriUtils.getLastSegment(mAdapter.getItem(position).getLink()))
                 .start();
     }
 }

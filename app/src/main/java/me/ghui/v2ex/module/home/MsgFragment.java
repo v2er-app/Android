@@ -19,6 +19,7 @@ import me.ghui.v2ex.injector.module.MsgModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NotificationInfo;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -93,10 +94,10 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String link = mAdapter.getDatas().get(position).getLink();
+        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getLink());
         Navigator.from(getContext())
                 .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_LINK_KEY, link)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
                 .start();
     }
 }

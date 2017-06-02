@@ -14,6 +14,7 @@ import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.module.user.UserHomeContract;
 import me.ghui.v2ex.module.user.UserHomePresenter;
 import me.ghui.v2ex.network.bean.UserPageInfo;
+import me.ghui.v2ex.util.UriUtils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -41,8 +42,8 @@ public class UserHomeModule {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v -> Navigator.from(mContext)
                         .to(NodeTopicActivity.class)
-                        .putExtra(NodeTopicActivity.TAG_LINK_KEY,
-                                ((UserPageInfo.TopicItem) getItem(holder.index())).getTagLink())
+                        .putExtra(NodeTopicActivity.TAG_ID_KEY,
+                                UriUtils.getLastSegment(((UserPageInfo.TopicItem) getItem(holder.index())).getTagLink()))
                         .start(), R.id.tagview);
 
             }

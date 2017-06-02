@@ -13,8 +13,8 @@ public class TopicContract {
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
-        void loadData(int topicId, int page);
+        void loadData(String topicId, int page);
 
-        void loadData(int topicId);
+        void loadData(String topicId);
     }
 }

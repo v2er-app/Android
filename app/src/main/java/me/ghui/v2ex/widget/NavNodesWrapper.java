@@ -12,6 +12,7 @@ import java.util.Stack;
 import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.network.bean.NodesNavInfo;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -65,11 +66,11 @@ public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        String link = (String) v.getTag();
+        String link = UriUtils.getLastSegment((String) v.getTag());
         if (Utils.isEmpty(link)) return;
         Navigator.from(getContext())
                 .to(NodeTopicActivity.class)
-                .putExtra(NodeTopicActivity.TAG_LINK_KEY, link)
+                .putExtra(NodeTopicActivity.TAG_ID_KEY, link)
                 .start();
     }
 }

@@ -58,7 +58,7 @@ public interface APIs {
 
     @Html
     @GET("/t/{id}")
-    Observable<TopicInfo> topicDetails(@Path("id") int topicId, @Query("p") int page);
+    Observable<TopicInfo> topicDetails(@Path("id") String topicId, @Query("p") int page);
 
     @Html
     @GET("/notifications")

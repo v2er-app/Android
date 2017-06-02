@@ -43,11 +43,11 @@ public class BingSearchResultInfo {
             return content;
         }
 
-//        public String getLink() {
-//            return link;
-//        }
+        public String getLink() {
+            return link;
+        }
 
-        // TODO: 02/06/2017  
+        // TODO: 02/06/2017
 
         public int getTopicId() {
             try {

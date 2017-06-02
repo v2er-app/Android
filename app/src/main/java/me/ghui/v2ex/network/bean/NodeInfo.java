@@ -102,7 +102,7 @@ public class NodeInfo {
     }
 
     public String getAvatar() {
-        return Constants.HTTP_SCHEME + avatar;
+        return Constants.HTTPS_SCHEME + avatar;
     }
 
     public void setAvatar(String avatar) {

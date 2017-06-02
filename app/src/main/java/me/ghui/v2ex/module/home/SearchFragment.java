@@ -168,10 +168,21 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        int id = mResultAdapter.getDatas().get(position).getTopicId();
-        Navigator.from(getContext())
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                .start();
+        String link = mResultAdapter.getDatas().get(position).getLink();
+        if (Utils.isEmpty(link)) return;
+        //check link type
+        if (link.contains("/t/")) {
+            //topic page
+            int id = mResultAdapter.getDatas().get(position).getTopicId();
+            Navigator.from(getContext())
+                    .to(TopicActivity.class)
+                    .putExtra(TopicActivity.TOPIC_ID_KEY, id)
+                    .start();
+        } else {
+            //node page
+
+        }
+
+
     }
 }
