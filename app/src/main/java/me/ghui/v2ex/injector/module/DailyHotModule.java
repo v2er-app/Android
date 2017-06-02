@@ -58,11 +58,10 @@ public class DailyHotModule {
                                         getItem(holder.index()).getId())
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
-                holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(NodeTopicActivity.class)
-                        .putExtra(NodeTopicActivity.TAG_ID_KEY,
-                                getItem(holder.index()).getNode().getName())
-                        .start(), R.id.tagview);
+
+                holder.setOnClickListener(v ->
+                                NodeTopicActivity.open(getItem(holder.index()).getUrl(), mContext),
+                        R.id.tagview);
             }
         };
     }

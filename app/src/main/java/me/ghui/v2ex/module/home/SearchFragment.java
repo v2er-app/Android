@@ -18,11 +18,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerSearchComponent;
 import me.ghui.v2ex.injector.module.SearchModule;
 import me.ghui.v2ex.module.base.BaseFragment;
-import me.ghui.v2ex.module.topic.TopicActivity;
+import me.ghui.v2ex.network.UrlInterceptor;
 import me.ghui.v2ex.network.bean.BingSearchResultInfo;
 import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.BaseRecyclerView;
@@ -169,20 +168,6 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String link = mResultAdapter.getDatas().get(position).getLink();
-        if (Utils.isEmpty(link)) return;
-        //check link type
-        if (link.contains("/t/")) {
-            //topic page
-            int id = mResultAdapter.getDatas().get(position).getTopicId();
-            Navigator.from(getContext())
-                    .to(TopicActivity.class)
-                    .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                    .start();
-        } else {
-            //node page
-
-        }
-
-
+        UrlInterceptor.intercept(link, getContext());
     }
 }

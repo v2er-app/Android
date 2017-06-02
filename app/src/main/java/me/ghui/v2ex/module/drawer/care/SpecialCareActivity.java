@@ -12,7 +12,6 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerSpecialCareComponent;
 import me.ghui.v2ex.injector.module.SpecialCareModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -86,9 +85,6 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getLink());
-        Navigator.from(getContext())
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                .start();
+        TopicActivity.open(id, this);
     }
 }

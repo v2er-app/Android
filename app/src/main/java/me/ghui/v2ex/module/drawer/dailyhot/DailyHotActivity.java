@@ -13,7 +13,6 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerDailyHotComponent;
 import me.ghui.v2ex.injector.module.DailyHotModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -74,10 +73,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = mDailyHotAdapter.getDatas().get(position).getId();
-        Navigator.from(getContext())
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                .start();
+        TopicActivity.open(id, this);
     }
 
 }

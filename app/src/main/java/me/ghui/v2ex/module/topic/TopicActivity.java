@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.topic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -11,6 +12,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerTopicComponent;
 import me.ghui.v2ex.injector.module.TopicModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -24,7 +26,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener {
-    public static final String TOPIC_ID_KEY = KEY("topic_id_key");
+    private static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
@@ -32,6 +34,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
     private String mTopicId;
+
+    public static void open(String topicId, Context context) {
+        Navigator.from(context)
+                .to(TopicActivity.class)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
+                .start();
+    }
 
     @Override
     protected int attachLayoutRes() {

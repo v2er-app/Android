@@ -17,7 +17,6 @@ import me.ghui.v2ex.module.drawer.care.SpecialCarePresenter;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.CareInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -58,11 +57,8 @@ public class SpecialCareModule {
                                         getItem(holder.index()).getUserName())
                                 .start(),
                         R.id.avatar_img, R.id.user_name_tv);
-                holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(NodeTopicActivity.class)
-                        .putExtra(NodeTopicActivity.TAG_ID_KEY,
-                                UriUtils.getLastSegment(getItem(holder.index()).getTagLink()))
-                        .start(), R.id.tagview);
+                holder.setOnClickListener(v ->
+                        NodeTopicActivity.open(getItem(holder.index()).getTagLink(), mContext), R.id.tagview);
             }
         };
     }

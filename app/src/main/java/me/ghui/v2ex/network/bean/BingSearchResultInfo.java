@@ -47,18 +47,6 @@ public class BingSearchResultInfo {
             return link;
         }
 
-        // TODO: 02/06/2017
-
-        public int getTopicId() {
-            try {
-                String[] str = link.split("/");
-                return Integer.parseInt(str[str.length - 1]);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return -1;
-            }
-        }
-
         @Override
         public String toString() {
             return "Item{" +

@@ -1,5 +1,6 @@
 package me.ghui.v2ex.module.node;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -40,7 +41,7 @@ import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 // TODO: 25/05/2017
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
         MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
-    public static final String TAG_ID_KEY = KEY("tag_id_key");
+    private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private String mTagId;
 
     @BindView(R.id.common_recyclerview)
@@ -72,6 +73,18 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private MenuItem mLoveMenuItem;
 
+    public static void openById(String nodeId, Context context) {
+        Navigator.from(context)
+                .to(NodeTopicActivity.class)
+                .putExtra(NodeTopicActivity.TAG_NODE_ID_KEY, nodeId)
+                .start();
+    }
+
+    public static void open(String link, Context context) {
+        openById(UriUtils.getLastSegment(link), context);
+    }
+
+
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_tag_page;
@@ -84,7 +97,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void parseExtras(Intent intent) {
-        mTagId = intent.getStringExtra(TAG_ID_KEY);
+        mTagId = intent.getStringExtra(TAG_NODE_ID_KEY);
     }
 
     @Override
@@ -183,10 +196,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getTopicLink());
-        Navigator.from(getContext())
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                .start();
+        TopicActivity.open(id, this);
     }
 
     @Override

@@ -19,7 +19,6 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerUserHomeComponent;
 import me.ghui.v2ex.injector.module.UserHomeModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -146,9 +145,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getTopicLink());
-        Navigator.from(getContext())
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, id)
-                .start();
+        TopicActivity.open(id, this);
     }
 }

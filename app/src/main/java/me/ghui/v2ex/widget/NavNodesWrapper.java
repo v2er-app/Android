@@ -9,7 +9,6 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.List;
 import java.util.Stack;
 
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.util.UriUtils;
@@ -68,9 +67,6 @@ public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListen
     public void onClick(View v) {
         String link = UriUtils.getLastSegment((String) v.getTag());
         if (Utils.isEmpty(link)) return;
-        Navigator.from(getContext())
-                .to(NodeTopicActivity.class)
-                .putExtra(NodeTopicActivity.TAG_ID_KEY, link)
-                .start();
+        NodeTopicActivity.open(link, getContext());
     }
 }

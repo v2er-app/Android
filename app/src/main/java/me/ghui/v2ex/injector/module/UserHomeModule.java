@@ -8,13 +8,11 @@ import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.ItemViewDelegate;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.module.user.UserHomeContract;
 import me.ghui.v2ex.module.user.UserHomePresenter;
 import me.ghui.v2ex.network.bean.UserPageInfo;
-import me.ghui.v2ex.util.UriUtils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -40,11 +38,8 @@ public class UserHomeModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v -> Navigator.from(mContext)
-                        .to(NodeTopicActivity.class)
-                        .putExtra(NodeTopicActivity.TAG_ID_KEY,
-                                UriUtils.getLastSegment(((UserPageInfo.TopicItem) getItem(holder.index())).getTagLink()))
-                        .start(), R.id.tagview);
+                holder.setOnClickListener(v ->
+                        NodeTopicActivity.open(((UserPageInfo.TopicItem) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
 
             }
         };

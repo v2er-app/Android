@@ -14,13 +14,11 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerNodeStarComponent;
 import me.ghui.v2ex.injector.module.NodeStarModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.network.bean.NodeStarInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.BaseRecyclerView;
 
 /**
@@ -81,10 +79,7 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        Navigator.from(getContext())
-                .to(NodeTopicActivity.class)
-                .putExtra(NodeTopicActivity.TAG_ID_KEY,
-                        UriUtils.getLastSegment(mAdapter.getItem(position).getLink()))
-                .start();
+        String url = mAdapter.getItem(position).getLink();
+        NodeTopicActivity.open(url, getContext());
     }
 }
