@@ -45,6 +45,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.view_count_tv, "点击" + headerInfo.getViewCount());
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
+        // TODO: 03/06/2017  
         holder.setText(R.id.content_tv,
                 Html.fromHtml(headerInfo.getContentHtml(),
                         new GlideImageGetter(holder.getView(R.id.content_tv)), null));
