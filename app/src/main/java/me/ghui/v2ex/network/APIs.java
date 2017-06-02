@@ -86,7 +86,7 @@ public interface APIs {
 
     @Html
     @GET("/go/{node}")
-    Observable<NodesInfo> nodesInfo(@Path("node") String node);
+    Observable<NodesInfo> nodesInfo(@Path("node") String node, @Query("p") int page);
 
     @Html
     @GET("/member/{user}")

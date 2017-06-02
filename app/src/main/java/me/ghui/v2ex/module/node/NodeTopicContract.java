@@ -16,6 +16,8 @@ public class NodeTopicContract {
     public interface IView extends BaseContract.IView {
         String nodeName();
 
+        int initPage();
+
         void fillHeaderView(NodeInfo nodeInfo);
 
         void fillListView(NodesInfo nodesInfo, boolean isLoadMore);

@@ -25,17 +25,16 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                     Logger.d("nodeInfo: " + nodeInfo);
                     mView.fillHeaderView(nodeInfo);
                 });
-        loadData(1);
+        loadData(mView.initPage());
     }
 
     @Override
     public void loadData(int page) {
-        APIService.get().nodesInfo(mView.nodeName())
+        APIService.get().nodesInfo(mView.nodeName(), page)
                 .compose(mView.rx())
                 .subscribe(nodesInfo -> {
                     Logger.d("nodes: " + nodesInfo);
-                    mView.fillListView(nodesInfo, page > 1);
+                    mView.fillListView(nodesInfo, page > 1 && mView.initPage() == 1);
                 });
-
     }
 }

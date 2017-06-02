@@ -42,7 +42,10 @@ import me.ghui.v2ex.widget.listener.AppBarStateChangeListener;
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
         MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
+    private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
     private String mTagId;
+    //page value when enter
+    private int mInitPage;
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -73,17 +76,21 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private MenuItem mLoveMenuItem;
 
-    public static void openById(String nodeId, Context context) {
+    public static void openById(String nodeId, int page, Context context) {
         Navigator.from(context)
                 .to(NodeTopicActivity.class)
                 .putExtra(NodeTopicActivity.TAG_NODE_ID_KEY, nodeId)
+                .putExtra(NodeTopicActivity.TAG_INIT_PAGE_KEY, page)
                 .start();
     }
 
-    public static void open(String link, Context context) {
-        openById(UriUtils.getLastSegment(link), context);
+    public static void open(String link, int page, Context context) {
+        openById(UriUtils.getLastSegment(link), page, context);
     }
 
+    public static void open(String link, Context context) {
+        openById(UriUtils.getLastSegment(link), 1, context);
+    }
 
     @Override
     protected int attachLayoutRes() {
@@ -98,6 +105,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     protected void parseExtras(Intent intent) {
         mTagId = intent.getStringExtra(TAG_NODE_ID_KEY);
+        mInitPage = intent.getIntExtra(TAG_INIT_PAGE_KEY, 1);
     }
 
     @Override
@@ -156,6 +164,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public String nodeName() {
         return mTagId;
+    }
+
+    @Override
+    public int initPage() {
+        return mInitPage;
     }
 
     @Override

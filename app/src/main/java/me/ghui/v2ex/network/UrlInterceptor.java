@@ -4,6 +4,7 @@ import android.content.Context;
 
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -30,7 +31,14 @@ public class UrlInterceptor {
             result = true;
         } else if (url.contains("/go/")) {
             //node link
-            NodeTopicActivity.open(url, context);
+            int page;
+            try {
+                page = Integer.parseInt(UriUtils.getParamValue(url, "p"));
+            } catch (Exception e) {
+                e.printStackTrace();
+                page = 1;
+            }
+            NodeTopicActivity.open(url, page, context);
             result = true;
         } else {
             //open url in a default webview
