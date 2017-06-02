@@ -4,7 +4,6 @@ import android.content.Context;
 
 import me.ghui.v2ex.module.node.NodeTopicActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.util.Utils;
 
 /**
