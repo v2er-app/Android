@@ -195,6 +195,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             return;
         }
         mAdapter.setData(nodesInfo.getItems(), isLoadMore);
+        // TODO: 03/06/2017 check page 
         mRecyclerView.setHasMore(nodesInfo.getTotal() > mAdapter.getContentItemCount());
         toggleStar(nodesInfo.hasStared());
     }
