@@ -36,7 +36,7 @@
                 android:layout_height="@dimen/searchbar_size"
                 android:gravity="center_vertical">
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/image_search_back"
                     android:layout_width="@dimen/searchbar_size"
                     android:layout_height="@dimen/searchbar_size"
@@ -44,7 +44,8 @@
                     android:clickable="true"
                     android:contentDescription="back"
                     android:padding="17dp"
-                    android:src="@drawable/ic_arrow_back_black" />
+                    android:src="@drawable/ic_arrow_back_black"
+                    android:tint="@color/colorAccent" />
 
                 <EditText
                     android:id="@+id/search_edit_text"
@@ -60,7 +61,7 @@
                     android:paddingRight="8dp"
                     android:singleLine="true" />
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/clear_search_img"
                     android:layout_width="@dimen/searchbar_size"
                     android:layout_height="@dimen/searchbar_size"
@@ -68,8 +69,9 @@
                     android:clickable="true"
                     android:contentDescription="clear text"
                     android:focusable="true"
-                    android:padding="17dp"
-                    android:src="@drawable/ic_close_black" />
+                    android:padding="17.5dp"
+                    android:src="@drawable/ic_close_black"
+                    android:tint="@color/colorAccent" />
             </LinearLayout>
 
             <me.ghui.v2ex.widget.BaseRecyclerView

@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
-    private SearchFragment mSearchFragment;
 
 
     @Override
@@ -75,11 +74,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
-                if (mSearchFragment == null) {
-                    mSearchFragment = SearchFragment.newInstance();
-                }
                 getSupportFragmentManager().beginTransaction()
-                        .add(mRootView.getId(), mSearchFragment)
+                        .add(mRootView.getId(), SearchFragment.newInstance())
                         .addToBackStack("search")
                         .commit();
             }

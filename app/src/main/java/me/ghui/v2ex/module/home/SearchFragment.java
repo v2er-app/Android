@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import javax.inject.Inject;
 
@@ -38,9 +38,9 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     @BindView(R.id.search_result_recycler_view)
     LoadMoreRecyclerView mResultRecyV;
     @BindView(R.id.image_search_back)
-    ImageButton mBackBtn;
+    ImageView mBackBtn;
     @BindView(R.id.clear_search_img)
-    ImageButton mClearBtn;
+    ImageView mClearBtn;
     @BindView(R.id.search_edit_text)
     EditText mSearchEt;
     @BindView(R.id.search_history_recycler_view)
