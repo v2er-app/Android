@@ -21,7 +21,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public void loadData(String topicId, int page) {
+    public void loadData(int topicId, int page) {
         APIService.get().topicDetails(topicId, page)
                 .compose(mView.rx())
                 .subscribe(topicInfo -> {
@@ -31,7 +31,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public void loadData(String topicId) {
+    public void loadData(int topicId) {
         loadData(topicId, 1);
     }
 

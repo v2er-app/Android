@@ -80,7 +80,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 }
                 getSupportFragmentManager().beginTransaction()
                         .add(mRootView.getId(), mSearchFragment)
-                        .addToBackStack(SearchFragment.class.getSimpleName())
+                        .addToBackStack("search")
                         .commit();
             }
             return true;

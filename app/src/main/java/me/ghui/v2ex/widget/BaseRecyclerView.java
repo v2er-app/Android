@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import me.ghui.v2ex.R;
+import me.ghui.v2ex.util.ScaleUtils;
 
 /**
  * Created by ghui on 05/05/2017.
@@ -36,14 +37,14 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     public void addDivider() {
-        setDivider(getResources().getColor(R.color.divider_color), getResources().getDimension(R.dimen.divider_size));
+        setDivider(getResources().getColor(R.color.divider_color), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
     }
 
-    public void setDivider(@ColorInt int dividerColor, float dividerWidth) {
+    public void setDivider(@ColorInt int dividerColor, float dividerSizeDp) {
         addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getContext())
                         .color(dividerColor)
-                        .size(Math.round(dividerWidth))
+                        .size(Math.round(ScaleUtils.dp(dividerSizeDp)))
                         .build());
     }
 

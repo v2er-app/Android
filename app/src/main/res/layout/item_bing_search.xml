@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0.6dp">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/search_result_title_tv"
+            style="@style/BodyText"
+            android:layout_width="match_parent"
+            android:background="@drawable/common_bottom_divider"
+            android:paddingBottom="8dp"
+            tools:text=" 加入图片命名规则 - V2EX" />
+
+        <TextView
+            android:id="@+id/search_result_content_tv"
+            style="@style/hintText"
+            android:layout_width="match_parent"
+            android:paddingTop="8dp"
+            tools:text="Android - @yuyu5 - 当我们在 android 的 drawable 文件下加入图片的，常会因为图片命名不规范而引发一系列问题。今天，北京上课了的讲师为大家介绍一下 android 加入图片 ..." />
+    </LinearLayout>
+</android.support.v7.widget.CardView>

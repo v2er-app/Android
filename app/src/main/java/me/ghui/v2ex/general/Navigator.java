@@ -68,6 +68,10 @@ public class Navigator {
         getExtras().putString(name, value);
         return this;
     }
+    public Navigator putExtra(String name, int value) {
+        getExtras().putInt(name, value);
+        return this;
+    }
 
 }
 

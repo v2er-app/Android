@@ -33,7 +33,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
-    private String mTopicId;
+    private int mTopicId;
     private String mTopicLink;
 
     @Override
@@ -53,9 +53,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     protected void parseExtras(Intent intent) {
         mTopicLink = intent.getStringExtra(TOPIC_LINK_KEY);
         if (Utils.isNotEmpty(mTopicLink)) {
-            mTopicId = mTopicLink.substring(3, mTopicLink.indexOf("#"));
+            mTopicId = Integer.parseInt(mTopicLink.substring(3, mTopicLink.indexOf("#")));
         } else {
-            mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
+            mTopicId = intent.getIntExtra(TOPIC_ID_KEY, -1);
         }
     }
 

@@ -3,6 +3,7 @@ package me.ghui.v2ex.network;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import me.ghui.v2ex.network.bean.BingSearchResultInfo;
 import me.ghui.v2ex.network.bean.CareInfo;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
@@ -25,6 +26,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 
 /**
  * Created by ghui on 05/05/2017.
@@ -56,7 +58,7 @@ public interface APIs {
 
     @Html
     @GET("/t/{id}")
-    Observable<TopicInfo> topicDetails(@Path("id") String topicId, @Query("p") int page);
+    Observable<TopicInfo> topicDetails(@Path("id") int topicId, @Query("p") int page);
 
     @Html
     @GET("/notifications")
@@ -89,5 +91,9 @@ public interface APIs {
     @Html
     @GET("/member/{user}")
     Observable<UserPageInfo> userPageInfo(@Path("user") String username);
+
+    @Html
+    @GET
+    Observable<BingSearchResultInfo> bingSearch(@Url String url);
 
 }

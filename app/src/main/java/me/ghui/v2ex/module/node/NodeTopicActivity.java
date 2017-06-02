@@ -85,6 +85,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     protected void parseExtras(Intent intent) {
         mTagLink = intent.getStringExtra(TAG_LINK_KEY);
+        // TODO: 02/06/2017
         mTagId = mTagLink.substring(mTagLink.lastIndexOf("/") + 1);
     }
 

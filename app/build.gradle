@@ -62,4 +62,5 @@ dependencies {
     compile 'com.github.GrenderG:Prefs:1.3'
     compile 'me.ghui:Fruit:0.1.3'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    compile 'com.zzhoujay.richtext:richtext:2.5.2'
 }
