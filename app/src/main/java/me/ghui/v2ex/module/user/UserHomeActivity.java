@@ -144,7 +144,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getTopicLink());
-        TopicActivity.open(id, this);
+        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this);
     }
 }

@@ -91,7 +91,6 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getLink());
-        TopicActivity.open(id, getContext());
+        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext());
     }
 }

@@ -107,7 +107,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getLinkPath());
-        TopicActivity.open(id, getContext());
+        TopicActivity.open(mAdapter.getDatas().get(position).getLinkPath(), getContext());
     }
 }

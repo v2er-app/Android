@@ -73,7 +73,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
         String id = mDailyHotAdapter.getDatas().get(position).getId();
-        TopicActivity.open(id, this);
+        TopicActivity.openById(id, this);
     }
 
 }

@@ -84,7 +84,6 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
 
     @Override
     public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
-        String id = UriUtils.getLastSegment(mAdapter.getDatas().get(position).getLink());
-        TopicActivity.open(id, this);
+        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this);
     }
 }

@@ -17,6 +17,7 @@ import me.ghui.v2ex.injector.component.DaggerTopicComponent;
 import me.ghui.v2ex.injector.module.TopicModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.network.bean.TopicInfo;
+import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 
@@ -35,11 +36,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     LoadMoreRecyclerView.Adapter mAdapter;
     private String mTopicId;
 
-    public static void open(String topicId, Context context) {
+    public static void openById(String topicId, Context context) {
         Navigator.from(context)
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
                 .start();
+    }
+
+    public static void open(String link, Context context) {
+        openById(UriUtils.getLastSegment(link), context);
     }
 
     @Override

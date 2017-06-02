@@ -27,7 +27,7 @@ public class UrlInterceptor {
         //now has a complete url
         if (url.contains("/t/")) {
             //topic link
-            TopicActivity.open(UriUtils.getLastSegment(url), context);
+            TopicActivity.open(url, context);
             result = true;
         } else if (url.contains("/go/")) {
             //node link
