@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -19,6 +20,7 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
+import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.util.RxUtils;
@@ -32,7 +34,8 @@ import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
 
 public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife {
 
-    protected ViewGroup mRootView;
+    protected FrameLayout mRootView;
+    protected ViewGroup mContentView;
     @Nullable
     protected Toolbar mToolbar;
 
@@ -128,7 +131,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             rootView.setOrientation(LinearLayout.VERTICAL);
             rootView.addView(mToolbar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
-            mRootView = rootView;
+            mContentView = rootView;
 
             configToolBar(mToolbar);
         }
@@ -145,14 +148,19 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             viewBelowToolbar = (ViewGroup) getLayoutInflater().inflate(attachLayoutRes(), null);
         }
 
-        if (mRootView != null) { //has toolbar
-            mRootView.addView(viewBelowToolbar, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+        if (mContentView != null) { //has toolbar
+            mContentView.addView(viewBelowToolbar, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         } else {
-            mRootView = viewBelowToolbar;
-            mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            mContentView = viewBelowToolbar;
+            mContentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
+
+        mRootView = new FrameLayout(this);
+        mRootView.setId(R.id.root_view_framelayout);
+        mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mRootView;
     }
 
@@ -161,9 +169,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (attachPtrHandler() == null) return null;
         PtrFrameLayout ptrLayout;
         if (mToolbar != null) {
-            ptrLayout = (PtrFrameLayout) mRootView.getChildAt(1);
+            ptrLayout = (PtrFrameLayout) mContentView.getChildAt(1);
         } else {
-            ptrLayout = (PtrFrameLayout) mRootView;
+            ptrLayout = (PtrFrameLayout) mContentView;
         }
         return ptrLayout;
     }
@@ -208,7 +216,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected void delay(long millisecond, Runnable runnable) {
-        mRootView.postDelayed(runnable, millisecond);
+        mContentView.postDelayed(runnable, millisecond);
     }
 
     protected void post(Runnable runnable) {

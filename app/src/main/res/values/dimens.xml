@@ -9,4 +9,6 @@
     <dimen name="large_avatar_size">80dp</dimen>
     <dimen name="divider_size">0.5dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
+
+    <dimen name="toolbar_height">?actionBarSize</dimen>
 </resources>
