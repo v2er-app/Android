@@ -30,7 +30,7 @@ public class BingSearchResultInfo {
     public static class Item {
         @Pick(value = "h2")
         private String title;
-        @Pick(value = "div.b_caption")
+        @Pick(value = "div.b_caption p")
         private String content;
         @Pick(value = "h2 a[href*=v2ex]", attr = Attrs.HREF)
         private String link;
@@ -40,6 +40,7 @@ public class BingSearchResultInfo {
         }
 
         public String getContent() {
+            content = content.replace("移动版", "");
             return content;
         }
 
