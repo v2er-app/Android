@@ -74,10 +74,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
-                getSupportFragmentManager().beginTransaction()
-                        .add(mRootView.getId(), SearchFragment.newInstance())
-                        .addToBackStack("search")
-                        .commit();
+                pushFragment(SearchFragment.newInstance());
             }
             return true;
         });

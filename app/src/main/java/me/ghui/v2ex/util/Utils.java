@@ -32,12 +32,12 @@ public class Utils {
         return !isEmpty(text);
     }
 
-    public static boolean notEmpty(CharSequence text) {
-        return !isEmpty(text);
-    }
-
     public static boolean isEmpty(List list) {
         return list == null || list.isEmpty();
+    }
+
+    public static boolean isNotEmpty(List list) {
+        return !isEmpty(list);
     }
 
     public static String KEY(String key) {

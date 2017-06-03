@@ -21,6 +21,7 @@ import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.injector.component.DaggerSearchComponent;
 import me.ghui.v2ex.injector.module.SearchModule;
 import me.ghui.v2ex.module.base.BaseFragment;
+import me.ghui.v2ex.module.base.IBackable;
 import me.ghui.v2ex.network.UrlInterceptor;
 import me.ghui.v2ex.network.bean.BingSearchResultInfo;
 import me.ghui.v2ex.util.Utils;
@@ -32,7 +33,7 @@ import me.ghui.v2ex.widget.LoadMoreRecyclerView;
  */
 
 public class SearchFragment extends BaseFragment<SearchContract.IPresenter> implements SearchContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
+        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener, IBackable {
 
     @BindView(R.id.search_result_recycler_view)
     LoadMoreRecyclerView mResultRecyV;
@@ -124,6 +125,11 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
         animateSearchbar(false);
     }
 
+    @Override
+    public void onBackPressed() {
+        animateSearchbar(false);
+    }
+
     private void animateSearchbar(boolean enter) {
         Animator animator;
         if (enter) {
@@ -136,7 +142,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
             animator.addListener(new AnimatorListenerAdapter() {
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationStart(Animator animation) {
                     Utils.toggleKeyboard(true, mSearchEt);
                 }
             });
@@ -193,4 +199,6 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
         String link = mResultAdapter.getDatas().get(position).getLink();
         UrlInterceptor.intercept(link, getContext());
     }
+
+
 }

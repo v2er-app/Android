@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
+
+import java.util.Stack;
 
 import javax.inject.Inject;
 
@@ -32,7 +35,7 @@ import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife {
+public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler {
 
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
@@ -41,6 +44,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Inject
     protected T mPresenter;
+
+    private Stack<IBackable> mBackables;
 
     /**
      * bind a layout resID to the content of this page
@@ -85,6 +90,57 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      */
     protected PtrHandler attachPtrHandler() {
         return null;
+    }
+
+
+    @Override
+    public void handleBackable(IBackable backable) {
+        if (mBackables == null) {
+            mBackables = new Stack<>();
+        }
+        if (!mBackables.contains(backable)) {
+            mBackables.push(backable);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Utils.isNotEmpty(mBackables)) {
+            mBackables.pop().onBackPressed();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mBackables != null) {
+            mBackables.clear();
+        }
+    }
+
+    /**
+     * push a fragment to the fragment stack
+     *
+     * @param fragment
+     */
+    public void pushFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .add(mRootView.getId(), fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    /**
+     * just add a fragment to the top of the activity, unbackable
+     *
+     * @param fragment
+     */
+    public void addFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .add(mRootView.getId(), fragment)
+                .commit();
     }
 
     /**

@@ -87,6 +87,17 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
             Logger.d("lazyLoad in onViewCreated");
             lazyLoad();
         }
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (this instanceof IBackable && getActivity() instanceof IBackHandler) {
+            IBackHandler backHandler = (IBackHandler) getActivity();
+            backHandler.handleBackable((IBackable) this);
+        }
     }
 
     protected View onCreateRootView(LayoutInflater inflater, ViewGroup container) {
@@ -121,6 +132,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         super.onActivityCreated(savedInstanceState);
         Logger.i("onActivityCreated." + this.getClass().getSimpleName());
     }
+
 
     /**
      * fetch data from server to views in this page
