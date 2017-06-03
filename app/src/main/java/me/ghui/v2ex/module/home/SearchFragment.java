@@ -46,6 +46,8 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     BaseRecyclerView mSearchHistoryRecyV;
     @BindView(R.id.search_cardview)
     CardView mCardView;
+    @BindView(R.id.search_rootview)
+    View mSearchRootView;
 
     @Inject
     LoadMoreRecyclerView.Adapter<BingSearchResultInfo.Item> mResultAdapter;
@@ -117,6 +119,11 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
         }
     }
 
+    @OnClick(R.id.search_rootview)
+    void onBackgroundClicked() {
+        animateSearchbar(false);
+    }
+
     private void animateSearchbar(boolean enter) {
         Animator animator;
         if (enter) {
@@ -125,19 +132,15 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                     mClearBtn.getWidth() / 2,
                     0, mCardView.getWidth());
             mCardView.setVisibility(View.VISIBLE);
-            animator.setDuration(400);
+            animator.setDuration(350);
             animator.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationStart(Animator animation) {
-                }
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     Utils.toggleKeyboard(true, mSearchEt);
                 }
-
-
             });
+            mSearchRootView.animate().alpha(1f).start();
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,
                     mCardView.getWidth() - mClearBtn.getWidth() / 2,
@@ -148,7 +151,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
                 @Override
                 public void onAnimationStart(Animator animation) {
-                    Utils.toggleKeyboard(false, null);
+                    Utils.toggleKeyboard(false, mSearchEt);
                 }
 
                 @Override
@@ -157,6 +160,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                     getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
+            mSearchRootView.animate().setDuration(300).alpha(0f).start();
         }
         animator.start();
     }

@@ -11,8 +11,6 @@ import android.widget.EditText;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.network.Constants;
@@ -58,16 +56,14 @@ public class Utils {
         return builder;
     }
 
-    public static void toggleKeyboard(boolean show, @Nullable EditText inputEdit) {
+    public static void toggleKeyboard(boolean show, EditText inputEdit) {
         InputMethodManager imm = (InputMethodManager)
                 App.get().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (show) {
             imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
-            if (inputEdit != null) {
-                inputEdit.requestFocus();
-            }
+            inputEdit.requestFocus();
         } else {
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+            imm.hideSoftInputFromWindow(inputEdit.getWindowToken(), 0);
         }
     }
 
