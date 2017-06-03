@@ -80,6 +80,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
         mSearchEt.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                mResultRecyV.getLayoutManager().scrollToPosition(0);
                 mPresenter.start();
                 return true;
             }
