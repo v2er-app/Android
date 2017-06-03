@@ -126,6 +126,18 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                     0, mCardView.getWidth());
             mCardView.setVisibility(View.VISIBLE);
             animator.setDuration(400);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    Utils.toggleKeyboard(true, mSearchEt);
+                }
+
+
+            });
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,
                     mCardView.getWidth() - mClearBtn.getWidth() / 2,
@@ -133,6 +145,12 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                     mCardView.getWidth(), 0);
             animator.setDuration(250);
             animator.addListener(new AnimatorListenerAdapter() {
+
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    Utils.toggleKeyboard(false, null);
+                }
+
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mCardView.setVisibility(View.GONE);

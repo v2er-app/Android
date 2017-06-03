@@ -1,12 +1,17 @@
 package me.ghui.v2ex.util;
 
+import android.content.Context;
 import android.graphics.Typeface;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import java.util.List;
+
+import javax.annotation.Nullable;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.App;
@@ -52,5 +57,19 @@ public class Utils {
         }
         return builder;
     }
+
+    public static void toggleKeyboard(boolean show, @Nullable EditText inputEdit) {
+        InputMethodManager imm = (InputMethodManager)
+                App.get().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (show) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT, 0);
+            if (inputEdit != null) {
+                inputEdit.requestFocus();
+            }
+        } else {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
+    }
+
 
 }
