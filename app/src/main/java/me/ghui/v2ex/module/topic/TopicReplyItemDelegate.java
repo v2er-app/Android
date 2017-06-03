@@ -36,9 +36,9 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.Reply replyInfo = (TopicInfo.Reply) item;
         Glide.with(mContext)
-                .load("https:" + replyInfo.getAvatar())
-                .into((ImageView) holder.getView(R.id.avatar_img));
-        holder.setText(R.id.user_name_tv, replyInfo.getUserName());
+                .load(replyInfo.getAvatar())
+                .into((ImageView) holder.getView(R.id.reply_avatar_img));
+        holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
         holder.setText(R.id.time_tv, replyInfo.getTime());
         holder.setText(R.id.content_tv, replyInfo.getReplyContent());
         holder.setText(R.id.floor_tv, replyInfo.getFloor());

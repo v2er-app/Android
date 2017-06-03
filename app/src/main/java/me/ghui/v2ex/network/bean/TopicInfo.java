@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.network.Constants;
 import me.ghui.v2ex.util.Utils;
 
 
@@ -217,7 +218,7 @@ public class TopicInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return Constants.HTTPS_SCHEME + avatar;
         }
 
         public void setAvatar(String avatar) {

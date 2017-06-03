@@ -34,9 +34,16 @@ public class TopicModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v ->
-                                UserHomeActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getUserName(), mContext),
-                        R.id.avatar_img, R.id.user_name_tv);
+                holder.setOnClickListener(v -> {
+                            String userName;
+                            if (v.getId() == R.id.avatar_img || v.getId() == R.id.user_name_tv) {
+                                userName = ((TopicInfo.HeaderInfo) getItem(holder.index())).getUserName();
+                            } else {
+                                userName = ((TopicInfo.Reply) getItem(holder.index())).getUserName();
+                            }
+                            UserHomeActivity.open(userName, mContext);
+                        },
+                        R.id.avatar_img, R.id.user_name_tv, R.id.reply_avatar_img, R.id.reply_user_name_tv);
 
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);

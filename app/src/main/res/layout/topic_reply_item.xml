@@ -8,7 +8,7 @@
     android:padding="16dp">
 
     <ImageView
-        android:id="@+id/avatar_img"
+        android:id="@+id/reply_avatar_img"
         android:layout_width="@dimen/small_avatar_size"
         android:layout_height="@dimen/small_avatar_size"
         android:background="@color/colorPrimary"
@@ -16,15 +16,15 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/user_name_tv"
+        android:id="@+id/reply_user_name_tv"
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/avatar_img"
-        app:layout_constraintLeft_toRightOf="@id/avatar_img"
-        app:layout_constraintTop_toTopOf="@id/avatar_img"
+        app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
+        app:layout_constraintLeft_toRightOf="@id/reply_avatar_img"
+        app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
         tools:text="ghui" />
 
     <TextView
@@ -32,9 +32,9 @@
         style="@style/hintText"
         android:layout_width="0dp"
         android:layout_marginEnd="0dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/user_name_tv"
+        app:layout_constraintBaseline_toBaselineOf="@id/reply_user_name_tv"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/user_name_tv"
+        app:layout_constraintLeft_toRightOf="@id/reply_user_name_tv"
         tools:text="1小时17分钟前" />
 
     <TextView
@@ -43,8 +43,8 @@
         android:layout_width="match_parent"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        app:layout_constraintLeft_toLeftOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@+id/avatar_img"
+        app:layout_constraintLeft_toLeftOf="@id/reply_avatar_img"
+        app:layout_constraintTop_toBottomOf="@id/reply_avatar_img"
         tools:text="TextView" />
 
     <TextView
