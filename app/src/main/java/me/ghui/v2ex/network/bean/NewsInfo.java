@@ -15,7 +15,7 @@ import me.ghui.v2ex.util.Utils;
 @Pick("div.box")
 public class NewsInfo {
 
-    @Pick("a[href=/notifications]")
+    @Pick(value = "input.super.special.button", attr = "value")
     private String unRead;
     @Pick("div.cell.item")
     private List<Item> items;
