@@ -3,5 +3,6 @@
     <item name="action_search" type="id" />
     <item name="action_star" type="id" />
     <item name="root_view_framelayout" type="id" />
+    <item name="action_new_topic" type="id" />
 
 </resources>

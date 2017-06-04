@@ -32,6 +32,7 @@ public class BaseToolBar extends Toolbar {
     private void init() {
         setElevation(2);
         setContentInsetStartWithNavigation(0);
+        setContentInsetEndWithActions(0);
         setNavigationIcon(R.drawable.ic_arrow_back_black);
         setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
         setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
