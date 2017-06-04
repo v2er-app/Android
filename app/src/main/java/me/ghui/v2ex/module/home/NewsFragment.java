@@ -1,6 +1,7 @@
 package me.ghui.v2ex.module.home;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,17 +14,19 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
+import me.ghui.v2ex.module.write.NewTopicActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
@@ -36,6 +39,9 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
+    @BindView(R.id.news_fab_btn)
+    FloatingActionButton mNewFab;
+
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
 
@@ -54,7 +60,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.common_load_more_recyclerview;
+        return R.layout.frag_news;
     }
 
     @Override
@@ -81,6 +87,16 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             }
             mPresenter.loadMore(willLoadPage);
         });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
+                    mNewFab.hide(); // or hideFab(), see below
+                else if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    mNewFab.show(); // or showFab(), see below
+            }
+        });
     }
 
     @Override
@@ -90,6 +106,11 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             public void onRefreshBegin(PtrFrameLayout frame) {
                 mRecyclerView.resetWillLoadPage();
                 mPresenter.start();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return super.checkCanDoRefresh(frame, mRecyclerView, header);
             }
         };
     }
@@ -103,6 +124,11 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         List<NewsInfo.Item> items = newsInfos.getItems();
         mAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
+    }
+
+    @OnClick(R.id.news_fab_btn)
+    void onNewFabClicked() {
+        Navigator.from(getContext()).to(NewTopicActivity.class).start();
     }
 
     @Override

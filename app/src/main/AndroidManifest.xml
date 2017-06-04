@@ -42,6 +42,9 @@
         <activity
             android:name=".module.drawer.setting.SettingActivity"
             android:label="设置" />
+        <activity
+            android:name=".module.write.NewTopicActivity"
+            android:label="创作新主题" />
     </application>
 
 </manifest>

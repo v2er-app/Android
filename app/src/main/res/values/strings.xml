@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">V2EX</string>
     <string name="daily_hot">今日热议</string>
+    <string name="news_new_behavior">me.ghui.v2ex.widget.behavior.NewsNewFabBehavior</string>
 </resources>

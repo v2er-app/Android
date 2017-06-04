@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/common_load_more_recyclerview" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/news_fab_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="center"
+        android:src="@drawable/pen_icon"
+        app:borderWidth="0dp"
+        app:layout_anchor="@id/common_recyclerview"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="@string/news_new_behavior" />
+</android.support.design.widget.CoordinatorLayout>
