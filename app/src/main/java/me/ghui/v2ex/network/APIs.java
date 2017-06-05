@@ -5,6 +5,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.v2ex.network.bean.BingSearchResultInfo;
 import me.ghui.v2ex.network.bean.CareInfo;
+import me.ghui.v2ex.network.bean.CreateTopicPageInfo;
 import me.ghui.v2ex.network.bean.DailyHotInfo;
 import me.ghui.v2ex.network.bean.LoginParam;
 import me.ghui.v2ex.network.bean.LoginResultInfo;
@@ -14,6 +15,7 @@ import me.ghui.v2ex.network.bean.NodeStarInfo;
 import me.ghui.v2ex.network.bean.NodesInfo;
 import me.ghui.v2ex.network.bean.NodesNavInfo;
 import me.ghui.v2ex.network.bean.NotificationInfo;
+import me.ghui.v2ex.network.bean.TopicCreateResultInfo;
 import me.ghui.v2ex.network.bean.TopicInfo;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
 import me.ghui.v2ex.network.bean.UserPageInfo;
@@ -95,5 +97,13 @@ public interface APIs {
     @Html
     @GET
     Observable<BingSearchResultInfo> bingSearch(@Url String url);
+
+    @Html
+    @GET("/new")
+    Observable<CreateTopicPageInfo> topicCreatePageInfo();
+
+    @Html
+    @POST("/new")
+    Observable<TopicCreateResultInfo> postTopic(@FieldMap Map<String, String> postParams);
 
 }

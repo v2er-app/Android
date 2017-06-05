@@ -1,6 +1,8 @@
 package me.ghui.v2ex.network.bean;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
@@ -18,10 +20,6 @@ public class CreateTopicPageInfo {
     @Pick("a.node")
     private List<HotNode> hotNodes;
 
-    public String getOnce() {
-        return once;
-    }
-
     public List<Node> getNodes() {
         return nodes;
     }
@@ -29,6 +27,16 @@ public class CreateTopicPageInfo {
     public List<HotNode> getHotNodes() {
         return hotNodes;
     }
+
+    public Map<String, String> toPostMap(String title, String content, String nodeId) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("title", title);
+        map.put("content", content);
+        map.put("node_name", nodeId);
+        map.put("once", once);
+        return map;
+    }
+
 
     private static class HotNode {
         @Pick

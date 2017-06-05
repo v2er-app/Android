@@ -48,7 +48,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
-    protected void init() {
+    protected void autoLoad() {
         mPresenter.start();
     }
 
