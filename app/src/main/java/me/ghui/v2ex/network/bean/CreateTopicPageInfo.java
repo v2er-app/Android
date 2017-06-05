@@ -1,5 +1,8 @@
 package me.ghui.v2ex.network.bean;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,10 +18,10 @@ import me.ghui.fruit.annotations.Pick;
 public class CreateTopicPageInfo {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
-    @Pick("select[id=nodes]")
-    private List<Node> nodes;
     @Pick("a.node")
     private List<HotNode> hotNodes;
+    @Pick("select[id=nodes] option[value]")
+    private List<Node> nodes;
 
     public List<Node> getNodes() {
         return nodes;
@@ -37,17 +40,54 @@ public class CreateTopicPageInfo {
         return map;
     }
 
+    @Override
+    public String toString() {
+        return "CreateTopicPageInfo{" +
+                "once='" + once + '\'' +
+                ", nodes=" + nodes +
+                ", hotNodes=" + hotNodes +
+                '}';
+    }
 
-    private static class HotNode {
+    public interface BaseNode extends Parcelable {
+        String getTitle();
+
+        String getId();
+    }
+
+    public static class HotNode implements BaseNode {
         @Pick
         private String title;
         @Pick(attr = Attrs.HREF)
         private String idText;
 
+        public HotNode() {
+
+        }
+
+        protected HotNode(Parcel in) {
+            title = in.readString();
+            idText = in.readString();
+        }
+
+        public static final Creator<HotNode> CREATOR = new Creator<HotNode>() {
+            @Override
+            public HotNode createFromParcel(Parcel in) {
+                return new HotNode(in);
+            }
+
+            @Override
+            public HotNode[] newArray(int size) {
+                return new HotNode[size];
+            }
+        };
+
+        @Override
         public String getTitle() {
             return title;
         }
 
+        @Override
         public String getId() {
             // "javascript:chooseNode('macos')"
             try {
@@ -57,13 +97,52 @@ public class CreateTopicPageInfo {
                 return null;
             }
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(title);
+            dest.writeString(idText);
+        }
+
+        @Override
+        public String toString() {
+            return "HotNode{" +
+                    "title='" + title + '\'' +
+                    ", idText='" + idText + '\'' +
+                    '}';
+        }
     }
 
     //浏览器 / browsers
-    private static class Node {
+    public static class Node implements BaseNode {
         @Pick("option")
         private String titleAndId;
 
+        public Node() {
+        }
+
+        protected Node(Parcel in) {
+            titleAndId = in.readString();
+        }
+
+        public static final Creator<Node> CREATOR = new Creator<Node>() {
+            @Override
+            public Node createFromParcel(Parcel in) {
+                return new Node(in);
+            }
+
+            @Override
+            public Node[] newArray(int size) {
+                return new Node[size];
+            }
+        };
+
+        @Override
         public String getTitle() {
             try {
                 return titleAndId.split("/")[0].trim();
@@ -73,6 +152,7 @@ public class CreateTopicPageInfo {
             }
         }
 
+        @Override
         public String getId() {
             try {
                 return titleAndId.split("/")[1].trim();
@@ -80,6 +160,23 @@ public class CreateTopicPageInfo {
                 e.printStackTrace();
                 return null;
             }
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeString(titleAndId);
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "titleAndId='" + titleAndId + '\'' +
+                    '}';
         }
     }
 }

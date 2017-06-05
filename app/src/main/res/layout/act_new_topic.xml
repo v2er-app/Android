@@ -19,7 +19,6 @@
             android:hint="标题" />
     </android.support.design.widget.TextInputLayout>
 
-
     <LinearLayout
         android:id="@+id/create_topic_node_wrapper"
         android:layout_width="wrap_content"
@@ -48,7 +47,6 @@
             android:gravity="center"
             android:text="请选择一个节点"
             android:textSize="@dimen/microTextSize" />
-
     </LinearLayout>
 
     <EditText
@@ -68,6 +66,4 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_topic_title_layout" />
-
-
 </android.support.constraint.ConstraintLayout>
