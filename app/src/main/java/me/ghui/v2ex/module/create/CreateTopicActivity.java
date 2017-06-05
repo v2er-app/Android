@@ -3,10 +3,12 @@ package me.ghui.v2ex.module.create;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2ex.injector.module.CreateTopicModule;
@@ -27,6 +29,10 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     EditText mTitleEt;
     @BindView(R.id.create_topic_content_et)
     EditText mContentEt;
+    @BindView(R.id.create_topic_node_wrapper)
+    View mNodeWrappter;
+    @BindView(R.id.create_topic_node_tv)
+    View mNodeTv;
 
     @Override
     protected int attachLayoutRes() {
@@ -71,6 +77,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                 return true;
         }
         return false;
+    }
+
+    @OnClick(R.id.create_topic_node_wrapper)
+    void onNodeWrapperClicked() {
+        // TODO: 05/06/2017 select node 
     }
 
     @Override
