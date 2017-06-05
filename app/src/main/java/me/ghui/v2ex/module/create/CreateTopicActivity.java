@@ -1,4 +1,4 @@
-package me.ghui.v2ex.module.write;
+package me.ghui.v2ex.module.create;
 
 import android.support.v7.widget.Toolbar;
 
@@ -9,7 +9,7 @@ import me.ghui.v2ex.module.base.BaseActivity;
  * Created by ghui on 04/06/2017.
  */
 
-public class NewTopicActivity extends BaseActivity<NewTopicContract.IPresenter> implements NewTopicContract.IView {
+public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPresenter> implements CreateTopicContract.IView {
 
     @Override
     protected int attachLayoutRes() {

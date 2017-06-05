@@ -25,7 +25,7 @@ import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
-import me.ghui.v2ex.module.write.NewTopicActivity;
+import me.ghui.v2ex.module.create.CreateTopicActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
@@ -128,7 +128,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @OnClick(R.id.news_fab_btn)
     void onNewFabClicked() {
-        Navigator.from(getContext()).to(NewTopicActivity.class).start();
+        Navigator.from(getContext()).to(CreateTopicActivity.class).start();
     }
 
     @Override

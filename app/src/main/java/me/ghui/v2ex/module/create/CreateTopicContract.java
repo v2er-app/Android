@@ -1,4 +1,4 @@
-package me.ghui.v2ex.module.write;
+package me.ghui.v2ex.module.create;
 
 import me.ghui.v2ex.module.base.BaseContract;
 
@@ -6,7 +6,7 @@ import me.ghui.v2ex.module.base.BaseContract;
  * Created by ghui on 04/06/2017.
  */
 
-public class NewTopicContract {
+public class CreateTopicContract {
     public interface IView extends BaseContract.IView {
 
     }
