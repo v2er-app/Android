@@ -1,7 +1,6 @@
 package me.ghui.v2ex.module.drawer.dailyhot;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -13,6 +12,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerDailyHotComponent;
 import me.ghui.v2ex.injector.module.DailyHotModule;
 import me.ghui.v2ex.module.base.BaseActivity;
@@ -71,7 +71,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         String id = mDailyHotAdapter.getDatas().get(position).getId();
         TopicActivity.openById(id, this);
     }

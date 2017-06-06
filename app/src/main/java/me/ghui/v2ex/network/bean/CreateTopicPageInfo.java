@@ -43,10 +43,6 @@ public class CreateTopicPageInfo {
         return allNodes;
     }
 
-//    public int getHotNodeSize() {
-//        return Utils.listSize(hotNodes);
-//    }
-
     public Map<String, String> toPostMap(String title, String content, String nodeId) {
         HashMap<String, String> map = new HashMap<>();
         map.put("title", title);

@@ -2,7 +2,6 @@ package me.ghui.v2ex.module.drawer.star;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -13,12 +12,12 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerTopicStarComponent;
 import me.ghui.v2ex.injector.module.TopicStarModule;
 import me.ghui.v2ex.module.base.BaseFragment;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.TopicStarInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -90,7 +89,7 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext());
     }
 }

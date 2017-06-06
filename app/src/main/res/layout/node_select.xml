@@ -9,6 +9,8 @@
         android:id="@+id/node_select_toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/toolbar_size"
+        app:contentInsetEnd="0dp"
+        app:contentInsetStart="0dp"
         app:elevation="2dp"
         app:title="选择节点"
         app:titleTextAppearance="@style/Toolbar.TitleText"

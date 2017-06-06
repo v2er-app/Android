@@ -2,7 +2,6 @@ package me.ghui.v2ex.module.home;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -13,6 +12,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerMsgComponent;
 import me.ghui.v2ex.injector.module.MsgModule;
 import me.ghui.v2ex.module.base.BaseFragment;
@@ -91,7 +91,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext());
     }
 }

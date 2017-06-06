@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,6 +21,7 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2ex.injector.module.NodeTopicModule;
@@ -208,7 +208,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this);
     }
 

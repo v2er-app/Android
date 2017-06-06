@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.CheckedTextView;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
@@ -25,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonAdapter;
+import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.network.bean.CreateTopicPageInfo;
 import me.ghui.v2ex.util.ScaleUtils;
@@ -37,7 +39,7 @@ import static me.ghui.v2ex.util.Utils.KEY;
  * Created by ghui on 05/06/2017.
  */
 
-public class NodeSelectFragment extends DialogFragment {
+public class NodeSelectFragment extends DialogFragment implements MultiItemTypeAdapter.OnItemClickListener {
     private static final String NODE_ALL = KEY("node_all");
 
     @BindView(R.id.node_select_toolbar)
@@ -62,22 +64,29 @@ public class NodeSelectFragment extends DialogFragment {
         mNodes = getArguments().getParcelableArrayList(NODE_ALL);
         mAdapter = new FilterAdapter(getActivity(), R.layout.item_select_node);
         mAdapter.setData(mNodes);
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        resize(getDialog());
         View view = inflater.inflate(R.layout.node_select, container);
         ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        resize(getDialog());
     }
 
     private void resize(Dialog dialog) {
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
         float screenWidth = ScaleUtils.getScreenW();
         layoutParams.width = (int) (screenWidth * 0.9);
+        layoutParams.height = (int) (ScaleUtils.getScreenContentH() * 0.8f);
         dialog.getWindow().setAttributes(layoutParams);
     }
 
@@ -89,6 +98,7 @@ public class NodeSelectFragment extends DialogFragment {
             return true;
         });
         SearchView searchView = (SearchView) mToolbar.getMenu().findItem(R.id.action_search_node).getActionView();
+        searchView.setQueryHint("搜索全部节点");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -104,6 +114,15 @@ public class NodeSelectFragment extends DialogFragment {
 
         mBaseRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mBaseRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onItemClick(View view, ViewHolder holder, int position) {
+        CheckedTextView checkedTextView = holder.getView(R.id.node_name_tv);
+        checkedTextView.setChecked(true);
+        OnSelectedListener onSelectedListener = (OnSelectedListener) getActivity();
+        onSelectedListener.onSelected(mNodes.get(position));
+        dismiss();
     }
 
     private class FilterAdapter extends CommonAdapter<CreateTopicPageInfo.BaseNode> implements Filterable {
@@ -164,7 +183,12 @@ public class NodeSelectFragment extends DialogFragment {
                 notifyDataSetChanged();
             }
         }
-
     }
+
+
+    public interface OnSelectedListener {
+        void onSelected(CreateTopicPageInfo.BaseNode node);
+    }
+
 }
 

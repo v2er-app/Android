@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
@@ -21,7 +22,8 @@ import me.ghui.v2ex.util.Utils;
  * Created by ghui on 04/06/2017.
  */
 
-public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPresenter> implements CreateTopicContract.IView, Toolbar.OnMenuItemClickListener {
+public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPresenter> implements CreateTopicContract.IView,
+        Toolbar.OnMenuItemClickListener, NodeSelectFragment.OnSelectedListener {
 
     @BindView(R.id.create_topic_title_layout)
     TextInputLayout mTitleTextInputLayout;
@@ -32,8 +34,9 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @BindView(R.id.create_topic_node_wrapper)
     View mNodeWrappter;
     @BindView(R.id.create_topic_node_tv)
-    View mNodeTv;
+    TextView mNodeTv;
     private CreateTopicPageInfo mTopicPageInfo;
+    private CreateTopicPageInfo.BaseNode mSelectNode;
 
     @Override
     protected int attachLayoutRes() {
@@ -72,14 +75,12 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     mTitleTextInputLayout.setError("请输入标题");
                     return false;
                 }
-                String nodeId = null;
-                if (Utils.isEmpty(nodeId)) {
+                if (mSelectNode == null || Utils.isEmpty(mSelectNode.getId())) {
                     Toast.makeText(this, "请选择一个节点", Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 String content = mContentEt.getText().toString();
-                // TODO: 05/06/2017  
-                mPresenter.sendPost(title, content, nodeId);
+                mPresenter.sendPost(title, content, mSelectNode.getId());
                 return true;
         }
         return false;
@@ -104,5 +105,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @Override
     public void onPostFinished(TopicCreateResultInfo resultInfo) {
         // TODO: 05/06/2017  
+    }
+
+    @Override
+    public void onSelected(CreateTopicPageInfo.BaseNode node) {
+        mSelectNode = node;
+        mNodeTv.setText(node.getTitle());
     }
 }

@@ -20,12 +20,13 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.injector.component.DaggerNewsComponent;
 import me.ghui.v2ex.injector.module.NewsModule;
 import me.ghui.v2ex.module.base.BaseFragment;
-import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.module.create.CreateTopicActivity;
+import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.NewsInfo;
 import me.ghui.v2ex.util.UserUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
@@ -132,7 +133,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         TopicActivity.open(mAdapter.getDatas().get(position).getLinkPath(), getContext());
     }
 }

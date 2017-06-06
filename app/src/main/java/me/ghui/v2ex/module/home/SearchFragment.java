@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.inputmethod.EditorInfo;
@@ -18,6 +17,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerSearchComponent;
 import me.ghui.v2ex.injector.module.SearchModule;
 import me.ghui.v2ex.module.base.BaseFragment;
@@ -195,7 +195,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         String link = mResultAdapter.getDatas().get(position).getLink();
         UrlInterceptor.intercept(link, getContext());
     }

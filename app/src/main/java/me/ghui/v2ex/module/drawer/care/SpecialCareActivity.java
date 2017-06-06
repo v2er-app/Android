@@ -1,7 +1,6 @@
 package me.ghui.v2ex.module.drawer.care;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -12,12 +11,12 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerSpecialCareComponent;
 import me.ghui.v2ex.injector.module.SpecialCareModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.topic.TopicActivity;
 import me.ghui.v2ex.network.bean.CareInfo;
-import me.ghui.v2ex.util.UriUtils;
 import me.ghui.v2ex.widget.LoadMoreRecyclerView;
 
 /**
@@ -83,7 +82,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
 
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this);
     }
 }

@@ -2,7 +2,6 @@ package me.ghui.v2ex.module.drawer.star;
 
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import javax.inject.Inject;
@@ -14,6 +13,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.adapter.base.CommonAdapter;
 import me.ghui.v2ex.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2ex.adapter.base.ViewHolder;
 import me.ghui.v2ex.injector.component.DaggerNodeStarComponent;
 import me.ghui.v2ex.injector.module.NodeStarModule;
 import me.ghui.v2ex.module.base.BaseFragment;
@@ -78,7 +78,7 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     }
 
     @Override
-    public void onItemClick(View view, RecyclerView.ViewHolder holder, int position) {
+    public void onItemClick(View view, ViewHolder holder, int position) {
         String url = mAdapter.getItem(position).getLink();
         NodeTopicActivity.open(url, getContext());
     }
