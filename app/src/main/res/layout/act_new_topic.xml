@@ -16,7 +16,8 @@
             style="@style/TitleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="标题" />
+            android:hint="标题"
+            android:imeOptions="actionSearch" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout

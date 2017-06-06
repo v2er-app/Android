@@ -121,7 +121,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
         CheckedTextView checkedTextView = holder.getView(R.id.node_name_tv);
         checkedTextView.setChecked(true);
         OnSelectedListener onSelectedListener = (OnSelectedListener) getActivity();
-        onSelectedListener.onSelected(mNodes.get(position));
+        onSelectedListener.onSelected(mAdapter.getItem(position));
         dismiss();
     }
 
