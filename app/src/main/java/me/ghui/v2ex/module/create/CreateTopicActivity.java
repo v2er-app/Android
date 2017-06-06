@@ -34,7 +34,6 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @BindView(R.id.create_topic_node_tv)
     View mNodeTv;
     private CreateTopicPageInfo mTopicPageInfo;
-    private NodeSelectFragment nodeSelectFragment;
 
     @Override
     protected int attachLayoutRes() {
@@ -87,16 +86,13 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @OnClick(R.id.create_topic_node_wrapper)
-    void onNodeWrapperClicked() {
+    void onNodeWrapperClicked(View view) {
         if (mTopicPageInfo == null) {
             return;
         }
-        if (nodeSelectFragment == null) {
-            nodeSelectFragment = nodeSelectFragment.newInstance(mTopicPageInfo);
-        }
-        if (!nodeSelectFragment.isAdded()) {
-            nodeSelectFragment.show(getFragmentManager(), null);
-        }
+        view.setClickable(false);
+        NodeSelectFragment.newInstance(mTopicPageInfo).show(getFragmentManager(), null);
+        view.setClickable(true);
     }
 
     @Override

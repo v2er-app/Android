@@ -3,12 +3,14 @@ package me.ghui.v2ex.network.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2ex.util.Utils;
 
 /**
  * Created by ghui on 05/06/2017.
@@ -22,14 +24,28 @@ public class CreateTopicPageInfo {
     private List<HotNode> hotNodes;
     @Pick("select[id=nodes] option[value]")
     private List<Node> nodes;
+    private List<BaseNode> allNodes;
 
-    public List<Node> getNodes() {
-        return nodes;
+    /**
+     * reutrn all nodes include hot nodes
+     *
+     * @return
+     */
+    public List<BaseNode> getNodes() {
+        if (Utils.isEmpty(allNodes)) {
+            allNodes = new ArrayList<>();
+        } else {
+            allNodes.clear();
+        }
+        // TODO: 06/06/2017  
+        allNodes.addAll(hotNodes);
+        allNodes.addAll(nodes);
+        return allNodes;
     }
 
-    public List<HotNode> getHotNodes() {
-        return hotNodes;
-    }
+//    public int getHotNodeSize() {
+//        return Utils.listSize(hotNodes);
+//    }
 
     public Map<String, String> toPostMap(String title, String content, String nodeId) {
         HashMap<String, String> map = new HashMap<>();
