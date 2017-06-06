@@ -103,6 +103,7 @@ public interface APIs {
     Observable<CreateTopicPageInfo> topicCreatePageInfo();
 
     @Html
+    @FormUrlEncoded
     @POST("/new")
     Observable<TopicCreateResultInfo> postTopic(@FieldMap Map<String, String> postParams);
 

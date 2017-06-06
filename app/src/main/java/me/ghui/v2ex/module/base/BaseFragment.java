@@ -21,6 +21,7 @@ import io.reactivex.ObservableTransformer;
 import me.ghui.v2ex.general.App;
 import me.ghui.v2ex.injector.component.AppComponent;
 import me.ghui.v2ex.util.RxUtils;
+import me.ghui.v2ex.util.Utils;
 import me.ghui.v2ex.widget.PtrMaterialFrameLayout;
 
 /**
@@ -203,5 +204,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     @Override
     public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
         return RxUtils.rx(this, viewLoading);
+    }
+
+    protected void toast(String msg) {
+        Utils.toast(msg);
+    }
+
+    protected void toast(String msg, boolean isToastLong) {
+        Utils.toast(msg, isToastLong);
     }
 }

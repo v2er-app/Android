@@ -104,7 +104,8 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
 
     @Override
     public void onPostFinished(TopicCreateResultInfo resultInfo) {
-        // TODO: 05/06/2017  
+        // TODO: 05/06/2017
+        Utils.toast("创建成功");
     }
 
     @Override

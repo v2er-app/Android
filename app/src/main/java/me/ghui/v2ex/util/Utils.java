@@ -8,6 +8,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -67,5 +68,11 @@ public class Utils {
         }
     }
 
+    public static void toast(String msg) {
+        toast(msg, false);
+    }
 
+    public static void toast(String msg, boolean isToastLong) {
+        Toast.makeText(App.get(), msg, isToastLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+    }
 }
