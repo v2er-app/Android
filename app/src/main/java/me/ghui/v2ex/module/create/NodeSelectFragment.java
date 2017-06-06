@@ -142,9 +142,13 @@ public class NodeSelectFragment extends DialogFragment {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                if (Utils.isEmpty(constraint)) return filterResults;
+                if (Utils.isEmpty(constraint)) {
+                    filterResults.values = mNodes;
+                    filterResults.count = Utils.listSize(mNodes);
+                    return filterResults;
+                }
                 List<CreateTopicPageInfo.BaseNode> resultList = new ArrayList<>();
-                for (CreateTopicPageInfo.BaseNode node : getDatas()) {
+                for (CreateTopicPageInfo.BaseNode node : mNodes) {
                     if (node.getId().contains(constraint) || node.getTitle().contains(constraint)) {
                         resultList.add(node);
                     }
