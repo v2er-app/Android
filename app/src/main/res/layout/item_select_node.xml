@@ -1,6 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/note_name_tv"
-    style="@style/BodyText"
-    tools:text="V2EX" />
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/node_item_section_tv"
+        style="@style/hintText"
+        android:layout_width="match_parent"
+        android:background="#33e3e3e3"
+        android:paddingBottom="12dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="12dp"
+        android:text="热门节点"
+        android:visibility="visible" />
+
+    <CheckedTextView xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/node_name_tv"
+        style="@style/BodyText"
+        android:layout_width="match_parent"
+        android:background="@drawable/common_bottom_divider"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:padding="16dp"
+        tools:text="问与答" />
+</LinearLayout>

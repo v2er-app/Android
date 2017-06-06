@@ -34,7 +34,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @BindView(R.id.create_topic_node_tv)
     View mNodeTv;
     private CreateTopicPageInfo mTopicPageInfo;
-    private NoteSelectFragment noteSelectFragment;
+    private NodeSelectFragment nodeSelectFragment;
 
     @Override
     protected int attachLayoutRes() {
@@ -60,7 +60,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @Override
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
-        toolBar.inflateMenu(R.menu.new_topic_menu);//设置右上角的填充菜单
+        toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
         toolBar.setOnMenuItemClickListener(this);
     }
 
@@ -91,11 +91,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         if (mTopicPageInfo == null) {
             return;
         }
-        if (noteSelectFragment == null) {
-            noteSelectFragment = NoteSelectFragment.newInstance(mTopicPageInfo);
+        if (nodeSelectFragment == null) {
+            nodeSelectFragment = nodeSelectFragment.newInstance(mTopicPageInfo);
         }
-        if (!noteSelectFragment.isAdded()) {
-            noteSelectFragment.show(getFragmentManager(), null);
+        if (!nodeSelectFragment.isAdded()) {
+            nodeSelectFragment.show(getFragmentManager(), null);
         }
     }
 

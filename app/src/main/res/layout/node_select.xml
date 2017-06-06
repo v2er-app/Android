@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/node_select_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/toolbar_size"
+        android:background="@color/colorPrimary"
+        app:elevation="2dp"
+        app:title="选择节点"
+        app:titleTextColor="@color/bodyTextColor" />
+
+    <Button
+        android:id="@+id/node_select_cancle_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="right"
+        android:text="取消" />
+
+    <me.ghui.v2ex.widget.BaseRecyclerView
+        android:id="@+id/node_select_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/node_select_cancle_btn"
+        android:layout_below="@id/node_select_toolbar" />
+</RelativeLayout>

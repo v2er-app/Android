@@ -67,7 +67,7 @@ public class NotificationInfo {
 
 
         public String getTitle() {
-            if (Utils.isNotEmpty(title))
+            if (Utils.isnodempty(title))
                 return title.replaceFirst(name, "").trim();
             return title;
         }

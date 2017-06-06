@@ -105,7 +105,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void onBackPressed() {
-        if (Utils.isNotEmpty(mBackables)) {
+        if (Utils.isnodempty(mBackables)) {
             mBackables.pop().onBackPressed();
         } else {
             super.onBackPressed();

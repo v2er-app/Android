@@ -28,7 +28,7 @@ public class Utils {
         return text == null || text.length() == 0;
     }
 
-    public static boolean isNotEmpty(CharSequence text) {
+    public static boolean isnodempty(CharSequence text) {
         return !isEmpty(text);
     }
 
@@ -36,7 +36,7 @@ public class Utils {
         return list == null || list.isEmpty();
     }
 
-    public static boolean isNotEmpty(List list) {
+    public static boolean isnodempty(List list) {
         return !isEmpty(list);
     }
 
