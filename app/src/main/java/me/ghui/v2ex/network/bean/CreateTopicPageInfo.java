@@ -25,6 +25,12 @@ public class CreateTopicPageInfo {
     @Pick("select[id=nodes] option[value]")
     private List<Node> nodes;
     private List<BaseNode> allNodes;
+    @Pick("div.problem")
+    private Problem problem;
+
+    public Problem getProblem() {
+        return problem;
+    }
 
     /**
      * reutrn all nodes include hot nodes
@@ -190,5 +196,12 @@ public class CreateTopicPageInfo {
                     "titleAndId='" + titleAndId + '\'' +
                     '}';
         }
+    }
+
+    public static class Problem {
+        @Pick(attr = Attrs.OWN_TEXT)
+        private String title;
+        @Pick("ul li")
+        private List<String> tips;
     }
 }

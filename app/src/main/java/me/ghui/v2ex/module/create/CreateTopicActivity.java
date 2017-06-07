@@ -15,7 +15,6 @@ import me.ghui.v2ex.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2ex.injector.module.CreateTopicModule;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.network.bean.CreateTopicPageInfo;
-import me.ghui.v2ex.network.bean.TopicCreateResultInfo;
 import me.ghui.v2ex.util.Utils;
 
 /**
@@ -103,9 +102,13 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @Override
-    public void onPostFinished(TopicCreateResultInfo resultInfo) {
-        // TODO: 05/06/2017
-        Utils.toast("创建成功");
+    public void onPostFinished(CreateTopicPageInfo resultInfo) {
+        if (resultInfo.getProblem() == null) {
+            Utils.toast("创建成功");
+            //302到话题页
+            // TODO: 06/06/2017  
+            finish();
+        }
     }
 
     @Override
