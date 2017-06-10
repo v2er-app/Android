@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar_img"
             android:layout_width="@dimen/small_avatar_size"
             android:layout_height="@dimen/small_avatar_size"

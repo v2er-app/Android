@@ -8,11 +8,10 @@
     android:paddingBottom="16dp"
     android:paddingTop="16dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:background="@color/colorPrimary"
+        android:layout_width="@dimen/large_avatar_size"
+        android:layout_height="@dimen/large_avatar_size"
         android:padding="16dp" />
 
     <TextView
