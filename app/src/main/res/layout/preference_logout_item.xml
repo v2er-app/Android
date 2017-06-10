@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/title"
+    style="@style/SubTitleText"
+    android:layout_width="match_parent"
+    android:layout_marginRight="4dp"
+    android:background="@drawable/common_bottom_divider"
+    android:gravity="center"
+    android:minHeight="?android:listPreferredItemHeight"
+    android:text="退出登录"
+    android:textColor="#dc3f3f" />
