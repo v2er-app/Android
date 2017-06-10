@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">V2ER</string>
+    <string name="app_name">V2er</string>
     <string name="daily_hot">今日热议</string>
     <string name="news_new_behavior">me.ghui.v2er.widget.behavior.NewsNewFabBehavior</string>
     <string name="official_website">https://ghui.me</string>
