@@ -40,7 +40,7 @@
             android:name=".module.node.NodeTopicActivity"
             android:label="节点" />
         <activity
-            android:name=".module.drawer.setting.SettingActivity"
+            android:name=".module.settings.SettingActivity"
             android:label="设置" />
         <activity
             android:name=".module.create.CreateTopicActivity"

@@ -10,12 +10,19 @@
         <item name="android:textSize">@dimen/mediumTextSize</item>
     </style>
 
+    <style name="TinyTitleText" parent="TitleText">
+        <item name="android:textSize">@dimen/microTextSize</item>
+    </style>
+
+    <style name="TinyTitleText.Light" parent="TinyTitleText">
+        <item name="android:textColor">@color/hintTextColor</item>
+    </style>
+
     <style name="BodyText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/bodyTextColor</item>
         <item name="android:textSize">@dimen/smallTextSize</item>
-        <!--<item name="android:singleLine">false</item>-->
     </style>
 
     <style name="smallText" parent="BodyText">
@@ -23,7 +30,7 @@
     </style>
 
     <style name="hintText" parent="smallText">
-        <item name="android:textColor">#9B9B9B</item>
+        <item name="android:textColor">@color/hintTextColor</item>
     </style>
 
     <style name="NormalBtn">

@@ -24,7 +24,7 @@ import me.ghui.v2ex.general.Navigator;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
-import me.ghui.v2ex.module.drawer.setting.SettingActivity;
+import me.ghui.v2ex.module.settings.SettingActivity;
 import me.ghui.v2ex.module.drawer.star.StarActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;

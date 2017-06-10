@@ -1,4 +1,4 @@
-package me.ghui.v2ex.module.drawer.setting;
+package me.ghui.v2ex.module.settings;
 
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.module.base.BaseActivity;

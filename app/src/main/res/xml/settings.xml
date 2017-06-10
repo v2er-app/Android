@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?><!--最新栏目的新闻-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout="@layout/preference_item"
+    android:title="设置">
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="基本设置">
+        <CheckBoxPreference
+            android:key="key_night_mode"
+            android:layout="@layout/preference_item"
+            android:summary="仅在Wi-Fi环境下才自动加载图片"
+            android:title="夜间模式"
+            android:widgetLayout="@layout/switch_layout" />
+        <CheckBoxPreference
+            android:key="key_night_mode"
+            android:layout="@layout/preference_item"
+            android:summary="按两次Back键退出"
+            android:title="确定退出"
+            android:widgetLayout="@layout/switch_layout" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="删除已缓存的文章内容及图片"
+            android:title="清空缓存" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="关于与帮助">
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="v1.0.0"
+            android:title="当前版本" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="开源许可" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="去评价" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="意见反馈" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:title="联系我" />
+    </PreferenceCategory>
+
+</PreferenceScreen>
