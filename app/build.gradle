@@ -23,6 +23,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -63,4 +66,5 @@ dependencies {
     compile 'me.ghui:Fruit:0.1.4'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.zzhoujay.richtext:richtext:2.5.2'
+    compile 'com.instabug.library:instabug:4.1.1'
 }
