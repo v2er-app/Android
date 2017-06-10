@@ -10,13 +10,13 @@
         android:title="基本设置">
         <SwitchPreference
             android:defaultValue="true"
-            android:key="key_keep_activity"
+            android:key="@string/pref_key_keep_activity"
             android:layout="@layout/preference_item"
             android:summary="按Back键退出时，保留前台界面"
             android:title="保留前台" />
         <SwitchPreference
             android:defaultValue="false"
-            android:key="key_night_mode"
+            android:key="@string/pref_key_quit"
             android:layout="@layout/preference_item"
             android:summary="按两次Back键退出"
             android:title="确定退出" />
@@ -52,6 +52,10 @@
         android:title="退出登录" />
     <Preference
         android:layout="@layout/preference_copyright"
-        android:title="© 2017 ghui.me" />
+        android:title="© 2017 ghui.me">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="@string/official_website" />
+    </Preference>
 
 </PreferenceScreen>
