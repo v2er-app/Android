@@ -15,8 +15,9 @@
             android:summary="按Back键退出时，保留前台界面"
             android:title="保留前台" />
         <Preference
+            android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"
-            android:summary="删除已缓存的文章内容及图片"
+            android:summary="删除已缓存的图片"
             android:title="清空缓存" />
     </PreferenceCategory>
 
@@ -24,6 +25,7 @@
         android:layout="@layout/preference_category_widget"
         android:title="关于与帮助">
         <Preference
+            android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:summary="当前版本 1.0.0（20）"
             android:title="检查更新" />
@@ -31,6 +33,7 @@
             android:layout="@layout/preference_item"
             android:title="开源许可" />
         <Preference
+            android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"
             android:title="去评价" />
         <Preference

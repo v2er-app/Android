@@ -1,7 +1,9 @@
 package me.ghui.v2ex.util;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -74,5 +76,15 @@ public class Utils {
 
     public static void toast(String msg, boolean isToastLong) {
         Toast.makeText(App.get(), msg, isToastLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
+    }
+
+    public static void openStorePage() {
+        final String appPackageName = App.get().getPackageName();
+//        final String appPackageName = "com.czbix.v2ex";
+        try {
+            App.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            App.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
     }
 }
