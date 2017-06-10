@@ -13,8 +13,7 @@
         android:id="@+id/avatar_img"
         android:layout_width="@dimen/common_avatar_size"
         android:layout_height="@dimen/common_avatar_size"
-        android:layout_marginEnd="8dp"
-        android:background="@color/colorPrimary" />
+        android:layout_marginEnd="8dp" />
 
     <TextView
         android:id="@+id/user_name_tv"
