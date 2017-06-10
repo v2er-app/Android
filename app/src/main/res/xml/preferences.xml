@@ -8,20 +8,18 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="基本设置">
-        <CheckBoxPreference
-            android:checked="false"
-            android:key="key_night_mode"
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="key_keep_activity"
             android:layout="@layout/preference_item"
-            android:summary="仅在Wi-Fi环境下才自动加载图片"
-            android:title="夜间模式"
-            android:widgetLayout="@layout/switch_layout" />
-        <CheckBoxPreference
-            android:checked="false"
+            android:summary="按Back键退出时，保留前台界面"
+            android:title="保留前台" />
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="key_night_mode"
             android:layout="@layout/preference_item"
             android:summary="按两次Back键退出"
-            android:title="确定退出"
-            android:widgetLayout="@layout/switch_layout" />
+            android:title="确定退出" />
         <Preference
             android:layout="@layout/preference_item"
             android:summary="删除已缓存的文章内容及图片"
