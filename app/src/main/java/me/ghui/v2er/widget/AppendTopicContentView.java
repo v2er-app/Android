@@ -2,10 +2,11 @@ package me.ghui.v2er.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.zzhoujay.richtext.RichText;
 
 import java.util.List;
 
@@ -86,8 +87,8 @@ public class AppendTopicContentView extends LinearLayout {
 
         public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
-            itemView.headerTV.setText(post.getHeader());
-            itemView.contentTV.setText(Html.fromHtml(post.getContent()));
+            RichText.fromHtml(post.getHeader()).into(itemView.headerTV);
+            RichText.fromHtml(post.getContent()).into(itemView.contentTV);
             return itemView;
         }
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.zzhoujay.richtext.RichText;
 
 import javax.inject.Inject;
 
@@ -177,7 +178,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mNodeInfo = nodeInfo;
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
-        mNodeDesTv.setText(nodeInfo.getHeader());
+        RichText.fromHtml(nodeInfo.getHeader()).into(mNodeDesTv);
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         Glide.with(this)

@@ -1,15 +1,14 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
-import android.text.Html;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.zzhoujay.richtext.RichText;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.GlideImageGetter;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.widget.AppendTopicContentView;
 
@@ -45,10 +44,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.view_count_tv, "点击" + headerInfo.getViewCount());
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
-        // TODO: 03/06/2017  
-        holder.setText(R.id.content_tv,
-                Html.fromHtml(headerInfo.getContentHtml(),
-                        new GlideImageGetter(holder.getView(R.id.content_tv)), null));
+        RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }
 

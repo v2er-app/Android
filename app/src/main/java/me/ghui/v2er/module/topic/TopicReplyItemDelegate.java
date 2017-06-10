@@ -4,6 +4,7 @@ import android.content.Context;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.zzhoujay.richtext.RichText;
 
 import javax.annotation.Nullable;
 
@@ -40,7 +41,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
         holder.setText(R.id.time_tv, replyInfo.getTime());
-        holder.setText(R.id.content_tv, replyInfo.getReplyContent());
+        RichText.fromHtml(replyInfo.getReplyContent()).into(holder.getView(R.id.content_tv));
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }
 }
