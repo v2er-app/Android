@@ -25,7 +25,7 @@
         android:singleLine="true"
         tools:text="评论38" />
 
-    <me.ghui.v2ex.widget.TagView
+    <me.ghui.v2er.widget.TagView
         android:id="@+id/tagview"
         style="@style/smallText"
         android:layout_alignParentEnd="true"

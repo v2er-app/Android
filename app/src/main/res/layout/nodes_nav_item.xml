@@ -17,7 +17,7 @@
         android:paddingBottom="8dp"
         tools:text="Geek" />
 
-    <me.ghui.v2ex.widget.NavNodesWrapper
+    <me.ghui.v2er.widget.NavNodesWrapper
         android:id="@+id/nodes_nav_node_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

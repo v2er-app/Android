@@ -4,7 +4,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "me.ghui.v2ex"
+        applicationId "me.ghui.v2er"
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 1

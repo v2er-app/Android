@@ -16,7 +16,7 @@
         app:titleTextAppearance="@style/Toolbar.TitleText"
         app:titleTextColor="@color/bodyTextColor" />
 
-    <me.ghui.v2ex.widget.BaseRecyclerView
+    <me.ghui.v2er.widget.BaseRecyclerView
         android:id="@+id/node_select_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

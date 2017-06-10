@@ -8,7 +8,7 @@
     android:background="#66000000"
     android:clickable="true">
 
-    <me.ghui.v2ex.widget.LoadMoreRecyclerView
+    <me.ghui.v2er.widget.LoadMoreRecyclerView
         android:id="@+id/search_result_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -74,7 +74,7 @@
                     android:tint="@color/colorAccent" />
             </LinearLayout>
 
-            <me.ghui.v2ex.widget.BaseRecyclerView
+            <me.ghui.v2er.widget.BaseRecyclerView
                 android:id="@+id/search_history_recycler_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

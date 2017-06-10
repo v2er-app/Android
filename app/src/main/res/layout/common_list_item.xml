@@ -30,7 +30,7 @@
         android:layout_alignLeft="@id/user_name_tv"
         tools:text="1小时17分钟前" />
 
-    <me.ghui.v2ex.widget.TagView
+    <me.ghui.v2er.widget.TagView
         android:id="@+id/tagview"
         style="@style/smallText"
         android:layout_alignParentEnd="true"
