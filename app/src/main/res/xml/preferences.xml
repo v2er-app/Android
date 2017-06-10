@@ -14,12 +14,6 @@
             android:layout="@layout/preference_item"
             android:summary="按Back键退出时，保留前台界面"
             android:title="保留前台" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_key_quit"
-            android:layout="@layout/preference_item"
-            android:summary="按两次Back键退出"
-            android:title="确定退出" />
         <Preference
             android:layout="@layout/preference_item"
             android:summary="删除已缓存的文章内容及图片"

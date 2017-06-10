@@ -21,12 +21,13 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2ex.R;
 import me.ghui.v2ex.general.Navigator;
+import me.ghui.v2ex.general.Pref;
 import me.ghui.v2ex.module.base.BaseActivity;
 import me.ghui.v2ex.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2ex.module.drawer.dailyhot.DailyHotActivity;
-import me.ghui.v2ex.module.settings.SettingActivity;
 import me.ghui.v2ex.module.drawer.star.StarActivity;
 import me.ghui.v2ex.module.login.LoginActivity;
+import me.ghui.v2ex.module.settings.SettingActivity;
 import me.ghui.v2ex.module.user.UserHomeActivity;
 import me.ghui.v2ex.network.bean.UserInfo;
 import me.ghui.v2ex.util.UserUtils;
@@ -149,6 +150,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
         mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (Pref.readBool(R.string.pref_key_keep_activity)) {
+            moveTaskToBack(true);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
