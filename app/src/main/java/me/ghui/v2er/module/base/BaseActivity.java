@@ -250,8 +250,15 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         return mRootView;
     }
 
-    protected void fitSystemWindow() {
+    private void fitSystemWindow() {
+        fitSystemWindow(null);
+    }
+
+    protected void fitSystemWindow(View targetView) {
         mRootView.setPadding(mRootView.getPaddingLeft(), Utils.getStatusBarHeight(), mRootView.getPaddingRight(), mRootView.getPaddingBottom());
+        if (targetView != null) {
+            targetView.setPadding(targetView.getPaddingLeft(), targetView.getPaddingTop(), targetView.getPaddingRight(), targetView.getPaddingBottom() + Utils.getNavigationBarHeight());
+        }
     }
 
     @Nullable
