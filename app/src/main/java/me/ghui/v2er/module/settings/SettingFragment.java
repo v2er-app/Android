@@ -36,7 +36,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         ListView list = (ListView) rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);
-            list.setFitsSystemWindows(true);
+//            list.setFitsSystemWindows(true);
         }
     }
 

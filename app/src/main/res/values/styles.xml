@@ -6,6 +6,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
     </style>
     <style name="AppTheme" parent="Base.App.Theme" />
 </resources>
