@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +34,7 @@ import me.ghui.v2er.widget.PtrMaterialFrameLayout;
 public abstract class BaseFragment<T extends BaseContract.IPresenter> extends RxFragment implements BaseContract.IView, IBindToLife {
 
     protected FrameLayout mRootView;
+    private View mLoadingView;
 
     @Inject
     protected T mPresenter;
@@ -189,13 +191,29 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         delay(0, runnable);
     }
 
+
+    protected View onCreateLoadingView() {
+        if (mLoadingView == null) {
+            mLoadingView = LayoutInflater.from(getActivity()).inflate(R.layout.base_loading_view, mRootView, false);
+            mRootView.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+            mLoadingView.bringToFront();
+        }
+        return mLoadingView;
+    }
+
     @Override
     public void showLoading() {
+        if (attachPtrHandler() != null) return;
+        onCreateLoadingView();
+        mLoadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
         if (getPtrLayout() != null) getPtrLayout().refreshComplete();
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

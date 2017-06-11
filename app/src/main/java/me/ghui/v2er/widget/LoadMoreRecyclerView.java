@@ -1,6 +1,7 @@
 package me.ghui.v2er.widget;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -132,6 +133,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
 
         private void init() {
+            setBackgroundColor(Color.WHITE);
             setVisibility(GONE);//default is gone
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.smallTextSize));
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
