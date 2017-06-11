@@ -37,8 +37,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         if (list != null) {
             list.setDivider(null);
         }
-
-
     }
 
     @Override
