@@ -8,10 +8,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
@@ -41,6 +44,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected ViewGroup mContentView;
     @Nullable
     protected Toolbar mToolbar;
+    protected View mLoadingView;
+
 
     @Inject
     protected T mPresenter;
@@ -244,15 +249,28 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         return App.get().getAppComponent();
     }
 
+    protected View onCreateLoadingView() {
+        if (mLoadingView == null) {
+            mLoadingView = LayoutInflater.from(this).inflate(R.layout.base_loading_view, mRootView, false);
+        }
+        return mLoadingView;
+    }
+
     @Override
     public void showLoading() {
-
+        onCreateLoadingView();
+        mRootView.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+        mLoadingView.bringToFront();
+        mLoadingView.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
         if (getPtrLayout() != null) {
             getPtrLayout().refreshComplete();
+        }
+        if (mLoadingView != null) {
+            mLoadingView.setVisibility(View.INVISIBLE);
         }
     }
 
