@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
@@ -219,7 +218,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
 
         mRootView = new FrameLayout(this);
-        mRootView.setId(R.id.root_view_framelayout);
+        mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mRootView;
@@ -260,6 +259,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void showLoading() {
+        if (attachPtrHandler() != null) return;
         onCreateLoadingView();
         mLoadingView.setVisibility(View.VISIBLE);
     }

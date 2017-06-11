@@ -41,7 +41,7 @@
             android:title="意见反馈" />
         <Preference
             android:layout="@layout/preference_item"
-            android:title="联系我" />
+            android:title="联系" />
     </PreferenceCategory>
 
     <Preference

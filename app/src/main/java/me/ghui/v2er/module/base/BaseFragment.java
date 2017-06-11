@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -18,6 +19,7 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.util.RxUtils;
@@ -30,7 +32,7 @@ import me.ghui.v2er.widget.PtrMaterialFrameLayout;
 
 public abstract class BaseFragment<T extends BaseContract.IPresenter> extends RxFragment implements BaseContract.IView, IBindToLife {
 
-    protected ViewGroup mRootView;
+    protected FrameLayout mRootView;
 
     @Inject
     protected T mPresenter;
@@ -103,29 +105,34 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     protected View onCreateRootView(LayoutInflater inflater, ViewGroup container) {
         Logger.d("onCreateRootView");
-        if (attachPtrHandler() != null) {
-            if (mRootView == null) {
+        if (mRootView == null) {
+            View contentView;
+            if (attachPtrHandler() != null) {
                 PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(getContext());
+                ptrLayout.setId(R.id.frag_ptr_layout);
                 ptrLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                         , ViewGroup.LayoutParams.MATCH_PARENT));
                 View content = inflater.inflate(attachLayoutRes(), ptrLayout, false);
                 ptrLayout.setContentView(content);
                 ptrLayout.setPtrHandler(attachPtrHandler());
                 ptrLayout.setPinContent(true);
-                mRootView = ptrLayout;
+                contentView = ptrLayout;
+            } else {
+                contentView = inflater.inflate(attachLayoutRes(), container, false);
             }
-        } else {
-            if (mRootView == null) {
-                mRootView = (ViewGroup) inflater.inflate(attachLayoutRes(), container, false);
-            }
+            mRootView = new FrameLayout(getActivity());
+            mRootView.setId(R.id.frag_root_view_framelayout);
+            mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            mRootView.addView(contentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         }
         return mRootView;
     }
 
     @Nullable
     protected PtrFrameLayout getPtrLayout() {
-        if (attachPtrHandler() != null) return (PtrFrameLayout) mRootView;
-        else return null;
+        if (attachPtrHandler() != null) {
+            return (PtrFrameLayout) mRootView.findViewById(R.id.frag_ptr_layout);
+        } else return null;
     }
 
     @Override
