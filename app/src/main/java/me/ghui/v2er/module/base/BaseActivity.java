@@ -252,6 +252,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected View onCreateLoadingView() {
         if (mLoadingView == null) {
             mLoadingView = LayoutInflater.from(this).inflate(R.layout.base_loading_view, mRootView, false);
+            mRootView.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+            mLoadingView.bringToFront();
         }
         return mLoadingView;
     }
@@ -259,8 +261,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Override
     public void showLoading() {
         onCreateLoadingView();
-        mRootView.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        mLoadingView.bringToFront();
         mLoadingView.setVisibility(View.VISIBLE);
     }
 

@@ -1,11 +1,15 @@
 package me.ghui.v2er.general;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+
+import dagger.Component;
 
 
 /**
@@ -16,11 +20,11 @@ public class Navigator {
 
     private static Navigator navigator;
     private WeakReference<Context> mFrom;
-    private Class mTo;
-    private Bundle mExtras;
+    private Intent mIntent;
 
     private Navigator(Context context) {
         mFrom = new WeakReference<>(context);
+        mIntent = new Intent();
     }
 
     public static Navigator from(Context context) {
@@ -28,18 +32,18 @@ public class Navigator {
     }
 
     public <T extends Activity> Navigator to(Class<T> page) {
-        mTo = page;
+        Context context = mFrom.get();
+        if (context != null) {
+            ComponentName component = new ComponentName(context, page);
+            mIntent.setComponent(component);
+        }
         return navigator;
     }
 
     public void start() {
         Context context = mFrom.get();
         if (context != null) {
-            Intent intent = new Intent(context, mTo);
-            if (mExtras != null) {
-                intent.putExtras(mExtras);
-            }
-            context.startActivity(intent);
+            context.startActivity(mIntent);
         }
         clear();
     }
@@ -47,29 +51,31 @@ public class Navigator {
     private void clear() {
         mFrom.clear();
         mFrom = null;
-        mTo = null;
-        mExtras = null;
         navigator = null;
     }
 
-    private Bundle getExtras() {
-        if (mExtras == null) {
-            mExtras = new Bundle();
+    public Navigator setFlag(int flag) {
+        mIntent.setFlags(flag);
+        return this;
+    }
+
+    public Navigator addFlag(int flag) {
+        mIntent.addFlags(flag);
+        return this;
+    }
+
+    public Navigator putExtra(String key, Object value) {
+        Type type = value.getClass();
+        if (type == int.class) {
+            mIntent.putExtra(key, (int) value);
+        } else if (type == boolean.class) {
+            mIntent.putExtra(key, (boolean) value);
+        } else if (type == String.class) {
+            mIntent.putExtra(key, (String) value);
+        } else {
+            new Exception("Navigator doesn't support " + type + " type").printStackTrace();
+            // TODO: 11/06/2017
         }
-        return mExtras;
-    }
-
-    public Navigator putExtra(String name, boolean value) {
-        getExtras().putBoolean(name, value);
-        return this;
-    }
-
-    public Navigator putExtra(String name, String value) {
-        getExtras().putString(name, value);
-        return this;
-    }
-    public Navigator putExtra(String name, int value) {
-        getExtras().putInt(name, value);
         return this;
     }
 

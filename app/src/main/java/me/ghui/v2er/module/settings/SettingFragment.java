@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -7,7 +8,10 @@ import android.view.View;
 import android.widget.ListView;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.util.GlideCatchUtil;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 
 /**
@@ -22,6 +26,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_clear_cache)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_check_update)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -49,6 +54,13 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             return true;
         } else if (key.equals(getString(R.string.pref_key_rate))) {
             Utils.openStorePage();
+            return true;
+        } else if (key.equals(getString(R.string.pref_key_value_toggle_log))) {
+            // TODO: 11/06/2017 confirm dialog 
+            UserUtils.clearLogin();
+            Navigator.from(getActivity())
+                    .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .to(MainActivity.class).start();
             return true;
         }
         return false;
