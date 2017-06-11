@@ -10,6 +10,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 05/05/2017.
@@ -34,6 +35,8 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     private void init() {
+        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom() + Utils.getNavigationBarHeight());
+        setClipToPadding(false);
     }
 
     public void addDivider() {

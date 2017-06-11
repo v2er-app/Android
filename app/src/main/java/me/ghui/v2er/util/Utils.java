@@ -1,13 +1,16 @@
 package me.ghui.v2er.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,7 +34,7 @@ public class Utils {
         return text == null || text.length() == 0;
     }
 
-    public static boolean isnodempty(CharSequence text) {
+    public static boolean isnotEmpty(CharSequence text) {
         return !isEmpty(text);
     }
 
@@ -39,7 +42,7 @@ public class Utils {
         return list == null || list.isEmpty();
     }
 
-    public static boolean isnodempty(List list) {
+    public static boolean isnotEmpty(List list) {
         return !isEmpty(list);
     }
 
@@ -86,5 +89,27 @@ public class Utils {
         } catch (android.content.ActivityNotFoundException anfe) {
             App.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
+    }
+
+    public static int getStatusBarHeight() {
+        int statusBarHeight;
+        int resourceId = App.get().getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            statusBarHeight = App.get().getResources().getDimensionPixelSize(resourceId);
+        } else {
+            statusBarHeight = ScaleUtils.dp(24);
+        }
+        return statusBarHeight;
+    }
+
+    public static int getNavigationBarHeight() {
+        int navigationBarHeight = 0;
+        int resourceId = App.get().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            navigationBarHeight = App.get().getResources().getDimensionPixelSize(resourceId);
+        } else {
+            navigationBarHeight = ScaleUtils.dp(48);
+        }
+        return navigationBarHeight;
     }
 }

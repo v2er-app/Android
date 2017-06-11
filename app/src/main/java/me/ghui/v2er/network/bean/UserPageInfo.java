@@ -61,11 +61,11 @@ public class UserPageInfo {
     }
 
     public boolean isOnline() {
-        return Utils.isnodempty(online) && online.equals("ONLINE");
+        return Utils.isnotEmpty(online) && online.equals("ONLINE");
     }
 
     public boolean isFollowed() {
-        return Utils.isnodempty(unfollow) && unfollow.contains("取消");
+        return Utils.isnotEmpty(unfollow) && unfollow.contains("取消");
     }
 
     public String getUserName() {

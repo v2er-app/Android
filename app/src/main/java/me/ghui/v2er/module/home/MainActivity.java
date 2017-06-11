@@ -154,9 +154,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mDrawerLayout.closeDrawers();
     }
 
+
+    private int getCurrentTab() {
+        return mSlidingTabLayout.getCurrentTab();
+    }
+
     @Override
     public void onBackPressed() {
-        if (Pref.readBool(R.string.pref_key_keep_activity)) {
+        if (getCurrentTab() != 0) {
+            mSlidingTabLayout.setCurrentTab(0);
+            return;
+        }
+        if (isBackableEmpty() && Pref.readBool(R.string.pref_key_keep_activity)) {
             moveTaskToBack(true);
         } else {
             super.onBackPressed();

@@ -2,6 +2,7 @@ package me.ghui.v2er.module.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -12,6 +13,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -109,11 +112,15 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void onBackPressed() {
-        if (Utils.isnodempty(mBackables)) {
+        if (Utils.isnotEmpty(mBackables)) {
             mBackables.pop().onBackPressed();
         } else {
             super.onBackPressed();
         }
+    }
+
+    protected boolean isBackableEmpty() {
+        return Utils.isEmpty(mBackables);
     }
 
     @Override
@@ -170,6 +177,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        configSystemWindow();
         super.onCreate(savedInstanceState);
         setContentView(onCreateRootView());
         ButterKnife.bind(this);
@@ -177,6 +185,24 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         parseExtras(getIntent());
         init();
         autoLoad();
+    }
+
+    protected void configSystemWindow() {
+        Window window = getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
+                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        View decorView = window.getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int ui = decorView.getSystemUiVisibility();
+            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            decorView.setSystemUiVisibility(ui);
+        }
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
+        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     protected void autoLoad() {
@@ -216,12 +242,16 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             mContentView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
-
         mRootView = new FrameLayout(this);
+        fitSystemWindow();
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mRootView;
+    }
+
+    protected void fitSystemWindow() {
+        mRootView.setPadding(mRootView.getPaddingLeft(), Utils.getStatusBarHeight(), mRootView.getPaddingRight(), mRootView.getPaddingBottom());
     }
 
     @Nullable

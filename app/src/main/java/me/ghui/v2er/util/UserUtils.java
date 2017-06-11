@@ -17,14 +17,14 @@ public class UserUtils {
 
     public static UserInfo getUserInfo() {
         String json = Prefs.with(App.get()).read(USER_INFO_KEY);
-        if (Utils.isnodempty(json)) {
+        if (Utils.isnotEmpty(json)) {
             return APIService.gson().fromJson(json, UserInfo.class);
         }
         return null;
     }
 
     public static boolean isLogin() {
-        return Utils.isnodempty(Prefs.with(App.get()).read(USER_INFO_KEY));
+        return Utils.isnotEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
     }
 
     public static void saveLogin(UserInfo userInfo) {
