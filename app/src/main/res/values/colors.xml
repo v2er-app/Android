@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="default_page_bg">#FAFAFA</color>
-    <color name="colorPrimary">#fafafa</color>
-    <color name="colorPrimaryDark">#fafafa</color>
+    <color name="colorPrimary">#f4f4f4</color>
+    <color name="colorPrimaryDark">@color/colorPrimary</color>
     <color name="colorAccent">#555555</color>
     <color name="bodyTextColor">#555555</color>
     <color name="hintTextColor">#a3a1a1</color>
