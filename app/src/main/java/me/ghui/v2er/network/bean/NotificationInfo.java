@@ -4,8 +4,8 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -67,7 +67,7 @@ public class NotificationInfo {
 
 
         public String getTitle() {
-            if (Utils.isnotEmpty(title))
+            if (PreConditions.notEmpty(title))
                 return title.replaceFirst(name, "").trim();
             return title;
         }

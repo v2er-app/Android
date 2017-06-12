@@ -4,8 +4,8 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -31,7 +31,7 @@ public class NodesInfo {
     }
 
     public boolean hasStared() {
-        return !Utils.isEmpty(actionText);
+        return !PreConditions.isEmpty(actionText);
     }
 
     @Override
@@ -78,7 +78,7 @@ public class NodesInfo {
 
         public int getClickNum() {
             //  •  719 个字符  •  109 次点击
-            if (Utils.isEmpty(clickedAndContentLength)) {
+            if (PreConditions.isEmpty(clickedAndContentLength)) {
                 return 0;
             } else {
                 int count;
@@ -95,7 +95,7 @@ public class NodesInfo {
         }
 
         public int getContentLength() {
-            if (Utils.isEmpty(clickedAndContentLength)) return 0;
+            if (PreConditions.isEmpty(clickedAndContentLength)) return 0;
             else {
                 clickedAndContentLength = clickedAndContentLength.trim();
                 String result = clickedAndContentLength.substring(0, clickedAndContentLength.lastIndexOf("•")).trim();

@@ -4,8 +4,8 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 12/05/2017.
@@ -69,7 +69,7 @@ public class CareInfo {
 
         public String getTime() {
             //  •  36 天前  •  最后回复来自
-            if (!Utils.isEmpty(time)) {
+            if (!PreConditions.isEmpty(time)) {
                 return time.trim().split("•")[1].trim();
             }
             return time;

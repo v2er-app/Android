@@ -2,10 +2,10 @@ package me.ghui.v2er.network;
 
 import android.content.Context;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.util.UriUtils;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -15,7 +15,7 @@ public class UrlInterceptor {
 
     public static boolean intercept(String url, Context context) {
         boolean result = false;
-        if (Utils.isEmpty(url)) return result;
+        if (PreConditions.isEmpty(url)) return result;
         if (!url.startsWith(Constants.HTTPS_SCHEME) && !url.startsWith(Constants.HTTP_SCHEME)) {
             //url is path
             if (url.startsWith("/")) {

@@ -27,14 +27,22 @@
         app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
         tools:text="ghui" />
 
-    <CheckedTextView
+    <TextView
         android:id="@+id/reply_thx_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/love_normal_icon"
         app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
         app:layout_constraintRight_toRightOf="parent"
         tools:text="1" />
+
+    <ImageView
+        android:id="@+id/reply_thx_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
+        app:layout_constraintRight_toLeftOf="@id/reply_thx_tv" />
 
     <TextView
         android:id="@+id/time_tv"

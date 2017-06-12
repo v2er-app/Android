@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.Utils;
 
@@ -81,7 +82,7 @@ public class TopicInfo {
         private List<PostScript> postScripts;
 
         public String getCommentNum() {
-            if (Utils.isEmpty(comment)) return "评论0";
+            if (PreConditions.isEmpty(comment)) return "评论0";
             return "评论" + comment.split(" ")[0];
         }
 
@@ -184,6 +185,8 @@ public class TopicInfo {
         private String love;
         @Pick("span.no")
         private int floor;
+        @Pick("div.thank_area.thanked")
+        private String alreadyThanked;
 
         public String getFloor() {
             return floor + "楼";
@@ -199,6 +202,10 @@ public class TopicInfo {
                     ", love='" + love + '\'' +
                     ", floor='" + floor + '\'' +
                     '}';
+        }
+
+        public boolean hadThanked() {
+            return PreConditions.notEmpty(alreadyThanked);
         }
 
         public String getReplyContent() {
@@ -233,8 +240,18 @@ public class TopicInfo {
             this.time = time;
         }
 
-        public String getLove() {
-            return love;
+        public int getLove() {
+            int loveCount = 0;
+            if (PreConditions.isEmpty(love)) {
+                return loveCount;
+            }
+            try {
+                loveCount = Integer.parseInt(love.substring(2));
+            } catch (Exception e) {
+                e.printStackTrace();
+                loveCount = 0;
+            }
+            return loveCount;
         }
 
         public void setLove(String love) {

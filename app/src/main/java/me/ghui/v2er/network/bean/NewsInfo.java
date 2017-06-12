@@ -4,8 +4,8 @@ package me.ghui.v2er.network.bean;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
 
 
 /**
@@ -21,7 +21,7 @@ public class NewsInfo {
     private List<Item> items;
 
     public int getUnReadCount() {
-        if (Utils.isEmpty(unRead)) return 0;
+        if (PreConditions.isEmpty(unRead)) return 0;
         else {
             return Integer.parseInt(unRead.split(" ")[0]);
         }
@@ -116,7 +116,7 @@ public class NewsInfo {
         }
 
         public String getTime() {
-            if (!Utils.isEmpty(time)) {
+            if (!PreConditions.isEmpty(time)) {
                 return time.split("•")[0];
             }
             return time;
@@ -131,7 +131,7 @@ public class NewsInfo {
         }
 
         public String getTagId() {
-            if (Utils.isEmpty(tagLink)) return null;
+            if (PreConditions.isEmpty(tagLink)) return null;
             return tagLink.substring(tagLink.lastIndexOf("/") + 1);
         }
 

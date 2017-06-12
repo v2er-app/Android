@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -68,7 +68,7 @@ public class TopicStarInfo {
 
         public String getTime() {
             //   • •  36 天前  •  最后回复来自
-            if (Utils.isEmpty(time) || !time.contains("前")) return "";
+            if (PreConditions.isEmpty(time) || !time.contains("前")) return "";
             time = time.replaceAll(" ", "");
             int endIndex = time.indexOf("前");
             int startIndex = 0;
@@ -82,7 +82,7 @@ public class TopicStarInfo {
         }
 
         public String getUserName() {
-            if (Utils.isEmpty(userLink)) return null;
+            if (PreConditions.isEmpty(userLink)) return null;
             else {
                 return userLink.substring(userLink.lastIndexOf("/") + 1);
             }

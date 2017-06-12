@@ -30,6 +30,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
@@ -112,7 +113,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void onBackPressed() {
-        if (Utils.isnotEmpty(mBackables)) {
+        if (PreConditions.notEmpty(mBackables)) {
             mBackables.pop().onBackPressed();
         } else {
             super.onBackPressed();
@@ -120,7 +121,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected boolean isBackableEmpty() {
-        return Utils.isEmpty(mBackables);
+        return PreConditions.isEmpty(mBackables);
     }
 
     @Override

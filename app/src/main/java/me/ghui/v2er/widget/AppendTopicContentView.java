@@ -11,9 +11,9 @@ import com.zzhoujay.richtext.RichText;
 import java.util.List;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 07/05/2017.
@@ -41,7 +41,7 @@ public class AppendTopicContentView extends LinearLayout {
     }
 
     public void setData(List<TopicInfo.HeaderInfo.PostScript> data) {
-        if (Utils.isEmpty(data)) {
+        if (PreConditions.isEmpty(data)) {
             setVisibility(GONE);
         } else {
             setVisibility(VISIBLE);

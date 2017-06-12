@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.Utils;
 
 /**
@@ -42,7 +43,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
 
     public T getItem(int position) {
-        return Utils.isEmpty(mDatas) ? null : mDatas.get(position);
+        return PreConditions.isEmpty(mDatas) ? null : mDatas.get(position);
     }
 
     @Override

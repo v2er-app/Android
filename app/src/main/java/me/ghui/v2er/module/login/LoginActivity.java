@@ -10,11 +10,11 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 30/04/2017.
@@ -56,12 +56,12 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     void onLoginClicked() {
         String userName = mUserInputLayout.getEditText().getText().toString();
         String psw = mPswInputLayout.getEditText().getText().toString();
-        if (Utils.isEmpty(userName)) {
+        if (PreConditions.isEmpty(userName)) {
             mUserInputLayout.setError("请输入用户名");
             return;
         }
 
-        if (Utils.isEmpty(psw)) {
+        if (PreConditions.isEmpty(psw)) {
             mPswInputLayout.setError("请输入密码");
             return;
         }

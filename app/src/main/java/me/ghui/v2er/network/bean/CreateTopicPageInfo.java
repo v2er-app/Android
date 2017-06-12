@@ -10,7 +10,7 @@ import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 05/06/2017.
@@ -38,7 +38,7 @@ public class CreateTopicPageInfo {
      * @return
      */
     public List<BaseNode> getNodes() {
-        if (Utils.isEmpty(allNodes)) {
+        if (PreConditions.isEmpty(allNodes)) {
             allNodes = new ArrayList<>();
         } else {
             allNodes.clear();

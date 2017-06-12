@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -40,7 +41,14 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                 .load(replyInfo.getAvatar())
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
-        holder.setText(R.id.reply_thx_tv, replyInfo.getLove());
+        if (replyInfo.getLove() == 0) {
+            holder.getView(R.id.reply_thx_tv).setVisibility(View.GONE);
+        } else {
+            holder.getView(R.id.reply_thx_tv).setVisibility(View.VISIBLE);
+            holder.setText(R.id.reply_thx_tv, replyInfo.getLove() + "");
+        }
+        ImageView img = holder.getView(R.id.reply_thx_img);
+        img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
         RichText.fromHtml(replyInfo.getReplyContent()).into(holder.getView(R.id.content_tv));
         holder.setText(R.id.floor_tv, replyInfo.getFloor());

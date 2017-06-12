@@ -10,6 +10,7 @@ import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.home.MsgContract;
 import me.ghui.v2er.module.home.MsgFragment;
@@ -43,7 +44,7 @@ public class MsgModule {
                         true, new int[]{0, reply.getName().length()});
                 holder.setText(R.id.msg_title_tv, titleWithUserName);
                 holder.getView(R.id.msg_content_tv);
-                if (!Utils.isEmpty(reply.getContent())) {
+                if (!PreConditions.isEmpty(reply.getContent())) {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
                     holder.setText(R.id.msg_content_tv, reply.getContent());
                 } else {

@@ -30,22 +30,6 @@ public class Utils {
         return list == null ? 0 : list.size();
     }
 
-    public static boolean isEmpty(CharSequence text) {
-        return text == null || text.length() == 0;
-    }
-
-    public static boolean isnotEmpty(CharSequence text) {
-        return !isEmpty(text);
-    }
-
-    public static boolean isEmpty(List list) {
-        return list == null || list.isEmpty();
-    }
-
-    public static boolean isnotEmpty(List list) {
-        return !isEmpty(list);
-    }
-
     public static String KEY(String key) {
         return Constants.PACKAGE_NAME + "_" + key;
     }

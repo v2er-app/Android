@@ -5,8 +5,8 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -36,7 +36,7 @@ public class UserPageInfo {
     private List<ReplyItem> replyItems;
 
     private List<ReplyItem> getReplyItems() {
-        if (Utils.isEmpty(dockItems)) return null;
+        if (PreConditions.isEmpty(dockItems)) return null;
         if (replyItems == null) {
             replyItems = new ArrayList<>(dockItems.size());
         } else {
@@ -61,11 +61,11 @@ public class UserPageInfo {
     }
 
     public boolean isOnline() {
-        return Utils.isnotEmpty(online) && online.equals("ONLINE");
+        return PreConditions.notEmpty(online) && online.equals("ONLINE");
     }
 
     public boolean isFollowed() {
-        return Utils.isnotEmpty(unfollow) && unfollow.contains("取消");
+        return PreConditions.notEmpty(unfollow) && unfollow.contains("取消");
     }
 
     public String getUserName() {

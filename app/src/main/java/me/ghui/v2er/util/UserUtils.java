@@ -2,6 +2,7 @@ package me.ghui.v2er.util;
 
 import es.dmoral.prefs.Prefs;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -17,18 +18,18 @@ public class UserUtils {
 
     public static UserInfo getUserInfo() {
         String json = Prefs.with(App.get()).read(USER_INFO_KEY);
-        if (Utils.isnotEmpty(json)) {
+        if (PreConditions.notEmpty(json)) {
             return APIService.gson().fromJson(json, UserInfo.class);
         }
         return null;
     }
 
     public static boolean isLogin() {
-        return Utils.isnotEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
+        return PreConditions.notEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
     }
 
     public static void saveLogin(UserInfo userInfo) {
-        if (userInfo == null || Utils.isEmpty(userInfo.getUserName())) return;
+        if (userInfo == null || PreConditions.isEmpty(userInfo.getUserName())) return;
         String json = APIService.gson().toJson(userInfo);
         Prefs.with(App.get()).write(USER_INFO_KEY, json);
     }
