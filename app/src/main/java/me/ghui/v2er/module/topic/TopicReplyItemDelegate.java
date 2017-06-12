@@ -40,6 +40,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                 .load(replyInfo.getAvatar())
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
+        holder.setText(R.id.reply_thx_tv, replyInfo.getLove());
         holder.setText(R.id.time_tv, replyInfo.getTime());
         RichText.fromHtml(replyInfo.getReplyContent()).into(holder.getView(R.id.content_tv));
         holder.setText(R.id.floor_tv, replyInfo.getFloor());

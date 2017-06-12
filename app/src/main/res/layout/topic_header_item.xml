@@ -14,7 +14,6 @@
         android:id="@+id/avatar_img"
         android:layout_width="@dimen/common_avatar_size"
         android:layout_height="@dimen/common_avatar_size"
-        android:background="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

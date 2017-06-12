@@ -1,5 +1,7 @@
 package me.ghui.v2er.injector.module;
 
+import android.view.View;
+
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
@@ -47,6 +49,12 @@ public class TopicModule {
 
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
+                holder.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO: 12/06/2017 do thanks
+                    }
+                });
             }
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));

@@ -27,6 +27,15 @@
         app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
         tools:text="ghui" />
 
+    <CheckedTextView
+        android:id="@+id/reply_thx_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/love_normal_icon"
+        app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="1" />
+
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
