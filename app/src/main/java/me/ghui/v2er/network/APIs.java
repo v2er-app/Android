@@ -109,9 +109,8 @@ public interface APIs {
     Observable<CreateTopicPageInfo> postTopic(@FieldMap Map<String, String> postParams);
 
     @Html
-    @FormUrlEncoded
     @POST("/thank/reply/{id}")
-    Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Field("t") String t);
+    Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Query("t") String t);
 
     @Html
     @POST("/ajax/money")

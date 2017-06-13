@@ -17,7 +17,7 @@ import me.ghui.v2er.util.Utils;
 
 public class TopicInfo {
 
-    @Pick("div.header")
+    @Pick("div.box")
     private HeaderInfo headerInfo;
     @Pick("div[id^=r_]")
     private List<Reply> replies;
@@ -65,20 +65,20 @@ public class TopicInfo {
     }
 
     public static class HeaderInfo implements Item {
-        @Pick(value = "div.header img.avatar", attr = "src")
+        @Pick(value = "a.tb", attr = Attrs.HREF)
+        private String tId;
+        @Pick(value = "img.avatar", attr = "src")
         private String avatar;
         @Pick("small.gray a")
         private String userName;
         @Pick(value = "small.gray", attr = "ownText")
         private String time;
-        @Pick("div.header a[href^=/go]")
+        @Pick("a[href^=/go]")
         private String tag;
-        @Pick(value = "div.header a[href^=/go]", attr = Attrs.HREF)
+        @Pick(value = "a[href^=/go]", attr = Attrs.HREF)
         private String tagLink;
         @Pick("div.cell span.gray")
         private String comment;
-        @Pick("a.tb")
-        private String t;
         @Pick("a.page_normal:last-child")
         private int page;
         @Pick("h1")
@@ -89,11 +89,10 @@ public class TopicInfo {
         private List<PostScript> postScripts;
 
         public String getT() {
-            if (PreConditions.isEmpty(t)) {
+            if (PreConditions.isEmpty(tId)) {
                 return null;
             }
-            // TODO: 12/06/2017  
-            return UriUtils.getParamValue(t, "t");
+            return UriUtils.getParamValue(Constants.BASE_URL + tId, "t");
         }
 
         public String getCommentNum() {

@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.login;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
@@ -73,6 +74,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     public void onLoginSuccess() {
         Logger.d("--- Login success ---");
         Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
-        Navigator.from(this).to(MainActivity.class).start();
+        Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+        finish();
     }
 }
