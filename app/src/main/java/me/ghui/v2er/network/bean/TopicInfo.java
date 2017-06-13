@@ -1,7 +1,9 @@
 package me.ghui.v2er.network.bean;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
@@ -21,8 +23,21 @@ public class TopicInfo {
     private HeaderInfo headerInfo;
     @Pick("div[id^=r_]")
     private List<Reply> replies;
+    @Pick(value = "input[name=once]", attr = "value")
+    private String once;
 
     private List<Item> items;
+
+    public String getOnce() {
+        return once;
+    }
+
+    public Map<String, String> toReplyMap(String content) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("once", once);
+        map.put("content", content);
+        return map;
+    }
 
     /**
      * 加载分页后的数据
@@ -61,6 +76,7 @@ public class TopicInfo {
         return "TopicInfo{" +
                 "headerInfo=" + headerInfo +
                 ", replies=" + replies +
+                ", once=" + once +
                 '}';
     }
 
@@ -85,7 +101,7 @@ public class TopicInfo {
         private String contentHtml;
         @Pick("div.subtle")
         private List<PostScript> postScripts;
-//        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
+        //        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
         @Pick(value = "a[href^=/favorite]", attr = Attrs.HREF)
         private String favoriteLink;
 
@@ -282,8 +298,15 @@ public class TopicInfo {
             return loveCount;
         }
 
-        public void setLove(String love) {
-            this.love = love;
+        public void setLove(int count) {
+            this.love = "♥ " + count;
+        }
+
+        public void updateThanks(boolean isSuccess) {
+            if (isSuccess) {
+                alreadyThanked = "感谢已发送";
+                this.love = "♥ " + getLove() + 1;
+            }
         }
 
         @Override

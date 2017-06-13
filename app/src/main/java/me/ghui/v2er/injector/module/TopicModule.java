@@ -1,6 +1,7 @@
 package me.ghui.v2er.injector.module;
 
 import android.view.View;
+import android.widget.Toast;
 
 import dagger.Module;
 import dagger.Provides;
@@ -51,26 +52,33 @@ public class TopicModule {
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
                 holder.setOnClickListener(v -> {
-                    TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
+                    if (replyInfo.hadThanked()) {
+                        Toast.makeText(mContext, "感谢不能收回哦", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
                     mView.mPresenter.doThanks(replyInfo.getReplyId(), headerInfo.getT())
                             .subscribe(simpleInfo -> {
                                 // TODO: 13/06/2017 assume success
                                 boolean isSuccess = true;
-                                holder.getImgView(R.id.reply_thx_img).setImageResource(isSuccess ?
-                                        R.drawable.love_checked_icon : R.drawable.love_normal_icon);
-                                String loveCountStr = holder.getTextView(R.id.reply_thx_tv).getText().toString();
-                                int count = 1;
-                                if (PreConditions.notEmpty(loveCountStr)) {
-                                    try {
-                                        count = Integer.parseInt(loveCountStr) + 1;
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        count = 1;
-                                    }
-                                }
-                                holder.getTextView(R.id.reply_thx_tv).setVisibility(View.VISIBLE);
-                                holder.getTextView(R.id.reply_thx_tv).setText(count + "");
+                                replyInfo.updateThanks(isSuccess);
+                                notifyItemChanged(holder.index());
+//                                replyInfo.setLove(replyInfo.getLove() + 1);
+//                                holder.getImgView(R.id.reply_thx_img).setImageResource(isSuccess ?
+//                                        R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+//                                String loveCountStr = holder.getTextView(R.id.reply_thx_tv).getText().toString();
+//                                int count = 1;
+//                                if (PreConditions.notEmpty(loveCountStr)) {
+//                                    try {
+//                                        count = Integer.parseInt(loveCountStr) + 1;
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                        count = 1;
+//                                    }
+//                                }
+//                                holder.getTextView(R.id.reply_thx_tv).setVisibility(View.VISIBLE);
+//                                holder.getTextView(R.id.reply_thx_tv).setText(count + "");
 
                             });
                 }, R.id.reply_thx_img);

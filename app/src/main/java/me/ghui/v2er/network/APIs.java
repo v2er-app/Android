@@ -116,4 +116,23 @@ public interface APIs {
     @POST("/ajax/money")
     Observable<SimpleInfo> thxMoney();
 
+    @Html
+    @POST("/favorite/topic/{id}")
+    Observable<SimpleInfo> starTopic(@Path("id") String id, @Query("t") String string);
+
+    @Html
+    @POST("/up/topic/{id}")
+    Observable<SimpleInfo> upTopic(@Path("id") String id, @Query("t") String string);
+
+    @Html
+    @POST("/down/topic/{id}")
+    Observable<SimpleInfo> downTopic(@Path("id") String id, @Query("t") String string);
+
+    @Html
+    @FormUrlEncoded
+    @POST("/t/{id}")
+    Observable<SimpleInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
+
+}
+
 }
