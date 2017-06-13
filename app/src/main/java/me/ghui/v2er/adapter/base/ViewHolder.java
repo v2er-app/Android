@@ -70,6 +70,14 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
+    public ImageView getImgView(int imgViewId) {
+        return getView(imgViewId);
+    }
+
+    public TextView getTextView(int tvId) {
+        return getView(tvId);
+    }
+
     public View getConvertView() {
         return mConvertView;
     }

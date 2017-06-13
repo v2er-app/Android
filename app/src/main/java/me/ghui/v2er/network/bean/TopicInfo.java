@@ -7,6 +7,7 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 
 
@@ -47,6 +48,10 @@ public class TopicInfo {
         this.headerInfo = headerInfo;
     }
 
+    public HeaderInfo getHeaderInfo() {
+        return headerInfo;
+    }
+
     public int getTotalPage() {
         return headerInfo.getPage();
     }
@@ -72,6 +77,8 @@ public class TopicInfo {
         private String tagLink;
         @Pick("div.cell span.gray")
         private String comment;
+        @Pick("a.tb")
+        private String t;
         @Pick("a.page_normal:last-child")
         private int page;
         @Pick("h1")
@@ -80,6 +87,14 @@ public class TopicInfo {
         private String contentHtml;
         @Pick("div.subtle")
         private List<PostScript> postScripts;
+
+        public String getT() {
+            if (PreConditions.isEmpty(t)) {
+                return null;
+            }
+            // TODO: 12/06/2017  
+            return UriUtils.getParamValue(t, "t");
+        }
 
         public String getCommentNum() {
             if (PreConditions.isEmpty(comment)) return "评论0";
@@ -187,9 +202,21 @@ public class TopicInfo {
         private int floor;
         @Pick("div.thank_area.thanked")
         private String alreadyThanked;
+        @Pick(attr = "id")
+        private String replyId;
 
         public String getFloor() {
             return floor + "楼";
+        }
+
+        public String getReplyId() {
+            if (PreConditions.isEmpty(replyId)) return null;
+            try {
+                return replyId.substring(replyId.indexOf("_") + 1);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         @Override

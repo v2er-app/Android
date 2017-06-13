@@ -17,6 +17,7 @@ import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
@@ -35,6 +36,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
     private String mTopicId;
+    private TopicInfo mTopicInfo;
 
     public static void openById(String topicId, Context context) {
         Navigator.from(context)
@@ -96,6 +98,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void fillView(TopicInfo topicInfo, boolean isLoadMore) {
+        mTopicInfo = topicInfo;
         if (topicInfo == null) {
             mAdapter.setData(null);
             return;

@@ -15,11 +15,13 @@ import me.ghui.v2er.network.bean.NodeStarInfo;
 import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.network.bean.NotificationInfo;
+import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
+import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -105,5 +107,14 @@ public interface APIs {
     @FormUrlEncoded
     @POST("/new")
     Observable<CreateTopicPageInfo> postTopic(@FieldMap Map<String, String> postParams);
+
+    @Html
+    @FormUrlEncoded
+    @POST("/thank/reply/{id}")
+    Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Field("t") String t);
+
+    @Html
+    @POST("/ajax/money")
+    Observable<SimpleInfo> thxMoney();
 
 }

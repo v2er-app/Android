@@ -51,7 +51,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
 
     @Inject
-    protected T mPresenter;
+    public T mPresenter;
 
     private Stack<IBackable> mBackables;
 
@@ -297,7 +297,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void showLoading() {
-        if (attachPtrHandler() != null) return;
+        if (attachPtrHandler() != null && getPtrLayout().isRefreshing()) {
+            return;
+        }
         onCreateLoadingView();
         mLoadingView.setVisibility(View.VISIBLE);
     }
