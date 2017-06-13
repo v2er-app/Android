@@ -65,8 +65,6 @@ public class TopicInfo {
     }
 
     public static class HeaderInfo implements Item {
-        @Pick(value = "a.tb", attr = Attrs.HREF)
-        private String tId;
         @Pick(value = "img.avatar", attr = "src")
         private String avatar;
         @Pick("small.gray a")
@@ -87,12 +85,15 @@ public class TopicInfo {
         private String contentHtml;
         @Pick("div.subtle")
         private List<PostScript> postScripts;
+//        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
+        @Pick(value = "a[href^=/favorite]", attr = Attrs.HREF)
+        private String favoriteLink;
 
         public String getT() {
-            if (PreConditions.isEmpty(tId)) {
+            if (PreConditions.isEmpty(favoriteLink)) {
                 return null;
             }
-            return UriUtils.getParamValue(Constants.BASE_URL + tId, "t");
+            return UriUtils.getParamValue(Constants.BASE_URL + favoriteLink, "t");
         }
 
         public String getCommentNum() {
@@ -145,6 +146,7 @@ public class TopicInfo {
         @Override
         public String toString() {
             return "HeaderInfo{" +
+                    "tId='" + getT() + '\'' +
                     "avatar='" + avatar + '\'' +
                     ", userName='" + userName + '\'' +
                     ", time='" + time + '\'' +
