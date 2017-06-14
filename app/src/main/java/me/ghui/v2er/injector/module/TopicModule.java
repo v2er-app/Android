@@ -1,13 +1,11 @@
 package me.ghui.v2er.injector.module;
 
-import android.view.View;
 import android.widget.Toast;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
@@ -54,11 +52,11 @@ public class TopicModule {
                 holder.setOnClickListener(v -> {
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
                     if (replyInfo.hadThanked()) {
-                        Toast.makeText(mContext, "感谢不能收回哦", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
-                    mView.mPresenter.doThanks(replyInfo.getReplyId(), headerInfo.getT())
+                    mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
                             .subscribe(simpleInfo -> {
                                 // TODO: 13/06/2017 assume success
                                 boolean isSuccess = true;

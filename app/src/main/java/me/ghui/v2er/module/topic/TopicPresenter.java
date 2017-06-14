@@ -43,11 +43,25 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public Observable<SimpleInfo> doThanks(String replyId, String t) {
+    public Observable<SimpleInfo> thxReplier(String replyId, String t) {
         return APIService.get().thxReplier(replyId, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx());
     }
+
+    @Override
+    public void thxCreator(String id, String t) {
+        APIService.get().thxCreator(id, t)
+                .flatMap(simpleInfo -> APIService.get().thxMoney())
+                .compose(mView.rx())
+                .subscribe(new Consumer<SimpleInfo>() {
+                    @Override
+                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                        mView.afterThxCreator();
+                    }
+                });
+    }
+
 
     @Override
     public void starTopic(String topicId, String t) {

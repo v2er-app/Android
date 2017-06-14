@@ -9,7 +9,7 @@
     <item
         android:id="@id/action_thx"
         android:icon="@drawable/love_normal_icon"
-        android:title="感谢" />
+        android:title="@string/thx_str" />
     <item
         android:id="@id/action_block"
         android:icon="@drawable/love_normal_icon"

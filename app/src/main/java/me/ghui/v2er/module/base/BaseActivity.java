@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -312,6 +313,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.INVISIBLE);
         }
+    }
+
+    protected void toast(@StringRes int msgId) {
+        toast(getString(msgId));
     }
 
     protected void toast(String msg) {

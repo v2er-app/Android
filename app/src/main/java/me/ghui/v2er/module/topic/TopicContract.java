@@ -16,6 +16,8 @@ public class TopicContract {
         void afterStarTopic(TopicInfo topicInfo);
 
         void afterUnStarTopic(TopicInfo topicInfo);
+
+        void afterThxCreator();
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -23,7 +25,9 @@ public class TopicContract {
 
         void loadData(String topicId);
 
-        Observable<SimpleInfo> doThanks(String replyId, String t);
+        Observable<SimpleInfo> thxReplier(String replyId, String t);
+
+        void thxCreator(String id, String t);
 
         void starTopic(String topicId, String t);
 

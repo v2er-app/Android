@@ -39,6 +39,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private String mTopicId;
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
+    private MenuItem mThxMenuItem;
 
 
     public static void openById(String topicId, Context context) {
@@ -75,20 +76,28 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         super.configToolBar(toolBar);
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
+        mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
         mToolbar.setOnMenuItemClickListener(item -> {
+            if (mTopicInfo == null) {
+                toast("请等到加载完成");
+                return true;
+            }
+            TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
             switch (item.getItemId()) {
                 case R.id.action_star:
-                    if (mTopicInfo == null) {
-                        toast("请等到加载完成");
-                        return true;
-                    }
-                    if (mTopicInfo.getHeaderInfo().hadStared()) {
-                        mPresenter.unStarTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                    if (headerInfo.hadStared()) {
+                        mPresenter.unStarTopic(mTopicId, headerInfo.getT());
                     } else {
-                        mPresenter.starTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                        mPresenter.starTopic(mTopicId, headerInfo.getT());
                     }
                     break;
                 case R.id.action_thx:
+                    if (!headerInfo.hadThanked()) {
+                        mPresenter.thxCreator(mTopicId, headerInfo.getT());
+                    } else {
+                        toast(R.string.already_thx_cannot_return);
+                        return true;
+                    }
                     break;
                 case R.id.action_block:
                     break;
@@ -135,27 +144,43 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
-        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
+        updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), false);
+        updateThxCreatorStatus(mTopicInfo.getHeaderInfo().hadThanked(), false);
     }
 
-    private void toggleStar(boolean isStared) {
+    private void updateStarStatus(boolean isStared, boolean needUpdateData) {
         mLoveMenuItem.setIcon(isStared ?
                 R.drawable.ic_star_selected : R.drawable.ic_star_normal);
-        mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
+        if (needUpdateData) {
+            mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
+        }
+    }
+
+    private void updateThxCreatorStatus(boolean thxed, boolean needUpdateData) {
+        mThxMenuItem.setTitle(thxed ? getString(R.string.thx_already_send) : getString(R.string.thx_str));
+        if (needUpdateData) {
+            mTopicInfo.getHeaderInfo().updateThxStatus(thxed);
+        }
     }
 
     @Override
     public void afterStarTopic(TopicInfo topicInfo) {
         mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
-        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
+        updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), true);
         toast("收藏成功");
     }
 
     @Override
     public void afterUnStarTopic(TopicInfo topicInfo) {
         mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
-        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
+        updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), true);
         toast("取消收藏成功");
+    }
+
+    @Override
+    public void afterThxCreator() {
+        updateThxCreatorStatus(true, true);
+        toast(R.string.thx_already_send);
     }
 
 }

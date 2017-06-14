@@ -104,6 +104,12 @@ public class TopicInfo {
         //        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
         @Pick(value = "a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
+        @Pick("div[id=topic_thank] span.f11.gray")
+        private String thankedText;
+
+        public boolean hadThanked() {
+            return PreConditions.notEmpty(thankedText) && thankedText.contains("已发送");
+        }
 
         public void setFavoriteLink(String favoriteLink) {
             this.favoriteLink = favoriteLink;
@@ -111,6 +117,10 @@ public class TopicInfo {
 
         public String getFavoriteLink() {
             return favoriteLink;
+        }
+
+        public void updateThxStatus(boolean thxed) {
+            thankedText = thxed ? "感谢已发送" : null;
         }
 
         public void updateStarStatus(boolean stared) {
