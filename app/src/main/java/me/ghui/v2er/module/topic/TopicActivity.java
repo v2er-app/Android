@@ -3,10 +3,13 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
 
@@ -23,6 +26,7 @@ import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 
@@ -36,6 +40,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
+    @BindView(R.id.topic_reply_wrapper)
+    RelativeLayout mReplyWrapper;
 
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
@@ -59,7 +65,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.common_load_more_recyclerview;
+        return R.layout.act_topic_info_page;
     }
 
     @Override
@@ -113,6 +119,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
+//        Utils.setPaddingForNavbar(mReplyCardView);
+        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mReplyWrapper.getLayoutParams();
+        layoutParams.bottomMargin = Utils.getNavigationBarHeight();
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -200,8 +209,38 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(getContext());
             mBottomSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
+            ViewGroup parentView = (ViewGroup) mBottomSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
+            OnBottomDialogItemClickListener clickListener = new OnBottomDialogItemClickListener();
+            for (int i = 0; i < parentView.getChildCount(); i++) {
+                parentView.getChildAt(i).setOnClickListener(clickListener);
+            }
         }
         mBottomSheetDialog.show();
+    }
+
+    private class OnBottomDialogItemClickListener implements View.OnClickListener {
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.reply_dialog_btn1:
+                    //reply to the comment
+                    break;
+                case R.id.reply_dialog_btn2:
+                    //copy reply to clipboard
+                    break;
+                case R.id.reply_dialog_btn3:
+                    //ignore reply
+                    break;
+                case R.id.reply_dialog_btn4:
+                    //homepage
+                    break;
+                case R.id.reply_dialog_btn5:
+                    //block him
+                    break;
+            }
+            mBottomSheetDialog.dismiss();
+        }
     }
 
 }

@@ -11,6 +11,7 @@ import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -96,4 +97,9 @@ public class Utils {
         }
         return navigationBarHeight;
     }
+
+    public static void setPaddingForNavbar(View view) {
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), getNavigationBarHeight());
+    }
+
 }

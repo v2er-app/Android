@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/topic_reply_dialog_rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="@color/divider_color"
@@ -9,6 +10,7 @@
     android:showDividers="middle|end">
 
     <Button
+        android:id="@+id/reply_dialog_btn1"
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:background="?android:attr/selectableItemBackground"
@@ -17,6 +19,7 @@
         android:text="回复评论" />
 
     <Button
+        android:id="@+id/reply_dialog_btn2"
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:background="?android:attr/selectableItemBackground"
@@ -25,6 +28,7 @@
         android:text="拷贝评论" />
 
     <Button
+        android:id="@+id/reply_dialog_btn3"
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:background="?android:attr/selectableItemBackground"
@@ -33,6 +37,7 @@
         android:text="忽略评论" />
 
     <Button
+        android:id="@+id/reply_dialog_btn4"
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:background="?android:attr/selectableItemBackground"
@@ -41,6 +46,7 @@
         android:text="他的主页" />
 
     <Button
+        android:id="@+id/reply_dialog_btn5"
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:background="?android:attr/selectableItemBackground"
