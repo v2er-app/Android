@@ -203,7 +203,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
         mStarBtn.setChecked(isStared);
         mStarBtn.setText(isStared ? "已收藏" : "收藏");
     }
