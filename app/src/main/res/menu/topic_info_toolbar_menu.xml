@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@id/action_star"
+        android:icon="@drawable/love_normal_icon"
+        android:title="Star"
+        app:showAsAction="always" />
+    <item
+        android:id="@id/action_thx"
+        android:icon="@drawable/love_normal_icon"
+        android:title="感谢" />
+    <item
+        android:id="@id/action_block"
+        android:icon="@drawable/love_normal_icon"
+        android:title="忽略" />
+</menu>

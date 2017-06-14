@@ -134,5 +134,3 @@ public interface APIs {
     Observable<SimpleInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
 
 }
-
-}

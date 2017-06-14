@@ -305,7 +305,7 @@ public class TopicInfo {
         public void updateThanks(boolean isSuccess) {
             if (isSuccess) {
                 alreadyThanked = "感谢已发送";
-                this.love = "♥ " + getLove() + 1;
+                this.love = "♥ " + (getLove() + 1);
             }
         }
 

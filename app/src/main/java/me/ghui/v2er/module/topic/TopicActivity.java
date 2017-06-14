@@ -3,7 +3,10 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -37,6 +40,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     LoadMoreRecyclerView.Adapter mAdapter;
     private String mTopicId;
     private TopicInfo mTopicInfo;
+    private MenuItem mLoveMenuItem;
+
 
     public static void openById(String topicId, Context context) {
         Navigator.from(context)
@@ -68,7 +73,23 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    protected void configToolBar(Toolbar toolBar) {
+        super.configToolBar(toolBar);
+        mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
+        mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
+        mToolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_star) {
+                // TODO: 01/06/2017
+                Toast.makeText(getContext(), "do Star...", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        });
+    }
+
+    @Override
     protected void init() {
+
+
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);

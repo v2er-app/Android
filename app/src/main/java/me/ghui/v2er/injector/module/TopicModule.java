@@ -64,22 +64,6 @@ public class TopicModule {
                                 boolean isSuccess = true;
                                 replyInfo.updateThanks(isSuccess);
                                 notifyItemChanged(holder.index());
-//                                replyInfo.setLove(replyInfo.getLove() + 1);
-//                                holder.getImgView(R.id.reply_thx_img).setImageResource(isSuccess ?
-//                                        R.drawable.love_checked_icon : R.drawable.love_normal_icon);
-//                                String loveCountStr = holder.getTextView(R.id.reply_thx_tv).getText().toString();
-//                                int count = 1;
-//                                if (PreConditions.notEmpty(loveCountStr)) {
-//                                    try {
-//                                        count = Integer.parseInt(loveCountStr) + 1;
-//                                    } catch (Exception e) {
-//                                        e.printStackTrace();
-//                                        count = 1;
-//                                    }
-//                                }
-//                                holder.getTextView(R.id.reply_thx_tv).setVisibility(View.VISIBLE);
-//                                holder.getTextView(R.id.reply_thx_tv).setText(count + "");
-
                             });
                 }, R.id.reply_thx_img);
             }
