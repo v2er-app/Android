@@ -102,14 +102,37 @@ public class TopicInfo {
         @Pick("div.subtle")
         private List<PostScript> postScripts;
         //        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
-        @Pick(value = "a[href^=/favorite]", attr = Attrs.HREF)
+        @Pick(value = "a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
+
+        public void setFavoriteLink(String favoriteLink) {
+            this.favoriteLink = favoriteLink;
+        }
+
+        public String getFavoriteLink() {
+            return favoriteLink;
+        }
+
+        public void updateStarStatus(boolean stared) {
+            if (stared) {
+                favoriteLink = favoriteLink.replace("/favorite/", "/unfavorite/");
+            } else {
+                favoriteLink = favoriteLink.replace("/unfavorite/", "/favorite/");
+            }
+        }
 
         public String getT() {
             if (PreConditions.isEmpty(favoriteLink)) {
                 return null;
             }
             return UriUtils.getParamValue(Constants.BASE_URL + favoriteLink, "t");
+        }
+
+        public boolean hadStared() {
+            if (PreConditions.isEmpty(favoriteLink) || !favoriteLink.contains("unfavorite/")) {
+                return false;
+            }
+            return true;
         }
 
         public String getCommentNum() {

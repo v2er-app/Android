@@ -13,7 +13,9 @@ public class TopicContract {
     public interface IView extends BaseContract.IView {
         void fillView(TopicInfo topicInfo, boolean isLoadMore);
 
-        void afterStarTopic();
+        void afterStarTopic(TopicInfo topicInfo);
+
+        void afterUnStarTopic(TopicInfo topicInfo);
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -24,6 +26,8 @@ public class TopicContract {
         Observable<SimpleInfo> doThanks(String replyId, String t);
 
         void starTopic(String topicId, String t);
+
+        void unStarTopic(String topicId, String t);
 
 //        void blockTopic();
 

@@ -25,6 +25,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -118,7 +119,11 @@ public interface APIs {
 
     @Html
     @GET("/favorite/topic/{id}")
-    Observable<SimpleInfo> starTopic(@Path("id") String id, @Query("t") String string);
+    Observable<TopicInfo> starTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
+
+    @Html
+    @GET("/unfavorite/topic/{id}")
+    Observable<TopicInfo> unStarTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
 
     @Html
     @POST("/up/topic/{id}")

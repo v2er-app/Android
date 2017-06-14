@@ -7,7 +7,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -49,14 +51,31 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void starTopic(String topicId, String t) {
-        APIService.get().starTopic(topicId, t)
+        APIService.get().starTopic(referer(topicId), topicId, t)
                 .compose(mView.rx())
-                .subscribe(new Consumer<SimpleInfo>() {
+                .subscribe(new Consumer<TopicInfo>() {
                     @Override
-                    public void accept(SimpleInfo simpleInfo) throws Exception {
-                        mView.afterStarTopic();
+                    public void accept(TopicInfo topicInfo) throws Exception {
+                        Logger.d("ttopicInfo: " + topicInfo);
+                        mView.afterStarTopic(topicInfo);
                     }
                 });
+    }
+
+    @Override
+    public void unStarTopic(String topicId, String t) {
+        APIService.get().unStarTopic(referer(topicId), topicId, t)
+                .compose(mView.rx())
+                .subscribe(new Consumer<TopicInfo>() {
+                    @Override
+                    public void accept(TopicInfo topicInfo) throws Exception {
+                        mView.afterUnStarTopic(topicInfo);
+                    }
+                });
+    }
+
+    private String referer(String topicId) {
+        return Constants.BASE_URL + "/t/" + topicId;
     }
 
 

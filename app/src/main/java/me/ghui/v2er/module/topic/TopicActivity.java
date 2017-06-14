@@ -6,7 +6,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import javax.inject.Inject;
 
@@ -20,9 +19,7 @@ import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.UriUtils;
-import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 
@@ -81,7 +78,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
                 case R.id.action_star:
-                    mPresenter.starTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                    if (mTopicInfo == null) {
+                        toast("请等到加载完成");
+                        return true;
+                    }
+                    if (mTopicInfo.getHeaderInfo().hadStared()) {
+                        mPresenter.unStarTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                    } else {
+                        mPresenter.starTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                    }
                     break;
                 case R.id.action_thx:
                     break;
@@ -130,18 +135,27 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
+        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
     }
 
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
                 R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+        mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
     }
 
     @Override
-    public void afterStarTopic() {
-        // TODO: 14/06/2017 assume success 
-        toggleStar(true);
-        toast("收藏主题成功");
+    public void afterStarTopic(TopicInfo topicInfo) {
+        mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
+        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
+        toast("收藏成功");
+    }
+
+    @Override
+    public void afterUnStarTopic(TopicInfo topicInfo) {
+        mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
+        toggleStar(mTopicInfo.getHeaderInfo().hadStared());
+        toast("取消收藏成功");
     }
 
 }
