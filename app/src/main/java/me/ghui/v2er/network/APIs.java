@@ -114,6 +114,10 @@ public interface APIs {
     Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Query("t") String t);
 
     @Html
+    @POST("/thank/topic/{id}")
+    Observable<SimpleInfo> thxCreator(@Path("id") String replyId, @Query("t") String t);
+
+    @Html
     @POST("/ajax/money")
     Observable<SimpleInfo> thxMoney();
 

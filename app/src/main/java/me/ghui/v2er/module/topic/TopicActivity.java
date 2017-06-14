@@ -140,7 +140,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
         mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
     }
 
