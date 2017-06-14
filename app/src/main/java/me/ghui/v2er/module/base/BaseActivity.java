@@ -314,6 +314,14 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
     }
 
+    protected void toast(String msg) {
+        Utils.toast(msg);
+    }
+
+    protected void toast(String msg, boolean isToastLong) {
+        Utils.toast(msg, isToastLong);
+    }
+
     @Override
     public <K> LifecycleTransformer<K> bindToLife() {
         return bindToLifecycle();

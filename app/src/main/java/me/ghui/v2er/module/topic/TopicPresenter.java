@@ -4,6 +4,7 @@ import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -45,5 +46,18 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx());
     }
+
+    @Override
+    public void starTopic(String topicId, String t) {
+        APIService.get().starTopic(topicId, t)
+                .compose(mView.rx())
+                .subscribe(new Consumer<SimpleInfo>() {
+                    @Override
+                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                        mView.afterStarTopic();
+                    }
+                });
+    }
+
 
 }

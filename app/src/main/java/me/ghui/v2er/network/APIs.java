@@ -117,7 +117,7 @@ public interface APIs {
     Observable<SimpleInfo> thxMoney();
 
     @Html
-    @POST("/favorite/topic/{id}")
+    @GET("/favorite/topic/{id}")
     Observable<SimpleInfo> starTopic(@Path("id") String id, @Query("t") String string);
 
     @Html

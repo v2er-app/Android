@@ -22,6 +22,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 
@@ -78,9 +79,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_star) {
-                // TODO: 01/06/2017
-                Toast.makeText(getContext(), "do Star...", Toast.LENGTH_SHORT).show();
+            switch (item.getItemId()) {
+                case R.id.action_star:
+                    mPresenter.starTopic(mTopicId, mTopicInfo.getHeaderInfo().getT());
+                    break;
+                case R.id.action_thx:
+                    break;
+                case R.id.action_block:
+                    break;
             }
             return true;
         });
@@ -88,8 +94,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
-
-
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -126,6 +130,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
+    }
+
+    private void toggleStar(boolean isStared) {
+        mLoveMenuItem.setIcon(isStared ?
+                R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+    }
+
+    @Override
+    public void afterStarTopic() {
+        // TODO: 14/06/2017 assume success 
+        toggleStar(true);
+        toast("收藏主题成功");
     }
 
 }

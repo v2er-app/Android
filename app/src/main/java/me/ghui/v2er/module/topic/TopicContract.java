@@ -12,6 +12,8 @@ import me.ghui.v2er.network.bean.TopicInfo;
 public class TopicContract {
     public interface IView extends BaseContract.IView {
         void fillView(TopicInfo topicInfo, boolean isLoadMore);
+
+        void afterStarTopic();
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -20,5 +22,11 @@ public class TopicContract {
         void loadData(String topicId);
 
         Observable<SimpleInfo> doThanks(String replyId, String t);
+
+        void starTopic(String topicId, String t);
+
+//        void blockTopic();
+
+//        void thxCreator();
     }
 }
