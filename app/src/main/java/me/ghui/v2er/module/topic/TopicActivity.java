@@ -100,6 +100,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_block:
+                    mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce());
                     break;
             }
             return true;
@@ -181,6 +182,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void afterThxCreator() {
         updateThxCreatorStatus(true, true);
         toast(R.string.thx_already_send);
+    }
+
+    @Override
+    public void afterIgnoreTopic() {
+        toast("主题已忽略");
+        finish();
     }
 
 }

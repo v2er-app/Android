@@ -18,6 +18,8 @@ public class TopicContract {
         void afterUnStarTopic(TopicInfo topicInfo);
 
         void afterThxCreator();
+
+        void afterIgnoreTopic();
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -33,7 +35,7 @@ public class TopicContract {
 
         void unStarTopic(String topicId, String t);
 
-//        void blockTopic();
+        void ignoreTopic(String topicId, String once);
 
 //        void thxCreator();
     }

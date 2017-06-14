@@ -10,6 +10,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.RefererUtils;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -65,7 +66,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void starTopic(String topicId, String t) {
-        APIService.get().starTopic(referer(topicId), topicId, t)
+        APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
                 .subscribe(new Consumer<TopicInfo>() {
                     @Override
@@ -78,7 +79,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void unStarTopic(String topicId, String t) {
-        APIService.get().unStarTopic(referer(topicId), topicId, t)
+        APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
                 .subscribe(new Consumer<TopicInfo>() {
                     @Override
@@ -88,9 +89,16 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 });
     }
 
-    private String referer(String topicId) {
-        return Constants.BASE_URL + "/t/" + topicId;
+    @Override
+    public void ignoreTopic(String topicId, String once) {
+        APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
+                .compose(mView.rx())
+                .subscribe(new Consumer<SimpleInfo>() {
+                    @Override
+                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                        mView.afterIgnoreTopic();
+                    }
+                });
     }
-
 
 }

@@ -126,6 +126,10 @@ public interface APIs {
     Observable<TopicInfo> starTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
 
     @Html
+    @GET("/ignore/topic/{id}")
+    Observable<SimpleInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
+
+    @Html
     @GET("/unfavorite/topic/{id}")
     Observable<TopicInfo> unStarTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
 
