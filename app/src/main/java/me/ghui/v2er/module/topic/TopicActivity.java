@@ -2,6 +2,7 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -14,6 +15,8 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
+import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
@@ -28,7 +31,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener {
+        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
     @BindView(R.id.common_recyclerview)
@@ -40,6 +43,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
+    private BottomSheetDialog mBottomSheetDialog;
 
 
     public static void openById(String topicId, Context context) {
@@ -113,6 +117,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
+        mAdapter.setOnItemClickListener(this);
     }
 
     @Override
@@ -188,6 +193,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void afterIgnoreTopic() {
         toast("主题已忽略");
         finish();
+    }
+
+    @Override
+    public void onItemClick(View view, ViewHolder holder, int position) {
+        if (mBottomSheetDialog == null) {
+            mBottomSheetDialog = new BottomSheetDialog(getContext());
+            mBottomSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
+        }
+        mBottomSheetDialog.show();
     }
 
 }
