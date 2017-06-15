@@ -179,7 +179,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        configSystemWindow();
         super.onCreate(savedInstanceState);
         setContentView(onCreateRootView());
         ButterKnife.bind(this);
@@ -189,23 +188,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         autoLoad();
     }
 
-    protected void configSystemWindow() {
-        Window window = getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        View decorView = window.getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int ui = decorView.getSystemUiVisibility();
-            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            decorView.setSystemUiVisibility(ui);
-        }
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setNavigationBarColor(getResources().getColor(R.color.navigationBarColor));
-        window.setStatusBarColor(getResources().getColor(R.color.colorPrimaryDark));
-    }
+
 
     protected void autoLoad() {
         if (getPtrLayout() != null) getPtrLayout().autoRefresh();
@@ -245,22 +228,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                     ViewGroup.LayoutParams.MATCH_PARENT));
         }
         mRootView = new FrameLayout(this);
-        fitSystemWindow();
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         return mRootView;
-    }
-
-    private void fitSystemWindow() {
-        fitSystemWindow(null);
-    }
-
-    protected void fitSystemWindow(View targetView) {
-        mRootView.setPadding(mRootView.getPaddingLeft(), Utils.getStatusBarHeight(), mRootView.getPaddingRight(), mRootView.getPaddingBottom());
-        if (targetView != null) {
-            targetView.setPadding(targetView.getPaddingLeft(), targetView.getPaddingTop(), targetView.getPaddingRight(), targetView.getPaddingBottom() + Utils.getNavigationBarHeight());
-        }
     }
 
     @Nullable

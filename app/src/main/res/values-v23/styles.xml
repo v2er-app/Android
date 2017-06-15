@@ -2,6 +2,6 @@
 <resources>
 
     <style name="AppTheme" parent="Base.App.Theme">
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 </resources>

@@ -52,7 +52,6 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
 
     @Override
     protected void init() {
-        fitSystemWindow(findViewById(R.id.act_new_rootview));
     }
 
     @Override

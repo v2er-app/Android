@@ -62,11 +62,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    protected void fitSystemWindow(View targetView) {
-        super.fitSystemWindow(targetView);
-    }
-
-    @Override
     protected void configToolBar(Toolbar toolBar) {
         toolBar.setElevation(0);
         toolBar.setNavigationIcon(R.drawable.main_navigation_icon);

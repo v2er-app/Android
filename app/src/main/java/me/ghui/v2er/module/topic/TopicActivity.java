@@ -119,9 +119,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
-//        Utils.setPaddingForNavbar(mReplyCardView);
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) mReplyWrapper.getLayoutParams();
-        layoutParams.bottomMargin = Utils.getNavigationBarHeight();
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);

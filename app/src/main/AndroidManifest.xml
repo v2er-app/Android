@@ -23,7 +23,8 @@
             android:label="今日最热" />
         <activity
             android:name="me.ghui.v2er.module.topic.TopicActivity"
-            android:label="话题" />
+            android:label="话题"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="me.ghui.v2er.module.login.LoginActivity"
             android:label="登录V2EX" />
