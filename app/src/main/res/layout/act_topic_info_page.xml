@@ -9,26 +9,33 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:paddingBottom="8dp">
 
-        <ImageButton
-            android:id="@+id/reply_send_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:background="@color/white"
-            android:padding="8dp"
-            android:src="@drawable/ic_reply_topic" />
+        <me.ghui.v2er.widget.DividerView
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp" />
 
         <EditText
             android:id="@+id/topic_reply_et"
             style="@style/BodyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/divider"
             android:layout_toStartOf="@id/reply_send_btn"
             android:hint="回复"
             android:padding="16dp" />
+
+        <ImageButton
+            android:id="@+id/reply_send_btn"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@id/topic_reply_et"
+            android:layout_alignParentEnd="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="16dp"
+            android:src="@drawable/ic_reply_topic" />
     </RelativeLayout>
 
     <me.ghui.v2er.widget.LoadMoreRecyclerView
