@@ -1,12 +1,14 @@
 package me.ghui.v2er.general;
 
 import android.app.Application;
+import android.preference.PreferenceManager;
 
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.orhanobut.logger.Logger;
 import com.zzhoujay.richtext.RichText;
 
+import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
@@ -39,6 +41,7 @@ public class App extends Application {
         Logger.init().methodCount(1).hideThreadInfo();
         RichText.initCacheDir(getCacheDir());
         initInstabug();
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
     }
 
     private void initInstabug() {
