@@ -14,5 +14,7 @@
 
     <style name="App.Translucent.NavBar.Theme" parent="AppTheme">
         <item name="android:windowTranslucentNavigation">true</item>
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
+        <item name="android:navigationBarColor">#80FFFFFF</item>
     </style>
 </resources>
