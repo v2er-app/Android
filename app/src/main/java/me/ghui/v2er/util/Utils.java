@@ -109,4 +109,11 @@ public class Utils {
     public static void setPaddingForToolbar(View toolbar) {
         toolbar.setPadding(toolbar.getPaddingLeft(), toolbar.getPaddingTop() + getStatusBarHeight(), toolbar.getPaddingRight(), toolbar.getPaddingBottom());
     }
+
+    public static void copyToClipboard(Context context, String text) {
+        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        android.content.ClipData clip = android.content.ClipData.newPlainText("Reply Text", text);
+        clipboard.setPrimaryClip(clip);
+    }
+
 }

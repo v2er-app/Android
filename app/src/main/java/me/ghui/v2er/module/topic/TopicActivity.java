@@ -2,10 +2,11 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
     private BottomSheetDialog mBottomSheetDialog;
+    private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
 
 
     public static void openById(String topicId, Context context) {
@@ -221,26 +223,38 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void onItemClick(View view, ViewHolder holder, int position) {
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(getContext());
+            mBottomSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
             mBottomSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
             ViewGroup parentView = (ViewGroup) mBottomSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
-            OnBottomDialogItemClickListener clickListener = new OnBottomDialogItemClickListener();
+            mBottomSheetDialogItemClickListener = new OnBottomDialogItemClickListener();
             for (int i = 0; i < parentView.getChildCount(); i++) {
-                parentView.getChildAt(i).setOnClickListener(clickListener);
+                parentView.getChildAt(i).setOnClickListener(mBottomSheetDialogItemClickListener);
             }
         }
+        mBottomSheetDialogItemClickListener.setItem((TopicInfo.Reply) mAdapter.getItem(position));
         mBottomSheetDialog.show();
     }
 
     private class OnBottomDialogItemClickListener implements View.OnClickListener {
+        TopicInfo.Reply item;
+
+        public void setItem(TopicInfo.Reply item) {
+            this.item = item;
+        }
 
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.reply_dialog_btn1:
                     //reply to the comment
+                    mReplyEt.setText("@" + item.getUserName() + " ");
+                    mReplyEt.setSelection(mReplyEt.getText().length());
+                    Utils.toggleKeyboard(true, mReplyEt);
                     break;
                 case R.id.reply_dialog_btn2:
                     //copy reply to clipboard
+                    Utils.copyToClipboard(TopicActivity.this, Html.fromHtml(item.getReplyContent()).toString());
+                    toast("拷贝成功");
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
