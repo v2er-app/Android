@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.topic;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -20,6 +22,8 @@ public class TopicContract {
         void afterThxCreator();
 
         void afterIgnoreTopic();
+
+        void afterReplyTopic(TopicInfo topicInfo);
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -36,6 +40,8 @@ public class TopicContract {
         void unStarTopic(String topicId, String t);
 
         void ignoreTopic(String topicId, String once);
+
+        void replyTopic(String topicId, Map<String, String> replyMap);
 
 //        void thxCreator();
     }

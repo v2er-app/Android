@@ -144,6 +144,6 @@ public interface APIs {
     @Html
     @FormUrlEncoded
     @POST("/t/{id}")
-    Observable<SimpleInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
+    Observable<TopicInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
 
 }

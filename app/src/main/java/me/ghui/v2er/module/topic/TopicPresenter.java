@@ -2,6 +2,8 @@ package me.ghui.v2er.module.topic;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.Map;
+
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
@@ -97,6 +99,18 @@ public class TopicPresenter implements TopicContract.IPresenter {
                     @Override
                     public void accept(SimpleInfo simpleInfo) throws Exception {
                         mView.afterIgnoreTopic();
+                    }
+                });
+    }
+
+    @Override
+    public void replyTopic(String topicId, Map<String, String> replyMap) {
+        APIService.get().replyTopic(topicId, replyMap)
+                .compose(mView.rx())
+                .subscribe(new Consumer<TopicInfo>() {
+                    @Override
+                    public void accept(TopicInfo topicInfo) throws Exception {
+                        mView.afterReplyTopic(topicInfo);
                     }
                 });
     }

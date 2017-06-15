@@ -9,11 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
@@ -42,6 +44,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
     RelativeLayout mReplyWrapper;
+    @BindView(R.id.topic_reply_et)
+    EditText mReplyEt;
 
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
@@ -199,6 +203,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void afterIgnoreTopic() {
         toast("主题已忽略");
         finish();
+    }
+
+    @Override
+    public void afterReplyTopic(TopicInfo topicInfo) {
+        fillView(topicInfo, false);
+        mReplyEt.setText(null);
+        toast("回复成功");
+    }
+
+    @OnClick(R.id.reply_send_btn)
+    void onPostBtnClicked() {
+        mPresenter.replyTopic(mTopicId, mTopicInfo.toReplyMap(mReplyEt.getText().toString()));
     }
 
     @Override
