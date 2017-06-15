@@ -68,7 +68,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentStatusBar(window, Color.parseColor("#80000000"));
+        Utils.transparentNavBar(window, getColor(R.color.transparent_navbar_color));
     }
 
     @Override
