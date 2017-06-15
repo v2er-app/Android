@@ -49,6 +49,7 @@
                         android:layout_width="@dimen/large_avatar_size"
                         android:layout_height="@dimen/large_avatar_size"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="36dp"
                         app:civ_border_color="@color/white"
                         app:civ_border_width="2dp" />
 
@@ -119,7 +120,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/node_info_toobar"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="wrap_content"
                 app:contentInsetStartWithNavigation="0dp"
                 app:elevation="0dp"
                 app:layout_collapseMode="pin"

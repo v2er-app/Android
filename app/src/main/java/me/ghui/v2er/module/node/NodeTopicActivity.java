@@ -2,12 +2,14 @@ package me.ghui.v2er.module.node;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,6 +33,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
@@ -94,6 +97,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
     protected int attachLayoutRes() {
         return R.layout.act_tag_page;
     }
@@ -119,6 +127,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
+        Utils.setPaddingForToolbar(mToolbar);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
