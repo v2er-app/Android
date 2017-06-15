@@ -11,4 +11,8 @@
     </style>
 
     <style name="AppTheme" parent="Base.App.Theme" />
+
+    <style name="App.Translucent.NavBar.Theme" parent="AppTheme">
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
 </resources>

@@ -3,6 +3,7 @@ package me.ghui.v2er.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -105,22 +106,7 @@ public class Utils {
         view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), getNavigationBarHeight());
     }
 
-    protected void configSystemWindow(Activity activity) {
-        Window window = activity.getWindow();
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        View decorView = window.getDecorView();
-        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int ui = decorView.getSystemUiVisibility();
-            ui |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            decorView.setSystemUiVisibility(ui);
-        }
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setNavigationBarColor(activity.getResources().getColor(R.color.navigationBarColor));
-        window.setStatusBarColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+    public static void setPaddingForToolbar(View toolbar) {
+        toolbar.setPadding(toolbar.getPaddingLeft(), toolbar.getPaddingTop() + getStatusBarHeight(), toolbar.getPaddingRight(), toolbar.getPaddingBottom());
     }
-
 }

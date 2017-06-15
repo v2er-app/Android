@@ -3,7 +3,6 @@
     <color name="colorPrimary">#f4f4f4</color>
     <color name="colorPrimaryDark">#bdbdbd</color>
     <color name="colorAccent">#555555</color>
-    <color name="navigationBarColor">#B3F4F4F4</color>
     <color name="bodyTextColor">#555555</color>
     <color name="hintTextColor">#a3a1a1</color>
 

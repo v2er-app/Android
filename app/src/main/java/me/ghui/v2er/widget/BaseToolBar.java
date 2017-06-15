@@ -7,6 +7,7 @@ import android.util.AttributeSet;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ResUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 21/03/2017.
@@ -37,6 +38,4 @@ public class BaseToolBar extends Toolbar {
         setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
         setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
     }
-
-
 }

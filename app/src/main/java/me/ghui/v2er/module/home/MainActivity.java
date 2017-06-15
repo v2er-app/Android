@@ -1,5 +1,8 @@
 package me.ghui.v2er.module.home;
 
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -31,6 +34,7 @@ import me.ghui.v2er.module.settings.SettingActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Utils;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate {
 
@@ -50,7 +54,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
 
-
     @Override
     protected int attachToolBar() {
         return R.layout.toolbar_main_act;
@@ -63,6 +66,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void configToolBar(Toolbar toolBar) {
+        Utils.setPaddingForToolbar(toolBar);
         toolBar.setElevation(0);
         toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
         toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
