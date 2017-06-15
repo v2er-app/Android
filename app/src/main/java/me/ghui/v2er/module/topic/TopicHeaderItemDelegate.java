@@ -9,7 +9,9 @@ import com.zzhoujay.richtext.RichText;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AppendTopicContentView;
 
 /**
@@ -44,7 +46,11 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.view_count_tv, "点击" + headerInfo.getViewCount());
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
-        RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
+        if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
+            RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
+        } else {
+            holder.getTextView(R.id.content_tv).setText(null);
+        }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }
 
