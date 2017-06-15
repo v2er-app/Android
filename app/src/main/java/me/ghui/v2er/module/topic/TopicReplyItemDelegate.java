@@ -50,7 +50,8 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         ImageView img = holder.getView(R.id.reply_thx_img);
         img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
-        RichText.fromHtml(replyInfo.getReplyContent()).into(holder.getView(R.id.content_tv));
+        // TODO: 15/06/2017  
+        RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(holder.getView(R.id.content_tv));
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }
 }
