@@ -45,12 +45,4 @@
         android:padding="16dp"
         android:text="他的主页" />
 
-    <Button
-        android:id="@+id/reply_dialog_btn5"
-        style="@style/BodyText"
-        android:layout_width="match_parent"
-        android:background="?android:attr/selectableItemBackground"
-        android:gravity="start|center_vertical"
-        android:padding="16dp"
-        android:text="屏蔽他" />
 </LinearLayout>

@@ -13,6 +13,7 @@ import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -99,6 +100,18 @@ public class TopicPresenter implements TopicContract.IPresenter {
                     @Override
                     public void accept(SimpleInfo simpleInfo) throws Exception {
                         mView.afterIgnoreTopic();
+                    }
+                });
+    }
+
+    @Override
+    public void ignoreReply(int position, String replyId, String once) {
+        APIService.get().ignoreReply(replyId, once)
+                .compose(mView.rx())
+                .subscribe(new Consumer<SimpleInfo>() {
+                    @Override
+                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                        mView.afterIgnoreReply(simpleInfo, position);
                     }
                 });
     }

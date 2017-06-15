@@ -27,6 +27,8 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
@@ -208,6 +210,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    public void afterIgnoreReply(SimpleInfo simpleInfo, int position) {
+        toast("已忽略");
+        mAdapter.getDatas().remove(position);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void afterReplyTopic(TopicInfo topicInfo) {
         fillView(topicInfo, false);
         mReplyEt.setText(null);
@@ -231,15 +240,17 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 parentView.getChildAt(i).setOnClickListener(mBottomSheetDialogItemClickListener);
             }
         }
-        mBottomSheetDialogItemClickListener.setItem((TopicInfo.Reply) mAdapter.getItem(position));
+        mBottomSheetDialogItemClickListener.setPosition(position);
         mBottomSheetDialog.show();
     }
 
     private class OnBottomDialogItemClickListener implements View.OnClickListener {
-        TopicInfo.Reply item;
+        private TopicInfo.Reply item;
+        private int position;
 
-        public void setItem(TopicInfo.Reply item) {
-            this.item = item;
+        public void setPosition(int position) {
+            this.position = position;
+            this.item = (TopicInfo.Reply) mAdapter.getItem(position);
         }
 
         @Override
@@ -258,12 +269,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
+                    mPresenter.ignoreReply(position, item.getReplyId(), mTopicInfo.getOnce());
                     break;
                 case R.id.reply_dialog_btn4:
                     //homepage
-                    break;
-                case R.id.reply_dialog_btn5:
-                    //block him
+                    UserHomeActivity.open(item.getUserName(), TopicActivity.this);
                     break;
             }
             mBottomSheetDialog.dismiss();

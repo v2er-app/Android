@@ -26,7 +26,7 @@
         <activity
             android:name="me.ghui.v2er.module.topic.TopicActivity"
             android:label="话题"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="me.ghui.v2er.module.login.LoginActivity"
             android:label="登录V2EX" />

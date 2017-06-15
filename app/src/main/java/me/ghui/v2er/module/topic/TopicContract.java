@@ -23,6 +23,8 @@ public class TopicContract {
 
         void afterIgnoreTopic();
 
+        void afterIgnoreReply(SimpleInfo simpleInfo, int position);
+
         void afterReplyTopic(TopicInfo topicInfo);
     }
 
@@ -41,8 +43,9 @@ public class TopicContract {
 
         void ignoreTopic(String topicId, String once);
 
+        void ignoreReply(int position, String replyId, String once);
+
         void replyTopic(String topicId, Map<String, String> replyMap);
 
-//        void thxCreator();
     }
 }

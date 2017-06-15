@@ -130,6 +130,10 @@ public interface APIs {
     Observable<SimpleInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
 
     @Html
+    @POST("/ignore/reply/{id}")
+    Observable<SimpleInfo> ignoreReply(@Path("id") String replyId, @Query("once") String once);
+
+    @Html
     @GET("/unfavorite/topic/{id}")
     Observable<TopicInfo> unStarTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
 
@@ -145,5 +149,9 @@ public interface APIs {
     @FormUrlEncoded
     @POST("/t/{id}")
     Observable<TopicInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
+
+    @Html
+    @GET("/block/{id}")
+    Observable<SimpleInfo> blockUser(@Header("Referer") String referer, @Path("id") String userId, @Query("t") String t);
 
 }
