@@ -2,8 +2,10 @@ package me.ghui.v2er.module.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -50,10 +52,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected Toolbar mToolbar;
     protected View mLoadingView;
 
-
     @Inject
     public T mPresenter;
-
     private Stack<IBackable> mBackables;
 
     /**
@@ -177,8 +177,13 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
+    protected void configSystemBars(Window window) {
+
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        configSystemBars(getWindow());
         super.onCreate(savedInstanceState);
         setContentView(onCreateRootView());
         ButterKnife.bind(this);
@@ -187,8 +192,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         init();
         autoLoad();
     }
-
-
 
     protected void autoLoad() {
         if (getPtrLayout() != null) getPtrLayout().autoRefresh();

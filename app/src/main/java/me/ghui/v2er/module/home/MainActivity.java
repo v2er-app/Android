@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -62,6 +64,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_main;
+    }
+
+    @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentStatusBar(window, Color.parseColor("#80000000"));
     }
 
     @Override

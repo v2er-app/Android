@@ -2,11 +2,18 @@ package me.ghui.v2er.module.user;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -26,6 +33,7 @@ import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
@@ -89,6 +97,11 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(getWindow(), Color.TRANSPARENT, Color.parseColor("#80FFFFFF"));
+    }
+
+    @Override
     protected void startInject() {
         DaggerUserHomeComponent.builder()
                 .appComponent(getAppComponent())
@@ -98,8 +111,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void init() {
+        Utils.setPaddingForToolbar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
-
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);

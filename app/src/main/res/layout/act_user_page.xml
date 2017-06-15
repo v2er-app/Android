@@ -133,7 +133,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/user_info_toobar"
                 android:layout_width="match_parent"
-                android:layout_height="?actionBarSize"
+                android:layout_height="wrap_content"
                 app:contentInsetStartWithNavigation="0dp"
                 app:elevation="0dp"
                 app:layout_collapseMode="pin"

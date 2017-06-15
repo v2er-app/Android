@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "me.ghui.v2er"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -67,5 +67,4 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.zzhoujay.richtext:richtext:2.5.2'
     compile 'com.instabug.library:instabug:4.1.1'
-//    compile 'com.instabug.library:instabug:4.0.10-SNAPSHOT'
 }
