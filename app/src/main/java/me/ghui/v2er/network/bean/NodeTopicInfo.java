@@ -13,12 +13,12 @@ import me.ghui.v2er.network.Constants;
  */
 
 @Pick("div.content")
-public class NodesInfo {
+public class NodeTopicInfo {
 
     @Pick("div.fr.f12 > strong.gray")
     private int total;
-    @Pick("a[href^=/unfavorite/node]")
-    private String actionText;
+    @Pick(value = "div.fr.f12 > a", attr = Attrs.HREF)
+    private String favoriteLink;
     @Pick("div.cell")
     private List<Item> items;
 
@@ -30,14 +30,27 @@ public class NodesInfo {
         return items;
     }
 
+    public String getFavoriteLink() {
+        return Constants.BASE_URL + favoriteLink;
+    }
+
     public boolean hasStared() {
-        return !PreConditions.isEmpty(actionText);
+        return PreConditions.notEmpty(favoriteLink) && favoriteLink.contains("/unfavorite/node/");
+    }
+
+    public void updateStarStatus(boolean isStared) {
+        if (isStared) {
+            favoriteLink = favoriteLink.replace("/favorite/", "/unfavorite/");
+        } else {
+            favoriteLink = favoriteLink.replace("/unfavorite/", "/favorite/");
+        }
     }
 
     @Override
     public String toString() {
-        return "NodesInfo{" +
-                "total=" + total +
+        return "NodeTopicInfo{" +
+                "favoriteLink=" + favoriteLink +
+                ",total=" + total +
                 ", items=" + items +
                 '}';
     }

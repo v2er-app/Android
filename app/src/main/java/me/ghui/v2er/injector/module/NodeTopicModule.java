@@ -13,7 +13,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.node.NodeTopicContract;
 import me.ghui.v2er.module.node.NodeTopicPresenter;
 import me.ghui.v2er.module.user.UserHomeActivity;
-import me.ghui.v2er.network.bean.NodesInfo;
+import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -30,10 +30,10 @@ public class NodeTopicModule {
     }
 
     @Provides
-    public LoadMoreRecyclerView.Adapter<NodesInfo.Item> provideAdapter() {
-        return new CommonLoadMoreAdapter<NodesInfo.Item>(mActivity, R.layout.node_topic_item) {
+    public LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> provideAdapter() {
+        return new CommonLoadMoreAdapter<NodeTopicInfo.Item>(mActivity, R.layout.node_topic_item) {
             @Override
-            protected void convert(ViewHolder holder, NodesInfo.Item item, int position) {
+            protected void convert(ViewHolder holder, NodeTopicInfo.Item item, int position) {
                 Glide.with(mContext)
                         .load(item.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));

@@ -2,7 +2,7 @@ package me.ghui.v2er.module.node;
 
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.network.bean.NodeInfo;
-import me.ghui.v2er.network.bean.NodesInfo;
+import me.ghui.v2er.network.bean.NodeTopicInfo;
 
 /**
  * Created by ghui on 25/05/2017.
@@ -11,6 +11,8 @@ import me.ghui.v2er.network.bean.NodesInfo;
 public class NodeTopicContract {
     public interface IPresenter extends BaseContract.IPresenter {
         void loadData(int page);
+
+        void starNode(String url);
     }
 
     public interface IView extends BaseContract.IView {
@@ -20,6 +22,11 @@ public class NodeTopicContract {
 
         void fillHeaderView(NodeInfo nodeInfo);
 
-        void fillListView(NodesInfo nodesInfo, boolean isLoadMore);
+        void fillListView(NodeTopicInfo nodeTopicInfo, boolean isLoadMore);
+
+        void afterStarNode();
+
+        void afterUnStarNode();
+
     }
 }

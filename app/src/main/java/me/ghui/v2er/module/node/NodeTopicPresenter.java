@@ -2,7 +2,10 @@ package me.ghui.v2er.module.node;
 
 import com.orhanobut.logger.Logger;
 
+import io.reactivex.functions.Consumer;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.util.RefererUtils;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -37,4 +40,19 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                     mView.fillListView(nodesInfo, page > 1 && mView.initPage() == 1);
                 });
     }
+
+    @Override
+    public void starNode(String url) {
+        APIService.get().starNode(RefererUtils.tinyReferer(), url)
+                .compose(mView.rx())
+                .subscribe(simpleInfo -> {
+                    boolean forStar = url.contains("/favorite/");
+                    if (forStar) {
+                        mView.afterStarNode();
+                    } else {
+                        mView.afterUnStarNode();
+                    }
+                });
+    }
+
 }

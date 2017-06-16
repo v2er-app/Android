@@ -21,6 +21,7 @@ import com.zzhoujay.richtext.RichText;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -31,7 +32,7 @@ import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
-import me.ghui.v2er.network.bean.NodesInfo;
+import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -75,10 +76,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     CheckedTextView mStarBtn;
 
     @Inject
-    LoadMoreRecyclerView.Adapter<NodesInfo.Item> mAdapter;
+    LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> mAdapter;
     private NodeInfo mNodeInfo;
 
     private MenuItem mLoveMenuItem;
+    private NodeTopicInfo mNodeTopicInfo;
 
     public static void openById(String nodeId, int page, Context context) {
         Navigator.from(context)
@@ -199,15 +201,37 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
-    public void fillListView(NodesInfo nodesInfo, boolean isLoadMore) {
-        if (nodesInfo == null) {
+    public void fillListView(NodeTopicInfo nodeTopicInfo, boolean isLoadMore) {
+        mNodeTopicInfo = nodeTopicInfo;
+        if (mNodeTopicInfo == null) {
             mAdapter.setData(null);
             return;
         }
-        mAdapter.setData(nodesInfo.getItems(), isLoadMore);
+        mAdapter.setData(mNodeTopicInfo.getItems(), isLoadMore);
         // TODO: 03/06/2017 check page 
-        mRecyclerView.setHasMore(nodesInfo.getTotal() > mAdapter.getContentItemCount());
-        toggleStar(nodesInfo.hasStared());
+        mRecyclerView.setHasMore(mNodeTopicInfo.getTotal() > mAdapter.getContentItemCount());
+        toggleStar(mNodeTopicInfo.hasStared());
+    }
+
+
+    @OnClick(R.id.node_info_star_ct)
+    void onStarBtnClicked() {
+        //star or unstar
+        mPresenter.starNode(mNodeTopicInfo.getFavoriteLink());
+    }
+
+    @Override
+    public void afterStarNode() {
+        toast("收藏成功");
+        toggleStar(true);
+        mNodeTopicInfo.updateStarStatus(true);
+    }
+
+    @Override
+    public void afterUnStarNode() {
+        toast("取消收藏成功");
+        toggleStar(false);
+        mNodeTopicInfo.updateStarStatus(false);
     }
 
     private void toggleStar(boolean isStared) {
