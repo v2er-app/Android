@@ -2,7 +2,10 @@ package me.ghui.v2er.module.user;
 
 import com.orhanobut.logger.Logger;
 
+import io.reactivex.functions.Consumer;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.util.RefererUtils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -24,5 +27,19 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
                     Logger.d("userPageInfo: " + userPageInfo);
                     mView.fillView(userPageInfo);
                 });
+    }
+
+    @Override
+    public void blockUser(String url) {
+        APIService.get().blockUser(RefererUtils.tinyReferer(), url)
+                .compose(mView.rx())
+                .subscribe(simpleInfo -> mView.afterBlockUser(!url.contains("unblock")));
+    }
+
+    @Override
+    public void followUser(String url) {
+        APIService.get().followUser(RefererUtils.tinyReferer(), url)
+                .compose(mView.rx())
+                .subscribe(simpleInfo -> mView.afterfollowUser(!url.contains("unfollow")));
     }
 }

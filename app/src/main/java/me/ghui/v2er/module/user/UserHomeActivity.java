@@ -3,17 +3,12 @@ package me.ghui.v2er.module.user;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +18,7 @@ import com.bumptech.glide.Glide;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -65,6 +61,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     TextView mOnlineTv;
     @BindView(R.id.user_follow_ct)
     CheckedTextView mUserFollowCt;
+    @BindView(R.id.user_block_ct)
+    CheckedTextView mUserBlockCt;
 
 
     private UserPageInfo mUserPageInfo;
@@ -156,11 +154,44 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mUserText.setText(userPageInfo.getUserName());
         mUserDesTv.setText(userPageInfo.getDesc());
         mOnlineTv.setVisibility(userPageInfo.isOnline() ? View.VISIBLE : View.GONE);
-        mUserFollowCt.setChecked(userPageInfo.isFollowed());
-        mUserFollowCt.setText(userPageInfo.isFollowed() ? "已关注" : "+ 关注");
-
+        toggleBlockBtnStatus(userPageInfo.hadBlocked());
+        toggleFollowBtnStatus(userPageInfo.hadFollowed());
         mAdapter.setData(userPageInfo.getItems());
         mRecyclerView.setHasMore(false);
+    }
+
+    private void toggleBlockBtnStatus(boolean hadBlocked) {
+        mUserBlockCt.setChecked(hadBlocked);
+        mUserBlockCt.setText(hadBlocked ? "已屏蔽" : "屏蔽");
+    }
+
+    private void toggleFollowBtnStatus(boolean hadFollowed) {
+        mUserFollowCt.setChecked(hadFollowed);
+        mUserFollowCt.setText(hadFollowed ? "已关注" : "关注");
+    }
+
+
+    @OnClick(R.id.user_block_ct)
+    void onBlockClicked(CheckedTextView checkedTextView) {
+        mPresenter.blockUser(mUserPageInfo.getBlockUrl());
+    }
+
+    @OnClick(R.id.user_follow_ct)
+    void onFollowClicked(CheckedTextView checkedTextView) {
+        mPresenter.followUser(mUserPageInfo.getFollowUrl());
+    }
+
+    @Override
+    public void afterBlockUser(boolean hadBlocked) {
+        toast(hadBlocked ? "屏蔽成功" : "取消屏蔽成功");
+        toggleBlockBtnStatus(hadBlocked);
+        mUserPageInfo.updateBlockUrl(!hadBlocked);
+    }
+
+    @Override
+    public void afterfollowUser(boolean hadFollowed) {
+        toast(hadFollowed ? "关注成功" : "取消关注成功");
+        toggleFollowBtnStatus(hadFollowed);
     }
 
     @Override

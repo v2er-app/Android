@@ -151,7 +151,11 @@ public interface APIs {
     Observable<TopicInfo> replyTopic(@Path("id") String id, @FieldMap Map<String, String> replyMap);
 
     @Html
-    @GET("/block/{id}")
-    Observable<SimpleInfo> blockUser(@Header("Referer") String referer, @Path("id") String userId, @Query("t") String t);
+    @GET
+    Observable<SimpleInfo> blockUser(@Header("Referer") String referer, @Url String url);
+
+    @Html
+    @GET
+    Observable<SimpleInfo> followUser(@Header("Referer") String referer, @Url String url);
 
 }

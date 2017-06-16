@@ -23,8 +23,10 @@ public class UserPageInfo {
     private String desc;
     @Pick("strong.online")
     private String online;
-    @Pick(value = "div.fr input", attr = "value")
-    private String unfollow;
+    @Pick(value = "div.fr input", attr = "onclick")
+    private String followOnClick;
+    @Pick(value = "div.fr input[value*=lock]", attr = "onclick")
+    private String blockOnClick;
     @Pick("div.box:has(div.cell_tabs) > div.cell.item")
     private List<TopicItem> topicItems;
     @Pick("div.box:last-child > div.dock_area")
@@ -34,6 +36,43 @@ public class UserPageInfo {
 
     private List<Item> items;
     private List<ReplyItem> replyItems;
+
+
+    public boolean hadFollowed() {
+        return PreConditions.notEmpty(followOnClick) && followOnClick.contains("取消");
+    }
+
+    public boolean hadBlocked() {
+        return PreConditions.notEmpty(blockOnClick) && blockOnClick.contains("unblock");
+    }
+
+    public void updateBlockUrl(boolean toBlock) {
+        if (toBlock) {
+            blockOnClick = blockOnClick.replace("unblock", "block");
+        } else {
+            blockOnClick = blockOnClick.replace("block", "unblock");
+        }
+    }
+
+    //    if (confirm('确认要取消对 diskerjtr 的关注？')) { location.href = '/unfollow/128373?once=15154'; }
+    public String getFollowUrl() {
+        return getUrl(followOnClick);
+    }
+
+    //    if (confirm('确认要解除对 diskerjtr 的屏蔽？')) { location.href = '/unblock/128373?t=1456813618'; }
+    public String getBlockUrl() {
+        return getUrl(blockOnClick);
+    }
+
+    private String getUrl(String onclick) {
+        if (PreConditions.notEmpty(onclick)) {
+            String reg = "{ location.href = '";
+            int start = onclick.indexOf(reg) + reg.length();
+            int end = onclick.lastIndexOf("'");
+            return onclick.substring(start, end);
+        }
+        return null;
+    }
 
     private List<ReplyItem> getReplyItems() {
         if (PreConditions.isEmpty(dockItems)) return null;
@@ -64,9 +103,6 @@ public class UserPageInfo {
         return PreConditions.notEmpty(online) && online.equals("ONLINE");
     }
 
-    public boolean isFollowed() {
-        return PreConditions.notEmpty(unfollow) && unfollow.contains("取消");
-    }
 
     public String getUserName() {
         return userName;
@@ -84,10 +120,15 @@ public class UserPageInfo {
     public String toString() {
         return "UserPageInfo{" +
                 "userName='" + userName + '\'' +
+                ", followOnClick='" + followOnClick + '\'' +
+                ", blockOnClick='" + blockOnClick + '\'' +
                 ", avatar='" + avatar + '\'' +
                 ", desc='" + desc + '\'' +
                 ", online='" + online + '\'' +
                 ", topicItems=" + topicItems +
+                ", dockItems=" + dockItems +
+                ", replyContentItems=" + replyContentItems +
+                ", items=" + items +
                 ", replyItems=" + replyItems +
                 '}';
     }

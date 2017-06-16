@@ -13,9 +13,15 @@ public class UserHomeContract {
 
         void fillView(UserPageInfo userPageInfo);
 
+        void afterBlockUser(boolean hadBlocked);
+
+        void afterfollowUser(boolean hadFollowed);
+
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
+        void blockUser(String url);
 
+        void followUser(String url);
     }
 }
