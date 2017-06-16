@@ -22,7 +22,7 @@
             android:id="@+id/avatar_img"
             android:layout_width="@dimen/small_avatar_size"
             android:layout_height="@dimen/small_avatar_size"
-            android:background="@color/colorPrimary" />
+            />
 
         <TextView
             android:id="@+id/msg_title_tv"
