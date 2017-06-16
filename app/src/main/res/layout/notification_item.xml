@@ -20,9 +20,9 @@
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar_img"
+            style="@style/AvatarImg"
             android:layout_width="@dimen/small_avatar_size"
-            android:layout_height="@dimen/small_avatar_size"
-            />
+            android:layout_height="@dimen/small_avatar_size" />
 
         <TextView
             android:id="@+id/msg_title_tv"

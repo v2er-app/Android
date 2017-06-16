@@ -7,10 +7,11 @@
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="16dp"
-    android:paddingTop="36dp">
+    android:paddingTop="56dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
+        style="@style/AvatarImg"
         android:layout_width="@dimen/large_avatar_size"
         android:layout_height="@dimen/large_avatar_size"
         app:civ_border_color="@color/colorPrimary"

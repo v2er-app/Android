@@ -48,5 +48,9 @@
         <item name="android:textColor">@color/hintTextColor</item>
     </style>
 
+    <style name="AvatarImg">
+        <item name="android:src">@drawable/default_avatar_drawable</item>
+    </style>
+
 
 </resources>
