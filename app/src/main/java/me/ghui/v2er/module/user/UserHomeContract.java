@@ -15,13 +15,13 @@ public class UserHomeContract {
 
         void afterBlockUser(boolean hadBlocked);
 
-        void afterfollowUser(boolean hadFollowed);
+        void afterfollowUser(UserPageInfo userPageInfo);
 
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
         void blockUser(String url);
 
-        void followUser(String url);
+        void followUser(String userName,String url);
     }
 }

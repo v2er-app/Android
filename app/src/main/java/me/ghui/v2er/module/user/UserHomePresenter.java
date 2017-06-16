@@ -31,15 +31,15 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void blockUser(String url) {
-        APIService.get().blockUser(RefererUtils.tinyReferer(), url)
+        APIService.get().blockUser(url)
                 .compose(mView.rx())
                 .subscribe(simpleInfo -> mView.afterBlockUser(!url.contains("unblock")));
     }
 
     @Override
-    public void followUser(String url) {
-        APIService.get().followUser(RefererUtils.tinyReferer(), url)
+    public void followUser(String userName, String url) {
+        APIService.get().followUser(RefererUtils.userReferer(userName), url)
                 .compose(mView.rx())
-                .subscribe(simpleInfo -> mView.afterfollowUser(!url.contains("unfollow")));
+                .subscribe(userPageInfo -> mView.afterfollowUser(userPageInfo));
     }
 }

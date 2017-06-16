@@ -152,10 +152,10 @@ public interface APIs {
 
     @Html
     @GET
-    Observable<SimpleInfo> blockUser(@Header("Referer") String referer, @Url String url);
+    Observable<SimpleInfo> blockUser(@Url String url);
 
     @Html
     @GET
-    Observable<SimpleInfo> followUser(@Header("Referer") String referer, @Url String url);
+    Observable<UserPageInfo> followUser(@Header("Referer") String referer, @Url String url);
 
 }

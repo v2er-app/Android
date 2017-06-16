@@ -178,7 +178,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @OnClick(R.id.user_follow_ct)
     void onFollowClicked(CheckedTextView checkedTextView) {
-        mPresenter.followUser(mUserPageInfo.getFollowUrl());
+        mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl());
     }
 
     @Override
@@ -189,9 +189,9 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     @Override
-    public void afterfollowUser(boolean hadFollowed) {
-        toast(hadFollowed ? "关注成功" : "取消关注成功");
-        toggleFollowBtnStatus(hadFollowed);
+    public void afterfollowUser(UserPageInfo userPageInfo) {
+        fillView(userPageInfo);
+        toast(userPageInfo.hadFollowed() ? "关注成功" : "取消关注成功");
     }
 
     @Override
