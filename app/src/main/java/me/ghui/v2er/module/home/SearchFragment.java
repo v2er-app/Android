@@ -87,6 +87,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 mResultRecyV.getLayoutManager().scrollToPosition(0);
                 mPresenter.start();
+                Utils.toggleKeyboard(false, mSearchEt);
                 return true;
             }
             return false;
