@@ -109,7 +109,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForToolbar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);

@@ -33,7 +33,7 @@ public class APIService {
 
     private static String USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)" +
             " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
-    private static final long TIMEOUT_LENGTH = 30;
+    private static final long TIMEOUT_LENGTH = 60;
     private static APIs mAPI_SERVICE;
     private static Gson sGson;
     private static PersistentCookieJar sCookieJar;

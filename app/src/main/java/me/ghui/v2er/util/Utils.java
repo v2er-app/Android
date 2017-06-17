@@ -106,8 +106,8 @@ public class Utils {
         view.setPadding(view.getPaddingLeft(), view.getPaddingTop(), view.getPaddingRight(), getNavigationBarHeight());
     }
 
-    public static void setPaddingForToolbar(View toolbar) {
-        toolbar.setPadding(toolbar.getPaddingLeft(), toolbar.getPaddingTop() + getStatusBarHeight(), toolbar.getPaddingRight(), toolbar.getPaddingBottom());
+    public static void setPaddingForStatusBar(View view) {
+        view.setPadding(view.getPaddingLeft(), view.getPaddingTop() + getStatusBarHeight(), view.getPaddingRight(), view.getPaddingBottom());
     }
 
     public static void copyToClipboard(Context context, String text) {

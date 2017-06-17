@@ -129,7 +129,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
-        Utils.setPaddingForToolbar(mToolbar);
+        Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());

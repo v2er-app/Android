@@ -1,9 +1,6 @@
 package me.ghui.v2er.module.home;
 
 import android.graphics.Color;
-import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -73,7 +70,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void configToolBar(Toolbar toolBar) {
-        Utils.setPaddingForToolbar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
         toolBar.setElevation(0);
         toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
         toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单

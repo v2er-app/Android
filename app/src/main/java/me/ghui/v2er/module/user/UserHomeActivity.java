@@ -109,7 +109,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void init() {
-        Utils.setPaddingForToolbar(mToolbar);
+        Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));

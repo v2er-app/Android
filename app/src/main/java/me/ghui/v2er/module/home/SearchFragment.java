@@ -76,6 +76,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @Override
     protected void init() {
+        Utils.setPaddingForStatusBar(mSearchRootView);
         mResultRecyV.setDivider(0XFFF5F5F5, 6);
         mResultRecyV.setLayoutManager(new LinearLayoutManager(getContext()));
         mResultRecyV.setAdapter(mResultAdapter);
