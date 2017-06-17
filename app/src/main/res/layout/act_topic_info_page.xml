@@ -1,67 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <include layout="@layout/common_load_more_recyclerview" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/reply_fab_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="70dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:scaleType="center"
+        android:src="@drawable/ic_reply_topic"
+        app:borderWidth="0dp"
+        app:layout_anchor="@id/common_recyclerview"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="@string/news_new_behavior" />
+
+    <LinearLayout
         android:id="@+id/topic_reply_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:visibility="visible"
+        app:layout_anchor="@id/common_recyclerview"
+        app:layout_anchorGravity="bottom|right|end">
 
-        <me.ghui.v2er.widget.DividerView
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="0.8dp" />
-
-        <EditText
-            android:id="@+id/topic_reply_et"
-            style="@style/BodyText"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/divider"
-            android:layout_toStartOf="@id/reply_send_btn"
-            android:hint="回复"
-            android:padding="16dp" />
+            android:background="@color/white">
 
-        <ImageButton
-            android:id="@+id/reply_send_btn"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignBottom="@id/topic_reply_et"
-            android:layout_alignParentEnd="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="16dp"
-            android:src="@drawable/ic_reply_topic" />
-    </RelativeLayout>
+            <me.ghui.v2er.widget.DividerView
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp" />
 
-    <me.ghui.v2er.widget.LoadMoreRecyclerView
-        android:id="@+id/common_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/topic_reply_wrapper"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical" />
+            <EditText
+                android:id="@+id/topic_reply_et"
+                style="@style/BodyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider"
+                android:layout_toStartOf="@id/reply_send_btn"
+                android:hint="回复"
+                android:padding="16dp" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-    <!--android:id="@+id/reply_fab_btn"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom|right"-->
-    <!--android:layout_marginBottom="70dp"-->
-    <!--android:layout_marginLeft="16dp"-->
-    <!--android:layout_marginRight="16dp"-->
-    <!--android:layout_marginTop="16dp"-->
-    <!--android:backgroundTint="@color/white"-->
-    <!--android:scaleType="center"-->
-    <!--android:src="@drawable/ic_reply_topic"-->
-    <!--app:borderWidth="0dp"-->
-    <!--app:layout_anchor="@id/common_recyclerview"-->
-    <!--app:layout_anchorGravity="bottom|right|end"-->
-    <!--app:layout_behavior="@string/news_new_behavior" />-->
-
-
-</RelativeLayout>
+            <ImageButton
+                android:id="@+id/reply_send_btn"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_alignBottom="@id/topic_reply_et"
+                android:layout_alignParentEnd="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:padding="16dp"
+                android:src="@drawable/ic_reply_topic" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

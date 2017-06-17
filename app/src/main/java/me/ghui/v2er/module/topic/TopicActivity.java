@@ -10,7 +10,10 @@ import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import javax.inject.Inject;
@@ -32,6 +35,7 @@ import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.AndroidBug5497Workaround;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 
@@ -46,7 +50,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
-    RelativeLayout mReplyWrapper;
+    LinearLayout mReplyWrapper;
     @BindView(R.id.topic_reply_et)
     EditText mReplyEt;
 
@@ -90,8 +94,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
+        Utils.setPaddingForToolbar(toolBar);
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
@@ -127,6 +137,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
+        AndroidBug5497Workaround.assistActivity(this);
+        Utils.setPaddingForNavbar(mReplyWrapper);
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);
