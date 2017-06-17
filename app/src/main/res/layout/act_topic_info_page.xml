@@ -30,19 +30,20 @@
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:layout_anchor="@id/common_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
         <RelativeLayout
+            android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:background="@color/white">
 
             <me.ghui.v2er.widget.DividerView
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="0.8dp" />
+                android:layout_height="0.5dp" />
 
             <EditText
                 android:id="@+id/topic_reply_et"
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/divider"
                 android:layout_toStartOf="@id/reply_send_btn"
+                android:background="@null"
                 android:hint="回复"
                 android:padding="16dp" />
 

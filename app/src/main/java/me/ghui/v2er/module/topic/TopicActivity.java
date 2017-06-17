@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
@@ -12,10 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-
 
 import com.orhanobut.logger.Logger;
 
@@ -30,6 +29,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -55,8 +55,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
     KeyboardDetectorRelativeLayout mReplyWrapper;
+    @BindView(R.id.topic_inner_reply_wrapper)
+    RelativeLayout mReplyInnerWrapper;
     @BindView(R.id.topic_reply_et)
     EditText mReplyEt;
+    @BindView(R.id.reply_fab_btn)
+    FloatingActionButton mReplyFabBtn;
 
     @Inject
     LoadMoreRecyclerView.Adapter mAdapter;
@@ -149,6 +153,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
+        mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    mReplyFabBtn.hide(); // or hideFab(), see below
+                    mReplyWrapper.setVisibility(View.INVISIBLE);
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                    mReplyFabBtn.show(); // or showFab(), see below
+            }
+        });
     }
 
     @Override
@@ -184,6 +198,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), false);
         updateThxCreatorStatus(mTopicInfo.getHeaderInfo().hadThanked(), false);
     }
+
+    @OnClick(R.id.reply_fab_btn)
+    void onNewReplyFlbClicked(FloatingActionButton button) {
+        button.hide();
+        mReplyWrapper.setVisibility(View.VISIBLE);
+    }
+
 
     private void updateStarStatus(boolean isStared, boolean needUpdateData) {
         mLoveMenuItem.setIcon(isStared ?
@@ -242,7 +263,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @OnClick(R.id.reply_send_btn)
     void onPostBtnClicked() {
-        mPresenter.replyTopic(mTopicId, mTopicInfo.toReplyMap(mReplyEt.getText().toString()));
+        CharSequence text = mReplyEt.getText();
+        if (PreConditions.isEmpty(text)) {
+            toast("回复不能为空");
+            return;
+        }
+        mPresenter.replyTopic(mTopicId, mTopicInfo.toReplyMap(text.toString()));
     }
 
     @Override
