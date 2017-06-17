@@ -24,12 +24,12 @@
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="@string/news_new_behavior" />
 
-    <LinearLayout
+    <me.ghui.v2er.widget.KeyboardDetectorRelativeLayout
         android:id="@+id/topic_reply_wrapper"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:paddingBottom="8dp"
+        android:gravity="bottom"
         android:visibility="visible"
         app:layout_anchor="@id/common_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
@@ -37,7 +37,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/colorPrimary">
 
             <me.ghui.v2er.widget.DividerView
                 android:id="@+id/divider"
@@ -64,5 +64,5 @@
                 android:padding="16dp"
                 android:src="@drawable/ic_reply_topic" />
         </RelativeLayout>
-    </LinearLayout>
+    </me.ghui.v2er.widget.KeyboardDetectorRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

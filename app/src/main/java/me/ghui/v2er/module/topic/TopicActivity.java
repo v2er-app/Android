@@ -16,6 +16,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -36,6 +39,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
+import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 
@@ -44,13 +48,13 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
+        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener, KeyboardDetectorRelativeLayout.IKeyboardChanged {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
-    LinearLayout mReplyWrapper;
+    KeyboardDetectorRelativeLayout mReplyWrapper;
     @BindView(R.id.topic_reply_et)
     EditText mReplyEt;
 
@@ -139,6 +143,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
+        mReplyWrapper.addKeyboardStateChangedListener(this);
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -254,6 +259,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mBottomSheetDialogItemClickListener.setPosition(position);
         mBottomSheetDialog.show();
+    }
+
+    @Override
+    public void onKeyboardShown() {
+        Logger.d("onKeyboardShown");
+        mReplyWrapper.setPadding(mReplyWrapper.getPaddingLeft(), mReplyWrapper.getPaddingTop(), mReplyWrapper.getPaddingRight(), 0);
+    }
+
+    @Override
+    public void onKeyboardHidden() {
+        Logger.d("onKeyboardHidden");
+        Utils.setPaddingForNavbar(mReplyWrapper);
     }
 
     private class OnBottomDialogItemClickListener implements View.OnClickListener {
