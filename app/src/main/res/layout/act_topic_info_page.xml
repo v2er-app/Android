@@ -38,7 +38,7 @@
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/colorPrimary">
 
             <me.ghui.v2er.widget.DividerView
                 android:id="@+id/divider"

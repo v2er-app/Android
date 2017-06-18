@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.topic;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
@@ -36,6 +39,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
@@ -157,10 +161,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    mReplyFabBtn.hide(); // or hideFab(), see below
-                    mReplyWrapper.setVisibility(View.INVISIBLE);
-                } else if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                    mReplyFabBtn.show(); // or showFab(), see below
+                    animateEditInnerWrapper(false);
+                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                }
             }
         });
     }
@@ -202,7 +205,48 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @OnClick(R.id.reply_fab_btn)
     void onNewReplyFlbClicked(FloatingActionButton button) {
         button.hide();
-        mReplyWrapper.setVisibility(View.VISIBLE);
+        animateEditInnerWrapper(true);
+    }
+
+
+    void animateEditInnerWrapper(boolean isShow) {
+        int deltaX = ScaleUtils.dp(20);
+        int deltaY = ScaleUtils.dp(20);
+        int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16) - deltaX);
+        int cY = ScaleUtils.dp(48) / 2;
+        int startRadius = ScaleUtils.dp(40);
+        int endRadius = (int) ScaleUtils.getScreenW();
+        if (isShow) {//show edit wrapper
+            mReplyFabBtn.animate()
+                    .translationX(-deltaX)
+                    .translationY(deltaY)
+                    .setDuration(200)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
+                            animator.setDuration(350);
+                            animator.start();
+                            mReplyWrapper.setVisibility(View.VISIBLE);
+                        }
+                    }).start();
+        } else {//hide wrapper
+            if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
+            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
+            animator.setDuration(200);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    mReplyWrapper.setVisibility(View.INVISIBLE);
+                    mReplyFabBtn.animate()
+                            .translationX(0)
+                            .translationY(0)
+                            .setDuration(100)
+                            .start();
+                }
+            });
+            animator.start();
+        }
     }
 
 
