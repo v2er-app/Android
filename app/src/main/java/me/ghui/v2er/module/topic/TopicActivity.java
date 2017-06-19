@@ -228,6 +228,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             animator.setDuration(350);
                             animator.start();
                             mReplyWrapper.setVisibility(View.VISIBLE);
+                            mReplyFabBtn.setVisibility(View.GONE);
                         }
                     }).start();
         } else {//hide wrapper
@@ -238,6 +239,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mReplyWrapper.setVisibility(View.INVISIBLE);
+                    mReplyFabBtn.setVisibility(View.VISIBLE);
                     mReplyFabBtn.animate()
                             .translationX(0)
                             .translationY(0)

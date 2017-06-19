@@ -11,41 +11,51 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="me.ghui.v2er.module.home.MainActivity">
+        <activity
+            android:name="me.ghui.v2er.module.home.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
-            android:label="今日最热" />
+            android:label="今日最热"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.topic.TopicActivity"
             android:label="话题"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name="me.ghui.v2er.module.login.LoginActivity"
-            android:label="登录V2EX" />
+            android:label="登录V2EX"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.user.UserHomeActivity"
-            android:label="主页" />
+            android:label="主页"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.drawer.care.SpecialCareActivity"
-            android:label="特别关注" />
+            android:label="特别关注"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.drawer.star.StarActivity"
-            android:label="收藏" />
+            android:label="收藏"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.node.NodeTopicActivity"
-            android:label="节点" />
+            android:label="节点"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.settings.SettingActivity"
-            android:label="设置" />
+            android:label="设置"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.create.CreateTopicActivity"
             android:label="创作新主题"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
     </application>
 
