@@ -6,9 +6,7 @@ import android.support.annotation.CheckResult;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
 
-import com.bugtags.library.Bugtags;
 import com.trello.rxlifecycle2.LifecycleProvider;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 import com.trello.rxlifecycle2.RxLifecycle;
@@ -60,14 +58,12 @@ public abstract class RxActivity extends AppCompatActivity implements LifecycleP
     protected void onResume() {
         super.onResume();
         this.lifecycleSubject.onNext(ActivityEvent.RESUME);
-        Bugtags.onResume(this);
     }
 
     @CallSuper
     protected void onPause() {
         this.lifecycleSubject.onNext(ActivityEvent.PAUSE);
         super.onPause();
-        Bugtags.onPause(this);
     }
 
     @CallSuper
@@ -82,9 +78,4 @@ public abstract class RxActivity extends AppCompatActivity implements LifecycleP
         super.onDestroy();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        Bugtags.onDispatchTouchEvent(this, ev);
-        return super.dispatchTouchEvent(ev);
-    }
 }

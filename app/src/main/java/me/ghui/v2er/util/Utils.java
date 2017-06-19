@@ -152,13 +152,13 @@ public class Utils {
 //    }
 
     public static void sendEmail(Context context) {
-        Intent i = new Intent(Intent.ACTION_SEND);
-        i.setType("message/rfc822");
-        i.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.feedback_email)});
-//        i.putExtra(Intent.EXTRA_SUBJECT, "subject of email");
-//        i.putExtra(Intent.EXTRA_TEXT, "body of email");
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"));
+        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.feedback_email)});
+//        intent.putExtra(Intent.EXTRA_SUBJECT, "From V2er");
+//        intent.putExtra(Intent.EXTRA_TEXT, "Body");
         try {
-            context.startActivity(Intent.createChooser(i, "Send mail..."));
+            context.startActivity(Intent.createChooser(intent, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
             toast("There are no email clients installed.");
         }
