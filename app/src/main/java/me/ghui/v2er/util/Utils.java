@@ -155,7 +155,7 @@ public class Utils {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
         intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.feedback_email)});
-//        intent.putExtra(Intent.EXTRA_SUBJECT, "From V2er");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "From V2er ");
 //        intent.putExtra(Intent.EXTRA_TEXT, "Body");
         try {
             context.startActivity(Intent.createChooser(intent, "Send mail..."));
