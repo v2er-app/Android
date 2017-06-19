@@ -3,6 +3,8 @@ package me.ghui.v2er.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -151,6 +153,20 @@ public class Utils {
 //        window.setNavigationBarColor(barColor);
 //    }
 
+
+    public static boolean isAppInstalled(String packageName) {
+        PackageManager packageManager = App.get().getPackageManager();
+        if (packageManager == null)
+            return false;
+        List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
+        for (PackageInfo info : packageInfoList) {
+            if (info.packageName.equals(packageName))
+                return true;
+        }
+        return false;
+    }
+
+
     public static void sendEmail(Context context) {
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:"));
@@ -162,6 +178,32 @@ public class Utils {
         } catch (android.content.ActivityNotFoundException ex) {
             toast("There are no email clients installed.");
         }
+    }
+
+    // 跳转至微博个人页
+    public static void jumpToWeiboProfileInfo(Context context) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
+        if (weiboInstalled) {
+            intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
+        } else {
+            intent.setData(Uri.parse("http://weibo.com/ghuiii"));
+        }
+        context.startActivity(intent);
+    }
+
+    public static void jumpToTwitterProfilePage() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        if (Utils.isAppInstalled("com.twitter.android")) {
+            intent.setData(Uri.parse("twitter://user?screen_name=ghuizh"));
+        } else {
+            intent.setData(Uri.parse("https://mobile.twitter.com/ghuizh"));
+        }
+        App.get().startActivity(intent);
     }
 
 }

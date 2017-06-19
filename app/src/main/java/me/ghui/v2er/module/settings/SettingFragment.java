@@ -7,9 +7,6 @@ import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.ListView;
 
-import com.instabug.library.Instabug;
-import com.instabug.library.invocation.InstabugInvocationMode;
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
@@ -31,6 +28,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -66,6 +65,12 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             return true;
         } else if (key.equals(getString(R.string.pref_send_email))) {
             Utils.sendEmail(getContext());
+            return true;
+        } else if (key.equals(getString(R.string.pref_weibo_personal_page))) {
+            Utils.jumpToWeiboProfileInfo(getContext());
+            return true;
+        } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
+            Utils.jumpToTwitterProfilePage();
             return true;
         }
         return false;

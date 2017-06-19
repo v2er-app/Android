@@ -47,10 +47,12 @@
             android:summary="@string/feedback_email"
             android:title="Email" />
         <Preference
+            android:key="@string/pref_weibo_personal_page"
             android:layout="@layout/preference_item"
             android:summary="@string/weibo_username"
             android:title="Weibo" />
         <Preference
+            android:key="@string/pref_twitter_personal_page"
             android:layout="@layout/preference_item"
             android:summary="@string/twitter_username"
             android:title="Twitter" />

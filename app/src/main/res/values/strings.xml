@@ -11,4 +11,6 @@
     <string name="twitter_username">\@ghuizh</string>
     <string name="feedback_email">v2er@ghui.me</string>
     <string name="pref_send_email">pref_key_send_email</string>
+    <string name="pref_weibo_personal_page">pref_key_weibo_personal_page</string>
+    <string name="pref_twitter_personal_page">pref_key_twitter_page</string>
 </resources>
