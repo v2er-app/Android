@@ -42,8 +42,9 @@
         android:layout="@layout/preference_category_widget"
         android:title="联系">
         <Preference
+            android:key="@string/pref_send_email"
             android:layout="@layout/preference_item"
-            android:summary="v2er@ghui.me"
+            android:summary="@string/feedback_email"
             android:title="Email" />
         <Preference
             android:layout="@layout/preference_item"

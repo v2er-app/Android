@@ -30,6 +30,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_check_update)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -62,6 +63,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Navigator.from(getActivity())
                     .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .to(MainActivity.class).start();
+            return true;
+        } else if (key.equals(getString(R.string.pref_send_email))) {
+            Utils.sendEmail(getContext());
             return true;
         }
         return false;

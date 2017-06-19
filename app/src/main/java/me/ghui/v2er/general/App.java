@@ -3,7 +3,6 @@ package me.ghui.v2er.general;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
-import com.bugtags.library.Bugtags;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.orhanobut.logger.Logger;
