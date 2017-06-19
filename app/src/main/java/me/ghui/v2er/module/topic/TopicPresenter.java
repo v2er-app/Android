@@ -90,7 +90,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>() {
                     @Override
-                    public void onConsume(TopicInfo topicInfo) throws Exception {
+                    public void onConsume(TopicInfo topicInfo) {
                         mView.afterUnStarTopic(topicInfo);
                     }
                 });
@@ -114,7 +114,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<SimpleInfo>() {
                     @Override
-                    public void onConsume(SimpleInfo simpleInfo) throws Exception {
+                    public void onConsume(SimpleInfo simpleInfo) {
                         mView.afterIgnoreReply(simpleInfo, position);
                     }
                 });
