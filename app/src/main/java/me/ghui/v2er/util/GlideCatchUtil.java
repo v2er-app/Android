@@ -3,6 +3,7 @@ package me.ghui.v2er.util;
 import android.os.Looper;
 
 import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -25,7 +26,8 @@ public class GlideCatchUtil {
     // 获取Glide磁盘缓存大小
     public static String getCacheSize() {
         try {
-            return getFormatSize(getFolderSize(new File(App.get().getCacheDir() + "/" + Glide.getPhotoCacheDir(App.get()))));
+            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
+            return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
