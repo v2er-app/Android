@@ -223,12 +223,12 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public <K> ObservableTransformer<K, K> rx() {
-        return RxUtils.rx(this, this);
+        return RxUtils.rxFragment(this, this);
     }
 
     @Override
     public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
-        return RxUtils.rx(this, viewLoading);
+        return RxUtils.rxFragment(this, viewLoading);
     }
 
     protected void toast(String msg) {

@@ -307,6 +307,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         return bindToLifecycle();
     }
 
+
     @Override
     public <K> ObservableTransformer<K, K> rx() {
         return rx(this);
@@ -314,7 +315,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
-        return RxUtils.rx(this, viewLoading);
+        return RxUtils.rxActivity(this, viewLoading);
     }
 
     protected void delay(long millisecond, Runnable runnable) {
