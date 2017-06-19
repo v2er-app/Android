@@ -188,6 +188,7 @@ public class Utils {
         boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
         if (weiboInstalled) {
             intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
+//            intent.setData(Uri.parse("weicointernational://userinfo?uid=ghuiii"));
         } else {
             intent.setData(Uri.parse("http://weibo.com/ghuiii"));
         }
