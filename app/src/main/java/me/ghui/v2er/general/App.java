@@ -40,14 +40,7 @@ public class App extends Application {
         APIService.init();
         Logger.init().methodCount(1).hideThreadInfo();
         RichText.initCacheDir(getCacheDir());
-        initInstabug();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-    }
-
-    private void initInstabug() {
-        new Instabug.Builder(this, "5d8a77e264fabc79ca83c82b95c6e1a0")
-                .setInvocationEvent(InstabugInvocationEvent.SHAKE)
-                .build();
     }
 
     public AppComponent getAppComponent() {

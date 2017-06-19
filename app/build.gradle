@@ -66,5 +66,4 @@ dependencies {
     compile 'me.ghui:Fruit:0.1.4'
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'com.zzhoujay.richtext:richtext:2.5.2'
-    compile 'com.instabug.library:instabug:4.1.1'
 }
