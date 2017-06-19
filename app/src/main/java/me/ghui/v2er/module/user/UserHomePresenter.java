@@ -4,7 +4,9 @@ import com.orhanobut.logger.Logger;
 
 import io.reactivex.functions.Consumer;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.RefererUtils;
 
 /**
@@ -23,9 +25,11 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
     public void start() {
         APIService.get().userPageInfo(mView.getUsername())
                 .compose(mView.rx())
-                .subscribe(userPageInfo -> {
-                    Logger.d("userPageInfo: " + userPageInfo);
-                    mView.fillView(userPageInfo);
+                .subscribe(new GeneralConsumer<UserPageInfo>() {
+                    @Override
+                    public void onConsume(UserPageInfo userPageInfo) {
+                        mView.fillView(userPageInfo);
+                    }
                 });
     }
 
@@ -33,13 +37,23 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
     public void blockUser(String url) {
         APIService.get().blockUser(url)
                 .compose(mView.rx())
-                .subscribe(simpleInfo -> mView.afterBlockUser(!url.contains("unblock")));
+                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                    @Override
+                    public void onConsume(SimpleInfo simpleInfo) {
+                        mView.afterBlockUser(!url.contains("unblock"));
+                    }
+                });
     }
 
     @Override
     public void followUser(String userName, String url) {
         APIService.get().followUser(RefererUtils.userReferer(userName), url)
                 .compose(mView.rx())
-                .subscribe(userPageInfo -> mView.afterfollowUser(userPageInfo));
+                .subscribe(new GeneralConsumer<UserPageInfo>() {
+                    @Override
+                    public void onConsume(UserPageInfo userPageInfo) {
+                        mView.afterfollowUser(userPageInfo);
+                    }
+                });
     }
 }

@@ -3,6 +3,8 @@ package me.ghui.v2er.module.drawer.star;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.TopicStarInfo;
 
 /**
  * Created by ghui on 18/05/2017.
@@ -26,9 +28,11 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
         APIService.get()
                 .topicStarInfo(page)
                 .compose(mView.rx())
-                .subscribe(topicStarInfo -> {
-                    Logger.d("TopicStarInfo: " + topicStarInfo);
-                    mView.fillView(topicStarInfo, page > 1);
+                .subscribe(new GeneralConsumer<TopicStarInfo>() {
+                    @Override
+                    public void onConsume(TopicStarInfo topicStarInfo) {
+                        mView.fillView(topicStarInfo, page > 1);
+                    }
                 });
     }
 }

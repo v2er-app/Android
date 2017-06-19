@@ -3,6 +3,7 @@ package me.ghui.v2er.module.create;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 
 /**
@@ -22,10 +23,12 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     public void start() {
         APIService.get().topicCreatePageInfo()
                 .compose(mView.rx())
-                .subscribe(topicPageInfo -> {
-                    Logger.d("CreateTopicPageInfo: " + topicPageInfo);
-                    mTopicPageInfo = topicPageInfo;
-                    mView.fillView(topicPageInfo);
+                .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                    @Override
+                    public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
+                        mTopicPageInfo = createTopicPageInfo;
+                        mView.fillView(createTopicPageInfo);
+                    }
                 });
     }
 
@@ -33,9 +36,11 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     public void sendPost(String title, String content, String nodeId) {
         APIService.get().postTopic(mTopicPageInfo.toPostMap(title, content, nodeId))
                 .compose(mView.rx())
-                .subscribe(topicCreateResultInfo -> {
-                    Logger.d("TopicCreateResultInfo: " + topicCreateResultInfo);
-                    mView.onPostFinished(topicCreateResultInfo);
+                .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                    @Override
+                    public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
+                        mView.onPostFinished(createTopicPageInfo);
+                    }
                 });
     }
 }

@@ -14,6 +14,8 @@ import me.ghui.v2er.module.topic.TopicHeaderItemDelegate;
 import me.ghui.v2er.module.topic.TopicPresenter;
 import me.ghui.v2er.module.topic.TopicReplyItemDelegate;
 import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
@@ -57,11 +59,14 @@ public class TopicModule {
                     }
                     TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
                     mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
-                            .subscribe(simpleInfo -> {
-                                // TODO: 13/06/2017 assume success
-                                boolean isSuccess = true;
-                                replyInfo.updateThanks(isSuccess);
-                                notifyItemChanged(holder.index());
+                            .subscribe(new GeneralConsumer<SimpleInfo>() {
+                                @Override
+                                public void onConsume(SimpleInfo simpleInfo) {
+                                    // TODO: 13/06/2017 assume success
+                                    boolean isSuccess = true;
+                                    replyInfo.updateThanks(isSuccess);
+                                    notifyItemChanged(holder.index());
+                                }
                             });
                 }, R.id.reply_thx_img);
             }

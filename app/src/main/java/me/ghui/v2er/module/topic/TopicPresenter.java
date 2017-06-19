@@ -6,10 +6,12 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
@@ -35,9 +37,12 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void loadData(String topicId, int page) {
         APIService.get().topicDetails(topicId, page)
                 .compose(mView.rx())
-                .subscribe(topicInfo -> {
-                    Logger.d("topicInfo: " + topicInfo);
-                    mView.fillView(topicInfo, page > 1);
+                .subscribe(new GeneralConsumer<TopicInfo>() {
+                    @Override
+                    public void onConsume(TopicInfo topicInfo) {
+                        Logger.d("topicInfo: " + topicInfo);
+                        mView.fillView(topicInfo, page > 1);
+                    }
                 });
     }
 
@@ -58,9 +63,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
         APIService.get().thxCreator(id, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx())
-                .subscribe(new Consumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<SimpleInfo>() {
                     @Override
-                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                    public void onConsume(SimpleInfo simpleInfo) {
                         mView.afterThxCreator();
                     }
                 });
@@ -71,10 +76,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void starTopic(String topicId, String t) {
         APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
-                .subscribe(new Consumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>() {
                     @Override
-                    public void accept(TopicInfo topicInfo) throws Exception {
-                        Logger.d("ttopicInfo: " + topicInfo);
+                    public void onConsume(TopicInfo topicInfo) {
                         mView.afterStarTopic(topicInfo);
                     }
                 });
@@ -84,9 +88,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void unStarTopic(String topicId, String t) {
         APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
-                .subscribe(new Consumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>() {
                     @Override
-                    public void accept(TopicInfo topicInfo) throws Exception {
+                    public void onConsume(TopicInfo topicInfo) throws Exception {
                         mView.afterUnStarTopic(topicInfo);
                     }
                 });
@@ -96,9 +100,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void ignoreTopic(String topicId, String once) {
         APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
                 .compose(mView.rx())
-                .subscribe(new Consumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<SimpleInfo>() {
                     @Override
-                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                    public void onConsume(SimpleInfo simpleInfo) {
                         mView.afterIgnoreTopic();
                     }
                 });
@@ -108,9 +112,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void ignoreReply(int position, String replyId, String once) {
         APIService.get().ignoreReply(replyId, once)
                 .compose(mView.rx())
-                .subscribe(new Consumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<SimpleInfo>() {
                     @Override
-                    public void accept(SimpleInfo simpleInfo) throws Exception {
+                    public void onConsume(SimpleInfo simpleInfo) throws Exception {
                         mView.afterIgnoreReply(simpleInfo, position);
                     }
                 });
@@ -120,9 +124,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void replyTopic(String topicId, Map<String, String> replyMap) {
         APIService.get().replyTopic(topicId, replyMap)
                 .compose(mView.rx())
-                .subscribe(new Consumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>() {
                     @Override
-                    public void accept(TopicInfo topicInfo) throws Exception {
+                    public void onConsume(TopicInfo topicInfo) {
                         mView.afterReplyTopic(topicInfo);
                     }
                 });

@@ -3,6 +3,8 @@ package me.ghui.v2er.module.home;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.NotificationInfo;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -26,10 +28,12 @@ public class MsgPresenter implements MsgContract.IPresenter {
         APIService.get()
                 .notifications(page)
                 .compose(mView.rx())
-                .subscribe(info -> {
-                    Logger.d("MsgInfo: " + info);
-                    boolean isLoadMore = page > 1;
-                    mView.fillView(info, isLoadMore);
+                .subscribe(new GeneralConsumer<NotificationInfo>() {
+                    @Override
+                    public void onConsume(NotificationInfo info) {
+                        boolean isLoadMore = page > 1;
+                        mView.fillView(info, isLoadMore);
+                    }
                 });
     }
 

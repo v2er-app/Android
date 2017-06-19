@@ -3,6 +3,7 @@ package me.ghui.v2er.module.home;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NewsInfo;
 
 /**
@@ -23,9 +24,12 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .homeNews("all")
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(newsInfo -> {
-                    Logger.d("newsInfo: " + newsInfo);
-                    mView.fillView(newsInfo, false);
+                .subscribe(new GeneralConsumer<NewsInfo>() {
+                    @Override
+                    public void onConsume(NewsInfo newsInfo) {
+                        Logger.d("newsInfo: " + newsInfo);
+                        mView.fillView(newsInfo, false);
+                    }
                 });
 
     }
@@ -35,7 +39,12 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .recentNews(page - 1)
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(newsInfo -> mView.fillView(newsInfo, true));
+                .subscribe(new GeneralConsumer<NewsInfo>() {
+                    @Override
+                    public void onConsume(NewsInfo newsInfo) {
+                        mView.fillView(newsInfo, true);
+                    }
+                });
     }
 
 

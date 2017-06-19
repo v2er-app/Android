@@ -5,6 +5,8 @@ import android.net.Uri;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.BingSearchResultInfo;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -40,9 +42,11 @@ public class SearchPresenter implements SearchContract.IPresenter {
         Logger.d("bing Search: " + mUriBuilder.build().toString());
         APIService.get().bingSearch(mUriBuilder.build().toString())
                 .compose(mView.rx())
-                .subscribe(bingSearchResultInfo -> {
-                    Logger.d("bing search result: " + bingSearchResultInfo);
-                    mView.fillView(bingSearchResultInfo, page > 1);
+                .subscribe(new GeneralConsumer<BingSearchResultInfo>() {
+                    @Override
+                    public void onConsume(BingSearchResultInfo bingSearchResultInfo) {
+                        mView.fillView(bingSearchResultInfo, page > 1);
+                    }
                 });
 
     }

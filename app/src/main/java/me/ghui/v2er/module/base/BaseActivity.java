@@ -35,6 +35,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
+import me.ghui.v2er.network.IGeneralErrorHandler;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -44,7 +45,7 @@ import me.ghui.v2er.widget.PtrMaterialFrameLayout;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler {
+public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler, IGeneralErrorHandler {
 
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
@@ -331,5 +332,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @SuppressWarnings("unchecked")
     public <V extends View> V $(int id) {
         return (V) findViewById(id);
+    }
+
+    @Override
+    public void handleError(int errorCode, String errorMsg) {
+        // TODO: 19/06/2017
     }
 }

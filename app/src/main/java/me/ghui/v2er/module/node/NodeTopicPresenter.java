@@ -4,6 +4,9 @@ import com.orhanobut.logger.Logger;
 
 import io.reactivex.functions.Consumer;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.NodeInfo;
+import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.util.RefererUtils;
 
@@ -24,9 +27,11 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
         // TODO: 01/06/2017  check is relealy success
         APIService.get().nodeInfo(mView.nodeName())
                 .compose(mView.rx())
-                .subscribe(nodeInfo -> {
-                    Logger.d("nodeInfo: " + nodeInfo);
-                    mView.fillHeaderView(nodeInfo);
+                .subscribe(new GeneralConsumer<NodeInfo>() {
+                    @Override
+                    public void onConsume(NodeInfo nodeInfo) {
+                        mView.fillHeaderView(nodeInfo);
+                    }
                 });
         loadData(mView.initPage());
     }
@@ -35,9 +40,11 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
     public void loadData(int page) {
         APIService.get().nodesInfo(mView.nodeName(), page)
                 .compose(mView.rx())
-                .subscribe(nodesInfo -> {
-                    Logger.d("nodes: " + nodesInfo);
-                    mView.fillListView(nodesInfo, page > 1 && mView.initPage() == 1);
+                .subscribe(new GeneralConsumer<NodeTopicInfo>() {
+                    @Override
+                    public void onConsume(NodeTopicInfo nodesInfo) {
+                        mView.fillListView(nodesInfo, page > 1 && mView.initPage() == 1);
+                    }
                 });
     }
 
@@ -45,12 +52,15 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
     public void starNode(String url) {
         APIService.get().starNode(RefererUtils.tinyReferer(), url)
                 .compose(mView.rx())
-                .subscribe(simpleInfo -> {
-                    boolean forStar = url.contains("/favorite/");
-                    if (forStar) {
-                        mView.afterStarNode();
-                    } else {
-                        mView.afterUnStarNode();
+                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                    @Override
+                    public void onConsume(SimpleInfo simpleInfo) {
+                        boolean forStar = url.contains("/favorite/");
+                        if (forStar) {
+                            mView.afterStarNode();
+                        } else {
+                            mView.afterUnStarNode();
+                        }
                     }
                 });
     }

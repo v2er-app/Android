@@ -3,7 +3,9 @@ package me.ghui.v2er.module.login;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.network.bean.LoginResultInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
 
@@ -24,19 +26,26 @@ public class LoginPresenter implements LoginContract.IPresenter {
     public void start() {
         APIService.get().loginParam()
                 .compose(mView.rx(null))
-                .subscribe(loginParam -> mLoginParam = loginParam);
+                .subscribe(new GeneralConsumer<LoginParam>() {
+                    @Override
+                    public void onConsume(LoginParam loginParam) {
+                        mLoginParam = loginParam;
+                    }
+                });
     }
 
     @Override
     public void login(String userName, String psw) {
         APIService.get().login(mLoginParam.toMap(userName, psw))
                 .compose(mView.rx())
-                .subscribe(result -> {
-                            Logger.d("loginResultInfo: " + result);
-                            UserUtils.saveLogin(UserInfo.build(result.getUserName(), result.getAvatar()));
-                            mView.onLoginSuccess();
-                        }
-                );
+                .subscribe(new GeneralConsumer<LoginResultInfo>() {
+                    @Override
+                    public void onConsume(LoginResultInfo loginResultInfo) {
+                        Logger.d("loginResultInfo: " + loginResultInfo);
+                        UserUtils.saveLogin(UserInfo.build(loginResultInfo.getUserName(), loginResultInfo.getAvatar()));
+                        mView.onLoginSuccess();
+                    }
+                });
     }
 
 }
