@@ -23,7 +23,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="关于与帮助">
+        android:title="关于">
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
@@ -36,12 +36,23 @@
             android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"
             android:title="去评价" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="联系">
         <Preference
             android:layout="@layout/preference_item"
-            android:title="意见反馈" />
+            android:summary="v2er@ghui.me"
+            android:title="Email" />
         <Preference
             android:layout="@layout/preference_item"
-            android:title="联系" />
+            android:summary="@string/weibo_username"
+            android:title="Weibo" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="@string/twitter_username"
+            android:title="Twitter" />
     </PreferenceCategory>
 
     <Preference

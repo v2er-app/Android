@@ -6,4 +6,7 @@
     <string name="already_thx_cannot_return">感谢不能收回哦</string>
     <string name="thx_already_send">感谢已发送</string>
     <string name="thx_str">感谢</string>
+    <string name="pref_key_contact">pref_key_contact</string>
+    <string name="weibo_username">\@ghuiii</string>
+    <string name="twitter_username">\@ghuizh</string>
 </resources>

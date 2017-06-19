@@ -46,7 +46,9 @@ public class App extends Application {
 
     private void initInstabug() {
         new Instabug.Builder(this, "5d8a77e264fabc79ca83c82b95c6e1a0")
-                .setInvocationEvent(InstabugInvocationEvent.SHAKE)
+                .setInvocationEvent(InstabugInvocationEvent.NONE)
+                .setCommentFieldRequired(true)
+                .setAttachmentTypesEnabled(false, true, true, true, true)
                 .build();
     }
 

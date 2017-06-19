@@ -17,6 +17,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationMode;
 
 import java.util.ArrayList;
 
@@ -120,6 +122,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.setting_nav_item:
                     Navigator.from(getContext()).to(SettingActivity.class).start();
                     break;
+                case R.id.feedback_nav_item:
+                    Instabug.invoke(InstabugInvocationMode.NEW_FEEDBACK);
+                    break;
             }
             mDrawerLayout.closeDrawers();
             return true;
@@ -197,8 +202,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             lp.height = Math.round(textSize * 1.5f);
             msgView.setLayoutParams(lp);
         }
-
-
     }
 
 

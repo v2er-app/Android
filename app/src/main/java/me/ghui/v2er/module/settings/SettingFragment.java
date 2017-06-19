@@ -7,6 +7,9 @@ import android.preference.PreferenceFragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationMode;
+
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
@@ -36,7 +39,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         ListView list = (ListView) rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);
-//            list.setFitsSystemWindows(true);
         }
     }
 
