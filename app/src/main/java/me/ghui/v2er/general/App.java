@@ -3,8 +3,7 @@ package me.ghui.v2er.general;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
-import com.instabug.library.Instabug;
-import com.instabug.library.invocation.InstabugInvocationEvent;
+import com.bugtags.library.Bugtags;
 import com.orhanobut.logger.Logger;
 import com.zzhoujay.richtext.RichText;
 
@@ -41,6 +40,7 @@ public class App extends Application {
         Logger.init().methodCount(1).hideThreadInfo();
         RichText.initCacheDir(getCacheDir());
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        Bugtags.start("47494b9a4cd7b13bcdf8be1eaacd4190", this, Bugtags.BTGInvocationEventBubble);
     }
 
     public AppComponent getAppComponent() {
