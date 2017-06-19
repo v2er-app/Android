@@ -161,7 +161,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    animateEditInnerWrapper(false);
+                    if (mReplyWrapper.getVisibility() == View.VISIBLE) {
+                        animateEditInnerWrapper(false);
+                    }
                 } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                 }
             }
@@ -218,8 +220,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         int endRadius = (int) ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
             mReplyFabBtn.animate()
-                    .translationX(-deltaX)
-                    .translationY(deltaY)
+                    .xBy(-deltaX)
+                    .yBy(deltaY)
                     .setDuration(200)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
@@ -228,7 +230,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             animator.setDuration(350);
                             animator.start();
                             mReplyWrapper.setVisibility(View.VISIBLE);
-                            mReplyFabBtn.setVisibility(View.GONE);
+                            mReplyFabBtn.hide();
                         }
                     }).start();
         } else {//hide wrapper
@@ -239,10 +241,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mReplyWrapper.setVisibility(View.INVISIBLE);
-                    mReplyFabBtn.setVisibility(View.VISIBLE);
+                    mReplyFabBtn.show();
                     mReplyFabBtn.animate()
-                            .translationX(0)
-                            .translationY(0)
+                            .xBy(deltaX)
+                            .yBy(-deltaY)
+                            .setListener(null)
                             .setDuration(100)
                             .start();
                 }
@@ -359,6 +362,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (v.getId()) {
                 case R.id.reply_dialog_btn1:
                     //reply to the comment
+                    animateEditInnerWrapper(true);
                     mReplyEt.setText("@" + item.getUserName() + " ");
                     mReplyEt.setSelection(mReplyEt.getText().length());
                     Utils.toggleKeyboard(true, mReplyEt);
