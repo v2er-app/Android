@@ -19,11 +19,16 @@ import me.ghui.v2er.util.Utils;
  */
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+
+    private Preference cachePref;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.addPreferencesFromResource(R.xml.preferences);
-        findPreference(getString(R.string.pref_key_clear_cache)).setOnPreferenceClickListener(this);
+        cachePref = findPreference(getString(R.string.pref_key_clear_cache));
+        cachePref.setOnPreferenceClickListener(this);
+        cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
         findPreference(getString(R.string.pref_key_check_update)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
@@ -48,7 +53,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         if (key.equals(getString(R.string.pref_key_clear_cache))) {
             String size = GlideCatchUtil.getCacheSize();
             boolean ok = GlideCatchUtil.clearDiskCache();
-            if (ok) Utils.toast("成功清理" + size + "缓存");
+            if (ok) {
+                cachePref.setSummary(getString(R.string.cache_summary));
+                Utils.toast("成功清理" + size + "缓存");
+            }
             return true;
         } else if (key.equals(getString(R.string.pref_key_check_update))) {
             Utils.openStorePage();

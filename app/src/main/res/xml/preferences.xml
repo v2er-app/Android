@@ -17,8 +17,8 @@
         <Preference
             android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"
-            android:summary="删除已缓存的图片"
-            android:title="清空缓存" />
+            android:summary="@string/cache_summary"
+            android:title="清除缓存" />
     </PreferenceCategory>
 
     <PreferenceCategory
