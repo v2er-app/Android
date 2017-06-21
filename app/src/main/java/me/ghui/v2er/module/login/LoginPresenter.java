@@ -4,10 +4,12 @@ package me.ghui.v2er.module.login;
 import java.io.IOException;
 
 import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.IValid;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.LoginResultInfo;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -50,45 +52,32 @@ public class LoginPresenter implements LoginContract.IPresenter {
     public void login(String userName, String psw) {
         APIService.get().login(mLoginParam.toMap(userName, psw))
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<Response>() {
+                .map(response -> response.body().string())
+                .map(s -> {
+                    LoginResultInfo resultInfo = APIService.fruit().fromHtml(s, LoginResultInfo.class);
+                    if (!resultInfo.isValid()) {
+                        return APIService.fruit().fromHtml(s, LoginParam.class);
+                    }
+                    return resultInfo;
+                })
+                .subscribe(new GeneralConsumer<Object>() {
                     @Override
-                    public void onConsume(Response result) {
-                        String responseStr = null;
-                        try {
-                            responseStr = ((ResponseBody) (result.body())).string();
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                    public void onConsume(Object response) {
+                        if (response instanceof LoginResultInfo) {
+                            //login success
+                            LoginResultInfo resultInfo = (LoginResultInfo) response;
+                            UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
+                            mView.onLoginSuccess();
+                        } else {
+                            //login failure
+                            LoginParam loginParam = (LoginParam) response;
+                            if (loginParam.isValid()) {
+                                mLoginParam = loginParam;
+                                mView.onLoginFailure("登录失败，用户名和密码无法匹配");
+                            } else {
+                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
+                            }
                         }
-                        //success
-                        String finalResponseStr = responseStr;
-                        Observable.just(finalResponseStr)
-                                .compose(mView.rx(null))
-                                .map(str -> APIService.fruit().fromHtml(str, LoginResultInfo.class))
-                                .subscribe(new GeneralConsumer<LoginResultInfo>() {
-                                    @Override
-                                    public void onConsume(LoginResultInfo resultInfo) {
-                                        if (resultInfo.isValid()) {
-                                            UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-                                            mView.onLoginSuccess();
-                                        } else {
-                                            //failure, case: username or psw incorrect
-                                            Observable.just(finalResponseStr)
-                                                    .compose(mView.rx(null))
-                                                    .map(responseStr -> APIService.fruit().fromHtml(responseStr, LoginParam.class))
-                                                    .subscribe(new GeneralConsumer<LoginParam>() {
-                                                        @Override
-                                                        public void onConsume(LoginParam loginParam) {
-                                                            if (loginParam.isValid()) {
-                                                                mLoginParam = loginParam;
-                                                                mView.onLoginFailure("登录失败，用户名和密码无法匹配");
-                                                            } else {
-                                                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
-                                                            }
-                                                        }
-                                                    });
-                                        }
-                                    }
-                                });
                     }
                 });
     }
