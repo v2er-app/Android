@@ -2,9 +2,14 @@ package me.ghui.v2er.module.create;
 
 import com.orhanobut.logger.Logger;
 
+import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
+import me.ghui.v2er.network.bean.IBaseInfo;
+import me.ghui.v2er.network.bean.TopicInfo;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Created by ghui on 05/06/2017.
@@ -36,10 +41,24 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     public void sendPost(String title, String content, String nodeId) {
         APIService.get().postTopic(mTopicPageInfo.toPostMap(title, content, nodeId))
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                .map(response -> response.body().string())
+                .map(s -> {
+                    TopicInfo topicInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
+                    if (!topicInfo.isValid()) {
+                        return APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
+                    }
+                    return topicInfo;
+                })
+                .subscribe(new GeneralConsumer<IBaseInfo>() {
                     @Override
-                    public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
-                        mView.onPostFinished(createTopicPageInfo);
+                    public void onConsume(IBaseInfo info) {
+                        if (info instanceof TopicInfo) {
+                            //success
+                            mView.onPostSuccess((TopicInfo) info);
+                        } else {
+                            //failure
+                            mView.onPostFailure((CreateTopicPageInfo) info);
+                        }
                     }
                 });
     }

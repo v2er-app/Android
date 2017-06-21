@@ -17,7 +17,7 @@ import me.ghui.v2er.util.Utils;
  * Created by ghui on 04/05/2017.
  */
 
-public class TopicInfo {
+public class TopicInfo implements IBaseInfo {
 
     @Pick("div.box")
     private HeaderInfo headerInfo;
@@ -25,6 +25,12 @@ public class TopicInfo {
     private List<Reply> replies;
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
+    @Pick(value = "meta[property=og:url]", attr = "content")
+    private String topicLink;
+
+    public String getTopicLink() {
+        return topicLink;
+    }
 
     private List<Item> items;
 
@@ -74,13 +80,19 @@ public class TopicInfo {
     @Override
     public String toString() {
         return "TopicInfo{" +
-                "headerInfo=" + headerInfo +
+                "topicLink=" + topicLink +
+                ", headerInfo=" + headerInfo +
                 ", replies=" + replies +
                 ", once=" + once +
                 '}';
     }
 
-    public static class HeaderInfo implements Item {
+    @Override
+    public boolean isValid() {
+        return headerInfo.isValid();
+    }
+
+    public static class HeaderInfo implements Item, IBaseInfo {
         @Pick(value = "img.avatar", attr = "src")
         private String avatar;
         @Pick("small.gray a")
@@ -106,6 +118,11 @@ public class TopicInfo {
         private String favoriteLink;
         @Pick("div[id=topic_thank] span.f11.gray")
         private String thankedText;
+
+        @Override
+        public boolean isValid() {
+            return PreConditions.notEmpty(userName, tag);
+        }
 
         public boolean hadThanked() {
             return PreConditions.notEmpty(thankedText) && thankedText.contains("已发送");
@@ -212,6 +229,7 @@ public class TopicInfo {
         public boolean isHeaderItem() {
             return true;
         }
+
 
         public static class PostScript {
             @Pick("span.fade")

@@ -109,7 +109,7 @@ public interface APIs {
     @Html
     @FormUrlEncoded
     @POST("/new")
-    Observable<CreateTopicPageInfo> postTopic(@FieldMap Map<String, String> postParams);
+    Observable<Response<ResponseBody>> postTopic(@FieldMap Map<String, String> postParams);
 
     @Html
     @POST("/thank/reply/{id}")

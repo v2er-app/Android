@@ -17,7 +17,7 @@ import me.ghui.v2er.general.PreConditions;
  */
 
 @Pick("div.content")
-public class CreateTopicPageInfo {
+public class CreateTopicPageInfo implements IBaseInfo {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
     @Pick("a.node")
@@ -65,6 +65,11 @@ public class CreateTopicPageInfo {
                 ", nodes=" + nodes +
                 ", hotNodes=" + hotNodes +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(once) && problem.isEmpty();
     }
 
     public interface BaseNode extends Parcelable {
@@ -203,5 +208,25 @@ public class CreateTopicPageInfo {
         private String title;
         @Pick("ul li")
         private List<String> tips;
+
+        public boolean isEmpty() {
+            return PreConditions.isEmpty(tips) && PreConditions.isEmpty(title);
+        }
+
+        public List<String> getTips() {
+            return tips;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public String toString() {
+            return "Problem{" +
+                    "title='" + title + '\'' +
+                    ", tips=" + tips +
+                    '}';
+        }
     }
 }
