@@ -24,6 +24,7 @@ public class HtmlConverterFactory extends Converter.Factory {
 		return new HtmlConverterFactory(new Fruit());
 	}
 
+
 	private HtmlConverterFactory(Fruit fruit) {
 		mPicker = fruit;
 	}

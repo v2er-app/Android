@@ -4,13 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.util.Utils;
 
 
 /**
  * Created by ghui on 01/05/2017.
  */
 
-public class LoginParam {
+public class LoginParam implements IValid {
     @Pick(value = "input[type=text]", attr = "name")
     private String nameParam;
     @Pick(value = "input[type=password]", attr = "name")
@@ -58,5 +60,10 @@ public class LoginParam {
         map.put("once", once);
         map.put("next", "/mission/daily");
         return map;
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(nameParam, pswParam, once);
     }
 }

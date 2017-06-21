@@ -2,12 +2,13 @@ package me.ghui.v2er.network.bean;
 
 
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 03/05/2017.
  */
 
-public class LoginResultInfo {
+public class LoginResultInfo implements IValid {
 
     @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;
@@ -16,10 +17,14 @@ public class LoginResultInfo {
 
 
     public String getUserName() {
+        if (PreConditions.isEmpty(userLink)) {
+            return null;
+        }
         return userLink.split("/")[2];
     }
 
     public String getAvatar() {
+        if (PreConditions.isEmpty(avatar)) return null;
         return avatar.replace("normal.png", "large.png");
     }
 
@@ -28,7 +33,11 @@ public class LoginResultInfo {
         return "LoginResultInfo{" +
                 "userLink='" + userLink + '\'' +
                 ", avatar='" + avatar + '\'' +
-                ", userName='" + getUserName() +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(userLink, avatar);
     }
 }

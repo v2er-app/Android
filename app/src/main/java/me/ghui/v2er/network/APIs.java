@@ -21,6 +21,9 @@ import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
+import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -57,7 +60,7 @@ public interface APIs {
     @FormUrlEncoded
     @Headers("Referer: " + Constants.BASE_URL + "/signin")
     @POST("/signin")
-    Observable<LoginResultInfo> login(@FieldMap Map<String, String> loginParams);
+    Observable<Response<ResponseBody>> login(@FieldMap Map<String, String> loginParams);
 
     @Html
     @GET("/t/{id}")

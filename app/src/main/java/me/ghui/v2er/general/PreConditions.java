@@ -7,11 +7,17 @@ import java.util.List;
  */
 
 public class PreConditions {
-    public static boolean isEmpty(CharSequence text) {
-        return text == null || text.length() == 0;
+    public static boolean isEmpty(CharSequence... texts) {
+        for (int i = 0; i < texts.length; i++) {
+            CharSequence text = texts[i];
+            if (text == null || text.length() == 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    public static boolean notEmpty(CharSequence text) {
+    public static boolean notEmpty(CharSequence... text) {
         return !isEmpty(text);
     }
 

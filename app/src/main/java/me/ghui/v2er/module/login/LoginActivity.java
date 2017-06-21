@@ -1,8 +1,10 @@
 package me.ghui.v2er.module.login;
 
 import android.content.Intent;
+import android.support.annotation.BinderThread;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -27,6 +29,8 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     TextInputLayout mUserInputLayout;
     @BindView(R.id.login_psw_text_input_layout)
     TextInputLayout mPswInputLayout;
+    @BindView(R.id.login_go_btn)
+    Button mLoginBtn;
 
     @Override
     protected void startInject() {
@@ -66,15 +70,30 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
             mPswInputLayout.setError("请输入密码");
             return;
         }
-
         mPresenter.login(userName, psw);
     }
 
     @Override
+    public void onFetchLoginParamFailure() {
+        toast("加载登录参数出错");
+        // TODO: 21/06/2017 add a dialog to retry
+        mLoginBtn.setEnabled(false);
+    }
+
+    @Override
+    public void onFetchLoginParamSuccess() {
+        mLoginBtn.setEnabled(true);
+    }
+
+    @Override
     public void onLoginSuccess() {
-        Logger.d("--- Login success ---");
-        Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+        toast("登录成功");
         Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
         finish();
+    }
+
+    @Override
+    public void onLoginFailure(String msg) {
+        toast(msg);
     }
 }

@@ -10,7 +10,13 @@ public class LoginContract {
 
     public interface IView extends BaseContract.IView {
 
+        void onFetchLoginParamFailure();
+
+        void onFetchLoginParamSuccess();
+
         void onLoginSuccess();
+
+        void onLoginFailure(String msg);
     }
 
     public interface IPresenter extends BaseContract.IPresenter {

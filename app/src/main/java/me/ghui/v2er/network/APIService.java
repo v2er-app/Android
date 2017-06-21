@@ -10,6 +10,7 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import me.ghui.fruit.Fruit;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.converter.GlobalConverterFactory;
 import me.ghui.v2er.network.converter.HtmlConverterFactory;
@@ -36,6 +37,7 @@ public class APIService {
     private static final long TIMEOUT_LENGTH = 60;
     private static APIs mAPI_SERVICE;
     private static Gson sGson;
+    private static Fruit sFruit;
     private static PersistentCookieJar sCookieJar;
 
 
@@ -55,7 +57,7 @@ public class APIService {
                     .addConverterFactory(GlobalConverterFactory
                             .create()
                             .add(GsonConverterFactory.create(gson()), Json.class)
-                            .add(HtmlConverterFactory.create(), Html.class))
+                            .add(HtmlConverterFactory.create(fruit()), Html.class))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(Constants.BASE_URL)
                     .build();
@@ -86,6 +88,13 @@ public class APIService {
                     .create();
         }
         return sGson;
+    }
+
+    public static Fruit fruit() {
+        if (sFruit == null) {
+            sFruit = new Fruit();
+        }
+        return sFruit;
     }
 
     public static PersistentCookieJar cookieJar() {
