@@ -109,6 +109,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     public void onPostSuccess(TopicInfo topicInfo) {
         toast("创建成功");
         TopicActivity.open(topicInfo.getTopicLink(), this);
+        finish();
     }
 
     @Override
