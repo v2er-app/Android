@@ -41,7 +41,6 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .subscribe(new GeneralConsumer<LoginResultInfo>() {
                     @Override
                     public void onConsume(LoginResultInfo loginResultInfo) {
-                        Logger.d("loginResultInfo: " + loginResultInfo);
                         UserUtils.saveLogin(UserInfo.build(loginResultInfo.getUserName(), loginResultInfo.getAvatar()));
                         mView.onLoginSuccess();
                     }

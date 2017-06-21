@@ -18,6 +18,15 @@ public class LoginParam {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
 
+    @Override
+    public String toString() {
+        return "LoginParam{" +
+                "nameParam='" + nameParam + '\'' +
+                ", pswParam='" + pswParam + '\'' +
+                ", once='" + once + '\'' +
+                '}';
+    }
+
     public String getNameParam() {
         return nameParam;
     }
