@@ -1,6 +1,8 @@
 package me.ghui.v2er.module.login;
 
 
+import java.io.IOException;
+
 import io.reactivex.Observable;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
@@ -51,36 +53,42 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .subscribe(new GeneralConsumer<Response>() {
                     @Override
                     public void onConsume(Response result) {
-                        ResponseBody responseBody = (ResponseBody) result.body();
-                        if (result.code() == 302) {
-                            //success
-                            Observable.just(responseBody)
-                                    .compose(mView.rx(null))
-                                    .map(body -> APIService.gson().fromJson(body.string(), LoginResultInfo.class))
-                                    .subscribe(new GeneralConsumer<LoginResultInfo>() {
-                                        @Override
-                                        public void onConsume(LoginResultInfo resultInfo) {
-                                            if (resultInfo.isValid()) {
-                                                UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-                                                mView.onLoginSuccess();
-                                            } else {
-                                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
-                                            }
-                                        }
-                                    });
-                        } else {
-                            //status code = 200, username or psw is wrong
-                            Observable.just(responseBody)
-                                    .compose(mView.rx(null))
-                                    .map(body -> APIService.fruit().fromHtml(body.string(), LoginParam.class))
-                                    .subscribe(new GeneralConsumer<LoginParam>() {
-                                        @Override
-                                        public void onConsume(LoginParam loginParam) {
-                                            mLoginParam = loginParam;
-                                            mView.onLoginFailure("登录失败，用户名和密码无法匹配");
-                                        }
-                                    });
+                        String responseStr = null;
+                        try {
+                            responseStr = ((ResponseBody) (result.body())).string();
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
+                        //success
+                        String finalResponseStr = responseStr;
+                        Observable.just(finalResponseStr)
+                                .compose(mView.rx(null))
+                                .map(str -> APIService.fruit().fromHtml(str, LoginResultInfo.class))
+                                .subscribe(new GeneralConsumer<LoginResultInfo>() {
+                                    @Override
+                                    public void onConsume(LoginResultInfo resultInfo) {
+                                        if (resultInfo.isValid()) {
+                                            UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
+                                            mView.onLoginSuccess();
+                                        } else {
+                                            //failure, case: username or psw incorrect
+                                            Observable.just(finalResponseStr)
+                                                    .compose(mView.rx(null))
+                                                    .map(responseStr -> APIService.fruit().fromHtml(responseStr, LoginParam.class))
+                                                    .subscribe(new GeneralConsumer<LoginParam>() {
+                                                        @Override
+                                                        public void onConsume(LoginParam loginParam) {
+                                                            if (loginParam.isValid()) {
+                                                                mLoginParam = loginParam;
+                                                                mView.onLoginFailure("登录失败，用户名和密码无法匹配");
+                                                            } else {
+                                                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
+                                                            }
+                                                        }
+                                                    });
+                                        }
+                                    }
+                                });
                     }
                 });
     }
