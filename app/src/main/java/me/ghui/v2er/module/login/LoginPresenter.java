@@ -1,21 +1,15 @@
 package me.ghui.v2er.module.login;
 
 
-import java.io.IOException;
-
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.network.bean.IValid;
+import me.ghui.v2er.network.bean.IBaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.LoginResultInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -60,17 +54,17 @@ public class LoginPresenter implements LoginContract.IPresenter {
                     }
                     return resultInfo;
                 })
-                .subscribe(new GeneralConsumer<Object>() {
+                .subscribe(new GeneralConsumer<IBaseInfo>() {
                     @Override
-                    public void onConsume(Object response) {
-                        if (response instanceof LoginResultInfo) {
+                    public void onConsume(IBaseInfo info) {
+                        if (info instanceof LoginResultInfo) {
                             //login success
-                            LoginResultInfo resultInfo = (LoginResultInfo) response;
+                            LoginResultInfo resultInfo = (LoginResultInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
                         } else {
                             //login failure
-                            LoginParam loginParam = (LoginParam) response;
+                            LoginParam loginParam = (LoginParam) info;
                             if (loginParam.isValid()) {
                                 mLoginParam = loginParam;
                                 mView.onLoginFailure("登录失败，用户名和密码无法匹配");

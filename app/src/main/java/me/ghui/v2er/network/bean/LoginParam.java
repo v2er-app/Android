@@ -5,14 +5,13 @@ import java.util.Map;
 
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.util.Utils;
 
 
 /**
  * Created by ghui on 01/05/2017.
  */
 
-public class LoginParam implements IValid {
+public class LoginParam implements IBaseInfo {
     @Pick(value = "input[type=text]", attr = "name")
     private String nameParam;
     @Pick(value = "input[type=password]", attr = "name")
