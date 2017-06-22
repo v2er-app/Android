@@ -14,6 +14,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 
 public class TopicContract {
     public interface IView extends BaseContract.IView {
+        String getTopicId();
         void fillView(TopicInfo topicInfo, boolean isLoadMore);
 
         void afterStarTopic(TopicInfo topicInfo);

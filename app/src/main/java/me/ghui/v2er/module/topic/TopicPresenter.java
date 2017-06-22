@@ -29,6 +29,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void start() {
+        loadData(mView.getTopicId(), 1);
     }
 
     @Override

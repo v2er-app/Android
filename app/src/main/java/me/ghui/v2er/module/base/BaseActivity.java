@@ -60,7 +60,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public static long FIRST_LOADING_DELAY = 500;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
-    private boolean isLoading = false;
 
     /**
      * bind a layout resID to the content of this page
@@ -200,9 +199,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected void autoLoad() {
-        if (getPtrLayout() != null) {
-            getPtrLayout().autoRefresh();
-            isLoading = true;
+        if (mPresenter != null) {
+            mPresenter.start();
         }
     }
 
@@ -281,8 +279,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void showLoading() {
-        if (isLoading) return;
-        isLoading = true;
+        if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) return;
         onCreateLoadingView();
         if (mFirstLoadingDelay > 0) {
             mDelayLoadingRunnable = () -> {
@@ -312,7 +309,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             }
             mLoadingView.setVisibility(View.INVISIBLE);
         }
-        isLoading = false;
         Logger.d(" hide loading");
     }
 

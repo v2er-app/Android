@@ -183,6 +183,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         });
     }
 
+
     @Override
     protected PtrHandler attachPtrHandler() {
         return new PtrDefaultHandler() {
@@ -202,6 +203,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void onLoadMore(int willLoadPage) {
         mPresenter.loadData(mTopicId, willLoadPage);
+    }
+
+    @Override
+    public String getTopicId() {
+        return mTopicId;
     }
 
     @Override
