@@ -14,7 +14,8 @@
         style="@style/AvatarImg"
         android:layout_width="@dimen/common_avatar_size"
         android:layout_height="@dimen/common_avatar_size"
-        android:layout_marginEnd="8dp" />
+        android:layout_marginEnd="8dp"
+        android:transitionName="@string/share_element_avatar" />
 
     <TextView
         android:id="@+id/user_name_tv"

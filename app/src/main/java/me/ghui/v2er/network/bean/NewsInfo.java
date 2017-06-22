@@ -56,7 +56,7 @@ public class NewsInfo {
         @Pick(value = "td > a", attr = "href")
         private String avatarLink;
         @Pick(value = "span.small.fade > strong > a")
-        private String user;
+        private String userName;
         @Pick(value = "span.small.fade:last-child", attr = "ownText")
         private String time;
         @Pick(value = "span.small.fade > a")
@@ -107,12 +107,12 @@ public class NewsInfo {
             this.avatarLink = avatarLink;
         }
 
-        public String getUser() {
-            return user;
+        public String getUserName() {
+            return userName;
         }
 
-        public void setUser(String user) {
-            this.user = user;
+        public void setUserName(String userName) {
+            this.userName = userName;
         }
 
         public String getTime() {
@@ -154,7 +154,7 @@ public class NewsInfo {
                     ", linkPath='" + linkPath + '\'' +
                     ", avatar='" + avatar + '\'' +
                     ", avatarLink='" + avatarLink + '\'' +
-                    ", user='" + user + '\'' +
+                    ", userName='" + userName + '\'' +
                     ", time='" + time + '\'' +
                     ", tagName='" + tagName + '\'' +
                     ", tagLink='" + tagLink + '\'' +

@@ -5,6 +5,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.view.View;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
@@ -21,6 +23,7 @@ public class Navigator {
     private static Navigator navigator;
     private WeakReference<Context> mFrom;
     private Intent mIntent;
+    private ActivityOptionsCompat mOptionsCompat;
 
     private Navigator(Context context) {
         mFrom = new WeakReference<>(context);
@@ -43,7 +46,11 @@ public class Navigator {
     public void start() {
         Context context = mFrom.get();
         if (context != null) {
-            context.startActivity(mIntent);
+            if (mOptionsCompat != null) {
+                context.startActivity(mIntent, mOptionsCompat.toBundle());
+            } else {
+                context.startActivity(mIntent);
+            }
         }
         clear();
     }
@@ -61,6 +68,14 @@ public class Navigator {
 
     public Navigator addFlag(int flag) {
         mIntent.addFlags(flag);
+        return this;
+    }
+
+    public Navigator shareElement(View sourceView, String shareElementName) {
+        if (sourceView != null && shareElementName != null) {
+            mOptionsCompat = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((Activity) mFrom.get(), sourceView, shareElementName);
+        }
         return this;
     }
 

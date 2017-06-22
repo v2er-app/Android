@@ -76,6 +76,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
 
 
+    public static void openById(String topicId, Context context, View sourceView, String shareElementName) {
+        Navigator.from(context)
+                .to(TopicActivity.class)
+                .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
+                .shareElement(sourceView, shareElementName)
+                .start();
+    }
+
     public static void openById(String topicId, Context context) {
         Navigator.from(context)
                 .to(TopicActivity.class)
@@ -83,8 +91,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 .start();
     }
 
+
     public static void open(String link, Context context) {
-        openById(UriUtils.getLastSegment(link), context);
+        open(link, context, null, null);
+    }
+
+    public static void open(String link, Context context, View sourceView, String shareElementName) {
+        openById(UriUtils.getLastSegment(link), context, sourceView, shareElementName);
     }
 
     @Override
@@ -202,6 +215,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
         updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), false);
         updateThxCreatorStatus(mTopicInfo.getHeaderInfo().hadThanked(), false);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     @OnClick(R.id.reply_fab_btn)

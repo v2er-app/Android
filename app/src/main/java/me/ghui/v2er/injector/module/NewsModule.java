@@ -39,7 +39,7 @@ public class NewsModule {
                 Glide.with(mContext)
                         .load(item.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUser());
+                holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());
                 holder.setText(R.id.tagview, item.getTagName());
                 holder.setText(R.id.title_tv, item.getTitle());
@@ -50,7 +50,10 @@ public class NewsModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(
-                        v -> UserHomeActivity.open(getItem(holder.index()).getUser(), mContext),
+                        v -> {
+                            UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext,
+                                    holder.getImgView(R.id.avatar_img), mContext.getString(R.string.share_element_avatar));
+                        },
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(),

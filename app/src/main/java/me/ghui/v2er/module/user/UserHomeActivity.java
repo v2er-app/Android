@@ -88,9 +88,14 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     public static void open(String userName, Context context) {
+        open(userName, context, null, null);
+    }
+
+    public static void open(String userName, Context context, View sourceView, String shareElementName) {
         Navigator.from(context)
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                .shareElement(sourceView, shareElementName)
                 .start();
     }
 

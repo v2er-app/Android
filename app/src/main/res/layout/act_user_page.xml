@@ -48,6 +48,7 @@
                         style="@style/AvatarImg"
                         android:layout_width="@dimen/large_avatar_size"
                         android:layout_height="@dimen/large_avatar_size"
+                        android:transitionName="@string/share_element_avatar"
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="2dp" />
 
