@@ -81,7 +81,7 @@ public class Navigator {
 
     public Navigator putExtra(String key, Object value) {
         Type type = value.getClass();
-        if (type == int.class) {
+        if (type == int.class || type == Integer.class) {
             mIntent.putExtra(key, (int) value);
         } else if (type == boolean.class) {
             mIntent.putExtra(key, (boolean) value);

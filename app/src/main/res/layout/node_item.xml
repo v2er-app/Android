@@ -9,10 +9,11 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/node_img"
         android:layout_width="60dp"
-        android:layout_height="60dp" />
+        android:layout_height="60dp"
+        android:transitionName="@string/share_element_node" />
 
     <TextView
         android:id="@+id/node_name"

@@ -80,6 +80,6 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         String url = mAdapter.getItem(position).getLink();
-        NodeTopicActivity.open(url, getContext());
+        NodeTopicActivity.open(url, getContext(), holder.getView(R.id.node_img), getString(R.string.share_element_node));
     }
 }

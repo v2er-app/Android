@@ -51,6 +51,7 @@
                         android:layout_height="@dimen/large_avatar_size"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="36dp"
+                        android:transitionName="@string/share_element_node"
                         app:civ_border_color="@color/white"
                         app:civ_border_width="2dp" />
 

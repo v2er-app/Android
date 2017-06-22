@@ -83,20 +83,25 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private MenuItem mLoveMenuItem;
     private NodeTopicInfo mNodeTopicInfo;
 
-    public static void openById(String nodeId, int page, Context context) {
+    public static void openById(String nodeId, int page, Context context, View sourceView, String shareElementName) {
         Navigator.from(context)
                 .to(NodeTopicActivity.class)
                 .putExtra(NodeTopicActivity.TAG_NODE_ID_KEY, nodeId)
                 .putExtra(NodeTopicActivity.TAG_INIT_PAGE_KEY, page)
+                .shareElement(sourceView, shareElementName)
                 .start();
     }
 
     public static void open(String link, int page, Context context) {
-        openById(UriUtils.getLastSegment(link), page, context);
+        openById(UriUtils.getLastSegment(link), page, context, null, null);
     }
 
     public static void open(String link, Context context) {
-        openById(UriUtils.getLastSegment(link), 1, context);
+        openById(UriUtils.getLastSegment(link), 1, context, null, null);
+    }
+
+    public static void open(String link, Context context, View sourceView, String shareElementName) {
+        openById(UriUtils.getLastSegment(link), 1, context, sourceView, shareElementName);
     }
 
     @Override
