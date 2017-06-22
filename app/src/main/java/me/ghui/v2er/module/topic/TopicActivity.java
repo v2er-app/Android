@@ -305,10 +305,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
-    public void afterIgnoreReply(SimpleInfo simpleInfo, int position) {
-        toast("已忽略");
-        mAdapter.getDatas().remove(position);
-        mAdapter.notifyDataSetChanged();
+    public void afterIgnoreReply(boolean success, int position) {
+        if (success) {
+            toast("已忽略");
+            mAdapter.getDatas().remove(position);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            toast("忽略回复遇到问题");
+        }
     }
 
     @Override

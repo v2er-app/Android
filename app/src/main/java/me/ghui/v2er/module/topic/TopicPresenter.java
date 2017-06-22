@@ -12,6 +12,8 @@ import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
+import okhttp3.ResponseBody;
+import retrofit2.Response;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -108,10 +110,12 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void ignoreReply(int position, String replyId, String once) {
         APIService.get().ignoreReply(replyId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<Response<ResponseBody>>() {
                     @Override
-                    public void onConsume(SimpleInfo simpleInfo) {
-                        mView.afterIgnoreReply(simpleInfo, position);
+                    public void onConsume(Response<ResponseBody> response) {
+                        boolean success = (response != null && response.body() != null)
+                                && response.body().contentLength() == 0;
+                        mView.afterIgnoreReply(success, position);
                     }
                 });
     }

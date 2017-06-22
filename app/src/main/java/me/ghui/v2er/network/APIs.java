@@ -133,7 +133,7 @@ public interface APIs {
 
     @Html
     @POST("/ignore/reply/{id}")
-    Observable<SimpleInfo> ignoreReply(@Path("id") String replyId, @Query("once") String once);
+    Observable<Response<ResponseBody>> ignoreReply(@Path("id") String replyId, @Query("once") String once);
 
     @Html
     @GET("/unfavorite/topic/{id}")

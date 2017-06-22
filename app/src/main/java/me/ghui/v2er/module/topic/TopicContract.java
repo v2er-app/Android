@@ -24,7 +24,7 @@ public class TopicContract {
 
         void afterIgnoreTopic(boolean success);
 
-        void afterIgnoreReply(SimpleInfo simpleInfo, int position);
+        void afterIgnoreReply(boolean success, int position);
 
         void afterReplyTopic(TopicInfo topicInfo);
     }
