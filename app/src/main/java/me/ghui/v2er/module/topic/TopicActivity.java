@@ -317,9 +317,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void afterReplyTopic(TopicInfo topicInfo) {
-        fillView(topicInfo, false);
-        mReplyEt.setText(null);
-        toast("回复成功");
+        if (topicInfo.isValid()) {
+            fillView(topicInfo, false);
+            mReplyEt.setText(null);
+            toast("回复成功");
+        } else {
+            toast("回复失败");
+        }
     }
 
     @OnClick(R.id.reply_send_btn)
