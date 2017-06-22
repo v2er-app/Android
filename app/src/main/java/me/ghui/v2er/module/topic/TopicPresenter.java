@@ -7,6 +7,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
@@ -95,10 +96,10 @@ public class TopicPresenter implements TopicContract.IPresenter {
     public void ignoreTopic(String topicId, String once) {
         APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<MissionInfo>() {
                     @Override
-                    public void onConsume(SimpleInfo simpleInfo) {
-                        mView.afterIgnoreTopic();
+                    public void onConsume(MissionInfo missionInfo) {
+                        mView.afterIgnoreTopic(missionInfo.isValid());
                     }
                 });
     }

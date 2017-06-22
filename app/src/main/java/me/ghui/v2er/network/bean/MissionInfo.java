@@ -8,7 +8,7 @@ import me.ghui.v2er.general.PreConditions;
  * Created by ghui on 03/05/2017.
  */
 
-public class LoginResultInfo implements IBaseInfo {
+public class MissionInfo implements IBaseInfo {
 
     @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;
@@ -30,7 +30,7 @@ public class LoginResultInfo implements IBaseInfo {
 
     @Override
     public String toString() {
-        return "LoginResultInfo{" +
+        return "MissionInfo{" +
                 "userLink='" + userLink + '\'' +
                 ", avatar='" + avatar + '\'' +
                 '}';

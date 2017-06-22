@@ -295,9 +295,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
-    public void afterIgnoreTopic() {
-        toast("主题已忽略");
-        finish();
+    public void afterIgnoreTopic(boolean success) {
+        if (success) {
+            toast("主题已忽略");
+            finish();
+        } else {
+            toast("忽略主题遇到问题");
+        }
     }
 
     @Override

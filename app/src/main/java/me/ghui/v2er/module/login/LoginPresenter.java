@@ -7,7 +7,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.IBaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
-import me.ghui.v2er.network.bean.LoginResultInfo;
+import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
 
@@ -48,7 +48,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .compose(mView.rx())
                 .map(response -> response.body().string())
                 .map(s -> {
-                    LoginResultInfo resultInfo = APIService.fruit().fromHtml(s, LoginResultInfo.class);
+                    MissionInfo resultInfo = APIService.fruit().fromHtml(s, MissionInfo.class);
                     if (!resultInfo.isValid()) {
                         return APIService.fruit().fromHtml(s, LoginParam.class);
                     }
@@ -57,9 +57,9 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .subscribe(new GeneralConsumer<IBaseInfo>() {
                     @Override
                     public void onConsume(IBaseInfo info) {
-                        if (info instanceof LoginResultInfo) {
+                        if (info instanceof MissionInfo) {
                             //login success
-                            LoginResultInfo resultInfo = (LoginResultInfo) info;
+                            MissionInfo resultInfo = (MissionInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
                         } else {

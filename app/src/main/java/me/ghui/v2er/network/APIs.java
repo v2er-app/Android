@@ -8,6 +8,7 @@ import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeStarInfo;
@@ -128,7 +129,7 @@ public interface APIs {
 
     @Html
     @GET("/ignore/topic/{id}")
-    Observable<SimpleInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
+    Observable<MissionInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/ignore/reply/{id}")

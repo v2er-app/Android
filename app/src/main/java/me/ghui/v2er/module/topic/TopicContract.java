@@ -22,7 +22,7 @@ public class TopicContract {
 
         void afterThxCreator(boolean success);
 
-        void afterIgnoreTopic();
+        void afterIgnoreTopic(boolean success);
 
         void afterIgnoreReply(SimpleInfo simpleInfo, int position);
 
