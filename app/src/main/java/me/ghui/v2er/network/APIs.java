@@ -15,7 +15,7 @@ import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
-import me.ghui.v2er.network.bean.ThxReplyInfo;
+import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
@@ -120,7 +120,7 @@ public interface APIs {
 
     @Html
     @POST("/ajax/money")
-    Observable<ThxReplyInfo> thxMoney();
+    Observable<ThxResponseInfo> thxMoney();
 
     @Html
     @GET("/favorite/topic/{id}")

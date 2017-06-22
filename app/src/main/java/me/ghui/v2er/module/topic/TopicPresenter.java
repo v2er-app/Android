@@ -5,18 +5,12 @@ import com.orhanobut.logger.Logger;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
-import me.ghui.v2er.network.bean.ThxReplyInfo;
+import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -53,7 +47,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public Observable<ThxReplyInfo> thxReplier(String replyId, String t) {
+    public Observable<ThxResponseInfo> thxReplier(String replyId, String t) {
         return APIService.get().thxReplier(replyId, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx());
@@ -64,10 +58,10 @@ public class TopicPresenter implements TopicContract.IPresenter {
         APIService.get().thxCreator(id, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<ThxResponseInfo>() {
                     @Override
-                    public void onConsume(SimpleInfo simpleInfo) {
-                        mView.afterThxCreator();
+                    public void onConsume(ThxResponseInfo responseInfo) {
+                        mView.afterThxCreator(responseInfo.isValid());
                     }
                 });
     }

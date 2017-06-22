@@ -15,8 +15,7 @@ import me.ghui.v2er.module.topic.TopicPresenter;
 import me.ghui.v2er.module.topic.TopicReplyItemDelegate;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.network.bean.SimpleInfo;
-import me.ghui.v2er.network.bean.ThxReplyInfo;
+import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -61,14 +60,14 @@ public class TopicModule {
                     }
                     TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
                     mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
-                            .subscribe(new GeneralConsumer<ThxReplyInfo>() {
+                            .subscribe(new GeneralConsumer<ThxResponseInfo>() {
                                 @Override
-                                public void onConsume(ThxReplyInfo thxReplyInfo) {
+                                public void onConsume(ThxResponseInfo thxReplyInfo) {
                                     if (thxReplyInfo.isValid()) {
                                         replyInfo.updateThanks(true);
                                         notifyItemChanged(holder.index());
                                     } else {
-                                        Utils.toast("发送感谢遇到问题");
+                                        Utils.toast(mContext.getString(R.string.send_thx_occured_error));
                                     }
                                 }
                             });

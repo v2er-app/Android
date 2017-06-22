@@ -285,9 +285,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
-    public void afterThxCreator() {
-        updateThxCreatorStatus(true, true);
-        toast(R.string.thx_already_send);
+    public void afterThxCreator(boolean success) {
+        if (success) {
+            updateThxCreatorStatus(true, true);
+            toast(R.string.thx_already_send);
+        } else {
+            toast(getString(R.string.send_thx_occured_error));
+        }
     }
 
     @Override
