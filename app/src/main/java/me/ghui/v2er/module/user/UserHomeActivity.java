@@ -44,7 +44,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.user_img)
-    ImageView mUserImg;
+    ImageView mAvatarImg;
     @BindView(R.id.big_img_bg)
     ImageView mBigImgBg;
     @BindView(R.id.user_name_tv)
@@ -150,9 +150,11 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        Glide.with(this)
-                .load(userPageInfo.getAvatar())
-                .into(mUserImg);
+        if (mAvatarImg.getDrawable() == null) {
+            Glide.with(this)
+                    .load(userPageInfo.getAvatar())
+                    .into(mAvatarImg);
+        }
         Glide.with(this).load(userPageInfo.getAvatar())
                 .bitmapTransform(new BlurTransformation(this))
                 .into(mBigImgBg);

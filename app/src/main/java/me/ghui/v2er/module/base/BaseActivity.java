@@ -21,6 +21,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
+import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.Stack;
@@ -56,7 +57,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Inject
     public T mPresenter;
     private Stack<IBackable> mBackables;
-    public static long FIRST_LOADING_DELAY = 300;
+    public static long FIRST_LOADING_DELAY = 500;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
     private boolean isLoading = false;
@@ -287,6 +288,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             mDelayLoadingRunnable = () -> {
                 mLoadingView.setVisibility(View.VISIBLE);
                 mFirstLoadingDelay = 0;
+                Logger.d("delay show loading");
             };
             delay(mFirstLoadingDelay, mDelayLoadingRunnable);
         } else {
@@ -311,6 +313,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             mLoadingView.setVisibility(View.INVISIBLE);
         }
         isLoading = false;
+        Logger.d(" hide loading");
     }
 
     protected void toast(@StringRes int msgId) {
