@@ -174,6 +174,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
+            mDrawerLayout.closeDrawer(Gravity.START);
+            return;
+        }
+
         if (getCurrentTab() != 0) {
             mSlidingTabLayout.setCurrentTab(0);
             return;
