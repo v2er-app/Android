@@ -13,6 +13,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.ThxReplyInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
 import me.ghui.v2er.util.Utils;
@@ -52,7 +53,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public Observable<SimpleInfo> thxReplier(String replyId, String t) {
+    public Observable<ThxReplyInfo> thxReplier(String replyId, String t) {
         return APIService.get().thxReplier(replyId, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx());

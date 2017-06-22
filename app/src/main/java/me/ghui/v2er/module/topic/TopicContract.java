@@ -5,6 +5,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.ThxReplyInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
@@ -33,7 +34,7 @@ public class TopicContract {
 
         void loadData(String topicId);
 
-        Observable<SimpleInfo> thxReplier(String replyId, String t);
+        Observable<ThxReplyInfo> thxReplier(String replyId, String t);
 
         void thxCreator(String id, String t);
 

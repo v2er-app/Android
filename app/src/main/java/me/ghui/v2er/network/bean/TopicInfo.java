@@ -10,6 +10,7 @@ import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 
 
@@ -230,6 +231,15 @@ public class TopicInfo implements IBaseInfo {
             return true;
         }
 
+        @Override
+        public boolean isSelf() {
+            try {
+                return userName.equals(UserUtils.getUserInfo().getUserName());
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
+
 
         public static class PostScript {
             @Pick("span.fade")
@@ -369,10 +379,21 @@ public class TopicInfo implements IBaseInfo {
         public boolean isHeaderItem() {
             return false;
         }
+
+        @Override
+        public boolean isSelf() {
+            try {
+                return userName.equals(UserUtils.getUserInfo().getUserName());
+            } catch (NullPointerException e) {
+                return false;
+            }
+        }
     }
 
     public interface Item {
         boolean isHeaderItem();
+
+        boolean isSelf();
     }
 
 }

@@ -8,7 +8,6 @@ import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.LoginParam;
-import me.ghui.v2er.network.bean.LoginResultInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeStarInfo;
@@ -16,6 +15,7 @@ import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.ThxReplyInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
@@ -23,7 +23,6 @@ import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -121,7 +120,7 @@ public interface APIs {
 
     @Html
     @POST("/ajax/money")
-    Observable<SimpleInfo> thxMoney();
+    Observable<ThxReplyInfo> thxMoney();
 
     @Html
     @GET("/favorite/topic/{id}")

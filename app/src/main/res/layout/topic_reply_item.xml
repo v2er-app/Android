@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="4dp"
         android:paddingRight="4dp"
+        android:src="@drawable/love_normal_icon"
         app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
         app:layout_constraintRight_toLeftOf="@id/reply_thx_tv" />
 

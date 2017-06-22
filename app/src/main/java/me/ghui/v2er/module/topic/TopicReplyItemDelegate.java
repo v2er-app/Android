@@ -48,7 +48,12 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             holder.setText(R.id.reply_thx_tv, replyInfo.getLove() + "");
         }
         ImageView img = holder.getView(R.id.reply_thx_img);
-        img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+        if (!item.isSelf()) {
+            img.setVisibility(View.VISIBLE);
+            img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
+        } else {
+            img.setVisibility(View.GONE);
+        }
         holder.setText(R.id.time_tv, replyInfo.getTime());
         // TODO: 15/06/2017  
         RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(holder.getView(R.id.content_tv));
