@@ -27,6 +27,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -189,7 +190,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mNodeInfo = nodeInfo;
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
-        RichText.fromHtml(nodeInfo.getHeader()).into(mNodeDesTv);
+        String desc = nodeInfo.getHeader();
+        if (PreConditions.notEmpty(desc)) {
+            RichText.fromHtml(desc).into(mNodeDesTv);
+        }
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         Glide.with(this)
