@@ -57,7 +57,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Inject
     public T mPresenter;
     private Stack<IBackable> mBackables;
-    public static long FIRST_LOADING_DELAY = 500;
+    public static long FIRST_LOADING_DELAY = 1000;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
 
