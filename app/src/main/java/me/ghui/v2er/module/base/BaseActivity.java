@@ -283,9 +283,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         onCreateLoadingView();
         if (mFirstLoadingDelay > 0) {
             mDelayLoadingRunnable = () -> {
-                mLoadingView.setVisibility(View.VISIBLE);
-                mFirstLoadingDelay = 0;
-                Logger.d("delay show loading");
+                if (mFirstLoadingDelay != 0) {
+                    mLoadingView.setVisibility(View.VISIBLE);
+                    mFirstLoadingDelay = 0;
+                    Logger.d("delay show loading");
+                }
             };
             delay(mFirstLoadingDelay, mDelayLoadingRunnable);
         } else {
