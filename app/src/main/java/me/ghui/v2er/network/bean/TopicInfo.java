@@ -245,7 +245,7 @@ public class TopicInfo implements IBaseInfo {
         public static class PostScript {
             @Pick("span.fade")
             private String header;
-            @Pick(value = "div.topic_content", attr = Attrs.HTML)
+            @Pick(value = "div.topic_content", attr = Attrs.INNER_HTML)
             private String content;
 
             public String getHeader() {

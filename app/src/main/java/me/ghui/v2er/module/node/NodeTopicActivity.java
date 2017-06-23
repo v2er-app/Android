@@ -175,11 +175,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
-    protected void autoLoad() {
-        mPresenter.start();
-    }
-
-    @Override
     public String nodeName() {
         return mTagId;
     }

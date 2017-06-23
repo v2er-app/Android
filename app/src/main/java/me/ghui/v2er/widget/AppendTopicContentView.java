@@ -38,6 +38,8 @@ public class AppendTopicContentView extends LinearLayout {
     private void init() {
         setOrientation(VERTICAL);
         setBackgroundColor(0xfffafafa);
+        setDividerDrawable(getResources().getDrawable(R.drawable.common_divider));
+        setShowDividers(SHOW_DIVIDER_MIDDLE);
     }
 
     public void setData(List<TopicInfo.HeaderInfo.PostScript> data) {
@@ -87,7 +89,7 @@ public class AppendTopicContentView extends LinearLayout {
 
         public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
-            RichText.fromHtml(post.getHeader()).into(itemView.headerTV);
+            itemView.headerTV.setText(post.getHeader());
             RichText.fromHtml(post.getContent()).into(itemView.contentTV);
             return itemView;
         }
