@@ -193,8 +193,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
         }
         mResultRecyV.setVisibility(View.VISIBLE);
         mResultAdapter.setData(resultInfo.getItems(), isLoadMore);
-        // TODO: 02/06/2017 has more
-        mResultRecyV.setHasMore(true);
+        mResultRecyV.setHasMore(resultInfo.hasMore());
     }
 
     @Override

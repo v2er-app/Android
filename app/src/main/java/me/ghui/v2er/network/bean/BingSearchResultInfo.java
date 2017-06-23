@@ -4,6 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -15,6 +16,12 @@ public class BingSearchResultInfo {
 
     @Pick("li.b_algo")
     private List<Item> items;
+    @Pick(value = "a.sb_pagN", attr = Attrs.HREF)
+    private String next;
+
+    public boolean hasMore() {
+        return PreConditions.notEmpty(next);
+    }
 
     public List<Item> getItems() {
         return items;
@@ -23,7 +30,8 @@ public class BingSearchResultInfo {
     @Override
     public String toString() {
         return "BingSearchResultInfo{" +
-                "items=" + items +
+                "hasNext=" + items +
+                ",items=" + items +
                 '}';
     }
 
