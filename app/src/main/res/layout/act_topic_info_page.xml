@@ -38,12 +38,12 @@
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:background="@color/white">
 
             <me.ghui.v2er.widget.DividerView
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
-                android:layout_height="0.5dp" />
+                android:layout_height="0.6dp" />
 
             <EditText
                 android:id="@+id/topic_reply_et"
@@ -63,8 +63,8 @@
                 android:layout_alignBottom="@id/topic_reply_et"
                 android:layout_alignParentEnd="true"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="16dp"
-                android:src="@drawable/ic_reply_topic" />
+                android:padding="20dp"
+                android:src="@drawable/ic_reply_send" />
         </RelativeLayout>
     </me.ghui.v2er.widget.KeyboardDetectorRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

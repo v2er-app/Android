@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +17,8 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 
@@ -240,7 +243,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         int deltaY = ScaleUtils.dp(20);
         int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16) - deltaX);
         int cY = ScaleUtils.dp(48) / 2;
-        int startRadius = ScaleUtils.dp(40);
+        int startRadius = ScaleUtils.dp(100);
         int endRadius = (int) ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
             mReplyFabBtn.animate()
@@ -251,7 +254,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
-                            animator.setDuration(350);
+                            animator.setInterpolator(new FastOutSlowInInterpolator());
+                            animator.setDuration(250);
                             animator.start();
                             mReplyWrapper.setVisibility(View.VISIBLE);
                             mReplyFabBtn.hide();
@@ -261,6 +265,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
             animator.setDuration(200);
+            animator.setInterpolator(new FastOutSlowInInterpolator());
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
