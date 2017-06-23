@@ -72,16 +72,6 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
     }
 
     @Override
-    protected void lazyLoad() {
-        if (UserUtils.isLogin()) {
-            super.lazyLoad();
-        } else {
-            toast("登录后才能查看消息");
-            Navigator.from(getContext()).to(LoginActivity.class).start();
-        }
-    }
-
-    @Override
     protected PtrHandler attachPtrHandler() {
         return new PtrDefaultHandler() {
             @Override

@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.base;
 
+import android.content.Context;
+
 import io.reactivex.ObservableTransformer;
 
 /**
@@ -12,6 +14,10 @@ public class BaseContract {
         <K> ObservableTransformer<K, K> rx();
 
         <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading);
+
+        void toast(String msg);
+
+        Context getContext();
     }
 
     public interface IPresenter {

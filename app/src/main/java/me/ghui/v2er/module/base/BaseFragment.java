@@ -231,11 +231,12 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         return RxUtils.rxFragment(this, viewLoading);
     }
 
-    protected void toast(String msg) {
+    @Override
+    public void toast(String msg) {
         Utils.toast(msg);
     }
 
-    protected void toast(String msg, boolean isToastLong) {
+    public void toast(String msg, boolean isToastLong) {
         Utils.toast(msg, isToastLong);
     }
 }

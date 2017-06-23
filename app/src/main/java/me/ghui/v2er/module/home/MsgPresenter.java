@@ -2,9 +2,12 @@ package me.ghui.v2er.module.home;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NotificationInfo;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -20,7 +23,13 @@ public class MsgPresenter implements MsgContract.IPresenter {
 
     @Override
     public void start() {
-        loadMore(1);
+        if (UserUtils.isLogin()) {
+            loadMore(1);
+        } else {
+            mView.hideLoading();
+            mView.toast("登录后才能查看消息");
+            Navigator.from(mView.getContext()).to(LoginActivity.class).start();
+        }
     }
 
     @Override
