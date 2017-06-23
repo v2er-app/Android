@@ -111,7 +111,7 @@ public class TopicInfo implements IBaseInfo {
         private int page;
         @Pick("h1")
         private String title;
-        @Pick(value = "div.cell div.topic_content", attr = Attrs.HTML)
+        @Pick(value = "div.cell div.topic_content", attr = Attrs.INNER_HTML)
         private String contentHtml;
         @Pick("div.subtle")
         private List<PostScript> postScripts;

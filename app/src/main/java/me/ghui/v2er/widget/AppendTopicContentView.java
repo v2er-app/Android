@@ -77,10 +77,11 @@ public class AppendTopicContentView extends LinearLayout {
 
         private void init(Context context) {
             setOrientation(VERTICAL);
-            int padding = ScaleUtils.dp(8, context);
+            int padding = ScaleUtils.dp(12, context);
             setPadding(padding, padding, padding, padding);
             headerTV = new TextView(context);
             headerTV.setTextAppearance(context, R.style.hintText);
+            headerTV.setPadding(headerTV.getPaddingLeft(), headerTV.getPaddingTop(), headerTV.getPaddingRight(), ScaleUtils.dp(8));
             addView(headerTV);
             contentTV = new TextView(context);
             contentTV.setTextAppearance(context, R.style.BodyText);
