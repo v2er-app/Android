@@ -38,7 +38,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) item;
         Glide.with(mContext)
-                .load("https:" + headerInfo.getAvatar())
+                .load(headerInfo.getAvatar())
                 .into((ImageView) holder.getView(R.id.avatar_img));
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());

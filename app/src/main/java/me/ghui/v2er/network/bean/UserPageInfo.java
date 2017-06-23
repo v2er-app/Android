@@ -95,7 +95,10 @@ public class UserPageInfo {
         }
 
         items.addAll(topicItems);
-        items.addAll(getReplyItems());
+        List<ReplyItem> replyItems = getReplyItems();
+        if (PreConditions.notEmpty(replyItems)) {
+            items.addAll(replyItems);
+        }
         return items;
     }
 

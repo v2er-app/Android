@@ -9,6 +9,7 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -194,7 +195,7 @@ public class TopicInfo implements IBaseInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return AvatarUtils.adjustAvatar(avatar);
         }
 
         public String getTitle() {
@@ -335,7 +336,7 @@ public class TopicInfo implements IBaseInfo {
         }
 
         public String getAvatar() {
-            return Constants.HTTPS_SCHEME + avatar;
+            return AvatarUtils.adjustAvatar(avatar);
         }
 
         public void setAvatar(String avatar) {
