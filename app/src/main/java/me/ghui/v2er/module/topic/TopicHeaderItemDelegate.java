@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -47,9 +48,10 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
+            holder.getView(R.id.content_tv).setVisibility(View.VISIBLE);
             RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
         } else {
-            holder.getTextView(R.id.content_tv).setText(null);
+            holder.getView(R.id.content_tv).setVisibility(View.GONE);
         }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }
