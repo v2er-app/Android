@@ -22,6 +22,10 @@ public class AvatarUtils {
             avatar = avatar.replace("_mini.png", "_large.png");
         }
 
+        if (avatar.contains("_xxlarge.png")) {
+            avatar = avatar.replace("_xxlarge.png", "_large.png");
+        }
+
         //3. del param
 //        if (avatar.contains("?")) {
 //            avatar = avatar.substring(0, avatar.indexOf("?"));
