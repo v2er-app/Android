@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="list_animation_default_dur">220</integer>
+    <integer name="list_animation_short_dur">150</integer>
+</resources>

@@ -1,5 +1,8 @@
 package me.ghui.v2er.injector.module;
 
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +61,18 @@ public class NewsModule {
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(),
                                 mContext), R.id.tagview);
+            }
+
+            @Override
+            protected void animateIn(View itemView) {
+                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_in);
+                itemView.startAnimation(animation);
+            }
+
+            @Override
+            protected void animateOut(View itemView) {
+                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_out);
+                itemView.startAnimation(animation);
             }
         };
     }

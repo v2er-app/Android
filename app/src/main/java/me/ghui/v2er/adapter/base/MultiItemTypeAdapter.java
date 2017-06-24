@@ -2,9 +2,11 @@ package me.ghui.v2er.adapter.base;
 
 import android.content.Context;
 import android.support.annotation.CallSuper;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected ItemViewDelegateManager mItemViewDelegateManager;
     protected OnItemClickListener mOnItemClickListener;
     protected OnItemLongClickListener mOnItemLongClickListener;
-
+    private RecyclerView.LayoutManager mLayoutManager;
 
     public MultiItemTypeAdapter(Context context) {
         mContext = context;
@@ -44,6 +46,12 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     public T getItem(int position) {
         return PreConditions.isEmpty(mDatas) ? null : mDatas.get(position);
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+        mLayoutManager = recyclerView.getLayoutManager();
     }
 
     @Override
@@ -96,10 +104,36 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         });
     }
 
+
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, getItem(position));
+        animate(holder.itemView, position);
     }
+
+    private void animate(View itemView, int position) {
+        if (itemView.getAnimation() != null) {
+            itemView.clearAnimation();
+        }
+        if (mLayoutManager instanceof LinearLayoutManager) {
+            LinearLayoutManager layoutmanager = (LinearLayoutManager) mLayoutManager;
+            int firstVisiableItem = layoutmanager.findFirstVisibleItemPosition();
+            int lastVisiableItem = layoutmanager.findLastVisibleItemPosition();
+            if (position > lastVisiableItem) {
+                animateIn(itemView);
+            } else if (position < firstVisiableItem) {
+                animateOut(itemView);
+            }
+        }
+    }
+
+
+    protected void animateIn(View itemView) {
+    }
+
+    protected void animateOut(View itemView) {
+    }
+
 
     @Override
     public int getItemCount() {
