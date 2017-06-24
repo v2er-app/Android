@@ -14,6 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import javax.inject.Inject;
 
@@ -114,6 +117,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void init() {
+        postponeEnterTransition();
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mRecyclerView.addDivider();
@@ -150,11 +154,22 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        if (mAvatarImg.getDrawable() == null) {
-            Glide.with(this)
-                    .load(userPageInfo.getAvatar())
-                    .into(mAvatarImg);
-        }
+        Glide.with(this)
+                .load(userPageInfo.getAvatar())
+                .listener(new RequestListener<String, GlideDrawable>() {
+                    @Override
+                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                        scheduleStartPostponedTransition(mAvatarImg);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                        scheduleStartPostponedTransition(mAvatarImg);
+                        return false;
+                    }
+                })
+                .into(mAvatarImg);
         Glide.with(this).load(userPageInfo.getAvatar())
                 .bitmapTransform(new BlurTransformation(this))
                 .into(mBigImgBg);
