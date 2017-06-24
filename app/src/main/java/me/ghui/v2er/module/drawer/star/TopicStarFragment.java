@@ -90,6 +90,6 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext());
+        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext(), view.findViewById(R.id.avatar_img));
     }
 }

@@ -96,11 +96,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     public static void open(String link, Context context) {
-        open(link, context, null, null);
+        open(link, context, null);
     }
 
-    public static void open(String link, Context context, View sourceView, String shareElementName) {
-        openById(UriUtils.getLastSegment(link), context, sourceView, shareElementName);
+    public static void open(String link, Context context, View sourceView) {
+        openById(UriUtils.getLastSegment(link), context, sourceView, sourceView == null ? null : sourceView.getTransitionName());
     }
 
     @Override

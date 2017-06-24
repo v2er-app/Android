@@ -136,6 +136,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     public void onItemClick(View view, ViewHolder holder, int position) {
         View shareView = holder.getView(R.id.avatar_img);
         TopicActivity.open(mAdapter.getDatas().get(position).getLinkPath(),
-                getContext(), shareView, getString(R.string.share_element_avatar));
+                getContext(), shareView);
     }
 }
