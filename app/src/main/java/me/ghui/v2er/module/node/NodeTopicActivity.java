@@ -16,6 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.zzhoujay.richtext.RichText;
 
 import javax.inject.Inject;
@@ -83,6 +87,21 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private MenuItem mLoveMenuItem;
     private NodeTopicInfo mNodeTopicInfo;
 
+    private RequestListener mGlideDownLoadListener = new RequestListener<String, GlideDrawable>() {
+
+        @Override
+        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+            scheduleStartPostponedTransition(mNodeImg);
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+            scheduleStartPostponedTransition(mNodeImg);
+            return false;
+        }
+    };
+
     public static void openById(String nodeId, int page, Context context, View sourceView, String shareElementName) {
         Navigator.from(context)
                 .to(NodeTopicActivity.class)
@@ -135,6 +154,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
+        postponeEnterTransition();
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
@@ -184,6 +204,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         return mInitPage;
     }
 
+
     @Override
     public void fillHeaderView(NodeInfo nodeInfo) {
         if (nodeInfo == null) return;
@@ -196,12 +217,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         }
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
+
+        Glide.with(this)
+                .load(nodeInfo.getAvatar())
+                .listener(mGlideDownLoadListener)
+                .bitmapTransform(new BlurTransformation(this))
+                .into(mBigImgBg);
+
         Glide.with(this)
                 .load(nodeInfo.getAvatar())
                 .into(mNodeImg);
-        Glide.with(this).load(nodeInfo.getAvatar())
-                .bitmapTransform(new BlurTransformation(this))
-                .into(mBigImgBg);
     }
 
     @Override
