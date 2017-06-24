@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import me.ghui.v2er.general.PreConditions;
@@ -33,10 +35,11 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public void setData(List<T> data, boolean shouldAppend) {
         if (shouldAppend) {
             mDatas.addAll(data);
+            notifyItemRangeChanged(mDatas.size() - data.size(), data.size());
         } else {
             mDatas = data;
+            notifyDataSetChanged();
         }
-        notifyDataSetChanged();
     }
 
     public void setData(List<T> data) {
@@ -119,6 +122,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             LinearLayoutManager layoutmanager = (LinearLayoutManager) mLayoutManager;
             int firstVisiableItem = layoutmanager.findFirstVisibleItemPosition();
             int lastVisiableItem = layoutmanager.findLastVisibleItemPosition();
+            Logger.d("position: " + position + ", first: " + firstVisiableItem + ", last: " + lastVisiableItem);
             if (position > lastVisiableItem) {
                 animateIn(itemView);
             } else if (position < firstVisiableItem) {
