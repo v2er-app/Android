@@ -51,7 +51,7 @@ public class DailyHotModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v ->
-                                UserHomeActivity.open(getItem(holder.index()).getMember().getUserName(), mContext),
+                                UserHomeActivity.open(getItem(holder.index()).getMember().getUserName(), mContext, holder.getImgView(R.id.avatar_img)),
                         R.id.avatar_img, R.id.user_name_tv);
 
                 holder.setOnClickListener(v ->

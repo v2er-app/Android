@@ -50,7 +50,7 @@ public class TopicModule {
                                 userName = ((TopicInfo.Reply) getItem(holder.index())).getUserName();
                                 sourceView = holder.getImgView(R.id.reply_avatar_img);
                             }
-                            UserHomeActivity.open(userName, mContext, sourceView, mContext.getString(R.string.share_element_avatar));
+                            UserHomeActivity.open(userName, mContext, sourceView);
                         },
                         R.id.avatar_img, R.id.user_name_tv, R.id.reply_avatar_img, R.id.reply_user_name_tv);
 

@@ -90,15 +90,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mUserName = intent.getStringExtra(USER_NAME_KEY);
     }
 
-    public static void open(String userName, Context context) {
-        open(userName, context, null, null);
-    }
+//    public static void open(String userName, Context context) {
+//        open(userName, context, null, null);
+//    }
 
-    public static void open(String userName, Context context, View sourceView, String shareElementName) {
+    public static void open(String userName, Context context, View sourceView) {
         Navigator.from(context)
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
-                .shareElement(sourceView, shareElementName)
+                .shareElement(sourceView, sourceView == null ? null : sourceView.getTransitionName())
                 .start();
     }
 
@@ -116,8 +116,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     @Override
+    protected boolean supportShareElement() {
+        return true;
+    }
+
+    @Override
     protected void init() {
-        postponeEnterTransition();
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mRecyclerView.addDivider();

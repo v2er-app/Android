@@ -47,7 +47,7 @@ import me.ghui.v2er.widget.PtrMaterialFrameLayout;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler, IGeneralErrorHandler {
+public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler {
 
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
@@ -59,7 +59,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public T mPresenter;
     private Stack<IBackable> mBackables;
     public static long FIRST_LOADING_DELAY = 300;
-//    private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
+    //    private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private long mFirstLoadingDelay = 0;
     private Runnable mDelayLoadingRunnable;
 
@@ -193,11 +193,18 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configSystemBars(getWindow());
         super.onCreate(savedInstanceState);
         setContentView(onCreateRootView());
+        if (supportShareElement()) {
+            postponeEnterTransition();
+        }
         ButterKnife.bind(this);
         startInject();
         parseExtras(getIntent());
         init();
         autoLoad();
+    }
+
+    protected boolean supportShareElement() {
+        return false;
     }
 
     protected void autoLoad() {
@@ -369,7 +376,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void handleError(int errorCode, String errorMsg) {
-        // TODO: 19/06/2017
+        if (supportShareElement()) {
+            startPostponedEnterTransition();
+        }
     }
 
     public void scheduleStartPostponedTransition(final View sharedElement) {

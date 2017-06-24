@@ -25,7 +25,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
     public void start() {
         APIService.get().userPageInfo(mView.getUsername())
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<UserPageInfo>() {
+                .subscribe(new GeneralConsumer<UserPageInfo>(mView) {
                     @Override
                     public void onConsume(UserPageInfo userPageInfo) {
                         mView.fillView(userPageInfo);

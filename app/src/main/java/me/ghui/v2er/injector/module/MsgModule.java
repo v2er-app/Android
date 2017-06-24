@@ -57,7 +57,7 @@ public class MsgModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v ->
-                        UserHomeActivity.open(getItem(holder.index()).getName(), mContext), R.id.avatar_img);
+                        UserHomeActivity.open(getItem(holder.index()).getName(), mContext, v), R.id.avatar_img);
             }
         };
     }

@@ -164,8 +164,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    protected boolean supportShareElement() {
+        return true;
+    }
+
+    @Override
     protected void init() {
-        postponeEnterTransition();
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
         mReplyWrapper.addKeyboardStateChangedListener(this);
@@ -424,7 +428,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn4:
                     //homepage
-                    UserHomeActivity.open(item.getUserName(), TopicActivity.this);
+                    UserHomeActivity.open(item.getUserName(), TopicActivity.this, null);
                     break;
             }
             mBottomSheetDialog.dismiss();

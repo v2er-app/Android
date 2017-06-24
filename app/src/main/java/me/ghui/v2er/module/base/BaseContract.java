@@ -3,6 +3,7 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 
 import io.reactivex.ObservableTransformer;
+import me.ghui.v2er.network.IGeneralErrorHandler;
 
 /**
  * Created by ghui on 25/03/2017.
@@ -10,7 +11,7 @@ import io.reactivex.ObservableTransformer;
 
 public class BaseContract {
 
-    public interface IView extends IViewLoading {
+    public interface IView extends IViewLoading, IGeneralErrorHandler {
         <K> ObservableTransformer<K, K> rx();
 
         <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading);

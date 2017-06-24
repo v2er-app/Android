@@ -76,12 +76,19 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         onCreateRootView(inflater, container);
         ButterKnife.bind(this, mRootView);
         startInject();
+        if (supportShareElement()) {
+            postponeEnterTransition();
+        }
         init();
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
             parent.removeView(mRootView);
         }
         return mRootView;
+    }
+
+    protected boolean supportShareElement() {
+        return false;
     }
 
     @CallSuper
@@ -92,8 +99,6 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
             Logger.d("lazyLoad in onViewCreated");
             lazyLoad();
         }
-
-
     }
 
     @Override
@@ -229,6 +234,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     @Override
     public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
         return RxUtils.rxFragment(this, viewLoading);
+    }
+
+    @Override
+    public void handleError(int errorCode, String errorMsg) {
+        if (supportShareElement()) {
+            startPostponedEnterTransition();
+        }
     }
 
     @Override

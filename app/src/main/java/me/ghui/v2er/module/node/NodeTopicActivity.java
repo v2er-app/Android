@@ -153,8 +153,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
+    protected boolean supportShareElement() {
+        return true;
+    }
+
+    @Override
     protected void init() {
-        postponeEnterTransition();
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);

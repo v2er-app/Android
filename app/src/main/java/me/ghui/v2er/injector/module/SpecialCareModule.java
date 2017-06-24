@@ -50,7 +50,7 @@ public class SpecialCareModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(
-                        v -> UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext),
+                        v -> UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext, v),
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(), mContext), R.id.tagview);
