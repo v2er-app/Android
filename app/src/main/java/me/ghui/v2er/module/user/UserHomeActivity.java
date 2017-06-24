@@ -133,7 +133,11 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                     mToolbar.setSubtitle(null);
                 } else if (state == State.COLLAPSED) {
                     mToolbar.setTitle(mUserName);
-                    mToolbar.setSubtitle(mUserPageInfo.isOnline() ? "ONLINE" : null);
+                    boolean isOnLine = false;
+                    if (mUserPageInfo != null) {
+                        isOnLine = mUserPageInfo.isOnline();
+                    }
+                    mToolbar.setSubtitle(isOnLine ? "ONLINE" : null);
                 } else {
                     //中间状态
                 }

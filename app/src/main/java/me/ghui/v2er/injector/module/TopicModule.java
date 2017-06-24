@@ -42,12 +42,15 @@ public class TopicModule {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v -> {
                             String userName;
+                            View sourceView;
                             if (v.getId() == R.id.avatar_img || v.getId() == R.id.user_name_tv) {
                                 userName = ((TopicInfo.HeaderInfo) getItem(holder.index())).getUserName();
+                                sourceView = holder.getImgView(R.id.avatar_img);
                             } else {
                                 userName = ((TopicInfo.Reply) getItem(holder.index())).getUserName();
+                                sourceView = holder.getImgView(R.id.reply_avatar_img);
                             }
-                            UserHomeActivity.open(userName, mContext);
+                            UserHomeActivity.open(userName, mContext, sourceView, mContext.getString(R.string.share_element_avatar));
                         },
                         R.id.avatar_img, R.id.user_name_tv, R.id.reply_avatar_img, R.id.reply_user_name_tv);
 
