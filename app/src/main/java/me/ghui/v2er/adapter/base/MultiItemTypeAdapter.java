@@ -122,7 +122,6 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             LinearLayoutManager layoutmanager = (LinearLayoutManager) mLayoutManager;
             int firstVisiableItem = layoutmanager.findFirstVisibleItemPosition();
             int lastVisiableItem = layoutmanager.findLastVisibleItemPosition();
-            Logger.d("position: " + position + ", first: " + firstVisiableItem + ", last: " + lastVisiableItem);
             if (position > lastVisiableItem) {
                 animateIn(itemView);
             } else if (position < firstVisiableItem) {
