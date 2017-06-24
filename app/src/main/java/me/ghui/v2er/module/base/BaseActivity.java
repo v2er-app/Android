@@ -58,8 +58,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Inject
     public T mPresenter;
     private Stack<IBackable> mBackables;
-    public static long FIRST_LOADING_DELAY = 1000;
-    private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
+    public static long FIRST_LOADING_DELAY = 300;
+//    private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
+    private long mFirstLoadingDelay = 0;
     private Runnable mDelayLoadingRunnable;
 
     /**
@@ -371,7 +372,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         // TODO: 19/06/2017
     }
 
-    protected void scheduleStartPostponedTransition(final View sharedElement) {
+    public void scheduleStartPostponedTransition(final View sharedElement) {
         sharedElement.getViewTreeObserver().addOnPreDrawListener(
                 new ViewTreeObserver.OnPreDrawListener() {
                     @Override

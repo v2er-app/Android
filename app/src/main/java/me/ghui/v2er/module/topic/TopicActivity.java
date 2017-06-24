@@ -165,6 +165,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
+        postponeEnterTransition();
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
         mReplyWrapper.addKeyboardStateChangedListener(this);

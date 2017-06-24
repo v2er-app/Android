@@ -1,5 +1,6 @@
 package me.ghui.v2er.injector.module;
 
+import android.view.View;
 import android.widget.Toast;
 
 import dagger.Module;
@@ -35,7 +36,7 @@ public class TopicModule {
 
     @Provides
     public LoadMoreRecyclerView.Adapter provideAdapter() {
-        LoadMoreRecyclerView.Adapter adapter = new LoadMoreRecyclerView.Adapter(mView) {
+        LoadMoreRecyclerView.Adapter<TopicInfo.Item> adapter = new LoadMoreRecyclerView.Adapter<TopicInfo.Item>(mView) {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
@@ -72,6 +73,20 @@ public class TopicModule {
                                 }
                             });
                 }, R.id.reply_thx_img);
+            }
+
+            @Override
+            protected void animateIn(View itemView, int position) {
+                if (position != 0) {
+                    super.animateIn(itemView, position);
+                }
+            }
+
+            @Override
+            protected void animateOut(View itemView, int position) {
+                if (position != 0) {
+                    super.animateOut(itemView, position);
+                }
             }
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));

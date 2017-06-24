@@ -132,19 +132,19 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
             int firstVisiableItem = layoutmanager.findFirstVisibleItemPosition();
             int lastVisiableItem = layoutmanager.findLastVisibleItemPosition();
             if (position > lastVisiableItem) {
-                animateIn(itemView);
+                animateIn(itemView, position);
             } else if (position < firstVisiableItem) {
-                animateOut(itemView);
+                animateOut(itemView, position);
             }
         }
     }
 
-    protected void animateIn(View itemView) {
+    protected void animateIn(View itemView, int position) {
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_in);
         itemView.startAnimation(animation);
     }
 
-    protected void animateOut(View itemView) {
+    protected void animateOut(View itemView, int position) {
         Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_out);
         itemView.startAnimation(animation);
     }
