@@ -1,5 +1,8 @@
 package me.ghui.v2er.injector.module;
 
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -32,6 +35,12 @@ public class NodeTopicModule {
     @Provides
     public LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> provideAdapter() {
         return new CommonLoadMoreAdapter<NodeTopicInfo.Item>(mActivity, R.layout.node_topic_item) {
+
+            @Override
+            protected boolean shouldAnimate() {
+                return true;
+            }
+
             @Override
             protected void convert(ViewHolder holder, NodeTopicInfo.Item item, int position) {
                 Glide.with(mContext)
@@ -51,6 +60,7 @@ public class NodeTopicModule {
                     UserHomeActivity.open(username, mContext);
                 }, R.id.user_name_tv, R.id.avatar_img);
             }
+
         };
     }
 

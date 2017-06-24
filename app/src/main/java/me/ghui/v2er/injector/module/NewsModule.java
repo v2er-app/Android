@@ -64,15 +64,8 @@ public class NewsModule {
             }
 
             @Override
-            protected void animateIn(View itemView) {
-                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_in);
-                itemView.startAnimation(animation);
-            }
-
-            @Override
-            protected void animateOut(View itemView) {
-                Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_out);
-                itemView.startAnimation(animation);
+            protected boolean shouldAnimate() {
+                return true;
             }
         };
     }

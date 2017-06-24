@@ -6,12 +6,15 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.Utils;
 
@@ -111,7 +114,13 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, getItem(position));
-        animate(holder.itemView, position);
+        if (shouldAnimate()) {
+            animate(holder.itemView, position);
+        }
+    }
+
+    protected boolean shouldAnimate() {
+        return true;
     }
 
     private void animate(View itemView, int position) {
@@ -130,11 +139,14 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         }
     }
 
-
     protected void animateIn(View itemView) {
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_in);
+        itemView.startAnimation(animation);
     }
 
     protected void animateOut(View itemView) {
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_out);
+        itemView.startAnimation(animation);
     }
 
 
