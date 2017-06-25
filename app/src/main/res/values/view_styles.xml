@@ -53,5 +53,9 @@
         <item name="android:transitionName">@string/share_element_avatar</item>
     </style>
 
+    <style name="TagView" parent="smallText">
+        <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
+    </style>
+
 
 </resources>

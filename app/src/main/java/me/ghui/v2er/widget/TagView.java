@@ -36,6 +36,7 @@ public class TagView extends AppCompatTextView {
         init(context, attrs);
     }
 
+
     private void init(Context context, AttributeSet attrs) {
         int padding = ScaleUtils.dp(5, context);
         setPadding(padding * 2, padding, padding * 2, padding);

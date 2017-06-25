@@ -2,6 +2,7 @@ package me.ghui.v2er.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.ContextThemeWrapper;
 import android.view.View;
 
 import com.google.android.flexbox.FlexboxLayout;
@@ -9,6 +10,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.List;
 import java.util.Stack;
 
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.network.bean.NodesNavInfo;
@@ -55,7 +57,7 @@ public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListen
         TagView tagView = (TagView) getChildAt(index);
         if (tagView == null) {
             if (PreConditions.isEmpty(sPool)) {
-                tagView = new TagView(getContext());
+                tagView = new TagView(new ContextThemeWrapper(getContext(), R.style.TagView));
             } else {
                 tagView = sPool.pop();
             }

@@ -33,7 +33,7 @@
 
     <me.ghui.v2er.widget.TagView
         android:id="@+id/tagview"
-        style="@style/smallText"
+        style="@style/TagView"
         android:layout_alignParentEnd="true"
         tools:text="问与答" />
 
