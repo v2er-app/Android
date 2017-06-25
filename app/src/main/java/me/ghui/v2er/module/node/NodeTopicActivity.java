@@ -16,7 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -38,6 +37,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -54,7 +54,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
     private static final String TAG_BASIC_NODE_INFO = KEY("node_basic_node_info");
-    private String mTagId;
+    private String mTagName;
     //page value when enter
     private int mInitPage;
 
@@ -142,7 +142,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void parseExtras(Intent intent) {
-        mTagId = intent.getStringExtra(TAG_NODE_ID_KEY);
+        mTagName = intent.getStringExtra(TAG_NODE_ID_KEY);
         mInitPage = intent.getIntExtra(TAG_INIT_PAGE_KEY, 1);
         mNodeInfo = (NodeInfo) intent.getSerializableExtra(TAG_BASIC_NODE_INFO);
     }
@@ -205,7 +205,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     public String nodeName() {
-        return mTagId;
+        return mTagName;
     }
 
     @Override
@@ -281,7 +281,13 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this);
+        NodeTopicInfo.Item item = mAdapter.getItem(position);
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
+                .commentNum(item.getCommentNum())
+                .author(item.getUserName())
+                .tag(mNodeInfo.getTitle())
+                .build();
+        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getImgView(R.id.avatar_img), basicInfo);
     }
 
     @Override
