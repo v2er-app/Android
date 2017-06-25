@@ -290,6 +290,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Override
     public void showLoading() {
         if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) return;
+        if (getPtrLayout() != null && getPtrLayout().isRefreshing()) return;
         onCreateLoadingView();
         if (mFirstLoadingDelay > 0) {
             mDelayLoadingRunnable = () -> {
