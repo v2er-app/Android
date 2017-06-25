@@ -72,10 +72,10 @@ public class Navigator {
         return this;
     }
 
-    public Navigator shareElement(View sourceView, String shareElementName) {
-        if (sourceView != null && shareElementName != null) {
+    public Navigator shareElement(View sourceView) {
+        if (sourceView != null && sourceView.getTransitionName() != null) {
             mOptionsCompat = ActivityOptionsCompat.
-                    makeSceneTransitionAnimation((Activity) mFrom.get(), sourceView, shareElementName);
+                    makeSceneTransitionAnimation((Activity) mFrom.get(), sourceView, sourceView.getTransitionName());
         }
         return this;
     }

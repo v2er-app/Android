@@ -98,7 +98,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         Navigator.from(context)
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
-                .shareElement(sourceView, sourceView == null ? null : sourceView.getTransitionName())
+                .shareElement(sourceView)
                 .start();
     }
 

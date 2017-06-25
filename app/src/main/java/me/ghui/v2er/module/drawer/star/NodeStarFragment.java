@@ -18,6 +18,7 @@ import me.ghui.v2er.injector.component.DaggerNodeStarComponent;
 import me.ghui.v2er.injector.module.NodeStarModule;
 import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.node.NodeTopicActivity;
+import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeStarInfo;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
@@ -79,7 +80,14 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        String url = mAdapter.getItem(position).getLink();
-        NodeTopicActivity.open(url, getContext(), holder.getView(R.id.node_img), getString(R.string.share_element_node));
+        NodeStarInfo.Item item = mAdapter.getItem(position);
+        NodeInfo nodeInfo = new NodeInfo();
+        nodeInfo.setAvatar(item.getImg());
+        nodeInfo.setName(item.getName());
+        nodeInfo.setTitle(item.getName());
+        nodeInfo.setTopics(item.getTopicNum());
+        NodeTopicActivity.open(item.getLink(), getContext(),
+                holder.getView(R.id.node_img),
+                nodeInfo);
     }
 }

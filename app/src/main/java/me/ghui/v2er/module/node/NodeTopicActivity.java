@@ -53,6 +53,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
+    private static final String TAG_BASIC_NODE_INFO = KEY("node_basic_node_info");
     private String mTagId;
     //page value when enter
     private int mInitPage;
@@ -102,12 +103,13 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         }
     };
 
-    public static void openById(String nodeId, int page, Context context, View sourceView, String shareElementName) {
+    public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         Navigator.from(context)
                 .to(NodeTopicActivity.class)
                 .putExtra(NodeTopicActivity.TAG_NODE_ID_KEY, nodeId)
                 .putExtra(NodeTopicActivity.TAG_INIT_PAGE_KEY, page)
-                .shareElement(sourceView, shareElementName)
+                .putExtra(NodeTopicActivity.TAG_BASIC_NODE_INFO, nodeInfo)
+                .shareElement(sourceView)
                 .start();
     }
 
@@ -119,8 +121,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         openById(UriUtils.getLastSegment(link), 1, context, null, null);
     }
 
-    public static void open(String link, Context context, View sourceView, String shareElementName) {
-        openById(UriUtils.getLastSegment(link), 1, context, sourceView, shareElementName);
+    public static void open(String link, Context context, View sourceView, NodeInfo nodeInfo) {
+        openById(UriUtils.getLastSegment(link), 1, context, sourceView, nodeInfo);
     }
 
     @Override
@@ -142,6 +144,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     protected void parseExtras(Intent intent) {
         mTagId = intent.getStringExtra(TAG_NODE_ID_KEY);
         mInitPage = intent.getIntExtra(TAG_INIT_PAGE_KEY, 1);
+        mNodeInfo = (NodeInfo) intent.getSerializableExtra(TAG_BASIC_NODE_INFO);
     }
 
     @Override
@@ -196,6 +199,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 }
             }
         });
+
+        fillHeaderView(mNodeInfo);
     }
 
     @Override
@@ -221,16 +226,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         }
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
-
-        Glide.with(this)
-                .load(nodeInfo.getAvatar())
-                .listener(mGlideDownLoadListener)
-                .bitmapTransform(new BlurTransformation(this))
-                .into(mBigImgBg);
-
-        Glide.with(this)
-                .load(nodeInfo.getAvatar())
-                .into(mNodeImg);
+        if (mNodeImg.getDrawable() == null) {
+            Glide.with(this)
+                    .load(nodeInfo.getAvatar())
+                    .listener(mGlideDownLoadListener)
+                    .into(mNodeImg);
+            Glide.with(this)
+                    .load(nodeInfo.getAvatar())
+                    .bitmapTransform(new BlurTransformation(this))
+                    .into(mBigImgBg);
+        }
     }
 
     @Override

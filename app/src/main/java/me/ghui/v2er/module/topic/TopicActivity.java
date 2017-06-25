@@ -85,12 +85,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
 
 
-    public static void openById(String topicId, Context context, View sourceView, String shareElementName, TopicBasicInfo topicBasicInfo) {
+    public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
         Navigator.from(context)
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
                 .putExtra(TOPIC_BASIC_INFO, topicBasicInfo)
-                .shareElement(sourceView, shareElementName)
+                .shareElement(sourceView)
                 .start();
     }
 
@@ -107,7 +107,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     public static void open(String link, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
-        openById(UriUtils.getLastSegment(link), context, sourceView, sourceView == null ? null : sourceView.getTransitionName(), topicBasicInfo);
+        openById(UriUtils.getLastSegment(link), context, sourceView, topicBasicInfo);
     }
 
     @Override

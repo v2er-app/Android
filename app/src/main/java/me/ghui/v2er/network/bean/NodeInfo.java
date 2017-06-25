@@ -2,7 +2,10 @@ package me.ghui.v2er.network.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.AvatarUtils;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -10,7 +13,7 @@ import me.ghui.v2er.network.Constants;
  * https://www.v2ex.com/api/nodes/show.json?name=qna
  */
 
-public class NodeInfo {
+public class NodeInfo implements Serializable {
     private int id;
     private String name;
     private String url;
@@ -102,7 +105,7 @@ public class NodeInfo {
     }
 
     public String getAvatar() {
-        return Constants.HTTPS_SCHEME + avatar;
+        return AvatarUtils.adjustAvatar(avatar);
     }
 
     public void setAvatar(String avatar) {

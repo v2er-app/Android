@@ -42,21 +42,24 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) item;
-        Glide.with(mContext)
-                .load(headerInfo.getAvatar())
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                        return false;
-                    }
+        ImageView avatarImg = holder.getImgView(R.id.avatar_img);
+        if (avatarImg.getDrawable() == null) {
+            Glide.with(mContext)
+                    .load(headerInfo.getAvatar())
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
+                            return false;
+                        }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                        return false;
-                    }
-                }).into((ImageView) holder.getView(R.id.avatar_img));
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
+                            return false;
+                        }
+                    }).into(avatarImg);
+        }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());
         holder.setText(R.id.tagview, headerInfo.getTag());
