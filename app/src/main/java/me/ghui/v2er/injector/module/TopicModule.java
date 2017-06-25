@@ -35,7 +35,7 @@ public class TopicModule {
     }
 
     @Provides
-    public LoadMoreRecyclerView.Adapter provideAdapter() {
+    public LoadMoreRecyclerView.Adapter<TopicInfo.Item> provideAdapter() {
         LoadMoreRecyclerView.Adapter<TopicInfo.Item> adapter = new LoadMoreRecyclerView.Adapter<TopicInfo.Item>(mView) {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {

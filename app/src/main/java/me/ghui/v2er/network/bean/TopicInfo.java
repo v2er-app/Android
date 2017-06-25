@@ -121,6 +121,21 @@ public class TopicInfo implements IBaseInfo {
         @Pick("div[id=topic_thank] span.f11.gray")
         private String thankedText;
 
+        public HeaderInfo() {
+        }
+
+        private HeaderInfo(TopicBasicInfo basicInfo) {
+            this.avatar = basicInfo.getAvatar();
+            this.title = basicInfo.getTitle();
+            this.comment = basicInfo.getCommentNum() + " 回复";
+            this.userName = basicInfo.getAuthor();
+            this.tag = basicInfo.getTag();
+        }
+
+        public static HeaderInfo build(TopicBasicInfo basicInfo) {
+            return new HeaderInfo(basicInfo);
+        }
+
         @Override
         public boolean isValid() {
             return PreConditions.notEmpty(userName, tag);
@@ -178,12 +193,21 @@ public class TopicInfo implements IBaseInfo {
         }
 
         public String getTime() {
-            return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
+            try {
+                return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         }
 
         public int getViewCount() {
-            String count = time.split(",")[1].trim();
-            return Integer.parseInt(count.substring(0, count.indexOf(" ")));
+            try {
+                String count = time.split(",")[1].trim();
+                return Integer.parseInt(count.substring(0, count.indexOf(" ")));
+            } catch (Exception e) {
+                return 0;
+            }
         }
 
         public List<PostScript> getPostScripts() {

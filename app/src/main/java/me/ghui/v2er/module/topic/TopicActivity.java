@@ -24,6 +24,9 @@ import android.widget.RelativeLayout;
 
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -41,6 +44,7 @@ import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
@@ -57,6 +61,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener, KeyboardDetectorRelativeLayout.IKeyboardChanged {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
+    private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
@@ -70,8 +75,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     FloatingActionButton mReplyFabBtn;
 
     @Inject
-    LoadMoreRecyclerView.Adapter mAdapter;
+    LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
     private String mTopicId;
+    private TopicBasicInfo mTopicBasicInfo;
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
@@ -79,10 +85,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
 
 
-    public static void openById(String topicId, Context context, View sourceView, String shareElementName) {
+    public static void openById(String topicId, Context context, View sourceView, String shareElementName, TopicBasicInfo topicBasicInfo) {
         Navigator.from(context)
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
+                .putExtra(TOPIC_BASIC_INFO, topicBasicInfo)
                 .shareElement(sourceView, shareElementName)
                 .start();
     }
@@ -96,11 +103,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     public static void open(String link, Context context) {
-        open(link, context, null);
+        open(link, context, null, null);
     }
 
-    public static void open(String link, Context context, View sourceView) {
-        openById(UriUtils.getLastSegment(link), context, sourceView, sourceView == null ? null : sourceView.getTransitionName());
+    public static void open(String link, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
+        openById(UriUtils.getLastSegment(link), context, sourceView, sourceView == null ? null : sourceView.getTransitionName(), topicBasicInfo);
     }
 
     @Override
@@ -119,6 +126,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void parseExtras(Intent intent) {
         mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
+        mTopicBasicInfo = (TopicBasicInfo) intent.getSerializableExtra(TOPIC_BASIC_INFO);
     }
 
     @Override
@@ -175,6 +183,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mReplyWrapper.addKeyboardStateChangedListener(this);
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (mTopicBasicInfo != null) {
+            List<TopicInfo.Item> data = new ArrayList<>();
+            data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
+            mAdapter.setData(data);
+        }
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);

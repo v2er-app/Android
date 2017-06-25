@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
 
@@ -80,6 +81,7 @@ public class Navigator {
     }
 
     public Navigator putExtra(String key, Object value) {
+        if (value == null) return this;
         Type type = value.getClass();
         if (type == int.class || type == Integer.class) {
             mIntent.putExtra(key, (int) value);
@@ -87,6 +89,8 @@ public class Navigator {
             mIntent.putExtra(key, (boolean) value);
         } else if (type == String.class) {
             mIntent.putExtra(key, (String) value);
+        } else if (value instanceof Serializable) {
+            mIntent.putExtra(key, (Serializable) value);
         } else {
             new Exception("Navigator doesn't support " + type + " type").printStackTrace();
             // TODO: 11/06/2017

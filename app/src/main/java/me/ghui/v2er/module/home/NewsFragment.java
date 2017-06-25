@@ -28,6 +28,7 @@ import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
@@ -135,7 +136,13 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         View shareView = holder.getView(R.id.avatar_img);
-        TopicActivity.open(mAdapter.getDatas().get(position).getLinkPath(),
-                getContext(), shareView);
+        NewsInfo.Item item = mAdapter.getDatas().get(position);
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
+                .author(item.getUserName())
+                .tag(item.getTagName())
+                .commentNum(item.getReplies())
+                .build();
+        TopicActivity.open(item.getLinkPath(),
+                getContext(), shareView, basicInfo);
     }
 }
