@@ -55,7 +55,7 @@ public class DailyHotModule {
                         R.id.avatar_img, R.id.user_name_tv);
 
                 holder.setOnClickListener(v ->
-                                NodeTopicActivity.open(getItem(holder.index()).getUrl(), mContext),
+                                NodeTopicActivity.open(getItem(holder.index()).getNode().getUrl(), mContext),
                         R.id.tagview);
             }
         };
