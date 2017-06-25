@@ -42,7 +42,6 @@ public class Utils {
     }
 
     public static CharSequence highlight(String text, boolean bold, int[]... hightIndexs) {
-        // TODO: 24/05/2017 builder 
         SpannableStringBuilder builder = new SpannableStringBuilder(text);
         int color = App.get().getResources().getColor(R.color.colorAccent);
         for (int[] indexs : hightIndexs) {

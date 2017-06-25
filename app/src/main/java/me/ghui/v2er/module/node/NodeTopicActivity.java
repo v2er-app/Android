@@ -48,7 +48,6 @@ import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
  * 节点话题页
  */
 
-// TODO: 25/05/2017
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
         MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
@@ -246,7 +245,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             return;
         }
         mAdapter.setData(mNodeTopicInfo.getItems(), isLoadMore);
-        // TODO: 03/06/2017 check page 
         mRecyclerView.setHasMore(mNodeTopicInfo.getTotal() > mAdapter.getContentItemCount());
         toggleStar(mNodeTopicInfo.hasStared());
     }

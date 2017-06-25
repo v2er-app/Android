@@ -29,7 +29,6 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
         implements MsgContract.IView, MultiItemTypeAdapter.OnItemClickListener {
-    // TODO: 24/05/2017 when user doesn't login, show a guide to login
 
     @BindView(R.id.common_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
