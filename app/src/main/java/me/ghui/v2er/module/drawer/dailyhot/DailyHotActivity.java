@@ -18,6 +18,7 @@ import me.ghui.v2er.injector.module.DailyHotModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
 /**
@@ -72,8 +73,13 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        String id = mDailyHotAdapter.getDatas().get(position).getId();
-        TopicActivity.openById(id, this);
+        DailyHotInfo.Item item = mDailyHotAdapter.getDatas().get(position);
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getMember().getAvatar())
+                .author(item.getMember().getUserName())
+                .tag(item.getNode().getTitle())
+                .commentNum(item.getReplies())
+                .build();
+        TopicActivity.openById(item.getId(), this, holder.getImgView(R.id.avatar_img), basicInfo);
     }
 
 }
