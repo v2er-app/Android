@@ -17,6 +17,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.TopicStarInfo;
+import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -49,8 +50,10 @@ public class TopicStarModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v ->
-                                UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext, v),
+                holder.setOnClickListener(v -> {
+                            TopicStarInfo.Item item = getItem(holder.index());
+                            UserHomeActivity.open(item.getUserName(), mContext, v, item.getAvatar());
+                        },
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(getItem(holder.index()).getTagLink(), mContext), R.id.tagview);

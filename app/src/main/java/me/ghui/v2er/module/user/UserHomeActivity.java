@@ -73,7 +73,9 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Inject
     MultiItemTypeAdapter<UserPageInfo.Item> mAdapter;
     private static final String USER_NAME_KEY = KEY("user_name_key");
+    private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
     private String mUserName;
+    private String mAvatar;
 
     @Override
     protected int attachLayoutRes() {
@@ -88,16 +90,18 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
+        mAvatar = intent.getStringExtra(USER_AVATAR_KEY);
     }
 
 //    public static void open(String userName, Context context) {
 //        open(userName, context, null, null);
 //    }
 
-    public static void open(String userName, Context context, View sourceView) {
+    public static void open(String userName, Context context, View sourceView, String avatar) {
         Navigator.from(context)
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                .putExtra(UserHomeActivity.USER_AVATAR_KEY, avatar)
                 .shareElement(sourceView)
                 .start();
     }
@@ -147,6 +151,24 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                 }
             }
         });
+
+        mUserText.setText(mUserName);
+        Glide.with(this).load(mAvatar).listener(new RequestListener<String, GlideDrawable>() {
+            @Override
+            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                scheduleStartPostponedTransition(mAvatarImg);
+                return false;
+            }
+
+            @Override
+            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                scheduleStartPostponedTransition(mAvatarImg);
+                return false;
+            }
+        }).into(mAvatarImg);
+        Glide.with(this).load(mAvatar)
+                .bitmapTransform(new BlurTransformation(this))
+                .into(mBigImgBg);
     }
 
     @Override
@@ -162,25 +184,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        Glide.with(this)
-                .load(userPageInfo.getAvatar())
-                .listener(new RequestListener<String, GlideDrawable>() {
-                    @Override
-                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                        scheduleStartPostponedTransition(mAvatarImg);
-                        return false;
-                    }
+        if (mAvatarImg.getDrawable() == null) {
+            Glide.with(this)
+                    .load(userPageInfo.getAvatar())
+                    .into(mAvatarImg);
+            Glide.with(this).load(userPageInfo.getAvatar())
+                    .bitmapTransform(new BlurTransformation(this))
+                    .into(mBigImgBg);
+        }
 
-                    @Override
-                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                        scheduleStartPostponedTransition(mAvatarImg);
-                        return false;
-                    }
-                })
-                .into(mAvatarImg);
-        Glide.with(this).load(userPageInfo.getAvatar())
-                .bitmapTransform(new BlurTransformation(this))
-                .into(mBigImgBg);
         mUserText.setText(userPageInfo.getUserName());
         mUserDesTv.setText(userPageInfo.getDesc());
         mOnlineTv.setVisibility(userPageInfo.isOnline() ? View.VISIBLE : View.GONE);

@@ -5,6 +5,7 @@ import java.util.List;
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.util.AvatarUtils;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -93,7 +94,7 @@ public class TopicStarInfo {
         }
 
         public String getAvatar() {
-            return avatar;
+            return AvatarUtils.adjustAvatar(avatar);
         }
 
         public String getTitle() {

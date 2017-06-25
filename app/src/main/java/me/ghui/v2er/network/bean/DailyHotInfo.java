@@ -4,6 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
+import me.ghui.v2er.util.AvatarUtils;
+
 /**
  * Created by ghui on 25/03/2017.
  */
@@ -125,7 +127,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
             }
 
             public String getAvatar() {
-                return avatar;
+                return AvatarUtils.adjustAvatar(avatar);
             }
 
             public void setAvatar(String avatar) {

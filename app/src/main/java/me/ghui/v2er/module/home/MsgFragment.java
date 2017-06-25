@@ -90,7 +90,9 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
         }
         mAdapter.setData(info.getReplies(), isLoadMore);
         mRecyclerView.setHasMore(info.getPage());
-        mUpdateUnReadMsgDelegate.updateUnReadMsg(1, 0);
+        if (mUpdateUnReadMsgDelegate != null) {
+            mUpdateUnReadMsgDelegate.updateUnReadMsg(1, 0);
+        }
     }
 
     @Override

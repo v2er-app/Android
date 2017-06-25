@@ -38,7 +38,7 @@ public class DailyHotModule {
             @Override
             protected void convert(ViewHolder holder, DailyHotInfo.Item item, int position) {
                 Glide.with(mContext)
-                        .load("https:" + item.getMember().getAvatar())
+                        .load(item.getMember().getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getMember().getUserName());
                 holder.setText(R.id.time_tv, DateUtils.parseDate(item.getTime()));
@@ -50,8 +50,10 @@ public class DailyHotModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v ->
-                                UserHomeActivity.open(getItem(holder.index()).getMember().getUserName(), mContext, holder.getImgView(R.id.avatar_img)),
+                holder.setOnClickListener(v -> {
+                            DailyHotInfo.Item.Member member = getItem(holder.index()).getMember();
+                            UserHomeActivity.open(member.getUserName(), mContext, holder.getImgView(R.id.avatar_img), member.getAvatar());
+                        },
                         R.id.avatar_img, R.id.user_name_tv);
 
                 holder.setOnClickListener(v ->

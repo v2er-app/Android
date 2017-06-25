@@ -56,8 +56,8 @@ public class NodeTopicModule {
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(v -> {
-                    String username = getItem(holder.getAdapterPosition()).getUserName();
-                    UserHomeActivity.open(username, mContext, v);
+                    NodeTopicInfo.Item item = getItem(holder.index());
+                    UserHomeActivity.open(item.getUserName(), mContext, v, item.getAvatar());
                 }, R.id.user_name_tv, R.id.avatar_img);
             }
 

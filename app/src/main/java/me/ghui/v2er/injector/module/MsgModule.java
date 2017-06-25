@@ -56,10 +56,12 @@ public class MsgModule {
             @Override
             protected void bindListener(ViewHolder holder, int viewType) {
                 super.bindListener(holder, viewType);
-                holder.setOnClickListener(v ->
-                        UserHomeActivity.open(getItem(holder.index()).getName(), mContext, v), R.id.avatar_img);
+                holder.setOnClickListener(v -> {
+                    UserHomeActivity.open(getItem(holder.index()).getName(), mContext, v, getItem(holder.index()).getAvatar());
+                }, R.id.avatar_img);
             }
         };
+
     }
 
     @PerFragment

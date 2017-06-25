@@ -54,8 +54,9 @@ public class NewsModule {
                 super.bindListener(holder, viewType);
                 holder.setOnClickListener(
                         v -> {
-                            UserHomeActivity.open(getItem(holder.index()).getUserName(), mContext,
-                                    holder.getImgView(R.id.avatar_img));
+                            NewsInfo.Item item = getItem(holder.index());
+                            UserHomeActivity.open(item.getUserName(), mContext,
+                                    holder.getImgView(R.id.avatar_img), item.getAvatar());
                         },
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
