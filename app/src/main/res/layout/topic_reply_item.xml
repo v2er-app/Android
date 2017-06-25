@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackgroundBorderless"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -12,8 +12,8 @@
         style="@style/AvatarImg"
         android:layout_width="@dimen/small_avatar_size"
         android:layout_height="@dimen/small_avatar_size"
-        app:layout_constraintStart_toStartOf="parent"
         android:transitionName=""
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
