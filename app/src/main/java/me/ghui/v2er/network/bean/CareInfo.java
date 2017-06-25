@@ -47,7 +47,7 @@ public class CareInfo {
         @Pick(value = "span.item_title a[href^=/t/]", attr = Attrs.HREF)
         private String link;
         @Pick("a.count_livid")
-        private String comentNum;
+        private int comentNum;
         @Pick("a.node")
         private String tagName;
         @Pick(value = "a.node", attr = Attrs.HREF)
@@ -91,7 +91,7 @@ public class CareInfo {
             return link;
         }
 
-        public String getComentNum() {
+        public int getComentNum() {
             return comentNum;
         }
 

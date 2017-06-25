@@ -17,6 +17,7 @@ import me.ghui.v2er.injector.module.SpecialCareModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CareInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -83,6 +84,12 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this);
+        CareInfo.Item item = mAdapter.getItem(position);
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
+                .author(item.getUserName())
+                .tag(item.getTagName())
+                .commentNum(item.getComentNum())
+                .build();
+        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this, view.findViewById(R.id.avatar_img), basicInfo);
     }
 }
