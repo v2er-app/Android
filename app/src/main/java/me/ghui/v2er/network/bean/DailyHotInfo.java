@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 
 import me.ghui.v2er.util.AvatarUtils;
+import me.ghui.v2er.util.DateUtils;
 
 /**
  * Created by ghui on 25/03/2017.
@@ -18,7 +19,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
         private String url;
         private String content;
         private int replies;
-        @SerializedName("last_modified")
+        @SerializedName("created")
         private long time;
         private Member member;
         private Node node;
@@ -77,10 +78,8 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
             this.replies = replies;
         }
 
-        public long getTime() {
-            // TODO: 10/05/2017
-
-            return time;
+        public String getTime() {
+            return DateUtils.parseDate(time);
         }
 
         public void setTime(long time) {

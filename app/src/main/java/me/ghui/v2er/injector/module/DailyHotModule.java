@@ -41,7 +41,7 @@ public class DailyHotModule {
                         .load(item.getMember().getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getMember().getUserName());
-                holder.setText(R.id.time_tv, DateUtils.parseDate(item.getTime()));
+                holder.setText(R.id.time_tv, item.getTime());
                 holder.setText(R.id.tagview, item.getNode().getTitle());
                 holder.setText(R.id.title_tv, item.getTitle());
                 holder.setText(R.id.comment_num_tv, "评论" + item.getReplies());
