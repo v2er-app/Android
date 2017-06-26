@@ -24,7 +24,6 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void start() {
-        // TODO: 01/06/2017  check is relealy success
         APIService.get().nodeInfo(mView.nodeName())
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<NodeInfo>(mView) {

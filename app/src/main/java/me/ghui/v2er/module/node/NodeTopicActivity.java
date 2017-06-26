@@ -216,7 +216,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     public void fillHeaderView(NodeInfo nodeInfo) {
-        if (nodeInfo == null) return;
+        if (nodeInfo == null || !nodeInfo.isValid()) {
+            toast("加载节点信息失败");
+            return;
+        }
+
         mNodeInfo = nodeInfo;
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());

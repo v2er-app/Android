@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.AvatarUtils;
 
@@ -13,7 +14,7 @@ import me.ghui.v2er.util.AvatarUtils;
  * https://www.v2ex.com/api/nodes/show.json?name=qna
  */
 
-public class NodeInfo implements Serializable {
+public class NodeInfo implements Serializable, IBaseInfo {
     private int id;
     private String name;
     private String url;
@@ -110,5 +111,10 @@ public class NodeInfo implements Serializable {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(name);
     }
 }
