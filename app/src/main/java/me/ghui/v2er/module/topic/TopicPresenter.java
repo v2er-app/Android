@@ -39,7 +39,6 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
-                        Logger.d("topicInfo: " + topicInfo);
                         mView.fillView(topicInfo, page > 1);
                     }
                 });
