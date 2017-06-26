@@ -55,6 +55,8 @@ public class TopicModule {
                                 userName = ((TopicInfo.Reply) getItem(holder.index())).getUserName();
                                 avatar = ((TopicInfo.Reply) getItem(holder.index())).getAvatar();
                                 sourceView = holder.getImgView(R.id.reply_avatar_img);
+                                sourceView.setTransitionName(mContext.getString(R.string.share_element_avatar));
+                                // TODO: 26/06/2017  
                             }
                             UserHomeActivity.open(userName, mContext, sourceView, avatar);
                         },
