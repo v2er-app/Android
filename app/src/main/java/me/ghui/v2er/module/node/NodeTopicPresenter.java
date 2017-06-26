@@ -29,7 +29,11 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                 .subscribe(new GeneralConsumer<NodeInfo>(mView) {
                     @Override
                     public void onConsume(NodeInfo nodeInfo) {
-                        mView.fillHeaderView(nodeInfo);
+                        if (nodeInfo.isValid()) {
+                            mView.fillHeaderView(nodeInfo);
+                        } else {
+                            mView.toast("加载节点信息失败");
+                        }
                     }
                 });
         loadData(mView.initPage());
