@@ -43,7 +43,6 @@ public class CreateTopicPageInfo implements IBaseInfo {
         } else {
             allNodes.clear();
         }
-        // TODO: 06/06/2017  
         allNodes.addAll(hotNodes);
         allNodes.addAll(nodes);
         return allNodes;
