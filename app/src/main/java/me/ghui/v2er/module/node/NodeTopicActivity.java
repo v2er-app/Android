@@ -200,7 +200,9 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             }
         });
 
-        fillHeaderView(mNodeInfo);
+        if (mNodeInfo != null) {
+            fillHeaderView(mNodeInfo);
+        }
     }
 
     @Override
