@@ -5,8 +5,8 @@
         android:height="1000dp"
         android:drawable="@drawable/default_window_drawable" />
     <item
-        android:width="160dp"
-        android:height="160dp"
-        android:drawable="@drawable/splash_icon"
+        android:width="60dp"
+        android:height="60dp"
+        android:drawable="@drawable/splash_logo"
         android:gravity="center" />
 </layer-list>
