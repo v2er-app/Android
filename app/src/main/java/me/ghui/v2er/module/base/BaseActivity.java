@@ -120,6 +120,14 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     @Override
+    public IBackable popBackable(IBackable backable) {
+        if (mBackables != null && mBackables.contains(backable)) {
+            mBackables.remove(backable);
+        }
+        return backable;
+    }
+
+    @Override
     public void onBackPressed() {
         if (PreConditions.notEmpty(mBackables)) {
             mBackables.pop().onBackPressed();

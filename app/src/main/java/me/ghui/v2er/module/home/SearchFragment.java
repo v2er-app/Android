@@ -130,7 +130,9 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @Override
     public void onBackPressed() {
-        animateSearchbar(false);
+        if (mCardView.getVisibility() == View.VISIBLE) {
+            animateSearchbar(false);
+        }
     }
 
     private void animateSearchbar(boolean enter) {

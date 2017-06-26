@@ -105,8 +105,17 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     public void onStart() {
         super.onStart();
         if (this instanceof IBackable && getActivity() instanceof IBackHandler) {
-            IBackHandler backHandler = (IBackHandler) getActivity();
-            backHandler.handleBackable((IBackable) this);
+            IBackHandler handler = (IBackHandler) getActivity();
+            handler.handleBackable((IBackable) this);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (this instanceof IBackable && getActivity() instanceof IBackHandler) {
+            IBackHandler handler = (IBackHandler) getActivity();
+            handler.popBackable((IBackable) this);
         }
     }
 
