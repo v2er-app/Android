@@ -67,6 +67,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void configSystemBars(Window window) {
         Utils.transparentBars(window, Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+        window.setBackgroundDrawableResource(R.drawable.default_window_drawable);
     }
 
     @Override
@@ -143,10 +144,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         UserInfo userInfo = UserUtils.getUserInfo();
         if (userInfo != null) {
             mUserNameTv.setText(userInfo.getUserName());
-            int size = (int) getResources().getDimension(R.dimen.common_avatar_size);
             Glide.with(getContext())
                     .load(userInfo.getAvatar())
-//                    .override(size, size)
                     .into(mAvatarImg);
         }
     }

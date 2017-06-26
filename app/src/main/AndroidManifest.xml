@@ -13,7 +13,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name="me.ghui.v2er.module.home.MainActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

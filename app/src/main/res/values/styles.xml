@@ -1,17 +1,60 @@
 <resources>
-    <!-- Base application theme. -->
-    <style name="BaseApp.Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@android:color/white</item>
-        <item name="android:colorEdgeEffect">@color/colorAccent</item>
-        <item name="android:navigationBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowContentTransitions">true</item>
+
+    <style name="TitleText" parent="BodyText">
+        <item name="android:textSize">@dimen/largeTextSize</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="AppTheme" parent="BaseApp.Theme" />
+    <style name="SubTitleText" parent="TitleText">
+        <item name="android:textSize">@dimen/mediumTextSize</item>
+    </style>
+
+    <style name="TinyTitleText" parent="TitleText">
+        <item name="android:textSize">@dimen/microTextSize</item>
+    </style>
+
+    <style name="TinyTitleText.Light" parent="TinyTitleText">
+        <item name="android:textColor">@color/hintTextColor</item>
+    </style>
+
+    <style name="BodyText">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/bodyTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+    </style>
+
+    <style name="smallText" parent="BodyText">
+        <item name="android:textSize">@dimen/microTextSize</item>
+    </style>
+
+    <style name="hintText" parent="smallText">
+        <item name="android:textColor">@color/hintTextColor</item>
+    </style>
+
+    <style name="NormalBtn">
+        <item name="android:background">@drawable/default_submit_btn_selector</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textColor">@color/bodyTextColor</item>
+    </style>
+
+    <style name="Toolbar.SubTitleText" parent="Toolbar.TitleText">
+        <item name="android:textSize">@dimen/tinyTextSize</item>
+        <item name="android:textColor">@color/hintTextColor</item>
+    </style>
+
+    <style name="AvatarImg">
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:transitionName">@string/share_element_avatar</item>
+    </style>
+
+    <style name="TagView" parent="smallText">
+        <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
+    </style>
 
     <style name="DialogButton" parent="@android:style/Widget.Holo.Button.Borderless">
         <item name="android:layout_width">wrap_content</item>
