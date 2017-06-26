@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.widget.MaxHeightScrollView;
 
@@ -78,12 +79,22 @@ public class ConfirmDialog extends BaseDialog {
     }
 
     private void init() {
-        mTitleTV.setText(mTitle);
-        mMsgTV.setText(mMsg);
 
+        if (PreConditions.isEmpty(mTitle)) {
+            mTitleTV.setVisibility(View.GONE);
+        } else {
+            mTitleTV.setVisibility(View.VISIBLE);
+            mTitleTV.setText(mTitle);
+        }
+
+        if (PreConditions.isEmpty(mMsg)) {
+            mMsgTV.setVisibility(View.GONE);
+        } else {
+            mMsgTV.setVisibility(View.VISIBLE);
+            mMsgTV.setText(mMsg);
+        }
         mOnlyOneBtn = (TextUtils.isEmpty(mPositiveBtnText) && !TextUtils.isEmpty(mNegativeBtnText) ||
                 !TextUtils.isEmpty(mPositiveBtnText) && TextUtils.isEmpty(mNegativeBtnText));
-
         if (!TextUtils.isEmpty(mPositiveBtnText)) {
             attachClickListenerTo(mPositiveBtn, Behavior.POSITIVE);
             mPositiveBtn.setText(mPositiveBtnText);

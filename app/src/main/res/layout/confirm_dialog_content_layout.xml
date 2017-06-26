@@ -23,7 +23,7 @@
         android:paddingBottom="24dp"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
-        android:paddingTop="20dp">
+        android:paddingTop="24dp">
 
         <TextView
             android:id="@+id/dialog_msg_text"
