@@ -47,7 +47,7 @@
             style="@style/BodyText"
             android:alpha="0.8"
             android:gravity="center"
-            android:text="请选择一个节点"
+            android:text="选择节点"
             android:textSize="@dimen/microTextSize" />
     </LinearLayout>
 

@@ -19,6 +19,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -132,5 +133,19 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     public void onSelected(CreateTopicPageInfo.BaseNode node) {
         mSelectNode = node;
         mNodeTv.setText(node.getTitle());
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mTitleEt.getText().length() > 0 || mContentEt.getText().length() > 0) {
+            new ConfirmDialog.Builder(this)
+                    .title("丢弃主题")
+                    .msg("返回将丢弃当前编写的内容")
+                    .positiveText(R.string.ok, dialog -> CreateTopicActivity.super.onBackPressed())
+                    .negativeText(R.string.cancel)
+                    .build().show();
+        } else {
+            super.onBackPressed();
+        }
     }
 }
