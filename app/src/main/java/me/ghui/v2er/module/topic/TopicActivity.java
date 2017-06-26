@@ -52,6 +52,8 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 
 /**
@@ -150,21 +152,34 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (item.getItemId()) {
                 case R.id.action_star:
                     if (headerInfo.hadStared()) {
-                        mPresenter.unStarTopic(mTopicId, headerInfo.getT());
+                        new ConfirmDialog.Builder(getActivity())
+                                .title("取消收藏")
+                                .msg("确定取消收藏吗？")
+                                .positiveText(R.string.ok, dialog -> mPresenter.unStarTopic(mTopicId, headerInfo.getT()))
+                                .negativeText(R.string.cancel)
+                                .build().show();
                     } else {
                         mPresenter.starTopic(mTopicId, headerInfo.getT());
                     }
                     break;
                 case R.id.action_thx:
                     if (!headerInfo.hadThanked()) {
-                        mPresenter.thxCreator(mTopicId, headerInfo.getT());
+                        new ConfirmDialog.Builder(getActivity())
+                                .title("感谢创建者")
+                                .msg("确定向本主题创建者发送谢意吗？")
+                                .positiveText(R.string.ok, dialog -> mPresenter.thxCreator(mTopicId, headerInfo.getT())).negativeText(R.string.cancel)
+                                .build().show();
                     } else {
                         toast(R.string.already_thx_cannot_return);
                         return true;
                     }
                     break;
                 case R.id.action_block:
-                    mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce());
+                    new ConfirmDialog.Builder(getActivity())
+                            .msg("确定忽略此主题吗？")
+                            .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
+                            .negativeText(R.string.cancel)
+                            .build().show();
                     break;
             }
             return true;
@@ -437,7 +452,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
-                    mPresenter.ignoreReply(position, item.getReplyId(), mTopicInfo.getOnce());
+                    new ConfirmDialog.Builder(getActivity())
+                            .title("忽略回复")
+                            .msg("确定不再显示来自@" + item.getUserName() + "的这条回复？")
+                            .positiveText(R.string.ok, dialog -> mPresenter.ignoreReply(position, item.getReplyId(), mTopicInfo.getOnce()))
+                            .negativeText(R.string.cancel)
+                            .build().show();
                     break;
                 case R.id.reply_dialog_btn4:
                     //homepage
