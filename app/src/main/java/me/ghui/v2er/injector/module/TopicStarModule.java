@@ -38,7 +38,7 @@ public class TopicStarModule {
             @Override
             protected void convert(ViewHolder holder, TopicStarInfo.Item item, int position) {
                 Glide.with(mContext)
-                        .load(Constants.HTTPS_SCHEME + item.getAvatar())
+                        .load(item.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());
