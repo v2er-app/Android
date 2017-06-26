@@ -93,7 +93,6 @@ public class Navigator {
             mIntent.putExtra(key, (Serializable) value);
         } else {
             new Exception("Navigator doesn't support " + type + " type").printStackTrace();
-            // TODO: 11/06/2017
         }
         return this;
     }

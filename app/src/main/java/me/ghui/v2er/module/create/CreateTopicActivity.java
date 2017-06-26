@@ -103,7 +103,6 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @Override
     public void fillView(CreateTopicPageInfo topicPageInfo) {
         mTopicPageInfo = topicPageInfo;
-        // TODO: 05/06/2017  
     }
 
 
