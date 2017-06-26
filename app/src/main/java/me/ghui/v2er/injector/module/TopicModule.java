@@ -1,5 +1,6 @@
 package me.ghui.v2er.injector.module;
 
+import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -20,6 +21,8 @@ import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 05/05/2017.
@@ -65,19 +68,26 @@ public class TopicModule {
                         Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
-                    mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
-                            .subscribe(new GeneralConsumer<ThxResponseInfo>() {
-                                @Override
-                                public void onConsume(ThxResponseInfo thxReplyInfo) {
-                                    if (thxReplyInfo.isValid()) {
-                                        replyInfo.updateThanks(true);
-                                        notifyItemChanged(holder.index());
-                                    } else {
-                                        Utils.toast(mContext.getString(R.string.send_thx_occured_error));
-                                    }
-                                }
-                            });
+                    new ConfirmDialog.Builder((Activity) mContext)
+                            .title("感谢回复者")
+                            .msg("确定花费10个铜币向@" + replyInfo.getUserName() + "表达感谢？")
+                            .positiveText(R.string.ok, dialog -> {
+                                TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
+                                mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
+                                        .subscribe(new GeneralConsumer<ThxResponseInfo>() {
+                                            @Override
+                                            public void onConsume(ThxResponseInfo thxReplyInfo) {
+                                                if (thxReplyInfo.isValid()) {
+                                                    replyInfo.updateThanks(true);
+                                                    notifyItemChanged(holder.index());
+                                                } else {
+                                                    Utils.toast(mContext.getString(R.string.send_thx_occured_error));
+                                                }
+                                            }
+                                        });
+                            })
+                            .negativeText(R.string.cancel)
+                            .build().show();
                 }, R.id.reply_thx_img);
             }
 
