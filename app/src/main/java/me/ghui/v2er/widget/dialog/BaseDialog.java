@@ -202,6 +202,10 @@ public class BaseDialog extends DialogFragment implements View.OnClickListener {
             return this.positiveText(activity.getText(textResId), onDialogClickListener);
         }
 
+        public T positiveText(@StringRes int textResId) {
+            return this.positiveText(activity.getText(textResId), null);
+        }
+
         public T positiveText(CharSequence positiveText) {
             return this.positiveText(positiveText, null);
         }

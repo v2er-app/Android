@@ -19,6 +19,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 04/06/2017.
@@ -116,8 +117,15 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     public void onPostFailure(CreateTopicPageInfo createTopicPageInfo) {
         fillView(createTopicPageInfo);
         CreateTopicPageInfo.Problem problem = createTopicPageInfo.getProblem();
-        // TODO: 21/06/2017 show a dialog
-        toast(problem.getTitle() + "\n" + problem.getTips().get(0));
+        String msg = null;
+        for (String tip : problem.getTips()) {
+            msg = msg + tip + "\n";
+        }
+        new ConfirmDialog.Builder(getActivity())
+                .title(problem.getTitle())
+                .msg(msg)
+                .positiveText(R.string.ok, null)
+                .build().show();
     }
 
     @Override

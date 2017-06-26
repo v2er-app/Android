@@ -18,6 +18,8 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 30/04/2017.
@@ -76,8 +78,17 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     @Override
     public void onFetchLoginParamFailure() {
         toast("加载登录参数出错");
-        // TODO: 21/06/2017 add a dialog to retry
         mLoginBtn.setEnabled(false);
+        new ConfirmDialog.Builder(getActivity())
+                .title("加载登录参数出错")
+                .msg("是否重试")
+                .negativeText(R.string.cancel)
+                .positiveText(R.string.ok, new BaseDialog.OnDialogClickListener() {
+                    @Override
+                    public void onClick(BaseDialog dialog) {
+                        autoLoad();
+                    }
+                }).build().show();
     }
 
     @Override
