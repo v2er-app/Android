@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.settings;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -65,11 +67,16 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openStorePage();
             return true;
         } else if (key.equals(getString(R.string.pref_key_value_toggle_log))) {
-            // TODO: 11/06/2017 confirm dialog 
-            UserUtils.clearLogin();
-            Navigator.from(getActivity())
-                    .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    .to(MainActivity.class).start();
+            new AlertDialog.Builder(getContext())
+                    .setMessage("确定退出吗？")
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {
+                        UserUtils.clearLogin();
+                        Navigator.from(getActivity())
+                                .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .to(MainActivity.class).start();
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .create().show();
             return true;
         } else if (key.equals(getString(R.string.pref_send_email))) {
             Utils.sendEmail(getContext());
