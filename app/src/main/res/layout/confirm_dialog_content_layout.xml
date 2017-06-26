@@ -1,62 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingTop="25dp">
+    android:background="@drawable/confirm_dialog_bg"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_title"
+        style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:paddingTop="8dp"
-        android:text="Title"
-        android:textColor="#5A626D" />
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp"
+        tools:text="Title" />
 
-    <com.charminginsurance.app.widget.MaxHeightScrollView
+    <me.ghui.v2er.widget.MaxHeightScrollView
         android:id="@+id/dialog_msg_container_scrollview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="22dp"
-        android:paddingLeft="22dp"
-        android:paddingRight="22dp"
-        android:paddingTop="14dp">
+        android:paddingBottom="24dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/dialog_msg_text"
+            style="@style/BodyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:lineSpacingExtra="4dp"
-            android:minLines="2"
-            android:text="this is dialog msg"
-            android:textColor="#959FA9"
-            android:textSize="13sp" />
-    </com.charminginsurance.app.widget.MaxHeightScrollView>
+            android:padding="0dp"
+            android:textSize="@dimen/mediumTextSize"
+            tools:text="this is dialog msg" />
+    </me.ghui.v2er.widget.MaxHeightScrollView>
 
     <LinearLayout
         android:id="@+id/dialog_btn_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:gravity="right|center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="24dp"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp">
 
         <Button
             android:id="@+id/negative_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel" />
+            style="@style/DialogButton"
+            android:text="@string/cancel" />
 
         <Button
             android:id="@+id/positive_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="OK" />
-    </LinearLayout>
+            style="@style/DialogButton"
+            android:text="@string/ok" />
 
+    </LinearLayout>
 </LinearLayout>

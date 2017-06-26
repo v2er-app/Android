@@ -15,6 +15,8 @@ import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 10/06/2017.
@@ -67,16 +69,17 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openStorePage();
             return true;
         } else if (key.equals(getString(R.string.pref_key_value_toggle_log))) {
-            new AlertDialog.Builder(getContext())
-                    .setMessage("确定退出吗？")
-                    .setPositiveButton(R.string.ok, (dialog, which) -> {
+            new ConfirmDialog.Builder(getActivity())
+                    .title("退出登录")
+                    .msg("确定退出吗？")
+                    .positiveText(R.string.ok, dialog -> {
                         UserUtils.clearLogin();
                         Navigator.from(getActivity())
                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 .to(MainActivity.class).start();
                     })
-                    .setNegativeButton(R.string.cancel, null)
-                    .create().show();
+                    .negativeText(R.string.cancel)
+                    .build().show();
             return true;
         } else if (key.equals(getString(R.string.pref_send_email))) {
             Utils.sendEmail(getContext());
