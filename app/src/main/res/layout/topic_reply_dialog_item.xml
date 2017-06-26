@@ -13,7 +13,8 @@
         android:id="@+id/reply_dialog_btn1"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="@null"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="start|center_vertical"
         android:padding="16dp"
         android:text="回复评论" />
@@ -22,7 +23,8 @@
         android:id="@+id/reply_dialog_btn2"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="@null"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="start|center_vertical"
         android:padding="16dp"
         android:text="拷贝评论" />
@@ -31,7 +33,8 @@
         android:id="@+id/reply_dialog_btn3"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="@null"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="start|center_vertical"
         android:padding="16dp"
         android:text="忽略评论" />
@@ -40,7 +43,8 @@
         android:id="@+id/reply_dialog_btn4"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="@null"
+        android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:gravity="start|center_vertical"
         android:padding="16dp"
         android:text="他的主页" />
