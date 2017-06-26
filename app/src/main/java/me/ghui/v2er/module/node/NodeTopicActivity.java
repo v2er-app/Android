@@ -41,6 +41,8 @@ import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
 /**
@@ -252,7 +254,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @OnClick(R.id.node_info_star_ct)
     void onStarBtnClicked() {
         //star or unstar
-        mPresenter.starNode(mNodeTopicInfo.getFavoriteLink());
+        if (mNodeTopicInfo.hasStared()) {
+            new ConfirmDialog.Builder(getActivity())
+                    .title("取消收藏节点")
+                    .msg("确定取消收藏节点吗？")
+                    .positiveText(R.string.ok, dialog -> mPresenter.starNode(mNodeTopicInfo.getFavoriteLink()))
+                    .negativeText(R.string.cancel)
+                    .build().show();
+        } else {
+            mPresenter.starNode(mNodeTopicInfo.getFavoriteLink());
+        }
     }
 
     @Override
