@@ -3,6 +3,7 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.zzhoujay.richtext.RichText;
@@ -12,6 +13,7 @@ import javax.annotation.Nullable;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
@@ -55,8 +57,13 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             img.setVisibility(View.GONE);
         }
         holder.setText(R.id.time_tv, replyInfo.getTime());
-        // TODO: 15/06/2017  
-        RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(holder.getView(R.id.content_tv));
+        TextView contentView = holder.getTextView(R.id.content_tv);
+        if (PreConditions.notEmpty(replyInfo.getReplyContent())) {
+            contentView.setVisibility(View.VISIBLE);
+            RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(contentView);
+        } else {
+            contentView.setVisibility(View.GONE);
+        }
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }
 }
