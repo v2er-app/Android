@@ -49,7 +49,6 @@
 
     <style name="AvatarImg">
         <item name="android:background">?android:selectableItemBackgroundBorderless</item>
-        <item name="android:transitionName">@string/share_element_avatar</item>
     </style>
 
     <style name="TagView" parent="smallText">
