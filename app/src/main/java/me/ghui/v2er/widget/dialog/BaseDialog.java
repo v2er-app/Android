@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import butterknife.ButterKnife;
+import me.ghui.v2er.R;
 
 /**
  * Created by ghui on 20/03/2017.
@@ -93,8 +94,7 @@ public class BaseDialog extends DialogFragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Window window = getDialog().getWindow();
         window.setDimAmount(0.15f);
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
-        window.setBackgroundDrawableResource(android.R.color.transparent);
+        window.setBackgroundDrawableResource(R.drawable.confirm_dialog_bg);
 
         View view = null;
         if (attachLayoutResId() != 0) {

@@ -4,7 +4,6 @@
     android:id="@+id/dialog_root"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/confirm_dialog_bg"
     android:orientation="vertical">
 
     <TextView
@@ -42,10 +41,10 @@
         android:layout_height="wrap_content"
         android:gravity="right|center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="8dp"
+        android:paddingBottom="16dp"
         android:paddingLeft="24dp"
         android:paddingRight="8dp"
-        android:paddingTop="8dp">
+        android:paddingTop="16dp">
 
         <Button
             android:id="@+id/negative_btn"

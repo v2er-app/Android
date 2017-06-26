@@ -18,6 +18,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
+        <item name="android:minHeight">36dp</item>
         <item name="android:textColor">@color/bodyTextColor</item>
         <item name="android:textSize">@dimen/mediumTextSize</item>
         <item name="android:textStyle">bold</item>
