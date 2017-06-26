@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +33,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
 /**
@@ -63,9 +63,9 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @BindView(R.id.user_online_tv)
     TextView mOnlineTv;
     @BindView(R.id.user_follow_ct)
-    CheckedTextView mUserFollowCt;
+    TextView mUserFollowCt;
     @BindView(R.id.user_block_ct)
-    CheckedTextView mUserBlockCt;
+    TextView mUserBlockCt;
 
 
     private UserPageInfo mUserPageInfo;
@@ -93,9 +93,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mAvatar = intent.getStringExtra(USER_AVATAR_KEY);
     }
 
-//    public static void open(String userName, Context context) {
-//        open(userName, context, null, null);
-//    }
 
     public static void open(String userName, Context context, View sourceView, String avatar) {
         Navigator.from(context)
@@ -203,24 +200,40 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     private void toggleBlockBtnStatus(boolean hadBlocked) {
-        mUserBlockCt.setChecked(hadBlocked);
         mUserBlockCt.setText(hadBlocked ? "已屏蔽" : "屏蔽");
     }
 
     private void toggleFollowBtnStatus(boolean hadFollowed) {
-        mUserFollowCt.setChecked(hadFollowed);
         mUserFollowCt.setText(hadFollowed ? "已关注" : "关注");
     }
 
 
     @OnClick(R.id.user_block_ct)
-    void onBlockClicked(CheckedTextView checkedTextView) {
-        mPresenter.blockUser(mUserPageInfo.getBlockUrl());
+    void onBlockClicked(TextView checkedTextView) {
+        if (!mUserPageInfo.hadBlocked()) {
+            new ConfirmDialog.Builder(this)
+                    .title("屏蔽用户")
+                    .msg("确定屏蔽用户@" + mUserName + "吗？")
+                    .positiveText(R.string.ok, dialog -> mPresenter.blockUser(mUserPageInfo.getBlockUrl()))
+                    .negativeText(R.string.cancel)
+                    .build().show();
+        } else {
+            mPresenter.blockUser(mUserPageInfo.getBlockUrl());
+        }
     }
 
     @OnClick(R.id.user_follow_ct)
-    void onFollowClicked(CheckedTextView checkedTextView) {
-        mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl());
+    void onFollowClicked(TextView checkedTextView) {
+        if (mUserPageInfo.hadFollowed()) {
+            new ConfirmDialog.Builder(this)
+                    .title("取消关注")
+                    .msg("确定取消关注@" + mUserName + "吗？")
+                    .positiveText(R.string.ok, dialog -> mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl()))
+                    .negativeText(R.string.cancel)
+                    .build().show();
+        } else {
+            mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl());
+        }
     }
 
     @Override
@@ -232,7 +245,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     public void afterfollowUser(UserPageInfo userPageInfo) {
-        fillView(userPageInfo);
+        mUserPageInfo = userPageInfo;
+        toggleFollowBtnStatus(userPageInfo.hadFollowed());
         toast(userPageInfo.hadFollowed() ? "关注成功" : "取消关注成功");
     }
 

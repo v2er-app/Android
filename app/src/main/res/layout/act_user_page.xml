@@ -52,7 +52,7 @@
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="2dp" />
 
-                    <CheckedTextView
+                    <TextView
                         android:id="@+id/user_follow_ct"
                         style="@style/hintText"
                         android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
                         android:text="关注"
                         android:textColor="@color/white" />
 
-                    <CheckedTextView
+                    <TextView
                         android:id="@+id/user_block_ct"
                         style="@style/hintText"
                         android:layout_width="wrap_content"
