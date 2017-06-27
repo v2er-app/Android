@@ -96,13 +96,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 .start();
     }
 
-    public static void openById(String topicId, Context context) {
-        Navigator.from(context)
-                .to(TopicActivity.class)
-                .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
-                .start();
-    }
-
 
     public static void open(String link, Context context) {
         open(link, context, null, null);
