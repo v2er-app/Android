@@ -58,10 +58,11 @@
 
     <TextView
         android:id="@+id/title_tv"
-        style="@style/TitleText"
+        style="@style/SubTitleText"
         android:layout_width="match_parent"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        android:transitionName="@string/share_element_title"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img"
         tools:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？" />

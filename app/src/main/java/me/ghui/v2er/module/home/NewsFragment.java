@@ -137,7 +137,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        View shareView = holder.getView(R.id.avatar_img);
+        View shareView = holder.getView(R.id.title_tv);
         NewsInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
                 .author(item.getUserName())

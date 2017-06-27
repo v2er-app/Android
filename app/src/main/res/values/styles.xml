@@ -7,6 +7,7 @@
 
     <style name="SubTitleText" parent="TitleText">
         <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TinyTitleText" parent="TitleText">

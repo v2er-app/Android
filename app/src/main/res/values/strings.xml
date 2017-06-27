@@ -19,4 +19,5 @@
     <string name="send_thx_occured_error">发送感谢遇到问题</string>
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
+    <string name="share_element_title">share_element_title</string>
 </resources>
