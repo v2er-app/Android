@@ -3,6 +3,7 @@
     <string name="daily_hot">今日热议</string>
     <string name="news_new_behavior">me.ghui.v2er.widget.behavior.NewsNewFabBehavior</string>
     <string name="official_website">https://ghui.me</string>
+    <string name="official_v2ex_website">https://www.v2ex.com</string>
     <string name="already_thx_cannot_return">感谢不能收回哦</string>
     <string name="thx_already_send">感谢已发送</string>
     <string name="thx_str">感谢</string>
