@@ -33,7 +33,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         cachePref = findPreference(getString(R.string.pref_key_clear_cache));
         cachePref.setOnPreferenceClickListener(this);
         cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
-        findPreference(getString(R.string.pref_key_check_update)).setOnPreferenceClickListener(this);
+        Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
+        updatePrefItem.setOnPreferenceClickListener(this);
+        updatePrefItem.setSummary(String.format("当前版本 " + Utils.getVersionName() + " (" + Utils.getVersionCode() + ")"));
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);

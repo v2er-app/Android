@@ -206,4 +206,43 @@ public class Utils {
         App.get().startActivity(intent);
     }
 
+    /**
+     * get App versionCode
+     *
+     * @return
+     */
+    public static String getVersionCode() {
+        Context context = App.get();
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionCode = "";
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionCode = packageInfo.versionCode + "";
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+
+    /**
+     * get App versionName
+     *
+     * @return
+     */
+    public static String getVersionName() {
+        Context context = App.get();
+        PackageManager packageManager = context.getPackageManager();
+        PackageInfo packageInfo;
+        String versionName = "";
+        try {
+            packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
+            versionName = packageInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
+
+
 }
