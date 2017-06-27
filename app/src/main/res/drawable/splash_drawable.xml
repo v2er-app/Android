@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:width="500dp"
-        android:height="1000dp"
-        android:drawable="@drawable/default_window_drawable" />
-    <item
-        android:width="50dp"
-        android:height="50dp"
-        android:drawable="@drawable/splash_logo"
-        android:gravity="center" />
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="@color/white" />
+            <size
+                android:width="500dp"
+                android:height="1000dp" />
+        </shape>
+    </item>
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/splash_logo" />
+    </item>
 </layer-list>
