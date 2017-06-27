@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.0-alpha4'
-        classpath 'com.bugtags.library:bugtags-gradle:latest.integration'
+        classpath 'com.tencent.bugly:symtabfileuploader:latest.release'
     }
 }
 
