@@ -12,10 +12,25 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
+    signingConfigs {
+        release {
+            try {
+                storeFile file("../ghui.jks")
+                storePassword GHUI_KEYSTORE_PASSWORD
+                keyAlias "ghui"
+                keyPassword GHUI_KEY_PASSWORD
+            } catch (ex) {
+                throw ex.printStackTrace()
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -23,6 +38,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
     packagingOptions {
         exclude 'META-INF/rxjava.properties'
     }

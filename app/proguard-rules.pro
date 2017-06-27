@@ -17,19 +17,24 @@
 #}
 
 #----------------- Retrofit Start ------------------------
-# Platform calls Class.forName on types which do not exist on Android to determine platform.
--dontnode retrofit2.Platform
-# Platform used when running on RoboVM on iOS. Will not be used at runtime.
--dontnode retrofit2.Platform$IOS$MainThreadExecutor
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
--dontwarn retrofit2.Platform$Java8
-# Retain generic type information for use by reflection by converters and adapters.
--keepattributes Signature
-# Retain declared checked exceptions for use by a Proxy instance.
--keepattributes Exceptions
+-dontwarn okio.**
+-dontwarn javax.annotation.**
+-dontwarn retrofit2.**
 #----------------- Retrofit End ----------------------------
 
 
+#----------------- Glide Start ----------------------------
+-keep public class * implements com.bumptech.glide.module.GlideModule
+-keep public class * extends com.bumptech.glide.AppGlideModule
+-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+  **[] $VALUES;
+  public *;
+}
+
+# for DexGuard only
+#-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#----------------- Glide End ----------------------------
 
 #----------------- PersistentCookieJar Start ---------------------------
 -dontwarn com.franmontiel.persistentcookiejar.**
@@ -44,3 +49,12 @@
     java.lang.Object readResolve();
 }
 #----------------- PersistentCookieJar End ----------------------------
+
+#----------------- Bugly Start ----------------------------
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#----------------- Bugly End ----------------------------
+
+#----------------- Jsoup Start ----------------------------
+-keeppackagenames org.jsoup.nodes
+#----------------- Jsoup End ----------------------------
