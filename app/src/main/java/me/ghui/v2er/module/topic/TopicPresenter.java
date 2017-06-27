@@ -1,21 +1,15 @@
 package me.ghui.v2er.module.topic;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.Map;
 
 import io.reactivex.Observable;
-import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.MissionInfo;
-import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
-import me.ghui.v2er.util.UserUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 

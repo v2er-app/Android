@@ -4,15 +4,12 @@ import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
-
-import dagger.Component;
 
 
 /**

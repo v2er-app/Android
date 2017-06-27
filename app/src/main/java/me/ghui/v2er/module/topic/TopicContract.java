@@ -4,7 +4,6 @@ import java.util.Map;
 
 import io.reactivex.Observable;
 import me.ghui.v2er.module.base.BaseContract;
-import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 

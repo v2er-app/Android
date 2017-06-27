@@ -1,7 +1,5 @@
 package me.ghui.v2er.module.drawer.star;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;

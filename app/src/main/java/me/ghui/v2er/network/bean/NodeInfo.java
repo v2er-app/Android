@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.AvatarUtils;
 
 /**

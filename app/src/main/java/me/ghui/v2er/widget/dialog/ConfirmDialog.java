@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;

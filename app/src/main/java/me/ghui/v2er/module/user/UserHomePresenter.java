@@ -1,8 +1,5 @@
 package me.ghui.v2er.module.user;
 
-import com.orhanobut.logger.Logger;
-
-import io.reactivex.functions.Consumer;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;

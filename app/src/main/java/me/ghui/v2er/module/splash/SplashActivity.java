@@ -1,11 +1,8 @@
 package me.ghui.v2er.module.splash;
 
 import android.app.Activity;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
 
 /**

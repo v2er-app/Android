@@ -13,14 +13,11 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerMsgComponent;
 import me.ghui.v2er.injector.module.MsgModule;
 import me.ghui.v2er.module.base.BaseFragment;
-import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
-import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**

@@ -1,7 +1,5 @@
 package me.ghui.v2er.module.home;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;

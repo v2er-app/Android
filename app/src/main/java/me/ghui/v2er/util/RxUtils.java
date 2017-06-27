@@ -9,7 +9,6 @@ import io.reactivex.ObservableSource;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.ghui.v2er.module.base.IBindToLife;
 import me.ghui.v2er.module.base.IViewLoading;
 
 /**

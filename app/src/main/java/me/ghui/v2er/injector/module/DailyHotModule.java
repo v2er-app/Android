@@ -16,7 +16,6 @@ import me.ghui.v2er.module.drawer.dailyhot.DailyHotPresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
-import me.ghui.v2er.util.DateUtils;
 
 /**
  * Created by ghui on 27/03/2017.

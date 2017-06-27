@@ -1,15 +1,10 @@
 package me.ghui.v2er.module.create;
 
-import com.orhanobut.logger.Logger;
-
-import io.reactivex.functions.Function;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.IBaseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 /**
  * Created by ghui on 05/06/2017.

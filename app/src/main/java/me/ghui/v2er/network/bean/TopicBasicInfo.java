@@ -1,7 +1,5 @@
 package me.ghui.v2er.network.bean;
 
-import android.widget.Button;
-
 import java.io.Serializable;
 
 /**

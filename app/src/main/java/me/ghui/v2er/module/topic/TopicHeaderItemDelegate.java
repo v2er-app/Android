@@ -16,7 +16,6 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AppendTopicContentView;
 
 /**

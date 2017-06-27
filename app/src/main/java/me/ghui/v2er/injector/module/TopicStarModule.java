@@ -15,9 +15,7 @@ import me.ghui.v2er.module.drawer.star.TopicStarFragment;
 import me.ghui.v2er.module.drawer.star.TopicStarPresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
-import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.TopicStarInfo;
-import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**

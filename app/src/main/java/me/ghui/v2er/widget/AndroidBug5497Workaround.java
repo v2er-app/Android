@@ -3,10 +3,8 @@ package me.ghui.v2er.widget;
 import android.app.Activity;
 import android.graphics.Rect;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
 
 /**

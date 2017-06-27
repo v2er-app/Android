@@ -19,7 +19,6 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationMode;
-import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.ArrayList;
 

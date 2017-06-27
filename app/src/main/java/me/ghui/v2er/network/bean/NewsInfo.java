@@ -5,7 +5,6 @@ import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.AvatarUtils;
 
 
