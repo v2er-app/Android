@@ -126,7 +126,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override

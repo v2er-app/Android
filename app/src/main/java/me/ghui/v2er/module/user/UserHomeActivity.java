@@ -105,7 +105,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override
