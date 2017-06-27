@@ -9,5 +9,6 @@
     <item name="frag_root_view_framelayout" type="id" />
     <item name="action_create_topic" type="id" />
     <item name="action_search_node" type="id" />
+    <item name="action_register" type="id" />
 
 </resources>

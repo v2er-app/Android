@@ -196,6 +196,7 @@ public class Utils {
         context.startActivity(intent);
     }
 
+
     public static void jumpToTwitterProfilePage() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -205,6 +206,15 @@ public class Utils {
         } else {
             intent.setData(Uri.parse("https://mobile.twitter.com/ghuizh"));
         }
+        App.get().startActivity(intent);
+    }
+
+    public static void openWap(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         App.get().startActivity(intent);
     }
 

@@ -32,11 +32,9 @@
 
     <Button
         android:id="@+id/login_go_btn"
-        style="@style/NormalBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        style="@style/DialogButton"
+        android:layout_gravity="right"
         android:layout_margin="4dp"
         android:enabled="false"
         android:text="登录" />
-
 </LinearLayout>

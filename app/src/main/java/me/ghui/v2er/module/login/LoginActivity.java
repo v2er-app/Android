@@ -17,6 +17,8 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.module.home.SearchFragment;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -45,6 +47,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
+        toolBar.inflateMenu(R.menu.login_toolbar_menu);
+        toolBar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_register) {
+                Utils.openWap("http://www.v2ex.com/?r=ghui");
+            }
+            return true;
+        });
     }
 
     @Override
