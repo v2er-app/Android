@@ -32,9 +32,6 @@
             android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"
             android:title="去评价" />
-        <Preference
-            android:layout="@layout/preference_item"
-            android:title="开源许可" />
     </PreferenceCategory>
 
     <PreferenceCategory

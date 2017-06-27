@@ -4,5 +4,6 @@
     <string name="pref_key_clear_cache">pref_key_clear_cache</string>
     <string name="pref_key_check_update">pref_key_check_update</string>
     <string name="pref_key_rate">pref_key_rate</string>
+    <string name="pref_key_os">pref_key_os</string>
     <string name="pref_key_value_toggle_log">pref_key_toggle_log</string>
 </resources>
