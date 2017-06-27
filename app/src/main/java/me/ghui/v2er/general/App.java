@@ -14,6 +14,8 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -52,6 +54,11 @@ public class App extends Application {
                 .setAttachmentTypesEnabled(false, true, true, true, true)
                 .build();
         CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", false);
+        if (UserUtils.isLogin()) {
+            CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
+        } else {
+            CrashReport.setUserId("UnLogin");
+        }
     }
 
     public AppComponent getAppComponent() {
