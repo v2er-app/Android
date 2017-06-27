@@ -51,6 +51,12 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_register) {
                 Utils.openWap("http://www.v2ex.com/?r=ghui");
+            } else if (item.getItemId() == R.id.action_forgot_psw) {
+                Utils.openWap("https://www.v2ex.com/forgot");
+            } else if (item.getItemId() == R.id.action_faq) {
+                Utils.openWap("https://www.v2ex.com/faq");
+            } else if (item.getItemId() == R.id.action_about) {
+                Utils.openWap("https://www.v2ex.com/about");
             }
             return true;
         });

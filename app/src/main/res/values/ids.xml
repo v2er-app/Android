@@ -10,5 +10,8 @@
     <item name="action_create_topic" type="id" />
     <item name="action_search_node" type="id" />
     <item name="action_register" type="id" />
+    <item name="action_forgot_psw" type="id">action_forgot_psw</item>
+    <item name="action_faq" type="id">action_faq</item>
+    <item name="action_about" type="id">action_about</item>
 
 </resources>

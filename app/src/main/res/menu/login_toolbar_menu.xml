@@ -5,4 +5,16 @@
         android:id="@id/action_register"
         android:title="注册"
         app:showAsAction="always" />
+    <item
+        android:id="@id/action_forgot_psw"
+        android:title="忘记密码？"
+        app:showAsAction="never" />
+    <item
+        android:id="@id/action_faq"
+        android:title="FAQ"
+        app:showAsAction="never" />
+    <item
+        android:id="@id/action_about"
+        android:title="关于"
+        app:showAsAction="never" />
 </menu>

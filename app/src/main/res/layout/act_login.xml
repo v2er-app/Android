@@ -38,4 +38,12 @@
         android:enabled="false"
         android:text="登录"
         android:textStyle="normal" />
+
+    <TextView
+        style="@style/hintText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom"
+        android:text="创意工作者们的社区\nWorld is powered by solitude" />
 </LinearLayout>
