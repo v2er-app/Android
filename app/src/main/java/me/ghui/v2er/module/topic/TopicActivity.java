@@ -126,7 +126,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, Color.TRANSPARENT, getColor(R.color.transparent_navbar_color));
+        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override
