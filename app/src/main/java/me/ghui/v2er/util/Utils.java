@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.text.SpannableStringBuilder;
@@ -88,7 +89,8 @@ public class Utils {
     }
 
     public static int getNavigationBarHeight() {
-        int navigationBarHeight = 0;
+        if (!hasNavBar(App.get().getResources())) return 0;
+        int navigationBarHeight;
         int resourceId = App.get().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
             navigationBarHeight = App.get().getResources().getDimensionPixelSize(resourceId);
@@ -96,6 +98,11 @@ public class Utils {
             navigationBarHeight = ScaleUtils.dp(48);
         }
         return navigationBarHeight;
+    }
+
+    public static boolean hasNavBar(Resources resources) {
+        int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
+        return id > 0 && resources.getBoolean(id);
     }
 
     public static void setPaddingForNavbar(View view) {
