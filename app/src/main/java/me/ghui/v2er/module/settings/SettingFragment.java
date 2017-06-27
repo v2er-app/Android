@@ -21,6 +21,15 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
+    public static SettingFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        SettingFragment fragment = new SettingFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     private Preference cachePref;
 
     @Override
@@ -82,10 +91,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .build().show();
             return true;
         } else if (key.equals(getString(R.string.pref_send_email))) {
-            Utils.sendEmail(getContext());
+            Utils.sendEmail(getActivity());
             return true;
         } else if (key.equals(getString(R.string.pref_weibo_personal_page))) {
-            Utils.jumpToWeiboProfileInfo(getContext());
+            Utils.jumpToWeiboProfileInfo(getActivity());
             return true;
         } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
             Utils.jumpToTwitterProfilePage();
