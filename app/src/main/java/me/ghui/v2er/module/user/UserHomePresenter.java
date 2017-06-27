@@ -3,6 +3,7 @@ package me.ghui.v2er.module.user;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.functions.Consumer;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -35,6 +36,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void blockUser(String url) {
+        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().blockUser(url)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<SimpleInfo>() {
@@ -47,6 +49,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void followUser(String userName, String url) {
+        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().followUser(RefererUtils.userReferer(userName), url)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<UserPageInfo>() {

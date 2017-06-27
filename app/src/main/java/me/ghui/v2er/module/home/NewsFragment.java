@@ -22,6 +22,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerNewsComponent;
 import me.ghui.v2er.injector.module.NewsModule;
 import me.ghui.v2er.module.base.BaseFragment;
@@ -130,6 +131,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @OnClick(R.id.news_fab_btn)
     void onNewFabClicked() {
+        if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
         Navigator.from(getContext()).to(CreateTopicActivity.class).start();
     }
 

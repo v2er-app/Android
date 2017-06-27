@@ -2,6 +2,7 @@ package me.ghui.v2er.module.drawer.care;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CareInfo;
@@ -25,6 +26,7 @@ public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
 
     @Override
     public void loadMore(int page) {
+        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().specialCareInfo(page)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<CareInfo>() {

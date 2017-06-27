@@ -2,6 +2,7 @@ package me.ghui.v2er.module.drawer.star;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NodeStarInfo;
@@ -20,6 +21,7 @@ public class NodeStarPresenter implements NodeStarContract.IPresenter {
 
     @Override
     public void start() {
+        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get()
                 .nodeStarInfo()
                 .compose(mView.rx())

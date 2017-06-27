@@ -3,6 +3,7 @@ package me.ghui.v2er.module.node;
 import com.orhanobut.logger.Logger;
 
 import io.reactivex.functions.Consumer;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NodeInfo;
@@ -53,6 +54,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void starNode(String url) {
+        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().starNode(RefererUtils.tinyReferer(), url)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<SimpleInfo>() {

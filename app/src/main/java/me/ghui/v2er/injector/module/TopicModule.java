@@ -8,6 +8,7 @@ import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
@@ -63,6 +64,7 @@ public class TopicModule {
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
                 holder.setOnClickListener(v -> {
+                    if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
                     if (replyInfo.hadThanked()) {
                         Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
