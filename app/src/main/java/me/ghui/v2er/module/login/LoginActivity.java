@@ -5,6 +5,9 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
+
+import com.orhanobut.logger.Logger;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
@@ -14,7 +17,6 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
-import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -79,17 +81,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
                 .title("加载登录参数出错")
                 .msg("是否重试")
                 .negativeText(R.string.cancel)
-                .positiveText(R.string.ok, new BaseDialog.OnDialogClickListener() {
-                    @Override
-                    public void onClick(BaseDialog dialog) {
-                        autoLoad();
-                    }
-                }).build().show();
+                .positiveText(R.string.ok, dialog -> autoLoad()).build().show();
     }
 
     @Override
     public void onFetchLoginParamSuccess() {
         mLoginBtn.setEnabled(true);
+        Logger.d("加载登录参数成功");
     }
 
     @Override
