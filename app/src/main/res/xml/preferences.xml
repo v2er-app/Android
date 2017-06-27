@@ -25,6 +25,14 @@
         android:layout="@layout/preference_category_widget"
         android:title="关于">
         <Preference
+            android:layout="@layout/preference_item"
+            android:summary="一个V2EX第三方客户端"
+            android:title="关于V2er" />
+        <Preference
+            android:layout="@layout/preference_item"
+            android:summary="V2EX 是一个关于分享和探索的地方"
+            android:title="关于V2EX" />
+        <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />
