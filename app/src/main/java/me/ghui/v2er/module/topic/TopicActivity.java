@@ -433,6 +433,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (v.getId()) {
                 case R.id.reply_dialog_btn1:
                     //reply to the comment
+                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
                     animateEditInnerWrapper(true);
                     mReplyEt.setText("@" + item.getUserName() + " ");
                     mReplyEt.setSelection(mReplyEt.getText().length());
@@ -445,6 +446,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
+                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
                     new ConfirmDialog.Builder(getActivity())
                             .title("忽略回复")
                             .msg("确定不再显示来自@" + item.getUserName() + "的这条回复？")
