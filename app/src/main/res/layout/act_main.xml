@@ -1,8 +1,8 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                        xmlns:app="http://schemas.android.com/apk/res-auto"
-                                        android:id="@+id/left_draw_layout"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/left_draw_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,17 +18,17 @@
             app:tl_indicator_height="2.5dp"
             app:tl_indicator_width_equal_title="true"
             app:tl_tab_padding="22dp"
-            app:tl_textsize="@dimen/mediumTextSize"
             app:tl_tab_space_equal="true"
             app:tl_textSelectColor="@color/bodyTextColor"
             app:tl_textUnselectColor="#66000000"
+            app:tl_textsize="@dimen/mediumTextSize"
             app:tl_underline_color="#40E0E0E0"
-            app:tl_underline_height="1dp"/>
+            app:tl_underline_height="1dp" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewpager_main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -37,6 +37,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/navigation_header"
+        app:itemBackground="?android:selectableItemBackground"
         app:itemTextColor="@color/bodyTextColor"
-        app:menu="@menu/navigation_menu"/>
+        app:menu="@menu/navigation_menu" />
 </android.support.v4.widget.DrawerLayout>
