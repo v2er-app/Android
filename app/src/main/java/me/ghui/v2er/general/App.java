@@ -3,6 +3,8 @@ package me.ghui.v2er.general;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.zzhoujay.richtext.RichText;
@@ -45,11 +47,11 @@ public class App extends Application {
     }
 
     private void initInstabug() {
-//        new Instabug.Builder(this, "5d8a77e264fabc79ca83c82b95c6e1a0")
-//                .setInvocationEvent(InstabugInvocationEvent.NONE)
-//                .setCommentFieldRequired(true)
-//                .setAttachmentTypesEnabled(false, true, true, true, true)
-//                .build();
+        new Instabug.Builder(this, "5d8a77e264fabc79ca83c82b95c6e1a0")
+                .setInvocationEvent(InstabugInvocationEvent.NONE)
+                .setCommentFieldRequired(true)
+                .setAttachmentTypesEnabled(false, true, true, false, false)
+                .build();
         CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", false);
         if (UserUtils.isLogin()) {
             CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
