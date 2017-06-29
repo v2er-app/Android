@@ -50,15 +50,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     SlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
+    @BindView(R.id.main_toolbar)
+    Toolbar mToolbar;
 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
-
-    @Override
-    protected int attachToolBar() {
-        return R.layout.toolbar_main_act;
-    }
 
     @Override
     protected int attachLayoutRes() {
@@ -71,19 +68,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
-        Utils.setPaddingForStatusBar(toolBar);
-        toolBar.setElevation(0);
-        toolBar.setNavigationIcon(R.drawable.main_navigation_icon);
-        toolBar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
-        toolBar.setNavigationOnClickListener(v -> {
+    protected Toolbar attachToolbar() {
+        return null;
+    }
+
+    protected void configToolBar() {
+        Utils.setPaddingForStatusBar(mToolbar);
+        mToolbar.setElevation(0);
+        mToolbar.setNavigationIcon(R.drawable.main_navigation_icon);
+        mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
+        mToolbar.setNavigationOnClickListener(v -> {
             if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
                 mDrawerLayout.closeDrawer(Gravity.START);
             } else {
                 mDrawerLayout.openDrawer(Gravity.START);
             }
         });
-        toolBar.setOnMenuItemClickListener(item -> {
+        mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 pushFragment(SearchFragment.newInstance());
             }
@@ -93,6 +94,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void init() {
+        configToolBar();
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.avatar_img);
         mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.user_name_tv);

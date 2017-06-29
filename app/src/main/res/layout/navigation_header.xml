@@ -6,7 +6,8 @@
     android:background="@color/colorAccent"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingTop="40dp"
+    android:paddingBottom="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
