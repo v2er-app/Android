@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="share_element_avatar">share_element_avatar</string>
-    <string name="share_element_topic_avatar">share_element_topic_avatar</string>
     <string name="share_element_node">share_element_node</string>
+    <string name="share_element_topic_title">share_element_topic_title</string>
 </resources>

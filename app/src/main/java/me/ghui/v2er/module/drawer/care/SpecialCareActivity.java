@@ -90,6 +90,6 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
                 .tag(item.getTagName())
                 .commentNum(item.getComentNum())
                 .build();
-        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this, view.findViewById(R.id.avatar_img), basicInfo);
+        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), this, holder.getView(R.id.title_tv), basicInfo);
     }
 }

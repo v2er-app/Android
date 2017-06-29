@@ -294,7 +294,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 .author(item.getUserName())
                 .tag(mNodeInfo.getTitle())
                 .build();
-        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getImgView(R.id.avatar_img), basicInfo);
+        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.title_tv), basicInfo);
     }
 
     @Override

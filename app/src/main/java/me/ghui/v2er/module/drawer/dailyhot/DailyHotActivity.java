@@ -79,7 +79,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
                 .tag(item.getNode().getTitle())
                 .commentNum(item.getReplies())
                 .build();
-        TopicActivity.openById(item.getId(), this, holder.getImgView(R.id.avatar_img), basicInfo);
+        TopicActivity.openById(item.getId(), this, holder.getView(R.id.title_tv), basicInfo);
     }
 
 }

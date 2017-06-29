@@ -50,6 +50,7 @@
 
     <style name="AvatarImg">
         <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:transitionName">@string/share_element_avatar</item>
     </style>
 
     <style name="TagView" parent="smallText">
@@ -66,4 +67,15 @@
         <item name="android:textSize">@dimen/mediumTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+
+    <style name="TopicTitle" parent="TitleText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:transitionName">@string/share_element_topic_title</item>
+    </style>
+
 </resources>
