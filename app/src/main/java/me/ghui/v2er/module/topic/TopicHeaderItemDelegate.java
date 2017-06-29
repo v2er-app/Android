@@ -1,8 +1,10 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -62,7 +64,16 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());
         holder.setText(R.id.tagview, headerInfo.getTag());
-        holder.setText(R.id.view_count_tv, "点击" + headerInfo.getViewCount());
+
+        TextView viewCountTv = holder.getView(R.id.view_count_tv);
+        int viewCount = headerInfo.getViewCount();
+        if (viewCount > 0) {
+            viewCountTv.setVisibility(View.VISIBLE);
+            viewCountTv.setText("点击" + viewCount);
+        } else {
+            viewCountTv.setVisibility(View.GONE);
+        }
+
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
