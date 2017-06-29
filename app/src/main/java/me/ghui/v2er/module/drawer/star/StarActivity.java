@@ -1,8 +1,10 @@
 package me.ghui.v2er.module.drawer.star;
 
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Window;
 
 import com.flyco.tablayout.SlidingTabLayout;
 
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -33,7 +36,14 @@ public class StarActivity extends BaseActivity {
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
+        Utils.setPaddingForStatusBar(toolBar);
     }
+
+    @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
+    }
+
 
     @Override
     protected void init() {

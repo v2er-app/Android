@@ -1,7 +1,10 @@
 package me.ghui.v2er.module.drawer.care;
 
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 
 import javax.inject.Inject;
 
@@ -18,6 +21,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -45,6 +49,16 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
                 .build().inject(this);
     }
 
+    @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
+    protected void configToolBar(Toolbar toolBar) {
+        super.configToolBar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
+    }
 
     @Override
     protected void init() {

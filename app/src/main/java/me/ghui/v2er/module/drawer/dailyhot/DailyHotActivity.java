@@ -1,7 +1,10 @@
 package me.ghui.v2er.module.drawer.dailyhot;
 
+import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.Window;
 
 import javax.inject.Inject;
 
@@ -19,6 +22,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
 /**
@@ -56,6 +60,17 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
                 mPresenter.start();
             }
         };
+    }
+
+    @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
+    protected void configToolBar(Toolbar toolBar) {
+        super.configToolBar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
     }
 
     @Override
