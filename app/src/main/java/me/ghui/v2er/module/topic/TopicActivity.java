@@ -51,6 +51,7 @@ import me.ghui.v2er.widget.AndroidBug5497Workaround;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
+import okhttp3.internal.Util;
 
 
 /**
@@ -170,6 +171,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
                             .negativeText(R.string.cancel)
                             .build().show();
+                    break;
+                case R.id.action_share:
+                    Utils.shareLink(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
                     break;
             }
             return true;

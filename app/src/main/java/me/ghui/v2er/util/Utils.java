@@ -241,5 +241,14 @@ public class Utils {
         return versionName;
     }
 
+    public static void shareLink(Context context, String link, String title) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,
+                String.format("%s\n%s", title, link));
+        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
+        context.startActivity(Intent.createChooser(intent, "分享方式"));
+    }
+
 
 }

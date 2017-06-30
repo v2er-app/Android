@@ -4,6 +4,7 @@
     <item name="action_star" type="id" />
     <item name="action_thx" type="id" />
     <item name="action_block" type="id" />
+    <item name="action_share" type="id" />
     <item name="act_root_view_framelayout" type="id" />
     <item name="frag_ptr_layout" type="id" />
     <item name="frag_root_view_framelayout" type="id" />
