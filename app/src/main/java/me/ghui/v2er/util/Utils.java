@@ -94,7 +94,7 @@ public class Utils {
     }
 
     public static int getNavigationBarHeight() {
-        if (!hasNavBar(App.get().getResources())) return ScaleUtils.dp(50);
+        if (!hasNavBar(App.get().getResources())) return 0;
         int navigationBarHeight;
         int resourceId = App.get().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
