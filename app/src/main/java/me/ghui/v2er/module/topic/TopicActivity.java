@@ -394,7 +394,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        if (position == 0) return;
+        if (position == 0 || view instanceof LoadMoreRecyclerView.ILoadMoreFooter) return;
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(getContext());
             mBottomSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
