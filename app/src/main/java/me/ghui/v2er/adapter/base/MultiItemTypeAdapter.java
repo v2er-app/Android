@@ -14,6 +14,7 @@ import java.util.List;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
  * Created by zhy on 16/4/9.
@@ -94,7 +95,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected void bindListener(ViewHolder holder, int viewType) {
         if (!isEnabled(viewType)) return;
         holder.getConvertView().setOnClickListener(v -> {
-            if (mOnItemClickListener != null) {
+            if (mOnItemClickListener != null && !(v instanceof LoadMoreRecyclerView.ILoadMoreFooter)) {
                 mOnItemClickListener.onItemClick(v, holder, holder.getAdapterPosition());
             }
         });
