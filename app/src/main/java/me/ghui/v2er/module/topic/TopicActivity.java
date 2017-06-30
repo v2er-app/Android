@@ -175,6 +175,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 case R.id.action_share:
                     Utils.shareLink(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
                     break;
+
+                case R.id.action_copy_url:
+                    Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
+                    toast("链接已拷贝成功");
+                    break;
             }
             return true;
         });

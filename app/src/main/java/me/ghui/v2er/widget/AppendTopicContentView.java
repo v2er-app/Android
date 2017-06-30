@@ -95,7 +95,5 @@ public class AppendTopicContentView extends LinearLayout {
             RichText.fromHtml(post.getContent()).into(itemView.contentTV);
             return itemView;
         }
-
-
     }
 }
