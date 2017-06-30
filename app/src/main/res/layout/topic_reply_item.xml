@@ -47,15 +47,6 @@
         app:layout_constraintBottom_toBottomOf="@id/reply_avatar_img"
         app:layout_constraintRight_toLeftOf="@id/reply_thx_tv" />
 
-    <TextView
-        android:id="@+id/time_tv"
-        style="@style/hintText"
-        android:layout_width="0dp"
-        android:layout_marginEnd="0dp"
-        app:layout_constraintBaseline_toBaselineOf="@id/reply_user_name_tv"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/reply_user_name_tv"
-        tools:text="1小时17分钟前" />
 
     <TextView
         android:id="@+id/content_tv"
@@ -74,5 +65,17 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content_tv"
         tools:text="1楼" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/hintText"
+        android:layout_width="0dp"
+        android:layout_marginEnd="0dp"
+        android:gravity="right"
+        android:paddingRight="8dp"
+        android:paddingTop="8dp"
+        app:layout_constraintRight_toLeftOf="@id/floor_tv"
+        app:layout_constraintTop_toBottomOf="@id/content_tv"
+        tools:text="1小时17分钟前" />
 
 </android.support.constraint.ConstraintLayout>
