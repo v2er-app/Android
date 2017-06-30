@@ -1,6 +1,8 @@
 package me.ghui.v2er.module.login;
 
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
@@ -62,6 +64,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             MissionInfo resultInfo = (MissionInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
+                            CrashReport.setUserId(resultInfo.getUserName());
                         } else {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;
