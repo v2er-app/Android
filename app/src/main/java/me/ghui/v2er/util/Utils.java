@@ -24,6 +24,8 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.Constants;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 /**
  * Created by ghui on 01/04/2017.
  */
@@ -69,11 +71,14 @@ public class Utils {
 
     public static void openStorePage() {
         final String appPackageName = App.get().getPackageName();
-//        final String appPackageName = "com.czbix.v2ex";
         try {
-            App.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            App.get().startActivity(intent);
         } catch (android.content.ActivityNotFoundException anfe) {
-            App.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName));
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            App.get().startActivity(intent);
         }
     }
 
@@ -214,7 +219,7 @@ public class Utils {
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         intent.setData(Uri.parse(url));
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         App.get().startActivity(intent);
     }
 
