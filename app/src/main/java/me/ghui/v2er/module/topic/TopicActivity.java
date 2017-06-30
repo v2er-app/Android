@@ -156,7 +156,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     if (!headerInfo.hadThanked()) {
                         new ConfirmDialog.Builder(getActivity())
                                 .title("感谢创建者")
-                                .msg("确定向本主题创建者@" + mTopicBasicInfo.getAuthor() + "发送谢意吗？")
+                                .msg("确定向本主题创建者@" + headerInfo.getUserName() + "发送谢意吗？")
                                 .positiveText(R.string.ok, dialog -> mPresenter.thxCreator(mTopicId, headerInfo.getT())).negativeText(R.string.cancel)
                                 .build().show();
                     } else {
@@ -249,8 +249,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
-        updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), false);
-        updateThxCreatorStatus(mTopicInfo.getHeaderInfo().hadThanked(), false);
+        TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
+        updateStarStatus(headerInfo.hadStared(), false);
+        updateThxCreatorStatus(headerInfo.hadThanked(), false);
     }
 
     @Override
