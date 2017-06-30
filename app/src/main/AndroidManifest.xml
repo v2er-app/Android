@@ -10,10 +10,8 @@
 
     <application
         android:name="me.ghui.v2er.general.App"
-        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="me.ghui.v2er.module.splash.SplashActivity"
@@ -25,13 +23,34 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.ghui.v2er.module.home.MainActivity"
+            android:name=".module.general.OiaActivity"
             android:screenOrientation="portrait">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                //1. node
+                <data
+                    android:host="@string/www_host"
+                    android:pathPrefix="@string/node_url_prefix"
+                    android:scheme="@string/scheme_https" />
+                //2. member
+                <data
+                    android:host="@string/www_host"
+                    android:pathPrefix="@string/member_url_prefix"
+                    android:scheme="@string/scheme_https" />
+                //3. topic
+                <data
+                    android:host="@string/www_host"
+                    android:pathPrefix="@string/topic_url_prefix"
+                    android:scheme="@string/scheme_https" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name="me.ghui.v2er.module.home.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
             android:label="今日最热"

@@ -72,7 +72,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Inject
     MultiItemTypeAdapter<UserPageInfo.Item> mAdapter;
-    private static final String USER_NAME_KEY = KEY("user_name_key");
+    public static final String USER_NAME_KEY = KEY("user_name_key");
     private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
     private String mUserName;
     private String mAvatar;
@@ -209,7 +209,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
 
     @OnClick(R.id.user_block_ct)
-    void onBlockClicked(TextView checkedTextView) {
+    void onBlockClicked() {
         if (!mUserPageInfo.hadBlocked()) {
             new ConfirmDialog.Builder(this)
                     .title("屏蔽用户")

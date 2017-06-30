@@ -2,9 +2,13 @@ package me.ghui.v2er.network;
 
 import android.content.Context;
 
+import com.orhanobut.logger.Logger;
+
+import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.util.UriUtils;
 
 /**
@@ -40,6 +44,14 @@ public class UrlInterceptor {
             }
             NodeTopicActivity.open(url, page, context);
             result = true;
+        } else if (url.contains("/member/")) {
+            //user page
+            String userName = UriUtils.getLastSegment(url);
+            Logger.d("userName: " + userName);
+            Navigator.from(context)
+                    .to(UserHomeActivity.class)
+                    .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                    .start();
         } else {
             //open url in a default webview
             // TODO: 03/06/2017  
