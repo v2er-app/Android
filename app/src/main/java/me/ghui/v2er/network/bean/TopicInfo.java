@@ -291,7 +291,7 @@ public class TopicInfo implements IBaseInfo {
     }
 
     public static class Reply implements Item {
-        @Pick("div.reply_content")
+        @Pick(value = "div.reply_content", attr = Attrs.INNER_HTML)
         private String replyContent;
         @Pick("strong a.dark[href^=/member]")
         private String userName;
