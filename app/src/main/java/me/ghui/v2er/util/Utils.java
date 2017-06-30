@@ -189,6 +189,7 @@ public class Utils {
     // 跳转至微博个人页
     public static void jumpToWeiboProfileInfo(Context context) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
@@ -204,6 +205,7 @@ public class Utils {
 
     public static void jumpToTwitterProfilePage() {
         Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
         if (Utils.isAppInstalled("com.twitter.android")) {
