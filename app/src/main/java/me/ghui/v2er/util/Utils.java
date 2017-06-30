@@ -94,7 +94,7 @@ public class Utils {
     }
 
     public static int getNavigationBarHeight() {
-        if (!hasNavBar(App.get().getResources())) return 0;
+        if (!hasNavBar(App.get().getResources())) return ScaleUtils.dp(50);
         int navigationBarHeight;
         int resourceId = App.get().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
@@ -136,28 +136,6 @@ public class Utils {
         window.setStatusBarColor(statusBarColor);
         window.setNavigationBarColor(navBarColor);
     }
-
-//    public static void transparentStatusBar(Window window, int barColor) {
-//        window.requestFeature(Window.FEATURE_NO_TITLE);
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setStatusBarColor(barColor);
-//    }
-//
-//    public static void transparentNavBar(Window window, int barColor) {
-//        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
-//                | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-//                | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//        window.setNavigationBarColor(barColor);
-//    }
 
 
     public static boolean isAppInstalled(String packageName) {
