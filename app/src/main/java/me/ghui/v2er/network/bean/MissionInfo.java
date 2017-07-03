@@ -38,6 +38,6 @@ public class MissionInfo implements IBaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(userLink, avatar);
+        return PreConditions.notEmpty(userLink);
     }
 }
