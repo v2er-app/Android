@@ -5,7 +5,6 @@ import android.preference.PreferenceManager;
 
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.zzhoujay.richtext.RichText;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
@@ -39,7 +38,6 @@ public class App extends Application {
                 .build();
         APIService.init();
         Logger.init().methodCount(1).hideThreadInfo();
-        RichText.initCacheDir(getCacheDir());
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         initBugly();
     }

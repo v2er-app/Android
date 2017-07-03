@@ -18,7 +18,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.zzhoujay.richtext.RichText;
+
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import javax.inject.Inject;
 
@@ -29,7 +30,6 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -66,7 +66,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @BindView(R.id.node_name_tv)
     TextView mNodeText;
     @BindView(R.id.node_describtion_tv)
-    TextView mNodeDesTv;
+    HtmlTextView mNodeDesTv;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.node_info_appbar_layout)
@@ -220,9 +220,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
         String desc = nodeInfo.getHeader();
-        if (PreConditions.notEmpty(desc)) {
-            RichText.fromHtml(desc).into(mNodeDesTv);
-        }
+        mNodeDesTv.setHtml(desc);
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         if (mNodeImg.getDrawable() == null) {

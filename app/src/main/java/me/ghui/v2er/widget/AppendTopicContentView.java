@@ -6,7 +6,8 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.zzhoujay.richtext.RichText;
+
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import java.util.List;
 
@@ -58,7 +59,7 @@ public class AppendTopicContentView extends LinearLayout {
     private static class ItemView extends LinearLayout {
 
         private TextView headerTV;
-        private TextView contentTV;
+        private HtmlTextView contentTV;
 
         private ItemView(Context context) {
             super(context);
@@ -83,7 +84,7 @@ public class AppendTopicContentView extends LinearLayout {
             headerTV.setTextAppearance(context, R.style.hintText);
             headerTV.setPadding(headerTV.getPaddingLeft(), headerTV.getPaddingTop(), headerTV.getPaddingRight(), ScaleUtils.dp(4));
             addView(headerTV);
-            contentTV = new TextView(context);
+            contentTV = new HtmlTextView(context);
             contentTV.setTextIsSelectable(true);
             contentTV.setTextAppearance(context, R.style.BodyText);
             addView(contentTV);
@@ -92,7 +93,7 @@ public class AppendTopicContentView extends LinearLayout {
         public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
             itemView.headerTV.setText(post.getHeader());
-            RichText.fromHtml(post.getContent()).into(itemView.contentTV);
+            itemView.contentTV.setHtml(post.getContent());
             return itemView;
         }
     }

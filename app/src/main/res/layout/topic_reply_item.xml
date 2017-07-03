@@ -48,7 +48,7 @@
         app:layout_constraintRight_toLeftOf="@id/reply_thx_tv" />
 
 
-    <TextView
+    <org.sufficientlysecure.htmltextview.HtmlTextView
         android:id="@+id/content_tv"
         style="@style/BodyText"
         android:layout_width="match_parent"

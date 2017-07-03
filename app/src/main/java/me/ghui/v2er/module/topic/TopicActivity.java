@@ -51,7 +51,6 @@ import me.ghui.v2er.widget.AndroidBug5497Workaround;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
-import okhttp3.internal.Util;
 
 
 /**

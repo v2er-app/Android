@@ -5,7 +5,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
-
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -17,7 +16,6 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
-import me.ghui.v2er.module.home.SearchFragment;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 

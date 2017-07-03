@@ -3,10 +3,11 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.zzhoujay.richtext.RichText;
+
+import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
+import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import javax.annotation.Nullable;
 
@@ -58,10 +59,13 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             img.setVisibility(View.GONE);
         }
         holder.setText(R.id.time_tv, replyInfo.getTime());
-        TextView contentView = holder.getTextView(R.id.content_tv);
+        HtmlTextView contentView = (HtmlTextView) holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
-            RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(contentView);
+//            RichText.fromHtml(replyInfo.getReplyContent()).clickable(false).into(contentView);
+//            contentView.setText(Html.fromHtml(replyInfo.getReplyContent()));
+            contentView = holder.getView(R.id.content_tv);
+            contentView.setHtml(replyInfo.getReplyContent(), new HtmlHttpImageGetter(contentView));
         } else {
             contentView.setVisibility(View.GONE);
         }

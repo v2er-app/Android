@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import me.ghui.v2er.R;
-import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.widget.BaseToolBar;
 
 public class SettingActivity extends Activity {
