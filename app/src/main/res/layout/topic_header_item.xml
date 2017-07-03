@@ -75,7 +75,7 @@
     <!--app:layout_constraintStart_toStartOf="@id/avatar_img"-->
     <!--app:layout_constraintTop_toBottomOf="@id/title_tv"-->
     <!--tools:text="媳妇的 iphone 掉了, 想买个安卓机, 2000 以下, 丢了不容易心疼." />-->
-    <WebView
+    <me.ghui.v2er.widget.TopicWebView
         android:id="@+id/content_webview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
