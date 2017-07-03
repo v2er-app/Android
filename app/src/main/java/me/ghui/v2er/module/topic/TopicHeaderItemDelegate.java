@@ -2,6 +2,7 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.widget.AppendTopicContentView;
 
@@ -77,13 +79,12 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
+        WebView webView = holder.getView(R.id.content_webview);
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
-            holder.getView(R.id.content_tv).setVisibility(View.VISIBLE);
-//            RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
-            HtmlTextView htmlTextView = holder.getView(R.id.content_tv);
-            htmlTextView.setHtml(headerInfo.getContentHtml(), new HtmlHttpImageGetter(htmlTextView));
+            webView.setVisibility(View.VISIBLE);
+            webView.loadData(headerInfo.getContentHtml(), "text/html", "utf-8");
         } else {
-            holder.getView(R.id.content_tv).setVisibility(View.GONE);
+            webView.setVisibility(View.GONE);
         }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }
