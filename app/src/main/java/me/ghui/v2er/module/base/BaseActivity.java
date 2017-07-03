@@ -195,12 +195,12 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configSystemBars(getWindow());
         super.onCreate(savedInstanceState);
         setContentView(onCreateRootView());
-        if (supportShareElement()) {
-            postponeEnterTransition();
-        }
         ButterKnife.bind(this);
         startInject();
         parseExtras(getIntent());
+        if (supportShareElement()) {
+            postponeEnterTransition();
+        }
         init();
         autoLoad();
     }

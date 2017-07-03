@@ -186,7 +186,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        return true;
+        return mTopicBasicInfo != null;
     }
 
     @Override
@@ -204,6 +204,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             List<TopicInfo.Item> data = new ArrayList<>();
             data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
             mAdapter.setData(data);
+            post(() -> scheduleStartPostponedTransition($(R.id.topic_header_title_tv)));
         }
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
@@ -219,6 +220,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 }
             }
         });
+        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
     }
 
 

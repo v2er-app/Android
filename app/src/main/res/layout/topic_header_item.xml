@@ -57,7 +57,7 @@
         tools:text="评论32" />
 
     <TextView
-        android:id="@+id/title_tv"
+        android:id="@+id/topic_header_title_tv"
         style="@style/TopicTitle"
         android:layout_width="match_parent"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
@@ -80,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@id/title_tv" />
+        app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv" />
 
     <me.ghui.v2er.widget.AppendTopicContentView
         android:id="@+id/append_topic_contentview"

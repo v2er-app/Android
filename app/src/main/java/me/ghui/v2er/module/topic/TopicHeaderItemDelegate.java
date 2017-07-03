@@ -28,6 +28,7 @@ import me.ghui.v2er.widget.AppendTopicContentView;
  */
 
 public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
+    public static final int ITEM_TYPE = 1;
 
     public TopicHeaderItemDelegate(Context context) {
         super(context);
@@ -49,20 +50,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
             Glide.with(mContext)
-                    .load(headerInfo.getAvatar())
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                            return false;
-                        }
-                    }).into(avatarImg);
+                    .load(headerInfo.getAvatar()).into(avatarImg);
         }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());
@@ -78,7 +66,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         }
 
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
-        holder.setText(R.id.title_tv, headerInfo.getTitle());
+        holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
         WebView webView = holder.getView(R.id.content_webview);
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
             webView.setVisibility(View.VISIBLE);

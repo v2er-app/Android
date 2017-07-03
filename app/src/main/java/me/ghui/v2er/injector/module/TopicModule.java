@@ -106,7 +106,7 @@ public class TopicModule {
                 }
             }
         };
-        adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
+        adapter.addItemViewDelegate(TopicHeaderItemDelegate.ITEM_TYPE, new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicReplyItemDelegate(mView));
         return adapter;
     }
