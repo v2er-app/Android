@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.zzhoujay.richtext.RichText;
 
 import org.sufficientlysecure.htmltextview.HtmlHttpImageGetter;
 import org.sufficientlysecure.htmltextview.HtmlTextView;
@@ -66,13 +67,12 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         }
 
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
-        holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
-        WebView webView = holder.getView(R.id.content_webview);
+        holder.setText(R.id.title_tv, headerInfo.getTitle());
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
-            webView.setVisibility(View.VISIBLE);
-            webView.loadData(headerInfo.getContentHtml(), "text/html", "utf-8");
+            holder.getView(R.id.content_tv).setVisibility(View.VISIBLE);
+            RichText.fromHtml(headerInfo.getContentHtml()).into(holder.getView(R.id.content_tv));
         } else {
-            webView.setVisibility(View.GONE);
+            holder.getView(R.id.content_tv).setVisibility(View.GONE);
         }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }

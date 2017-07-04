@@ -204,7 +204,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             List<TopicInfo.Item> data = new ArrayList<>();
             data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
             mAdapter.setData(data);
-            post(() -> scheduleStartPostponedTransition($(R.id.topic_header_title_tv)));
+            post(() -> scheduleStartPostponedTransition($(R.id.title_tv)));
         }
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
