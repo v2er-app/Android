@@ -69,7 +69,6 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="TopicTitle" parent="TitleText">
         <item name="android:layout_width">match_parent</item>
         <item name="android:textSize">@dimen/mediumTextSize</item>
