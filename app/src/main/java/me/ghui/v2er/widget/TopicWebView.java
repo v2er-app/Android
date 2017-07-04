@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import me.ghui.v2er.R;
 
 /**
  * Created by ghui on 03/07/2017.
@@ -33,6 +32,8 @@ public class TopicWebView extends WebView {
     }
 
     private void init() {
+        setHorizontalScrollBarEnabled(false);
+        setVerticalScrollBarEnabled(false);
         setTransitionGroup(true);
         WebSettings webSettings = getSettings();
         webSettings.setJavaScriptEnabled(true);
