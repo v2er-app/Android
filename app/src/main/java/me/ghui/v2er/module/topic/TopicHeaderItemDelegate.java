@@ -20,6 +20,7 @@ import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.widget.AppendTopicContentView;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 09/05/2017.
@@ -79,10 +80,10 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         }
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.title_tv, headerInfo.getTitle());
-        HtmlTextView htmlTextView = holder.getView(R.id.content_tv);
+        TextView contentTv = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
-            htmlTextView.setVisibility(View.VISIBLE);
-            htmlTextView.setHtml(headerInfo.getContentHtml(), new HtmlHttpImageGetter(htmlTextView));
+            contentTv.setVisibility(View.VISIBLE);
+            RichText.from(headerInfo.getContentHtml()).into(contentTv);
         } else {
             holder.getView(R.id.content_tv).setVisibility(View.GONE);
         }
