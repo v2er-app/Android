@@ -51,6 +51,7 @@ public class GlideImageGetter implements Html.ImageGetter {
 
         public void setDrawable(Drawable drawable) {
             mDrawable = drawable;
+            setBounds(mDrawable.getBounds());
         }
 
         @Override
@@ -65,7 +66,7 @@ public class GlideImageGetter implements Html.ImageGetter {
     private static class NetWorkDrawableTarget extends SimpleTarget<Bitmap> {
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
-        private int maxWidth;
+        private float maxWidth;
 
         public NetWorkDrawableTarget(TextView textView, NetWorkDrawable drawable, int maxWidth) {
             super(maxWidth, SIZE_ORIGINAL);
@@ -81,8 +82,8 @@ public class GlideImageGetter implements Html.ImageGetter {
             int height = bitmap.getHeight();
 
             if (width < maxWidth) {
-                height *= maxWidth / width;
-                width = maxWidth;
+                height = (int) (height * (maxWidth / width));
+                width = (int) maxWidth;
             }
             bitmapDrawable.setBounds(0, 0, width, height);
             mDrawable.setDrawable(bitmapDrawable);

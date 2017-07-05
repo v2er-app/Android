@@ -1,9 +1,14 @@
 package me.ghui.v2er.widget.richtext;
 
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.widget.TextView;
 
+
+import com.orhanobut.logger.Logger;
+
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
@@ -65,14 +70,20 @@ public class RichTextConfig {
             }
             mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
-        Spanned spanned = Html.fromHtml(sourceText, mImageGetter, mTagHandler);
-        textView.setText(removeBottomPadding(spanned));
+        SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
+        CharSequence text = removePadding(spanned, textView);
+        textView.setText(text);
     }
 
-    private CharSequence removeBottomPadding(CharSequence text) {
+    private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
         if (PreConditions.isEmpty(text)) return null;
+        if (PreConditions.notEmpty(text) && text.charAt(0) == 65532) {
+            int paddingTop = -(int) (3 * textView.getResources().getDimension(R.dimen.smallTextSize));
+            textView.setPadding(textView.getPaddingLeft(), paddingTop,
+                    textView.getPaddingRight(), textView.getPaddingBottom());
+        }
         while (text.charAt(text.length() - 1) == '\n') {
-            text = text.subSequence(0, text.length() - 1);
+            text = text.delete(text.length() - 1, text.length());
         }
         return text;
     }
