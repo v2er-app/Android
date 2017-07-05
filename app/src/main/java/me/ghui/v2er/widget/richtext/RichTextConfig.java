@@ -2,11 +2,9 @@ package me.ghui.v2er.widget.richtext;
 
 import android.text.Html;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.widget.TextView;
 
 
-import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
