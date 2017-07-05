@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,14 +17,17 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.AppendTopicContentView;
+import me.ghui.v2er.widget.richtext.OnImageClickListener;
+import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 09/05/2017.
  */
 
-public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
+public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> implements OnImageClickListener, OnUrlClickListener {
     public static final int ITEM_TYPE = 1;
 
     public TopicHeaderItemDelegate(Context context) {
@@ -80,11 +84,24 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         TextView contentTv = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
             contentTv.setVisibility(View.VISIBLE);
-            RichText.from(headerInfo.getContentHtml()).into(contentTv);
+            RichText.from(headerInfo.getContentHtml())
+                    .imgClick(this)
+                    .urlClick(this)
+                    .into(contentTv);
         } else {
             holder.getView(R.id.content_tv).setVisibility(View.GONE);
         }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview)).setData(headerInfo.getPostScripts());
     }
 
+    @Override
+    public void onImgClick(String imageUrl) {
+
+    }
+
+    @Override
+    public boolean onUrlClick(String url) {
+        Utils.openWap(url);
+        return false;
+    }
 }

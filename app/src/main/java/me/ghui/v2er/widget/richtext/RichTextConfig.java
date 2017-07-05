@@ -5,7 +5,6 @@ import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
 
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.ScaleUtils;
@@ -57,21 +56,6 @@ public class RichTextConfig {
         return this;
     }
 
-    public void into(TextView textView) {
-        if (mImageGetter == null && !noImg) {
-            if (mImageHolder == null) {
-                mImageHolder = new ImageHolder();
-                mImageHolder.maxSize = ViewUtils.getExactlyWidth(textView, true);
-                if (mImageHolder.maxSize <= 0) {
-                    mImageHolder.maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
-                }
-            }
-            mImageGetter = new GlideImageGetter(textView, mImageHolder);
-        }
-        SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
-        CharSequence text = removePadding(spanned, textView);
-        textView.setText(text);
-    }
 
     private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
         if (PreConditions.isEmpty(text)) return null;
@@ -84,6 +68,23 @@ public class RichTextConfig {
             text = text.delete(text.length() - 1, text.length());
         }
         return text;
+    }
+
+    public void into(TextView textView) {
+        if (mImageGetter == null && !noImg) {
+            if (mImageHolder == null) {
+                mImageHolder = new ImageHolder();
+                mImageHolder.maxSize = ViewUtils.getExactlyWidth(textView, true);
+                if (mImageHolder.maxSize <= 0) {
+                    mImageHolder.maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+                }
+            }
+            mImageGetter = new GlideImageGetter(textView, mImageHolder);
+        }
+        SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
+        CharSequence content = removePadding(spanned, textView);
+        textView.setText(content);
+        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener));
     }
 
 }

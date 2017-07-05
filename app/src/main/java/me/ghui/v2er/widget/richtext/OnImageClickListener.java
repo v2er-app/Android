@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public interface OnImageClickListener {
-    void onClick(List<String> url, int clickPositon);
+    void onImgClick(String imageUrl);
 }

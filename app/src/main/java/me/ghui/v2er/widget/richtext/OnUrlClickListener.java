@@ -5,5 +5,5 @@ package me.ghui.v2er.widget.richtext;
  */
 
 public interface OnUrlClickListener {
-    boolean onClick(String url);
+    boolean onUrlClick(String url);
 }
