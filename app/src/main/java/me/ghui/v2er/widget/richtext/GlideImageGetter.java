@@ -11,8 +11,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import me.ghui.v2er.util.ViewUtils;
-
 
 /**
  * Created by ghui on 05/07/2017.
@@ -34,7 +32,7 @@ public class GlideImageGetter implements Html.ImageGetter {
         Glide.with(mTextView.getContext())
                 .load(source).asBitmap().
                 fitCenter()
-                .into(new NetWorkDrawableTarget(mTextView, drawable));
+                .into(new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize));
         return drawable;
     }
 
@@ -67,12 +65,13 @@ public class GlideImageGetter implements Html.ImageGetter {
     private static class NetWorkDrawableTarget extends SimpleTarget<Bitmap> {
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
-        private ImageHolder mImageHolder;
+        private int maxWidth;
 
-        public NetWorkDrawableTarget(TextView textView, NetWorkDrawable drawable) {
+        public NetWorkDrawableTarget(TextView textView, NetWorkDrawable drawable, int maxWidth) {
+            super(maxWidth, SIZE_ORIGINAL);
+            this.maxWidth = maxWidth;
             mTextView = textView;
             mDrawable = drawable;
-            mImageHolder = drawable.getImageHolder();
         }
 
         @Override
@@ -80,13 +79,10 @@ public class GlideImageGetter implements Html.ImageGetter {
             BitmapDrawable bitmapDrawable = new BitmapDrawable(mTextView.getResources(), bitmap);
             int width = bitmap.getWidth();
             int height = bitmap.getHeight();
-            if (mImageHolder == null) {
-                mImageHolder = new ImageHolder();
-                mImageHolder.maxSize = ViewUtils.getExactlyWidth(mTextView, true);
-            }
-            if (width < mImageHolder.maxSize) {
-                height *= mImageHolder.maxSize / width;
-                width = mImageHolder.maxSize;
+
+            if (width < maxWidth) {
+                height *= maxWidth / width;
+                width = maxWidth;
             }
             bitmapDrawable.setBounds(0, 0, width, height);
             mDrawable.setDrawable(bitmapDrawable);

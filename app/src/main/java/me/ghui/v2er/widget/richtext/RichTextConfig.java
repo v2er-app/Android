@@ -5,6 +5,8 @@ import android.text.Spanned;
 import android.widget.TextView;
 
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.ViewUtils;
 
 
 /**
@@ -54,6 +56,13 @@ public class RichTextConfig {
 
     public void into(TextView textView) {
         if (mImageGetter == null && !noImg) {
+            if (mImageHolder == null) {
+                mImageHolder = new ImageHolder();
+                mImageHolder.maxSize = ViewUtils.getExactlyWidth(textView, true);
+                if (mImageHolder.maxSize <= 0) {
+                    mImageHolder.maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+                }
+            }
             mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
         Spanned spanned = Html.fromHtml(sourceText, mImageGetter, mTagHandler);
