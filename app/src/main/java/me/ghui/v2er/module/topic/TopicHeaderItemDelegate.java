@@ -1,7 +1,6 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -11,14 +10,12 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import java.util.List;
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
-import me.ghui.v2er.module.imgviewer.ImageViewerActivity;
+import me.ghui.v2er.module.imgviewer.ImageViewer;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
@@ -101,7 +98,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
 
     @Override
     public void onImgClick(ImagesInfo imagesInfo) {
-        ImageViewerActivity.open(imagesInfo, mContext);
+        ImageViewer.open(imagesInfo, mContext);
     }
 
     @Override

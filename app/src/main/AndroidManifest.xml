@@ -89,9 +89,7 @@
             android:label="创作新主题"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity
-            android:name="me.ghui.v2er.module.imgviewer.ImageViewerActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name="me.ghui.v2er.module.imgviewer.ImageViewer" />
     </application>
 
 </manifest>

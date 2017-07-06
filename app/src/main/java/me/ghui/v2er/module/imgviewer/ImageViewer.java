@@ -1,16 +1,13 @@
 package me.ghui.v2er.module.imgviewer;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 
@@ -18,7 +15,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.util.Utils;
 
-public class ImageViewerActivity extends FragmentActivity {
+public class ImageViewer extends FragmentActivity {
     public static final String EXTRA_IMG_DATA = Utils.KEY("extra_img_data");
     public static final String STATE_POSITION = Utils.KEY("state_position");
     public static ImagesInfo imgsData;
@@ -29,14 +26,14 @@ public class ImageViewerActivity extends FragmentActivity {
     public static void open(ImagesInfo imgsData, Context context) {
         Navigator.from(context)
                 .putExtra(EXTRA_IMG_DATA, imgsData)
-                .to(ImageViewerActivity.class)
+                .to(ImageViewer.class)
                 .start();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        hideNaviBar();
+        Utils.fullScreen(getWindow());
         setContentView(R.layout.image_detail_pager);
         imgsData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
         pagerPosition = imgsData.getPosition();
@@ -76,18 +73,6 @@ public class ImageViewerActivity extends FragmentActivity {
         mPager.setCurrentItem(pagerPosition);
     }
 
-    private void hideNaviBar() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
-        } else {
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {

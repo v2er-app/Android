@@ -10,6 +10,7 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowAnimationStyle">@style/AppActAnimation</item>
     </style>
 
     <style name="AppTheme" parent="BaseApp.Theme" />
@@ -17,5 +18,16 @@
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <style name="AppActAnimation">
+        <!-- 新Activity进入 -->
+        <item name="android:activityOpenEnterAnimation">@anim/open_enter_slide</item>
+        <!-- 旧Activity进入 -->
+        <item name="android:activityCloseEnterAnimation">@anim/close_enter_slide</item>
+        <!-- 新Activity退出 -->
+        <item name="android:activityCloseExitAnimation">@anim/close_exit_slide</item>
+        <!-- 旧Activity退出 -->
+        <item name="android:activityOpenExitAnimation">@anim/open_exit_slide</item>
     </style>
 </resources>
