@@ -207,7 +207,14 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
         } else if (span instanceof ImageSpan) {
             if (mImageClickListener != null) {
                 String currentImg = ((ImageSpan) span).getSource();
-                ImagesInfo imagesInfo = new ImagesInfo(imgs.indexOf(currentImg), imgs);
+                int index = 0;
+                for (int i = 0; i < imgs.size(); i++) {
+                    if (currentImg.equals(imgs.get(i).getUrl())) {
+                        index = i;
+                        break;
+                    }
+                }
+                ImagesInfo imagesInfo = new ImagesInfo(index, imgs);
                 mImageClickListener.onImgClick(imagesInfo);
             }
         }
