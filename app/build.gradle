@@ -89,5 +89,6 @@ dependencies {
     compile 'com.yqritc:recyclerview-flexibledivider:1.4.0'
     compile 'org.sufficientlysecure:html-textview:3.4'
     compile 'com.tencent.bugly:crashreport:2.6.5'
+    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
 
 }

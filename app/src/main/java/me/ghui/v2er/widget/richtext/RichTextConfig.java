@@ -5,8 +5,14 @@ import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
 
+import org.jsoup.Jsoup;
+
+import java.util.List;
+
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -84,7 +90,8 @@ public class RichTextConfig {
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
         CharSequence content = removePadding(spanned, textView);
         textView.setText(content);
-        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener));
+        ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
+        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images));
     }
 
 }

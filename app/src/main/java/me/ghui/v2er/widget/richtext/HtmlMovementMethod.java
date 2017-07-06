@@ -16,6 +16,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import java.util.List;
+
+import me.ghui.v2er.module.imgviewer.ImagesInfo;
+
 /**
  * A movement method that traverses links in the text buffer and scrolls if necessary.
  * Supports clicking on links with DPad Center or Enter.
@@ -28,10 +32,13 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
 
     private OnUrlClickListener mUrlClickListener;
     private OnImageClickListener mImageClickListener;
+    private ImagesInfo.Images imgs;
 
-    public HtmlMovementMethod(OnUrlClickListener urlClickListener, OnImageClickListener imageClickListener) {
+    public HtmlMovementMethod(OnUrlClickListener urlClickListener
+            , OnImageClickListener imageClickListener, ImagesInfo.Images imgs) {
         this.mUrlClickListener = urlClickListener;
         this.mImageClickListener = imageClickListener;
+        this.imgs = imgs;
     }
 
     @Override
@@ -199,7 +206,9 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
             }
         } else if (span instanceof ImageSpan) {
             if (mImageClickListener != null) {
-                mImageClickListener.onImgClick(((ImageSpan) span).getSource());
+                String currentImg = ((ImageSpan) span).getSource();
+                ImagesInfo imagesInfo = new ImagesInfo(imgs.indexOf(currentImg), imgs);
+                mImageClickListener.onImgClick(imagesInfo);
             }
         }
     }
