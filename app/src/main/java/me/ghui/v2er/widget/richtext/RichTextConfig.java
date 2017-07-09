@@ -1,20 +1,15 @@
 package me.ghui.v2er.widget.richtext;
 
+import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
 
-import org.jsoup.Jsoup;
-
-import java.util.List;
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.util.ScaleUtils;
-import me.ghui.v2er.util.ViewUtils;
 
 
 /**
@@ -29,6 +24,9 @@ public class RichTextConfig {
     private OnImageClickListener mImageClickListener;
     private boolean noImg = false;
     private ImageHolder mImageHolder;
+    private int maxSize;
+    private Drawable mLoadingDrawable;
+    private Drawable mLoaderrorDrawable;
 
     public RichTextConfig(String sourceText) {
         this.sourceText = sourceText;
@@ -54,14 +52,20 @@ public class RichTextConfig {
         return this;
     }
 
-    public RichTextConfig maxSize(int maxSize) {
-        if (mImageHolder == null) {
-            mImageHolder = new ImageHolder();
-        }
-        mImageHolder.maxSize = maxSize;
+    public RichTextConfig loadingPlaceHolder(Drawable loadingDrawable) {
+        this.mLoadingDrawable = loadingDrawable;
         return this;
     }
 
+    public RichTextConfig loadErrorPlaceHolder(Drawable loadErrorDrawable) {
+        this.mLoaderrorDrawable = loadErrorDrawable;
+        return this;
+    }
+
+    public RichTextConfig maxSize(int maxSize) {
+        this.maxSize = maxSize;
+        return this;
+    }
 
     private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
         if (PreConditions.isEmpty(text)) return null;
@@ -77,14 +81,8 @@ public class RichTextConfig {
     }
 
     public void into(TextView textView) {
-        if (mImageGetter == null && !noImg) {
-            if (mImageHolder == null) {
-                mImageHolder = new ImageHolder();
-                mImageHolder.maxSize = ViewUtils.getExactlyWidth(textView, true);
-                if (mImageHolder.maxSize <= 0) {
-                    mImageHolder.maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
-                }
-            }
+        if (!noImg && mImageGetter == null) {
+            mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
             mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);

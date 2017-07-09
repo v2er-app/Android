@@ -16,6 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.engine.cache.DiskCache;
+
 import java.util.List;
 
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
@@ -205,8 +207,8 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
                 mUrlClickListener.onUrlClick(((URLSpan) span).getURL());
             }
         } else if (span instanceof ImageSpan) {
+            String currentImg = ((ImageSpan) span).getSource();
             if (mImageClickListener != null) {
-                String currentImg = ((ImageSpan) span).getSource();
                 int index = 0;
                 for (int i = 0; i < imgs.size(); i++) {
                     if (currentImg.equals(imgs.get(i).getUrl())) {
