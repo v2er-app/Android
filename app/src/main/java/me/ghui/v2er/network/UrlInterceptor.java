@@ -53,6 +53,7 @@ public class UrlInterceptor {
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
                     .setShowTitle(true)
+                    .addDefaultShareMenuItem()
                     .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
                     .setExitAnimations(context,R.anim.close_enter_slide, R.anim.close_exit_slide)
                     .build();
