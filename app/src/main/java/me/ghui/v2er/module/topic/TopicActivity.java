@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -113,6 +114,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 .appComponent(getAppComponent())
                 .topicModule(new TopicModule(this))
                 .build().inject(this);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        CustomTabsClient.connectAndInitialize(this, "com.android.chrome");
     }
 
     @Override
