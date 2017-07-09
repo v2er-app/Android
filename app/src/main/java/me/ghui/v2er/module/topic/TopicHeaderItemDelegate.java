@@ -103,7 +103,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
 
     @Override
     public boolean onUrlClick(String url) {
-        Utils.openWap(url);
+        Utils.openWap(url,mContext);
         return false;
     }
 }

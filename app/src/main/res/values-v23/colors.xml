@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f4f4f4</color>
-    <color name="colorPrimaryDark">#f4f4f4</color>
+    <color name="colorPrimary">#fff4f4f4</color>
+    <color name="colorPrimaryDark">#fff4f4f4</color>
 </resources>

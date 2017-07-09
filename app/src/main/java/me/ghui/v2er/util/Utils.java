@@ -23,6 +23,7 @@ import java.util.List;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.network.UrlInterceptor;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -203,13 +204,14 @@ public class Utils {
         App.get().startActivity(intent);
     }
 
-    public static void openWap(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse(url));
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        App.get().startActivity(intent);
+    public static void openWap(String url, Context context) {
+        UrlInterceptor.intercept(url, context);
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.addCategory(Intent.CATEGORY_DEFAULT);
+//        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//        intent.setData(Uri.parse(url));
+//        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+//        App.get().startActivity(intent);
     }
 
     /**

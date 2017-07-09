@@ -80,7 +80,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
 
     @Override
     public boolean onUrlClick(String url) {
-        Utils.openWap(url);
+        Utils.openWap(url,mContext);
         return false;
     }
 

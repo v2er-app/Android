@@ -1,9 +1,15 @@
 package me.ghui.v2er.network;
 
 import android.content.Context;
+import android.net.Uri;
+import android.support.customtabs.CustomTabsIntent;
 
 import com.orhanobut.logger.Logger;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.node.NodeTopicActivity;
@@ -13,6 +19,8 @@ import me.ghui.v2er.util.UriUtils;
 
 /**
  * Created by ghui on 02/06/2017.
+ * 1. 站内的url用webview打开，共享cookie
+ * 2. 站外的url用chrome custom tab
  */
 
 public class UrlInterceptor {
@@ -28,7 +36,29 @@ public class UrlInterceptor {
                 url = Constants.BASE_URL + "/" + url;
             }
         }
+
         //now has a complete url
+
+        URI uri = null;
+        try {
+            uri = new URI(url);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        assert uri != null;
+        String host = uri.getHost();
+        if (PreConditions.isEmpty(host)) return false;
+        if (!host.contains(Constants.HOST_NAME)) {
+            // 1. 外站
+            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                    .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
+                    .setShowTitle(true)
+                    .build();
+            customTabsIntent.launchUrl(context, Uri.parse(url));
+            return true;
+        }
+
+        // 2. 内站
         if (url.contains("/t/")) {
             //topic link
             TopicActivity.open(url, context);
@@ -52,10 +82,11 @@ public class UrlInterceptor {
                     .to(UserHomeActivity.class)
                     .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
                     .start();
+            result = true;
         } else {
             //open url in a default webview
-            // TODO: 03/06/2017  
-            result = true;
+            // TODO: 03/06/2017
+            result = false;
         }
         return result;
     }

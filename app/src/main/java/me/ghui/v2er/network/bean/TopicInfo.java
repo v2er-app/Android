@@ -308,11 +308,6 @@ public class TopicInfo implements IBaseInfo {
         @Pick(attr = "id")
         private String replyId;
 
-//        public String getUserId() {
-//            // //v2ex.assets.uxengine.net/avatar/c6f7/ffa0/161290_large.png?m=1492488139
-//
-//        }
-
         public String getFloor() {
             return floor + "楼";
         }

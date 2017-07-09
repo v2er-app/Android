@@ -20,6 +20,7 @@ import com.bumptech.glide.load.engine.cache.DiskCache;
 
 import java.util.List;
 
+import me.ghui.v2er.general.App;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.Utils;
 import okhttp3.internal.Util;
@@ -37,12 +38,14 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
     private OnUrlClickListener mUrlClickListener;
     private OnImageClickListener mImageClickListener;
     private ImagesInfo.Images imgs;
+    private TextView mTextView;
 
     public HtmlMovementMethod(OnUrlClickListener urlClickListener
-            , OnImageClickListener imageClickListener, ImagesInfo.Images imgs) {
+            , OnImageClickListener imageClickListener, ImagesInfo.Images imgs, TextView textView) {
         this.mUrlClickListener = urlClickListener;
         this.mImageClickListener = imageClickListener;
         this.imgs = imgs;
+        this.mTextView = textView;
     }
 
     @Override
@@ -208,7 +211,7 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
             if (mUrlClickListener != null) {
                 mUrlClickListener.onUrlClick(((URLSpan) span).getURL());
             } else {
-                Utils.openWap(((URLSpan) span).getURL());
+                Utils.openWap(((URLSpan) span).getURL(), mTextView.getContext());
             }
         } else if (span instanceof ImageSpan) {
             String currentImg = ((ImageSpan) span).getSource();

@@ -89,7 +89,7 @@ public class RichTextConfig {
         CharSequence content = removePadding(spanned, textView);
         textView.setText(content);
         ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
-        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images));
+        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images, textView));
     }
 
 }
