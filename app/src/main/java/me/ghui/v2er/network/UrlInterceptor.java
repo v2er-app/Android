@@ -52,6 +52,7 @@ public class UrlInterceptor {
             // 1. 外站
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
+                    .enableUrlBarHiding()
                     .setShowTitle(true)
                     .addDefaultShareMenuItem()
                     .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
