@@ -21,6 +21,8 @@ import com.bumptech.glide.load.engine.cache.DiskCache;
 import java.util.List;
 
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.util.Utils;
+import okhttp3.internal.Util;
 
 /**
  * A movement method that traverses links in the text buffer and scrolls if necessary.
@@ -205,6 +207,8 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
         if (span instanceof URLSpan) {
             if (mUrlClickListener != null) {
                 mUrlClickListener.onUrlClick(((URLSpan) span).getURL());
+            } else {
+                Utils.openWap(((URLSpan) span).getURL());
             }
         } else if (span instanceof ImageSpan) {
             String currentImg = ((ImageSpan) span).getSource();

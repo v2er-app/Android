@@ -19,7 +19,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
-import org.sufficientlysecure.htmltextview.HtmlTextView;
 
 import javax.inject.Inject;
 
@@ -42,6 +41,7 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 25/05/2017.
@@ -66,7 +66,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @BindView(R.id.node_name_tv)
     TextView mNodeText;
     @BindView(R.id.node_describtion_tv)
-    HtmlTextView mNodeDesTv;
+    TextView mNodeDesTv;
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout mCollapsingToolbarLayout;
     @BindView(R.id.node_info_appbar_layout)
@@ -220,7 +220,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
         String desc = nodeInfo.getHeader();
-        mNodeDesTv.setHtml(desc);
+        RichText.from(desc).into(mNodeDesTv);
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         if (mNodeImg.getDrawable() == null) {

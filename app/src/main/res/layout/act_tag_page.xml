@@ -65,7 +65,7 @@
                         android:paddingTop="16dp"
                         tools:text="Python" />
 
-                    <org.sufficientlysecure.htmltextview.HtmlTextView
+                    <TextView
                         android:id="@+id/node_describtion_tv"
                         style="@style/BodyText"
                         android:layout_gravity="center"

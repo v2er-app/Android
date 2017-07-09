@@ -7,14 +7,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import org.sufficientlysecure.htmltextview.HtmlTextView;
-
 import java.util.List;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 07/05/2017.
@@ -59,7 +58,7 @@ public class AppendTopicContentView extends LinearLayout {
     private static class ItemView extends LinearLayout {
 
         private TextView headerTV;
-        private HtmlTextView contentTV;
+        private TextView contentTV;
 
         private ItemView(Context context) {
             super(context);
@@ -84,7 +83,7 @@ public class AppendTopicContentView extends LinearLayout {
             headerTV.setTextAppearance(context, R.style.hintText);
             headerTV.setPadding(headerTV.getPaddingLeft(), headerTV.getPaddingTop(), headerTV.getPaddingRight(), ScaleUtils.dp(4));
             addView(headerTV);
-            contentTV = new HtmlTextView(context);
+            contentTV = new TextView(context);
             contentTV.setTextIsSelectable(true);
             contentTV.setTextAppearance(context, R.style.BodyText);
             addView(contentTV);
@@ -93,7 +92,7 @@ public class AppendTopicContentView extends LinearLayout {
         public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
             itemView.headerTV.setText(post.getHeader());
-            itemView.contentTV.setHtml(post.getContent());
+            RichText.from(post.getContent()).into(itemView.contentTV);
             return itemView;
         }
     }
