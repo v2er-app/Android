@@ -99,7 +99,7 @@ public class ImageDetailFragment extends Fragment {
     private void paletteBg(Bitmap bitmap) {
         Palette.from(bitmap)
                 .generate(palette -> {
-                    Palette.Swatch textSwatch = palette.getVibrantSwatch();
+                    Palette.Swatch textSwatch = palette.getDarkMutedSwatch();
                     if (textSwatch == null) {
                         Logger.e("textSwatch is null");
                         return;
