@@ -85,6 +85,7 @@ public class RichTextConfig {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
             mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
+        if (sourceText == null) sourceText = "";
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
         CharSequence content = removePadding(spanned, textView);
         textView.setText(content);

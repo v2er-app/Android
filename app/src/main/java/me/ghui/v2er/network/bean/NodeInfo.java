@@ -20,7 +20,7 @@ public class NodeInfo implements Serializable, IBaseInfo {
     private String title;
     private int topics;
     private int stars;
-    private String header;
+    private String header = "";
     private long created;
     @SerializedName("avatar_large")
     private String avatar;
