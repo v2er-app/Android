@@ -3,10 +3,13 @@ package me.ghui.v2er.module.general;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.http.SslError;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
@@ -23,6 +26,8 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.UrlInterceptor;
+import me.ghui.v2er.util.Utils;
+import okhttp3.internal.Util;
 
 /**
  * Created by ghui on 30/06/2017.
@@ -62,8 +67,34 @@ public class WapActivity extends BaseActivity {
     }
 
     @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
     protected void configToolBar(Toolbar toolBar) {
         super.configToolBar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
+        mToolbar.inflateMenu(R.menu.wapview_menu);
+        mToolbar.setOnMenuItemClickListener(menuItem -> {
+            switch (menuItem.getItemId()) {
+                case R.id.action_refresh:
+                    showLoading();
+                    refresh();
+                    break;
+                case R.id.action_share:
+                    Utils.shareLink(this, mCurrentUrl, toolBar.getTitle().toString());
+                    break;
+                case R.id.action_copy_url:
+                    Utils.copyToClipboard(this, mCurrentUrl);
+                    toast("链接已拷贝成功");
+                    break;
+                case R.id.action_open_in_browser:
+                    Utils.openInBrowser(mCurrentUrl);
+                    break;
+            }
+            return false;
+        });
     }
 
     @Override

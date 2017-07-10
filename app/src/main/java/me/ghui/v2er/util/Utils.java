@@ -214,6 +214,15 @@ public class Utils {
 //        App.get().startActivity(intent);
     }
 
+    public static void openInBrowser(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.setData(Uri.parse(url));
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        App.get().startActivity(intent);
+    }
+
     /**
      * get App versionCode
      *
