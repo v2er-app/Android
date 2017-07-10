@@ -69,11 +69,11 @@ public class RichTextConfig {
 
     private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
         if (PreConditions.isEmpty(text)) return null;
-        if (PreConditions.notEmpty(text) && text.charAt(0) == 65532) {
-            int paddingTop = -(int) (3 * textView.getResources().getDimension(R.dimen.smallTextSize));
-            textView.setPadding(textView.getPaddingLeft(), paddingTop,
-                    textView.getPaddingRight(), textView.getPaddingBottom());
-        }
+//        if (PreConditions.notEmpty(text) && text.charAt(0) == 65532) {
+//            int paddingTop = -(int) (3 * textView.getResources().getDimension(R.dimen.smallTextSize));
+//            textView.setPadding(textView.getPaddingLeft(), paddingTop,
+//                    textView.getPaddingRight(), textView.getPaddingBottom());
+//        }
         while (text.charAt(text.length() - 1) == '\n') {
             text = text.delete(text.length() - 1, text.length());
         }

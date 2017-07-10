@@ -67,6 +67,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
         TextView contentView = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
+            contentView.setTextIsSelectable(true);
             contentView = holder.getView(R.id.content_tv);
             RichText.from(replyInfo.getReplyContent())
                     .urlClick(this)
@@ -80,7 +81,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
 
     @Override
     public boolean onUrlClick(String url) {
-        Utils.openWap(url,mContext);
+        Utils.openWap(url, mContext);
         return false;
     }
 

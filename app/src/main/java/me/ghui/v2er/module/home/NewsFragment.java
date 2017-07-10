@@ -150,6 +150,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                 .commentNum(item.getReplies())
                 .build();
         TopicActivity.open(item.getLinkPath(),
-                getContext(), null, basicInfo);
+                getContext(), shareView, basicInfo);
     }
 }
