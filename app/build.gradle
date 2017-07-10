@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 25
         versionCode 4
-        versionName "alpha4"
+        versionName "1.0-Alpha4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
