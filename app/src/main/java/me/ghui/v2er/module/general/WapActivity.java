@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -14,6 +16,9 @@ import android.webkit.WebViewClient;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
+import in.srain.cube.views.ptr.PtrFrameLayout;
+import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -53,6 +58,30 @@ public class WapActivity extends BaseActivity {
     protected void init() {
         mWebView.setWebChromeClient(new BaseWebChromeClient());
         mWebView.setWebViewClient(new BaseWebViewClient());
+        loadUrl(mCurrentUrl);
+    }
+
+    @Override
+    protected void configToolBar(Toolbar toolBar) {
+        super.configToolBar(toolBar);
+    }
+
+    @Override
+    protected PtrHandler attachPtrHandler() {
+        return new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                refresh();
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return super.checkCanDoRefresh(frame, mWebView, header);
+            }
+        };
+    }
+
+    protected void refresh() {
         loadUrl(mCurrentUrl);
     }
 
@@ -114,7 +143,10 @@ public class WapActivity extends BaseActivity {
     }
 
     protected void onWapReceivedTitle(String title) {
-        setTitle(title, mCurrentUrl);
+        if (title != null && title.startsWith("V2EX › ")) {
+            title = title.replace("V2EX › ", "");
+        }
+        setTitle(title);
     }
 
     protected boolean onWapJsAlert(String url, String message, JsResult jsResult) {

@@ -90,7 +90,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name="me.ghui.v2er.module.imgviewer.ImageViewer" />
-        <activity android:name="me.ghui.v2er.module.general.WapActivity" />
+        <activity
+            android:name="me.ghui.v2er.module.general.WapActivity"
+            android:label="" />
     </application>
 
 </manifest>

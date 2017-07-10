@@ -30,7 +30,6 @@ public class BaseToolBar extends Toolbar {
     }
 
     private void init() {
-        setElevation(2);
         setContentInsetStartWithNavigation(0);
         setContentInsetEndWithActions(0);
         setNavigationIcon(R.drawable.ic_arrow_back_black);
