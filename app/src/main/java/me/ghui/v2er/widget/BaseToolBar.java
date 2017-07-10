@@ -2,6 +2,7 @@ package me.ghui.v2er.widget;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 
@@ -35,5 +36,18 @@ public class BaseToolBar extends Toolbar {
         setNavigationIcon(R.drawable.ic_arrow_back_black);
         setBackgroundColor(ResUtils.getColor(R.color.colorPrimary, getContext()));
         setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
+    }
+
+    @Override
+    public void setElevation(float elevation) {
+        super.setElevation(elevation);
+        try {
+            AppBarLayout parent = (AppBarLayout) getParent();
+            if (elevation <= 0) {
+                parent.setStateListAnimator(null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

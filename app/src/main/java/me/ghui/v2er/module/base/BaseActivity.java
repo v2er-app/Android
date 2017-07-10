@@ -48,7 +48,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
     @Nullable
-    protected Toolbar mToolbar;
+    protected BaseToolBar mToolbar;
     protected AppBarLayout mToolbarWrapper;
     protected View mLoadingView;
 
@@ -74,10 +74,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      *
      * @return
      */
-    protected Toolbar attachToolbar() {
+    protected BaseToolBar attachToolbar() {
         int layoutId = attachToolBar() == 0 ? R.layout.appbar_wrapper_toolbar : attachToolBar();
         mToolbarWrapper = (AppBarLayout) getLayoutInflater().inflate(layoutId, null);
-        return (Toolbar) mToolbarWrapper.findViewById(R.id.inner_toolbar);
+        return (BaseToolBar) mToolbarWrapper.findViewById(R.id.inner_toolbar);
     }
 
     @LayoutRes
@@ -88,7 +88,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * config toolbar here
      */
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         toolBar.setTitle(getTitle());
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
     }

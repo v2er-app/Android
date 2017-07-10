@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -20,6 +21,7 @@ import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.Utils;
 
 
@@ -30,7 +32,7 @@ public class ImageDetailFragment extends Fragment {
     private String mImageUrl;
     private SubsamplingScaleImageView mImageView;
     private ProgressBar progressBar;
-    private static String IMG_URL = "com.lantouzi.app.url";
+    private static String IMG_URL = Constants.PACKAGE_NAME + "_img_url";
 
     public static ImageDetailFragment newInstance(String url) {
         final ImageDetailFragment f = new ImageDetailFragment();
@@ -63,24 +65,28 @@ public class ImageDetailFragment extends Fragment {
     }
 
     private void loadImage() {
-        Glide.with(getContext()).load(mImageUrl).asBitmap().into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onLoadStarted(Drawable placeholder) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
+        Glide.with(getContext())
+                .load(mImageUrl)
+                .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onLoadStarted(Drawable placeholder) {
+                        progressBar.setVisibility(View.VISIBLE);
+                    }
 
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                mImageView.setImage(ImageSource.bitmap(resource));
-                progressBar.setVisibility(View.GONE);
-            }
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        mImageView.setImage(ImageSource.bitmap(resource));
+                        progressBar.setVisibility(View.GONE);
+                    }
 
-            @Override
-            public void onLoadFailed(Exception e, Drawable errorDrawable) {
-                progressBar.setVisibility(View.GONE);
-                Utils.toast("图片加载出错");
-            }
-        });
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        progressBar.setVisibility(View.GONE);
+                        Utils.toast("图片加载出错");
+                    }
+                });
     }
 
 

@@ -22,6 +22,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -55,7 +56,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(toolBar);
     }

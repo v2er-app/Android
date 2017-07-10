@@ -14,6 +14,7 @@ import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.BaseToolBar;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -33,7 +34,7 @@ public class StarActivity extends BaseActivity {
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
         Utils.setPaddingForStatusBar(toolBar);

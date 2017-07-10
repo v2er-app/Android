@@ -18,6 +18,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -62,7 +63,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
         toolBar.setOnMenuItemClickListener(this);

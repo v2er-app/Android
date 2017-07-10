@@ -39,6 +39,7 @@ public class GlideImageGetter implements Html.ImageGetter {
         Glide.with(mTextView.getContext())
                 .load(source)
                 .asBitmap()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .fitCenter()
                 .into(new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize));
         return drawable;

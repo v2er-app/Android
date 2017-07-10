@@ -27,6 +27,7 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.BaseToolBar;
 import okhttp3.internal.Util;
 
 /**
@@ -72,7 +73,7 @@ public class WapActivity extends BaseActivity {
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.wapview_menu);

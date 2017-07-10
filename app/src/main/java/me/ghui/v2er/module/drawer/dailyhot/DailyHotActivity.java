@@ -24,6 +24,7 @@ import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
+import me.ghui.v2er.widget.BaseToolBar;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -68,7 +69,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     }
 
     @Override
-    protected void configToolBar(Toolbar toolBar) {
+    protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(toolBar);
     }
