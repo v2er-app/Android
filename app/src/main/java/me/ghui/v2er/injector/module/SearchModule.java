@@ -35,8 +35,11 @@ public class SearchModule {
             protected void convert(ViewHolder holder, BingSearchResultInfo.Item item, int position) {
                 holder.setText(R.id.search_result_title_tv, item.getTitle());
                 holder.setText(R.id.search_result_content_tv, item.getContent());
-//                RichText.fromHtml(item.getTitle()).into(holder.getView(R.id.search_result_title_tv));
-//                RichText.fromHtml(item.getContent()).into(holder.getView(R.id.search_result_content_tv));
+            }
+
+            @Override
+            protected boolean shouldAnimate() {
+                return false;
             }
         };
     }
