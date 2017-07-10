@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <LinearLayout
         android:id="@+id/title_wrapper"

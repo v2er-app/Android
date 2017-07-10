@@ -7,7 +7,7 @@
     android:clickable="true"
     android:focusable="true"
     android:orientation="horizontal"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/user_name_tv"

@@ -390,6 +390,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void handleError(int errorCode, String errorMsg) {
+        toast(errorMsg);
         if (supportShareElement()) {
             startPostponedEnterTransition();
         }

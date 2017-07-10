@@ -7,7 +7,7 @@
     android:background="?android:attr/selectableItemBackgroundBorderless"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/node_img"
