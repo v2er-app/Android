@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +49,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected ViewGroup mContentView;
     @Nullable
     protected Toolbar mToolbar;
+    protected AppBarLayout mToolbarWrapper;
     protected View mLoadingView;
 
     @Inject
@@ -68,16 +70,14 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * Set a default Toolbar, if you don't want certain page to have a toolbar,
      * just return null;
+     * The toolbar must has a id and value is : inner_toolbar
      *
      * @return
      */
     protected Toolbar attachToolbar() {
-        if (attachToolBar() == 0) {//default
-            BaseToolBar baseToolBar = new BaseToolBar(this);
-            return baseToolBar;
-        } else {
-            return (BaseToolBar) getLayoutInflater().inflate(attachToolBar(), null);
-        }
+        int layoutId = attachToolBar() == 0 ? R.layout.appbar_wrapper_toolbar : attachToolBar();
+        mToolbarWrapper = (AppBarLayout) getLayoutInflater().inflate(layoutId, null);
+        return (Toolbar) mToolbarWrapper.findViewById(R.id.inner_toolbar);
     }
 
     @LayoutRes
@@ -232,7 +232,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             rootView.setOrientation(LinearLayout.VERTICAL);
-            rootView.addView(mToolbar, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            rootView.addView(mToolbarWrapper, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             mContentView = rootView;
 
