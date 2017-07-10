@@ -16,6 +16,7 @@ import me.ghui.v2er.network.converter.GlobalConverterFactory;
 import me.ghui.v2er.network.converter.HtmlConverterFactory;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
+import okhttp3.CookieJar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -38,7 +39,7 @@ public class APIService {
     private static APIs mAPI_SERVICE;
     private static Gson sGson;
     private static Fruit sFruit;
-    private static PersistentCookieJar sCookieJar;
+    private static WebkitCookieManagerProxy sCookieJar;
 
 
     public static void init() {
@@ -97,9 +98,10 @@ public class APIService {
         return sFruit;
     }
 
-    public static PersistentCookieJar cookieJar() {
+    public static WebkitCookieManagerProxy cookieJar() {
         if (sCookieJar == null) {
-            sCookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.get()));
+//            sCookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(App.get()));
+            sCookieJar = new WebkitCookieManagerProxy();
         }
         return sCookieJar;
     }

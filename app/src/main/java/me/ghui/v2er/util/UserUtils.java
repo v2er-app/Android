@@ -35,9 +35,9 @@ public class UserUtils {
     }
 
     public static void clearLogin() {
+        // TODO: 10/07/2017
         //1. crear cookie
-        APIService.cookieJar().clear();
-        APIService.cookieJar().clearSession();
+        APIService.cookieJar().clearCookie();
         //2. crear userInfo
         Prefs.with(App.get()).remove(USER_INFO_KEY);
     }
