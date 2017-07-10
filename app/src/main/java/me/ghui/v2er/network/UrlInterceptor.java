@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
@@ -25,7 +26,7 @@ import me.ghui.v2er.util.UriUtils;
 
 public class UrlInterceptor {
 
-    public static boolean intercept(String url, Context context) {
+    public static boolean intercept(String url, Context context, boolean openInWap) {
         boolean result = false;
         if (PreConditions.isEmpty(url)) return result;
         if (!url.startsWith(Constants.HTTPS_SCHEME) && !url.startsWith(Constants.HTTP_SCHEME)) {
@@ -56,7 +57,7 @@ public class UrlInterceptor {
                     .setShowTitle(true)
                     .addDefaultShareMenuItem()
                     .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
-                    .setExitAnimations(context,R.anim.close_enter_slide, R.anim.close_exit_slide)
+                    .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
                     .build();
             customTabsIntent.launchUrl(context, Uri.parse(url));
             return true;
@@ -89,10 +90,21 @@ public class UrlInterceptor {
             result = true;
         } else {
             //open url in a default webview
-            // TODO: 03/06/2017
+            if (openInWap) {
+                WapActivity.open(url, context);
+            }
             result = false;
         }
         return result;
+    }
+
+
+    /**
+     * @param url
+     * @param context
+     */
+    public static void openWapPage(String url, Context context) {
+        intercept(url, context, true);
     }
 
 

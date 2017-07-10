@@ -25,7 +25,7 @@ public class OiaActivity extends Activity {
         Intent oiaIntent = getIntent();
         String path = oiaIntent.getData().getPath();
         Logger.d("path: " + path);
-        UrlInterceptor.intercept(path, this);
+        UrlInterceptor.openWapPage(path, this);
         finish();
     }
 }

@@ -201,7 +201,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         String link = mResultAdapter.getDatas().get(position).getLink();
-        UrlInterceptor.intercept(link, getContext());
+        UrlInterceptor.openWapPage(link, getContext());
     }
 
 

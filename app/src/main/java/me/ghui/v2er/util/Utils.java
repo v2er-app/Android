@@ -205,7 +205,7 @@ public class Utils {
     }
 
     public static void openWap(String url, Context context) {
-        UrlInterceptor.intercept(url, context);
+        UrlInterceptor.openWapPage(url, context);
 //        Intent intent = new Intent(Intent.ACTION_VIEW);
 //        intent.addCategory(Intent.CATEGORY_DEFAULT);
 //        intent.addCategory(Intent.CATEGORY_BROWSABLE);

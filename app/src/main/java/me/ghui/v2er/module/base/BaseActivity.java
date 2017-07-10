@@ -93,6 +93,17 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
     }
 
+    protected void setTitle(String title, String subTitle) {
+        if (mToolbar != null) {
+            mToolbar.setTitle(title);
+            mToolbar.setSubtitle(subTitle);
+        }
+    }
+
+    protected void setTitle(String title) {
+        setTitle(title, null);
+    }
+
     /**
      * if you want to support ptr, then attach a PtrHandler to it
      *
