@@ -9,8 +9,9 @@
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowContentTransitions">true</item>
         <item name="android:windowAnimationStyle">@style/AppActAnimation</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:windowReturnTransition">@android:transition/explode</item>
     </style>
 
     <style name="AppTheme" parent="BaseApp.Theme" />
