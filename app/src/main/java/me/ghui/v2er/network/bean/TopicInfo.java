@@ -20,9 +20,10 @@ import me.ghui.v2er.util.Utils;
  */
 
 public class TopicInfo implements IBaseInfo {
-
     @Pick("div.box")
     private HeaderInfo headerInfo;
+    @Pick("div.box")
+    private ContentInfo contentInfo;
     @Pick("div[id^=r_]")
     private List<Reply> replies;
     @Pick(value = "input[name=once]", attr = "value")
@@ -55,13 +56,14 @@ public class TopicInfo implements IBaseInfo {
      */
     public List<Item> getItems(boolean isLoadMore) {
         if (items == null) {
-            items = new ArrayList<>(Utils.listSize(replies) + 1);
+            items = new ArrayList<>(Utils.listSize(replies) + 2);
         } else {
             items.clear();
         }
 
         if (!isLoadMore) {
             items.add(headerInfo);
+            items.add(contentInfo);
         }
         items.addAll(replies);
         return items;
@@ -94,6 +96,73 @@ public class TopicInfo implements IBaseInfo {
         return headerInfo.isValid();
     }
 
+    public static class ContentInfo implements Item, IBaseInfo {
+        @Pick(value = "div.cell div.topic_content", attr = Attrs.INNER_HTML)
+        private String contentHtml;
+        @Pick("div.subtle")
+        private List<PostScript> postScripts;
+
+        public String getContentHtml() {
+            return contentHtml;
+        }
+
+        public void setContentHtml(String contentHtml) {
+            this.contentHtml = contentHtml;
+        }
+
+        public List<PostScript> getPostScripts() {
+            return postScripts;
+        }
+
+        public void setPostScripts(List<PostScript> postScripts) {
+            this.postScripts = postScripts;
+        }
+
+        @Override
+        public boolean isValid() {
+            return PreConditions.notEmpty(contentHtml);
+        }
+
+        @Override
+        public boolean isHeaderItem() {
+            return false;
+        }
+
+        @Override
+        public boolean isContentItem() {
+            return true;
+        }
+
+        @Override
+        public boolean isSelf() {
+            return false;
+        }
+
+
+        public static class PostScript {
+            @Pick("span.fade")
+            private String header;
+            @Pick(value = "div.topic_content", attr = Attrs.INNER_HTML)
+            private String content;
+
+            public String getHeader() {
+                return header;
+            }
+
+            public String getContent() {
+                return content;
+            }
+
+            @Override
+            public String toString() {
+                return "PostScript{" +
+                        "header='" + header + '\'' +
+                        ", content='" + content + '\'' +
+                        '}';
+            }
+        }
+    }
+
     public static class HeaderInfo implements Item, IBaseInfo {
         @Pick(value = "img.avatar", attr = "src")
         private String avatar;
@@ -111,11 +180,7 @@ public class TopicInfo implements IBaseInfo {
         private int page;
         @Pick("h1")
         private String title;
-        @Pick(value = "div.cell div.topic_content", attr = Attrs.INNER_HTML)
-        private String contentHtml;
-        @Pick("div.subtle")
-        private List<PostScript> postScripts;
-        //        @Pick(value = "a.tb[href^=/favorite]", attr = Attrs.HREF)
+
         @Pick(value = "a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
         @Pick("div[id=topic_thank] span.f11.gray")
@@ -210,10 +275,6 @@ public class TopicInfo implements IBaseInfo {
             }
         }
 
-        public List<PostScript> getPostScripts() {
-            return postScripts;
-        }
-
         public String getUserName() {
             return userName;
         }
@@ -230,10 +291,6 @@ public class TopicInfo implements IBaseInfo {
             return page < 1 ? 1 : page;
         }
 
-        public String getContentHtml() {
-            return contentHtml;
-        }
-
 
         @Override
         public String toString() {
@@ -246,14 +303,17 @@ public class TopicInfo implements IBaseInfo {
                     ", comment='" + comment + '\'' +
                     ", page=" + page +
                     ", title='" + title + '\'' +
-                    ", contentHtml='" + contentHtml + '\'' +
-                    ", postScripts=" + postScripts +
                     '}';
         }
 
         @Override
         public boolean isHeaderItem() {
             return true;
+        }
+
+        @Override
+        public boolean isContentItem() {
+            return false;
         }
 
         @Override
@@ -266,28 +326,6 @@ public class TopicInfo implements IBaseInfo {
         }
 
 
-        public static class PostScript {
-            @Pick("span.fade")
-            private String header;
-            @Pick(value = "div.topic_content", attr = Attrs.INNER_HTML)
-            private String content;
-
-            public String getHeader() {
-                return header;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            @Override
-            public String toString() {
-                return "PostScript{" +
-                        "header='" + header + '\'' +
-                        ", content='" + content + '\'' +
-                        '}';
-            }
-        }
     }
 
     public static class Reply implements Item {
@@ -401,6 +439,11 @@ public class TopicInfo implements IBaseInfo {
         }
 
         @Override
+        public boolean isContentItem() {
+            return false;
+        }
+
+        @Override
         public boolean isSelf() {
             try {
                 return userName.equals(UserUtils.getUserInfo().getUserName());
@@ -412,6 +455,8 @@ public class TopicInfo implements IBaseInfo {
 
     public interface Item {
         boolean isHeaderItem();
+
+        boolean isContentItem();
 
         boolean isSelf();
     }

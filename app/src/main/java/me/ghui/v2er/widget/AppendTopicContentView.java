@@ -42,13 +42,13 @@ public class AppendTopicContentView extends LinearLayout {
         setShowDividers(SHOW_DIVIDER_MIDDLE);
     }
 
-    public void setData(List<TopicInfo.HeaderInfo.PostScript> data) {
+    public void setData(List<TopicInfo.ContentInfo.PostScript> data) {
         if (PreConditions.isEmpty(data)) {
             setVisibility(GONE);
         } else {
             setVisibility(VISIBLE);
             this.removeAllViews();
-            for (TopicInfo.HeaderInfo.PostScript postScript : data) {
+            for (TopicInfo.ContentInfo.PostScript postScript : data) {
                 addView(ItemView.create(postScript, getContext()));
             }
         }
@@ -89,7 +89,7 @@ public class AppendTopicContentView extends LinearLayout {
             addView(contentTV);
         }
 
-        public static ItemView create(TopicInfo.HeaderInfo.PostScript post, Context context) {
+        public static ItemView create(TopicInfo.ContentInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
             itemView.headerTV.setText(post.getHeader());
             RichText.from(post.getContent()).into(itemView.contentTV);

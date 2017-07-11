@@ -39,7 +39,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
 
     @Override
     public boolean isForViewType(@Nullable TopicInfo.Item item, int position) {
-        return item != null && !item.isHeaderItem();
+        return item != null && !item.isHeaderItem() && !item.isContentItem();
     }
 
     @Override
