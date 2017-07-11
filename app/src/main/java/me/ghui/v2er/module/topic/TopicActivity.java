@@ -74,7 +74,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     EditText mReplyEt;
     @BindView(R.id.reply_fab_btn)
     FloatingActionButton mReplyFabBtn;
-    private TextView mTopicHeaderTV;
+    private LinearLayoutManager mLinearLayoutManager;
+    private boolean isTitleVisiable;
 
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
@@ -210,7 +211,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mReplyWrapper.addKeyboardStateChangedListener(this);
 //        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
         mLoadMoreRecyclerView.addDivider();
-        mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         if (mTopicBasicInfo != null) {
             List<TopicInfo.Item> data = new ArrayList<>();
             data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
@@ -231,15 +233,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 }
             }
         });
-        // TODO: 11/07/2017
         mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (mTopicHeaderTV == null) {
-                    mTopicHeaderTV = (TextView) recyclerView.findViewById(R.id.topic_header_title_tv);
-                }
-
-                if (mTopicHeaderTV != null) {
+                int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
+                if (pos == 0) {
+                    //title 可见
+                    isTitleVisiable = true;
+                    mToolbar.setSubtitle(null);
+                } else {
+                    //title 不可见
+                    isTitleVisiable = false;
+                    mToolbar.setSubtitle(mTopicInfo.getHeaderInfo().getTitle());
                 }
             }
         });
