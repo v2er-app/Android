@@ -24,7 +24,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.util.RxUtils;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.PtrMaterialFrameLayout;
 
 /**
@@ -254,10 +254,10 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void toast(String msg) {
-        Utils.toast(msg);
+        Voast.show(msg);
     }
 
     public void toast(String msg, boolean isToastLong) {
-        Utils.toast(msg, isToastLong);
+        Voast.show(msg, isToastLong);
     }
 }

@@ -19,6 +19,7 @@
         android:backgroundTint="@color/white"
         android:scaleType="center"
         android:src="@drawable/ic_reply_topic"
+        android:visibility="visible"
         app:borderWidth="0dp"
         app:layout_anchor="@id/common_recyclerview"
         app:layout_anchorGravity="bottom|right|end"
@@ -34,37 +35,43 @@
         app:layout_anchor="@id/common_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            app:cardCornerRadius="0dp"
+            app:cardElevation="10dp">
 
-            <me.ghui.v2er.widget.DividerView
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.6dp" />
-
-            <EditText
-                android:id="@+id/topic_reply_et"
-                style="@style/BodyText"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/divider"
-                android:layout_toStartOf="@id/reply_send_btn"
-                android:background="@null"
-                android:hint="回复"
-                android:padding="16dp" />
+                android:background="@color/white">
 
-            <ImageButton
-                android:id="@+id/reply_send_btn"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_alignBottom="@id/topic_reply_et"
-                android:layout_alignParentEnd="true"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:padding="20dp"
-                android:src="@drawable/ic_reply_send" />
-        </RelativeLayout>
+                <me.ghui.v2er.widget.DividerView
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.6dp" />
+
+                <EditText
+                    android:id="@+id/topic_reply_et"
+                    style="@style/BodyText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/divider"
+                    android:layout_toStartOf="@id/reply_send_btn"
+                    android:background="@null"
+                    android:hint="回复"
+                    android:padding="16dp" />
+
+                <ImageButton
+                    android:id="@+id/reply_send_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_alignBottom="@id/topic_reply_et"
+                    android:layout_alignParentEnd="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_reply_send" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
     </me.ghui.v2er.widget.KeyboardDetectorRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

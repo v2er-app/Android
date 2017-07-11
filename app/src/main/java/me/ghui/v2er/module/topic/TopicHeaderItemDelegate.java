@@ -81,7 +81,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
             viewCountTv.setVisibility(View.GONE);
         }
         holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
-        holder.setText(R.id.title_tv, headerInfo.getTitle());
+        holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
         TextView contentTv = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(headerInfo.getContentHtml())) {
             contentTv.setVisibility(View.VISIBLE);

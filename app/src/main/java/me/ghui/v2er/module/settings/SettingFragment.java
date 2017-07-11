@@ -13,6 +13,7 @@ import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -68,7 +69,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             boolean ok = GlideCatchUtil.clearDiskCache();
             if (ok) {
                 cachePref.setSummary(getString(R.string.cache_summary));
-                Utils.toast("成功清理" + size + "缓存");
+                Voast.show("成功清理" + size + "缓存");
             }
             return true;
         } else if (key.equals(getString(R.string.pref_key_check_update))) {

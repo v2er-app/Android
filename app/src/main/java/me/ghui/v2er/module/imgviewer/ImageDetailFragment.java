@@ -11,22 +11,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
-import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 
 /**
@@ -91,7 +87,7 @@ public class ImageDetailFragment extends Fragment {
                     @Override
                     public void onLoadFailed(Exception e, Drawable errorDrawable) {
                         progressBar.setVisibility(View.GONE);
-                        Utils.toast("图片加载出错");
+                        Voast.show("图片加载出错");
                     }
                 });
     }

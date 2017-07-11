@@ -16,7 +16,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -60,14 +59,6 @@ public class Utils {
         } else {
             imm.hideSoftInputFromWindow(inputEdit.getWindowToken(), 0);
         }
-    }
-
-    public static void toast(String msg) {
-        toast(msg, false);
-    }
-
-    public static void toast(String msg, boolean isToastLong) {
-        Toast.makeText(App.get(), msg, isToastLong ? Toast.LENGTH_LONG : Toast.LENGTH_SHORT).show();
     }
 
     public static void openStorePage() {
@@ -170,7 +161,7 @@ public class Utils {
         try {
             context.startActivity(Intent.createChooser(intent, "Send mail..."));
         } catch (android.content.ActivityNotFoundException ex) {
-            toast("There are no email clients installed.");
+            Voast.show("There are no email clients installed.");
         }
     }
 
@@ -180,7 +171,7 @@ public class Utils {
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        boolean weiboInstalled = Voast.Utils.isAppInstalled("com.sina.weibo");
+        boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
         if (weiboInstalled) {
             intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
 //            intent.setData(Uri.parse("weicointernational://userinfo?uid=ghuiii"));
@@ -196,7 +187,7 @@ public class Utils {
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        if (Voast.Utils.isAppInstalled("com.twitter.android")) {
+        if (Utils.isAppInstalled("com.twitter.android")) {
             intent.setData(Uri.parse("twitter://user?screen_name=ghuizh"));
         } else {
             intent.setData(Uri.parse("https://mobile.twitter.com/ghuizh"));

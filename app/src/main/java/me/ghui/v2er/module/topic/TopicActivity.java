@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
@@ -21,6 +22,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
@@ -48,6 +50,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
@@ -69,11 +72,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @BindView(R.id.topic_reply_wrapper)
     KeyboardDetectorRelativeLayout mReplyWrapper;
     @BindView(R.id.topic_inner_reply_wrapper)
-    RelativeLayout mReplyInnerWrapper;
+    ViewGroup mReplyInnerWrapper;
     @BindView(R.id.topic_reply_et)
     EditText mReplyEt;
     @BindView(R.id.reply_fab_btn)
     FloatingActionButton mReplyFabBtn;
+    private TextView mTopicHeaderTV;
 
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
@@ -84,6 +88,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mThxMenuItem;
     private BottomSheetDialog mBottomSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
+    private Rect mRect = new Rect();
 
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
@@ -206,6 +211,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
 
         mReplyWrapper.addKeyboardStateChangedListener(this);
+        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
         mLoadMoreRecyclerView.addDivider();
         mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         if (mTopicBasicInfo != null) {
@@ -228,7 +234,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 }
             }
         });
-        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
+        // TODO: 11/07/2017
+        mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (mTopicHeaderTV == null) {
+                    mTopicHeaderTV = (TextView) recyclerView.findViewById(R.id.topic_header_title_tv);
+                }
+
+                if (mTopicHeaderTV != null) {
+                }
+            }
+        });
     }
 
 
@@ -274,6 +291,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void onBackPressed() {
+        if (mReplyWrapper.getVisibility() == View.VISIBLE) {
+            animateEditInnerWrapper(false);
+            return;
+        }
         super.onBackPressed();
     }
 
@@ -289,19 +310,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         int deltaY = ScaleUtils.dp(20);
         int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16) - deltaX);
         int cY = ScaleUtils.dp(48) / 2;
-        int startRadius = ScaleUtils.dp(100);
+        int startRadius = ScaleUtils.dp(25);
         int endRadius = (int) ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
             mReplyFabBtn.animate()
                     .xBy(-deltaX)
                     .yBy(deltaY)
-                    .setDuration(200)
+                    .setDuration(300)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
                             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
-                            animator.setInterpolator(new FastOutSlowInInterpolator());
-                            animator.setDuration(250);
+                            animator.setDuration(400);
                             animator.start();
                             mReplyWrapper.setVisibility(View.VISIBLE);
                             mReplyFabBtn.hide();
@@ -310,8 +330,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         } else {//hide wrapper
             if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
-            animator.setDuration(200);
-            animator.setInterpolator(new FastOutSlowInInterpolator());
+            animator.setDuration(300);
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -321,8 +340,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .xBy(deltaX)
                             .yBy(-deltaY)
                             .setListener(null)
-                            .setDuration(100)
+                            .setDuration(200)
                             .start();
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    // TODO: 11/07/2017
+                    Voast.debug("TopicPage onAnimationCancel");
+                    onAnimationEnd(animation);
                 }
             });
             animator.start();

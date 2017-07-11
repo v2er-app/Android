@@ -9,7 +9,6 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,7 @@ import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.PtrMaterialFrameLayout;
 
@@ -344,11 +344,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void toast(String msg) {
-        Utils.toast(msg);
+        Voast.show(msg);
     }
 
     public void toast(String msg, boolean isToastLong) {
-        Utils.toast(msg, isToastLong);
+        Voast.show(msg, isToastLong);
     }
 
     @Override
@@ -397,6 +397,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     public void scheduleStartPostponedTransition(final View sharedElement) {
+        if (sharedElement == null) return;
         sharedElement.getViewTreeObserver().addOnPreDrawListener(
                 new ViewTreeObserver.OnPreDrawListener() {
                     @Override

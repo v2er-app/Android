@@ -6,7 +6,7 @@ import java.util.List;
 
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 12/06/2017.
@@ -38,7 +38,7 @@ public class PreConditions {
 
     public static boolean notLoginAndProcessToLogin(Context context) {
         if (!UserUtils.isLogin()) {
-            Utils.toast("登录后才能进行此操作");
+            Voast.show("登录后才能进行此操作");
             Navigator.from(context).to(LoginActivity.class).start();
             return true;
         }

@@ -4,7 +4,7 @@ import com.orhanobut.logger.Logger;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 19/06/2017.
@@ -37,7 +37,7 @@ public abstract class GeneralConsumer<T> implements Observer<T> {
     @Override
     public void onError(Throwable e) {
         if (mGeneralErrorHandler == null) {
-            Utils.toast(e.getMessage());
+            Voast.show(e.getMessage());
         } else {
             int errorCode = -1;
             mGeneralErrorHandler.handleError(errorCode, e.getMessage());

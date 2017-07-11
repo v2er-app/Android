@@ -20,7 +20,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
@@ -82,7 +82,7 @@ public class TopicModule {
                                                     replyInfo.updateThanks(true);
                                                     notifyItemChanged(holder.index());
                                                 } else {
-                                                    Utils.toast(mContext.getString(R.string.send_thx_occured_error));
+                                                    Voast.show(mContext.getString(R.string.send_thx_occured_error));
                                                 }
                                             }
                                         });
