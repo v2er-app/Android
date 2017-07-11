@@ -61,10 +61,6 @@ public class NewsModule {
                                 mContext), R.id.tagview);
             }
 
-            @Override
-            protected boolean shouldAnimate() {
-                return true;
-            }
         };
     }
 

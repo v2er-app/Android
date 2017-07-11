@@ -94,17 +94,18 @@ public class TopicModule {
             }
 
             @Override
+            protected boolean shouldAnimate(int pos) {
+                return pos > 1 && super.shouldAnimate(pos);
+            }
+
+            @Override
             protected void animateIn(View itemView, int position) {
-                if (position != 0) {
-                    super.animateIn(itemView, position);
-                }
+                super.animateIn(itemView, position);
             }
 
             @Override
             protected void animateOut(View itemView, int position) {
-                if (position != 0) {
-                    super.animateOut(itemView, position);
-                }
+                super.animateOut(itemView, position);
             }
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));

@@ -36,11 +36,6 @@ public class SearchModule {
                 holder.setText(R.id.search_result_title_tv, item.getTitle());
                 holder.setText(R.id.search_result_content_tv, item.getContent());
             }
-
-            @Override
-            protected boolean shouldAnimate() {
-                return false;
-            }
         };
     }
 }

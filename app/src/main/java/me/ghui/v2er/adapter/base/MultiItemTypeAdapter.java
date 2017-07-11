@@ -27,6 +27,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected OnItemClickListener mOnItemClickListener;
     protected OnItemLongClickListener mOnItemLongClickListener;
     private RecyclerView.LayoutManager mLayoutManager;
+    private RecyclerView mRecyclerView;
 
     public MultiItemTypeAdapter(Context context) {
         mContext = context;
@@ -55,6 +56,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
+        mRecyclerView = recyclerView;
         mLayoutManager = recyclerView.getLayoutManager();
     }
 
@@ -112,12 +114,15 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, getItem(position));
-        if (shouldAnimate()) {
+        if (shouldAnimate(position)) {
             animate(holder.itemView, position);
         }
     }
 
-    protected boolean shouldAnimate() {
+    protected boolean shouldAnimate(int position) {
+        if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
+            return false;
+        }
         return true;
     }
 

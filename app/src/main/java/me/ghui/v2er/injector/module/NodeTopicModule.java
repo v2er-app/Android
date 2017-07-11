@@ -34,11 +34,6 @@ public class NodeTopicModule {
         return new CommonLoadMoreAdapter<NodeTopicInfo.Item>(mActivity, R.layout.node_topic_item) {
 
             @Override
-            protected boolean shouldAnimate() {
-                return true;
-            }
-
-            @Override
             protected void convert(ViewHolder holder, NodeTopicInfo.Item item, int position) {
                 Glide.with(mContext)
                         .load(item.getAvatar())
