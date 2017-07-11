@@ -12,5 +12,5 @@
     <color name="ripple_color">#d4d4d4</color>
     <color name="button_background_color">#3A3636</color>
     <color name="divider_color">#60e2e2e2</color>
-    <color name="transparent_navbar_color">#80DADADA</color>
+    <color name="transparent_navbar_color">#33000000</color>
 </resources>
