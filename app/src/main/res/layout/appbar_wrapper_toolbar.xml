@@ -7,6 +7,5 @@
 
     <me.ghui.v2er.widget.BaseToolBar
         android:id="@id/inner_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/BaseToolBar" />
 </android.support.design.widget.AppBarLayout>

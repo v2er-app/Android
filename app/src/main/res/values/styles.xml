@@ -40,13 +40,22 @@
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
-        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textSize">@dimen/largeTextSize</item>
         <item name="android:textColor">@color/bodyTextColor</item>
     </style>
 
     <style name="Toolbar.SubTitleText" parent="Toolbar.TitleText">
-        <item name="android:textSize">@dimen/tinyTextSize</item>
-        <item name="android:textColor">@color/hintTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <!--<item name="android:textColor">@color/hintTextColor</item>-->
+    </style>
+
+    <style name="BaseToolBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/bodyTextColor</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="titleTextAppearance">@style/Toolbar.TitleText</item>
+        <item name="subtitleTextAppearance">@style/Toolbar.SubTitleText</item>
     </style>
 
     <style name="AvatarImg">

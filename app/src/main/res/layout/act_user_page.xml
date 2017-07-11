@@ -132,15 +132,12 @@
                     tools:text="V2EX 第 161290 号会员，加入于 2016-03-01 14:26:58 +08:00，今日活跃度排名 12" />
             </LinearLayout>
 
-            <android.support.v7.widget.Toolbar
+            <me.ghui.v2er.widget.BaseToolBar
                 android:id="@+id/user_info_toobar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetStartWithNavigation="0dp"
+                style="@style/BaseToolBar"
+                android:background="@android:color/transparent"
                 app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_black"
-                app:subtitleTextAppearance="@style/Toolbar.SubTitleText"
-                app:titleTextAppearance="@style/Toolbar.TitleText" />
+                app:navigationIcon="@drawable/ic_arrow_back_black" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

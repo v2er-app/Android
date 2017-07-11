@@ -73,7 +73,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @BindView(R.id.node_info_appbar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.node_info_toobar)
-    Toolbar mToolbar;
+    BaseToolBar mToolbar;
     @BindView(R.id.node_topic_num)
     TextView mNodeTopicNumTv;
     @BindView(R.id.node_star_num)

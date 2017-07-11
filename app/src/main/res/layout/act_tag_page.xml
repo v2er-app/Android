@@ -119,16 +119,12 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <android.support.v7.widget.Toolbar
+            <me.ghui.v2er.widget.BaseToolBar
                 android:id="@+id/node_info_toobar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:contentInsetStartWithNavigation="0dp"
+                style="@style/BaseToolBar"
+                android:background="@android:color/transparent"
                 app:elevation="0dp"
-                app:layout_collapseMode="pin"
-                app:navigationIcon="@drawable/ic_arrow_back_black"
-                app:subtitleTextAppearance="@style/Toolbar.SubTitleText"
-                app:titleTextAppearance="@style/Toolbar.TitleText" />
+                app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

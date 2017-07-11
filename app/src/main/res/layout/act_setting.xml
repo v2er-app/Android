@@ -6,8 +6,7 @@
 
     <me.ghui.v2er.widget.BaseToolBar
         android:id="@+id/pref_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/BaseToolBar" />
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pref_rootview"

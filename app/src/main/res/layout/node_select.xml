@@ -5,16 +5,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <android.support.v7.widget.Toolbar
+    <me.ghui.v2er.widget.BaseToolBar
         android:id="@+id/node_select_toolbar"
-        android:layout_width="match_parent"
+        style="@style/BaseToolBar"
         android:layout_height="@dimen/toolbar_size"
-        app:contentInsetEnd="0dp"
-        app:contentInsetStart="0dp"
         app:elevation="2dp"
-        app:title="选择节点"
-        app:titleTextAppearance="@style/Toolbar.TitleText"
-        app:titleTextColor="@color/bodyTextColor" />
+        app:title="选择节点" />
 
     <me.ghui.v2er.widget.BaseRecyclerView
         style="@style/BaseRecyclerView"

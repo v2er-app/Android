@@ -60,7 +60,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @BindView(R.id.user_info_appbar_layout)
     AppBarLayout mAppBarLayout;
     @BindView(R.id.user_info_toobar)
-    Toolbar mToolbar;
+    BaseToolBar mToolbar;
     @BindView(R.id.user_online_tv)
     TextView mOnlineTv;
     @BindView(R.id.user_follow_ct)
@@ -125,6 +125,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mToolbar);
+        mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
