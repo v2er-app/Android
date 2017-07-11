@@ -19,7 +19,6 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
@@ -64,7 +63,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
     KeyboardDetectorRelativeLayout mReplyWrapper;
@@ -86,8 +85,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mThxMenuItem;
     private BottomSheetDialog mBottomSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
-    private Rect mRect = new Rect();
-
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
         Navigator.from(context)

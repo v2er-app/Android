@@ -5,6 +5,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,6 +18,8 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
+
+import org.jsoup.Connection;
 
 import java.util.ArrayList;
 
@@ -50,7 +53,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
     @BindView(R.id.main_toolbar)
-    Toolbar mToolbar;
+    BaseToolBar mToolbar;
 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
@@ -73,6 +76,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     protected void configToolBar() {
         Utils.setPaddingForStatusBar(mToolbar);
+        mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
         mToolbar.setNavigationIcon(R.drawable.main_navigation_icon);
         mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
@@ -89,6 +93,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
             return true;
         });
+    }
+
+    @Override
+    public boolean onToolbarDoubleTaped() {
+        int index = mSlidingTabLayout.getCurrentTab();
+        RecyclerView recyclerView = (RecyclerView) mFragments.get(index).getView().findViewById(R.id.base_recyclerview);
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
     @Override

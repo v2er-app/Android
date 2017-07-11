@@ -45,7 +45,7 @@ import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> implements
         MultiItemTypeAdapter.OnItemClickListener, UserHomeContract.IView {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.user_img)
     ImageView mAvatarImg;

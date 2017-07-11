@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,7 +44,8 @@ import me.ghui.v2er.widget.PtrMaterialFrameLayout;
  * Created by ghui on 05/03/2017.
  */
 
-public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView, IBindToLife, IBackHandler {
+public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView,
+        IBindToLife, IBackHandler, BaseToolBar.OnDoubleTapListener {
 
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
@@ -89,8 +91,20 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      * config toolbar here
      */
     protected void configToolBar(BaseToolBar toolBar) {
+        if (toolBar == null) return;
         toolBar.setTitle(getTitle());
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
+        toolBar.setOnDoubleTapListener(this);
+    }
+
+    @Override
+    public boolean onToolbarDoubleTaped() {
+        RecyclerView recyclerView = $(R.id.base_recyclerview);
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
     protected void setTitle(String title, String subTitle) {
@@ -212,6 +226,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (supportShareElement()) {
             postponeEnterTransition();
         }
+        configToolBar(mToolbar);
         init();
         autoLoad();
     }
@@ -236,7 +251,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             mContentView = rootView;
 
-            configToolBar(mToolbar);
         }
 
         ViewGroup viewBelowToolbar;
@@ -263,6 +277,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
         return mRootView;
     }
 

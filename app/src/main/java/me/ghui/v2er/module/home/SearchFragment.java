@@ -36,7 +36,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class SearchFragment extends BaseFragment<SearchContract.IPresenter> implements SearchContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener, IBackable {
 
-    @BindView(R.id.search_result_recycler_view)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mResultRecyV;
     @BindView(R.id.image_search_back)
     ImageView mBackBtn;
@@ -44,7 +44,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     ImageView mClearBtn;
     @BindView(R.id.search_edit_text)
     EditText mSearchEt;
-    @BindView(R.id.search_history_recycler_view)
+    @BindView(R.id.search_history_recyclerview)
     BaseRecyclerView mSearchHistoryRecyV;
     @BindView(R.id.search_cardview)
     CardView mCardView;

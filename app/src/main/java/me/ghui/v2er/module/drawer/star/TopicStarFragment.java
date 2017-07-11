@@ -28,7 +28,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter> implements TopicStarContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @Inject
     LoadMoreRecyclerView.Adapter<TopicStarInfo.Item> mAdapter;

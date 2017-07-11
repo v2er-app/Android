@@ -25,7 +25,7 @@ public class NodesNavFragment extends BaseFragment<NodesNavConstract.IPresenter>
 
     @Inject
     CommonAdapter<NodesNavInfo.Item> mAdapter;
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
 
     public static NodesNavFragment newInstance() {

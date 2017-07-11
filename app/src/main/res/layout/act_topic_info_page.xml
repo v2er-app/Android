@@ -21,7 +21,7 @@
         android:src="@drawable/ic_reply_topic"
         android:visibility="visible"
         app:borderWidth="0dp"
-        app:layout_anchor="@id/common_recyclerview"
+        app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="@string/news_new_behavior" />
 
@@ -32,7 +32,7 @@
         android:layout_alignParentBottom="true"
         android:gravity="bottom"
         android:visibility="invisible"
-        app:layout_anchor="@id/common_recyclerview"
+        app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
         <android.support.v7.widget.CardView

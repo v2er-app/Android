@@ -43,7 +43,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
         MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.news_fab_btn)
     FloatingActionButton mNewFab;

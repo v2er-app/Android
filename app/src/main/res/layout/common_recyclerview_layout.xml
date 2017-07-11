@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <me.ghui.v2er.widget.BaseRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/common_recyclerview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="16dp"
+    android:id="@+id/base_recyclerview"
+    style="@style/BaseRecyclerView"
     android:clipToPadding="false"
-    android:scrollbarStyle="outsideOverlay"
-    android:scrollbars="vertical" />
+    android:paddingTop="16dp" />
 

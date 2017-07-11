@@ -77,4 +77,12 @@
         <item name="android:transitionName">@string/share_element_topic_title</item>
     </style>
 
+    <style name="BaseRecyclerView">
+        <item name="android:id">@id/base_recyclerview</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
 </resources>

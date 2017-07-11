@@ -1,7 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <me.ghui.v2er.widget.LoadMoreRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/common_recyclerview"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbarStyle="outsideOverlay"
-    android:scrollbars="vertical" />
+    style="@style/BaseRecyclerView" />

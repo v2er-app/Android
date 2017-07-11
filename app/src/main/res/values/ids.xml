@@ -19,5 +19,6 @@
     <item name="action_about" type="id">action_about</item>
 
     <item name="inner_toolbar" type="id">inner_toolbar</item>
+    <item name="base_recyclerview" type="id">base_recyclerview</item>
 
 </resources>

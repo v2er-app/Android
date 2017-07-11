@@ -2,7 +2,6 @@ package me.ghui.v2er.module.drawer.dailyhot;
 
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 
@@ -32,7 +31,7 @@ import me.ghui.v2er.widget.BaseToolBar;
 
 public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> implements DailyHotContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
 
     @Inject

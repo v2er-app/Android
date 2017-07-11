@@ -45,7 +45,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
 
     @BindView(R.id.node_select_toolbar)
     Toolbar mToolbar;
-    @BindView(R.id.node_select_recyclerview)
+    @BindView(R.id.base_recyclerview)
     BaseRecyclerView mBaseRecyclerView;
 
     private FilterAdapter mAdapter;

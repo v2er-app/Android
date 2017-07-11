@@ -3,6 +3,7 @@ package me.ghui.v2er.module.drawer.star;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
@@ -38,6 +39,17 @@ public class StarActivity extends BaseActivity {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
         Utils.setPaddingForStatusBar(toolBar);
+    }
+
+    @Override
+    public boolean onToolbarDoubleTaped() {
+        int index = mSlidingTabLayout.getCurrentTab();
+        RecyclerView recyclerView = (RecyclerView) mFragments.get(index).getView().findViewById(R.id.base_recyclerview);
+        if (recyclerView != null) {
+            recyclerView.smoothScrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
     @Override

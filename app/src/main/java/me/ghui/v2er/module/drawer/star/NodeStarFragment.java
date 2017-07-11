@@ -29,7 +29,7 @@ import me.ghui.v2er.widget.BaseRecyclerView;
 public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> implements NodeStarContract.IView,
         MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
     @Inject
     CommonAdapter<NodeStarInfo.Item> mAdapter;
@@ -56,7 +56,6 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     protected void init() {
-//        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);

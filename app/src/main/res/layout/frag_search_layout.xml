@@ -9,14 +9,10 @@
     android:clickable="true">
 
     <me.ghui.v2er.widget.LoadMoreRecyclerView
-        android:id="@+id/search_result_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        style="@style/BaseRecyclerView"
         android:background="@color/white"
         android:clipToPadding="false"
         android:paddingTop="60dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
         android:visibility="invisible" />
 
     <android.support.v7.widget.CardView
@@ -76,9 +72,8 @@
             </LinearLayout>
 
             <me.ghui.v2er.widget.BaseRecyclerView
-                android:id="@+id/search_history_recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                style="@style/BaseRecyclerView"
+                android:id="@+id/search_history_recyclerview"
                 android:layout_below="@id/linearLayout_search"
                 android:background="@drawable/common_top_divider"
                 android:divider="@color/white"

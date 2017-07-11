@@ -27,7 +27,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
         implements MsgContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
 
     @Inject

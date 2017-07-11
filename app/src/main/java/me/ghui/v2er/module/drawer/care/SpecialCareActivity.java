@@ -32,7 +32,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPresenter> implements SpecialCareContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @Inject
     LoadMoreRecyclerView.Adapter<CareInfo.Item> mAdapter;

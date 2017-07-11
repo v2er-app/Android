@@ -58,7 +58,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     //page value when enter
     private int mInitPage;
 
-    @BindView(R.id.common_recyclerview)
+    @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.node_img)
     ImageView mNodeImg;

@@ -5,6 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ResUtils;
@@ -14,7 +17,6 @@ import me.ghui.v2er.util.ResUtils;
  */
 
 public class BaseToolBar extends Toolbar {
-
     public BaseToolBar(Context context) {
         super(context);
         init();
@@ -50,4 +52,21 @@ public class BaseToolBar extends Toolbar {
             e.printStackTrace();
         }
     }
+
+    public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
+        if (onDoubleTapListener != null) {
+            GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onDoubleTap(MotionEvent e) {
+                    return onDoubleTapListener.onToolbarDoubleTaped();
+                }
+            });
+            setOnTouchListener((v, event) -> gestureDetector.onTouchEvent(event));
+        }
+    }
+
+    public interface OnDoubleTapListener {
+        boolean onToolbarDoubleTaped();
+    }
+
 }
