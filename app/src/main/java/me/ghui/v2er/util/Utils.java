@@ -180,7 +180,7 @@ public class Utils {
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
+        boolean weiboInstalled = Voast.Utils.isAppInstalled("com.sina.weibo");
         if (weiboInstalled) {
             intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
 //            intent.setData(Uri.parse("weicointernational://userinfo?uid=ghuiii"));
@@ -196,7 +196,7 @@ public class Utils {
         intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
         intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        if (Utils.isAppInstalled("com.twitter.android")) {
+        if (Voast.Utils.isAppInstalled("com.twitter.android")) {
             intent.setData(Uri.parse("twitter://user?screen_name=ghuizh"));
         } else {
             intent.setData(Uri.parse("https://mobile.twitter.com/ghuizh"));
