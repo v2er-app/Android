@@ -49,12 +49,27 @@
         app:layout_constraintTop_toBottomOf="@id/reply_avatar_img"
         tools:text="TextView" />
 
-    <TextView
-        android:id="@+id/floor_tv"
-        style="@style/hintText"
+    <ImageView
+        android:id="@+id/reply_thx_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/love_normal_icon"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
-        tools:text="1楼" />
+        app:layout_constraintTop_toTopOf="@id/reply_avatar_img" />
+
+    <TextView
+        android:id="@+id/reply_thx_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
+        app:layout_constraintRight_toLeftOf="@id/reply_thx_img"
+        app:layout_constraintTop_toTopOf="@id/reply_thx_img"
+        tools:text="1" />
+
 
     <ImageView
         android:id="@+id/more_menu_img"
@@ -66,24 +81,10 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content_tv" />
 
-    <ImageView
-        android:id="@+id/reply_thx_img"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
-        android:src="@drawable/love_normal_icon"
-        app:layout_constraintRight_toLeftOf="@id/more_menu_img"
-        app:layout_constraintTop_toBottomOf="@id/content_tv" />
-
     <TextView
-        android:id="@+id/reply_thx_tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="4dp"
-        app:layout_constraintRight_toLeftOf="@id/reply_thx_img"
-        app:layout_constraintTop_toTopOf="@id/reply_thx_img"
-        tools:text="1" />
-
+        android:id="@+id/floor_tv"
+        style="@style/hintText"
+        app:layout_constraintBottom_toBottomOf="@id/more_menu_img"
+        app:layout_constraintLeft_toLeftOf="@id/content_tv"
+        tools:text="1楼" />
 </android.support.constraint.ConstraintLayout>
