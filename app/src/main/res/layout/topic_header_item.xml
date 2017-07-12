@@ -12,7 +12,6 @@
         style="@style/AvatarImg"
         android:layout_width="@dimen/common_avatar_size"
         android:layout_height="@dimen/common_avatar_size"
-        android:focusable="true"
         android:transitionName="@string/share_element_avatar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -61,6 +60,7 @@
         android:id="@+id/topic_header_title_tv"
         style="@style/TopicTitle"
         android:layout_width="match_parent"
+        android:textIsSelectable="true"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img"
         tools:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？" />

@@ -91,6 +91,8 @@ public class TopicModule {
                             .negativeText(R.string.cancel)
                             .build().show();
                 }, R.id.reply_thx_img);
+
+                holder.setOnClickListener(v -> mView.onItemMoreMenuClick(holder.index()), R.id.more_menu_img);
             }
 
             @Override

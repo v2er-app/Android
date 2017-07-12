@@ -53,13 +53,15 @@ import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
+import static android.view.ViewGroup.FOCUS_BEFORE_DESCENDANTS;
+
 
 /**
  * Created by ghui on 04/05/2017.
  */
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener, KeyboardDetectorRelativeLayout.IKeyboardChanged {
+        LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
 
@@ -218,7 +220,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
-        mAdapter.setOnItemClickListener(this);
         mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -436,9 +437,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mPresenter.replyTopic(mTopicId, mTopicInfo.toReplyMap(text.toString()));
     }
 
-    @Override
-    public void onItemClick(View view, ViewHolder holder, int position) {
-        if (position == 0 || view instanceof LoadMoreRecyclerView.ILoadMoreFooter) return;
+    public void onItemMoreMenuClick(int position) {
         if (mBottomSheetDialog == null) {
             mBottomSheetDialog = new BottomSheetDialog(getContext());
             mBottomSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
