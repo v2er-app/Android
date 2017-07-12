@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textIsSelectable="true"
+        android:textIsSelectable="false"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv"
         tools:text="媳妇的 iphone 掉了, 想买个安卓机, 2000 以下, 丢了不容易心疼." />

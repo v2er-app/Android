@@ -54,7 +54,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> i
                     .imgClick(this)
                     .urlClick(this)
                     .into(contentTv);
-            contentTv.setTextIsSelectable(true);
+//            contentTv.setTextIsSelectable(true);
         } else {
             contentTv.setVisibility(View.GONE);
         }
