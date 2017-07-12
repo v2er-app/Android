@@ -38,7 +38,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
     public void loadMore(int page) {
         APIService.get()
                 .recentNews(page - 1)
-                .compose(mView.<NewsInfo>rx())
+                .compose(mView.<NewsInfo>rx(page))
                 .subscribe(new GeneralConsumer<NewsInfo>() {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {

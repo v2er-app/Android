@@ -378,6 +378,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     @Override
+    public <K> ObservableTransformer<K, K> rx(int page) {
+        return this.rx(page == 1 ? this : null);
+    }
+
+    @Override
     public <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading) {
         return RxUtils.rxActivity(this, viewLoading);
     }

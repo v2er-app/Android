@@ -40,7 +40,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
     @Override
     public void loadData(int page) {
         APIService.get().nodesInfo(mView.nodeName(), page)
-                .compose(mView.rx(page >= 1 ? null : mView))
+                .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<NodeTopicInfo>() {
                     @Override
                     public void onConsume(NodeTopicInfo nodesInfo) {

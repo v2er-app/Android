@@ -34,7 +34,7 @@ public class MsgPresenter implements MsgContract.IPresenter {
     public void loadMore(int page) {
         APIService.get()
                 .notifications(page)
-                .compose(mView.rx())
+                .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<NotificationInfo>() {
                     @Override
                     public void onConsume(NotificationInfo info) {

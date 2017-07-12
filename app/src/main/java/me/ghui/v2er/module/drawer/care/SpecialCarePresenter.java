@@ -26,7 +26,7 @@ public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
     public void loadMore(int page) {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().specialCareInfo(page)
-                .compose(mView.rx())
+                .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<CareInfo>() {
                     @Override
                     public void onConsume(CareInfo careInfo) {

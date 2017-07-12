@@ -14,6 +14,8 @@ public class BaseContract {
     public interface IView extends IViewLoading, IGeneralErrorHandler {
         <K> ObservableTransformer<K, K> rx();
 
+        <K> ObservableTransformer<K, K> rx(int page);
+
         <K> ObservableTransformer<K, K> rx(IViewLoading viewLoading);
 
         void toast(String msg);

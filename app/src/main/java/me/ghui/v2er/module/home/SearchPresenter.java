@@ -41,7 +41,7 @@ public class SearchPresenter implements SearchContract.IPresenter {
         mUriBuilder.appendQueryParameter("first", String.valueOf(first));
         Logger.d("bing Search: " + mUriBuilder.build().toString());
         APIService.get().bingSearch(mUriBuilder.build().toString())
-                .compose(mView.rx())
+                .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<BingSearchResultInfo>() {
                     @Override
                     public void onConsume(BingSearchResultInfo bingSearchResultInfo) {

@@ -27,7 +27,7 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get()
                 .topicStarInfo(page)
-                .compose(mView.rx())
+                .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<TopicStarInfo>() {
                     @Override
                     public void onConsume(TopicStarInfo topicStarInfo) {
