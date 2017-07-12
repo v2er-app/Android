@@ -28,7 +28,6 @@
                 android:tint="#11000000"
                 app:layout_collapseMode="parallax" />
 
-
             <LinearLayout
                 android:id="@+id/desc_wrapper"
                 android:layout_width="match_parent"

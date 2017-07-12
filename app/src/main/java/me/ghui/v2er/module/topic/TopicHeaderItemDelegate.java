@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
@@ -46,6 +47,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
         TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) item;
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
+            Logger.d("NewsAvatar:4 " + headerInfo.getAvatar());
             Glide.with(mContext).load(headerInfo.getAvatar()).into(avatarImg);
         }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());

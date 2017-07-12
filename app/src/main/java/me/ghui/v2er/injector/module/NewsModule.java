@@ -3,6 +3,8 @@ package me.ghui.v2er.injector.module;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.orhanobut.logger.Logger;
 
 import dagger.Module;
 import dagger.Provides;
@@ -38,6 +40,7 @@ public class NewsModule {
             protected void convert(ViewHolder holder, NewsInfo.Item item, int position) {
                 Glide.with(mContext)
                         .load(item.getAvatar())
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());
@@ -52,8 +55,13 @@ public class NewsModule {
                 holder.setOnClickListener(
                         v -> {
                             NewsInfo.Item item = getItem(holder.index());
+                            ImageView avatarImg = holder.getImgView(R.id.avatar_img);
+                            if (avatarImg.getDrawable() == null) {
+                                avatarImg = null;
+                            }
                             UserHomeActivity.open(item.getUserName(), mContext,
-                                    holder.getImgView(R.id.avatar_img), item.getAvatar());
+                                    avatarImg, item.getAvatar());
+                            Logger.d("NewsAvatar:1 " + item.getAvatar());
                         },
                         R.id.avatar_img, R.id.user_name_tv);
                 holder.setOnClickListener(v ->
