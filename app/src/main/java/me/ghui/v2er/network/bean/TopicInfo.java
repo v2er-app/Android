@@ -65,6 +65,10 @@ public class TopicInfo implements IBaseInfo {
             items.add(headerInfo);
             items.add(contentInfo);
         }
+        String owner = headerInfo.getUserName();
+        for (Reply reply : replies) {
+            reply.setOwner(owner);
+        }
         items.addAll(replies);
         return items;
     }
@@ -345,6 +349,19 @@ public class TopicInfo implements IBaseInfo {
         private String alreadyThanked;
         @Pick(attr = "id")
         private String replyId;
+        private boolean isOwner = false;
+
+        public void setOwner(String owner) {
+            if (PreConditions.notEmpty(userName) && PreConditions.notEmpty(owner) && owner.equals(userName)) {
+                isOwner = true;
+            } else {
+                isOwner = false;
+            }
+        }
+
+        public boolean isOwner() {
+            return isOwner;
+        }
 
         public String getFloor() {
             return floor + "楼";

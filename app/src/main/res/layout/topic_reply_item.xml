@@ -25,6 +25,22 @@
         tools:text="ghui" />
 
     <TextView
+        android:id="@+id/reply_user_tag_tv"
+        style="@style/BodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="2dp"
+        android:background="@drawable/floor_owner_bg"
+        android:paddingBottom="2dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:text="楼主"
+        android:textSize="@dimen/tinyTinyTextSize"
+        app:layout_constraintLeft_toRightOf="@id/reply_user_name_tv"
+        app:layout_constraintTop_toTopOf="@id/reply_user_name_tv" />
+
+    <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
         android:layout_width="wrap_content"

@@ -48,7 +48,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
         Glide.with(mContext)
                 .load(replyInfo.getAvatar())
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
-        // TODO: 01/07/2017 楼主标记 
+        holder.getView(R.id.reply_user_tag_tv).setVisibility(replyInfo.isOwner() ? View.VISIBLE : View.GONE);
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
         if (replyInfo.getLove() == 0) {
             holder.getView(R.id.reply_thx_tv).setVisibility(View.GONE);
