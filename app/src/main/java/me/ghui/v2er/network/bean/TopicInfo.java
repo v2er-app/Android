@@ -259,7 +259,7 @@ public class TopicInfo implements IBaseInfo {
 
         public String getTime() {
             try {
-                return time.split(",")[0].trim().substring(6).replaceAll(" ", "");
+                return time.split(",")[0].trim().substring(6).replaceAll(" ", "").trim();
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
@@ -298,7 +298,7 @@ public class TopicInfo implements IBaseInfo {
                     "tId='" + getT() + '\'' +
                     "avatar='" + avatar + '\'' +
                     ", userName='" + userName + '\'' +
-                    ", time='" + time + '\'' +
+                    ", time='" + getTime() + '\'' +
                     ", tag='" + tag + '\'' +
                     ", comment='" + comment + '\'' +
                     ", page=" + page +
