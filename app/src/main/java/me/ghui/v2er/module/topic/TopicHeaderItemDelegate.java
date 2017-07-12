@@ -46,23 +46,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
         TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) item;
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
-            Glide.with(mContext)
-                    .load(headerInfo.getAvatar())
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target,
-                                                   boolean isFirstResource) {
-                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target,
-                                                       boolean isFromMemoryCache, boolean isFirstResource) {
-                            ((BaseActivity) mContext).scheduleStartPostponedTransition(holder.getImgView(R.id.avatar_img));
-                            return false;
-                        }
-                    }).into(avatarImg);
+            Glide.with(mContext).load(headerInfo.getAvatar()).into(avatarImg);
         }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());

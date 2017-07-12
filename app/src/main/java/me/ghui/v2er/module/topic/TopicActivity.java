@@ -196,7 +196,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        return mTopicBasicInfo != null;
+        return mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getTitle());
     }
 
     @Override
@@ -212,13 +212,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.addDivider();
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
+        mLoadMoreRecyclerView.setAdapter(mAdapter);
         if (mTopicBasicInfo != null) {
             List<TopicInfo.Item> data = new ArrayList<>();
             data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
             mAdapter.setData(data);
-            post(() -> scheduleStartPostponedTransition($(R.id.title_tv)));
+            post(() -> scheduleStartPostponedTransition($(R.id.topic_header_title_tv)));
         }
-        mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

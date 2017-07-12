@@ -63,7 +63,9 @@ public class TopicInfo implements IBaseInfo {
 
         if (!isLoadMore) {
             items.add(headerInfo);
-            items.add(contentInfo);
+            if (contentInfo.isValid()) {
+                items.add(contentInfo);
+            }
         }
         String owner = headerInfo.getUserName();
         for (Reply reply : replies) {
@@ -142,7 +144,6 @@ public class TopicInfo implements IBaseInfo {
             return false;
         }
 
-
         public static class PostScript {
             @Pick("span.fade")
             private String header;
@@ -184,7 +185,6 @@ public class TopicInfo implements IBaseInfo {
         private int page;
         @Pick("h1")
         private String title;
-
         @Pick(value = "a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
         @Pick("div[id=topic_thank] span.f11.gray")
