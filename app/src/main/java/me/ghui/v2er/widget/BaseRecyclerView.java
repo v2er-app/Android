@@ -35,7 +35,7 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     private void init() {
-        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom() + Utils.getNavigationBarHeight());
+        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom() + Utils.getNavigationBarHeight() + ScaleUtils.dp(20));
         setClipToPadding(false);
     }
 
