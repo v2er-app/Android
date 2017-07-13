@@ -204,6 +204,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
+        mUserFollowCt.setVisibility(View.VISIBLE);
+        mUserBlockCt.setVisibility(View.VISIBLE);
         if (mAvatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
             Glide.with(this)

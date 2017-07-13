@@ -68,7 +68,8 @@
                         android:paddingRight="16dp"
                         android:paddingTop="8dp"
                         android:text="关注"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
 
                     <TextView
                         android:id="@+id/user_block_ct"
@@ -88,7 +89,8 @@
                         android:paddingRight="16dp"
                         android:paddingTop="8dp"
                         android:text="屏蔽"
-                        android:textColor="@color/white" />
+                        android:textColor="@color/white"
+                        android:visibility="invisible" />
 
                 </RelativeLayout>
 

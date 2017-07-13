@@ -225,6 +225,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public void fillHeaderView(NodeInfo nodeInfo) {
         mNodeInfo = nodeInfo;
+        mStarBtn.setVisibility(View.VISIBLE);
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
         mNodeText.setText(nodeInfo.getTitle());
         String desc = nodeInfo.getHeader();
