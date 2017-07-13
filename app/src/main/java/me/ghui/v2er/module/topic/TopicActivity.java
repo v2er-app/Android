@@ -53,6 +53,7 @@ import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
+import static android.view.View.VISIBLE;
 import static android.view.ViewGroup.FOCUS_BEFORE_DESCENDANTS;
 
 
@@ -245,6 +246,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     mToolbar.setSubtitle(mTopicInfo.getHeaderInfo().getTitle());
                 }
             }
+
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
+                    mReplyFabBtn.hide(); // or hideFab(), see below
+                else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
+                    mReplyFabBtn.show(); // or showFab(), see below
+            }
         });
     }
 
@@ -306,27 +315,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     void animateEditInnerWrapper(boolean isShow) {
-        int deltaX = ScaleUtils.dp(20);
-        int deltaY = ScaleUtils.dp(20);
-        int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16) - deltaX);
+        int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16));
         int cY = ScaleUtils.dp(48) / 2;
         int startRadius = ScaleUtils.dp(25);
         int endRadius = (int) ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
-            mReplyFabBtn.animate()
-                    .xBy(-deltaX)
-                    .yBy(deltaY)
-                    .setDuration(300)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
-                            animator.setDuration(400);
-                            animator.start();
-                            mReplyWrapper.setVisibility(View.VISIBLE);
-                            mReplyFabBtn.hide();
-                        }
-                    }).start();
+            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
+            animator.setDuration(400);
+            animator.start();
+            mReplyWrapper.setVisibility(View.VISIBLE);
+            mReplyFabBtn.hide();
         } else {//hide wrapper
             if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
@@ -336,12 +334,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 public void onAnimationEnd(Animator animation) {
                     mReplyWrapper.setVisibility(View.INVISIBLE);
                     mReplyFabBtn.show();
-                    mReplyFabBtn.animate()
-                            .xBy(deltaX)
-                            .yBy(-deltaY)
-                            .setListener(null)
-                            .setDuration(200)
-                            .start();
                 }
 
                 @Override
@@ -422,6 +414,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             fillView(topicInfo, false);
             mReplyEt.setText(null);
             toast("回复成功");
+            animateEditInnerWrapper(false);
         } else {
             toast("回复失败");
         }
