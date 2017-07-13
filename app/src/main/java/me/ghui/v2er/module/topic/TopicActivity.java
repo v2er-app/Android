@@ -414,6 +414,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             fillView(topicInfo, false);
             mReplyEt.setText(null);
             toast("回复成功");
+            Utils.toggleKeyboard(false, mReplyEt);
             animateEditInnerWrapper(false);
         } else {
             toast("回复失败");
