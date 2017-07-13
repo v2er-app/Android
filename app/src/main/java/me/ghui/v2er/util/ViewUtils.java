@@ -29,7 +29,6 @@ public class ViewUtils {
         return width;
     }
 
-
     public static void drawCenterText(String text, Rect rect, Canvas canvas, Paint paint) {
         if (PreConditions.isEmpty(text)) return;
         Paint.Align align = paint.getTextAlign();

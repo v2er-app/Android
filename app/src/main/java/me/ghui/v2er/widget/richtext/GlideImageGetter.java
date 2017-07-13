@@ -15,6 +15,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.ViewUtils;
 
 
 /**
@@ -104,6 +105,8 @@ public class GlideImageGetter implements Html.ImageGetter {
             int width = ScaleUtils.dp(bitmap.getWidth());
             int height = ScaleUtils.dp(bitmap.getHeight());
             Logger.d("bitmap.size: " + "w:" + width + ", h:" + height);
+            int textviewWidth = ViewUtils.getExactlyWidth(mTextView, true);
+            maxWidth = Math.max(maxWidth, textviewWidth);
             if (width > maxWidth) {
                 height = (int) (height * (maxWidth / width));
                 width = (int) maxWidth;
