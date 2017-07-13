@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.view.Window;
 
 import com.flyco.tablayout.SlidingTabLayout;
@@ -44,7 +45,9 @@ public class StarActivity extends BaseActivity {
     @Override
     public boolean onToolbarDoubleTaped() {
         int index = mSlidingTabLayout.getCurrentTab();
-        RecyclerView recyclerView = (RecyclerView) mFragments.get(index).getView().findViewById(R.id.base_recyclerview);
+        View rootView = mFragments.get(index).getView();
+        if (rootView == null) return false;
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;

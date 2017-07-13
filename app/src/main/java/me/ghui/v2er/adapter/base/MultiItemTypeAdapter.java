@@ -143,12 +143,12 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     }
 
     protected void animateIn(View itemView, int position) {
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_in);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_scroll_down);
         itemView.startAnimation(animation);
     }
 
     protected void animateOut(View itemView, int position) {
-        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_zoom_out);
+        Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.list_item_scroll_up);
         itemView.startAnimation(animation);
     }
 

@@ -2,14 +2,14 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <scale
         android:duration="@integer/list_animation_default_dur"
-        android:fromXScale="0.9"
-        android:fromYScale="0.9"
+        android:fromXScale="0.95"
+        android:fromYScale="0.95"
         android:pivotX="50%"
         android:pivotY="0%"
         android:toXScale="1.0"
         android:toYScale="1.0" />
     <alpha
         android:duration="@integer/list_animation_short_dur"
-        android:fromAlpha="0.0"
+        android:fromAlpha="0.5"
         android:toAlpha="1.0" />
 </set>

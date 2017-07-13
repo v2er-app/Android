@@ -98,7 +98,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public boolean onToolbarDoubleTaped() {
         int index = mSlidingTabLayout.getCurrentTab();
-        RecyclerView recyclerView = (RecyclerView) mFragments.get(index).getView().findViewById(R.id.base_recyclerview);
+        View rootView = mFragments.get(index).getView();
+        if (rootView == null) return false;
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;
