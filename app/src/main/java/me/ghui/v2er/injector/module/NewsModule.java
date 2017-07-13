@@ -56,9 +56,6 @@ public class NewsModule {
                         v -> {
                             NewsInfo.Item item = getItem(holder.index());
                             ImageView avatarImg = holder.getImgView(R.id.avatar_img);
-                            if (avatarImg.getDrawable() == null) {
-                                avatarImg = null;
-                            }
                             UserHomeActivity.open(item.getUserName(), mContext,
                                     avatarImg, item.getAvatar());
                             Logger.d("NewsAvatar:1 " + item.getAvatar());

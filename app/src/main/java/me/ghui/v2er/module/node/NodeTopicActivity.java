@@ -104,6 +104,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     };
 
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
+        if (sourceView != null && sourceView instanceof ImageView) {
+            ImageView imgview = (ImageView) sourceView;
+            if (imgview.getDrawable() == null) {
+                sourceView = null;
+            }
+        }
         Navigator.from(context)
                 .to(NodeTopicActivity.class)
                 .putExtra(NodeTopicActivity.TAG_NODE_ID_KEY, nodeId)

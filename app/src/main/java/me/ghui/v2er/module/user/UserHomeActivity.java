@@ -98,6 +98,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
 
     public static void open(String userName, Context context, View sourceView, String avatar) {
+        if (sourceView != null && sourceView instanceof ImageView) {
+            ImageView imgview = (ImageView) sourceView;
+            if (imgview.getDrawable() == null) {
+                sourceView = null;
+            }
+        }
         Navigator.from(context)
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
