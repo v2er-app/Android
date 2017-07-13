@@ -71,11 +71,7 @@
         android:layout="@layout/preference_logout_item"
         android:title="退出登录" />
     <Preference
+        android:key="@string/pref_key_value_copyright"
         android:layout="@layout/preference_copyright"
-        android:title="© 2017 ghui.me">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:data="@string/official_website" />
-    </Preference>
-
+        android:title="© 2017 ghui.me" />
 </PreferenceScreen>

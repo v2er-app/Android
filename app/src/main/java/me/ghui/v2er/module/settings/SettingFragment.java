@@ -48,6 +48,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_os)).setOnPreferenceClickListener(this);
     }
 
@@ -100,8 +101,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
             Utils.jumpToTwitterProfilePage();
             return true;
-        } else if (key.equals(getString(R.string.pref_key_os))) {
-
+        } else if (key.equals(getString(R.string.pref_key_value_copyright))) {
+            Utils.openWap(getString(R.string.official_website), getActivity());
         }
         return false;
     }
