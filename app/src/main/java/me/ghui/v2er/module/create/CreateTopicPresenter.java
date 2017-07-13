@@ -22,7 +22,7 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     @Override
     public void start() {
         APIService.get().topicCreatePageInfo()
-                .compose(mView.rx())
+                .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
                     @Override
                     public void onConsume(CreateTopicPageInfo createTopicPageInfo) {

@@ -92,6 +92,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @OnClick(R.id.create_topic_node_wrapper)
     void onNodeWrapperClicked(View view) {
         if (mTopicPageInfo == null) {
+            toast("页面参数加载中，请稍后...");
             return;
         }
         view.setClickable(false);
