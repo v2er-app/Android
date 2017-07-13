@@ -32,6 +32,8 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     TextInputLayout mPswInputLayout;
     @BindView(R.id.login_go_btn)
     Button mLoginBtn;
+    //登录参数加载成功标识
+    private boolean mHasLoaded;
 
     @Override
     protected void startInject() {
@@ -84,13 +86,17 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
             mPswInputLayout.setError("请输入密码");
             return;
         }
+        if (!mHasLoaded) {
+            toast("登录参数正在加载，请稍后...");
+            return;
+        }
         mPresenter.login(userName, psw);
     }
 
     @Override
     public void onFetchLoginParamFailure() {
+        mHasLoaded = false;
         toast("加载登录参数出错");
-        mLoginBtn.setEnabled(false);
         new ConfirmDialog.Builder(getActivity())
                 .title("加载登录参数出错")
                 .msg("是否重试")
@@ -100,8 +106,8 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
 
     @Override
     public void onFetchLoginParamSuccess() {
-        mLoginBtn.setEnabled(true);
         Logger.d("加载登录参数成功");
+        mHasLoaded = true;
     }
 
     @Override
