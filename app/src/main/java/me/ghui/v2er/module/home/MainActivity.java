@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int index = mSlidingTabLayout.getCurrentTab();
         RecyclerView recyclerView = (RecyclerView) mFragments.get(index).getView().findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
-            recyclerView.smoothScrollToPosition(0);
+            recyclerView.scrollToPosition(0);
             return true;
         }
         return false;
