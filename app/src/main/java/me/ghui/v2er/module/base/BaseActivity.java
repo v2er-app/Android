@@ -101,7 +101,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public boolean onToolbarDoubleTaped() {
         RecyclerView recyclerView = $(R.id.base_recyclerview);
         if (recyclerView != null) {
-            recyclerView.smoothScrollToPosition(0);
+//            recyclerView.smoothScrollToPosition(0);
+            recyclerView.scrollToPosition(0);
             return true;
         }
         return false;
