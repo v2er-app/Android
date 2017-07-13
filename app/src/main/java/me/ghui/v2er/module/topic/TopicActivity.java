@@ -296,6 +296,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
+        mReplyFabBtn.show();
     }
 
     @Override

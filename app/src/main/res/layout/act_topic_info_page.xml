@@ -19,7 +19,7 @@
         android:backgroundTint="@color/white"
         android:scaleType="center"
         android:src="@drawable/ic_reply_topic"
-        android:visibility="visible"
+        android:visibility="invisible"
         app:borderWidth="0dp"
         app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end"
