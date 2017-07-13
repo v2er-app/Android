@@ -25,13 +25,10 @@
         android:layout="@layout/preference_category_widget"
         android:title="关于">
         <Preference
+            android:key="@string/pref_key_v2ex"
             android:layout="@layout/preference_item"
             android:summary="V2EX 是一个关于分享和探索的地方"
-            android:title="V2EX">
-            <intent
-                android:action="android.intent.action.VIEW"
-                android:data="@string/official_v2ex_website" />
-        </Preference>
+            android:title="V2EX" />
         <Preference
             android:layout="@layout/preference_item"
             android:summary="一个V2EX第三方客户端"
