@@ -35,10 +35,12 @@
         app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
+
         <android.support.v7.widget.CardView
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             app:cardCornerRadius="0dp"
             app:cardElevation="10dp">
 
@@ -73,5 +75,11 @@
                     android:src="@drawable/ic_reply_send" />
             </RelativeLayout>
         </android.support.v7.widget.CardView>
+
+        <me.ghui.v2er.widget.BaseRecyclerView
+            android:id="@+id/repliers_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/topic_inner_reply_wrapper" />
     </me.ghui.v2er.widget.KeyboardDetectorRelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

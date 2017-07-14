@@ -59,7 +59,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Inject
     public T mPresenter;
     private Stack<IBackable> mBackables;
-    public static long FIRST_LOADING_DELAY = 300;
+    public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
 
@@ -221,8 +221,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        configSystemBars(getWindow());
         super.onCreate(savedInstanceState);
+        configSystemBars(getWindow());
         setContentView(onCreateRootView());
         ButterKnife.bind(this);
         startInject();

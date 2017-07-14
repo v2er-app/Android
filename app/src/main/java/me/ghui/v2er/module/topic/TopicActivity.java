@@ -11,7 +11,9 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -32,6 +34,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
+import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
@@ -45,6 +48,7 @@ import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
+import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -72,11 +76,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     EditText mReplyEt;
     @BindView(R.id.reply_fab_btn)
     FloatingActionButton mReplyFabBtn;
+    @BindView(R.id.repliers_recyclerview)
+    BaseRecyclerView mReplierRecyView;
     private LinearLayoutManager mLinearLayoutManager;
     private boolean isTitleVisiable;
 
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
+    @Inject
+    CommonAdapter<TopicInfo.Reply> mReplierAdapter;
     private String mTopicId;
     private TopicBasicInfo mTopicBasicInfo;
     private TopicInfo mTopicInfo;
@@ -204,7 +212,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
-
         mReplyWrapper.addKeyboardStateChangedListener(this);
 //        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
         mLoadMoreRecyclerView.addDivider();
@@ -250,6 +257,20 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     mReplyFabBtn.hide(); // or hideFab(), see below
                 else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
                     mReplyFabBtn.show(); // or showFab(), see below
+            }
+        });
+        mReplyEt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
         });
     }

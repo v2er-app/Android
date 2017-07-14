@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
+import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
@@ -114,6 +117,19 @@ public class TopicModule {
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicReplyItemDelegate(mView));
         return adapter;
+    }
+
+    @Provides
+    public CommonAdapter<TopicInfo.Reply> provideReplierAdapter() {
+        return new CommonAdapter<TopicInfo.Reply>(mView.getContext(), R.layout.at_select_replier_list_item) {
+            @Override
+            protected void convert(ViewHolder holder, TopicInfo.Reply reply, int position) {
+                holder.setText(R.id.replier_username_tv, reply.getUserName());
+                Glide.with(mContext)
+                        .load(reply.getAvatar())
+                        .into(holder.getImgView(R.id.replier_avatar_img));
+            }
+        };
     }
 
     @Provides
