@@ -3,6 +3,7 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -34,6 +35,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
+import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -212,8 +214,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
+    @CallSuper
     protected void configSystemBars(Window window) {
-
+        LightStatusBarUtils.setLightStatusBar(window, true);
     }
 
     @Override
