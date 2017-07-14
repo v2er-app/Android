@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
+import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -148,6 +149,21 @@ public class WapActivity extends BaseActivity {
         }
         mWebView.removeAllViews();
         mWebView.destroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mWebView.canGoBack() && mWebView.isShown()) {
+            goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    private void goBack() {
+        mWebView.goBack();
+        WebBackForwardList backForwardList = mWebView.copyBackForwardList();
+        setTitle(backForwardList.getCurrentItem().getTitle());
     }
 
     protected void onWapPageStarted(WebView webview, String url) {
