@@ -23,4 +23,6 @@
     <string name="ok">确定</string>
     <string name="cancel">取消</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="logout_str">退出登录</string>
+    <string name="login_str">去登录</string>
 </resources>

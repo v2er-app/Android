@@ -10,6 +10,7 @@ import android.widget.ListView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -32,6 +33,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     }
 
     private Preference cachePref;
+    private Preference loginPreference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +46,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         updatePrefItem.setOnPreferenceClickListener(this);
         updatePrefItem.setSummary(String.format("当前版本 " + Utils.getVersionName() + " (" + Utils.getVersionCode() + ")"));
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_value_toggle_log)).setOnPreferenceClickListener(this);
+        loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
+        loginPreference.setOnPreferenceClickListener(this);
+        loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
         findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
@@ -81,6 +85,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openStorePage();
             return true;
         } else if (key.equals(getString(R.string.pref_key_value_toggle_log))) {
+            if (!UserUtils.isLogin()) {
+                Navigator.from(getActivity()).to(LoginActivity.class).start();
+                return true;
+            }
             new ConfirmDialog.Builder(getActivity())
                     .title("退出登录")
                     .msg("确定退出吗？")
