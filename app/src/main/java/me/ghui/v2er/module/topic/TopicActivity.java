@@ -339,11 +339,17 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         int startRadius = ScaleUtils.dp(25);
         int endRadius = (int) ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
+            mReplyFabBtn.hide();
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
             animator.setDuration(400);
+            animator.setStartDelay(100);
+            animator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    mReplyWrapper.setVisibility(View.VISIBLE);
+                }
+            });
             animator.start();
-            mReplyWrapper.setVisibility(View.VISIBLE);
-            mReplyFabBtn.hide();
         } else {//hide wrapper
             if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
