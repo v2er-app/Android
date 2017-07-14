@@ -40,6 +40,7 @@ public class MsgModule {
             protected void convert(ViewHolder holder, NotificationInfo.Reply reply, int position) {
                 Glide.with(mView).load(reply.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
+                // TODO: 14/07/2017 reply.getName == null
                 CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),
                         true, new int[]{0, reply.getName().length()});
                 holder.setText(R.id.msg_title_tv, titleWithUserName);
