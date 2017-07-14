@@ -44,6 +44,7 @@ public class App extends Application {
     }
 
     private void initBugly() {
+        if (BuildConfig.DEBUG) return;
         CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", BuildConfig.DEBUG);
         if (UserUtils.isLogin()) {
             CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
