@@ -16,6 +16,7 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -51,13 +52,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         toolBar.inflateMenu(R.menu.login_toolbar_menu);
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_register) {
-                Utils.openWap("http://www.v2ex.com/?r=ghui", this);
+                Utils.openWap(Constants.BASE_URL + "/signup?r=ghui", this);
             } else if (item.getItemId() == R.id.action_forgot_psw) {
-                Utils.openWap("https://www.v2ex.com/forgot", this);
+                Utils.openWap(Constants.BASE_URL + "/forgot", this);
             } else if (item.getItemId() == R.id.action_faq) {
-                Utils.openWap("https://www.v2ex.com/faq", this);
+                Utils.openWap(Constants.BASE_URL + "/faq", this);
             } else if (item.getItemId() == R.id.action_about) {
-                Utils.openWap("https://www.v2ex.com/about", this);
+                Utils.openWap(Constants.BASE_URL + "/about", this);
             }
             return true;
         });
