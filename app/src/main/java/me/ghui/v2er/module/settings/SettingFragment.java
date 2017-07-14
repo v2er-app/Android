@@ -100,7 +100,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.jumpToWeiboProfileInfo(getActivity());
             return true;
         } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
-            Utils.jumpToTwitterProfilePage();
+            Utils.jumpToTwitterProfilePage(getActivity());
             return true;
         } else if (key.equals(getString(R.string.pref_key_value_copyright))) {
             Utils.openWap(getString(R.string.official_website), getActivity());

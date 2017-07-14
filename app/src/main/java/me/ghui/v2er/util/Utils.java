@@ -167,42 +167,33 @@ public class Utils {
 
     // 跳转至微博个人页
     public static void jumpToWeiboProfileInfo(Context context) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
         boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
         if (weiboInstalled) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
             intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
-//            intent.setData(Uri.parse("weicointernational://userinfo?uid=ghuiii"));
+            context.startActivity(intent);
         } else {
-            intent.setData(Uri.parse("http://weibo.com/ghuiii"));
+            Utils.openWap("http://weibo.com/ghuiii", context);
         }
-        context.startActivity(intent);
     }
 
 
-    public static void jumpToTwitterProfilePage() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+    public static void jumpToTwitterProfilePage(Context context) {
         if (Utils.isAppInstalled("com.twitter.android")) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
             intent.setData(Uri.parse("twitter://user?screen_name=ghuizh"));
+            context.startActivity(intent);
         } else {
-            intent.setData(Uri.parse("https://mobile.twitter.com/ghuizh"));
+            Utils.openWap("https://mobile.twitter.com/ghuizh", context);
         }
-        App.get().startActivity(intent);
     }
 
     public static void openWap(String url, Context context) {
         UrlInterceptor.openWapPage(url, context);
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.addCategory(Intent.CATEGORY_DEFAULT);
-//        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//        intent.setData(Uri.parse(url));
-//        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-//        App.get().startActivity(intent);
     }
 
     public static void openInBrowser(String url) {
