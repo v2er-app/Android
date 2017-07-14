@@ -7,10 +7,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.View;
 
 import me.ghui.v2er.R;
-import me.ghui.v2er.util.ResUtils;
 
 /**
  * Created by ghui on 21/03/2017.

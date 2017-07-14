@@ -2,7 +2,6 @@ package me.ghui.v2er.module.login;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 
 import com.orhanobut.logger.Logger;

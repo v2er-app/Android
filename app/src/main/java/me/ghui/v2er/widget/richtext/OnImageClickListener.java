@@ -1,7 +1,5 @@
 package me.ghui.v2er.widget.richtext;
 
-import java.util.List;
-
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 
 /**

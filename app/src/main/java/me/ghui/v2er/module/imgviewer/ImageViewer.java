@@ -10,7 +10,6 @@ import android.support.v4.view.ViewPager;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.util.Utils;

@@ -5,8 +5,6 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
-
-import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.APIService;

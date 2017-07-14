@@ -2,7 +2,6 @@ package me.ghui.v2er.module.drawer.care;
 
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 

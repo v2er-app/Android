@@ -16,14 +16,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import com.bumptech.glide.load.engine.cache.DiskCache;
-
-import java.util.List;
-
-import me.ghui.v2er.general.App;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.Utils;
-import okhttp3.internal.Util;
 
 /**
  * A movement method that traverses links in the text buffer and scrolls if necessary.

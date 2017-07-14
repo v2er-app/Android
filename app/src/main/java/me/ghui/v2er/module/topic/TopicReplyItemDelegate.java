@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-
 import javax.annotation.Nullable;
 
 import me.ghui.v2er.R;

@@ -3,7 +3,6 @@ package me.ghui.v2er.util;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.RectF;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;

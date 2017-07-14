@@ -35,7 +35,6 @@ import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import me.ghui.v2er.widget.SpeedyLinearLayoutManager;
 
 /**
  * Created by ghui on 22/03/2017.

@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.http.SslError;
-import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -29,7 +27,6 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
-import okhttp3.internal.Util;
 
 /**
  * Created by ghui on 30/06/2017.

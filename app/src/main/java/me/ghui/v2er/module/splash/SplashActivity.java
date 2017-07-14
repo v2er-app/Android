@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.util.LightStatusBarUtils;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 26/06/2017.

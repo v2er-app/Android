@@ -1,8 +1,5 @@
 package me.ghui.v2er.network;
 
-import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,12 +8,10 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import me.ghui.fruit.Fruit;
-import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.converter.GlobalConverterFactory;
 import me.ghui.v2er.network.converter.HtmlConverterFactory;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
-import okhttp3.CookieJar;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

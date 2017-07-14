@@ -3,15 +3,12 @@ package me.ghui.v2er.widget.richtext;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-
-import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
