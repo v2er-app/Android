@@ -78,7 +78,7 @@ public class ConfirmDialog extends BaseDialog {
     }
 
     private void init() {
-
+        // TODO: 14/07/2017 一个按钮时显示异常
         if (PreConditions.isEmpty(mTitle)) {
             mTitleTV.setVisibility(View.GONE);
         } else {
