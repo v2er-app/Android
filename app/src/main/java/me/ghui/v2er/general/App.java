@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
@@ -43,7 +44,7 @@ public class App extends Application {
     }
 
     private void initBugly() {
-        CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", false);
+        CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", BuildConfig.DEBUG);
         if (UserUtils.isLogin()) {
             CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
         } else {
