@@ -272,6 +272,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             String inputStr = mReplyEt.getText().toString();
             int cursorPos = mReplyEt.getSelectionStart();
             String[] cuttedStrs = Utils.cutString(inputStr, cursorPos);
+            if (cuttedStrs == null) return;
             if (PreConditions.isEmpty(cuttedStrs[1])) {
                 //后面无文字，append
                 StringBuilder inputTextBuilder = new StringBuilder(inputStr);
@@ -310,8 +311,25 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 if ("@".equals(changedText.toString())) {
                     mReplierRecyView.setVisibility(VISIBLE);
                 }
+                if (mReplierRecyView.getVisibility() != VISIBLE) return;
+                String inputStr = mReplyEt.getText().toString();
+                int cursorPos = mReplyEt.getSelectionStart();
+                int lastIndexOfat = 0;
+                for (int i = cursorPos - 1; i >= 0; i--) {
+                    if (inputStr.charAt(i) == '@') {
+                        lastIndexOfat = i;
+                        break;
+                    }
+                }
+                Logger.e("lastIndexOfAt: " + lastIndexOfat);
+                String text = inputStr.substring(lastIndexOfat, cursorPos);
+                onInputQueryTextChanged(text);
             }
         });
+    }
+
+    private void onInputQueryTextChanged(String queryText) {
+        Logger.d("onInputQueryTextChanged: " + queryText);
     }
 
 
