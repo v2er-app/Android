@@ -16,7 +16,7 @@ public class SettingActivity extends Activity {
         getFragmentManager().beginTransaction()
                 .add(R.id.pref_rootview, SettingFragment.newInstance())
                 .commit();
-        BaseToolBar toolBar = (BaseToolBar) findViewById(R.id.pref_toolbar);
+        BaseToolBar toolBar = (BaseToolBar) findViewById(R.id.inner_toolbar);
         toolBar.setTitle(getTitle());
         toolBar.setNavigationOnClickListener(view -> onBackPressed());
     }
