@@ -7,7 +7,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -139,7 +140,7 @@ public class TopicModule {
         protected void convert(ViewHolder holder, TopicInfo.Item reply, int position) {
             holder.getView(R.id.top_cardview_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             holder.setText(R.id.replier_username_tv, reply.getUserName());
-            Glide.with(mContext)
+            Picasso.with(mContext)
                     .load(reply.getAvatar())
                     .into(holder.getImgView(R.id.replier_avatar_img));
         }

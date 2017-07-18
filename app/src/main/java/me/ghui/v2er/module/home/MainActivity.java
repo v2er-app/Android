@@ -14,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.widget.MsgView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         UserInfo userInfo = UserUtils.getUserInfo();
         if (userInfo != null) {
             mUserNameTv.setText(userInfo.getUserName());
-            Glide.with(getContext())
+            Picasso.with(getContext())
                     .load(userInfo.getAvatar())
                     .into(mAvatarImg);
         }

@@ -3,7 +3,8 @@ package me.ghui.v2er.injector.module;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
@@ -38,7 +39,7 @@ public class MsgModule {
         return new CommonLoadMoreAdapter<NotificationInfo.Reply>(mView.getContext(), R.layout.notification_item) {
             @Override
             protected void convert(ViewHolder holder, NotificationInfo.Reply reply, int position) {
-                Glide.with(mView).load(reply.getAvatar())
+                Picasso.with(mView.getContext()).load(reply.getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 // TODO: 14/07/2017 reply.getName == null
                 CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),

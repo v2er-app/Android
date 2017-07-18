@@ -2,7 +2,8 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
@@ -34,7 +35,7 @@ public class NodeStarModule {
         return new CommonAdapter<NodeStarInfo.Item>(mFragment.getContext(), R.layout.node_item) {
             @Override
             protected void convert(ViewHolder holder, NodeStarInfo.Item item, int position) {
-                Glide.with(mContext)
+                Picasso.with(mContext)
                         .load(item.getImg())
                         .into((ImageView) holder.getView(R.id.node_img));
                 holder.setText(R.id.node_name, item.getName());

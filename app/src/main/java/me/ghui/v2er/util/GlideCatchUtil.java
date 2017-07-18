@@ -2,9 +2,6 @@ package me.ghui.v2er.util;
 
 import android.os.Looper;
 
-import com.bumptech.glide.Glide;
-import com.orhanobut.logger.Logger;
-
 import java.io.File;
 import java.math.BigDecimal;
 
@@ -25,9 +22,11 @@ public class GlideCatchUtil {
 
     // 获取Glide磁盘缓存大小
     public static String getCacheSize() {
+        // TODO: 19/07/2017
         try {
-            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
-            return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
+//            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
+//            return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
+            return "";
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
@@ -38,9 +37,10 @@ public class GlideCatchUtil {
     public static boolean clearDiskCache() {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) {
-                new Thread(() -> Glide.get(App.get()).clearDiskCache()).start();
+//                new Thread(() -> Picasso.get(App.get()).clearDiskCache()).start();
             } else {
-                Glide.get(App.get()).clearDiskCache();
+//                Picasso.get(App.get()).clearDiskCache();
+//                Picasso.with(App.get()).
             }
             return true;
         } catch (Exception e) {
@@ -53,7 +53,7 @@ public class GlideCatchUtil {
     public static boolean clearCacheMemory() {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
-                Glide.get(App.get()).clearMemory();
+//                Glide.get(App.get()).clearMemory();
                 return true;
             }
         } catch (Exception e) {

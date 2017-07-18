@@ -13,16 +13,15 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.picasso.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -86,21 +85,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private MenuItem mLoveMenuItem;
     private NodeTopicInfo mNodeTopicInfo;
 
-    private RequestListener mGlideDownLoadListener = new RequestListener<String, GlideDrawable>() {
-
-        @Override
-        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-            scheduleStartPostponedTransition(mNodeImg);
-            return false;
-        }
-
-        @Override
-        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-            scheduleStartPostponedTransition(mNodeImg);
-            return false;
-        }
-    };
-
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         if (sourceView != null && sourceView instanceof ImageView) {
             ImageView imgview = (ImageView) sourceView;
@@ -131,6 +115,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void configSystemBars(Window window) {
+        super.configSystemBars(window);
         Utils.transparentBars(getWindow(), Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
@@ -231,13 +216,22 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         if (mNodeImg.getDrawable() == null) {
-            Glide.with(this)
+            Picasso.with(this)
                     .load(nodeInfo.getAvatar())
-                    .listener(mGlideDownLoadListener)
-                    .into(mNodeImg);
-            Glide.with(this)
+                    .into(mNodeImg, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            scheduleStartPostponedTransition(mNodeImg);
+                        }
+
+                        @Override
+                        public void onError() {
+                            onSuccess();
+                        }
+                    });
+            Picasso.with(this)
                     .load(nodeInfo.getAvatar())
-                    .bitmapTransform(new BlurTransformation(this))
+                    .transform(new BlurTransformation(this))
                     .into(mBigImgBg);
         }
     }

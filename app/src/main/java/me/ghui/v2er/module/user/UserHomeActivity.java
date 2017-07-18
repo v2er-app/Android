@@ -11,17 +11,16 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.BlurTransformation;
+import jp.wasabeef.picasso.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -112,6 +111,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void configSystemBars(Window window) {
+        super.configSystemBars(window);
         Utils.transparentBars(getWindow(), Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
@@ -162,29 +162,22 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     private void fillAvatar() {
         if (PreConditions.isEmpty(mAvatar)) return;
-        RequestListener<String, GlideDrawable> requestListener = new RequestListener<String, GlideDrawable>() {
-            @Override
-            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                Voast.debug("UserHomeAvatar Exception");
-                scheduleStartPostponedTransition(mAvatarImg);
-                return false;
-            }
+        Picasso.with(this).load(mAvatar)
+                .transform(new BlurTransformation(this))
+                .into(mBigImgBg, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        scheduleStartPostponedTransition(mAvatarImg);
+                    }
 
-            @Override
-            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                Voast.debug("UserHomeAvatar onResourceReady");
-                scheduleStartPostponedTransition(mAvatarImg);
-                return false;
-            }
-        };
-        Glide.with(this).load(mAvatar)
-                .bitmapTransform(new BlurTransformation(this))
-                .listener(requestListener)
-                .into(mBigImgBg);
+                    @Override
+                    public void onError() {
+                        onSuccess();
+                    }
+                });
         Logger.d("NewsAvatar:2 " + mAvatar);
-        Glide.with(this)
+        Picasso.with(this)
                 .load(mAvatar)
-                .listener(requestListener)
                 .into(mAvatarImg);
 
     }
@@ -206,11 +199,11 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mUserBlockCt.setVisibility(View.VISIBLE);
         if (mAvatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
-            Glide.with(this)
+            Picasso.with(this)
                     .load(userPageInfo.getAvatar())
                     .into(mAvatarImg);
-            Glide.with(this).load(userPageInfo.getAvatar())
-                    .bitmapTransform(new BlurTransformation(this))
+            Picasso.with(this).load(userPageInfo.getAvatar())
+                    .transform(new BlurTransformation(this))
                     .into(mBigImgBg);
         }
 

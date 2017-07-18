@@ -36,6 +36,8 @@
 
 #----------------- Glide End ----------------------------
 
+-dontwarn com.squareup.okhttp.**
+
 #----------------- PersistentCookieJar Start ---------------------------
 -dontwarn com.franmontiel.persistentcookiejar.**
 -keep class com.franmontiel.persistentcookiejar.**

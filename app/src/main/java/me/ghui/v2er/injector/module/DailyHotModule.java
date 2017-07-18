@@ -2,7 +2,8 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
@@ -36,7 +37,7 @@ public class DailyHotModule {
 
             @Override
             protected void convert(ViewHolder holder, DailyHotInfo.Item item, int position) {
-                Glide.with(mContext)
+                Picasso.with(mContext)
                         .load(item.getMember().getAvatar())
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getMember().getUserName());

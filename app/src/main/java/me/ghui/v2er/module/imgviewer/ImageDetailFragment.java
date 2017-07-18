@@ -12,13 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.network.Constants;
@@ -67,27 +66,25 @@ public class ImageDetailFragment extends Fragment {
     }
 
     private void loadImage() {
-        Glide.with(getContext())
+        Picasso.with(getContext())
                 .load(mImageUrl)
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(new SimpleTarget<Bitmap>() {
+                .into(new Target() {
                     @Override
-                    public void onLoadStarted(Drawable placeholder) {
-                        progressBar.setVisibility(View.VISIBLE);
-                    }
-
-                    @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        mImageView.setImage(ImageSource.bitmap(resource));
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        mImageView.setImage(ImageSource.bitmap(bitmap));
                         progressBar.setVisibility(View.GONE);
-                        paletteBg(resource);
+                        paletteBg(bitmap);
                     }
 
                     @Override
-                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                    public void onBitmapFailed(Drawable errorDrawable) {
                         progressBar.setVisibility(View.GONE);
                         Voast.show("图片加载出错");
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        progressBar.setVisibility(View.VISIBLE);
                     }
                 });
     }

@@ -7,11 +7,10 @@ import android.graphics.drawable.Drawable;
 import android.text.Html;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
@@ -36,11 +35,8 @@ public class GlideImageGetter implements Html.ImageGetter {
     @Override
     public Drawable getDrawable(String source) {
         NetWorkDrawable drawable = new NetWorkDrawable(mImageHolder);
-        Glide.with(mTextView.getContext())
+        Picasso.with(mTextView.getContext())
                 .load(source)
-                .asBitmap()
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .fitCenter()
                 .into(new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize));
         return drawable;
     }
@@ -85,20 +81,19 @@ public class GlideImageGetter implements Html.ImageGetter {
 
     }
 
-    private static class NetWorkDrawableTarget extends SimpleTarget<Bitmap> {
+    private static class NetWorkDrawableTarget implements Target{
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
         private float maxWidth;
 
         public NetWorkDrawableTarget(TextView textView, NetWorkDrawable drawable, int maxWidth) {
-            super(maxWidth, SIZE_ORIGINAL);
             this.maxWidth = maxWidth;
             mTextView = textView;
             mDrawable = drawable;
         }
 
         @Override
-        public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
             Logger.d(TAG, "onLoadSuccess");
             mDrawable.setFailed(false);
             int width = ScaleUtils.dp(bitmap.getWidth());
@@ -117,10 +112,15 @@ public class GlideImageGetter implements Html.ImageGetter {
         }
 
         @Override
-        public void onLoadFailed(Exception e, Drawable errorDrawable) {
+        public void onBitmapFailed(Drawable errorDrawable) {
             mDrawable.setFailed(true);
             mTextView.setText(mTextView.getText());
             Logger.d(TAG, "onLoadFailed");
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable placeHolderDrawable) {
+
         }
     }
 

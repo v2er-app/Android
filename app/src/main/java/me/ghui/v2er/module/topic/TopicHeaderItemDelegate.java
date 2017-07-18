@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
@@ -44,7 +44,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:4 " + headerInfo.getAvatar());
-            Glide.with(mContext).load(headerInfo.getAvatar()).into(avatarImg);
+            Picasso.with(mContext).load(headerInfo.getAvatar()).into(avatarImg);
         }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());

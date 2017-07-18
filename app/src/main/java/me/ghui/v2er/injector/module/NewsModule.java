@@ -2,9 +2,8 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
@@ -38,9 +37,8 @@ public class NewsModule {
         return new CommonLoadMoreAdapter<NewsInfo.Item>(mView.getContext(), R.layout.common_list_item) {
             @Override
             protected void convert(ViewHolder holder, NewsInfo.Item item, int position) {
-                Glide.with(mContext)
+                Picasso.with(mContext)
                         .load(item.getAvatar())
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());

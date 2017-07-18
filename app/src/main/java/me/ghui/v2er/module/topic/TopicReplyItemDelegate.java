@@ -5,7 +5,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+
+import com.squareup.picasso.Picasso;
 
 import javax.annotation.Nullable;
 
@@ -44,7 +45,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> imp
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.Reply replyInfo = (TopicInfo.Reply) item;
-        Glide.with(mContext)
+        Picasso.with(mContext)
                 .load(replyInfo.getAvatar())
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.getView(R.id.reply_user_tag_tv).setVisibility(replyInfo.isOwner() ? View.VISIBLE : View.GONE);
