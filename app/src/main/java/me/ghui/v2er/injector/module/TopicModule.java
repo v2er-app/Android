@@ -1,10 +1,16 @@
 package me.ghui.v2er.injector.module;
 
 import android.app.Activity;
+import android.content.Context;
 import android.view.View;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,6 +30,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -111,28 +118,74 @@ public class TopicModule {
     }
 
     @Provides
-    public CommonAdapter<TopicInfo.Item> provideReplierAdapter() {
-        return new CommonAdapter<TopicInfo.Item>(mView.getContext(), R.layout.at_select_replier_list_item) {
-            @Override
-            protected void convert(ViewHolder holder, TopicInfo.Item reply, int position) {
-                holder.getView(R.id.top_cardview_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
-                holder.setText(R.id.replier_username_tv, reply.getUserName());
-                Glide.with(mContext)
-                        .load(reply.getAvatar())
-                        .into(holder.getImgView(R.id.replier_avatar_img));
-            }
-
-            @Override
-            protected boolean shouldAnimate(int position) {
-                return false;
-            }
-        };
-    }
-
-    @Provides
     @PerActivity
     public TopicContract.IPresenter providePresenter() {
         return new TopicPresenter(mView);
     }
+
+    @Provides
+    public TopicAtAdapter provideReplierAdapter() {
+        return new TopicAtAdapter(mView.getContext(), R.layout.at_select_replier_list_item);
+    }
+
+    public static class TopicAtAdapter extends CommonAdapter<TopicInfo.Item> implements Filterable {
+        private ValueFilter mValueFilter;
+
+        public TopicAtAdapter(Context context, int layoutId) {
+            super(context, layoutId);
+        }
+
+        @Override
+        protected void convert(ViewHolder holder, TopicInfo.Item reply, int position) {
+            holder.getView(R.id.top_cardview_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            holder.setText(R.id.replier_username_tv, reply.getUserName());
+            Glide.with(mContext)
+                    .load(reply.getAvatar())
+                    .into(holder.getImgView(R.id.replier_avatar_img));
+        }
+
+        @Override
+        protected boolean shouldAnimate(int position) {
+            return false;
+        }
+
+        @Override
+        public Filter getFilter() {
+            if (mValueFilter == null) {
+                mValueFilter = new ValueFilter();
+            }
+            return mValueFilter;
+        }
+
+        private class ValueFilter extends Filter {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                // TODO: 19/07/2017  
+                List<TopicInfo.Item> datum = getDatas();
+                if (PreConditions.isEmpty(constraint)) {
+                    filterResults.values = datum;
+                    filterResults.count = Utils.listSize(datum);
+                    return filterResults;
+                }
+                List<TopicInfo.Item> resultList = new ArrayList<>();
+                for (TopicInfo.Item item : datum) {
+                    if (item.getUserName().contains(constraint)) {
+                        resultList.add(item);
+                    }
+                }
+                filterResults.count = resultList.size();
+                filterResults.values = resultList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                setData((List<TopicInfo.Item>) results.values);
+                notifyDataSetChanged();
+            }
+        }
+    }
+
 
 }

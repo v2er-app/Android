@@ -88,7 +88,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
     @Inject
-    CommonAdapter<TopicInfo.Item> mReplierAdapter;
+    TopicModule.TopicAtAdapter mReplierAdapter;
     private String mTopicId;
     private TopicBasicInfo mTopicBasicInfo;
     private TopicInfo mTopicInfo;
@@ -328,8 +328,17 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         });
     }
 
-    private void onInputQueryTextChanged(String queryText) {
-        Logger.d("onInputQueryTextChanged: " + queryText);
+    private void onInputQueryTextChanged(String query) {
+        Logger.d("1Query: " + query);
+        if (PreConditions.isEmpty(query)) {
+            mReplierRecyView.setVisibility(View.GONE);
+            return;
+        }
+        if (PreConditions.notEmpty(query) && query.startsWith("@")) {
+            query = query.substring(1);
+        }
+        Logger.d("2Query: " + query);
+        mReplierAdapter.getFilter().filter(query);
     }
 
 
