@@ -125,6 +125,16 @@ public class TopicInfo implements IBaseInfo {
         }
 
         @Override
+        public String getUserName() {
+            return null;
+        }
+
+        @Override
+        public String getAvatar() {
+            return null;
+        }
+
+        @Override
         public boolean isValid() {
             return PreConditions.notEmpty(contentHtml);
         }
@@ -476,6 +486,10 @@ public class TopicInfo implements IBaseInfo {
         boolean isContentItem();
 
         boolean isSelf();
+
+        String getUserName();
+
+        String getAvatar();
     }
 
 }

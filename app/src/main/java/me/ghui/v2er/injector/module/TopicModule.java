@@ -52,12 +52,12 @@ public class TopicModule {
                             String avatar;
                             View sourceView;
                             if (v.getId() == R.id.avatar_img || v.getId() == R.id.user_name_tv) {
-                                userName = ((TopicInfo.HeaderInfo) getItem(holder.index())).getUserName();
-                                avatar = ((TopicInfo.HeaderInfo) getItem(holder.index())).getAvatar();
+                                userName = getItem(holder.index()).getUserName();
+                                avatar = getItem(holder.index()).getAvatar();
                                 sourceView = holder.getImgView(R.id.avatar_img);
                             } else {
-                                userName = ((TopicInfo.Reply) getItem(holder.index())).getUserName();
-                                avatar = ((TopicInfo.Reply) getItem(holder.index())).getAvatar();
+                                userName = getItem(holder.index()).getUserName();
+                                avatar = getItem(holder.index()).getAvatar();
                                 sourceView = holder.getImgView(R.id.reply_avatar_img);
                             }
                             UserHomeActivity.open(userName, mContext, sourceView, avatar);
@@ -103,15 +103,6 @@ public class TopicModule {
                 return pos > 1 && super.shouldAnimate(pos);
             }
 
-            @Override
-            protected void animateIn(View itemView, int position) {
-                super.animateIn(itemView, position);
-            }
-
-            @Override
-            protected void animateOut(View itemView, int position) {
-                super.animateOut(itemView, position);
-            }
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
@@ -120,14 +111,20 @@ public class TopicModule {
     }
 
     @Provides
-    public CommonAdapter<TopicInfo.Reply> provideReplierAdapter() {
-        return new CommonAdapter<TopicInfo.Reply>(mView.getContext(), R.layout.at_select_replier_list_item) {
+    public CommonAdapter<TopicInfo.Item> provideReplierAdapter() {
+        return new CommonAdapter<TopicInfo.Item>(mView.getContext(), R.layout.at_select_replier_list_item) {
             @Override
-            protected void convert(ViewHolder holder, TopicInfo.Reply reply, int position) {
+            protected void convert(ViewHolder holder, TopicInfo.Item reply, int position) {
+                holder.getView(R.id.top_cardview_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
                 holder.setText(R.id.replier_username_tv, reply.getUserName());
                 Glide.with(mContext)
                         .load(reply.getAvatar())
                         .into(holder.getImgView(R.id.replier_avatar_img));
+            }
+
+            @Override
+            protected boolean shouldAnimate(int position) {
+                return false;
             }
         };
     }

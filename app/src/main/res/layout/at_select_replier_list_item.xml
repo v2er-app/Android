@@ -4,18 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/replier_avatar_img"
-        android:layout_width="@dimen/small_avatar_size"
-        android:layout_height="@dimen/small_avatar_size"
-        android:layout_marginEnd="8dp" />
+    <View
+        android:id="@+id/top_cardview_divider"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/cardview_top_shadow" />
 
-    <TextView
-        android:id="@+id/replier_username_tv"
-        style="@style/BodyText"
-        tools:text="ghui" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/replier_avatar_img"
+            android:layout_width="@dimen/small_avatar_size"
+            android:layout_height="@dimen/small_avatar_size"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/replier_username_tv"
+            style="@style/BodyText"
+            tools:text="ghui" />
+    </LinearLayout>
 </LinearLayout>

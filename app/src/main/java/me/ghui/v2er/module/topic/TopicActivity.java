@@ -9,6 +9,7 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -35,6 +36,8 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
+import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
@@ -84,7 +87,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
     @Inject
-    CommonAdapter<TopicInfo.Reply> mReplierAdapter;
+    CommonAdapter<TopicInfo.Item> mReplierAdapter;
     private String mTopicId;
     private TopicBasicInfo mTopicBasicInfo;
     private TopicInfo mTopicInfo;
@@ -92,6 +95,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mThxMenuItem;
     private BottomSheetDialog mBottomSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
+    private List<TopicInfo.Item> repliersInfo;
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
         Navigator.from(context)
@@ -259,6 +263,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     mReplyFabBtn.show(); // or showFab(), see below
             }
         });
+        mReplierRecyView.setLayoutManager(new LinearLayoutManager(this));
+        mReplierRecyView.setAdapter(mReplierAdapter);
+        mReplierAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, ViewHolder holder, int position) {
+
+            }
+        });
         mReplyEt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -270,7 +282,28 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                // TODO: 17/07/2017 filter, 去重
+                CharSequence changedText = s.subSequence(start, start + count);
+                Logger.d("text: onTextChanged: " + changedText);
+                if ("@".equals(changedText.toString())) {
+                    //show @ page
+                    mReplierRecyView.setVisibility(VISIBLE);
+                    List<TopicInfo.Item> datum = mAdapter.getDatas();
+                    if (PreConditions.notEmpty(datum) && datum.size() > 1
+                            && datum.get(1) instanceof TopicInfo.ContentInfo) {
+                        // has content
+                        if (repliersInfo == null) {
+                            repliersInfo = new ArrayList<>(datum.size() - 1);
+                        } else {
+                            repliersInfo.clear();
+                        }
+                        repliersInfo.add(datum.get(0));
+                        if (datum.size() > 2) {
+                            repliersInfo.addAll(datum.subList(2, datum.size()));
+                        }
+                    }
+                    mReplierAdapter.setData(repliersInfo);
+                }
             }
         });
     }
@@ -287,7 +320,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, mLoadMoreRecyclerView, header);
+                boolean checkCanDoRefresh = (mReplierRecyView.getVisibility() != VISIBLE &&
+                        checkContentCanBePulledDown(frame, mLoadMoreRecyclerView, header));
+                return checkCanDoRefresh;
             }
         };
     }
@@ -363,7 +398,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
                 @Override
                 public void onAnimationCancel(Animator animation) {
-                    // TODO: 11/07/2017
                     Voast.debug("TopicPage onAnimationCancel");
                     onAnimationEnd(animation);
                 }

@@ -7,4 +7,7 @@
     <declare-styleable name="MaxHeightScrollView">
         <attr name="maxHeight" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="BaseRecyclerView">
+        <attr name="shouldPaddingNav" format="boolean" />
+    </declare-styleable>
 </resources>
