@@ -307,25 +307,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 // TODO: 17/07/2017 filter, 去重
                 CharSequence changedText = s.subSequence(start, start + count);
                 Logger.d("text: onTextChanged: " + changedText);
-                if (mReplierRecyView.getVisibility() == View.VISIBLE) return;
                 if ("@".equals(changedText.toString())) {
-                    //show @ page
                     mReplierRecyView.setVisibility(VISIBLE);
-                    List<TopicInfo.Item> datum = mAdapter.getDatas();
-                    if (PreConditions.notEmpty(datum) && datum.size() > 1
-                            && datum.get(1) instanceof TopicInfo.ContentInfo) {
-                        // has content
-                        if (repliersInfo == null) {
-                            repliersInfo = new ArrayList<>(datum.size() - 1);
-                        } else {
-                            repliersInfo.clear();
-                        }
-                        repliersInfo.add(datum.get(0));
-                        if (datum.size() > 2) {
-                            repliersInfo.addAll(datum.subList(2, datum.size()));
-                        }
-                    }
-                    mReplierAdapter.setData(repliersInfo);
                 }
             }
         });
@@ -373,6 +356,35 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
         mReplyFabBtn.show();
+        fillAtList();
+    }
+
+    private void fillAtList() {
+        List<TopicInfo.Item> datum = mAdapter.getDatas();
+        if (repliersInfo == null) {
+            repliersInfo = new ArrayList<>(datum.size() - 1);
+        } else {
+            repliersInfo.clear();
+        }
+
+        for (TopicInfo.Item item : datum) {
+            String name = item.getUserName();
+            //do check...
+            if (PreConditions.notEmpty(name)) {
+                boolean alreadyHas = false;
+                for (TopicInfo.Item reply : repliersInfo) {
+                    if (name.equals(reply.getUserName())) {
+                        //already has the same username one , break
+                        alreadyHas = true;
+                        break;
+                    }
+                }
+                if (!alreadyHas) {
+                    repliersInfo.add(item);
+                }
+            }
+        }
+        mReplierAdapter.setData(repliersInfo);
     }
 
     @Override
