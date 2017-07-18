@@ -10,7 +10,8 @@
         android:id="@+id/top_cardview_divider"
         android:layout_width="match_parent"
         android:layout_height="3dp"
-        android:background="@drawable/cardview_top_shadow" />
+        android:background="@drawable/cardview_top_shadow"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"

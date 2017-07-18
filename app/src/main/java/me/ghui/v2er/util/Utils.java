@@ -21,6 +21,7 @@ import java.util.List;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.UrlInterceptor;
 
@@ -250,6 +251,14 @@ public class Utils {
                 String.format("%s\n%s", title, link));
         intent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
         context.startActivity(Intent.createChooser(intent, "分享方式"));
+    }
+
+    public static String[] cutString(String text, int cutPos) {
+        if (PreConditions.isEmpty(text)) return null;
+        String[] result = new String[2];
+        result[0] = text.substring(0, cutPos);
+        result[1] = text.substring(cutPos, text.length());
+        return result;
     }
 
 

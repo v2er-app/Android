@@ -56,6 +56,7 @@ import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
+import okhttp3.internal.Util;
 
 import static android.view.View.VISIBLE;
 
@@ -265,11 +266,32 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         });
         mReplierRecyView.setLayoutManager(new LinearLayoutManager(this));
         mReplierRecyView.setAdapter(mReplierAdapter);
-        mReplierAdapter.setOnItemClickListener(new MultiItemTypeAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, ViewHolder holder, int position) {
-
+        mReplierAdapter.setOnItemClickListener((view, holder, position) -> {
+            //do fill @username
+            String selectUsername = mReplierAdapter.getItem(position).getUserName();
+            String inputStr = mReplyEt.getText().toString();
+            int cursorPos = mReplyEt.getSelectionStart();
+            String[] cuttedStrs = Utils.cutString(inputStr, cursorPos);
+            if (PreConditions.isEmpty(cuttedStrs[1])) {
+                //后面无文字，append
+                StringBuilder inputTextBuilder = new StringBuilder(inputStr);
+                int lastIndexOfAt = inputTextBuilder.lastIndexOf("@");
+                if (lastIndexOfAt > 0 && inputTextBuilder.charAt(lastIndexOfAt - 1) != ' ') {
+                    inputTextBuilder.insert(lastIndexOfAt, ' ');
+                }
+                inputTextBuilder.append(selectUsername + " ");
+                mReplyEt.setText(inputTextBuilder);
+                mReplyEt.setSelection(inputTextBuilder.length());
+            } else {
+                //后面有文字，insert
+                int lastIndexOfAt = cuttedStrs[0].lastIndexOf("@");
+                StringBuilder result = new StringBuilder(cuttedStrs[0].substring(0, lastIndexOfAt));
+                String appendStr = " @" + selectUsername;
+                result.append(appendStr + " " + cuttedStrs[1]);
+                mReplyEt.setText(result);
+                mReplyEt.setSelection(lastIndexOfAt + appendStr.length() + 1);
             }
+            mReplierRecyView.setVisibility(View.GONE);
         });
         mReplyEt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -285,6 +307,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 // TODO: 17/07/2017 filter, 去重
                 CharSequence changedText = s.subSequence(start, start + count);
                 Logger.d("text: onTextChanged: " + changedText);
+                if (mReplierRecyView.getVisibility() == View.VISIBLE) return;
                 if ("@".equals(changedText.toString())) {
                     //show @ page
                     mReplierRecyView.setVisibility(VISIBLE);
@@ -403,6 +426,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 }
             });
             animator.start();
+            mReplierRecyView.setVisibility(View.GONE);
         }
     }
 
