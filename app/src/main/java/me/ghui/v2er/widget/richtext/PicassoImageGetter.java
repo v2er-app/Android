@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.Html;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
@@ -80,7 +81,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
     }
 
-    private static class NetWorkDrawableTarget implements Target{
+    private static class NetWorkDrawableTarget implements Target {
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
         private float maxWidth;
@@ -93,7 +94,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            Logger.d(TAG, "onLoadSuccess");
+            Log.d(TAG, "onBitmapLoaded" + from.toString());
             mDrawable.setFailed(false);
             int width = ScaleUtils.dp(bitmap.getWidth());
             int height = ScaleUtils.dp(bitmap.getHeight());
@@ -114,12 +115,12 @@ public class PicassoImageGetter implements Html.ImageGetter {
         public void onBitmapFailed(Drawable errorDrawable) {
             mDrawable.setFailed(true);
             mTextView.setText(mTextView.getText());
-            Logger.d(TAG, "onLoadFailed");
+            Log.d(TAG, "onLoadFailed");
         }
 
         @Override
         public void onPrepareLoad(Drawable placeHolderDrawable) {
-
+            Log.d(TAG, "onPrepareLoad");
         }
     }
 
