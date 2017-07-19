@@ -22,7 +22,7 @@ import me.ghui.v2er.widget.richtext.OnUrlClickListener;
  * Created by ghui on 09/05/2017.
  */
 
-public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> implements OnImageClickListener, OnUrlClickListener {
+public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     public TopicHeaderItemDelegate(Context context) {
         super(context);
@@ -62,14 +62,4 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> im
         holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
     }
 
-    @Override
-    public void onImgClick(ImagesInfo imagesInfo) {
-        ImageViewer.open(imagesInfo, mContext);
-    }
-
-    @Override
-    public boolean onUrlClick(String url) {
-        Utils.openWap(url, mContext);
-        return false;
-    }
 }

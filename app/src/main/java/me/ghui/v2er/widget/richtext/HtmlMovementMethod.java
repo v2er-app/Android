@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
+import me.ghui.v2er.module.imgviewer.ImageViewer;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.Utils;
 
@@ -209,16 +210,18 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
             }
         } else if (span instanceof ImageSpan) {
             String currentImg = ((ImageSpan) span).getSource();
-            if (mImageClickListener != null) {
-                int index = 0;
-                for (int i = 0; i < imgs.size(); i++) {
-                    if (currentImg.equals(imgs.get(i).getUrl())) {
-                        index = i;
-                        break;
-                    }
+            int index = 0;
+            for (int i = 0; i < imgs.size(); i++) {
+                if (currentImg.equals(imgs.get(i).getUrl())) {
+                    index = i;
+                    break;
                 }
-                ImagesInfo imagesInfo = new ImagesInfo(index, imgs);
+            }
+            ImagesInfo imagesInfo = new ImagesInfo(index, imgs);
+            if (mImageClickListener != null) {
                 mImageClickListener.onImgClick(imagesInfo);
+            } else {
+                ImageViewer.open(imagesInfo, mTextView.getContext());
             }
         }
     }

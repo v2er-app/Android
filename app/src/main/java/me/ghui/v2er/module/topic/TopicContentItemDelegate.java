@@ -21,7 +21,7 @@ import me.ghui.v2er.widget.richtext.RichText;
  * Created by ghui on 09/05/2017.
  */
 
-public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> implements OnImageClickListener, OnUrlClickListener {
+public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     public TopicContentItemDelegate(Context context) {
         super(context);
@@ -44,8 +44,6 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> i
         if (PreConditions.notEmpty(contentInfo.getContentHtml())) {
             contentTv.setVisibility(View.VISIBLE);
             RichText.from(contentInfo.getContentHtml())
-                    .imgClick(this)
-                    .urlClick(this)
                     .into(contentTv);
 //            contentTv.setTextIsSelectable(true);
         } else {
@@ -53,16 +51,5 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> i
         }
         ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview))
                 .setData(contentInfo.getPostScripts());
-    }
-
-    @Override
-    public void onImgClick(ImagesInfo imagesInfo) {
-        ImageViewer.open(imagesInfo, mContext);
-    }
-
-    @Override
-    public boolean onUrlClick(String url) {
-        Utils.openWap(url, mContext);
-        return false;
     }
 }

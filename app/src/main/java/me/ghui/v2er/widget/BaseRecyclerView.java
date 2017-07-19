@@ -28,12 +28,12 @@ public class BaseRecyclerView extends RecyclerView {
 
     public BaseRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        init(null);
+        init(attrs);
     }
 
     public BaseRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        init(null);
+        init(attrs);
     }
 
     private void init(AttributeSet attrs) {
