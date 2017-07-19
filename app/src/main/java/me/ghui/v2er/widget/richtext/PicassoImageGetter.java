@@ -19,14 +19,14 @@ import me.ghui.v2er.util.ViewUtils;
  * Created by ghui on 05/07/2017.
  */
 
-public class GlideImageGetter implements Html.ImageGetter {
+public class PicassoImageGetter implements Html.ImageGetter {
 
     private static String TAG = "ImgGetter";
 
     private TextView mTextView;
     private ImageHolder mImageHolder;
 
-    public GlideImageGetter(TextView textView, ImageHolder imageHolder) {
+    public PicassoImageGetter(TextView textView, ImageHolder imageHolder) {
         mTextView = textView;
         mImageHolder = imageHolder;
     }

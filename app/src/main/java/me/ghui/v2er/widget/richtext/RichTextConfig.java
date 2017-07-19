@@ -81,7 +81,7 @@ public class RichTextConfig {
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
-            mImageGetter = new GlideImageGetter(textView, mImageHolder);
+            mImageGetter = new PicassoImageGetter(textView, mImageHolder);
         }
         if (sourceText == null) sourceText = "";
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
