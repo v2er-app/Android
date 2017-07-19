@@ -11,12 +11,7 @@ import com.squareup.picasso.Picasso;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.module.imgviewer.ImageViewer;
-import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.widget.richtext.OnImageClickListener;
-import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 
 /**
  * Created by ghui on 09/05/2017.

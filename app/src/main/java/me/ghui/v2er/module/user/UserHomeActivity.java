@@ -11,7 +11,6 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -32,7 +31,6 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;

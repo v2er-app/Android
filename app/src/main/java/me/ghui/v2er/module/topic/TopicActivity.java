@@ -9,7 +9,6 @@ import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -35,9 +34,6 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
-import me.ghui.v2er.adapter.base.CommonAdapter;
-import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
-import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
@@ -56,7 +52,6 @@ import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
-import okhttp3.internal.Util;
 
 import static android.view.View.VISIBLE;
 

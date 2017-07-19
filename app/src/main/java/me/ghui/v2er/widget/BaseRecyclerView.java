@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
-import me.ghui.fruit.Attrs;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;

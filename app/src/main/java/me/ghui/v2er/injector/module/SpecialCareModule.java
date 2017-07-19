@@ -2,7 +2,6 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-
 import com.squareup.picasso.Picasso;
 
 import dagger.Module;

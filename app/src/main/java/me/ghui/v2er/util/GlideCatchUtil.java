@@ -5,8 +5,6 @@ import android.os.Looper;
 import java.io.File;
 import java.math.BigDecimal;
 
-import me.ghui.v2er.general.App;
-
 /**
  * Created by YaphetZhao
  * on 2016/12/19.

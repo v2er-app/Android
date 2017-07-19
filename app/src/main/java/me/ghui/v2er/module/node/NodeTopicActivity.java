@@ -13,7 +13,6 @@ import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 

@@ -8,7 +8,6 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
