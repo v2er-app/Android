@@ -410,6 +410,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    public List<TopicInfo.Item> topicReplyInfo() {
+        return repliersInfo;
+    }
+
+    @Override
     public void onBackPressed() {
         if (mReplyWrapper.getVisibility() == View.VISIBLE) {
             animateEditInnerWrapper(false);
@@ -537,6 +542,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             toast("回复失败");
         }
     }
+
 
     @OnClick(R.id.reply_send_btn)
     void onPostBtnClicked() {

@@ -128,7 +128,7 @@ public class TopicModule {
         return new TopicAtAdapter(mView.getContext(), R.layout.at_select_replier_list_item);
     }
 
-    public static class TopicAtAdapter extends CommonAdapter<TopicInfo.Item> implements Filterable {
+    public class TopicAtAdapter extends CommonAdapter<TopicInfo.Item> implements Filterable {
         private ValueFilter mValueFilter;
 
         public TopicAtAdapter(Context context, int layoutId) {
@@ -161,8 +161,7 @@ public class TopicModule {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                // TODO: 19/07/2017  
-                List<TopicInfo.Item> datum = getDatas();
+                List<TopicInfo.Item> datum = mView.topicReplyInfo();
                 if (PreConditions.isEmpty(constraint)) {
                     filterResults.values = datum;
                     filterResults.count = Utils.listSize(datum);

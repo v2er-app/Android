@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.topic;
 
+import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
@@ -27,6 +28,8 @@ public class TopicContract {
         void afterIgnoreReply(boolean success, int position);
 
         void afterReplyTopic(TopicInfo topicInfo);
+
+        List<TopicInfo.Item> topicReplyInfo();
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
