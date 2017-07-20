@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
 import me.ghui.v2er.util.ScaleUtils;
@@ -28,23 +29,25 @@ public class PicassoImageGetter implements Html.ImageGetter {
     private static String TAG = "ImgGetter";
     private static int TAG_KEY = Integer.MAX_VALUE - 120;
 
-    private TextView mTextView;
+    private WeakReference<TextView> mTvWeakReference;
     private ImageHolder mImageHolder;
     private HashSet<Target> mTargets;
 
     public PicassoImageGetter(TextView textView, ImageHolder imageHolder) {
-        mTextView = textView;
+        mTvWeakReference = new WeakReference<>(textView);
         mImageHolder = imageHolder;
         mTargets = new HashSet<>();
-        mTextView.setTag(TAG_KEY, mTargets);
+        textView.setTag(TAG_KEY, mTargets);
     }
 
     @Override
     public Drawable getDrawable(String source) {
+        TextView textView = mTvWeakReference.get();
+        if (textView == null) return null;
         NetWorkDrawable drawable = new NetWorkDrawable(mImageHolder);
-        Target target = new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize);
+        Target target = new NetWorkDrawableTarget(textView, drawable, mImageHolder.maxSize);
         mTargets.add(target);
-        Picasso.with(mTextView.getContext())
+        Picasso.with(textView.getContext())
                 .load(source)
                 .into(target);
         return drawable;
