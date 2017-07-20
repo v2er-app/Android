@@ -26,6 +26,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     protected ItemViewDelegateManager mItemViewDelegateManager;
     protected OnItemClickListener mOnItemClickListener;
     protected OnItemLongClickListener mOnItemLongClickListener;
+    protected OnItemCountChangedListener mOnItemCountChangedListener;
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView mRecyclerView;
 
@@ -41,6 +42,9 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
         } else {
             mDatas = data;
             notifyDataSetChanged();
+        }
+        if (mOnItemCountChangedListener != null) {
+            mOnItemCountChangedListener.onCountChanged(Utils.listSize(mDatas));
         }
     }
 
@@ -191,6 +195,14 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     public void setOnItemLongClickListener(OnItemLongClickListener onItemLongClickListener) {
         this.mOnItemLongClickListener = onItemLongClickListener;
+    }
+
+    public void setOnItemCountChangedListener(OnItemCountChangedListener onItemCountChangedListener) {
+        mOnItemCountChangedListener = onItemCountChangedListener;
+    }
+
+    public interface OnItemCountChangedListener {
+        void onCountChanged(int newCount);
     }
 
 }

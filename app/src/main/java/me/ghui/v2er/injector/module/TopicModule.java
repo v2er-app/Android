@@ -2,6 +2,7 @@ package me.ghui.v2er.injector.module;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -137,7 +138,12 @@ public class TopicModule {
 
         @Override
         protected void convert(ViewHolder holder, TopicInfo.Item reply, int position) {
-            holder.getView(R.id.top_cardview_divider).setVisibility(position == 0 ? View.VISIBLE : View.GONE);
+            View dividerView = holder.getView(R.id.top_cardview_divider);
+            if (position == 0) {
+                dividerView.setBackgroundResource(R.drawable.cardview_top_shadow);
+            } else {
+                dividerView.setBackgroundColor(Color.WHITE);
+            }
             holder.setText(R.id.replier_username_tv, reply.getUserName());
             Picasso.with(mContext)
                     .load(reply.getAvatar())
@@ -181,7 +187,6 @@ public class TopicModule {
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 setData((List<TopicInfo.Item>) results.values);
-                notifyDataSetChanged();
             }
         }
     }
