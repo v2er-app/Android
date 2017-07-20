@@ -12,8 +12,11 @@ import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
+import java.util.HashSet;
+
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.Voast;
 
 
 /**
@@ -23,21 +26,27 @@ import me.ghui.v2er.util.ViewUtils;
 public class PicassoImageGetter implements Html.ImageGetter {
 
     private static String TAG = "ImgGetter";
+    private static int TAG_KEY = Integer.MAX_VALUE - 120;
 
     private TextView mTextView;
     private ImageHolder mImageHolder;
+    private HashSet<Target> mTargets;
 
     public PicassoImageGetter(TextView textView, ImageHolder imageHolder) {
         mTextView = textView;
         mImageHolder = imageHolder;
+        mTargets = new HashSet<>();
+        mTextView.setTag(TAG_KEY, mTargets);
     }
 
     @Override
     public Drawable getDrawable(String source) {
         NetWorkDrawable drawable = new NetWorkDrawable(mImageHolder);
+        Target target = new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize);
+        mTargets.add(target);
         Picasso.with(mTextView.getContext())
                 .load(source)
-                .into(new NetWorkDrawableTarget(mTextView, drawable, mImageHolder.maxSize));
+                .into(target);
         return drawable;
     }
 
@@ -81,7 +90,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
     }
 
-    private static class NetWorkDrawableTarget implements Target {
+    private class NetWorkDrawableTarget implements Target {
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
         private float maxWidth;
@@ -94,7 +103,9 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
         @Override
         public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//            Voast.debug("mTargets.Size: " + mTargets.size());
             Log.d(TAG, "onBitmapLoaded" + from.toString());
+            mTargets.remove(this);
             mDrawable.setFailed(false);
             int width = ScaleUtils.dp(bitmap.getWidth());
             int height = ScaleUtils.dp(bitmap.getHeight());
