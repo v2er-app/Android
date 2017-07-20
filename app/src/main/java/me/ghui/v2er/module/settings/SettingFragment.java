@@ -102,7 +102,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .build().show();
             return true;
         } else if (key.equals(getString(R.string.pref_send_email))) {
-            Utils.sendEmail(getActivity());
+            Utils.sendOfficalV2erEmail(getActivity());
             return true;
         } else if (key.equals(getString(R.string.pref_weibo_personal_page))) {
             Utils.jumpToWeiboProfileInfo(getActivity());

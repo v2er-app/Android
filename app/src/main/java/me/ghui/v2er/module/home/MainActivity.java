@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Navigator.from(getContext()).to(SettingActivity.class).start();
                     break;
                 case R.id.feedback_nav_item:
-                    Utils.sendEmail(this);
+                    Utils.sendOfficalV2erEmail(this);
                     break;
             }
             mDrawerLayout.closeDrawers();

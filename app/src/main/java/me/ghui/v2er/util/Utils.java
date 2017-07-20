@@ -1,5 +1,6 @@
 package me.ghui.v2er.util;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -153,15 +154,29 @@ public class Utils {
     }
 
 
-    public static void sendEmail(Context context) {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("mailto:"));
-        intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.feedback_email)});
-        intent.putExtra(Intent.EXTRA_SUBJECT, "From V2er ");
-//        intent.putExtra(Intent.EXTRA_TEXT, "Body");
+    public static void sendOfficalV2erEmail(Context context) {
+        // TODO: 20/07/2017  phone info detail
+        String phoneInfo = null;
+        sendEmail(context, context.getString(R.string.feedback_email), context.getString(R.string.mail_subject_prefix), phoneInfo);
+    }
+
+    public static void sendEmail(Context context, String mail, String subject) {
+        sendEmail(context, mail, subject, null);
+    }
+
+    public static void sendEmail(Context context, String mail, String subject, String content) {
+        if (PreConditions.isEmpty(mail)) return;
+        String mailUri = mail;
+        if (!mail.startsWith("mailto:")) {
+            mailUri = "mailto:" + mail;
+        }
         try {
-            context.startActivity(Intent.createChooser(intent, "Send mail..."));
-        } catch (android.content.ActivityNotFoundException ex) {
+            Intent request = new Intent(Intent.ACTION_VIEW);
+            request.setData(Uri.parse(mailUri));
+            request.putExtra(Intent.EXTRA_SUBJECT, subject);
+            request.putExtra(Intent.EXTRA_TEXT, content);
+            context.startActivity(request);
+        } catch (ActivityNotFoundException e) {
             Voast.show("There are no email clients installed.");
         }
     }

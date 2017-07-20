@@ -17,6 +17,8 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
+import okhttp3.internal.Util;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -29,6 +31,13 @@ public class UrlInterceptor {
     public static boolean intercept(String url, Context context, boolean openInWap) {
         boolean result = false;
         if (PreConditions.isEmpty(url)) return result;
+
+        if (url.startsWith("mailto:")) {
+            //send email
+            Utils.sendEmail(context, url, context.getString(R.string.mail_subject_prefix));
+            return true;
+        }
+
         if (!url.startsWith(Constants.HTTPS_SCHEME) && !url.startsWith(Constants.HTTP_SCHEME)) {
             //url is path
             if (url.startsWith("/")) {
