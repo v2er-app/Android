@@ -23,7 +23,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/bodyTextColor</item>
         <item name="android:textSize">@dimen/smallTextSize</item>
-        <item name="android:lineSpacingMultiplier">1.2</item>
+        <item name="android:lineSpacingMultiplier">1.20</item>
     </style>
 
     <style name="smallText" parent="BodyText">
