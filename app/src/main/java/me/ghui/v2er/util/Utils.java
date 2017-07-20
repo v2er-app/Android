@@ -160,7 +160,7 @@ public class Utils {
 
     public static void sendOfficalV2erEmail(Activity context) {
         StringBuilder sb = new StringBuilder();
-        sb.append("\n\nPhoneInfo: ")
+        sb.append("\n\n\n\nPhoneInfo: ")
                 .append("{")
                 .append('\n')
                 .append(" Release: ")
