@@ -81,6 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/topic_inner_reply_wrapper"
+            android:clickable="false"
             android:paddingTop="150dp"
             android:visibility="gone"
             app:shouldPaddingNav="false" />

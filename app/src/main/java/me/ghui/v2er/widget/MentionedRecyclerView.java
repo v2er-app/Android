@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 import com.orhanobut.logger.Logger;
 
@@ -61,5 +62,16 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
     @Override
     public void onCountChanged(int newCount) {
         updatePaddingTop(newCount);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        return super.onInterceptTouchEvent(e);
+        // TODO: 20/07/2017 事件透传 
     }
 }
