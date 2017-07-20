@@ -19,6 +19,7 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
 
     private int ITEM_HEIGHT;
     private final int MAX_SHOW_SIZE = 3;
+    private int mScrollDis;
 
     public MentionedRecyclerView(Context context) {
         super(context);
@@ -72,12 +73,13 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         boolean result;
-        if (e.getY() <= getPaddingTop()) {
+        mScrollDis = computeVerticalScrollOffset();
+        if (e.getY() <= getPaddingTop() - mScrollDis) {
             result = false;
         } else {
             result = super.onTouchEvent(e);
         }
-        Logger.d("0onTouchEvent: " + result);
+        Logger.d("0onTouchEvent: " + result + ", mScrollY: " + mScrollDis);
         return result;
     }
 
