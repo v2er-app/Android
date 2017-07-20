@@ -8,4 +8,5 @@
     <string name="pref_key_value_toggle_log">pref_key_toggle_log</string>
     <string name="pref_key_value_copyright">pref_key_copyright</string>
     <string name="pref_key_v2ex">pref_key_v2ex</string>
+    <string name="pref_key_title_overview">pref_key_title_overview</string>
 </resources>

@@ -37,7 +37,7 @@
         android:layout_alignParentEnd="true"
         tools:text="问与答" />
 
-    <TextView
+    <me.ghui.v2er.widget.CommonTitleTextView
         android:id="@+id/title_tv"
         style="@style/TopicTitle"
         android:layout_below="@id/avatar_img"
