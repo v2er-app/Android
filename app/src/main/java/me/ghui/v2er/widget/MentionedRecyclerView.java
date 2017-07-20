@@ -70,8 +70,15 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
     }
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent e) {
-        return super.onInterceptTouchEvent(e);
-        // TODO: 20/07/2017 事件透传 
+    public boolean onTouchEvent(MotionEvent e) {
+        boolean result;
+        if (e.getY() <= getPaddingTop()) {
+            result = false;
+        } else {
+            result = super.onTouchEvent(e);
+        }
+        Logger.d("0onTouchEvent: " + result);
+        return result;
     }
+
 }

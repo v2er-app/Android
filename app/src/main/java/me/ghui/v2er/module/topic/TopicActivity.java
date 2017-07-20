@@ -226,17 +226,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-                    if (mReplyWrapper.getVisibility() == View.VISIBLE) {
-                        animateEditInnerWrapper(false);
-                    }
-                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                }
-            }
-        });
-        mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
                 if (pos == 0) {
