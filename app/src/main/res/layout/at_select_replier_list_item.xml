@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/mentioned_list_height"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="vertical">
 
@@ -25,7 +25,8 @@
             android:id="@+id/replier_avatar_img"
             android:layout_width="@dimen/small_avatar_size"
             android:layout_height="@dimen/small_avatar_size"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:src="@mipmap/ic_launcher" />
 
         <TextView
             android:id="@+id/replier_username_tv"

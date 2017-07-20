@@ -78,7 +78,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @BindView(R.id.repliers_recyclerview)
     BaseRecyclerView mReplierRecyView;
     private LinearLayoutManager mLinearLayoutManager;
-    private boolean isTitleVisiable;
 
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
@@ -242,11 +241,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
                 if (pos == 0) {
                     //title 可见
-                    isTitleVisiable = true;
                     mToolbar.setSubtitle(null);
                 } else {
                     //title 不可见
-                    isTitleVisiable = false;
                     mToolbar.setSubtitle(mTopicInfo.getHeaderInfo().getTitle());
                 }
             }
