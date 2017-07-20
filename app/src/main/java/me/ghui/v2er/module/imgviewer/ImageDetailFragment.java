@@ -32,6 +32,7 @@ public class ImageDetailFragment extends Fragment {
     private ProgressBar progressBar;
     private View mImgRootView;
     private static String IMG_URL = Constants.PACKAGE_NAME + "_img_url";
+    private Target mTarget;
 
     public static ImageDetailFragment newInstance(String url) {
         final ImageDetailFragment f = new ImageDetailFragment();
@@ -65,27 +66,28 @@ public class ImageDetailFragment extends Fragment {
     }
 
     private void loadImage() {
+        mTarget = new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                mImageView.setImage(ImageSource.bitmap(bitmap));
+                progressBar.setVisibility(View.GONE);
+                paletteBg(bitmap);
+            }
+
+            @Override
+            public void onBitmapFailed(Drawable errorDrawable) {
+                progressBar.setVisibility(View.GONE);
+                Voast.show("图片加载出错");
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        };
         Picasso.with(getContext())
                 .load(mImageUrl)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        mImageView.setImage(ImageSource.bitmap(bitmap));
-                        progressBar.setVisibility(View.GONE);
-                        paletteBg(bitmap);
-                    }
-
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                        progressBar.setVisibility(View.GONE);
-                        Voast.show("图片加载出错");
-                    }
-
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-                        progressBar.setVisibility(View.VISIBLE);
-                    }
-                });
+                .into(mTarget);
     }
 
     private void paletteBg(Bitmap bitmap) {
