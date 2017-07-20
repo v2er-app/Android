@@ -9,7 +9,7 @@
     <View
         android:id="@+id/top_cardview_divider"
         android:layout_width="match_parent"
-        android:layout_height="5dp"
+        android:layout_height="4dp"
         android:background="@color/white" />
 
     <LinearLayout
@@ -18,7 +18,9 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:paddingBottom="4dp"
+        android:paddingLeft="16dp"
+        android:paddingTop="4dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/replier_avatar_img"
