@@ -1,6 +1,7 @@
 package me.ghui.v2er.widget.richtext;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -28,7 +29,7 @@ public class ImageHolderDrawable extends Drawable {
         mPaint = new Paint();
         mPaint.setTextSize(context.getResources().getDimension(R.dimen.mediumTextSize));
         if (width == -1 || height == -1) {
-            width = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+            width = (int) (ScaleUtils.getScreenW((Activity) context) - ScaleUtils.dp(32));
             height = ScaleUtils.dp(100);
         }
         mRect = new Rect(0, 0, width, height);

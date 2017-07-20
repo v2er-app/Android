@@ -1,5 +1,6 @@
 package me.ghui.v2er.widget.richtext;
 
+import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -20,7 +21,7 @@ public class ImageHolder {
         if (maxSize <= 0) {
             maxSize = ViewUtils.getExactlyWidth(view, true);
             if (maxSize <= 0) {
-                maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+                maxSize = (int) (ScaleUtils.getScreenW((Activity) view.getContext()) - ScaleUtils.dp(32));
             }
         }
         this.maxSize = maxSize;

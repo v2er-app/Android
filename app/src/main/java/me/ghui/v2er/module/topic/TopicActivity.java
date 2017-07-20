@@ -417,10 +417,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     void animateEditInnerWrapper(boolean isShow) {
-        int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16));
+        int cX = (int) (ScaleUtils.getScreenW(this) - ScaleUtils.dp(56) - ScaleUtils.dp(16));
         int cY = ScaleUtils.dp(48) / 2;
         int startRadius = ScaleUtils.dp(25);
-        int endRadius = (int) ScaleUtils.getScreenW();
+        int endRadius = (int) ScaleUtils.getScreenW(this);
         if (isShow) {//show edit wrapper
             mReplyFabBtn.hide();
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);

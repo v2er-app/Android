@@ -1,5 +1,6 @@
 package me.ghui.v2er.util;
 
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -8,10 +9,12 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +28,7 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.UrlInterceptor;
+import me.ghui.v2er.network.bean.UserInfo;
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
@@ -154,10 +158,42 @@ public class Utils {
     }
 
 
-    public static void sendOfficalV2erEmail(Context context) {
-        // TODO: 20/07/2017  phone info detail
-        String phoneInfo = null;
-        sendEmail(context, context.getString(R.string.feedback_email), context.getString(R.string.mail_subject_prefix), phoneInfo);
+    public static void sendOfficalV2erEmail(Activity context) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\nPhoneInfo: ")
+                .append("{")
+                .append('\n')
+                .append(" Release: ")
+                .append(Build.VERSION.RELEASE)
+                .append('\n')
+                .append(" ,API Level: ")
+                .append(Build.VERSION.SDK_INT)
+                .append('\n')
+                .append(" ,Brand: ")
+                .append(Build.BRAND)
+                .append('\n')
+                .append(" ,Model: ")
+                .append(Build.MODEL)
+                .append('\n');
+        DisplayMetrics dm = ScaleUtils.getDisplayMetrics(context);
+        String screen = " ( " + dm.widthPixels + ", " + dm.heightPixels + " ) ";
+        sb.append(" ,Screen: ")
+                .append(screen)
+                .append('\n')
+                .append(" ,Dpi: ")
+                .append(dm.densityDpi)
+                .append('\n')
+                .append('}');
+        UserInfo userInfo = UserUtils.getUserInfo();
+        if (userInfo != null) {
+            sb.append(" UserInfo: ")
+                    .append("{ ")
+                    .append('\n')
+                    .append(" name: " + userInfo.getUserName())
+                    .append('\n')
+                    .append("} ");
+        }
+        sendEmail(context, context.getString(R.string.feedback_email), context.getString(R.string.mail_subject_prefix), sb.toString());
     }
 
     public static void sendEmail(Context context, String mail, String subject) {

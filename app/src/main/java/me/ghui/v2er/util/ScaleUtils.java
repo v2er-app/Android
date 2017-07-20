@@ -1,6 +1,8 @@
 package me.ghui.v2er.util;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.DisplayMetrics;
 
 import me.ghui.v2er.general.App;
 
@@ -9,18 +11,27 @@ import me.ghui.v2er.general.App;
  */
 public class ScaleUtils {
 
-    public static float getScreenW() {
-        return App.get().getResources().getDisplayMetrics().widthPixels;
+    public static int getScreenW(Activity activity) {
+        return getScreenSize(activity)[0];
     }
 
-    public static float getScreenContentH() {
+    public static int getScreenH(Activity activity) {
+        return getScreenSize(activity)[1];
+    }
+
+    public static int getScreenContentH() {
         return App.get().getResources().getDisplayMetrics().heightPixels;
     }
 
-    public static float getScaleRate(Context context) {
-        int sw = context.getResources().getDisplayMetrics().widthPixels;
-        int sh = context.getResources().getDisplayMetrics().heightPixels;
-        return Math.min(sw / 640f, sh / 1136f);
+    public static DisplayMetrics getDisplayMetrics(Activity activity) {
+        DisplayMetrics dm = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(dm);
+        return dm;
+    }
+
+    public static int[] getScreenSize(Activity activity) {
+        DisplayMetrics dm = getDisplayMetrics(activity);
+        return new int[]{dm.widthPixels, dm.heightPixels};
     }
 
     public static int dp(float value) {
