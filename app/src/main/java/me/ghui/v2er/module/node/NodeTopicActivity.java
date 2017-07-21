@@ -88,7 +88,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         if (sourceView != null && sourceView instanceof ImageView) {
             ImageView imgview = (ImageView) sourceView;
-            if (imgview.getDrawable() == null) {
+            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable) || imgview.getDrawable() == null) {
                 sourceView = null;
             }
         }

@@ -96,7 +96,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     public static void open(String userName, Context context, View sourceView, String avatar) {
         if (sourceView != null && sourceView instanceof ImageView) {
             ImageView imgview = (ImageView) sourceView;
-            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable)) {
+            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable) || imgview.getDrawable() == null) {
                 sourceView = null;
             }
         }
