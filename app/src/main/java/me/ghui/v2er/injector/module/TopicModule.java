@@ -175,7 +175,7 @@ public class TopicModule {
                 }
                 List<TopicInfo.Item> resultList = new ArrayList<>();
                 for (TopicInfo.Item item : datum) {
-                    if (item.getUserName().contains(constraint)) {
+                    if (item.getUserName().toLowerCase().contains(constraint.toString().toLowerCase())) {
                         resultList.add(item);
                     }
                 }
