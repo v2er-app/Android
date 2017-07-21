@@ -215,7 +215,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         RichText.from(desc).into(mNodeDesTv);
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
-        if (ViewUtils.isSameImgRes(mNodeImg, R.drawable.avatar_placeholder_drawable)) {
+        if (mNodeImg.getDrawable() == null || ViewUtils.isSameImgRes(mNodeImg, R.drawable.avatar_placeholder_drawable)) {
             Picasso.with(this)
                     .load(nodeInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
