@@ -11,7 +11,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
-import me.ghui.v2er.util.GlideCatchUtil;
+import me.ghui.v2er.util.PicassoCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -41,7 +41,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         this.addPreferencesFromResource(R.xml.preferences);
         cachePref = findPreference(getString(R.string.pref_key_clear_cache));
         cachePref.setOnPreferenceClickListener(this);
-        cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
+        cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", PicassoCatchUtil.getCacheSize()));
         Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
         updatePrefItem.setOnPreferenceClickListener(this);
         updatePrefItem.setSummary(String.format("当前版本 " + Utils.getVersionName() + " (" + Utils.getVersionCode() + ")"));
@@ -71,8 +71,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (key.equals(getString(R.string.pref_key_clear_cache))) {
-            String size = GlideCatchUtil.getCacheSize();
-            boolean ok = GlideCatchUtil.clearDiskCache();
+            String size = PicassoCatchUtil.getCacheSize();
+            boolean ok = PicassoCatchUtil.clearDiskCache();
             if (ok) {
                 cachePref.setSummary(getString(R.string.cache_summary));
                 Voast.show("成功清理" + size + "缓存");

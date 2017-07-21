@@ -2,8 +2,13 @@ package me.ghui.v2er.util;
 
 import android.os.Looper;
 
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.StatsSnapshot;
+
 import java.io.File;
 import java.math.BigDecimal;
+
+import me.ghui.v2er.general.App;
 
 /**
  * Created by YaphetZhao
@@ -16,19 +21,13 @@ import java.math.BigDecimal;
  * <p>
  * Glide缓存工具类
  */
-public class GlideCatchUtil {
+public class PicassoCatchUtil {
+    // TODO: 21/07/2017
 
     // 获取Glide磁盘缓存大小
     public static String getCacheSize() {
-        // TODO: 19/07/2017
-        try {
-//            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
-//            return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
-            return "";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "获取失败";
-        }
+        StatsSnapshot snapshot = Picasso.with(App.get()).getSnapshot();
+        return getFormatSize(snapshot.size);
     }
 
     // 清除图片磁盘缓存，调用Glide自带方法
@@ -60,24 +59,6 @@ public class GlideCatchUtil {
         return false;
     }
 
-
-    // 获取指定文件夹内所有文件大小的和
-    private static long getFolderSize(File file) throws Exception {
-        long size = 0;
-        try {
-            File[] fileList = file.listFiles();
-            for (File aFileList : fileList) {
-                if (aFileList.isDirectory()) {
-                    size = size + getFolderSize(aFileList);
-                } else {
-                    size = size + aFileList.length();
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return size;
-    }
 
     // 格式化单位
     private static String getFormatSize(double size) {
