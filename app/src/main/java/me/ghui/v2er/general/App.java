@@ -4,6 +4,7 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 
 import com.orhanobut.logger.Logger;
+import com.squareup.picasso.Picasso;
 import com.tencent.bugly.crashreport.CrashReport;
 
 import me.ghui.v2er.BuildConfig;
@@ -37,10 +38,19 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
-        APIService.init();
         Logger.init().methodCount(1).hideThreadInfo();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        initPicasso();
+        APIService.init();
         initBugly();
+    }
+
+    private void initPicasso() {
+        Picasso picasso = new Picasso.Builder(this)
+                .indicatorsEnabled(BuildConfig.DEBUG)
+                .loggingEnabled(BuildConfig.DEBUG)
+                .build();
+        Picasso.setSingletonInstance(picasso);
     }
 
     private void initBugly() {
