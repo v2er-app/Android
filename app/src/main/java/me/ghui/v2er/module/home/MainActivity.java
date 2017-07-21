@@ -197,6 +197,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mSlidingTabLayout.setCurrentTab(0);
             return;
         }
+        // TODO: 21/07/2017 check, sometimes doesn't work 
         if (isBackableEmpty() && Pref.readBool(R.string.pref_key_keep_activity)) {
             moveTaskToBack(true);
         } else {
