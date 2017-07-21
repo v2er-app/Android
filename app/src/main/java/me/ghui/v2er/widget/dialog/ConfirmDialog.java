@@ -57,7 +57,7 @@ public class ConfirmDialog extends BaseDialog {
     @Override
     protected void onResizeDialog(Dialog dialog) {
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        float screenWidth = ScaleUtils.getScreenW(getActivity());
+        float screenWidth = ScaleUtils.getScreenW();
         layoutParams.width = (int) (screenWidth * 0.85);
         int maxHeight = (int) (ScaleUtils.getScreenContentH() * 0.45f);
         scrollView.setMaxHeight(maxHeight);

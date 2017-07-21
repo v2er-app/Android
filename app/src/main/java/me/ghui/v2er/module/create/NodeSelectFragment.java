@@ -85,7 +85,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
 
     private void resize(Dialog dialog) {
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
-        float screenWidth = ScaleUtils.getScreenW(getActivity());
+        float screenWidth = ScaleUtils.getScreenW();
         layoutParams.width = (int) (screenWidth * 0.9);
         layoutParams.height = (int) (ScaleUtils.getScreenContentH() * 0.8f);
         dialog.getWindow().setAttributes(layoutParams);

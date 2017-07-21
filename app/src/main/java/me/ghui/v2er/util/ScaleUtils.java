@@ -2,6 +2,7 @@ package me.ghui.v2er.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 import me.ghui.v2er.general.App;
@@ -11,8 +12,8 @@ import me.ghui.v2er.general.App;
  */
 public class ScaleUtils {
 
-    public static int getScreenW(Activity activity) {
-        return getScreenSize(activity)[0];
+    public static int getScreenW() {
+        return App.get().getResources().getDisplayMetrics().widthPixels;
     }
 
     public static int getScreenH(Activity activity) {

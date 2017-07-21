@@ -21,7 +21,7 @@ public class ImageHolder {
         if (maxSize <= 0) {
             maxSize = ViewUtils.getExactlyWidth(view, true);
             if (maxSize <= 0) {
-                maxSize = (int) (ScaleUtils.getScreenW((Activity) view.getContext()) - ScaleUtils.dp(32));
+                maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
             }
         }
         this.maxSize = maxSize;
