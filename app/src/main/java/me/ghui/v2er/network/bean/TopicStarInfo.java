@@ -44,7 +44,7 @@ public class TopicStarInfo {
         private String title;
         @Pick(value = "span.item_title a", attr = Attrs.HREF)
         private String link;
-        @Pick("a.count_livid")
+        @Pick("a[class^=count_]")
         private int commentNum;
         @Pick("a.node")
         private String tag;
