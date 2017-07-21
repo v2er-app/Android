@@ -39,7 +39,10 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:4 " + headerInfo.getAvatar());
-            Picasso.with(mContext).load(headerInfo.getAvatar()).into(avatarImg);
+            Picasso.with(mContext)
+                    .load(headerInfo.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
+                    .into(avatarImg);
         }
         holder.setText(R.id.user_name_tv, headerInfo.getUserName());
         holder.setText(R.id.time_tv, headerInfo.getTime());

@@ -147,6 +147,7 @@ public class TopicModule {
             holder.setText(R.id.replier_username_tv, reply.getUserName());
             Picasso.with(mContext)
                     .load(reply.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(holder.getImgView(R.id.replier_avatar_img));
         }
 

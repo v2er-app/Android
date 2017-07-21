@@ -38,6 +38,7 @@ public class DailyHotModule {
             protected void convert(ViewHolder holder, DailyHotInfo.Item item, int position) {
                 Picasso.with(mContext)
                         .load(item.getMember().getAvatar())
+                        .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getMember().getUserName());
                 holder.setText(R.id.time_tv, item.getTime());

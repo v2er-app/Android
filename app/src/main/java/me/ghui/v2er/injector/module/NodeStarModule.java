@@ -36,6 +36,7 @@ public class NodeStarModule {
             protected void convert(ViewHolder holder, NodeStarInfo.Item item, int position) {
                 Picasso.with(mContext)
                         .load(item.getImg())
+                        .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.node_img));
                 holder.setText(R.id.node_name, item.getName());
                 holder.setText(R.id.node_topic_num, item.getTopicNum() + "");

@@ -41,6 +41,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         TopicInfo.Reply replyInfo = (TopicInfo.Reply) item;
         Picasso.with(mContext)
                 .load(replyInfo.getAvatar())
+                .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.getView(R.id.reply_user_tag_tv).setVisibility(replyInfo.isOwner() ? View.VISIBLE : View.GONE);
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());

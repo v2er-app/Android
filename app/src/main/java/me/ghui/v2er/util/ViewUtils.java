@@ -1,12 +1,17 @@
 package me.ghui.v2er.util;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
 
 /**
@@ -47,6 +52,26 @@ public class ViewUtils {
         float descent = Math.abs(metrics.descent);
         y = rect.centerY() + (acent - descent) / 2f;
         canvas.drawText(text, x, y, paint);
+    }
+
+    public static boolean isSameImgRes(ImageView imageView, int imageResource) {
+        boolean result = false;
+        Context ctx = App.get();
+        if (ctx != null && imageView != null && imageView.getDrawable() != null) {
+            Drawable.ConstantState constantState;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                constantState = ctx.getResources()
+                        .getDrawable(imageResource, ctx.getTheme())
+                        .getConstantState();
+            } else {
+                constantState = ctx.getResources().getDrawable(imageResource)
+                        .getConstantState();
+            }
+            if (imageView.getDrawable().getConstantState() == constantState) {
+                result = true;
+            }
+        }
+        return result;
     }
 
 }

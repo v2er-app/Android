@@ -162,6 +162,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mUserNameTv.setText(userInfo.getUserName());
             Picasso.with(getContext())
                     .load(userInfo.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
         }
     }

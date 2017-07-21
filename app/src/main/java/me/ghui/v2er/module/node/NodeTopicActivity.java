@@ -34,6 +34,7 @@ import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -214,9 +215,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         RichText.from(desc).into(mNodeDesTv);
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
-        if (mNodeImg.getDrawable() == null) {
+        if (ViewUtils.isSameImgRes(mNodeImg, R.drawable.avatar_placeholder_drawable)) {
             Picasso.with(this)
                     .load(nodeInfo.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mNodeImg, new Callback() {
                         @Override
                         public void onSuccess() {
@@ -230,6 +232,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                     });
             Picasso.with(this)
                     .load(nodeInfo.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
                     .transform(new BlurTransformation(this))
                     .into(mBigImgBg);
         }

@@ -38,6 +38,7 @@ public class SpecialCareModule {
             protected void convert(ViewHolder holder, CareInfo.Item item, int position) {
                 Picasso.with(mContext)
                         .load(item.getAvatar())
+                        .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());

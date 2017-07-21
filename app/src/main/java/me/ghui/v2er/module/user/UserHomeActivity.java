@@ -31,6 +31,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -95,7 +96,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     public static void open(String userName, Context context, View sourceView, String avatar) {
         if (sourceView != null && sourceView instanceof ImageView) {
             ImageView imgview = (ImageView) sourceView;
-            if (imgview.getDrawable() == null) {
+            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable)) {
                 sourceView = null;
             }
         }
@@ -162,6 +163,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         if (PreConditions.isEmpty(mAvatar)) return;
         Picasso.with(this).load(mAvatar)
                 .transform(new BlurTransformation(this))
+                .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into(mBigImgBg, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -176,6 +178,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         Logger.d("NewsAvatar:2 " + mAvatar);
         Picasso.with(this)
                 .load(mAvatar)
+                .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into(mAvatarImg);
 
     }
@@ -199,6 +202,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
             Picasso.with(this)
                     .load(userPageInfo.getAvatar())
+                    .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
             Picasso.with(this).load(userPageInfo.getAvatar())
                     .transform(new BlurTransformation(this))
