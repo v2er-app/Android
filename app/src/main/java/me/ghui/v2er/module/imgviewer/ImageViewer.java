@@ -32,7 +32,7 @@ public class ImageViewer extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Utils.fullScreen(getWindow());
+        Utils.transparentBars(getWindow());
         setContentView(R.layout.image_detail_pager);
         imgsData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
         pagerPosition = imgsData.getPosition();
@@ -43,6 +43,7 @@ public class ImageViewer extends FragmentActivity {
         mPager.setOffscreenPageLimit(1);
         mPager.setAdapter(mAdapter);
         indicator = (TextView) findViewById(R.id.indicator);
+        Utils.setPaddingForNavbar(indicator);
         CharSequence text = getString(R.string.viewpager_indicator, 1, mPager
                 .getAdapter().getCount());
         indicator.setText(text);

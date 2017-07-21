@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -133,6 +134,10 @@ public class Utils {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(statusBarColor);
         window.setNavigationBarColor(navBarColor);
+    }
+
+    public static void transparentBars(Window window) {
+        transparentBars(window, Color.TRANSPARENT, App.get().getResources().getColor(R.color.transparent_navbar_color));
     }
 
     public static void fullScreen(Window window) {
