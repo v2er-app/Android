@@ -261,7 +261,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 if (lastIndexOfAt > 0 && inputTextBuilder.charAt(lastIndexOfAt - 1) != ' ') {
                     inputTextBuilder.insert(lastIndexOfAt, ' ');
                 }
-                inputTextBuilder.append(selectUsername + " ");
+                lastIndexOfAt = inputTextBuilder.lastIndexOf("@");
+                inputTextBuilder.replace(lastIndexOfAt + 1, inputTextBuilder.length(), selectUsername + " ");
                 mReplyEt.setText(inputTextBuilder);
                 mReplyEt.setSelection(inputTextBuilder.length());
             } else {
