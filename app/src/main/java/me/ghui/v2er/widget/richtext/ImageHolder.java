@@ -1,6 +1,5 @@
 package me.ghui.v2er.widget.richtext;
 
-import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 

@@ -1,7 +1,6 @@
 package me.ghui.v2er.widget.richtext;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;

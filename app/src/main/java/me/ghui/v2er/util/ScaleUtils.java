@@ -2,7 +2,6 @@ package me.ghui.v2er.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
 import me.ghui.v2er.general.App;

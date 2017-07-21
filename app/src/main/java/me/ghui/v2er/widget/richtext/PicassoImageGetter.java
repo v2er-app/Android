@@ -17,7 +17,6 @@ import java.util.HashSet;
 
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
-import me.ghui.v2er.util.Voast;
 
 
 /**

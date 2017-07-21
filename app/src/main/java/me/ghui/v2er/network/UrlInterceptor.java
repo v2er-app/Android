@@ -18,7 +18,6 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
-import okhttp3.internal.Util;
 
 /**
  * Created by ghui on 02/06/2017.
