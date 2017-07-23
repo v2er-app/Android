@@ -13,7 +13,7 @@ import me.ghui.v2er.util.AvatarUtils;
  */
 
 @Pick("div.content")
-public class TopicStarInfo {
+public class TopicStarInfo extends BaseInfo {
     @Pick("div.fr.f12 strong.gray")
     private int total = 0;
     @Pick("div.cell.item")
@@ -33,6 +33,11 @@ public class TopicStarInfo {
                 "total=" + total +
                 ", items=" + items +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        return false;
     }
 
     public static class Item {

@@ -13,7 +13,7 @@ import me.ghui.v2er.network.Constants;
  */
 
 @Pick("div.content")
-public class CareInfo {
+public class CareInfo extends BaseInfo {
     @Pick("div.fr.f12 strong.gray")
     private int total;
     @Pick("div.cell.item")
@@ -33,6 +33,12 @@ public class CareInfo {
 
     public List<Item> getItems() {
         return items;
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Item {

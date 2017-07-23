@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.IgnoreReplyResultInfo;
 import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
@@ -113,12 +114,10 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().ignoreReply(replyId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<Response<ResponseBody>>() {
+                .subscribe(new GeneralConsumer<IgnoreReplyResultInfo>() {
                     @Override
-                    public void onConsume(Response<ResponseBody> response) {
-                        boolean success = (response != null && response.body() != null)
-                                && response.body().contentLength() == 0;
-                        mView.afterIgnoreReply(success, position);
+                    public void onConsume(IgnoreReplyResultInfo result) {
+                        mView.afterIgnoreReply(position);
                     }
                 });
     }

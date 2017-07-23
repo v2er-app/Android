@@ -13,7 +13,7 @@ import me.ghui.fruit.annotations.Pick;
  */
 
 @Pick("div.box:last-child div > table")
-public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> {
+public abstract class NodesNavInfo extends BaseInfo implements List<NodesNavInfo.Item> {
 
     public static class Item {
         @Pick("span.fade")

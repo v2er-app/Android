@@ -19,7 +19,7 @@ import me.ghui.v2er.util.Utils;
  * Created by ghui on 04/05/2017.
  */
 
-public class TopicInfo implements IBaseInfo {
+public class TopicInfo extends BaseInfo {
     @Pick("div.box")
     private HeaderInfo headerInfo;
     @Pick("div.box")
@@ -102,7 +102,7 @@ public class TopicInfo implements IBaseInfo {
         return headerInfo.isValid();
     }
 
-    public static class ContentInfo implements Item, IBaseInfo {
+    public static class ContentInfo extends BaseInfo implements Item {
         @Pick(value = "div.cell div.topic_content", attr = Attrs.INNER_HTML)
         private String contentHtml;
         @Pick("div.subtle")
@@ -178,7 +178,7 @@ public class TopicInfo implements IBaseInfo {
         }
     }
 
-    public static class HeaderInfo implements Item, IBaseInfo {
+    public static class HeaderInfo extends BaseInfo implements Item {
         @Pick(value = "img.avatar", attr = "src")
         private String avatar;
         @Pick("small.gray a")

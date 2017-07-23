@@ -3,6 +3,7 @@ package me.ghui.v2er.network.bean;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.DateUtils;
@@ -11,7 +12,7 @@ import me.ghui.v2er.util.DateUtils;
  * Created by ghui on 25/03/2017.
  */
 
-public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> {
+public abstract class DailyHotInfo extends BaseInfo implements List<DailyHotInfo.Item> {
 
     public static class Item {
         private String id;

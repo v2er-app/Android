@@ -8,7 +8,7 @@ import me.ghui.v2er.general.PreConditions;
  * Created by ghui on 03/05/2017.
  */
 
-public class MissionInfo implements IBaseInfo {
+public class MissionInfo extends BaseInfo {
 
     @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;

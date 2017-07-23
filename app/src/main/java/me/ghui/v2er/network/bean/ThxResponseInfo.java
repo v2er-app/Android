@@ -8,7 +8,7 @@ import me.ghui.v2er.general.PreConditions;
  * Created by ghui on 22/06/2017.
  */
 
-public class ThxResponseInfo implements IBaseInfo {
+public class ThxResponseInfo extends BaseInfo {
     @Pick(value = "a[href=/balance]", attr = Attrs.HREF)
     private String link;
 

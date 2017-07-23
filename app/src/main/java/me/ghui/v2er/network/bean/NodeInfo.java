@@ -13,7 +13,7 @@ import me.ghui.v2er.util.AvatarUtils;
  * https://www.v2ex.com/api/nodes/show.json?name=qna
  */
 
-public class NodeInfo implements Serializable, IBaseInfo {
+public class NodeInfo extends BaseInfo implements Serializable {
     private int id;
     private String name;
     private String url;

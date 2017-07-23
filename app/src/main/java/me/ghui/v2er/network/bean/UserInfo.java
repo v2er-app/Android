@@ -2,11 +2,13 @@ package me.ghui.v2er.network.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import me.ghui.v2er.general.PreConditions;
+
 /**
  * Created by ghui on 03/05/2017.
  */
 
-public class UserInfo {
+public class UserInfo extends BaseInfo {
     /*
     "status" : "found",
     "id" : 161290,
@@ -150,5 +152,10 @@ public class UserInfo {
         userInfo.setUserName(userName);
         userInfo.setAvatar(avatar);
         return userInfo;
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(id);
     }
 }

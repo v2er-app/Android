@@ -7,7 +7,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.network.bean.IBaseInfo;
+import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -56,9 +56,9 @@ public class LoginPresenter implements LoginContract.IPresenter {
                     }
                     return resultInfo;
                 })
-                .subscribe(new GeneralConsumer<IBaseInfo>() {
+                .subscribe(new GeneralConsumer<BaseInfo>() {
                     @Override
-                    public void onConsume(IBaseInfo info) {
+                    public void onConsume(BaseInfo info) {
                         if (info instanceof MissionInfo) {
                             //login success
                             MissionInfo resultInfo = (MissionInfo) info;

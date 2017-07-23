@@ -13,7 +13,7 @@ import me.ghui.v2er.util.AvatarUtils;
  */
 
 @Pick("div.box")
-public class NewsInfo {
+public class NewsInfo extends BaseInfo {
 
     @Pick(value = "input.super.special.button", attr = "value")
     private String unRead;
@@ -44,6 +44,12 @@ public class NewsInfo {
         return "NewsInfo{" +
                 "items=" + items +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Item {

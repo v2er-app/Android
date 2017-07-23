@@ -12,13 +12,19 @@ import me.ghui.v2er.util.AvatarUtils;
  */
 
 @Pick("div#MyNodes")
-public class NodeStarInfo {
+public class NodeStarInfo extends BaseInfo {
 
     @Pick("a.grid_item")
     private List<Item> items;
 
     public List<Item> getItems() {
         return items;
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Item {

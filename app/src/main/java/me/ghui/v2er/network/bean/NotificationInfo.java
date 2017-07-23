@@ -12,7 +12,7 @@ import me.ghui.v2er.network.Constants;
  */
 
 @Pick("div.box")
-public class NotificationInfo {
+public class NotificationInfo extends BaseInfo{
 
     @Pick("strong.fade")
     private String page = "1/1"; // 1/20
@@ -33,6 +33,12 @@ public class NotificationInfo {
 
     public List<Reply> getReplies() {
         return replies;
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Reply {

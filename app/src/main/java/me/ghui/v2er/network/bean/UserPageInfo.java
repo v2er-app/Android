@@ -14,7 +14,7 @@ import me.ghui.v2er.util.AvatarUtils;
  */
 
 @Pick("div.content")
-public class UserPageInfo {
+public class UserPageInfo extends BaseInfo {
     @Pick("h1")
     private String userName;
     @Pick(value = "img.avatar", attr = Attrs.SRC)
@@ -134,6 +134,12 @@ public class UserPageInfo {
                 ", items=" + items +
                 ", replyItems=" + replyItems +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public abstract static class Item {

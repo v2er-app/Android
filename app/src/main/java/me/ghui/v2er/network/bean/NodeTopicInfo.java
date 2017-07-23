@@ -13,7 +13,7 @@ import me.ghui.v2er.network.Constants;
  */
 
 @Pick("div.content")
-public class NodeTopicInfo {
+public class NodeTopicInfo extends BaseInfo {
 
     @Pick("div.fr.f12 > strong.gray")
     private int total;
@@ -53,6 +53,12 @@ public class NodeTopicInfo {
                 ",total=" + total +
                 ", items=" + items +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Item {

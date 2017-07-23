@@ -2,11 +2,13 @@ package me.ghui.v2er.network.bean;
 
 import java.io.Serializable;
 
+import me.ghui.v2er.general.PreConditions;
+
 /**
  * Created by ghui on 25/06/2017.
  */
 
-public class TopicBasicInfo implements Serializable {
+public class TopicBasicInfo extends BaseInfo implements Serializable {
     private String avatar;
     private String author;
     private String tag;
@@ -39,6 +41,11 @@ public class TopicBasicInfo implements Serializable {
         this.author = builder.author;
         this.tag = builder.tag;
         this.commentNum = builder.commentNum;
+    }
+
+    @Override
+    public boolean isValid() {
+        return PreConditions.notEmpty(author);
     }
 
     public static class Builder {

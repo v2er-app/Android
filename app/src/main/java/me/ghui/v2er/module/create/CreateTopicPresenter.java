@@ -3,7 +3,7 @@ package me.ghui.v2er.module.create;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
-import me.ghui.v2er.network.bean.IBaseInfo;
+import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
@@ -44,9 +44,9 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
                     }
                     return topicInfo;
                 })
-                .subscribe(new GeneralConsumer<IBaseInfo>() {
+                .subscribe(new GeneralConsumer<BaseInfo>() {
                     @Override
-                    public void onConsume(IBaseInfo info) {
+                    public void onConsume(BaseInfo info) {
                         if (info instanceof TopicInfo) {
                             //success
                             mView.onPostSuccess((TopicInfo) info);

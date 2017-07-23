@@ -12,7 +12,7 @@ import me.ghui.v2er.general.PreConditions;
  */
 
 @Pick("ol[id=b_results]")
-public class BingSearchResultInfo {
+public class BingSearchResultInfo extends BaseInfo {
 
     @Pick("li.b_algo")
     private List<Item> items;
@@ -33,6 +33,12 @@ public class BingSearchResultInfo {
                 "hasNext=" + items +
                 ",items=" + items +
                 '}';
+    }
+
+    @Override
+    public boolean isValid() {
+        // TODO: 23/07/2017
+        return true;
     }
 
     public static class Item {

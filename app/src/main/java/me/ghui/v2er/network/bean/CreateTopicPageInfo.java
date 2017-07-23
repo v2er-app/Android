@@ -17,7 +17,7 @@ import me.ghui.v2er.general.PreConditions;
  */
 
 @Pick("div.content")
-public class CreateTopicPageInfo implements IBaseInfo {
+public class CreateTopicPageInfo extends BaseInfo {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
     @Pick("a.node")

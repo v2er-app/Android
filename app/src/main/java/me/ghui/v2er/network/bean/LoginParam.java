@@ -11,7 +11,7 @@ import me.ghui.v2er.general.PreConditions;
  * Created by ghui on 01/05/2017.
  */
 
-public class LoginParam implements IBaseInfo {
+public class LoginParam extends BaseInfo {
     @Pick(value = "input[type=text]", attr = "name")
     private String nameParam;
     @Pick(value = "input[type=password]", attr = "name")
