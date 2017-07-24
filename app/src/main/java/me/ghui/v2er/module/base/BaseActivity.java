@@ -391,7 +391,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         return RxUtils.rxActivity(this, viewLoading);
     }
 
-    protected void delay(long millisecond, Runnable runnable) {
+    @Override
+    public void delay(long millisecond, Runnable runnable) {
         mContentView.postDelayed(runnable, millisecond);
     }
 

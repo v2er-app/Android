@@ -21,6 +21,8 @@ public class BaseContract {
         void toast(String msg);
 
         Context getContext();
+
+        void delay(long mil, Runnable runnable);
     }
 
     public interface IPresenter {

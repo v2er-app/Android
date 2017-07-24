@@ -197,7 +197,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         return App.get().getAppComponent();
     }
 
-    protected void delay(long millisecond, Runnable runnable) {
+    @Override
+    public void delay(long millisecond, Runnable runnable) {
         mRootView.postDelayed(runnable, millisecond);
     }
 
