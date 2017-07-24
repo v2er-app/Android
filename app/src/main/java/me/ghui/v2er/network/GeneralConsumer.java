@@ -5,13 +5,14 @@ import com.orhanobut.logger.Logger;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.ghui.v2er.network.bean.BaseInfo;
+import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 19/06/2017.
  */
 
-public abstract class GeneralConsumer<T extends BaseInfo> implements Observer<T> {
+public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
 
     private IGeneralErrorHandler mGeneralErrorHandler;
 

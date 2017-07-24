@@ -8,14 +8,16 @@ import okhttp3.ResponseBody;
  * Such as login expired, no premission, etc.
  */
 
-public abstract class BaseInfo {
+public abstract class BaseInfo implements IBase {
     public ResponseBody rawResponse;
 
-    /**
-     * 某个接口返回业务上的合法性
-     *
-     * @return
-     */
-    public abstract boolean isValid();
+    @Override
+    public ResponseBody getResponse() {
+        return rawResponse;
+    }
 
+    @Override
+    public void setResponse(ResponseBody response) {
+        rawResponse = response;
+    }
 }

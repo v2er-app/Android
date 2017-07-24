@@ -287,7 +287,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // TODO: 17/07/2017 filter, 去重
                 CharSequence changedText = s.subSequence(start, start + count);
                 Logger.d("text: onTextChanged: " + changedText);
                 if ("@".equals(changedText.toString())) {

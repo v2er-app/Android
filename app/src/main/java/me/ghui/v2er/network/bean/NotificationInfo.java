@@ -6,13 +6,14 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 10/05/2017.
  */
 
 @Pick("div.box")
-public class NotificationInfo extends BaseInfo{
+public class NotificationInfo extends BaseInfo {
 
     @Pick("strong.fade")
     private String page = "1/1"; // 1/20
@@ -37,8 +38,8 @@ public class NotificationInfo extends BaseInfo{
 
     @Override
     public boolean isValid() {
-        // TODO: 23/07/2017
-        return true;
+        if (Utils.listSize(replies) <= 0) return true;
+        return PreConditions.notEmpty(replies.get(0).name);
     }
 
     public static class Reply {

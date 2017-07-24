@@ -41,7 +41,6 @@ public class MsgModule {
                 Picasso.with(mView.getContext()).load(reply.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                // TODO: 14/07/2017 reply.getName == null
                 CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),
                         true, new int[]{0, reply.getName().length()});
                 holder.setText(R.id.msg_title_tv, titleWithUserName);

@@ -6,6 +6,7 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -57,8 +58,8 @@ public class NodeTopicInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        // TODO: 23/07/2017
-        return true;
+        if (Utils.listSize(items) <= 0) return true;
+        return PreConditions.notEmpty(items.get(0).userName);
     }
 
     public static class Item {

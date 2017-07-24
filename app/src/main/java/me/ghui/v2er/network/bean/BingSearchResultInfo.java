@@ -5,6 +5,7 @@ import java.util.List;
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -37,8 +38,8 @@ public class BingSearchResultInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        // TODO: 23/07/2017
-        return true;
+        if (Utils.listSize(items) <= 0) return true;
+        return PreConditions.notEmpty(items.get(0).link);
     }
 
     public static class Item {

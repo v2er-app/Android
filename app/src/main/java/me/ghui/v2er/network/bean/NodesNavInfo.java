@@ -5,6 +5,9 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.util.Utils;
+import okhttp3.ResponseBody;
 
 /**
  * Created by ghui on 21/05/2017.
@@ -13,7 +16,24 @@ import me.ghui.fruit.annotations.Pick;
  */
 
 @Pick("div.box:last-child div > table")
-public abstract class NodesNavInfo extends BaseInfo implements List<NodesNavInfo.Item> {
+public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> implements IBase {
+    private ResponseBody mResponseBody;
+
+    @Override
+    public ResponseBody getResponse() {
+        return mResponseBody;
+    }
+
+    @Override
+    public void setResponse(ResponseBody response) {
+        mResponseBody = response;
+    }
+
+    @Override
+    public boolean isValid() {
+        if (size() <= 0) return true;
+        return PreConditions.notEmpty(get(0).category);
+    }
 
     public static class Item {
         @Pick("span.fade")

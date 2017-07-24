@@ -3,16 +3,35 @@ package me.ghui.v2er.network.bean;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.DateUtils;
+import me.ghui.v2er.util.Utils;
+import okhttp3.ResponseBody;
 
 /**
  * Created by ghui on 25/03/2017.
  */
 
-public abstract class DailyHotInfo extends BaseInfo implements List<DailyHotInfo.Item> {
+public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase {
+    private ResponseBody mResponseBody;
+
+    @Override
+    public ResponseBody getResponse() {
+        return mResponseBody;
+    }
+
+    @Override
+    public void setResponse(ResponseBody response) {
+        mResponseBody = response;
+    }
+
+    @Override
+    public boolean isValid() {
+        if (size() <= 0) return true;
+        return PreConditions.notEmpty(get(0).id);
+    }
 
     public static class Item {
         private String id;

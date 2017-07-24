@@ -6,6 +6,7 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.AvatarUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -37,7 +38,8 @@ public class TopicStarInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return false;
+        if (Utils.listSize(items) <= 0) return true;
+        return PreConditions.notEmpty(items.get(0).title);
     }
 
     public static class Item {

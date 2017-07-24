@@ -138,8 +138,7 @@ public class UserPageInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        // TODO: 23/07/2017
-        return true;
+        return PreConditions.notEmpty(userName);
     }
 
     public abstract static class Item {
