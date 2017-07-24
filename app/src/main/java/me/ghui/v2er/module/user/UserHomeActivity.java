@@ -1,11 +1,13 @@
 package me.ghui.v2er.module.user;
 
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -14,6 +16,9 @@ import android.widget.TextView;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -75,6 +80,20 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
     private String mUserName;
     private String mAvatar;
+    private boolean mIsReturning;
+    private boolean isAppbarExpanted;
+
+
+    private final SharedElementCallback mCallback = new SharedElementCallback() {
+        @Override
+        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+            Log.e("testt", "DetailsActivity - onMapSharedElements");
+            if (mIsReturning && !isAppbarExpanted) {
+                names.clear();
+                sharedElements.clear();
+            }
+        }
+    };
 
     @Override
     protected int attachLayoutRes() {
@@ -128,8 +147,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     @Override
+    public void finishAfterTransition() {
+        mIsReturning = true;
+        super.finishAfterTransition();
+    }
+
+    @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mToolbar);
+        setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
 //        mRecyclerView.addDivider();
@@ -141,9 +167,11 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
+                    isAppbarExpanted = true;
                     mToolbar.setTitle(null);
                     mToolbar.setSubtitle(null);
                 } else if (state == State.COLLAPSED) {
+                    isAppbarExpanted = false;
                     mToolbar.setTitle(mUserName);
                     boolean isOnLine = false;
                     if (mUserPageInfo != null) {

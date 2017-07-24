@@ -1,11 +1,13 @@
 package me.ghui.v2er.module.node;
 
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +17,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -84,6 +89,20 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private MenuItem mLoveMenuItem;
     private NodeTopicInfo mNodeTopicInfo;
+    private boolean isAppbarExpanted;
+    private boolean mIsReturning;
+
+
+    private final SharedElementCallback mCallback = new SharedElementCallback() {
+        @Override
+        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+            Log.e("testt", "DetailsActivity - onMapSharedElements");
+            if (mIsReturning && !isAppbarExpanted) {
+                names.clear();
+                sharedElements.clear();
+            }
+        }
+    };
 
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         if (sourceView != null && sourceView instanceof ImageView) {
@@ -111,6 +130,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     public static void open(String link, Context context, View sourceView, NodeInfo nodeInfo) {
         openById(UriUtils.getLastSegment(link), 1, context, sourceView, nodeInfo);
+    }
+
+    @Override
+    public void finishAfterTransition() {
+        mIsReturning = true;
+        super.finishAfterTransition();
     }
 
     @Override
@@ -152,6 +177,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mToolbar);
+        setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
@@ -173,11 +199,13 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
                 if (state == State.EXPANDED) {
                     //展开状态
+                    isAppbarExpanted = true;
                     mToolbar.setTitle(null);
                     mToolbar.setSubtitle(null);
                     mLoveMenuItem.setVisible(false);
                 } else if (state == State.COLLAPSED) {
                     //折叠状态
+                    isAppbarExpanted = false;
                     mLoveMenuItem.setVisible(true);
                     if (mNodeInfo != null) {
                         mToolbar.setTitle(mNodeInfo.getTitle());
