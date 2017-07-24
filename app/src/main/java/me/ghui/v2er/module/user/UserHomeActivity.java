@@ -87,7 +87,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-            Log.e("testt", "DetailsActivity - onMapSharedElements");
             if (mIsReturning && !isAppbarExpanted) {
                 names.clear();
                 sharedElements.clear();
