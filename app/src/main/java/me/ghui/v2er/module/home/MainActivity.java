@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.home;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
@@ -225,5 +227,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public void onActivityReenter(int resultCode, Intent data) {
+        super.onActivityReenter(resultCode, data);
+        if (mFragments.get(getCurrentTab()) instanceof OnFragmentReEnter) {
+            ((OnFragmentReEnter) mFragments.get(getCurrentTab())).onFragmentReEnter();
+        }
+    }
 
 }

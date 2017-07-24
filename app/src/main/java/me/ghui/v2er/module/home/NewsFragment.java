@@ -23,6 +23,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerNewsComponent;
 import me.ghui.v2er.injector.module.NewsModule;
@@ -41,7 +42,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener {
+        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -142,6 +143,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
+//        mNewFab.setVisibility(View.INVISIBLE);
         View shareView = holder.getView(R.id.title_tv);
         NewsInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
@@ -151,5 +153,10 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                 .build();
         TopicActivity.open(item.getLinkPath(),
                 getContext(), shareView, basicInfo);
+    }
+
+    @Override
+    public void onFragmentReEnter() {
+        mNewFab.show();
     }
 }
