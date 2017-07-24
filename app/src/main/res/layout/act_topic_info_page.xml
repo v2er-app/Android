@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/common_load_more_recyclerview" />
+    <me.ghui.v2er.widget.LoadMoreRecyclerView style="@style/BaseRecyclerView" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/reply_fab_btn"

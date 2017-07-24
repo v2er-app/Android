@@ -11,8 +11,6 @@ import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
-import okhttp3.ResponseBody;
-import retrofit2.Response;
 
 /**
  * Created by ghui on 04/05/2017.
