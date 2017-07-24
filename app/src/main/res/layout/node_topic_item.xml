@@ -7,14 +7,16 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:paddingTop="12dp">
 
     <LinearLayout
         android:id="@+id/user_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar_img"
@@ -33,6 +35,8 @@
         android:id="@+id/title_tv"
         style="@style/TopicTitle"
         android:layout_below="@id/user_wrapper"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 
     <TextView
@@ -40,6 +44,9 @@
         style="@style/hintText"
         android:layout_alignParentRight="true"
         android:layout_below="@id/title_tv"
+        android:layout_marginRight="12dp"
+        android:gravity="bottom"
+        android:paddingBottom="12dp"
         tools:text="评论38" />
 
     <TextView
@@ -48,5 +55,12 @@
         android:layout_alignBottom="@id/comment_num_tv"
         android:layout_marginEnd="8dp"
         android:layout_toStartOf="@id/comment_num_tv"
+        android:paddingBottom="12dp"
         tools:text="点击23" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_size"
+        android:layout_alignBottom="@id/comment_num_tv"
+        android:background="@color/divider_color" />
 </RelativeLayout>

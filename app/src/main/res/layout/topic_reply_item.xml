@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp">
+    android:paddingLeft="12dp"
+    android:paddingTop="12dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/reply_avatar_img"
@@ -57,6 +58,8 @@
         android:id="@+id/content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
+        android:layout_marginRight="12dp"
+
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:textIsSelectable="true"
@@ -69,6 +72,7 @@
         android:id="@+id/reply_thx_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/love_normal_icon"
@@ -91,6 +95,7 @@
         android:id="@+id/more_menu_img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="12dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:padding="8dp"
         android:src="@drawable/ic_more"
@@ -103,4 +108,12 @@
         app:layout_constraintBottom_toBottomOf="@id/more_menu_img"
         app:layout_constraintLeft_toLeftOf="@id/content_tv"
         tools:text="1楼" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/divider_size"
+        android:layout_marginTop="12dp"
+        android:background="@color/divider_color"
+        app:layout_constraintLeft_toLeftOf="@id/content_tv"
+        app:layout_constraintTop_toBottomOf="@id/more_menu_img" />
 </android.support.constraint.ConstraintLayout>

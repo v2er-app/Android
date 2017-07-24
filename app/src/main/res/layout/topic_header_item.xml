@@ -25,7 +25,6 @@
         app:layout_constraintTop_toTopOf="@id/avatar_img"
         tools:text="ghui" />
 
-
     <me.ghui.v2er.widget.TagView
         android:id="@+id/tagview"
         style="@style/TagView"
@@ -65,4 +64,11 @@
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img"
         tools:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_size"
+        android:layout_marginTop="12dp"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv" />
 </android.support.constraint.ConstraintLayout>

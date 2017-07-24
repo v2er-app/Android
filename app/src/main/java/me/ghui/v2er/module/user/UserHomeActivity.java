@@ -132,7 +132,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
-        mRecyclerView.addDivider();
+//        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);

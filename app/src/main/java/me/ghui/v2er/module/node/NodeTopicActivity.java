@@ -164,7 +164,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         });
 
         mRecyclerView.setOnLoadMoreListener(this);
-        mRecyclerView.addDivider();
+//        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);

@@ -51,6 +51,10 @@ public class BaseRecyclerView extends RecyclerView {
         setDivider(getResources().getColor(R.color.divider_color), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
     }
 
+    public void setDivider(@ColorInt int dividerColor) {
+        setDivider(dividerColor, ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
+    }
+
     public void setDivider(@ColorInt int dividerColor, float dividerSizeDp) {
         addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getContext())

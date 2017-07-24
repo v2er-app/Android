@@ -213,7 +213,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
 //        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
-        mLoadMoreRecyclerView.addDivider();
+//        mLoadMoreRecyclerView.addDivider();
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);

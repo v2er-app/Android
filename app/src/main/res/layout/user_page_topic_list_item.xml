@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,12 +8,13 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:paddingTop="12dp">
 
     <TextView
         android:id="@+id/user_name_tv"
         style="@style/SubTitleText"
         android:layout_alignTop="@id/avatar_img"
+        android:layout_marginLeft="12dp"
         android:layout_toRightOf="@id/avatar_img"
         tools:text="ghui" />
 
@@ -29,6 +31,7 @@
         android:id="@+id/tagview"
         style="@style/TagView"
         android:layout_alignParentEnd="true"
+        android:layout_marginRight="12dp"
         tools:text="问与答" />
 
     <TextView
@@ -36,6 +39,8 @@
         style="@style/BodyText"
         android:layout_width="match_parent"
         android:layout_below="@id/user_name_tv"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
@@ -45,5 +50,13 @@
         style="@style/hintText"
         android:layout_alignParentRight="true"
         android:layout_below="@id/title_tv"
+        android:layout_marginRight="12dp"
+        android:paddingBottom="12dp"
         tools:text="1小时17分钟前" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/divider_size"
+        android:layout_alignBottom="@id/time_tv"
+        android:background="@color/divider_color" />
 </RelativeLayout>
