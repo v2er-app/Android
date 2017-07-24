@@ -21,6 +21,7 @@ import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
@@ -69,6 +70,15 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
         mRecyclerView.addDivider();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> mPresenter.loadMore(willLoadPage));
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (UserUtils.isLogin()) {
+            super.lazyLoad();
+        } else {
+            mPresenter.start();
+        }
     }
 
     @Override
