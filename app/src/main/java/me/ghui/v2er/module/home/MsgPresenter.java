@@ -42,7 +42,7 @@ public class MsgPresenter implements MsgContract.IPresenter {
         APIService.get()
                 .notifications(page)
                 .compose(mView.rx(page))
-                .subscribe(new GeneralConsumer<NotificationInfo>() {
+                .subscribe(new GeneralConsumer<NotificationInfo>(mView) {
                     @Override
                     public void onConsume(NotificationInfo info) {
                         boolean isLoadMore = page > 1;

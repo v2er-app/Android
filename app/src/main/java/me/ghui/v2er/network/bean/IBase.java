@@ -7,9 +7,9 @@ import okhttp3.ResponseBody;
  */
 
 public interface IBase {
-    ResponseBody getResponse();
+    String getResponse();
 
-    void setResponse(ResponseBody response);
+    void setResponse(String response);
 
     /**
      * 某个接口返回业务上的合法性

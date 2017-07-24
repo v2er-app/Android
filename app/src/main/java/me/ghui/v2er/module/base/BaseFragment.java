@@ -22,7 +22,10 @@ import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.AppComponent;
+import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.PtrMaterialFrameLayout;
@@ -256,6 +259,14 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         if (supportShareElement()) {
             startPostponedEnterTransition();
         }
+        if (errorCode == ResultCode.LOGIN_EXPIRED || errorCode == ResultCode.LOGIN_NEEDED) {
+            handleNotLoginError(errorCode, errorMsg);
+        }
+    }
+
+    protected void handleNotLoginError(int errCode, String errorMsg) {
+        toast(errorMsg);
+        Navigator.from(getContext()).to(LoginActivity.class).start();
     }
 
     @Override

@@ -5,10 +5,9 @@ package me.ghui.v2er.network.bean;
  */
 
 public class IgnoreReplyResultInfo extends BaseInfo {
-
     @Override
     public boolean isValid() {
-        return rawResponse != null && rawResponse.contentLength() == 0;
+        // TODO: 24/07/2017  
+        return rawResponse != null && rawResponse.length() == 0;
     }
-
 }

@@ -9,15 +9,15 @@ import okhttp3.ResponseBody;
  */
 
 public abstract class BaseInfo implements IBase {
-    public ResponseBody rawResponse;
+    public String rawResponse;
 
     @Override
-    public ResponseBody getResponse() {
+    public String getResponse() {
         return rawResponse;
     }
 
     @Override
-    public void setResponse(ResponseBody response) {
+    public void setResponse(String response) {
         rawResponse = response;
     }
 }

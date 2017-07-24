@@ -17,15 +17,15 @@ import okhttp3.ResponseBody;
 
 @Pick("div.box:last-child div > table")
 public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> implements IBase {
-    private ResponseBody mResponseBody;
+    private String mResponseBody;
 
     @Override
-    public ResponseBody getResponse() {
+    public String getResponse() {
         return mResponseBody;
     }
 
     @Override
-    public void setResponse(ResponseBody response) {
+    public void setResponse(String response) {
         mResponseBody = response;
     }
 

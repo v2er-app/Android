@@ -15,15 +15,15 @@ import okhttp3.ResponseBody;
  */
 
 public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase {
-    private ResponseBody mResponseBody;
+    private String mResponseBody;
 
     @Override
-    public ResponseBody getResponse() {
+    public String getResponse() {
         return mResponseBody;
     }
 
     @Override
-    public void setResponse(ResponseBody response) {
+    public void setResponse(String response) {
         mResponseBody = response;
     }
 

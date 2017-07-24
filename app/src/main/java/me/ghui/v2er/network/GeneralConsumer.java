@@ -2,10 +2,14 @@ package me.ghui.v2er.network;
 
 import com.orhanobut.logger.Logger;
 
+import java.io.IOException;
+
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
+import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
 import okhttp3.ResponseBody;
 
@@ -34,7 +38,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
         if (t.isValid()) {
             onConsume(t);
         } else {
-            ResponseBody response = t.getResponse();
+            String response = t.getResponse();
             // TODO: 23/07/2017 try to find the reason from rawResponse
             /*
              Possible Reasons:
@@ -42,10 +46,20 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 2. need login but login is expired
                 3. no premission to open the page
             */
-            int errorCode;
-            String msg;
-
-
+            int errorCode = ResultCode.NETWORK_ERROR;
+            String msg = null;
+            LoginParam loginParam = APIService.fruit().fromHtml(response, LoginParam.class);
+            if (loginParam.isValid()) {
+                if (UserUtils.isLogin()) {
+                    errorCode = ResultCode.LOGIN_EXPIRED;
+                    msg = "登录已过期，请重新登录";
+                } else {
+                    errorCode = ResultCode.LOGIN_NEEDED;
+                    msg = "需要您先去登录";
+                }
+            } else {
+                // TODO: 24/07/2017 more case
+            }
             onError(new GeneralError(errorCode, msg));
         }
     }
