@@ -94,7 +94,9 @@ public class UserPageInfo extends BaseInfo {
             items.clear();
         }
 
-        items.addAll(topicItems);
+        if (PreConditions.notEmpty(topicItems)) {
+            items.addAll(topicItems);
+        }
         List<ReplyItem> replyItems = getReplyItems();
         if (PreConditions.notEmpty(replyItems)) {
             items.addAll(replyItems);
