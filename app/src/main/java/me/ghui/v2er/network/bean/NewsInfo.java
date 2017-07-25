@@ -13,7 +13,7 @@ import me.ghui.v2er.util.Utils;
  * Created by ghui on 04/04/2017.
  */
 
-@Pick("div.box")
+@Pick("div#Wrapper")
 public class NewsInfo extends BaseInfo {
 
     @Pick(value = "input.super.special.button", attr = "value")
@@ -27,10 +27,6 @@ public class NewsInfo extends BaseInfo {
             return Integer.parseInt(unRead.split(" ")[0]);
         }
     }
-
-//    public void setUnRead(int count) {
-//        unRead = count + " " + "消息";
-//    }
 
     public List<Item> getItems() {
         return items;

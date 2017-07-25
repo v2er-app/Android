@@ -13,7 +13,7 @@ import me.ghui.v2er.util.Utils;
  * https://www.v2ex.com/go/python
  */
 
-@Pick("div.content")
+@Pick("div#Wrapper")
 public class NodeTopicInfo extends BaseInfo {
 
     @Pick("div.fr.f12 > strong.gray")

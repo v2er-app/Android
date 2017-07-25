@@ -13,7 +13,7 @@ import me.ghui.v2er.util.Utils;
  * https://www.v2ex.com/my/following?p=1
  */
 
-@Pick("div.content")
+@Pick("div#Wrapper")
 public class CareInfo extends BaseInfo {
     @Pick("div.fr.f12 strong.gray")
     private int total;

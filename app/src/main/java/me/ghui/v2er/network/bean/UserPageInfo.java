@@ -13,7 +13,7 @@ import me.ghui.v2er.util.AvatarUtils;
  * https://www.v2ex.com/member/ghui
  */
 
-@Pick("div.content")
+@Pick("div#Wrapper")
 public class UserPageInfo extends BaseInfo {
     @Pick("h1")
     private String userName;
