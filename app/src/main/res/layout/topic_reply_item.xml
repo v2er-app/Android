@@ -59,9 +59,8 @@
         style="@style/BodyText"
         android:layout_width="0dp"
         android:layout_marginRight="12dp"
-
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp"
         android:textIsSelectable="true"
         app:layout_constraintLeft_toLeftOf="@id/reply_user_name_tv"
         app:layout_constraintRight_toRightOf="parent"

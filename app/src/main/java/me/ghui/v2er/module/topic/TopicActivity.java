@@ -24,6 +24,7 @@ import android.widget.EditText;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -78,6 +79,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @BindView(R.id.repliers_recyclerview)
     BaseRecyclerView mReplierRecyView;
     private LinearLayoutManager mLinearLayoutManager;
+    private LinearLayoutManager mMentionedLinearLayoutManager;
 
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
@@ -245,7 +247,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     mReplyFabBtn.show(); // or showFab(), see below
             }
         });
-        mReplierRecyView.setLayoutManager(new LinearLayoutManager(this));
+        mMentionedLinearLayoutManager = new LinearLayoutManager(this);
+        mReplierRecyView.setLayoutManager(mMentionedLinearLayoutManager);
         mReplierRecyView.setAdapter(mReplierAdapter);
         mReplierAdapter.setOnItemClickListener((view, holder, position) -> {
             //do fill @username
@@ -290,6 +293,23 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 CharSequence changedText = s.subSequence(start, start + count);
                 Logger.d("text: onTextChanged: " + changedText);
                 if ("@".equals(changedText.toString())) {
+                    int startIndex = mLinearLayoutManager.findFirstVisibleItemPosition();
+                    int endIndex = mLinearLayoutManager.findLastVisibleItemPosition() + 2;
+                    endIndex = Math.min(endIndex, mAdapter.getContentItemCount() - 1);
+                    List<String> hintNames = new ArrayList<>(endIndex - startIndex + 1);
+                    List<TopicInfo.Item> items = mAdapter.getDatas();
+                    for (int i = endIndex; i >= startIndex; i--) {
+                        hintNames.add(items.get(i).getUserName());
+                    }
+                    for (String name : hintNames) {
+                        for (int i = 0; i < repliersInfo.size(); i++) {
+                            TopicInfo.Item item = repliersInfo.get(i);
+                            if (item.getUserName().equals(name)) {
+                                repliersInfo.remove(item);
+                                repliersInfo.add(0, item);
+                            }
+                        }
+                    }
                     mReplierRecyView.setVisibility(VISIBLE);
                 }
                 if (mReplierRecyView.getVisibility() != VISIBLE) return;

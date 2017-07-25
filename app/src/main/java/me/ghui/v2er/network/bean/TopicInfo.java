@@ -68,10 +68,12 @@ public class TopicInfo extends BaseInfo {
             }
         }
         String owner = headerInfo.getUserName();
-        for (Reply reply : replies) {
-            reply.setOwner(owner);
+        if (PreConditions.notEmpty(replies)) {
+            for (Reply reply : replies) {
+                reply.setOwner(owner);
+            }
+            items.addAll(replies);
         }
-        items.addAll(replies);
         return items;
     }
 
