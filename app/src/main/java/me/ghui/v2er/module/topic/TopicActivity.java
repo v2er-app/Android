@@ -96,6 +96,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
     private boolean mNeedWaitForTransitionEnd = true;
+    private boolean mIsReturning;
 
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
@@ -219,6 +220,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             return;
         }
         transition.addListener(new ShareElementTransitionCallBack() {
+
+            @Override
+            public void onTransitionStart(Transition transition) {
+                if (mIsReturning) {
+                    mReplyFabBtn.setVisibility(View.GONE);
+                }
+            }
+
             @Override
             public void onTransitionEnd(Transition transition) {
                 Logger.e("onTransitionEnd");
@@ -443,6 +452,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public List<TopicInfo.Item> topicReplyInfo() {
         return repliersInfo;
+    }
+
+
+    @Override
+    public void finishAfterTransition() {
+        mIsReturning = true;
+        super.finishAfterTransition();
     }
 
     @Override
