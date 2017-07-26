@@ -643,7 +643,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             mMentionSheetDialog = new MentionedReplySheetDialog(this);
         }
         mMentionSheetDialog.setData(replies, userName);
-        post(() -> mMentionSheetDialog.show());
+        mMentionSheetDialog.show();
     }
 
 }

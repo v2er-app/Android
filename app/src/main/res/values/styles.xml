@@ -91,7 +91,7 @@
 
     <style name="BaseRecyclerView">
         <item name="android:id">@id/base_recyclerview</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:scrollbarStyle">outsideOverlay</item>
         <item name="android:scrollbars">vertical</item>
