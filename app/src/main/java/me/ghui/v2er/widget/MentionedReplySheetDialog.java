@@ -54,7 +54,7 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
 //        setCanceledOnTouchOutside(false);
         setContentView(R.layout.topic_mention_reply_layout);
         ButterKnife.bind(this);
-        mRecyclerView.addDivider();
+//        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(new MentionAdapter(getContext(), R.layout.topic_mention_reply_item));
     }

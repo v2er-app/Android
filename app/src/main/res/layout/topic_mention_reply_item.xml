@@ -4,19 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:paddingBottom="12dp"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="12dp">
 
+    <ImageView
+        android:id="@+id/point_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:src="@drawable/point_indicator"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/reply_content_tv"
         style="@style/BodyText"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
         android:clickable="false"
-        tools:text="被逼去掉了外接屏幕 哎" />
+        android:drawablePadding="6dp"
+        android:gravity="top"
+        app:layout_constraintLeft_toRightOf="@id/point_img"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:text="被逼去掉了外外接屏幕 外接屏幕 外接屏幕 接屏幕 哎000000" />
 
     <TextView
         android:id="@+id/time_tv"

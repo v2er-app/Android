@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,10 +15,30 @@
         android:background="@drawable/common_bottom_divider"
         android:padding="16dp"
         android:textSize="@dimen/smallTextSize"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="ghui之前的回复" />
+
+    <View
+        android:id="@+id/left_indicator"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:background="#80555555"
+        app:layout_constraintBottom_toBottomOf="@id/base_recyclerview"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/base_recyclerview" />
 
     <me.ghui.v2er.widget.BaseRecyclerView
         style="@style/BaseRecyclerView"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/left_indicator"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mention_title_tv"
         app:shouldPaddingNav="false" />
-</LinearLayout>
+
+
+</android.support.constraint.ConstraintLayout>
