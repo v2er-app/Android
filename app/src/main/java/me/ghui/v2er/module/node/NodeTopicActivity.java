@@ -30,6 +30,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -184,6 +185,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_star) {
                 onStarBtnClicked();
+            } else if (item.getItemId() == R.id.action_share) {
+                if (mNodeInfo == null) return false;
+                String desc = mNodeInfo.getHeader();
+                String title = mNodeInfo.getTitle();
+                if (PreConditions.notEmpty(desc)) {
+                    title = title + "：" + desc;
+                }
+                Utils.shareLink(this, mNodeInfo.getUrl(), title);
+            } else if (item.getItemId() == R.id.action_block) {
+
             }
             return true;
         });
@@ -224,6 +235,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public String nodeName() {
         return mTagName;
+    }
+
+    @Override
+    public String nodeId() {
+        if (mNodeInfo == null) return null;
+        return mNodeInfo.getId() + "";
     }
 
     @Override
@@ -305,6 +322,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         toast("取消收藏成功");
         toggleStar(false);
         mNodeTopicInfo.updateStarStatus(false);
+    }
+
+    @Override
+    public void afterIgnoreNode() {
+
+    }
+
+    @Override
+    public void afterUnIgnoreNode() {
+
     }
 
     private void toggleStar(boolean isStared) {

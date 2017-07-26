@@ -13,10 +13,16 @@ public class NodeTopicContract {
         void loadData(int page);
 
         void starNode(String url);
+
+        void ignoreNode();
+
+        void unIgnoreNode();
     }
 
     public interface IView extends BaseContract.IView {
         String nodeName();
+
+        String nodeId();
 
         int initPage();
 
@@ -28,5 +34,8 @@ public class NodeTopicContract {
 
         void afterUnStarNode();
 
+        void afterIgnoreNode();
+
+        void afterUnIgnoreNode();
     }
 }

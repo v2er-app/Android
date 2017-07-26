@@ -3,6 +3,7 @@ package me.ghui.v2er.module.node;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -15,6 +16,7 @@ import me.ghui.v2er.util.RefererUtils;
 public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     private NodeTopicContract.IView mView;
+    private NodeTopicInfo mTopicInfo;
 
     public NodeTopicPresenter(NodeTopicContract.IView view) {
         mView = view;
@@ -65,6 +67,23 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void ignoreNode() {
+        APIService.get().ignoreNode(mView.nodeId(), mTopicInfo.getOnce())
+                .compose(mView.rx())
+                .subscribe(new GeneralConsumer<NodeTopicInfo>() {
+                    @Override
+                    public void onConsume(NodeTopicInfo nodeTopicInfo) {
+                        // TODO: 26/07/2017  
+                    }
+                });
+    }
+
+    @Override
+    public void unIgnoreNode() {
+
     }
 
 }

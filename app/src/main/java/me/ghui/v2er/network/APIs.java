@@ -7,7 +7,7 @@ import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.DailyHotInfo;
-import me.ghui.v2er.network.bean.IgnoreReplyResultInfo;
+import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
@@ -134,7 +134,15 @@ public interface APIs {
 
     @Html
     @POST("/ignore/reply/{id}")
-    Observable<IgnoreReplyResultInfo> ignoreReply(@Path("id") String replyId, @Query("once") String once);
+    Observable<IgnoreResultInfo> ignoreReply(@Path("id") String replyId, @Query("once") String once);
+
+    @Html
+    @GET("/settings/ignore/node/{id}")
+    Observable<NodeTopicInfo> ignoreNode(@Path("id") String nodeId, @Query("once") String once);
+
+    @Html
+    @GET("/settings/unignore/node/{id}")
+    Observable<NodeTopicInfo> unIgnoreNode(@Path("id") String nodeId, @Query("once") String once);
 
     @Html
     @GET("/unfavorite/topic/{id}")

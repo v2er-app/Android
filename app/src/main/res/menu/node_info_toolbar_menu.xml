@@ -7,4 +7,9 @@
         android:icon="@drawable/ic_star_normal"
         android:title="Star"
         app:showAsAction="always" />
+    <item
+        android:id="@id/action_share"
+        android:icon="@drawable/ic_share"
+        android:title="分享"
+        app:showAsAction="always" />
 </menu>
