@@ -59,6 +59,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 }
             } else {
                 // TODO: 24/07/2017 more case
+                msg = "Unknown Error";
             }
             onError(new GeneralError(errorCode, msg));
         }

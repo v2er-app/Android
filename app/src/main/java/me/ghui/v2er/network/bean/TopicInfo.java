@@ -20,7 +20,7 @@ import me.ghui.v2er.util.Utils;
  */
 
 public class TopicInfo extends BaseInfo {
-    @Pick("div.box")
+    @Pick("div#Wrapper")
     private HeaderInfo headerInfo;
     @Pick("div.box")
     private ContentInfo contentInfo;
@@ -181,25 +181,25 @@ public class TopicInfo extends BaseInfo {
     }
 
     public static class HeaderInfo extends BaseInfo implements Item {
-        @Pick(value = "img.avatar", attr = "src")
+        @Pick(value = "div.box img.avatar", attr = "src")
         private String avatar;
-        @Pick("small.gray a")
+        @Pick("div.box small.gray a")
         private String userName;
-        @Pick(value = "small.gray", attr = "ownText")
+        @Pick(value = "div.box small.gray", attr = "ownText")
         private String time;
-        @Pick("a[href^=/go]")
+        @Pick("div.box a[href^=/go]")
         private String tag;
-        @Pick(value = "a[href^=/go]", attr = Attrs.HREF)
+        @Pick(value = "div.box a[href^=/go]", attr = Attrs.HREF)
         private String tagLink;
         @Pick("div.cell span.gray")
         private String comment;
-        @Pick("a.page_normal:last-child")
+        @Pick("div.box a.page_normal:last-child")
         private int page;
-        @Pick("h1")
+        @Pick("div.box h1")
         private String title;
-        @Pick(value = "a[href*=favorite/]", attr = Attrs.HREF)
+        @Pick(value = "div.box a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
-        @Pick("div[id=topic_thank] span.f11.gray")
+        @Pick("div.box div[id=topic_thank] span.f11.gray")
         private String thankedText;
 
         public HeaderInfo() {
