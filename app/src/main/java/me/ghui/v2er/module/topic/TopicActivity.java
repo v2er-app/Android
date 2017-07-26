@@ -24,7 +24,6 @@ import android.widget.EditText;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,6 +51,7 @@ import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.MentionedReplySheetDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 import static android.view.View.VISIBLE;
@@ -62,7 +62,7 @@ import static android.view.View.VISIBLE;
  */
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged {
+        LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged, TopicReplyItemDelegate.OnMemberClickListener {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
 
@@ -90,7 +90,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
-    private BottomSheetDialog mBottomSheetDialog;
+    private BottomSheetDialog mMenuSheetDialog;
+    private BottomSheetDialog mMentionSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
 
@@ -557,18 +558,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     public void onItemMoreMenuClick(int position) {
-        if (mBottomSheetDialog == null) {
-            mBottomSheetDialog = new BottomSheetDialog(getContext());
-            mBottomSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
-            mBottomSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
-            ViewGroup parentView = (ViewGroup) mBottomSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
+        if (mMenuSheetDialog == null) {
+            mMenuSheetDialog = new BottomSheetDialog(getContext());
+            mMenuSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
+            mMenuSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
+            ViewGroup parentView = (ViewGroup) mMenuSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
             mBottomSheetDialogItemClickListener = new OnBottomDialogItemClickListener();
             for (int i = 0; i < parentView.getChildCount(); i++) {
                 parentView.getChildAt(i).setOnClickListener(mBottomSheetDialogItemClickListener);
             }
         }
         mBottomSheetDialogItemClickListener.setPosition(position);
-        mBottomSheetDialog.show();
+        mMenuSheetDialog.show();
     }
 
     @Override
@@ -582,6 +583,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         Logger.d("onKeyboardHidden");
         Utils.setPaddingForNavbar(mReplyWrapper);
     }
+
 
     private class OnBottomDialogItemClickListener implements View.OnClickListener {
         private TopicInfo.Reply item;
@@ -623,8 +625,21 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     UserHomeActivity.open(item.getUserName(), TopicActivity.this, null, item.getAvatar());
                     break;
             }
-            mBottomSheetDialog.dismiss();
+            mMenuSheetDialog.dismiss();
         }
+    }
+
+    @Override
+    public void onMemberClick(String userName, int index) {
+        List<TopicInfo.Item> datum = mAdapter.getDatas();
+        List<TopicInfo.Reply> replies = new ArrayList<>();
+        for (int i = 0; i < index; i++) {
+            TopicInfo.Item item = datum.get(i);
+            if (item instanceof TopicInfo.Reply && item.getUserName().equals(userName)) {
+                replies.add((TopicInfo.Reply) item);
+            }
+        }
+        MentionedReplySheetDialog.show(replies, userName, this);
     }
 
 }

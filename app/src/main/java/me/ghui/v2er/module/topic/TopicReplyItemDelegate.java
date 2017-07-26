@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+
 import javax.annotation.Nullable;
 
 import me.ghui.v2er.R;
@@ -14,6 +15,8 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Voast;
+import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
@@ -21,6 +24,12 @@ import me.ghui.v2er.widget.richtext.RichText;
  */
 
 public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
+
+    private OnMemberClickListener mMemberClickListener;
+
+    public void setMemberClickListener(OnMemberClickListener memberClickListener) {
+        mMemberClickListener = memberClickListener;
+    }
 
     public TopicReplyItemDelegate(Context context) {
         super(context);
@@ -64,11 +73,42 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             contentView.setVisibility(View.VISIBLE);
             contentView.setTextIsSelectable(true);
             contentView = holder.getView(R.id.content_tv);
-            RichText.from(replyInfo.getReplyContent())
+            String replyContent = replyInfo.getReplyContent();
+            OnMemberLinkClickListener clickListener = null;
+            if (replyContent.contains("/member/")) {
+                clickListener = new OnMemberLinkClickListener(holder.index());
+            }
+            RichText.from(replyContent)
+                    .urlClick(clickListener)
                     .into(contentView);
         } else {
             contentView.setVisibility(View.GONE);
         }
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }
+
+    private class OnMemberLinkClickListener implements OnUrlClickListener {
+        private int clickIndex;
+
+        public OnMemberLinkClickListener(int clickIndex) {
+            this.clickIndex = clickIndex;
+        }
+
+        @Override
+        public boolean onUrlClick(String url) {
+            if (url.startsWith("/member/")) {
+                String member = url.substring("/member/".length(), url.length());
+                if (mMemberClickListener != null) {
+                    mMemberClickListener.onMemberClick(member, clickIndex);
+                }
+                return true;
+            }
+            return false;
+        }
+    }
+
+    public interface OnMemberClickListener {
+        void onMemberClick(String userName, int index);
+    }
+
 }

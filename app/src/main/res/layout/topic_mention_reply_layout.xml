@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topic_mention_dialog_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/mention_title_tv"
+        style="@style/TitleText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/common_bottom_divider"
+        android:padding="16dp"
+        tools:text="ghui之前的回复" />
+
+    <me.ghui.v2er.widget.BaseRecyclerView
+        style="@style/BaseRecyclerView"
+        app:shouldPaddingNav="false" />
+</LinearLayout>

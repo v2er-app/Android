@@ -19,6 +19,7 @@ import me.ghui.v2er.widget.richtext.RichText;
  */
 
 public class AppendTopicContentView extends LinearLayout {
+    // TODO: 26/07/2017 偶尔不显示
     public AppendTopicContentView(Context context) {
         super(context);
         init();

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:paddingBottom="12dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="12dp">
+
+    <TextView
+        android:id="@+id/reply_content_tv"
+        style="@style/BodyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        app:layout_constraintLeft_toRightOf="@id/reply_avatar_img"
+        app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
+        tools:text="被逼去掉了外接屏幕 哎" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        style="@style/hintText"
+        android:layout_width="wrap_content"
+        android:layout_marginEnd="0dp"
+        android:layout_marginTop="4dp"
+        android:gravity="right"
+        android:textSize="@dimen/tinyTextSize"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/reply_content_tv"
+        tools:text="1小时17分钟前" />
+</android.support.constraint.ConstraintLayout>

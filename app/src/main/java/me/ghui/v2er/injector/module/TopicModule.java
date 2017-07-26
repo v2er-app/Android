@@ -114,7 +114,9 @@ public class TopicModule {
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
-        adapter.addItemViewDelegate(new TopicReplyItemDelegate(mView));
+        TopicReplyItemDelegate replyItemDelegate = new TopicReplyItemDelegate(mView);
+        replyItemDelegate.setMemberClickListener(mView);
+        adapter.addItemViewDelegate(replyItemDelegate);
         return adapter;
     }
 
