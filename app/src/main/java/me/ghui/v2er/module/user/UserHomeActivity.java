@@ -78,10 +78,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     MultiItemTypeAdapter<UserPageInfo.Item> mAdapter;
     public static final String USER_NAME_KEY = KEY("user_name_key");
     private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
+    private static final String USER_SHARE_ELEMENT_AVATAR_KEY = KEY("user_share_element_avatar_key");
     private String mUserName;
     private String mAvatar;
     private boolean mIsReturning;
     private boolean isAppbarExpanted;
+    private String mTransitionName;
 
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
@@ -108,6 +110,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
         mAvatar = intent.getStringExtra(USER_AVATAR_KEY);
+        mTransitionName = intent.getStringExtra(USER_SHARE_ELEMENT_AVATAR_KEY);
     }
 
 
@@ -122,6 +125,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                 .to(UserHomeActivity.class)
                 .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
                 .putExtra(UserHomeActivity.USER_AVATAR_KEY, avatar)
+                .putExtra(UserHomeActivity.USER_SHARE_ELEMENT_AVATAR_KEY, sourceView == null ? null : sourceView.getTransitionName())
                 .shareElement(sourceView)
                 .start();
     }
@@ -153,6 +157,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void init() {
+        mAvatarImg.setTransitionName(mTransitionName);
         Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);

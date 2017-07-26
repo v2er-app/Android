@@ -2,6 +2,7 @@ package me.ghui.v2er.module.topic;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,6 +27,7 @@ import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -97,6 +99,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private List<TopicInfo.Item> repliersInfo;
     private boolean mNeedWaitForTransitionEnd = true;
     private boolean mIsReturning;
+
+    private final SharedElementCallback mCallback = new SharedElementCallback() {
+        @Override
+        public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+            if (mIsReturning && mLoadMoreRecyclerView.computeVerticalScrollOffset() > getResources().getDimension(R.dimen.common_padding_size)) {
+                names.clear();
+                sharedElements.clear();
+            }
+        }
+    };
 
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
@@ -237,7 +249,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 Logger.e("onTransitionEnd");
                 mNeedWaitForTransitionEnd = false;
                 if (mTopicInfo != null) {
-                    fillView(mTopicInfo, false);
+                    delay(30, () -> fillView(mTopicInfo, false));
                 }
             }
         });
@@ -247,6 +259,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
+        setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();

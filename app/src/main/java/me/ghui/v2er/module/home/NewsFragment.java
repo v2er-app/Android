@@ -144,7 +144,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
 //        mNewFab.setVisibility(View.INVISIBLE);
-        View shareView = holder.getView(R.id.title_tv);
+        View shareView = holder.getView(R.id.avatar_img);
         NewsInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
                 .author(item.getUserName())
@@ -152,7 +152,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                 .commentNum(item.getReplies())
                 .build();
         TopicActivity.open(item.getLinkPath(),
-                getContext(), null, basicInfo);
+                getContext(), shareView, basicInfo);
     }
 
     @Override
