@@ -21,6 +21,8 @@ import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -107,7 +109,11 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        TopicActivity.open(mAdapter.getDatas().get(position).getLink(), getContext());
+        NotificationInfo.Reply item = mAdapter.getDatas().get(position);
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
+                .author(item.getName())
+                .build();
+        TopicActivity.open(item.getLink(), getContext(), holder.getView(R.id.avatar_img), basicInfo);
     }
 
 }

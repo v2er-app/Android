@@ -97,6 +97,6 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
                 .commentNum(item.getCommentNum())
                 .tag(item.getTag())
                 .build();
-        TopicActivity.open(item.getLink(), getContext(), holder.getView(R.id.title_tv), basicInfo);
+        TopicActivity.open(item.getLink(), getContext(), holder.getView(R.id.avatar_img), basicInfo);
     }
 }
