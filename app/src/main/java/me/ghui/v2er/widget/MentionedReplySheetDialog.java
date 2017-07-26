@@ -1,11 +1,13 @@
 package me.ghui.v2er.widget;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -62,6 +64,7 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
         mTitleTv.setText(owner + "之前的回复");
         MentionAdapter mentionAdapter = (MentionAdapter) mRecyclerView.getAdapter();
         mentionAdapter.setData(replies);
+        mRecyclerView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -73,6 +76,7 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
         lp.dimAmount = 0.1f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
         window.setAttributes(lp);
     }
+
 
     private static class MentionAdapter extends CommonAdapter<TopicInfo.Reply> {
 

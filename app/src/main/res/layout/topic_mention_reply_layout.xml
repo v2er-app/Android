@@ -19,5 +19,6 @@
 
     <me.ghui.v2er.widget.BaseRecyclerView
         style="@style/BaseRecyclerView"
+        android:layout_height="wrap_content"
         app:shouldPaddingNav="false" />
 </LinearLayout>
