@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
+import android.transition.Transition;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -36,6 +37,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.ShareElementTransitionCallBack;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -93,6 +95,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private BottomSheetDialog mMenuSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
+    private boolean mNeedWaitForTransitionEnd = true;
+
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
         Navigator.from(context)
@@ -203,19 +207,38 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        return mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getTitle());
+        boolean supportShare = mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getTitle());
+        mNeedWaitForTransitionEnd = supportShare;
+        return supportShare;
+    }
+
+    private void shareElementAnimation() {
+        final Transition transition = getWindow().getSharedElementEnterTransition();
+        if (transition == null) {
+            mNeedWaitForTransitionEnd = false;
+            return;
+        }
+        transition.addListener(new ShareElementTransitionCallBack() {
+            @Override
+            public void onTransitionEnd(Transition transition) {
+                Logger.e("onTransitionEnd");
+                mNeedWaitForTransitionEnd = false;
+                if (mTopicInfo != null) {
+                    fillView(mTopicInfo, false);
+                }
+            }
+        });
     }
 
     @Override
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
-
+        setFirstLoadingDelay(300);
+        shareElementAnimation();
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
-//        mLoadMoreRecyclerView.getRecycledViewPool().setMaxRecycledViews(TopicHeaderItemDelegate.ITEM_TYPE, 0);
-//        mLoadMoreRecyclerView.addDivider();
         mLinearLayoutManager = new LinearLayoutManager(getContext());
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -241,6 +264,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if (mTopicInfo == null) return;
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
                     mReplyFabBtn.hide(); // or hideFab(), see below
                 else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
@@ -374,6 +398,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void fillView(TopicInfo topicInfo, boolean isLoadMore) {
         mTopicInfo = topicInfo;
+        if (mNeedWaitForTransitionEnd) return;
         if (topicInfo == null) {
             mAdapter.setData(null);
             return;
@@ -383,7 +408,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
-        mReplyFabBtn.show();
+        mReplyFabBtn.setVisibility(VISIBLE);
         fillAtList();
     }
 
@@ -559,7 +584,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void onItemMoreMenuClick(int position) {
         if (mMenuSheetDialog == null) {
             mMenuSheetDialog = new BottomSheetDialog(getContext());
-            mMenuSheetDialog.getWindow().setNavigationBarColor(Color.WHITE);
             mMenuSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
             ViewGroup parentView = (ViewGroup) mMenuSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
             mBottomSheetDialogItemClickListener = new OnBottomDialogItemClickListener();

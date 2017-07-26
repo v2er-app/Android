@@ -63,6 +63,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
 
+    public void setFirstLoadingDelay(long delay) {
+        mFirstLoadingDelay = delay;
+    }
+
     /**
      * bind a layout resID to the content of this page
      *
