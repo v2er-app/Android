@@ -9,28 +9,24 @@
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:padding="12dp">
 
-    <LinearLayout
-        android:id="@+id/title_wrapper"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar_img"
+        style="@style/AvatarImg"
+        android:layout_width="@dimen/common_avatar_size"
+        android:layout_height="@dimen/common_avatar_size" />
+
+    <TextView
+        android:id="@+id/msg_title_tv"
+        style="@style/hintText"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:ellipsize="end"
+        android:lines="2"
+        android:maxLines="2"
+        android:paddingLeft="8dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toEndOf="@id/avatar_img"
+        tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/avatar_img"
-            style="@style/AvatarImg"
-            android:layout_width="@dimen/small_avatar_size"
-            android:layout_height="@dimen/small_avatar_size" />
-
-        <TextView
-            android:id="@+id/msg_title_tv"
-            style="@style/hintText"
-            android:layout_width="wrap_content"
-            android:paddingLeft="8dp"
-            tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />
-    </LinearLayout>
 
     <TextView
         android:id="@+id/msg_content_tv"
@@ -39,11 +35,20 @@
         android:layout_marginTop="8dp"
         android:background="#FFFAFAFA"
         android:padding="8dp"
-        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/title_wrapper"
+        app:layout_constraintStart_toEndOf="@id/left_indicator"
+        app:layout_constraintTop_toBottomOf="@id/msg_title_tv"
         tools:text="不建议华为，高价低质。小米、魅族之类的吧。还有一个 360N5 也可以。" />
+
+    <View
+        android:id="@+id/left_indicator"
+        android:layout_width="3dp"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:background="#80555555"
+        app:layout_constraintBottom_toBottomOf="@id/msg_content_tv"
+        app:layout_constraintLeft_toLeftOf="@id/msg_title_tv"
+        app:layout_constraintTop_toTopOf="@id/msg_content_tv" />
 
     <TextView
         android:id="@+id/time_tv"

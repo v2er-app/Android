@@ -224,7 +224,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        boolean supportShare = mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getTitle());
+        boolean supportShare = mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getAvatar());
         mNeedWaitForTransitionEnd = supportShare;
         return supportShare;
     }

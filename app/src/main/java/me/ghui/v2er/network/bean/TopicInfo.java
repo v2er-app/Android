@@ -208,7 +208,7 @@ public class TopicInfo extends BaseInfo {
         private HeaderInfo(TopicBasicInfo basicInfo) {
             this.avatar = basicInfo.getAvatar();
             this.title = basicInfo.getTitle();
-            this.comment = basicInfo.getCommentNum() + " 回复";
+//            this.comment = basicInfo.getCommentNum() + " 回复";
             this.userName = basicInfo.getAuthor();
             this.tag = basicInfo.getTag();
         }
@@ -262,7 +262,7 @@ public class TopicInfo extends BaseInfo {
         }
 
         public String getCommentNum() {
-            if (PreConditions.isEmpty(comment)) return "评论0";
+            if (PreConditions.isEmpty(comment)) return null;
             return "评论" + comment.split(" ")[0];
         }
 

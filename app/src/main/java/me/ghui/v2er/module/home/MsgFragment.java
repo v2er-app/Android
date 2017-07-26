@@ -110,9 +110,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         NotificationInfo.Reply item = mAdapter.getDatas().get(position);
-        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
-                .author(item.getName())
-                .build();
+        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(null, item.getAvatar()).build();
         TopicActivity.open(item.getLink(), getContext(), holder.getView(R.id.avatar_img), basicInfo);
     }
 
