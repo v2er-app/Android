@@ -10,7 +10,7 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/AppActAnimation</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:windowReturnTransition">@android:transition/explode</item>
+        <item name="android:windowReturnTransition">@android:transition/fade</item>
     </style>
 
     <style name="AppTheme" parent="BaseApp.Theme" />

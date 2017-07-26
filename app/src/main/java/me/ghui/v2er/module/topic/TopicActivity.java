@@ -100,6 +100,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
+        if (sourceView == null || topicBasicInfo == null) {
+            topicBasicInfo = null;
+            sourceView = null;
+        }
         Navigator.from(context)
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
