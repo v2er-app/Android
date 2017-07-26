@@ -91,7 +91,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
     private BottomSheetDialog mMenuSheetDialog;
-    private BottomSheetDialog mMentionSheetDialog;
+    private MentionedReplySheetDialog mMentionSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
 
@@ -639,7 +639,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 replies.add((TopicInfo.Reply) item);
             }
         }
-        MentionedReplySheetDialog.show(replies, userName, this);
+        if (mMentionSheetDialog == null) {
+            mMentionSheetDialog = new MentionedReplySheetDialog(this);
+        }
+        mMentionSheetDialog.show(replies, userName);
     }
 
 }
