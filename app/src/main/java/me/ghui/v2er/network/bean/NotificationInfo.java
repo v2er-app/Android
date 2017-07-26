@@ -51,7 +51,7 @@ public class NotificationInfo extends BaseInfo {
         private String title;
         @Pick(value = "a[href^=/t/]", attr = Attrs.HREF)
         private String link;
-        @Pick("div.payload")
+        @Pick(value = "div.payload", attr = Attrs.INNER_HTML)
         private String content;
         @Pick("span.snow")
         private String time;

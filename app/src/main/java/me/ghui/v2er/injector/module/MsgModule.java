@@ -19,6 +19,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -47,7 +48,8 @@ public class MsgModule {
                 holder.getView(R.id.msg_content_tv);
                 if (!PreConditions.isEmpty(reply.getContent())) {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
-                    holder.setText(R.id.msg_content_tv, reply.getContent());
+//                    holder.setText(R.id.msg_content_tv, reply.getContent());
+                    RichText.from(reply.getContent()).into(holder.getTextView(R.id.msg_content_tv));
                 } else {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
                 }
