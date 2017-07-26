@@ -6,18 +6,14 @@
     android:layout_height="wrap_content"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:paddingBottom="12dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:paddingTop="12dp">
 
     <TextView
         android:id="@+id/reply_content_tv"
         style="@style/BodyText"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
-        app:layout_constraintLeft_toRightOf="@id/reply_avatar_img"
-        app:layout_constraintTop_toTopOf="@id/reply_avatar_img"
         tools:text="被逼去掉了外接屏幕 哎" />
 
     <TextView

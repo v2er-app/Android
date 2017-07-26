@@ -2,9 +2,12 @@ package me.ghui.v2er.widget;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import java.util.List;
@@ -14,8 +17,8 @@ import butterknife.ButterKnife;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
@@ -46,6 +49,7 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
     }
 
     private void init() {
+//        setCanceledOnTouchOutside(false);
         setContentView(R.layout.topic_mention_reply_layout);
         ButterKnife.bind(this);
         mRecyclerView.addDivider();
@@ -58,11 +62,17 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
         MentionAdapter mentionAdapter = (MentionAdapter) mRecyclerView.getAdapter();
         mentionAdapter.setData(replies);
         show();
-        if (getWindow() != null) {
-            getWindow().setNavigationBarColor(Color.WHITE);
-        }
     }
 
+    @Override
+    public void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        Window window = getWindow();
+        if (window == null) return;
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.dimAmount = 0.1f; // Dim level. 0.0 - no dim, 1.0 - completely opaque
+        window.setAttributes(lp);
+    }
 
     private static class MentionAdapter extends CommonAdapter<TopicInfo.Reply> {
 
