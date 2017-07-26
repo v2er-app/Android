@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/common_bottom_divider"
         android:padding="16dp"
+        android:textSize="@dimen/smallTextSize"
         tools:text="ghui之前的回复" />
 
     <me.ghui.v2er.widget.BaseRecyclerView
