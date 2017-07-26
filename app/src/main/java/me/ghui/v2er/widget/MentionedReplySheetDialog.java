@@ -57,11 +57,11 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
         mRecyclerView.setAdapter(new MentionAdapter(getContext(), R.layout.topic_mention_reply_item));
     }
 
-    public void show(List<TopicInfo.Reply> replies, String owner) {
+
+    public void setData(List<TopicInfo.Reply> replies, String owner) {
         mTitleTv.setText(owner + "之前的回复");
         MentionAdapter mentionAdapter = (MentionAdapter) mRecyclerView.getAdapter();
         mentionAdapter.setData(replies);
-        show();
     }
 
     @Override
