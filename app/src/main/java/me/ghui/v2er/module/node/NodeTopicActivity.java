@@ -350,7 +350,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 .tag(mNodeInfo.getTitle())
                 .build();
         // TODO: 14/07/2017 topicLink is null
-        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.title_tv), basicInfo);
+        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.avatar_img), basicInfo);
     }
 
     @Override
