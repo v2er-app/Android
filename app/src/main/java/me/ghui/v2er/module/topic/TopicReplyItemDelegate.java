@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 import me.ghui.v2er.widget.richtext.RichText;
@@ -102,6 +104,8 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                     mMemberClickListener.onMemberClick(member, clickIndex);
                 }
                 return true;
+            } else {
+                Utils.openWap(url, mContext);
             }
             return false;
         }
