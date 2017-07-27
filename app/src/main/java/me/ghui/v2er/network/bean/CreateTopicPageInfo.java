@@ -45,6 +45,7 @@ public class CreateTopicPageInfo extends BaseInfo {
         }
         allNodes.addAll(hotNodes);
         allNodes.addAll(nodes);
+        allNodes.add(new Node("沙盒 / sandbox"));
         return allNodes;
     }
 
@@ -148,6 +149,10 @@ public class CreateTopicPageInfo extends BaseInfo {
         public Node() {
         }
 
+        public Node(String titleAndId) {
+            this.titleAndId = titleAndId;
+        }
+
         protected Node(Parcel in) {
             titleAndId = in.readString();
         }
@@ -182,6 +187,7 @@ public class CreateTopicPageInfo extends BaseInfo {
                 e.printStackTrace();
                 return null;
             }
+
         }
 
         @Override
