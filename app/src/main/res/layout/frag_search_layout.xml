@@ -35,14 +35,14 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/image_search_back"
+                    android:id="@+id/image_search_icon"
                     android:layout_width="@dimen/searchbar_size"
                     android:layout_height="@dimen/searchbar_size"
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="back"
-                    android:padding="17dp"
-                    android:src="@drawable/ic_arrow_back_black"
+                    android:padding="15dp"
+                    android:src="@drawable/ic_bing"
                     android:tint="@color/colorAccent" />
 
                 <EditText
@@ -52,7 +52,7 @@
                     android:layout_weight="1"
                     android:background="#fff"
                     android:gravity="center_vertical"
-                    android:hint="Search"
+                    android:hint="Search..."
                     android:imeOptions="actionSearch"
                     android:paddingLeft="12dp"
                     android:paddingRight="8dp"
@@ -72,8 +72,8 @@
             </LinearLayout>
 
             <me.ghui.v2er.widget.BaseRecyclerView
-                style="@style/BaseRecyclerView"
                 android:id="@+id/search_history_recyclerview"
+                style="@style/BaseRecyclerView"
                 android:layout_below="@id/linearLayout_search"
                 android:background="@drawable/common_top_divider"
                 android:divider="@color/white"

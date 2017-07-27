@@ -38,8 +38,8 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mResultRecyV;
-    @BindView(R.id.image_search_back)
-    ImageView mBackBtn;
+    @BindView(R.id.image_search_icon)
+    ImageView mSearchIcon;
     @BindView(R.id.clear_search_img)
     ImageView mClearBtn;
     @BindView(R.id.search_edit_text)
@@ -109,9 +109,9 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
         super.onDestroyView();
     }
 
-    @OnClick(R.id.image_search_back)
+    @OnClick(R.id.image_search_icon)
     void onBackClicked() {
-        animateSearchbar(false);
+//        animateSearchbar(false);
     }
 
     @OnClick(R.id.clear_search_img)
