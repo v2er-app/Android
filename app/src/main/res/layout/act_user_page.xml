@@ -51,54 +51,52 @@
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="2dp" />
 
-                    <me.ghui.v2er.widget.FollowProgressBtn
-                        android:id="@+id/user_block_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
-                        app:initIcon="@drawable/progress_button_block_icon"
-                        app:initText="屏蔽"
-                        app:layout_constraintBottom_toTopOf="@id/user_follow_btn"
-                        app:layout_constraintRight_toRightOf="parent" />
-
-                    <me.ghui.v2er.widget.FollowProgressBtn
-                        android:id="@+id/user_follow_btn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:initText="关注"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintRight_toRightOf="parent" />
-                </android.support.constraint.ConstraintLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
                     <TextView
                         android:id="@+id/user_name_tv"
                         style="@style/TitleText"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:gravity="center"
                         android:paddingTop="6dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/user_img"
                         tools:text="ghui" />
 
                     <TextView
                         android:id="@+id/user_online_tv"
                         style="@style/hintText"
+                        android:layout_width="0dp"
                         android:layout_marginTop="4dp"
-                        android:background="@drawable/user_online_drawable"
                         android:gravity="center"
                         android:paddingBottom="2dp"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
                         android:paddingTop="2dp"
                         android:text="Online"
-                        android:textColor="@color/white"
-                        android:textSize="8dp"
-                        android:visibility="gone" />
-                </LinearLayout>
+                        android:textColor="#4aba00"
+                        android:textStyle="bold"
+                        android:visibility="invisible"
+                        app:layout_constraintStart_toStartOf="@id/user_name_tv"
+                        app:layout_constraintTop_toBottomOf="@id/user_name_tv" />
+
+
+                    <me.ghui.v2er.widget.FollowProgressBtn
+                        android:id="@+id/user_follow_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        app:initText="关注"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+
+                    <me.ghui.v2er.widget.FollowProgressBtn
+                        android:id="@+id/user_block_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:visibility="invisible"
+                        app:initIcon="@drawable/progress_button_block_icon"
+                        app:initText="屏蔽"
+                        app:layout_constraintBottom_toTopOf="@id/user_follow_btn"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </android.support.constraint.ConstraintLayout>
 
                 <TextView
                     android:id="@+id/user_describtion_tv"

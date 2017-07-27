@@ -184,7 +184,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                     if (mUserPageInfo != null) {
                         isOnLine = mUserPageInfo.isOnline();
                     }
-                    mToolbar.setSubtitle(isOnLine ? "Online" : null);
+                    mToolbar.setSubtitle(isOnLine ? "[Online]" : null);
                 } else {
                     //中间状态
                 }
