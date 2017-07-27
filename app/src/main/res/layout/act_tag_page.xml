@@ -88,23 +88,13 @@
                             android:textSize="@dimen/smallTextSize"
                             tools:text="2241 个主题" />
 
-                        <CheckedTextView
+                        <me.ghui.v2er.widget.FollowProgressBtn
                             android:id="@+id/node_info_star_ct"
-                            style="@style/hintText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/star_selector"
-                            android:clickable="true"
-                            android:focusable="true"
-                            android:focusableInTouchMode="true"
-                            android:lines="1"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="16dp"
-                            android:paddingRight="16dp"
-                            android:paddingTop="8dp"
-                            android:text="收藏"
-                            android:textColor="@color/white"
-                            android:visibility="invisible" />
+                            app:initText="收藏"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintRight_toRightOf="parent" />
 
                         <TextView
                             android:id="@+id/node_star_num"

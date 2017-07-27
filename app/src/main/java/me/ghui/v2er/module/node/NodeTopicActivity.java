@@ -42,6 +42,7 @@ import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
@@ -82,7 +83,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @BindView(R.id.node_star_num)
     TextView mNodeStarNumTv;
     @BindView(R.id.node_info_star_ct)
-    CheckedTextView mStarBtn;
+    FollowProgressBtn mStarBtn;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> mAdapter;
@@ -302,7 +303,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             new ConfirmDialog.Builder(getActivity())
                     .title("取消收藏节点")
                     .msg("确定取消收藏节点吗？")
-                    .positiveText(R.string.ok, dialog -> mPresenter.starNode(mNodeTopicInfo.getFavoriteLink()))
+                    .positiveText(R.string.ok, dialog -> {
+                        mStarBtn.startUpdate();
+                        mPresenter.starNode(mNodeTopicInfo.getFavoriteLink());
+                    })
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
@@ -337,8 +341,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
                 R.drawable.ic_star_selected : R.drawable.ic_star_normal);
-        mStarBtn.setChecked(isStared);
-        mStarBtn.setText(isStared ? "已收藏" : "收藏");
+        if (isStared) {
+            mStarBtn.setStatus(FollowProgressBtn.FINISHED, "已收藏", R.drawable.progress_button_done_icon);
+        } else {
+            mStarBtn.setStatus(FollowProgressBtn.NORMAL, "收藏", R.drawable.progress_button_follow_normal_icon);
+        }
     }
 
     @Override
