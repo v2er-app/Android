@@ -48,6 +48,10 @@ public class TopicInfo extends BaseInfo {
         return map;
     }
 
+    public ContentInfo getContentInfo() {
+        return contentInfo;
+    }
+
     /**
      * 加载分页后的数据
      *

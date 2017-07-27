@@ -56,6 +56,7 @@ import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.MentionedReplySheetDialog;
+import me.ghui.v2er.widget.ReplyContentLayout;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 import static android.view.View.VISIBLE;
@@ -103,9 +104,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-            if (mIsReturning && mLoadMoreRecyclerView.computeVerticalScrollOffset() > getResources().getDimension(R.dimen.common_padding_size)) {
-                names.clear();
-                sharedElements.clear();
+            if (mIsReturning) {
+                if (mLoadMoreRecyclerView.computeVerticalScrollOffset() > getResources().getDimension(R.dimen.common_padding_size)) {
+                    names.clear();
+                    sharedElements.clear();
+                } else {
+                    if (mTopicInfo != null && mTopicInfo.getContentInfo() != null && mTopicInfo.getContentInfo().isValid()) {
+                        ReplyContentLayout contentLayout = (ReplyContentLayout) mLoadMoreRecyclerView.getChildAt(1);
+                        contentLayout.shrinkHeight();
+                    }
+                }
             }
         }
     };

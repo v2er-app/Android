@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<me.ghui.v2er.widget.ReplyContentLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,4 +31,4 @@
         android:layout_height="@dimen/divider_size"
         android:layout_marginTop="12dp"
         android:background="@color/divider_color" />
-</LinearLayout>
+</me.ghui.v2er.widget.ReplyContentLayout>
