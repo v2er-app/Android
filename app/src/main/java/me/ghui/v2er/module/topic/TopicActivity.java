@@ -697,7 +697,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void onMemberClick(String userName, int index) {
         List<TopicInfo.Item> datum = mAdapter.getDatas();
         List<TopicInfo.Reply> replies = new ArrayList<>();
-        for (int i = 0; i < index; i++) {
+        for (int i = index - 1; i >= 0; i--) {
             TopicInfo.Item item = datum.get(i);
             if (item instanceof TopicInfo.Reply && item.getUserName().equals(userName)) {
                 replies.add((TopicInfo.Reply) item);
