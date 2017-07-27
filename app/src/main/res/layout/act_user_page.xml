@@ -38,7 +38,7 @@
                 android:padding="16dp"
                 app:layout_collapseMode="parallax">
 
-                <RelativeLayout
+                <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -51,48 +51,24 @@
                         app:civ_border_color="@color/colorPrimary"
                         app:civ_border_width="2dp" />
 
-                    <TextView
-                        android:id="@+id/user_follow_ct"
-                        style="@style/hintText"
+                    <me.ghui.v2er.widget.FollowProgressBtn
+                        android:id="@+id/user_block_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_alignParentRight="true"
-                        android:background="@drawable/star_selector"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:lines="1"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp"
-                        android:text="关注"
-                        android:textColor="@color/white"
-                        android:visibility="invisible" />
+                        android:layout_marginBottom="8dp"
+                        app:initIcon="@drawable/progress_button_block_icon"
+                        app:initText="屏蔽"
+                        app:layout_constraintBottom_toTopOf="@id/user_follow_btn"
+                        app:layout_constraintRight_toRightOf="parent" />
 
-                    <TextView
-                        android:id="@+id/user_block_ct"
-                        style="@style/hintText"
+                    <me.ghui.v2er.widget.FollowProgressBtn
+                        android:id="@+id/user_follow_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginRight="8dp"
-                        android:layout_toLeftOf="@id/user_follow_ct"
-                        android:background="@drawable/star_selector"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:lines="1"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingTop="8dp"
-                        android:text="屏蔽"
-                        android:textColor="@color/white"
-                        android:visibility="invisible" />
-
-                </RelativeLayout>
+                        app:initText="关注"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </android.support.constraint.ConstraintLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -105,7 +81,7 @@
                         style="@style/TitleText"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingTop="16dp"
+                        android:paddingTop="6dp"
                         tools:text="ghui" />
 
                     <TextView
@@ -118,7 +94,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="2dp"
-                        android:text="ONLINE"
+                        android:text="Online"
                         android:textColor="@color/white"
                         android:textSize="8dp"
                         android:visibility="gone" />

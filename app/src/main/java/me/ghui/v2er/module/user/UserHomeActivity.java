@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -38,9 +37,13 @@ import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
+
+import static me.ghui.v2er.widget.FollowProgressBtn.FINISHED;
+import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -68,10 +71,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     BaseToolBar mToolbar;
     @BindView(R.id.user_online_tv)
     TextView mOnlineTv;
-    @BindView(R.id.user_follow_ct)
-    TextView mUserFollowCt;
-    @BindView(R.id.user_block_ct)
-    TextView mUserBlockCt;
+    @BindView(R.id.user_follow_btn)
+    FollowProgressBtn mUserFollowbtn;
+    @BindView(R.id.user_block_btn)
+    FollowProgressBtn mUserBlockBtn;
     private UserPageInfo mUserPageInfo;
 
     @Inject
@@ -181,7 +184,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                     if (mUserPageInfo != null) {
                         isOnLine = mUserPageInfo.isOnline();
                     }
-                    mToolbar.setSubtitle(isOnLine ? "ONLINE" : null);
+                    mToolbar.setSubtitle(isOnLine ? "Online" : null);
                 } else {
                     //中间状态
                 }
@@ -228,8 +231,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        mUserFollowCt.setVisibility(View.VISIBLE);
-        mUserBlockCt.setVisibility(View.VISIBLE);
+        mUserFollowbtn.setVisibility(View.VISIBLE);
+        mUserBlockBtn.setVisibility(View.VISIBLE);
         if (mAvatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
             Picasso.with(this)
@@ -251,38 +254,54 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     private void toggleBlockBtnStatus(boolean hadBlocked) {
-        mUserBlockCt.setText(hadBlocked ? "已屏蔽" : "屏蔽");
+        if (hadBlocked) {
+            mUserBlockBtn.setStatus(FINISHED, "已屏蔽", R.drawable.progress_button_done_icon);
+        } else {
+            mUserBlockBtn.setStatus(NORMAL, "屏蔽", R.drawable.progress_button_block_icon);
+        }
     }
 
     private void toggleFollowBtnStatus(boolean hadFollowed) {
-        mUserFollowCt.setText(hadFollowed ? "已关注" : "关注");
+        if (hadFollowed) {
+            mUserFollowbtn.setStatus(FINISHED, "已关注", R.drawable.progress_button_done_icon);
+        } else {
+            mUserFollowbtn.setStatus(NORMAL, "关注", R.drawable.progress_button_follow_normal_icon);
+        }
     }
 
 
-    @OnClick(R.id.user_block_ct)
-    void onBlockClicked() {
+    @OnClick(R.id.user_block_btn)
+    void onBlockClicked(FollowProgressBtn progressBtn) {
         if (!mUserPageInfo.hadBlocked()) {
             new ConfirmDialog.Builder(this)
                     .title("屏蔽用户")
                     .msg("确定屏蔽用户@" + mUserName + "吗？")
-                    .positiveText(R.string.ok, dialog -> mPresenter.blockUser(mUserPageInfo.getBlockUrl()))
+                    .positiveText(R.string.ok, dialog -> {
+                        progressBtn.startUpdate();
+                        mPresenter.blockUser(mUserPageInfo.getBlockUrl());
+                    })
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
+            progressBtn.startUpdate();
             mPresenter.blockUser(mUserPageInfo.getBlockUrl());
         }
     }
 
-    @OnClick(R.id.user_follow_ct)
-    void onFollowClicked(TextView checkedTextView) {
+    @OnClick(R.id.user_follow_btn)
+    void onFollowClicked(FollowProgressBtn progressBtn) {
         if (mUserPageInfo.hadFollowed()) {
             new ConfirmDialog.Builder(this)
                     .title("取消关注")
                     .msg("确定取消关注@" + mUserName + "吗？")
-                    .positiveText(R.string.ok, dialog -> mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl()))
+                    .positiveText(R.string.ok, dialog -> {
+                        progressBtn.startUpdate();
+                        mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl());
+                    })
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
+            progressBtn.startUpdate();
             mPresenter.followUser(mUserPageInfo.getUserName(), mUserPageInfo.getFollowUrl());
         }
     }

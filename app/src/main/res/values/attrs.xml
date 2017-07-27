@@ -10,4 +10,9 @@
     <declare-styleable name="BaseRecyclerView">
         <attr name="shouldPaddingNav" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="FollowProgressBtn">
+        <attr name="initText" format="string|reference" />
+        <attr name="initIcon" format="reference" />
+    </declare-styleable>
 </resources>
