@@ -4,6 +4,7 @@ import android.widget.Toast;
 
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 11/07/2017.
@@ -11,6 +12,7 @@ import me.ghui.v2er.general.App;
 
 public class Voast {
     public static void show(String msg) {
+        if (PreConditions.isEmpty(msg)) return;
         show(msg, false);
     }
 

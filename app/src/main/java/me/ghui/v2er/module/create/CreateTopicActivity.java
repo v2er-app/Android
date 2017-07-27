@@ -8,14 +8,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.reactivex.Observable;
+import io.reactivex.functions.Function;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -117,7 +123,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     public void onPostFailure(CreateTopicPageInfo createTopicPageInfo) {
         fillView(createTopicPageInfo);
         CreateTopicPageInfo.Problem problem = createTopicPageInfo.getProblem();
-        String msg = null;
+        String msg = "";
         for (String tip : problem.getTips()) {
             msg = msg + tip + "\n";
         }
@@ -145,6 +151,23 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     .build().show();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void handleError(GeneralError generalError) {
+        super.handleError(generalError);
+        String response = generalError.getResponse();
+        if (PreConditions.notEmpty(response)) {
+            Observable.just(response)
+                    .compose(rx(null))
+                    .map(s -> APIService.fruit().fromHtml(s, CreateTopicPageInfo.class))
+                    .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                        @Override
+                        public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
+                            onPostFailure(createTopicPageInfo);
+                        }
+                    });
         }
     }
 }

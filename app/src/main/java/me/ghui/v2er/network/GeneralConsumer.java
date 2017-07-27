@@ -47,7 +47,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 3. no premission to open the page
             */
             int errorCode = ResultCode.NETWORK_ERROR;
-            String msg = null;
+            String msg;
             LoginParam loginParam = APIService.fruit().fromHtml(response, LoginParam.class);
             if (loginParam.isValid()) {
                 if (UserUtils.isLogin()) {
@@ -58,10 +58,12 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                     msg = "需要您先去登录";
                 }
             } else {
-                // TODO: 24/07/2017 more case
-                msg = "Unknown Error";
+                // 具体的业务错误
+                msg = null;
             }
-            onError(new GeneralError(errorCode, msg));
+            GeneralError generalError = new GeneralError(errorCode, msg);
+            generalError.setResponse(response);
+            onError(generalError);
         }
     }
 
@@ -72,13 +74,13 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
         if (mGeneralErrorHandler == null) {
             Voast.show(e.getMessage());
         } else {
-            int errorCode;
+            GeneralError generalError;
             if (e instanceof GeneralError) {
-                errorCode = ((GeneralError) e).getErrorCode();
+                generalError = (GeneralError) e;
             } else {
-                errorCode = ResultCode.NETWORK_ERROR;
+                generalError = new GeneralError(ResultCode.NETWORK_ERROR, e.getMessage());
             }
-            mGeneralErrorHandler.handleError(errorCode, e.getMessage());
+            mGeneralErrorHandler.handleError(generalError);
         }
     }
 

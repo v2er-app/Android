@@ -6,6 +6,6 @@ package me.ghui.v2er.network;
 
 public interface IGeneralErrorHandler {
 
-    void handleError(int errorCode, String errorMsg);
+    void handleError(GeneralError generalError);
 
 }

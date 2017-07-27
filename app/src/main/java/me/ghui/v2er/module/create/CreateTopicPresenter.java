@@ -23,7 +23,7 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     public void start() {
         APIService.get().topicCreatePageInfo()
                 .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                .subscribe(new GeneralConsumer<CreateTopicPageInfo>(mView) {
                     @Override
                     public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
                         mTopicPageInfo = createTopicPageInfo;
@@ -36,24 +36,10 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     public void sendPost(String title, String content, String nodeId) {
         APIService.get().postTopic(mTopicPageInfo.toPostMap(title, content, nodeId))
                 .compose(mView.rx())
-                .map(response -> response.body().string())
-                .map(s -> {
-                    TopicInfo topicInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
-                    if (!topicInfo.isValid()) {
-                        return APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
-                    }
-                    return topicInfo;
-                })
-                .subscribe(new GeneralConsumer<BaseInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
-                    public void onConsume(BaseInfo info) {
-                        if (info instanceof TopicInfo) {
-                            //success
-                            mView.onPostSuccess((TopicInfo) info);
-                        } else {
-                            //failure
-                            mView.onPostFailure((CreateTopicPageInfo) info);
-                        }
+                    public void onConsume(TopicInfo topicInfo) {
+                        mView.onPostSuccess(topicInfo);
                     }
                 });
     }

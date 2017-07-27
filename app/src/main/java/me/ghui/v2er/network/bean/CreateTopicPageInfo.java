@@ -16,7 +16,7 @@ import me.ghui.v2er.general.PreConditions;
  * Created by ghui on 05/06/2017.
  */
 
-@Pick("div.content")
+@Pick("div#Wrapper")
 public class CreateTopicPageInfo extends BaseInfo {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
@@ -68,7 +68,7 @@ public class CreateTopicPageInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(once) && problem.isEmpty();
+        return PreConditions.notEmpty(once) && PreConditions.notEmpty(nodes);
     }
 
     public interface BaseNode extends Parcelable {

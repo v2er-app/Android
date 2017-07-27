@@ -6,9 +6,19 @@ package me.ghui.v2er.network;
 
 public class GeneralError extends Throwable {
 
+    private String response;
+
     public GeneralError(int errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
+    }
+
+    public String getResponse() {
+        return response;
     }
 
     private int errorCode;
