@@ -7,12 +7,12 @@ bugly {
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 6
         versionName "1.0-RC1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
