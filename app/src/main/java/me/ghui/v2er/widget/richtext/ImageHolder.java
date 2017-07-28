@@ -20,7 +20,7 @@ public class ImageHolder {
         if (maxSize <= 0) {
             maxSize = ViewUtils.getExactlyWidth(view, true);
             if (maxSize <= 0) {
-                maxSize = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+                maxSize = ScaleUtils.getScreenW() - ScaleUtils.dp(40);
             }
         }
         this.maxSize = maxSize;

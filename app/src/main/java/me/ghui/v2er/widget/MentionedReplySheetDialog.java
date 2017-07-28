@@ -61,7 +61,7 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
 
 
     public void setData(List<TopicInfo.Reply> replies, String owner) {
-        mTitleTv.setText(owner + "之前的回复");
+        mTitleTv.setText(owner + " 之前的回复");
         MentionAdapter mentionAdapter = (MentionAdapter) mRecyclerView.getAdapter();
         mentionAdapter.setData(replies);
         mRecyclerView.setVisibility(View.VISIBLE);

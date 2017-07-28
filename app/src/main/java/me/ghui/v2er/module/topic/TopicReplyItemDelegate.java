@@ -16,6 +16,7 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.richtext.OnUrlClickListener;
@@ -82,6 +83,8 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             }
             RichText.from(replyContent)
                     .urlClick(clickListener)
+//                    .maxSize(ScaleUtils.getScreenW() - ScaleUtils.dp(75))
+//                    .maxSize(ScaleUtils.dp(10))
                     .into(contentView);
         } else {
             contentView.setVisibility(View.GONE);

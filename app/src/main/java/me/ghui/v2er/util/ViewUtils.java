@@ -23,7 +23,7 @@ public class ViewUtils {
     public static int getExactlyWidth(View view, boolean excludePadding) {
         int width = view.getWidth();
         if (width <= 0) {
-            view.measure(View.MeasureSpec.EXACTLY, View.MeasureSpec.UNSPECIFIED);
+            view.measure(0, 0);
             width = view.getMeasuredWidth();
         }
         if (excludePadding) {
