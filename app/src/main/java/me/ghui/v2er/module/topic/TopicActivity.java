@@ -108,11 +108,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 if (mLoadMoreRecyclerView.computeVerticalScrollOffset() > getResources().getDimension(R.dimen.common_padding_size)) {
                     names.clear();
                     sharedElements.clear();
-                } else {
-                    if (mTopicInfo != null && mTopicInfo.getContentInfo() != null && mTopicInfo.getContentInfo().isValid()) {
-                        ReplyContentLayout contentLayout = (ReplyContentLayout) mLoadMoreRecyclerView.getChildAt(1);
-                        contentLayout.shrinkHeight();
-                    }
                 }
             }
         }
@@ -274,6 +269,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreRecyclerView.setTransitionGroup(true);
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         if (mTopicBasicInfo != null) {
