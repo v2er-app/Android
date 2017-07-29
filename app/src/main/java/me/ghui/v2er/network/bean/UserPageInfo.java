@@ -7,6 +7,7 @@ import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.AvatarUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -89,7 +90,7 @@ public class UserPageInfo extends BaseInfo {
 
     public List<Item> getItems() {
         if (items == null) {
-            items = new ArrayList<>(dockItems.size() + replyContentItems.size());
+            items = new ArrayList<>(Utils.listSize(dockItems) + Utils.listSize(replyContentItems));
         } else {
             items.clear();
         }
