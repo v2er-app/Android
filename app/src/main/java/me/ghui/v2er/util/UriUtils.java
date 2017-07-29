@@ -20,4 +20,17 @@ public class UriUtils {
         if (PreConditions.isEmpty(url)) return null;
         return Uri.parse(url).getQueryParameter(paramName);
     }
+
+
+    public static String checkSchema(String url) {
+        if (PreConditions.isEmpty(url)) return null;
+        if (!url.startsWith("http") && !url.startsWith("https")) {
+            if (url.startsWith("//")) {
+                url = "http:" + url;
+            } else {
+                url = "http://" + url;
+            }
+        }
+        return url;
+    }
 }

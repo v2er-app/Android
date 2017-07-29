@@ -16,6 +16,7 @@ import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.ViewUtils;
 
 
@@ -41,6 +42,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
 
     @Override
     public Drawable getDrawable(String source) {
+        source = UriUtils.checkSchema(source);
         TextView textView = mTvWeakReference.get();
         if (textView == null) return null;
         NetWorkDrawable drawable = new NetWorkDrawable(mImageHolder);
