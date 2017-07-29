@@ -12,7 +12,7 @@ public class MissionInfo extends BaseInfo {
 
     @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;
-    @Pick(value = "img[src*=/avatar/]", attr = "src")
+    @Pick(value = "img[src*=avatar/]", attr = "src")
     private String avatar;
 
 

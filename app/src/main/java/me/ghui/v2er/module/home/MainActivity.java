@@ -112,8 +112,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void init() {
         configToolBar();
         mNavHeaderView = mNavigationView.getHeaderView(0);
-        mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.avatar_img);
-        mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.user_name_tv);
+        mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
+        mUserNameTv = mNavHeaderView.findViewById(R.id.user_name_tv);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         updateHeaderView();
