@@ -77,10 +77,17 @@ public class TopicModule {
                 holder.setOnClickListener(v -> {
                     if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
+
+                    if (replyInfo.isSelf()) {
+                        Voast.show("自己不用感谢啦");
+                        return;
+                    }
+
                     if (replyInfo.hadThanked()) {
                         Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
                         return;
                     }
+
                     new ConfirmDialog.Builder((Activity) mContext)
                             .title("感谢回复者")
                             .msg("确定花费10个铜币向@" + replyInfo.getUserName() + "表达感谢？")

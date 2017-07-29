@@ -64,12 +64,8 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             holder.setText(R.id.reply_thx_tv, replyInfo.getLove() + "");
         }
         ImageView img = holder.getView(R.id.reply_thx_img);
-        if (!item.isSelf()) {
-            img.setVisibility(View.VISIBLE);
-            img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
-        } else {
-            img.setVisibility(View.GONE);
-        }
+        img.setVisibility(View.VISIBLE);
+        img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
         TextView contentView = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(replyInfo.getReplyContent())) {
