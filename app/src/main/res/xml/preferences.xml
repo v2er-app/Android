@@ -30,7 +30,7 @@
             android:key="@string/pref_key_title_btn_overlay"
             android:layout="@layout/preference_item"
             android:summary="回复框或浮动按钮被遮挡，请开启此选项"
-            android:title="回复框被遮挡" />
+            android:title="被遮挡" />
     </PreferenceCategory>
 
     <PreferenceCategory
