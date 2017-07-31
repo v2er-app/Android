@@ -226,6 +226,15 @@ public class TopicInfo extends BaseInfo {
             return PreConditions.notEmpty(userName, tag);
         }
 
+        /**
+         * new user can't send thanks
+         *
+         * @return
+         */
+        public boolean canSendThanks() {
+            return !PreConditions.isEmpty(thankedText);
+        }
+
         public boolean hadThanked() {
             return PreConditions.notEmpty(thankedText) && thankedText.contains("已发送");
         }

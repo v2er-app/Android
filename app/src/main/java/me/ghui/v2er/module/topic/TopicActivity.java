@@ -175,6 +175,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
+        // TODO: 31/07/2017 新人不能感谢 
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
                 toast("请等到加载完成");
@@ -184,23 +185,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (item.getItemId()) {
                 case R.id.action_star:
                     if (headerInfo.hadStared()) {
-                        new ConfirmDialog.Builder(getActivity())
-                                .title("取消收藏")
-                                .msg("确定取消收藏吗？")
-                                .positiveText(R.string.ok, dialog -> mPresenter.unStarTopic(mTopicId, headerInfo.getT()))
-                                .negativeText(R.string.cancel)
-                                .build().show();
+                        mPresenter.unStarTopic(mTopicId, headerInfo.getT());
                     } else {
                         mPresenter.starTopic(mTopicId, headerInfo.getT());
                     }
                     break;
                 case R.id.action_thx:
+                    if (!headerInfo.canSendThanks()) {
+                        toast("你好像刚注册不久，还不能发送感谢");
+                        return true;
+                    }
                     if (!headerInfo.hadThanked()) {
-                        new ConfirmDialog.Builder(getActivity())
-                                .title("感谢创建者")
-                                .msg("确定向本主题创建者@" + headerInfo.getUserName() + "发送谢意吗？")
-                                .positiveText(R.string.ok, dialog -> mPresenter.thxCreator(mTopicId, headerInfo.getT())).negativeText(R.string.cancel)
-                                .build().show();
+                        mPresenter.thxCreator(mTopicId, headerInfo.getT());
                     } else {
                         toast(R.string.already_thx_cannot_return);
                         return true;
@@ -704,11 +700,5 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         MentionedReplySheetDialog mentionedReplySheetDialog = new MentionedReplySheetDialog(this);
         mentionedReplySheetDialog.setData(replies, userName);
         mentionedReplySheetDialog.show();
-    }
-
-    @Override
-    public void handleError(GeneralError generalError) {
-        super.handleError(generalError);
-
     }
 }

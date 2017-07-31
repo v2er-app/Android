@@ -28,7 +28,9 @@ public class HtmlResponseBodyConverter<T extends IBase> implements Converter<Res
     public T convert(ResponseBody value) throws IOException {
         String response = value.string();
         T data = mPicker.fromHtml(response, mType);
-        data.setResponse(response);
+        if (data != null) {
+            data.setResponse(response);
+        }
         return data;
     }
 }

@@ -56,6 +56,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     @Override
     public void thxCreator(String id, String t) {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+
         APIService.get().thxCreator(id, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx())
