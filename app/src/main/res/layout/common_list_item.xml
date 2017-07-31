@@ -31,6 +31,14 @@
         android:layout_alignLeft="@id/user_name_tv"
         tools:text="1小时17分钟前" />
 
+    <TextView
+        android:id="@+id/comment_num_tv"
+        style="@style/hintText"
+        android:layout_alignBottom="@id/avatar_img"
+        android:layout_toRightOf="@id/time_tv"
+        android:paddingLeft="4dp"
+        tools:text="评论38" />
+
     <me.ghui.v2er.widget.TagView
         android:id="@+id/tagview"
         style="@style/TagView"
@@ -42,11 +50,4 @@
         style="@style/TopicTitle"
         android:layout_below="@id/avatar_img"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
-
-    <TextView
-        android:id="@+id/comment_num_tv"
-        style="@style/hintText"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/title_tv"
-        tools:text="评论38" />
 </RelativeLayout>
