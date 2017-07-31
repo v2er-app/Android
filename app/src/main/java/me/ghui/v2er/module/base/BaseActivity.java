@@ -36,6 +36,7 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
+import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
@@ -429,6 +430,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
         if (generalError.getErrorCode() == ResultCode.LOGIN_EXPIRED || generalError.getErrorCode() == ResultCode.LOGIN_NEEDED) {
             handleNotLoginError(generalError.getErrorCode(), generalError.getMessage());
+        } else if (generalError.getErrorCode() == ResultCode.REDIRECT_TO_HOME) {
+            Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+            finish();
         }
     }
 

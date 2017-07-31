@@ -4,12 +4,17 @@ import com.orhanobut.logger.Logger;
 
 import java.io.IOException;
 
+import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.network.bean.NewsInfo;
+import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
 import okhttp3.ResponseBody;
@@ -39,34 +44,46 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
         if (t.isValid()) {
             onConsume(t);
         } else {
-            String response = t.getResponse();
-            // TODO: 23/07/2017 try to find the reason from rawResponse
             /*
              Possible Reasons:
                 1. need login but no login
                 2. need login but login is expired
                 3. no premission to open the page
             */
-            int errorCode = ResultCode.NETWORK_ERROR;
-            String msg;
-            LoginParam loginParam = null;
-            if (PreConditions.notEmpty(response)) {
-                loginParam = APIService.fruit().fromHtml(response, LoginParam.class);
-            }
-            if (loginParam != null && loginParam.isValid()) {
-                if (UserUtils.isLogin()) {
-                    errorCode = ResultCode.LOGIN_EXPIRED;
-                    msg = "登录已过期，请重新登录";
-                } else {
-                    errorCode = ResultCode.LOGIN_NEEDED;
-                    msg = "需要您先去登录";
-                }
-            } else {
-                msg = null;
-            }
-            GeneralError generalError = new GeneralError(errorCode, msg);
+            GeneralError generalError = new GeneralError(ResultCode.NETWORK_ERROR, "");
+            String response = t.getResponse();
             generalError.setResponse(response);
-            onError(generalError);
+            Observable.just(response)
+                    .compose(RxUtils.io_main())
+                    .map(s -> {
+                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, LoginParam.class);
+                        if (resultInfo == null) return null;
+                        if (!resultInfo.isValid()) {
+                            resultInfo = APIService.fruit().fromHtml(s, NewsInfo.class);
+                        }
+                        // 31/07/2017 More tries...
+                        return resultInfo;
+                    })
+                    .subscribe(resultInfo -> {
+                        if (resultInfo == null || !resultInfo.isValid()) {
+                            onError(generalError);
+                            return;
+                        }
+                        if (resultInfo instanceof LoginParam) {
+                            if (UserUtils.isLogin()) {
+                                generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
+                                generalError.setMessage("登录已过期，请重新登录");
+                            } else {
+                                generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
+                                generalError.setMessage("需要您先去登录");
+                            }
+                        } else if (resultInfo instanceof NewsInfo) {
+                            generalError.setErrorCode(ResultCode.REDIRECT_TO_HOME);
+                            generalError.setMessage("Redirecting to home");
+                        }
+                        onError(generalError);
+                    });
+
         }
     }
 

@@ -45,7 +45,7 @@ public class NewsInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        if (Utils.listSize(items) <= 0) return true;
+        if (Utils.listSize(items) <= 0) return false;
         return PreConditions.notEmpty(items.get(0).userName);
     }
 

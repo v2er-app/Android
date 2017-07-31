@@ -44,6 +44,7 @@ import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
@@ -705,4 +706,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mentionedReplySheetDialog.show();
     }
 
+    @Override
+    public void handleError(GeneralError generalError) {
+        super.handleError(generalError);
+
+    }
 }
