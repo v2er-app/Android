@@ -126,7 +126,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().replyTopic(topicId, replyMap)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         mView.afterReplyTopic(topicInfo);
