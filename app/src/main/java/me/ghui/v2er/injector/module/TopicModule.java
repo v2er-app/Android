@@ -87,27 +87,20 @@ public class TopicModule {
                         Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
+                    mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
+                            .subscribe(new GeneralConsumer<ThxResponseInfo>() {
+                                @Override
+                                public void onConsume(ThxResponseInfo thxReplyInfo) {
+                                    if (thxReplyInfo.isValid()) {
+                                        replyInfo.updateThanks(true);
+                                        notifyItemChanged(holder.index());
+                                    } else {
+                                        Voast.show(mContext.getString(R.string.send_thx_occured_error));
+                                    }
+                                }
+                            });
 
-                    new ConfirmDialog.Builder((Activity) mContext)
-                            .title("感谢回复者")
-                            .msg("确定花费10个铜币向@" + replyInfo.getUserName() + "表达感谢？")
-                            .positiveText(R.string.ok, dialog -> {
-                                TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
-                                mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
-                                        .subscribe(new GeneralConsumer<ThxResponseInfo>() {
-                                            @Override
-                                            public void onConsume(ThxResponseInfo thxReplyInfo) {
-                                                if (thxReplyInfo.isValid()) {
-                                                    replyInfo.updateThanks(true);
-                                                    notifyItemChanged(holder.index());
-                                                } else {
-                                                    Voast.show(mContext.getString(R.string.send_thx_occured_error));
-                                                }
-                                            }
-                                        });
-                            })
-                            .negativeText(R.string.cancel)
-                            .build().show();
                 }, R.id.reply_thx_img);
 
                 holder.setOnClickListener(v -> mView.onItemMoreMenuClick(holder.index()), R.id.more_menu_img);
