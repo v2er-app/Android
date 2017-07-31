@@ -189,7 +189,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     private void onBannedCreateTopic(NewUserBannedCreateInfo bannedCreateInfo) {
         new ConfirmDialog.Builder(this)
                 .title(bannedCreateInfo.getTitle())
-                .msg(Html.fromHtml(bannedCreateInfo.getErrorInfo()))
+                .msg(bannedCreateInfo.getErrorInfo())
                 .cancelable(false)
                 .negativeText(R.string.cancel, dialog -> CreateTopicActivity.this.finish())
                 .positiveText("去了解", dialog -> {

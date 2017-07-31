@@ -175,7 +175,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
-        // TODO: 31/07/2017 新人不能感谢 
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
                 toast("请等到加载完成");

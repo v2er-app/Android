@@ -14,11 +14,23 @@ public class NewUserBannedCreateInfo extends BaseInfo {
     private String errorInfo;
     @Pick("div.header")
     private String title;
+    @Pick("strong#seconds")
+    private int timeLeft;
+
+    @Override
+    public String toString() {
+        return "NewUserBannedCreateInfo{" +
+                "errorInfo='" + errorInfo + '\'' +
+                ", title='" + title + '\'' +
+                ", timeLeft='" + timeLeft + '\'' +
+                '}';
+    }
 
     public String getErrorInfo() {
 //        return errorInfo;
         return "你的帐号刚刚注册，在你能够发帖之前，请先在 V2EX 浏览一下，了解一下这个社区的文化。\n" +
-                "V2EX 是创意工作者的社区，这里能够帮助你解决问题及展示作品。关于这里的更多介绍，请点击去了解。";
+                "V2EX 是创意工作者的社区，这里能够帮助你解决问题及展示作品。关于这里的更多介绍，请点击去了解。\n"
+                + "距离能够发帖还有 " + timeLeft + " 秒";
     }
 
     public void setErrorInfo(String errorInfo) {
