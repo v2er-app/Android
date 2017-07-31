@@ -2,6 +2,7 @@ package me.ghui.v2er.module.create;
 
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -22,9 +23,13 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.GeneralError;
+import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
+import me.ghui.v2er.network.bean.NewUserBannedCreateInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -161,13 +166,35 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         if (PreConditions.notEmpty(response)) {
             Observable.just(response)
                     .compose(rx(null))
-                    .map(s -> APIService.fruit().fromHtml(s, CreateTopicPageInfo.class))
-                    .subscribe(new GeneralConsumer<CreateTopicPageInfo>() {
+                    .map(s -> {
+                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
+                        if (!resultInfo.isValid()) {
+                            resultInfo = APIService.fruit().fromHtml(s, NewUserBannedCreateInfo.class);
+                        }
+                        return resultInfo;
+                    })
+                    .subscribe(new GeneralConsumer<BaseInfo>() {
                         @Override
-                        public void onConsume(CreateTopicPageInfo createTopicPageInfo) {
-                            onPostFailure(createTopicPageInfo);
+                        public void onConsume(BaseInfo baseInfo) {
+                            if (baseInfo instanceof CreateTopicPageInfo) {
+                                onPostFailure((CreateTopicPageInfo) baseInfo);
+                            } else {
+                                onBannedCreateTopic((NewUserBannedCreateInfo) baseInfo);
+                            }
                         }
                     });
         }
     }
+
+    private void onBannedCreateTopic(NewUserBannedCreateInfo bannedCreateInfo) {
+        new ConfirmDialog.Builder(this)
+                .title(bannedCreateInfo.getTitle())
+                .msg(Html.fromHtml(bannedCreateInfo.getErrorInfo()))
+                .negativeText(R.string.cancel, dialog -> CreateTopicActivity.this.finish())
+                .positiveText("去了解", dialog -> {
+                    Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
+                    CreateTopicActivity.this.finish();
+                }).build().show();
+    }
+
 }

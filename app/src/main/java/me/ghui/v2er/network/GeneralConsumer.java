@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
@@ -48,8 +49,11 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
             */
             int errorCode = ResultCode.NETWORK_ERROR;
             String msg;
-            LoginParam loginParam = APIService.fruit().fromHtml(response, LoginParam.class);
-            if (loginParam.isValid()) {
+            LoginParam loginParam = null;
+            if (PreConditions.notEmpty(response)) {
+                loginParam = APIService.fruit().fromHtml(response, LoginParam.class);
+            }
+            if (loginParam != null && loginParam.isValid()) {
                 if (UserUtils.isLogin()) {
                     errorCode = ResultCode.LOGIN_EXPIRED;
                     msg = "登录已过期，请重新登录";
@@ -58,7 +62,6 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                     msg = "需要您先去登录";
                 }
             } else {
-                // 具体的业务错误
                 msg = null;
             }
             GeneralError generalError = new GeneralError(errorCode, msg);
