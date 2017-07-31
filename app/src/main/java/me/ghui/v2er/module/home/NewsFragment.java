@@ -81,8 +81,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected void init() {
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mNewFab.getLayoutParams();
-        layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -106,6 +104,17 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                     mNewFab.show(); // or showFab(), see below
             }
         });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        updateFabMargin();
+    }
+
+    private void updateFabMargin() {
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mNewFab.getLayoutParams();
+        layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
     }
 
     @Override

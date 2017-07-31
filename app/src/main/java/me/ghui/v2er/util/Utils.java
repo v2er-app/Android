@@ -27,6 +27,7 @@ import java.util.List;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -106,7 +107,7 @@ public class Utils {
 
     public static boolean hasNavBar(Resources resources) {
         int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
-        return id > 0 && resources.getBoolean(id);
+        return (id > 0 && resources.getBoolean(id) || Pref.readBool(R.string.pref_key_title_btn_overlay));
     }
 
     public static void setPaddingForNavbar(View view) {

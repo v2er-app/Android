@@ -25,6 +25,12 @@
             android:layout="@layout/preference_item"
             android:summary="列表标题最多显示两行（标题刷新后生效）"
             android:title="标题概览" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_title_btn_overlay"
+            android:layout="@layout/preference_item"
+            android:summary="回复框或浮动按钮被遮挡，请开启此选项"
+            android:title="回复框被遮挡" />
     </PreferenceCategory>
 
     <PreferenceCategory
