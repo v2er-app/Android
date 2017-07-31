@@ -34,6 +34,7 @@ import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -231,8 +232,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        mUserFollowbtn.setVisibility(View.VISIBLE);
-        mUserBlockBtn.setVisibility(View.VISIBLE);
+        if (!UserUtils.getUserName().equals(mUserName)) {
+            mUserFollowbtn.setVisibility(View.VISIBLE);
+            mUserBlockBtn.setVisibility(View.VISIBLE);
+        }
         if (mAvatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
             Picasso.with(this)

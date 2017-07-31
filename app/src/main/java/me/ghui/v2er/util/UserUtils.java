@@ -24,6 +24,12 @@ public class UserUtils {
         return null;
     }
 
+    public static String getUserName() {
+        UserInfo userInfo = getUserInfo();
+        if (userInfo == null) return "";
+        else return userInfo.getUserName();
+    }
+
     public static boolean isLogin() {
         return PreConditions.notEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
     }
