@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
+        android:padding="6dp"
         android:src="@drawable/love_normal_icon"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/reply_avatar_img" />
@@ -97,7 +97,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="12dp"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:padding="8dp"
+        android:padding="6dp"
         android:src="@drawable/ic_more"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content_tv" />
