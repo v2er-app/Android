@@ -110,7 +110,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         NotificationInfo.Reply item = mAdapter.getDatas().get(position);
-        TopicActivity.open(item.getLink(), getContext());
+        TopicActivity.openWithAutoScroll(item.getLink(), getContext(),  item.getContent());
     }
 
 }

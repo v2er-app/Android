@@ -18,6 +18,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -54,7 +55,10 @@ public class UrlInterceptor {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        assert uri != null;
+        if (uri == null) {
+            Voast.show("Invalid Url");
+            return false;
+        }
         String host = uri.getHost();
         if (PreConditions.isEmpty(host)) return false;
         if (!host.contains(Constants.HOST_NAME)) {

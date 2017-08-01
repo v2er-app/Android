@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
 import com.orhanobut.logger.Logger;
@@ -44,7 +46,6 @@ import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
-import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
@@ -57,7 +58,6 @@ import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.KeyboardDetectorRelativeLayout;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.MentionedReplySheetDialog;
-import me.ghui.v2er.widget.ReplyContentLayout;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 import static android.view.View.VISIBLE;
@@ -71,6 +71,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged, TopicReplyItemDelegate.OnMemberClickListener {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
+    private static final String TOPIC_AUTO_SCROLL_REPLY = KEY("TOPIC_AUTO_SCROLL_REPLY");
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
@@ -93,6 +94,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     TopicModule.TopicAtAdapter mReplierAdapter;
     private String mTopicId;
     private TopicBasicInfo mTopicBasicInfo;
+    private String mAutoScrollReply;
+
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
@@ -115,7 +118,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     };
 
 
-    public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
+    /**
+     * @param topicId
+     * @param context
+     * @param sourceView     shareElement view
+     * @param topicBasicInfo pre show info
+     * @param scrollToReply  auto to scrollTo the reply item
+     */
+    public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo, String scrollToReply) {
         if (sourceView == null || topicBasicInfo == null) {
             topicBasicInfo = null;
             sourceView = null;
@@ -124,18 +134,27 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
                 .putExtra(TOPIC_BASIC_INFO, topicBasicInfo)
+                .putExtra(TOPIC_AUTO_SCROLL_REPLY, scrollToReply)
                 .shareElement(sourceView)
                 .start();
     }
 
+    public static void openById(String topicId, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
+        openById(topicId, context, sourceView, topicBasicInfo, null);
+    }
 
     public static void open(String link, Context context) {
         open(link, context, null, null);
     }
 
     public static void open(String link, Context context, View sourceView, TopicBasicInfo topicBasicInfo) {
-        openById(UriUtils.getLastSegment(link), context, sourceView, topicBasicInfo);
+        openById(UriUtils.getLastSegment(link), context, sourceView, topicBasicInfo, null);
     }
+
+    public static void openWithAutoScroll(String link, Context context, String autoScrollReply) {
+        openById(UriUtils.getLastSegment(link), context, null, null, autoScrollReply);
+    }
+
 
     @Override
     protected int attachLayoutRes() {
@@ -160,6 +179,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     protected void parseExtras(Intent intent) {
         mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
         mTopicBasicInfo = (TopicBasicInfo) intent.getSerializableExtra(TOPIC_BASIC_INFO);
+        mAutoScrollReply = intent.getStringExtra(TOPIC_AUTO_SCROLL_REPLY);
     }
 
     @Override
@@ -436,6 +456,44 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
         mReplyFabBtn.setVisibility(VISIBLE);
         fillAtList();
+        autoScroll();
+    }
+
+    private void autoScroll() {
+        if (PreConditions.isEmpty(mAutoScrollReply)) return;
+        List<TopicInfo.Reply> items = mTopicInfo.getReplies();
+        if (PreConditions.isEmpty(items)) return;
+        int position = 0;
+        for (int i = 0; i < items.size(); i++) {
+            TopicInfo.Reply item = items.get(i);
+            if (mAutoScrollReply.equals(item.getReplyContent())) {
+                position = i;
+                if (mTopicInfo.getContentInfo().isValid()) {
+                    position += 2;
+                } else {
+                    position += 1;
+                }
+                break;
+            }
+        }
+
+        if (isFirstIn && position > 0) {
+            isFirstIn = false;
+            int finalPosition = position;
+            post(() -> {
+                mLinearLayoutManager.scrollToPositionWithOffset(finalPosition, 0);
+                post(() -> {
+                    if (mLinearLayoutManager.findFirstVisibleItemPosition() == finalPosition)
+                        return;
+                    View itemView = mLinearLayoutManager.findViewByPosition(finalPosition);
+                    if (itemView == null) {
+                        Voast.debug("itemView is null");
+                        return;
+                    }
+                    itemView.startAnimation(AnimationUtils.loadAnimation(TopicActivity.this, R.anim.item_shake));
+                });
+            });
+        }
     }
 
     private void fillAtList() {

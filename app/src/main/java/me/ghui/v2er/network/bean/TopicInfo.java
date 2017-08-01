@@ -48,6 +48,10 @@ public class TopicInfo extends BaseInfo {
         return map;
     }
 
+    public List<Reply> getReplies() {
+        return replies;
+    }
+
     public ContentInfo getContentInfo() {
         return contentInfo;
     }
