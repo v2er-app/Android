@@ -79,7 +79,7 @@ public class NodeTopicInfo extends BaseInfo {
         private String userName;
         @Pick(value = "span.small.fade", attr = Attrs.OWN_TEXT)
         private String clickedAndContentLength;
-        @Pick("a.count_livid")
+        @Pick("a[class^=count_]")
         private int commentNum;
         @Pick(value = "span.item_title a", attr = Attrs.HREF)
         private String topicLink;

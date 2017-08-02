@@ -208,7 +208,7 @@ public class TopicInfo extends BaseInfo {
         @Pick(value = "div.box a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
         @Pick("div.box div[id=topic_thank] span.f11.gray")
-        private String thankedText;
+        private String thankedText;//had thanked text, 感谢已发送
 
         public HeaderInfo() {
         }
@@ -236,7 +236,7 @@ public class TopicInfo extends BaseInfo {
          * @return
          */
         public boolean canSendThanks() {
-            return !PreConditions.isEmpty(thankedText);
+            return PreConditions.isEmpty(thankedText);
         }
 
         public boolean hadThanked() {
