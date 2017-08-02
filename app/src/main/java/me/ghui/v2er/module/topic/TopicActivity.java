@@ -213,7 +213,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.action_thx:
                     if (!headerInfo.canSendThanks()) {
-                        toast("你好像刚注册不久，还不能发送感谢");
+                        toast("感谢发送失败，可能因为您刚注册不久");
                         return true;
                     }
                     if (!headerInfo.hadThanked()) {
