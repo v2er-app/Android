@@ -21,7 +21,6 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
@@ -104,6 +103,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private List<TopicInfo.Item> repliersInfo;
     private boolean mNeedWaitForTransitionEnd = true;
     private boolean mIsReturning;
+    public boolean isNeedAutoScroll = true;
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -130,6 +130,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             topicBasicInfo = null;
             sourceView = null;
         }
+
         Navigator.from(context)
                 .to(TopicActivity.class)
                 .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
@@ -180,6 +181,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
         mTopicBasicInfo = (TopicBasicInfo) intent.getSerializableExtra(TOPIC_BASIC_INFO);
         mAutoScrollReply = intent.getStringExtra(TOPIC_AUTO_SCROLL_REPLY);
+        isNeedAutoScroll = PreConditions.notEmpty(mAutoScrollReply);
     }
 
     @Override
@@ -460,7 +462,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     private void autoScroll() {
-        if (PreConditions.isEmpty(mAutoScrollReply)) return;
+        if (!isNeedAutoScroll) return;
         List<TopicInfo.Reply> items = mTopicInfo.getReplies();
         if (PreConditions.isEmpty(items)) return;
         int position = 0;
@@ -477,14 +479,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             }
         }
 
-        if (isFirstIn && position > 0) {
-            isFirstIn = false;
+        if (isNeedAutoScroll && position > 0) {
+            isNeedAutoScroll = false;
             int finalPosition = position;
             post(() -> {
                 mLinearLayoutManager.scrollToPositionWithOffset(finalPosition, 0);
                 post(() -> {
-                    if (mLinearLayoutManager.findFirstVisibleItemPosition() == finalPosition)
-                        return;
+//                    if (mLinearLayoutManager.findFirstVisibleItemPosition() == finalPosition)
+//                        return;
                     View itemView = mLinearLayoutManager.findViewByPosition(finalPosition);
                     if (itemView == null) {
                         Voast.debug("itemView is null");

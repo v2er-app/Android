@@ -67,7 +67,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
-    public boolean isFirstIn = true;
 
 
     public void setFirstLoadingDelay(long delay) {
