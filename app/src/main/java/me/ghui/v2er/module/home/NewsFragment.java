@@ -25,6 +25,7 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerNewsComponent;
 import me.ghui.v2er.injector.module.NewsModule;
 import me.ghui.v2er.module.base.BaseFragment;
@@ -51,6 +52,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
+
+    private boolean mNeedHideFab = false;
 
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
 
@@ -101,7 +104,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
                     mNewFab.hide(); // or hideFab(), see below
                 else if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                    mNewFab.show(); // or showFab(), see below
+                    showFab(true);
             }
         });
     }
@@ -109,10 +112,16 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     @Override
     public void onStart() {
         super.onStart();
-        updateFabMargin();
+        updateFabBtn();
     }
 
-    private void updateFabMargin() {
+    private void updateFabBtn() {
+        mNeedHideFab = Pref.readBool(R.string.pref_key_hide_create_btn);
+        if (mNeedHideFab) {
+            mNewFab.hide();
+            return;
+        }
+        mNewFab.show();
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mNewFab.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
     }
@@ -166,6 +175,12 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onFragmentReEnter() {
-        mNewFab.show();
+        showFab(true);
+    }
+
+    private void showFab(boolean shouldAnimate) {
+        if (mNeedHideFab) return;
+        if (shouldAnimate) mNewFab.show();
+        else mNewFab.setVisibility(View.VISIBLE);
     }
 }

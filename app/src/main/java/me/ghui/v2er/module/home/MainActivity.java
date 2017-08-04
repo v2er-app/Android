@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
@@ -25,8 +26,10 @@ import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.star.StarActivity;
@@ -57,6 +60,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
+    private MenuItem mCreateMenuItem;
 
     @Override
     protected int attachLayoutRes() {
@@ -91,6 +95,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (item.getItemId() == R.id.action_search) {
                 pushFragment(SearchFragment.newInstance());
             }
+//            else {
+//                if (PreConditions.notLoginAndProcessToLogin(getContext())) return true;
+//                Navigator.from(getContext()).to(CreateTopicActivity.class).start();
+//            }
             return true;
         });
     }
@@ -100,7 +108,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int index = mSlidingTabLayout.getCurrentTab();
         View rootView = mFragments.get(index).getView();
         if (rootView == null) return false;
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
+        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;
@@ -126,6 +134,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mFragments.add(msgFragment);
         mFragments.add(NodesNavFragment.newInstance());
 
+        mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
+        mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -143,6 +153,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.feedback_nav_item:
                     Utils.sendOfficalV2erEmail(this);
                     break;
+                case R.id.create_nav_item:
+                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return true;
+                    Navigator.from(getContext()).to(CreateTopicActivity.class).start();
+                    break;
             }
             mDrawerLayout.closeDrawers();
             return true;
@@ -152,6 +166,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onDrawerOpened(View drawerView) {
                 updateHeaderView();
+                mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
             }
         });
 

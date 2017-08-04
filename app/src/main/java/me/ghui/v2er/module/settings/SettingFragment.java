@@ -54,6 +54,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_v2ex)).setOnPreferenceClickListener(this);
+//        findPreference(getString(R.string.pref_key_hide_create_btn)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_os)).setOnPreferenceClickListener(this);
     }
 
@@ -61,7 +62,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
-        ListView list = (ListView) rootView.findViewById(android.R.id.list);
+        ListView list = rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);
         }

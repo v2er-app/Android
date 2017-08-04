@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@id/action_search"
         android:icon="@drawable/toolbar_search_icon"
         android:title="Search"
-        app:showAsAction="always"/>
+        app:showAsAction="always" />
+    <!--<item-->
+        <!--android:id="@id/action_create"-->
+        <!--android:title="发帖"-->
+        <!--app:showAsAction="never" />-->
 </menu>
