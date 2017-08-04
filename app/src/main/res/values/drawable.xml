@@ -2,4 +2,7 @@
 <resources>
     <drawable name="default_window_drawable">@color/white</drawable>
     <!--<drawable name="avatar_placeholder_drawable">#DDE1E7</drawable>-->
+    <drawable name="fast_scroll_track_color">#e0e0e0</drawable>
+    <drawable name="fast_scroll_thump_inactive_color">@android:color/darker_gray</drawable>
+    <drawable name="fast_scroll_thump_active_color">@color/colorAccent</drawable>
 </resources>

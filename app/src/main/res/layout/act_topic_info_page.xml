@@ -5,7 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <me.ghui.v2er.widget.LoadMoreRecyclerView style="@style/BaseRecyclerView" />
+    <me.ghui.v2er.widget.LoadMoreRecyclerView
+        style="@style/BaseRecyclerView"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/fastscroll_thumb_selector"
+        app:fastScrollHorizontalTrackDrawable="@drawable/fast_scroll_track"
+        app:fastScrollVerticalThumbDrawable="@drawable/fastscroll_thumb_selector"
+        app:fastScrollVerticalTrackDrawable="@drawable/fast_scroll_track" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/reply_fab_btn"
