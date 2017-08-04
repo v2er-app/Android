@@ -49,6 +49,7 @@ import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.AndroidBug5497Workaround;
@@ -212,6 +213,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_thx:
+                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
+                    if (UserUtils.getUserName().equals(mTopicInfo.getHeaderInfo().getUserName())) {
+                        toast("自己不能感谢自己哦");
+                        return false;
+                    }
                     if (!headerInfo.canSendThanks()) {
                         toast("感谢发送失败，可能因为您刚注册不久");
                         return true;
@@ -224,6 +230,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_block:
+                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定忽略此主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
