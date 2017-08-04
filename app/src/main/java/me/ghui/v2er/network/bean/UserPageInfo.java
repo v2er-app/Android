@@ -161,7 +161,7 @@ public class UserPageInfo extends BaseInfo {
         private String link;
         @Pick("span.small.fade:last-child")
         private String time;
-        @Pick("a.count_livid")
+        @Pick("a[class^=count_]")
         private int replyNum;
 
         @Override

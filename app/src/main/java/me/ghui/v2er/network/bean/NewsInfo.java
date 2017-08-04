@@ -66,7 +66,7 @@ public class NewsInfo extends BaseInfo {
         private String tagName;
         @Pick(value = "span.small.fade > a", attr = "href")
         private String tagLink;
-        @Pick(value = "a.count_livid")
+        @Pick("a[class^=count_]")
         private int replies;
 
         public int getReplies() {

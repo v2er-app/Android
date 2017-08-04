@@ -53,7 +53,7 @@ public class CareInfo extends BaseInfo {
         private String title;
         @Pick(value = "span.item_title a[href^=/t/]", attr = Attrs.HREF)
         private String link;
-        @Pick("a.count_livid")
+        @Pick("a[class^=count_]")
         private int comentNum;
         @Pick("a.node")
         private String tagName;
