@@ -37,6 +37,12 @@
             android:layout="@layout/preference_item"
             android:summary="开启以隐藏首页右下角发贴按钮"
             android:title="隐藏发帖按钮" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_highlight_topic_owner_reply_item"
+            android:layout="@layout/preference_item"
+            android:summary="开启后可以高亮楼主的回帖"
+            android:title="高亮楼主回帖" />
     </PreferenceCategory>
 
     <PreferenceCategory

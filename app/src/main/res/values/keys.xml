@@ -11,4 +11,5 @@
     <string name="pref_key_title_btn_overlay">pref_key_btn_overlay</string>
     <string name="pref_key_title_overview">pref_key_title_overview</string>
     <string name="pref_key_hide_create_btn">pref_key_hide_create_btn</string>
+    <string name="pref_key_highlight_topic_owner_reply_item">pref_key_highlight_topic_owner_reply_item</string>
 </resources>

@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +16,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
@@ -56,6 +58,12 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                 .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
         holder.getView(R.id.reply_user_tag_tv).setVisibility(replyInfo.isOwner() ? View.VISIBLE : View.GONE);
+        if (replyInfo.isOwner() &&
+                Pref.readBool(R.string.pref_key_highlight_topic_owner_reply_item)) {
+            holder.getConvertView().setBackgroundColor(0X1A555555);
+        } else {
+            holder.getConvertView().setBackgroundColor(Color.TRANSPARENT);
+        }
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
         if (replyInfo.getLove() == 0) {
             holder.getView(R.id.reply_thx_tv).setVisibility(View.GONE);
