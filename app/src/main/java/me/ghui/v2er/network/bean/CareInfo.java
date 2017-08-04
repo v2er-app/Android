@@ -76,10 +76,12 @@ public class CareInfo extends BaseInfo {
 
         public String getTime() {
             //  •  36 天前  •  最后回复来自
-            if (!PreConditions.isEmpty(time)) {
-                return time.trim().split("•")[1].trim();
+            String result = null;
+            try {
+                result = time.trim().split("•")[2].trim().replaceAll(" ", "");
+            } catch (Exception e) {
             }
-            return time;
+            return result;
         }
 
         public String getAvatar() {

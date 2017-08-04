@@ -1,5 +1,6 @@
 package me.ghui.v2er.injector.module;
 
+import android.view.View;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
@@ -9,6 +10,7 @@ import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareContract;
@@ -41,7 +43,12 @@ public class SpecialCareModule {
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
-                holder.setText(R.id.time_tv, item.getTime());
+                if (PreConditions.isEmpty(item.getTime())) {
+                    holder.getView(R.id.time_tv).setVisibility(View.GONE);
+                } else {
+                    holder.getView(R.id.time_tv).setVisibility(View.VISIBLE);
+                    holder.setText(R.id.time_tv, item.getTime());
+                }
                 holder.setText(R.id.tagview, item.getTagName());
                 holder.setText(R.id.title_tv, item.getTitle());
                 holder.setText(R.id.comment_num_tv, "评论" + item.getComentNum());

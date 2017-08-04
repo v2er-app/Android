@@ -29,6 +29,7 @@
         style="@style/hintText"
         android:layout_alignBottom="@id/avatar_img"
         android:layout_alignLeft="@id/user_name_tv"
+        android:paddingRight="4dp"
         tools:text="1小时17分钟前" />
 
     <TextView
@@ -36,7 +37,6 @@
         style="@style/hintText"
         android:layout_alignBottom="@id/avatar_img"
         android:layout_toRightOf="@id/time_tv"
-        android:paddingLeft="4dp"
         tools:text="评论38" />
 
     <me.ghui.v2er.widget.TagView
