@@ -7,6 +7,7 @@
     <dimen name="tinyTinyTextSize">8dp</dimen>
     <dimen name="small_avatar_size">30dp</dimen>
     <dimen name="common_avatar_size">40dp</dimen>
+    <dimen name="medium_avatar_size">75dp</dimen>
     <dimen name="large_avatar_size">90dp</dimen>
     <dimen name="divider_size">0.5dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>

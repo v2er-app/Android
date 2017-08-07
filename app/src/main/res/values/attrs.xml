@@ -14,5 +14,6 @@
     <declare-styleable name="FollowProgressBtn">
         <attr name="initText" format="string|reference" />
         <attr name="initIcon" format="reference" />
+        <attr name="tintColor" format="color|reference" />
     </declare-styleable>
 </resources>

@@ -56,6 +56,12 @@
             android:layout="@layout/preference_item"
             android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
             android:title="返回到首页" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_auto_checkin"
+            android:layout="@layout/preference_item"
+            android:summary="开启后当你每次打开App时会尝试自动签到"
+            android:title="自动签到" />
     </PreferenceCategory>
 
     <PreferenceCategory

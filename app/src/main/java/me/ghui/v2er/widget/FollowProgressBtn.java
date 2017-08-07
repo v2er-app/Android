@@ -2,6 +2,8 @@ package me.ghui.v2er.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
@@ -31,6 +33,7 @@ public class FollowProgressBtn extends FrameLayout {
     TextView mTitleTv;
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
+    private int mStatusInt;
 
 
     public FollowProgressBtn(Context context) {
@@ -55,6 +58,13 @@ public class FollowProgressBtn extends FrameLayout {
         try {
             String initText = a.getString(R.styleable.FollowProgressBtn_initText);
             int initIcon = a.getResourceId(R.styleable.FollowProgressBtn_initIcon, R.drawable.progress_button_follow_normal_icon);
+            // TODO: 07/08/2017
+//            int color = a.getColor(R.styleable.FollowProgressBtn_tintColor, -1);
+//            if (color != -1) {
+//                mTitleTv.setTextColor(Color.WHITE);
+//                statusView.setColorFilter(color);
+//                mProgressBar.getIndeterminateDrawable().setColorFilter(color, PorterDuff.Mode.SRC_IN);
+//            }
             mTitleTv.setText(initText);
             statusView.setImageResource(initIcon);
         } finally {
@@ -64,6 +74,7 @@ public class FollowProgressBtn extends FrameLayout {
 
     public void setStatus(@StatusInt int status, String hint, @DrawableRes int drawableId) {
         mTitleTv.setText(hint);
+        mStatusInt = status;
         switch (status) {
             case NORMAL:
                 statusView.setVisibility(VISIBLE);
@@ -80,6 +91,19 @@ public class FollowProgressBtn extends FrameLayout {
                 mProgressBar.setVisibility(VISIBLE);
                 break;
         }
+    }
+
+    public boolean isFinished() {
+        return mStatusInt == FINISHED;
+    }
+
+    public boolean isNormal() {
+        return mStatusInt == NORMAL;
+    }
+
+    @StatusInt
+    public int getStatus() {
+        return mStatusInt;
     }
 
     public void startUpdate() {

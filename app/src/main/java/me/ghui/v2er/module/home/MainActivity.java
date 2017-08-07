@@ -40,8 +40,9 @@ import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.FollowProgressBtn;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate {
+public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView {
 
     private final String[] TAB_TITLES = {"全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
@@ -60,7 +61,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
+    private FollowProgressBtn mCheckInBtn;
     private MenuItem mCreateMenuItem;
+    private CheckInPresenter mCheckInPresenter;
 
     @Override
     protected int attachLayoutRes() {
@@ -122,8 +125,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
         mUserNameTv = mNavHeaderView.findViewById(R.id.user_name_tv);
+        mCheckInBtn = mNavHeaderView.findViewById(R.id.check_in_progress_btn);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
+        mCheckInBtn.setOnClickListener(this);
         updateHeaderView();
 
         NewsFragment newsFragment = NewsFragment.newInstance();
@@ -171,6 +176,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
 
         mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
+        initCheckIn();
+    }
+
+    private void initCheckIn() {
+        mCheckInPresenter = new CheckInPresenter(this);
+        mCheckInPresenter.start();
     }
 
     private void updateHeaderView() {
@@ -194,9 +205,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 } else {
                     Navigator.from(this).to(LoginActivity.class).start();
                 }
+                mDrawerLayout.closeDrawers();
+                break;
+            case R.id.check_in_progress_btn:
+                if (!UserUtils.isLogin()) {
+                    toast("请先登录!");
+                    return;
+                }
+                if (mCheckInBtn.isNormal()) {
+                    mCheckInPresenter.checkIn(true);
+                } else if (mCheckInBtn.isFinished()) {
+                    toast("今日已签到!");
+                } else {
+                    toast("正在签到请稍后...");
+                }
                 break;
         }
-        mDrawerLayout.closeDrawers();
     }
 
 
@@ -255,4 +279,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    @Override
+    public FollowProgressBtn checkInBtn() {
+        return mCheckInBtn;
+    }
 }

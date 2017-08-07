@@ -173,4 +173,14 @@ public interface APIs {
     @GET
     Observable<SimpleInfo> starNode(@Header("Referer") String referer, @Url String url);
 
+    @Html
+    @GET("/mission/daily")
+    Observable<CheckInInfo> checkInInfo();
+
+    //    /mission/daily/redeem?once=84830
+    @Html
+    @Headers("Referer: " + Constants.BASE_URL + "/mission/daily")
+    @GET("/mission/daily/redeem")
+    Observable<CheckInInfo> checkIn(@Query("once") String once);
+
 }
