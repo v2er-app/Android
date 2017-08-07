@@ -45,12 +45,12 @@ public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListen
             view.setTag(item.getLink());
             view.setOnClickListener(this);
         }
-
-        //recy
-        for (int i = Utils.listSize(nodes); i < getChildCount(); i++) {
+        int childCount = getChildCount();
+        int start = Utils.listSize(nodes);
+        for (int i = start; i < childCount; i++) {
             sPool.push((TagView) getChildAt(i));
-            removeViewAt(i);
         }
+        removeViews(start, childCount - start);
     }
 
     private TagView obtainChild(int index) {
