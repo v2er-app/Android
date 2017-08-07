@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.create;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -15,10 +16,13 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.functions.Function;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
@@ -155,7 +159,13 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
-            super.onBackPressed();
+            if (Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
+                Navigator.from(getActivity())
+                        .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                        .to(MainActivity.class).start();
+            } else {
+                super.onBackPressed();
+            }
         }
     }
 

@@ -50,6 +50,12 @@
             android:layout="@layout/preference_item"
             android:summary="首页使用R2节点替代最新节点"
             android:title="启用R2" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="@string/pref_key_shortcuts_back_to_home"
+            android:layout="@layout/preference_item"
+            android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
+            android:title="返回到首页" />
     </PreferenceCategory>
 
     <PreferenceCategory

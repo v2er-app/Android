@@ -16,6 +16,9 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
         </activity>
         <activity
             android:name=".module.general.OiaActivity"
@@ -49,6 +52,7 @@
         <activity
             android:name="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
             android:label="今日热议"
+            android:parentActivityName=".module.home.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name="me.ghui.v2er.module.topic.TopicActivity"

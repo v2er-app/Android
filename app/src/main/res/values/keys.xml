@@ -13,4 +13,5 @@
     <string name="pref_key_hide_create_btn">pref_key_hide_create_btn</string>
     <string name="pref_key_highlight_topic_owner_reply_item">pref_key_highlight_topic_owner_reply_item</string>
     <string name="pref_key_r2">pref_key_r2</string>
+    <string name="pref_key_shortcuts_back_to_home">pref_key_shortcuts_back_to_home</string>
 </resources>

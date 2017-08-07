@@ -1,6 +1,8 @@
 package me.ghui.v2er.module.drawer.dailyhot;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.app.NavUtils;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.view.Window;
@@ -15,9 +17,12 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerDailyHotComponent;
 import me.ghui.v2er.injector.module.DailyHotModule;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
@@ -64,6 +69,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
 
     @Override
     protected void configSystemBars(Window window) {
+        super.configSystemBars(window);
         Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
@@ -97,4 +103,14 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
         TopicActivity.openById(item.getId(), this, holder.getView(R.id.avatar_img), basicInfo);
     }
 
+    @Override
+    public void onBackPressed() {
+        if (Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
+            Navigator.from(getActivity())
+                    .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    .to(MainActivity.class).start();
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
