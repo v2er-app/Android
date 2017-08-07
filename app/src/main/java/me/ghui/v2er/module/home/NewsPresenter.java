@@ -2,6 +2,8 @@ package me.ghui.v2er.module.home;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.R;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NewsInfo;
@@ -21,8 +23,9 @@ public class NewsPresenter implements NewsContract.IPresenter {
 
     @Override
     public void start() {
+        boolean useR2 = Pref.readBool(R.string.pref_key_r2);
         APIService.get()
-                .homeNews("all")
+                .homeNews(useR2 ? "r2" : "all")
                 .compose(mView.<NewsInfo>rx())
                 .subscribe(new GeneralConsumer<NewsInfo>() {
                     @Override

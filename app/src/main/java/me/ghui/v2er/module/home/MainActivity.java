@@ -43,7 +43,7 @@ import me.ghui.v2er.widget.BaseToolBar;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate {
 
-    private final String[] TAB_TITLES = {"最新", "消息", "节点"};
+    private final String[] TAB_TITLES = {"全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
 
     @BindView(R.id.left_draw_layout)
