@@ -6,7 +6,9 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.CheckInInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Utils;
 
+import static android.view.View.resolveSize;
 import static me.ghui.v2er.widget.FollowProgressBtn.FINISHED;
 import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
 
@@ -16,6 +18,7 @@ import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
 
 public class CheckInPresenter implements CheckInContract.IPresenter {
     private CheckInContract.IView mView;
+    private String checkInDaysStr;
 
     public CheckInPresenter(CheckInContract.IView view) {
         mView = view;
@@ -37,6 +40,7 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                     public void onConsume(CheckInInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
                             mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
+                            checkInDaysStr = checkInInfo.getCheckinDays();
                         } else {
                             if (needAutoCheckIn) {
                                 checkIn(checkInInfo.once());
@@ -54,6 +58,11 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                 });
     }
 
+    @Override
+    public int checkInDays() {
+        return Utils.getIntFromString(checkInDaysStr);
+    }
+
 
     private void checkIn(String once) {
         mView.checkInBtn().startUpdate();
@@ -66,6 +75,7 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                         if (checkInInfo.hadCheckedIn()) {
                             mView.toast("签到成功!\n" + checkInInfo.getCheckinDays());
                             mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
+                            checkInDaysStr = checkInInfo.getCheckinDays();
                         } else {
                             mView.toast("签到遇到问题!");
                             mView.checkInBtn().setStatus(NORMAL, "签到", R.drawable.progress_button_checkin_icon);

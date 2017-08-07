@@ -36,7 +36,6 @@
         android:id="@+id/check_in_progress_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:background="@drawable/accent_capsula_drawable"
         app:initIcon="@drawable/progress_button_checkin_icon"
         app:initText="签到"

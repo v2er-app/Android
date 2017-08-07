@@ -22,6 +22,8 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import me.ghui.v2er.R;
@@ -316,6 +318,15 @@ public class Utils {
         result[0] = text.substring(0, cutPos);
         result[1] = text.substring(cutPos, text.length());
         return result;
+    }
+
+    public static int getIntFromString(String textContainInt) {
+        try {
+            return Integer.parseInt(textContainInt.replaceAll("[\\D]", ""));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
 

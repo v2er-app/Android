@@ -215,7 +215,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 if (mCheckInBtn.isNormal()) {
                     mCheckInPresenter.checkIn(true);
                 } else if (mCheckInBtn.isFinished()) {
-                    toast("今日已签到!");
+                    toast("已连续签到" + mCheckInPresenter.checkInDays() + "天");
                 } else {
                     toast("正在签到请稍后...");
                 }
