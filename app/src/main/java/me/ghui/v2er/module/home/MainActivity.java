@@ -108,18 +108,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public boolean onToolbarDoubleTaped() {
-//        int index = mSlidingTabLayout.getCurrentTab();
-//        View rootView = mFragments.get(index).getView();
-//        if (rootView == null) return false;
-//        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
-//        if (recyclerView != null) {
-//            recyclerView.scrollToPosition(0);
-//            return true;
-//        }
-//        return false;
-
-        Utils.openWap("https://www.v2ex.com/mission/daily", this);
-        return true;
+        int index = mSlidingTabLayout.getCurrentTab();
+        View rootView = mFragments.get(index).getView();
+        if (rootView == null) return false;
+        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
+        if (recyclerView != null) {
+            recyclerView.scrollToPosition(0);
+            return true;
+        }
+        return false;
     }
 
     @Override
