@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         Utils.setPaddingForStatusBar(mToolbar);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
-        mToolbar.setNavigationIcon(R.drawable.main_navigation_icon);
+        mToolbar.setNavigationIcon(R.drawable.nav);
         mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
         mToolbar.setNavigationOnClickListener(v -> {
             if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
