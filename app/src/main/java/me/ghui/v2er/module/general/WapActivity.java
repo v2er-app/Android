@@ -24,6 +24,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -35,14 +36,17 @@ import me.ghui.v2er.widget.BaseToolBar;
 public class WapActivity extends BaseActivity {
 
     public static String URL_KEY = KEY("wap_url_value");
+    public static String FORCH_OPENED_WEBVIEW = KEY("forch_opened_webview");
 
     @BindView(R.id.webview)
     WebView mWebView;
     private String mCurrentUrl;
+    private boolean mForchOpenedInWebView;
 
-    public static void open(String url, Context context) {
+    public static void open(String url, Context context, boolean forchOpenedInWebView) {
         Navigator.from(context)
                 .putExtra(URL_KEY, url)
+                .putExtra(FORCH_OPENED_WEBVIEW, forchOpenedInWebView)
                 .to(WapActivity.class)
                 .start();
     }
@@ -50,6 +54,7 @@ public class WapActivity extends BaseActivity {
     @Override
     protected void parseExtras(Intent intent) {
         mCurrentUrl = intent.getStringExtra(URL_KEY);
+        mForchOpenedInWebView = intent.getBooleanExtra(FORCH_OPENED_WEBVIEW, false);
     }
 
     @Override
@@ -62,11 +67,13 @@ public class WapActivity extends BaseActivity {
     protected void init() {
         mWebView.setWebChromeClient(new BaseWebChromeClient());
         mWebView.setWebViewClient(new BaseWebViewClient());
+        mWebView.getSettings().setJavaScriptEnabled(true);
         loadUrl(mCurrentUrl);
     }
 
     @Override
     protected void configSystemBars(Window window) {
+        super.configSystemBars(window);
         Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
@@ -184,7 +191,7 @@ public class WapActivity extends BaseActivity {
     }
 
     protected boolean checkIntercept(String currentUrl) {
-        return UrlInterceptor.intercept(currentUrl, this, false);
+        return UrlInterceptor.intercept(currentUrl, this, true, mForchOpenedInWebView);
     }
 
     protected void onWapReceivedTitle(String title) {

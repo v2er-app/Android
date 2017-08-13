@@ -6,12 +6,14 @@ import com.tencent.bugly.crashreport.CrashReport;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -77,6 +79,12 @@ public class LoginPresenter implements LoginContract.IPresenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void signInWithGoogle() {
+        String url = Constants.BASE_URL + "/auth/google?once=" + mLoginParam.getOnce();
+        Utils.openWap(url, mView.getContext(), true);
     }
 
 }

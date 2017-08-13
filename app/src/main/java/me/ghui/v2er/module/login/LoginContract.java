@@ -21,5 +21,7 @@ public class LoginContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void login(String userName, String psw);
+
+        void signInWithGoogle();
     }
 }

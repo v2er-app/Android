@@ -256,6 +256,10 @@ public class Utils {
         UrlInterceptor.openWapPage(url, context);
     }
 
+    public static void openWap(String url, Context context, boolean forchOpenInWebView) {
+        UrlInterceptor.openWapPage(url, context, forchOpenInWebView);
+    }
+
     public static void openInBrowser(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.addCategory(Intent.CATEGORY_DEFAULT);

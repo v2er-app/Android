@@ -28,7 +28,14 @@ import me.ghui.v2er.util.Voast;
 
 public class UrlInterceptor {
 
-    public static boolean intercept(String url, Context context, boolean openInWap) {
+    /**
+     * @param url
+     * @param context
+     * @param onlyCheck            仅仅是检查拦截情况
+     * @param forchOpenedInWebview 强制用webview打开
+     * @return
+     */
+    public static boolean intercept(String url, Context context, boolean onlyCheck, boolean forchOpenedInWebview) {
         boolean result = false;
         if (PreConditions.isEmpty(url)) return result;
 
@@ -61,7 +68,7 @@ public class UrlInterceptor {
         }
         String host = uri.getHost();
         if (PreConditions.isEmpty(host)) return false;
-        if (!host.contains(Constants.HOST_NAME)) {
+        if (!forchOpenedInWebview && !host.contains(Constants.HOST_NAME)) {
             // 1. 外站
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                     .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
@@ -102,8 +109,8 @@ public class UrlInterceptor {
             result = true;
         } else {
             //open url in a default webview
-            if (openInWap) {
-                WapActivity.open(url, context);
+            if (!onlyCheck) {
+                WapActivity.open(url, context, forchOpenedInWebview);
             }
             result = false;
         }
@@ -116,8 +123,11 @@ public class UrlInterceptor {
      * @param context
      */
     public static void openWapPage(String url, Context context) {
-        intercept(url, context, true);
+        intercept(url, context, false, false);
     }
 
 
+    public static void openWapPage(String url, Context context, boolean forchOpenedInWebview) {
+        intercept(url, context, false, forchOpenedInWebview);
+    }
 }

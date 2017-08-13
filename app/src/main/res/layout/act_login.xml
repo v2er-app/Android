@@ -38,6 +38,14 @@
         android:text="登录"
         android:textStyle="normal" />
 
+    <Button
+        android:id="@+id/login_by_google_btn"
+        style="@style/DialogButton"
+        android:layout_gravity="right"
+        android:layout_margin="4dp"
+        android:text="Sign in with Google"
+        android:textStyle="normal" />
+
     <TextView
         style="@style/hintText"
         android:layout_width="match_parent"

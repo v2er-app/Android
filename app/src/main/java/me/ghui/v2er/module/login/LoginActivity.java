@@ -93,6 +93,11 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         mPresenter.login(userName, psw);
     }
 
+    @OnClick(R.id.login_by_google_btn)
+    void onSignInWithGoogleClicked() {
+        mPresenter.signInWithGoogle();
+    }
+
     @Override
     public void onFetchLoginParamFailure() {
         mHasLoaded = false;
