@@ -92,7 +92,7 @@ public class BaseDialog extends DialogFragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         Window window = getDialog().getWindow();
-        window.setDimAmount(0.15f);
+        window.setDimAmount(0.45f);
         window.setBackgroundDrawableResource(R.drawable.confirm_dialog_bg);
 
         View view = null;
