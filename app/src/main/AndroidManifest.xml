@@ -4,12 +4,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <application
-        android:name="me.ghui.v2er.general.App"
+        android:name=".general.App"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="me.ghui.v2er.module.splash.SplashActivity"
+            android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -47,52 +47,56 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="me.ghui.v2er.module.home.MainActivity"
+            android:name=".module.home.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
+            android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="今日热议"
             android:parentActivityName=".module.home.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.topic.TopicActivity"
+            android:name=".module.topic.TopicActivity"
             android:label="话题"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="me.ghui.v2er.module.login.LoginActivity"
+            android:name=".module.login.LoginActivity"
             android:label="登录V2EX"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.user.UserHomeActivity"
+            android:name=".module.login.SignInWithGoogleActivity"
+            android:label="Sign in With Google"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.user.UserHomeActivity"
             android:label="主页"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.drawer.care.SpecialCareActivity"
+            android:name=".module.drawer.care.SpecialCareActivity"
             android:label="特别关注"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.drawer.star.StarActivity"
+            android:name=".module.drawer.star.StarActivity"
             android:label="收藏"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.node.NodeTopicActivity"
+            android:name=".module.node.NodeTopicActivity"
             android:label="节点"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.settings.SettingActivity"
+            android:name=".module.settings.SettingActivity"
             android:label="设置"
             android:screenOrientation="portrait" />
         <activity
-            android:name="me.ghui.v2er.module.create.CreateTopicActivity"
+            android:name=".module.create.CreateTopicActivity"
             android:label="创作新主题"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name="me.ghui.v2er.module.imgviewer.ImageViewer"
+            android:name=".module.imgviewer.ImageViewer"
             android:screenOrientation="fullSensor" />
         <activity
-            android:name="me.ghui.v2er.module.general.WapActivity"
+            android:name=".module.general.WapActivity"
             android:label="" />
     </application>
 
