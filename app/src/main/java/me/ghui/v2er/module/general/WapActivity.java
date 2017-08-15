@@ -12,10 +12,13 @@ import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebBackForwardList;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.orhanobut.logger.Logger;
+
+import java.util.Map;
 
 import butterknife.BindView;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -39,8 +42,9 @@ public class WapActivity extends BaseActivity {
     public static String FORCH_OPENED_WEBVIEW = KEY("forch_opened_webview");
 
     @BindView(R.id.webview)
-    WebView mWebView;
-    private String mCurrentUrl;
+    public WebView mWebView;
+    protected String mStartUrl;
+    protected String mCurrentUrl;
     private boolean mForchOpenedInWebView;
 
     public static void open(String url, Context context, boolean forchOpenedInWebView) {
@@ -53,7 +57,7 @@ public class WapActivity extends BaseActivity {
 
     @Override
     protected void parseExtras(Intent intent) {
-        mCurrentUrl = intent.getStringExtra(URL_KEY);
+        mStartUrl = intent.getStringExtra(URL_KEY);
         mForchOpenedInWebView = intent.getBooleanExtra(FORCH_OPENED_WEBVIEW, false);
     }
 
@@ -67,8 +71,15 @@ public class WapActivity extends BaseActivity {
     protected void init() {
         mWebView.setWebChromeClient(new BaseWebChromeClient());
         mWebView.setWebViewClient(new BaseWebViewClient());
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        loadUrl(mCurrentUrl);
+        configWebView(mWebView.getSettings());
+        firstLoad(null);
+    }
+
+    protected void firstLoad(Map<String, String> headers) {
+        loadUrl(mStartUrl, headers);
+    }
+
+    protected void configWebView(WebSettings webSettings) {
     }
 
     @Override
@@ -123,10 +134,18 @@ public class WapActivity extends BaseActivity {
     }
 
     protected void loadUrl(String url) {
+        loadUrl(url, null);
+    }
+
+    protected void loadUrl(String url, Map<String, String> headers) {
         if (url != null) {
             mCurrentUrl = url;
             Logger.d("set current url: " + mCurrentUrl);
-            mWebView.loadUrl(url);
+            if (headers != null) {
+                mWebView.loadUrl(url, headers);
+            } else {
+                mWebView.loadUrl(url);
+            }
         }
     }
 

@@ -9,7 +9,6 @@ import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.LoginParam;
-import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeStarInfo;
@@ -54,7 +53,7 @@ public interface APIs {
     Observable<NewsInfo> recentNews(@Query("p") int page);
 
     @Html
-    @GET("/signin")
+    @GET("/signin?next=/mission/daily")
     Observable<LoginParam> loginParam();
 
     @Html
@@ -130,7 +129,7 @@ public interface APIs {
 
     @Html
     @GET("/ignore/topic/{id}")
-    Observable<MissionInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
+    Observable<DailyInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/ignore/reply/{id}")
@@ -175,12 +174,12 @@ public interface APIs {
 
     @Html
     @GET("/mission/daily")
-    Observable<CheckInInfo> checkInInfo();
+    Observable<DailyInfo> dailyInfo();
 
     //    /mission/daily/redeem?once=84830
     @Html
     @Headers("Referer: " + Constants.BASE_URL + "/mission/daily")
     @GET("/mission/daily/redeem")
-    Observable<CheckInInfo> checkIn(@Query("once") String once);
+    Observable<DailyInfo> checkIn(@Query("once") String once);
 
 }

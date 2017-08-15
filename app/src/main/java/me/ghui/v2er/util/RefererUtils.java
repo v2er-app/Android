@@ -8,7 +8,7 @@ import me.ghui.v2er.network.Constants;
 
 public class RefererUtils {
     public static String tinyReferer() {
-        return Constants.BASE_URL + "/mission";
+        return Constants.BASE_URL + "/mission/daily";
     }
 
     public static String topicReferer(String topicId) {

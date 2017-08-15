@@ -5,9 +5,9 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
-import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
@@ -100,9 +100,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<MissionInfo>() {
+                .subscribe(new GeneralConsumer<DailyInfo>() {
                     @Override
-                    public void onConsume(MissionInfo missionInfo) {
+                    public void onConsume(DailyInfo missionInfo) {
                         mView.afterIgnoreTopic(missionInfo.isValid());
                     }
                 });

@@ -3,12 +3,11 @@ package me.ghui.v2er.module.home;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.CheckInInfo;
+import me.ghui.v2er.network.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 
-import static android.view.View.resolveSize;
 import static me.ghui.v2er.widget.FollowProgressBtn.FINISHED;
 import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
 
@@ -33,11 +32,11 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
     public void checkIn(boolean needAutoCheckIn) {
         if (!UserUtils.isLogin()) return;
         mView.checkInBtn().startUpdate();
-        APIService.get().checkInInfo()
+        APIService.get().dailyInfo()
                 .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<CheckInInfo>() {
+                .subscribe(new GeneralConsumer<DailyInfo>() {
                     @Override
-                    public void onConsume(CheckInInfo checkInInfo) {
+                    public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
                             mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
                             checkInDaysStr = checkInInfo.getCheckinDays();
@@ -69,9 +68,9 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
         APIService.get()
                 .checkIn(once)
                 .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<CheckInInfo>(mView) {
+                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
                     @Override
-                    public void onConsume(CheckInInfo checkInInfo) {
+                    public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
                             mView.toast("签到成功!\n" + checkInInfo.getCheckinDays());
                             mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);

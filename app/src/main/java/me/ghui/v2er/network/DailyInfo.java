@@ -9,8 +9,11 @@ import me.ghui.v2er.util.UriUtils;
  * Created by ghui on 07/08/2017.
  */
 
-@Pick("div#Wrapper")
-public class CheckInInfo extends BaseInfo {
+public class DailyInfo extends BaseInfo {
+    @Pick(value = "[href^=/member]", attr = "href")
+    private String userLink;
+    @Pick(value = "img[src*=avatar/]", attr = "src")
+    private String avatar;
     @Pick("h1")
     private String title;
     @Pick("div.cell:last-child")
@@ -24,6 +27,19 @@ public class CheckInInfo extends BaseInfo {
 
     public String getCheckinDays() {
         return continuousLoginDay;
+    }
+
+
+    public String getUserName() {
+        if (PreConditions.isEmpty(userLink)) {
+            return null;
+        }
+        return userLink.split("/")[2];
+    }
+
+    public String getAvatar() {
+        if (PreConditions.isEmpty(avatar)) return null;
+        return avatar.replace("normal.png", "large.png");
     }
 
     public String once() {
@@ -41,7 +57,7 @@ public class CheckInInfo extends BaseInfo {
 
     @Override
     public String toString() {
-        return "CheckInInfo{" +
+        return "DailyInfo{" +
                 "title='" + title + '\'' +
                 ", continuousLoginDay='" + continuousLoginDay + '\'' +
                 ", checkinUrl='" + checkinUrl + '\'' +

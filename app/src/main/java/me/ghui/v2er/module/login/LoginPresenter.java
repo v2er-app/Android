@@ -6,14 +6,12 @@ import com.tencent.bugly.crashreport.CrashReport;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.network.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
-import me.ghui.v2er.network.bean.MissionInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -52,7 +50,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .compose(mView.rx())
                 .map(response -> response.body().string())
                 .map(s -> {
-                    MissionInfo resultInfo = APIService.fruit().fromHtml(s, MissionInfo.class);
+                    DailyInfo resultInfo = APIService.fruit().fromHtml(s, DailyInfo.class);
                     if (!resultInfo.isValid()) {
                         return APIService.fruit().fromHtml(s, LoginParam.class);
                     }
@@ -61,9 +59,9 @@ public class LoginPresenter implements LoginContract.IPresenter {
                 .subscribe(new GeneralConsumer<BaseInfo>() {
                     @Override
                     public void onConsume(BaseInfo info) {
-                        if (info instanceof MissionInfo) {
+                        if (info instanceof DailyInfo) {
                             //login success
-                            MissionInfo resultInfo = (MissionInfo) info;
+                            DailyInfo resultInfo = (DailyInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
                             CrashReport.setUserId(resultInfo.getUserName());
@@ -83,8 +81,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
 
     @Override
     public void signInWithGoogle() {
-        String url = Constants.BASE_URL + "/auth/google?once=" + mLoginParam.getOnce();
-        Utils.openWap(url, mView.getContext(), true);
+        SignInWithGoogleActivity.open(mView.getContext(), mLoginParam.getOnce());
     }
 
 }
