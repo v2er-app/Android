@@ -29,4 +29,8 @@ public class Pref {
     public static boolean readBool(String key) {
         return Prefs.with(app()).readBoolean(key);
     }
+
+    public static void saveBool(String key, boolean value) {
+        Prefs.with(app()).writeBoolean(key, value);
+    }
 }

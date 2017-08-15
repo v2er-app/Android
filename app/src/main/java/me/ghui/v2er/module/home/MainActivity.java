@@ -41,6 +41,8 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
+import me.ghui.v2er.widget.dialog.BaseDialog;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView {
 
@@ -64,6 +66,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private FollowProgressBtn mCheckInBtn;
     private MenuItem mCreateMenuItem;
     private CheckInPresenter mCheckInPresenter;
+    private boolean mHadRated = false;
+    private static String HAD_SHOW_RATE = KEY("had_show_rate_dialog");
 
     @Override
     protected int attachLayoutRes() {
@@ -122,6 +126,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void init() {
         configToolBar();
+        mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
         mUserNameTv = mNavHeaderView.findViewById(R.id.user_name_tv);
@@ -161,6 +166,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.create_nav_item:
                     if (PreConditions.notLoginAndProcessToLogin(getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
+                    break;
+                case R.id.love_nav_item:
+                    showRateDialog();
                     break;
             }
             mDrawerLayout.closeDrawers();
@@ -228,6 +236,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return mSlidingTabLayout.getCurrentTab();
     }
 
+    private void showRateDialog() {
+        new ConfirmDialog.Builder(this)
+                .title("V2er好用吗？")
+                .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评，或者直接向作者吐槽")
+                .positiveText("去支持！", dialog -> Utils.openStorePage())
+                .negativeText("不好用", dialog -> {
+                    Utils.sendOfficalV2erEmail(getActivity());
+                })
+                .build().show();
+    }
+
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
@@ -242,6 +261,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         if (getCurrentTab() != 0) {
             mSlidingTabLayout.setCurrentTab(0);
+            return;
+        }
+
+        if (!mHadRated) {
+            mHadRated = Pref.readBool(HAD_SHOW_RATE);
+        }
+        if (!mHadRated) {
+            showRateDialog();
+            mHadRated = true;
+            Pref.saveBool(HAD_SHOW_RATE, mHadRated);
             return;
         }
 
