@@ -60,8 +60,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     @Override
     protected boolean checkIntercept(String currentUrl) {
         Log.d("GoogleSign", "url: " + currentUrl);
-        // TODO: 16/08/2017 两步验证
-        if (currentUrl.startsWith("https://www.v2ex.com/mission/daily")) {
+        if (currentUrl.startsWith(Constants.BASE_URL + "/mission/daily")) {
             mWebView.getSettings().setUserAgentString(APIService.USER_AGENT);
             doGetUserInfo();
             return true;
@@ -72,7 +71,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     private void doGetUserInfo() {
         APIService.get().dailyInfo()
                 .compose(rx())
-                .subscribe(new GeneralConsumer<DailyInfo>() {
+                .subscribe(new GeneralConsumer<DailyInfo>(this) {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         toast("登录成功");
