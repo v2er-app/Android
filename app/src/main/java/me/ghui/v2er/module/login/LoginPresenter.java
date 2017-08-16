@@ -46,6 +46,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void login(String userName, String psw) {
+        // TODO: 16/08/2017 两步验证
         APIService.get().login(mLoginParam.toMap(userName, psw))
                 .compose(mView.rx())
                 .map(response -> response.body().string())

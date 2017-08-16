@@ -267,11 +267,12 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         } else if (generalError.getErrorCode() == ResultCode.REDIRECT_TO_HOME) {
             Navigator.from(getActivity()).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
             getActivity().finish();
+        } else {
+            toast(generalError.getMessage());
         }
     }
 
     protected void handleNotLoginError(int errCode, String errorMsg) {
-        toast(errorMsg);
         Navigator.from(getContext()).to(LoginActivity.class).start();
     }
 
