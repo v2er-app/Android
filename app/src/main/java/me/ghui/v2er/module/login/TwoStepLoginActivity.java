@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.login;
 
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,8 @@ import android.text.TextWatcher;
 import android.widget.Button;
 
 import com.tencent.bugly.crashreport.CrashReport;
+
+import org.jsoup.helper.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +36,7 @@ import me.ghui.v2er.widget.BaseToolBar;
  * Created by ghui on 16/08/2017.
  */
 
-public class TwoStepLoginActivity extends BaseActivity {
+public class TwoStepLoginActivity extends BaseActivity implements ClipboardManager.OnPrimaryClipChangedListener {
     private static String KEY_TWO_STEP_LOGIN_ONCE = KEY("two_step_login_once");
     private String mOnce;
 
@@ -41,6 +44,7 @@ public class TwoStepLoginActivity extends BaseActivity {
     TextInputLayout mTextInputLayout;
     @BindView(R.id.positive_btn)
     Button mPositiveBtn;
+    private ClipboardManager mClipboardManager;
 
     public static void open(String once, Context context) {
         Navigator.from(context)
@@ -107,13 +111,33 @@ public class TwoStepLoginActivity extends BaseActivity {
         return mTextInputLayout.getEditText().getText().toString();
     }
 
+    private void startMonitor() {
+        if (mClipboardManager == null) {
+            mClipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        }
+        mClipboardManager.addPrimaryClipChangedListener(this);
+    }
+
+    @Override
+    public void onPrimaryClipChanged() {
+        if (mClipboardManager.hasPrimaryClip()) {
+            CharSequence text = mClipboardManager.getPrimaryClip().getItemAt(0).getText();
+            if (PreConditions.notEmpty(text) && StringUtil.isNumeric(text.toString()) && text.length() == 6) {
+                mTextInputLayout.getEditText().setText(text);
+                mTextInputLayout.getEditText().setSelection(text.length());
+            }
+        }
+    }
+
     @OnClick(R.id.positive_btn)
     void onPositiveBtnClicked() {
         String input = getInput();
         if (PreConditions.isEmpty(input)) {
             Utils.openApp(this, "com.google.android.apps.authenticator2");
+            startMonitor();
             return;
         }
+        mClipboardManager.removePrimaryClipChangedListener(this);
 
         Map<String, String> map = new HashMap<>();
         map.put("once", mOnce);
@@ -142,5 +166,6 @@ public class TwoStepLoginActivity extends BaseActivity {
                     }
                 });
     }
+
 
 }
