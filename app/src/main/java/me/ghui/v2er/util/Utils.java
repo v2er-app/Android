@@ -334,4 +334,20 @@ public class Utils {
     }
 
 
+    public static void openApp(Context context, String packageName) {
+        PackageManager manager = context.getPackageManager();
+        Intent i = manager.getLaunchIntentForPackage(packageName);
+        if (i == null) {
+            try {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + packageName)));
+            } catch (android.content.ActivityNotFoundException anfe) {
+                context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + packageName)));
+            }
+            return;
+        }
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
+        context.startActivity(i);
+    }
+
+
 }

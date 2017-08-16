@@ -3,6 +3,9 @@ package me.ghui.v2er.module.login;
 import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.Button;
 
 import com.tencent.bugly.crashreport.CrashReport;
 
@@ -23,6 +26,7 @@ import me.ghui.v2er.network.LoginResultInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 
 /**
@@ -35,6 +39,8 @@ public class TwoStepLoginActivity extends BaseActivity {
 
     @BindView(R.id.login_code_text_input_layout)
     TextInputLayout mTextInputLayout;
+    @BindView(R.id.positive_btn)
+    Button mPositiveBtn;
 
     public static void open(String once, Context context) {
         Navigator.from(context)
@@ -64,6 +70,24 @@ public class TwoStepLoginActivity extends BaseActivity {
     protected void init() {
         super.init();
         setFinishOnTouchOutside(false);
+        mTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (PreConditions.isEmpty(getInput())) {
+                    mPositiveBtn.setText("去复制");
+                } else {
+                    mPositiveBtn.setText("验证");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        });
     }
 
     @Override
@@ -79,11 +103,15 @@ public class TwoStepLoginActivity extends BaseActivity {
         finish();
     }
 
+    public String getInput() {
+        return mTextInputLayout.getEditText().getText().toString();
+    }
+
     @OnClick(R.id.positive_btn)
     void onPositiveBtnClicked() {
-        String input = mTextInputLayout.getEditText().getText().toString();
+        String input = getInput();
         if (PreConditions.isEmpty(input)) {
-            toast("请输入验证码");
+            Utils.openApp(this, "com.google.android.apps.authenticator2");
             return;
         }
 
