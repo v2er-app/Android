@@ -159,7 +159,6 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                                 .to(MainActivity.class).start();
                                         CrashReport.setUserId(resultInfo.getUserName());
-                                        finish();
                                     }
                                 });
 
