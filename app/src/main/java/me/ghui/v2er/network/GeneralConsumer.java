@@ -57,7 +57,6 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
             Observable.just(response)
                     .compose(RxUtils.io_main())
                     .map(s -> {
-                        // TODO: 16/08/2017 Two Step
                         BaseInfo resultInfo = APIService.fruit().fromHtml(s, LoginParam.class);
                         if (resultInfo == null) return null;
                         if (!resultInfo.isValid()) {

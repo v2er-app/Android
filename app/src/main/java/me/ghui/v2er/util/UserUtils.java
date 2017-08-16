@@ -41,7 +41,6 @@ public class UserUtils {
     }
 
     public static void clearLogin() {
-        // TODO: 10/07/2017
         //1. crear cookie
         APIService.cookieJar().clearCookie();
         //2. crear userInfo
