@@ -19,6 +19,7 @@ import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
+import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
@@ -181,5 +182,11 @@ public interface APIs {
     @Headers("Referer: " + Constants.BASE_URL + "/mission/daily")
     @GET("/mission/daily/redeem")
     Observable<DailyInfo> checkIn(@Query("once") String once);
+
+    @Html
+    @FormUrlEncoded
+    @Headers("Referer: " + Constants.BASE_URL + "/mission/daily")
+    @POST("/2fa?next=/mission/daily")
+    Observable<NewsInfo> signInTwoStep(@FieldMap Map<String, String> map);
 
 }

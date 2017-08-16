@@ -10,4 +10,5 @@ public interface ResultCode {
     int LOGIN_EXPIRED = -2;
     int LOGIN_NEEDED = -3;
     int REDIRECT_TO_HOME = -4;
+    int LOGIN_TWO_STEP = -5;
 }

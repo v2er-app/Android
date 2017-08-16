@@ -20,6 +20,18 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowMinWidthMajor">80%</item>
+        <item name="android:windowMinWidthMinor">80%</item>
+        <item name="android:windowBackground">@drawable/confirm_dialog_bg</item>
+        <item name="android:colorEdgeEffect">@color/colorAccent</item>
+    </style>
+
     <style name="AppActAnimation">
         <!-- 新Activity进入 -->
         <item name="android:activityOpenEnterAnimation">@anim/open_enter_slide</item>

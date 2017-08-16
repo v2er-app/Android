@@ -123,6 +123,12 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
+    public void onOccuredTwoStep() {
+        mPresenter.start();
+        mHasLoaded = false;
+    }
+
+    @Override
     public void onLoginFailure(String msg) {
         toast(msg);
     }

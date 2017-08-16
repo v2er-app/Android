@@ -27,7 +27,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .homeNews(useR2 ? "r2" : "all")
                 .compose(mView.<NewsInfo>rx())
-                .subscribe(new GeneralConsumer<NewsInfo>() {
+                .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
                         Logger.d("newsInfo: " + newsInfo);
@@ -42,7 +42,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
         APIService.get()
                 .recentNews(page - 1)
                 .compose(mView.<NewsInfo>rx(page))
-                .subscribe(new GeneralConsumer<NewsInfo>() {
+                .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
                         mView.fillView(newsInfo, true);

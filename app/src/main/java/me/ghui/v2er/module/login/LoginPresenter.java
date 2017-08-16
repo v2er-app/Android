@@ -10,6 +10,7 @@ import me.ghui.v2er.network.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
 
@@ -46,14 +47,19 @@ public class LoginPresenter implements LoginContract.IPresenter {
     @Override
     @SuppressWarnings("ConstantConditions")
     public void login(String userName, String psw) {
-        // TODO: 16/08/2017 两步验证
         APIService.get().login(mLoginParam.toMap(userName, psw))
                 .compose(mView.rx())
                 .map(response -> response.body().string())
                 .map(s -> {
                     DailyInfo resultInfo = APIService.fruit().fromHtml(s, DailyInfo.class);
-                    if (!resultInfo.isValid()) {
-                        return APIService.fruit().fromHtml(s, LoginParam.class);
+                    if (!resultInfo.isValid()) {//check whether is login success
+                        LoginParam loginParam = APIService.fruit().fromHtml(s, LoginParam.class);
+                        if (!loginParam.isValid()) {//check whether is psw incorrect
+                            //you may enabled two step login
+                            TwoStepLoginInfo twoStepLoginInfo = APIService.fruit().fromHtml(s, TwoStepLoginInfo.class);
+                            return twoStepLoginInfo;
+                        }
+                        return loginParam;
                     }
                     return resultInfo;
                 })
@@ -66,7 +72,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
                             CrashReport.setUserId(resultInfo.getUserName());
-                        } else {
+                        } else if (info instanceof LoginParam) {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;
                             if (loginParam.isValid()) {
@@ -75,6 +81,11 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             } else {
                                 mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
                             }
+                        } else if(info instanceof TwoStepLoginInfo){
+                            //you may enabled two step login
+                            TwoStepLoginInfo twoStepLoginInfo = (TwoStepLoginInfo) info;
+                            TwoStepLoginActivity.open(twoStepLoginInfo.getOnce(), mView.getContext());
+                            mView.onOccuredTwoStep();
                         }
                     }
                 });

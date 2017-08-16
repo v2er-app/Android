@@ -38,8 +38,11 @@ import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.module.login.TwoStepLoginActivity;
+import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
+import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
@@ -425,7 +428,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void handleError(GeneralError generalError) {
-        toast(generalError.getMessage());
         if (supportShareElement()) {
             startPostponedEnterTransition();
         }
@@ -434,6 +436,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         } else if (generalError.getErrorCode() == ResultCode.REDIRECT_TO_HOME) {
             Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
             finish();
+        } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {
+            String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();
+            TwoStepLoginActivity.open(once, getActivity());
+        } else {
+            toast(generalError.getMessage());
         }
     }
 

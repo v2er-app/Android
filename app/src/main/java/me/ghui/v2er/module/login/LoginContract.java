@@ -17,6 +17,10 @@ public class LoginContract {
         void onLoginSuccess();
 
         void onLoginFailure(String msg);
+
+        void onOccuredTwoStep();
+
+
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
