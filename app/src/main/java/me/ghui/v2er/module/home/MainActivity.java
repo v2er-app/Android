@@ -273,12 +273,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             Pref.saveBool(HAD_SHOW_RATE, mHadRated);
             return;
         }
-
-        if (Pref.readBool(R.string.pref_key_keep_activity)) {
-            moveTaskToBack(true);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 
     @Override

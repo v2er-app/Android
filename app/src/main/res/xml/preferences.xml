@@ -8,12 +8,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="基本设置">
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pref_key_keep_activity"
-            android:layout="@layout/preference_item"
-            android:summary="按Back键退出时，保留前台界面"
-            android:title="保留前台" />
         <Preference
             android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"
