@@ -25,7 +25,6 @@ import me.ghui.v2er.util.UserUtils;
  */
 
 public class SignInWithGoogleActivity extends WapActivity {
-    private static final String UA_GOOGLE_SIGN = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
     private static final String REFER_GOOGLE = Constants.BASE_URL + "/signin?next=/mission/daily";
     private static final String URL_GOOGLE_SIGNIN = Constants.BASE_URL + "/auth/google?once=";
 
@@ -42,7 +41,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     protected void configWebView(WebSettings webSettings) {
         super.configWebView(webSettings);
         webSettings.setJavaScriptEnabled(true);
-        webSettings.setUserAgentString(UA_GOOGLE_SIGN);
+        webSettings.setUserAgentString(APIService.WEB_USER_AGENT);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     protected boolean checkIntercept(String currentUrl) {
         Log.d("GoogleSign", "url: " + currentUrl);
         if (currentUrl.startsWith(Constants.BASE_URL + "/mission/daily")) {
-            mWebView.getSettings().setUserAgentString(APIService.USER_AGENT);
+            mWebView.getSettings().setUserAgentString(APIService.WAP_USER_AGENT);
             doGetUserInfo();
             return true;
         }
