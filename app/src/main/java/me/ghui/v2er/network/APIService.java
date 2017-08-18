@@ -27,10 +27,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIService {
-
-    public static String WAP_USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)" +
+    public static final String WAP_USER_AGENT = "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N)" +
             " AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.133 Mobile Safari/537.36";
-    public static final String WEB_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
+    public static final String WEB_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) " +
+            "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
+    public static final String UA_KEY = "user-agent";
 
     private static final long TIMEOUT_LENGTH = 2 * 60;
     private static APIs mAPI_SERVICE;
@@ -67,10 +68,13 @@ public class APIService {
 
         @Override
         public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request()
-                    .newBuilder()
-                    .addHeader("user-agent", WAP_USER_AGENT)
-                    .build();
+            Request request = chain.request();
+            String ua = request.header(UA_KEY);
+            if (!WEB_USER_AGENT.equals(ua)) {
+                request.newBuilder()
+                        .header("user-agent", WAP_USER_AGENT)
+                        .build();
+            }
             return chain.proceed(request);
         }
     }

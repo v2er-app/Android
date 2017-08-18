@@ -69,6 +69,7 @@ public interface APIs {
 
     @Html
     @GET("/notifications")
+    @Headers("user-agent: " + APIService.WEB_USER_AGENT)
     Observable<NotificationInfo> notifications(@Query("p") int page);
 
     @Html
