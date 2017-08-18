@@ -153,12 +153,12 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                 .subscribe(new GeneralConsumer<LoginResultInfo>() {
                                     @Override
                                     public void onConsume(LoginResultInfo resultInfo) {
-                                        UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                                         toast("登录成功");
+                                        UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
+                                        CrashReport.setUserId(resultInfo.getUserName());
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                                 .to(MainActivity.class).start();
-                                        CrashReport.setUserId(resultInfo.getUserName());
                                     }
                                 });
 
