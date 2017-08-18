@@ -137,7 +137,9 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
             startMonitor();
             return;
         }
-        mClipboardManager.removePrimaryClipChangedListener(this);
+        if (mClipboardManager != null) {
+            mClipboardManager.removePrimaryClipChangedListener(this);
+        }
 
         Map<String, String> map = new HashMap<>();
         map.put("once", mOnce);
