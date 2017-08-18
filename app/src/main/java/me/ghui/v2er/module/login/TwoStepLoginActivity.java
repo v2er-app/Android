@@ -156,6 +156,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                         toast("登录成功");
                                         UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                                         CrashReport.setUserId(resultInfo.getUserName());
+                                        finish();
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                                 .to(MainActivity.class).start();
