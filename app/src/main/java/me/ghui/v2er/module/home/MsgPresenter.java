@@ -28,12 +28,7 @@ public class MsgPresenter implements MsgContract.IPresenter {
             loadMore(1);
         } else {
             mView.hideLoading();
-            new ConfirmDialog.Builder((Activity) mView.getContext())
-                    .msg("登录后才能查看消息")
-                    .negativeText("取消")
-                    .positiveText("去登录", dialog -> Navigator.from(mView.getContext()).to(LoginActivity.class).start())
-                    .build()
-                    .show();
+            mView.toast("登录后才能查看消息");
         }
     }
 
