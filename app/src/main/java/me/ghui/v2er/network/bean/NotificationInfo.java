@@ -12,28 +12,27 @@ import me.ghui.v2er.util.Utils;
  * Created by ghui on 10/05/2017.
  */
 
-@Pick("div.box")
+@Pick("div#Main div.box")
 public class NotificationInfo extends BaseInfo {
-
-    @Pick("strong.fade")
-    private String page = "1/1"; // 1/20
-    @Pick("div.cell")
+    @Pick("div.fr.f12 strong")
+    private int total;
+    @Pick("div.cell[id^=n_]")
     private List<Reply> replies;
 
-    @Override
-    public String toString() {
-        return "NotificationInfo{" +
-                "page='" + page + '\'' +
-                ", replies=" + replies +
-                '}';
-    }
-
-    public int getPage() {
-        return Integer.parseInt(page.split("/")[1]);
+    public int getTotal() {
+        return total;
     }
 
     public List<Reply> getReplies() {
         return replies;
+    }
+
+    @Override
+    public String toString() {
+        return "NotificationInfo{" +
+                "total=" + total +
+                ", replies=" + replies +
+                '}';
     }
 
     @Override

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import me.ghui.fruit.Fruit;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.converter.GlobalConverterFactory;
 import me.ghui.v2er.network.converter.HtmlConverterFactory;
 import me.ghui.v2er.network.converter.annotations.Html;
@@ -70,9 +71,9 @@ public class APIService {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             String ua = request.header(UA_KEY);
-            if (!WEB_USER_AGENT.equals(ua)) {
-                request.newBuilder()
-                        .header("user-agent", WAP_USER_AGENT)
+            if (PreConditions.isEmpty(ua)) {
+                request = request.newBuilder()
+                        .addHeader("user-agent", WAP_USER_AGENT)
                         .build();
             }
             return chain.proceed(request);

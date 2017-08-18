@@ -101,7 +101,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
             return;
         }
         mAdapter.setData(info.getReplies(), isLoadMore);
-        mRecyclerView.setHasMore(info.getPage());
+        mRecyclerView.setHasMore(mAdapter.getContentItemCount() < info.getTotal());
         if (mUpdateUnReadMsgDelegate != null) {
             mUpdateUnReadMsgDelegate.updateUnReadMsg(1, 0);
         }
@@ -110,7 +110,7 @@ public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         NotificationInfo.Reply item = mAdapter.getDatas().get(position);
-        TopicActivity.openWithAutoScroll(item.getLink(), getContext(),  item.getContent());
+        TopicActivity.openWithAutoScroll(item.getLink(), getContext(), item.getContent());
     }
 
 }
