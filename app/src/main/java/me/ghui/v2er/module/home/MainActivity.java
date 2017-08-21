@@ -17,7 +17,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.flyco.tablayout.SlidingTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
+import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -41,10 +43,9 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
-import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView {
+public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener {
 
     private final String[] TAB_TITLES = {"全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
@@ -102,10 +103,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             if (item.getItemId() == R.id.action_search) {
                 pushFragment(SearchFragment.newInstance());
             }
-//            else {
-//                if (PreConditions.notLoginAndProcessToLogin(getContext())) return true;
-//                Navigator.from(getContext()).to(CreateTopicActivity.class).start();
-//            }
             return true;
         });
     }
@@ -184,6 +181,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
 
         mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
+        mSlidingTabLayout.setOnTabSelectListener(this);
         initCheckIn();
     }
 
@@ -306,5 +304,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public FollowProgressBtn checkInBtn() {
         return mCheckInBtn;
+    }
+
+    @Override
+    public void onTabSelect(int position) {
+        Logger.d("onTabSelect");
+    }
+
+    @Override
+    public void onTabReselect(int position) {
+        Logger.d("onTabReSelect");
+//        mSlidingTabLayout.
     }
 }
