@@ -161,8 +161,8 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         } else {
             if (Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
                 Navigator.from(getActivity())
-                        .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                         .to(MainActivity.class).start();
+                finish();
             } else {
                 super.onBackPressed();
             }

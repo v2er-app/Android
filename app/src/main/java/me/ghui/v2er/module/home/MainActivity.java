@@ -294,6 +294,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
+    @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
         if (mFragments.get(getCurrentTab()) instanceof OnFragmentReEnter) {
