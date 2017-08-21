@@ -26,7 +26,7 @@
             android:summary="回复框或浮动按钮被遮挡，请开启此选项"
             android:title="被遮挡" />
         <SwitchPreference
-            android:defaultValue="false"
+            android:defaultValue="true"
             android:key="@string/pref_key_hide_create_btn"
             android:layout="@layout/preference_item"
             android:summary="开启以隐藏首页右下角发贴按钮"
