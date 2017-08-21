@@ -105,13 +105,6 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
 
     @Override
     public void onBackPressed() {
-        if (Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
-            Navigator.from(getActivity())
-                    .to(MainActivity.class)
-                    .start();
-            finish();
-            return;
-        }
-        super.onBackPressed();
+        finishToHome();
     }
 }

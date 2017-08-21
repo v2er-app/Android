@@ -155,17 +155,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
             new ConfirmDialog.Builder(this)
                     .title("丢弃主题")
                     .msg("返回将丢弃当前编写的内容")
-                    .positiveText(R.string.ok, dialog -> CreateTopicActivity.super.onBackPressed())
+                    .positiveText(R.string.ok, dialog -> finishToHome())
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
-            if (Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
-                Navigator.from(getActivity())
-                        .to(MainActivity.class).start();
-                finish();
-            } else {
-                super.onBackPressed();
-            }
+            finishToHome();
         }
     }
 

@@ -49,6 +49,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private final String[] TAB_TITLES = {"全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
+    public static boolean isAlive;
 
     @BindView(R.id.left_draw_layout)
     DrawerLayout mDrawerLayout;
@@ -122,6 +123,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     protected void init() {
+        isAlive = true;
         configToolBar();
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
@@ -291,6 +293,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             lp.height = Math.round(textSize * 1.5f);
             msgView.setLayoutParams(lp);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        isAlive = false;
     }
 
     @Override
