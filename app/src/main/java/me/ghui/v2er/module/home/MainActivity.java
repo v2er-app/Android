@@ -1,7 +1,9 @@
 package me.ghui.v2er.module.home;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,6 +13,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -39,6 +42,7 @@ import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.settings.SettingActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -70,6 +74,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private CheckInPresenter mCheckInPresenter;
     private boolean mHadRated = false;
     private static String HAD_SHOW_RATE = KEY("had_show_rate_dialog");
+    private TextView mTab1View;
+    private TextView mTab2View;
+    private TextView mTab3View;
 
     @Override
     protected int attachLayoutRes() {
@@ -184,7 +191,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
         mSlidingTabLayout.setOnTabSelectListener(this);
+        configNewsTabTitle();
         initCheckIn();
+    }
+
+    private void configNewsTabTitle() {
+        mTab1View = mSlidingTabLayout.getTitleView(0);
+        mTab2View = mSlidingTabLayout.getTitleView(1);
+        mTab3View = mSlidingTabLayout.getTitleView(2);
+        mTab1View.setBackgroundResource(R.drawable.default_ripple);
+        mTab2View.setBackgroundResource(R.drawable.default_ripple);
+        mTab3View.setBackgroundResource(R.drawable.default_ripple);
+        int padding = ScaleUtils.dp(2.5f);
+        mTab1View.setPadding(mTab1View.getPaddingLeft(), padding, mTab1View.getPaddingRight(), padding);
+        mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
+        mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
     }
 
     private void initCheckIn() {

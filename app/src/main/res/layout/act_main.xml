@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:minHeight="28dp"
+            android:minHeight="30dp"
             app:tl_indicator_color="#000000"
             app:tl_indicator_height="2.5dp"
             app:tl_indicator_width_equal_title="true"
