@@ -1,9 +1,7 @@
 package me.ghui.v2er.module.home;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -13,7 +11,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -51,7 +48,7 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener {
 
-    private final String[] TAB_TITLES = {"全部", "消息", "节点"};
+    private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
     public static boolean isAlive;
 
@@ -206,6 +203,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab1View.setPadding(mTab1View.getPaddingLeft(), padding, mTab1View.getPaddingRight(), padding);
         mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
         mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
+
+        mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
     }
 
     private void initCheckIn() {
@@ -262,7 +261,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 .title("V2er好用吗？")
                 .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评，或者直接向作者吐槽")
                 .positiveText("去支持！", dialog -> Utils.openStorePage())
-                .negativeText("不好用", dialog -> {
+                .negativeText("去吐槽", dialog -> {
                     Utils.sendOfficalV2erEmail(getActivity());
                 })
                 .build().show();
@@ -348,6 +347,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onTabReselect(int position) {
         Logger.d("onTabReSelect");
-//        mSlidingTabLayout.
+        if (position == 0 && mFragments.get(0) instanceof OnNewsTabClickListener) {
+            ((OnNewsTabClickListener) mFragments.get(0)).onNewsTabClicked();
+        }
+    }
+
+    public interface OnNewsTabClickListener {
+
+        /**
+         * triggerd only when current tab is news tab
+         */
+        void onNewsTabClicked();
     }
 }

@@ -3,6 +3,7 @@ package me.ghui.v2er.module.home;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,6 +21,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
+import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
@@ -36,6 +38,7 @@ import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -43,15 +46,21 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter {
+        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.OnNewsTabClickListener {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.news_fab_btn)
     FloatingActionButton mNewFab;
+    @BindView(R.id.tabs_recyclerview)
+    BaseRecyclerView mTabsRecyclerView;
+    @BindView(R.id.tabs_wrapper)
+    View mTabsWrapper;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
+    @Inject
+    CommonAdapter<TabInfo> mTabAdapter;
 
     private boolean mNeedHideFab = false;
 
@@ -107,6 +116,9 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                     showFab(true);
             }
         });
+
+        mTabsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mTabsRecyclerView.setAdapter(mTabAdapter);
     }
 
     @Override
@@ -183,4 +195,28 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         if (shouldAnimate) mNewFab.show();
         else mNewFab.setVisibility(View.VISIBLE);
     }
+
+    @OnClick(R.id.tabs_wrapper)
+    void onTabsWrapperBgClicked() {
+        mTabsWrapper.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onNewsTabClicked() {
+        // TODO: 22/08/2017 show or hide tab choose menu
+        if (mTabsWrapper.getVisibility() != View.VISIBLE) {
+            mTabsWrapper.setVisibility(View.VISIBLE);
+        } else {
+            mTabsWrapper.setVisibility(View.GONE);
+        }
+    }
+
+    private void showTabs() {
+        mTabsWrapper.setVisibility(View.VISIBLE);
+    }
+
+    private void hideTabs() {
+        mTabsWrapper.setVisibility(View.GONE);
+    }
+
 }
