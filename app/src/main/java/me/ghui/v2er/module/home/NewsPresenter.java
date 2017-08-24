@@ -23,9 +23,8 @@ public class NewsPresenter implements NewsContract.IPresenter {
 
     @Override
     public void start() {
-        boolean useR2 = Pref.readBool(R.string.pref_key_r2);
         APIService.get()
-                .homeNews(useR2 ? "r2" : "all")
+                .homeNews(mView.getCurrentTab().value)
                 .compose(mView.<NewsInfo>rx())
                 .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override

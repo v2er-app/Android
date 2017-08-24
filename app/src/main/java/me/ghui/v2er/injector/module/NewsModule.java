@@ -86,6 +86,7 @@ public class NewsModule {
         };
         adapter.setData(TabInfo.getDefault());
         return adapter;
+
     }
 
 

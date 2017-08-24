@@ -33,4 +33,8 @@ public class Pref {
     public static void saveBool(String key, boolean value) {
         Prefs.with(app()).writeBoolean(key, value);
     }
+
+    public static void save(String key, String value) {
+        Prefs.with(app()).write(key, value);
+    }
 }

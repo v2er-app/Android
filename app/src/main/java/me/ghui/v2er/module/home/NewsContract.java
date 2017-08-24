@@ -11,6 +11,8 @@ public class NewsContract {
 
 	public interface IView extends BaseContract.IView {
 		void fillView(NewsInfo newsInfos, boolean isLoadMore);
+
+		TabInfo getCurrentTab();
 	}
 
 	public interface IPresenter extends BaseContract.IPresenter {

@@ -352,6 +352,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    public TextView getTabView(int position) {
+        return mSlidingTabLayout.getTitleView(position);
+    }
+
     public interface OnNewsTabClickListener {
 
         /**

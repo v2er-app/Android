@@ -56,6 +56,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     BaseRecyclerView mTabsRecyclerView;
     @BindView(R.id.tabs_wrapper)
     View mTabsWrapper;
+    private TabInfo mCurrentTab;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
@@ -93,17 +94,26 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     protected void init() {
+        mCurrentTab = TabInfo.getSelectTab();
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
-            if (!UserUtils.isLogin()) {
-                Toast.makeText(getContext(), "登录后才能加载更多", Toast.LENGTH_SHORT).show();
+
+            if (!mCurrentTab.isDefaultTab()) {
+                toast("只有全部标签支持加载更多");
                 mRecyclerView.setHasMore(false);
                 return;
             }
+
+            if (!UserUtils.isLogin()) {
+                toast("登录后才能加载更多");
+                mRecyclerView.setHasMore(false);
+                return;
+            }
+
             mPresenter.loadMore(willLoadPage);
         });
 
@@ -119,6 +129,15 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
         mTabsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mTabsRecyclerView.setAdapter(mTabAdapter);
+        mTabAdapter.setOnItemClickListener((view, holder, position) -> {
+            mCurrentTab = TabInfo.getDefault().get(position);
+            TabInfo.saveSelectTab(mCurrentTab);
+            MainActivity activity = (MainActivity) getActivity();
+            activity.getTabView(0).setText(mCurrentTab.title);
+            hideTabs();
+            getPtrLayout().autoRefresh();
+//            mPresenter.start();
+        });
     }
 
     @Override
@@ -163,6 +182,14 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         List<NewsInfo.Item> items = newsInfos.getItems();
         mAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(true);
+        if (!isLoadMore) {
+            mRecyclerView.scrollToPosition(0);
+        }
+    }
+
+    @Override
+    public TabInfo getCurrentTab() {
+        return mCurrentTab;
     }
 
     @OnClick(R.id.news_fab_btn)
