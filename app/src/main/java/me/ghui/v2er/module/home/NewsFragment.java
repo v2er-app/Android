@@ -263,23 +263,12 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void hideNewsTabsMenu() {
-        Animation slideUpAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up);
-        slideUpAnimation.setAnimationListener(new AnimationAdapterListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mTabsRecyclerView.setVisibility(View.GONE);
-            }
-        });
+        mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up));
         Animation fadeout = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
         fadeout.setStartOffset(50);
-        fadeout.setAnimationListener(new AnimationAdapterListener() {
-            @Override
-            public void onAnimationEnd(Animation animation) {
-                mTabsWrapper.setVisibility(View.GONE);
-            }
-        });
-        mTabsRecyclerView.startAnimation(slideUpAnimation);
         mTabsWrapper.startAnimation(fadeout);
+        mTabsRecyclerView.setVisibility(View.GONE);
+        mTabsWrapper.setVisibility(View.GONE);
     }
 
 }
