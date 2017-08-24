@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 
 /**
@@ -24,6 +25,7 @@ public class TabInfo {
 
     public String title;
     public String value;
+    public boolean enabled = true;
 
     public boolean isDefaultTab() {
         return TAB_1_VALUES[0].equals(value);
@@ -40,7 +42,11 @@ public class TabInfo {
     public static List<TabInfo> getDefault() {
         if (!defaults.isEmpty()) return defaults;
         for (int i = 0; i < TAB_1_TITLES.length; i++) {
-            defaults.add(new TabInfo(TAB_1_TITLES[i], TAB_1_VALUES[i]));
+            TabInfo tabInfo = new TabInfo(TAB_1_TITLES[i], TAB_1_VALUES[i]);
+            if ((tabInfo.value.equals("nodes") || tabInfo.value.equals("members")) && !UserUtils.isLogin()) {
+                tabInfo.enabled = false;
+            }
+            defaults.add(tabInfo);
         }
         return defaults;
     }

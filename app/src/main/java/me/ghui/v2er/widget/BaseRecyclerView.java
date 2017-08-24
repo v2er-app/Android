@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
@@ -48,19 +49,28 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     public void addDivider() {
-        setDivider(getResources().getColor(R.color.divider_color), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
+        addDivider(getResources().getColor(R.color.divider_color), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
     }
 
-    public void setDivider(@ColorInt int dividerColor) {
-        setDivider(dividerColor, ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
+    public void addDivider(@ColorInt int dividerColor) {
+        addDivider(dividerColor, ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
     }
 
-    public void setDivider(@ColorInt int dividerColor, float dividerSizeDp) {
+    public void addDivider(@ColorInt int dividerColor, float dividerSizeDp) {
         addItemDecoration(
                 new HorizontalDividerItemDecoration.Builder(getContext())
                         .color(dividerColor)
                         .size(Math.round(ScaleUtils.dp(dividerSizeDp)))
                         .build());
     }
+
+    public void addVerticalDivider(@ColorInt int dividerColor, float dividerSizeDp) {
+        addItemDecoration(
+                new VerticalDividerItemDecoration.Builder(getContext())
+                        .color(dividerColor)
+                        .size(Math.round(ScaleUtils.dp(dividerSizeDp)))
+                        .build());
+    }
+
 
 }

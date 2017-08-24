@@ -2,6 +2,7 @@ package me.ghui.v2er.module.home;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -133,8 +134,16 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
         mTabsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         mTabsRecyclerView.setAdapter(mTabAdapter);
+//        mTabsRecyclerView.addDivider(Color.WHITE, 16);
+//        mTabsRecyclerView.addVerticalDivider(Color.WHITE, 16);
         mTabAdapter.setOnItemClickListener((view, holder, position) -> {
-            mCurrentTab = TabInfo.getDefault().get(position);
+            TabInfo tabInfo = TabInfo.getDefault().get(position);
+            if (!tabInfo.enabled) {
+                toast("登录后再能查看＂" + tabInfo.title + "＂下的内容");
+                return;
+            }
+
+            mCurrentTab = tabInfo;
             TabInfo.saveSelectTab(mCurrentTab);
             MainActivity activity = (MainActivity) getActivity();
             activity.getTabView(0).setText(mCurrentTab.title);
@@ -172,7 +181,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, mRecyclerView, header);
+                return super.checkCanDoRefresh(frame, mRecyclerView, header) && !isShowing();
             }
         };
     }
@@ -258,7 +267,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public boolean isShowing() {
-        return mTabsWrapper.getVisibility() == View.VISIBLE;
+        return mTabsWrapper != null && mTabsWrapper.getVisibility() == View.VISIBLE;
     }
 
     @Override

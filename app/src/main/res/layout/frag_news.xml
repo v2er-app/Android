@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:clipToPadding="false"
-            android:paddingTop="16dp"
+            android:padding="16dp"
             android:visibility="invisible"
             app:shouldPaddingNav="false" />
     </LinearLayout>
