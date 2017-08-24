@@ -284,6 +284,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             return;
         }
 
+        if (mFragments.get(0) instanceof NewsTabMenuTabDelegate) {
+            NewsTabMenuTabDelegate delegate = ((NewsTabMenuTabDelegate) mFragments.get(0));
+            if (delegate.isShowing()) {
+                delegate.hideNewsTabsMenu();
+                return;
+            }
+        }
+
         if (!mHadRated) {
             mHadRated = Pref.readBool(HAD_SHOW_RATE);
         }
@@ -347,8 +355,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onTabReselect(int position) {
         Logger.d("onTabReSelect");
-        if (position == 0 && mFragments.get(0) instanceof OnNewsTabClickListener) {
-            ((OnNewsTabClickListener) mFragments.get(0)).onNewsTabClicked();
+        if (position == 0 && mFragments.get(0) instanceof NewsTabMenuTabDelegate) {
+            ((NewsTabMenuTabDelegate) mFragments.get(0)).onNewsTabClicked();
         }
     }
 
@@ -356,11 +364,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return mSlidingTabLayout.getTitleView(position);
     }
 
-    public interface OnNewsTabClickListener {
-
+    public interface NewsTabMenuTabDelegate {
         /**
          * triggerd only when current tab is news tab
          */
         void onNewsTabClicked();
+
+        void hideNewsTabsMenu();
+
+        void showNewsTabsMenu();
+
+        boolean isShowing();
     }
 }

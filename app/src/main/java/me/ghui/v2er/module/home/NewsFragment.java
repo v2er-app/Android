@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.home;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -48,7 +50,7 @@ import me.ghui.v2er.widget.listener.AnimationAdapterListener;
  */
 
 public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.OnNewsTabClickListener {
+        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.NewsTabMenuTabDelegate {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -136,7 +138,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             TabInfo.saveSelectTab(mCurrentTab);
             MainActivity activity = (MainActivity) getActivity();
             activity.getTabView(0).setText(mCurrentTab.title);
-            hideTabs();
+            hideNewsTabsMenu();
             getPtrLayout().autoRefresh();
 //            mPresenter.start();
         });
@@ -226,7 +228,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @OnClick(R.id.tabs_wrapper)
     void onTabsWrapperBgClicked() {
-        hideTabs();
+        hideNewsTabsMenu();
     }
 
     @Override
@@ -240,20 +242,27 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             return;
         }
         if (mTabsWrapper.getVisibility() != View.VISIBLE) {
-            showTabs();
+            showNewsTabsMenu();
         } else {
-            hideTabs();
+            hideNewsTabsMenu();
         }
     }
 
-    private void showTabs() {
+    @Override
+    public void showNewsTabsMenu() {
         mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
         mTabsWrapper.setVisibility(View.VISIBLE);
         mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_down));
         mTabsRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    private void hideTabs() {
+    @Override
+    public boolean isShowing() {
+        return mTabsWrapper.getVisibility() == View.VISIBLE;
+    }
+
+    @Override
+    public void hideNewsTabsMenu() {
         Animation slideUpAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up);
         slideUpAnimation.setAnimationListener(new AnimationAdapterListener() {
             @Override
@@ -261,17 +270,16 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
                 mTabsRecyclerView.setVisibility(View.GONE);
             }
         });
-        Animation fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
-        fadeOutAnimation.setStartOffset(100);
-        fadeOutAnimation.setAnimationListener(new AnimationAdapterListener() {
+        Animation fadeout = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
+        fadeout.setStartOffset(50);
+        fadeout.setAnimationListener(new AnimationAdapterListener() {
             @Override
             public void onAnimationEnd(Animation animation) {
                 mTabsWrapper.setVisibility(View.GONE);
             }
         });
         mTabsRecyclerView.startAnimation(slideUpAnimation);
-        mTabsWrapper.startAnimation(fadeOutAnimation);
-
+        mTabsWrapper.startAnimation(fadeout);
     }
 
 }

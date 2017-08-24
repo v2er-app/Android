@@ -2,6 +2,6 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android"
 	 android:duration="200">
 	<alpha
-		android:fromAlpha="0.2"
+		android:fromAlpha="0"
 		android:toAlpha="1"/>
 </set>
