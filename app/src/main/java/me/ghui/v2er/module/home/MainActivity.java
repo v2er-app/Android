@@ -186,6 +186,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
         });
 
+        TAB_TITLES[0] = TabInfo.getSelectTab().title;
         mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
@@ -205,6 +206,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
 
         mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
+        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(5));
     }
 
     private void initCheckIn() {

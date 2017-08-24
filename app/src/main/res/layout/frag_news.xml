@@ -21,7 +21,8 @@
             android:background="@color/white"
             android:clipToPadding="false"
             android:paddingTop="16dp"
-            android:visibility="invisible" />
+            android:visibility="invisible"
+            app:shouldPaddingNav="false" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
