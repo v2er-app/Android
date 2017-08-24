@@ -7,7 +7,8 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.Toast;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import com.orhanobut.logger.Logger;
 
@@ -40,6 +41,7 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.listener.AnimationAdapterListener;
 
 /**
  * Created by ghui on 22/03/2017.
@@ -200,7 +202,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-//        mNewFab.setVisibility(View.INVISIBLE);
         View shareView = holder.getView(R.id.avatar_img);
         NewsInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
@@ -225,25 +226,52 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @OnClick(R.id.tabs_wrapper)
     void onTabsWrapperBgClicked() {
-        mTabsWrapper.setVisibility(View.GONE);
+        hideTabs();
     }
 
     @Override
     public void onNewsTabClicked() {
-        // TODO: 22/08/2017 show or hide tab choose menu
+        toggleTabs();
+    }
+
+    private void toggleTabs() {
+        if (mTabsWrapper == null) {
+//            post(() -> toggleTabs());
+            return;
+        }
         if (mTabsWrapper.getVisibility() != View.VISIBLE) {
-            mTabsWrapper.setVisibility(View.VISIBLE);
+            showTabs();
         } else {
-            mTabsWrapper.setVisibility(View.GONE);
+            hideTabs();
         }
     }
 
     private void showTabs() {
+        mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
         mTabsWrapper.setVisibility(View.VISIBLE);
+        mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_down));
+        mTabsRecyclerView.setVisibility(View.VISIBLE);
     }
 
     private void hideTabs() {
-        mTabsWrapper.setVisibility(View.GONE);
+        Animation slideUpAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up);
+        slideUpAnimation.setAnimationListener(new AnimationAdapterListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mTabsRecyclerView.setVisibility(View.GONE);
+            }
+        });
+        Animation fadeOutAnimation = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
+        fadeOutAnimation.setStartOffset(100);
+        fadeOutAnimation.setAnimationListener(new AnimationAdapterListener() {
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                mTabsWrapper.setVisibility(View.GONE);
+            }
+        });
+        mTabsRecyclerView.startAnimation(slideUpAnimation);
+        mTabsWrapper.startAnimation(fadeOutAnimation);
+
     }
 
 }

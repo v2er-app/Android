@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         int index = mSlidingTabLayout.getCurrentTab();
         View rootView = mFragments.get(index).getView();
         if (rootView == null) return false;
-        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
+        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;
@@ -131,9 +131,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         configToolBar();
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
-        mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
-        mUserNameTv = mNavHeaderView.findViewById(R.id.user_name_tv);
-        mCheckInBtn = mNavHeaderView.findViewById(R.id.check_in_progress_btn);
+        mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.avatar_img);
+        mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.user_name_tv);
+        mCheckInBtn = (FollowProgressBtn) mNavHeaderView.findViewById(R.id.check_in_progress_btn);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);

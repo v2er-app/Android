@@ -62,7 +62,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
-        ListView list = rootView.findViewById(android.R.id.list);
+        ListView list = (ListView) rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);
         }

@@ -14,19 +14,14 @@
         android:background="#66000000"
         android:visibility="gone">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="match_parent"
+        <me.ghui.v2er.widget.BaseRecyclerView
+            android:id="@+id/tabs_recyclerview"
+            style="@style/BaseRecyclerView"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/white"
-            app:cardCornerRadius="2dp">
-
-            <me.ghui.v2er.widget.BaseRecyclerView
-                android:id="@+id/tabs_recyclerview"
-                style="@style/BaseRecyclerView"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingTop="16dp" />
-        </android.support.v7.widget.CardView>
+            android:background="@color/white"
+            android:clipToPadding="false"
+            android:paddingTop="16dp"
+            android:visibility="invisible" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
