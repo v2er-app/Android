@@ -21,7 +21,7 @@
                 android:src="@drawable/v2ex_title_logo" />
         </me.ghui.v2er.widget.BaseToolBar>
 
-        <com.flyco.tablayout.SlidingTabLayout
+        <me.ghui.v2er.widget.CSlidingTabLayout
             android:id="@+id/tablayout_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

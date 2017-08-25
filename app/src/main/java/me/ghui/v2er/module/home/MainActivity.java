@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.orhanobut.logger.Logger;
@@ -43,6 +42,7 @@ import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
@@ -57,7 +57,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @BindView(R.id.navigationview_main)
     NavigationView mNavigationView;
     @BindView(R.id.tablayout_main)
-    SlidingTabLayout mSlidingTabLayout;
+    CSlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
     @BindView(R.id.main_toolbar)
