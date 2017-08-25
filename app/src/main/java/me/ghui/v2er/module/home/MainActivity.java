@@ -205,8 +205,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
         mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
 
-        mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow, 0);
-        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(5));
+        mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vector_triangle, 0);
+        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(3));
     }
 
     private void initCheckIn() {
