@@ -1,10 +1,6 @@
 package me.ghui.v2er.module.home;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.graphics.Color;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -47,7 +43,6 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import me.ghui.v2er.widget.listener.AnimationAdapterListener;
 
 /**
  * Created by ghui on 22/03/2017.
@@ -197,7 +192,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
         List<NewsInfo.Item> items = newsInfos.getItems();
         mAdapter.setData(items, isLoadMore);
-        mRecyclerView.setHasMore(true);
+        mRecyclerView.setHasMore(mCurrentTab.isDefaultTab());
         if (!isLoadMore) {
             mRecyclerView.scrollToPosition(0);
         }
@@ -250,7 +245,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void showNewsTabsMenu() {
-        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_down);
+        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) getActivity().getDrawable(R.drawable.animate_triangle_down);
         getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         drawable.start();
         mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));

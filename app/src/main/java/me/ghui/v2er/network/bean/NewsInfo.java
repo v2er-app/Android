@@ -6,7 +6,6 @@ import java.util.List;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.AvatarUtils;
-import me.ghui.v2er.util.Utils;
 
 
 /**
@@ -45,8 +44,7 @@ public class NewsInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        if (PreConditions.isEmpty(items)) return false;
-        return PreConditions.notEmpty(items.get(0).userName);
+        return PreConditions.isEmpty(items) || PreConditions.notEmpty(items.get(0).userName);
     }
 
     public static class Item {
