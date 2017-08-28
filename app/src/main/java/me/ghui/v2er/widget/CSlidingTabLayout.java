@@ -355,6 +355,9 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
     @Override
     public void onPageSelected(int position) {
         updateTabSelection(position);
+        if (mListener != null) {
+            mListener.onTabSelect(position);
+        }
     }
 
     @Override
