@@ -3,6 +3,8 @@ package me.ghui.v2er.module.home;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.graphics.Color;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.VectorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
@@ -240,25 +243,16 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         hideNewsTabsMenu();
     }
 
-    @Override
-    public void onNewsTabClicked() {
-        toggleTabs();
-    }
 
-    private void toggleTabs() {
-        if (mTabsWrapper == null) {
-//            post(() -> toggleTabs());
-            return;
-        }
-        if (mTabsWrapper.getVisibility() != View.VISIBLE) {
-            showNewsTabsMenu();
-        } else {
-            hideNewsTabsMenu();
-        }
+    private TextView getTabView() {
+        return ((MainActivity) getActivity()).getTabView(0);
     }
 
     @Override
     public void showNewsTabsMenu() {
+        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_down);
+        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        drawable.start();
         mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
         mTabsWrapper.setVisibility(View.VISIBLE);
         mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_down));
@@ -272,6 +266,9 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void hideNewsTabsMenu() {
+        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_up);
+        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+        drawable.start();
         mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up));
         Animation fadeout = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
         fadeout.setStartOffset(50);

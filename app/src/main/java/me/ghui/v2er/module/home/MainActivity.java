@@ -2,6 +2,9 @@ package me.ghui.v2er.module.home;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -205,8 +208,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
         mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
 
-        mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.vector_triangle, 0);
-        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(3));
+        mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.animate_triangle_down, 0);
+        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(2));
     }
 
     private void initCheckIn() {
@@ -358,7 +361,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onTabReselect(int position) {
         Logger.d("onTabReSelect");
         if (position == 0 && mFragments.get(0) instanceof NewsTabMenuTabDelegate) {
-            ((NewsTabMenuTabDelegate) mFragments.get(0)).onNewsTabClicked();
+            NewsTabMenuTabDelegate delegate = ((NewsTabMenuTabDelegate) mFragments.get(0));
+            if (!delegate.isShowing()) {
+                delegate.showNewsTabsMenu();
+            } else {
+                delegate.hideNewsTabsMenu();
+            }
         }
     }
 
@@ -367,10 +375,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     public interface NewsTabMenuTabDelegate {
-        /**
-         * triggerd only when current tab is news tab
-         */
-        void onNewsTabClicked();
 
         void hideNewsTabsMenu();
 
