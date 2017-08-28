@@ -355,6 +355,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onTabSelect(int position) {
         Logger.d("onTabSelect");
+        if (position == 0) {
+            mTab1View.getCompoundDrawables()[2].setTint(getResources().getColor(R.color.bodyTextColor));
+        } else {
+            mTab1View.getCompoundDrawables()[2].setTint(0x66000000);
+        }
     }
 
     @Override
