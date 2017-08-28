@@ -136,7 +136,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 //        mTabsRecyclerView.addVerticalDivider(Color.WHITE, 16);
         mTabAdapter.setOnItemClickListener((view, holder, position) -> {
             TabInfo tabInfo = TabInfo.getDefault().get(position);
-            if (!tabInfo.enabled) {
+            if (tabInfo.needLogin && !UserUtils.isLogin()) {
                 toast("登录后再能查看＂" + tabInfo.title + "＂下的内容");
                 return;
             }
