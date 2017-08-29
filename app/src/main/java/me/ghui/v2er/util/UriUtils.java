@@ -3,6 +3,7 @@ package me.ghui.v2er.util;
 import android.net.Uri;
 
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.network.Constants;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -32,5 +33,9 @@ public class UriUtils {
             }
         }
         return url;
+    }
+
+    public static String topicLink(String id) {
+        return Constants.BASE_URL + "/t/" + id;
     }
 }

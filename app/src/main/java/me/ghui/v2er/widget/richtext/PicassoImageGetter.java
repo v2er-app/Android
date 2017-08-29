@@ -81,6 +81,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
         @Override
         public void draw(Canvas canvas) {
             if (mDrawable != null) {
+                // TODO: 29/08/2017 too large bitmap
                 mDrawable.draw(canvas);
                 return;
             }

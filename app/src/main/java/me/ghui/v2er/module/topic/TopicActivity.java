@@ -47,6 +47,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.share.ShareManager;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -238,7 +239,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .build().show();
                     break;
                 case R.id.action_share:
-                    Utils.shareLink(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
+//                    Utils.shareLink(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
+                    ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
+                            .content(Html.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
+                            .link(UriUtils.topicLink(mTopicId))
+                            .img(headerInfo.getAvatar())
+                            .build();
+                    ShareManager shareManager = new ShareManager(shareData, this);
+                    shareManager.shareToWechat(ShareManager.ShareData.SESSION);
                     break;
 
                 case R.id.action_copy_url:

@@ -6,6 +6,8 @@ import android.preference.PreferenceManager;
 import com.orhanobut.logger.Logger;
 import com.squareup.picasso.Picasso;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
@@ -23,6 +25,7 @@ public class App extends Application {
 
     private static App sInstance;
     private AppComponent mAppComponent;
+    private IWXAPI mWechat;
 
     public static App get() {
         return sInstance;
@@ -43,6 +46,7 @@ public class App extends Application {
         initPicasso();
         APIService.init();
         initBugly();
+        initWechat();
     }
 
     private void initPicasso() {
@@ -61,6 +65,15 @@ public class App extends Application {
         } else {
             CrashReport.setUserId("UnLogin");
         }
+    }
+
+    private void initWechat() {
+        mWechat = WXAPIFactory.createWXAPI(this, null);
+        mWechat.registerApp("wx6f7962223cf45114");
+    }
+
+    public IWXAPI wechat() {
+        return mWechat;
     }
 
     public AppComponent getAppComponent() {

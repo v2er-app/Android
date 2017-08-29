@@ -85,3 +85,16 @@
 
 ##---------------End: proguard configuration for Gson  ----------
 -keep class android.support.v7.widget.SearchView { *; }
+##END
+
+## WEIXIN
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
+-keep class com.tencent.wxop.** {
+   *;
+}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
+##END
