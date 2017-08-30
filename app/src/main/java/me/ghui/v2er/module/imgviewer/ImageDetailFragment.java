@@ -94,6 +94,7 @@ public class ImageDetailFragment extends Fragment {
                 .load(mImageUrl)
                 .resize(maxSize, maxSize)
                 .onlyScaleDown()
+                .centerInside()
                 .into(mTarget);
     }
 
