@@ -20,6 +20,8 @@ import com.squareup.picasso.Target;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 
 
@@ -47,6 +49,7 @@ public class ImageDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImageUrl = getArguments() != null ? getArguments().getString(IMG_URL) : null;
+        mImageUrl = UriUtils.checkSchema(mImageUrl);
     }
 
     @Override
@@ -85,8 +88,12 @@ public class ImageDetailFragment extends Fragment {
                 progressBar.setVisibility(View.VISIBLE);
             }
         };
+
+        int maxSize = Utils.getMaxTextureSize();
         Picasso.with(getContext())
                 .load(mImageUrl)
+                .resize(maxSize, maxSize)
+                .onlyScaleDown()
                 .into(mTarget);
     }
 

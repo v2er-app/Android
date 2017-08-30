@@ -81,7 +81,6 @@ public class PicassoImageGetter implements Html.ImageGetter {
         @Override
         public void draw(Canvas canvas) {
             if (mDrawable != null) {
-                // TODO: 29/08/2017 too large bitmap
                 mDrawable.draw(canvas);
                 return;
             }
@@ -121,6 +120,7 @@ public class PicassoImageGetter implements Html.ImageGetter {
                 height = (int) (height * (maxWidth / width));
                 width = (int) maxWidth;
             }
+            bitmap = Bitmap.createScaledBitmap(bitmap, width, height, true);
             BitmapDrawable bitmapDrawable = new BitmapDrawable(mTextView.getResources(), bitmap);
             bitmapDrawable.setBounds(0, 0, width, height);
             mDrawable.setDrawable(bitmapDrawable);
