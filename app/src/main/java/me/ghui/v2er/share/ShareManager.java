@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
 import android.support.design.widget.BottomSheetDialog;
-import android.view.ViewGroup;
+import android.view.View;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -18,6 +18,8 @@ import java.io.ByteArrayOutputStream;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
@@ -38,7 +40,40 @@ public class ShareManager {
         mContext = context;
         mDialog = new BottomSheetDialog(context);
         mDialog.setContentView(R.layout.share_dialog);
-        ViewGroup parentView = (ViewGroup) mDialog.findViewById(R.id.share_dialog_rootview);
+        View rootview = mDialog.findViewById(R.id.share_dialog_rootview);
+        ButterKnife.bind(this, rootview);
+    }
+
+    @OnClick({R.id.share_item_1, R.id.share_item_2,
+            R.id.share_item_3, R.id.share_item_4,
+            R.id.share_item_5, R.id.share_item_6,
+            R.id.share_item_7, R.id.share_item_8,
+            R.id.share_item_9})
+    void onShareItemClicked(View view) {
+        switch (view.getId()) {
+            case R.id.share_item_1:
+                shareToWechat(ShareData.CIRCLE);
+                break;
+            case R.id.share_item_2:
+                shareToWechat(ShareData.SESSION);
+                break;
+            case R.id.share_item_3:
+                break;
+            case R.id.share_item_4:
+                break;
+            case R.id.share_item_5:
+                break;
+            case R.id.share_item_6:
+                shareToWechat(ShareData.FAVORITE);
+                break;
+            case R.id.share_item_7:
+                break;
+            case R.id.share_item_8:
+                break;
+            case R.id.share_item_9:
+                break;
+        }
+        mDialog.dismiss();
     }
 
     public void showShareDialog() {
@@ -169,7 +204,7 @@ public class ShareManager {
     private static byte[] bmpToByteArray(final Bitmap bmp) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
-        bmp.recycle();
+//        bmp.recycle();
 
         byte[] result = output.toByteArray();
         try {
