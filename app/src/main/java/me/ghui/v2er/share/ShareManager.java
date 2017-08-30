@@ -82,10 +82,14 @@ public class ShareManager {
                 shareToWechat(ShareData.FAVORITE);
                 break;
             case R.id.share_item_7:
+                Utils.openInBrowser(mShareData.link, mContext);
                 break;
             case R.id.share_item_8:
+                Utils.copyToClipboard(mContext, String.format("%s\n%s", mShareData.title, mShareData.link));
+                Voast.show("链接已拷贝成功");
                 break;
             case R.id.share_item_9:
+                shareText(mShareData.title, mShareData.link, mContext);
                 break;
         }
         mDialog.dismiss();
@@ -101,22 +105,6 @@ public class ShareManager {
         private String content;
         private String img;
         private String link;
-
-        public String getTitle() {
-            return title;
-        }
-
-        public String getContent() {
-            return content;
-        }
-
-        public String getImg() {
-            return img;
-        }
-
-        public String getLink() {
-            return link;
-        }
 
         private ShareData() {
         }

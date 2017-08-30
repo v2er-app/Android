@@ -41,6 +41,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
+import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -239,9 +240,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .build().show();
                     break;
                 case R.id.action_share:
-//                    Utils.shareTo(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
                     ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
-                            .content(Html.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
+                            .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
                             .link(UriUtils.topicLink(mTopicId))
                             .img(headerInfo.getAvatar())
                             .build();

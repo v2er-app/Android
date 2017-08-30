@@ -107,7 +107,7 @@ public class WapActivity extends BaseActivity {
                     toast("链接已拷贝成功");
                     break;
                 case R.id.action_open_in_browser:
-                    Utils.openInBrowser(mCurrentUrl);
+                    Utils.openInBrowser(mCurrentUrl,this);
                     break;
             }
             return false;

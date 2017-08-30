@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
+import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -259,13 +260,23 @@ public class Utils {
         UrlInterceptor.openWapPage(url, context, forchOpenInWebView);
     }
 
-    public static void openInBrowser(String url) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.setData(Uri.parse(url));
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        App.get().startActivity(intent);
+    public static void openInBrowser(String url, Context context) {
+//        Intent intent = new Intent(Intent.ACTION_VIEW);
+//        intent.addCategory(Intent.CATEGORY_DEFAULT);
+//        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+//        intent.setData(Uri.parse(url));
+//        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+//        App.get().startActivity(intent);
+
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
+                .enableUrlBarHiding()
+                .setShowTitle(true)
+                .addDefaultShareMenuItem()
+                .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
+                .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
+                .build();
+        customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 
     /**
