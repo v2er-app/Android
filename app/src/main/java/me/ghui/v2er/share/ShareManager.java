@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
+import android.support.design.widget.BottomSheetDialog;
+import android.view.ViewGroup;
 
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -29,11 +31,20 @@ public class ShareManager {
     private static final int THUMB_SIZE = 150;
     private ShareData mShareData;
     private Context mContext;
+    private BottomSheetDialog mDialog;
 
     public ShareManager(ShareData shareData, Context context) {
         mShareData = shareData;
         mContext = context;
+        mDialog = new BottomSheetDialog(context);
+        mDialog.setContentView(R.layout.share_dialog);
+        ViewGroup parentView = (ViewGroup) mDialog.findViewById(R.id.share_dialog_rootview);
     }
+
+    public void showShareDialog() {
+        mDialog.show();
+    }
+
 
     public static class ShareData {
         private String title;
@@ -108,7 +119,7 @@ public class ShareManager {
 
     private Target mTarget;
 
-    public void shareToWechat(@ShareData.SENCE int type) {
+    private void shareToWechat(@ShareData.SENCE int type) {
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = mShareData.link;
         WXMediaMessage msg = new WXMediaMessage(webpage);
@@ -123,13 +134,13 @@ public class ShareManager {
             mTarget = new Target() {
                 @Override
                 public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    msg.thumbData = bmpToByteArray(bitmap, false);
+                    msg.thumbData = bmpToByteArray(bitmap);
                     App.get().wechat().sendReq(req);
                 }
 
                 @Override
                 public void onBitmapFailed(Drawable errorDrawable) {
-                    msg.thumbData = bmpToByteArray(getDefaultBitmap(), false);
+                    msg.thumbData = bmpToByteArray(getDefaultBitmap());
                     App.get().wechat().sendReq(req);
                 }
 
@@ -142,7 +153,7 @@ public class ShareManager {
                     .resize(THUMB_SIZE, THUMB_SIZE)
                     .into(mTarget);
         } else {
-            msg.thumbData = bmpToByteArray(getDefaultBitmap(), false);
+            msg.thumbData = bmpToByteArray(getDefaultBitmap());
             App.get().wechat().sendReq(req);
         }
     }
@@ -155,12 +166,10 @@ public class ShareManager {
     }
 
 
-    public static byte[] bmpToByteArray(final Bitmap bmp, final boolean needRecycle) {
+    private static byte[] bmpToByteArray(final Bitmap bmp) {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         bmp.compress(Bitmap.CompressFormat.PNG, 100, output);
-        if (needRecycle) {
-            bmp.recycle();
-        }
+        bmp.recycle();
 
         byte[] result = output.toByteArray();
         try {

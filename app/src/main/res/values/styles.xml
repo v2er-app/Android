@@ -97,4 +97,11 @@
         <item name="android:scrollbars">vertical</item>
     </style>
 
+    <style name="ShareItem" parent="@style/BodyText">
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
 </resources>

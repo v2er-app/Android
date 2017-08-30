@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/share_dialog_rootview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="16dp">
+
+    <TextView
+        style="@style/TitleText"
+        android:padding="12dp"
+        android:text="分享" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:orientation="vertical">
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_wechat_timeline"
+                android:text="朋友圈" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_wechat"
+                android:text="微信好友" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_telegram"
+                android:text="Telegram" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_weibo"
+                android:text="微博" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_qq"
+                android:text="QQ" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_wx_favorite"
+                android:text="微信收藏" />
+
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_browser"
+                android:text="浏览器" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_copylink"
+                android:text="复制" />
+
+            <TextView
+                style="@style/ShareItem"
+                android:drawableTop="@drawable/ic_share_more"
+                android:text="更多" />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>
