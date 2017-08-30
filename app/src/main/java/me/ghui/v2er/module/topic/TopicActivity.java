@@ -239,7 +239,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .build().show();
                     break;
                 case R.id.action_share:
-//                    Utils.shareLink(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
+//                    Utils.shareTo(this, mTopicInfo.getTopicLink(), mTopicInfo.getHeaderInfo().getTitle());
                     ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
                             .content(Html.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
                             .link(UriUtils.topicLink(mTopicId))

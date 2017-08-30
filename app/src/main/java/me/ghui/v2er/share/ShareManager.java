@@ -1,6 +1,7 @@
 package me.ghui.v2er.share;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,9 @@ import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.ThirdApp;
+import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 29/08/2017.
@@ -58,10 +62,21 @@ public class ShareManager {
                 shareToWechat(ShareData.SESSION);
                 break;
             case R.id.share_item_3:
+                shareTo(ThirdApp.TELEGRAM, mShareData.title, mShareData.link, mContext);
                 break;
             case R.id.share_item_4:
+                shareTo(ThirdApp.WEIBO, mShareData.title, mShareData.link, mContext);
                 break;
             case R.id.share_item_5:
+                if (Utils.isAppAvailable(ThirdApp.QQ)) {
+                    shareTo(ThirdApp.QQ, mShareData.title, mShareData.link, mContext);
+                } else if (Utils.isAppAvailable(ThirdApp.QQHD)) {
+                    shareTo(ThirdApp.QQHD, mShareData.title, mShareData.link, mContext);
+                } else if (Utils.isAppAvailable(ThirdApp.TIM)) {
+                    shareTo(ThirdApp.TIM, mShareData.title, mShareData.link, mContext);
+                } else {
+                    Voast.show("QQ not Installed");
+                }
                 break;
             case R.id.share_item_6:
                 shareToWechat(ShareData.FAVORITE);
@@ -150,6 +165,27 @@ public class ShareManager {
         @Retention(RetentionPolicy.SOURCE)
         public @interface SENCE {
         }
+    }
+
+//        final String appName = "org.telegram.messenger";
+
+    public static void shareText(String title, String link, Context context) {
+        shareTo(null, title, link, context);
+    }
+
+    public static void shareTo(String packageName, String title, String link, Context context) {
+        if (!Utils.isAppAvailable(packageName)) {
+            Voast.show("Telegram not Installed");
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT,
+                String.format("%s\n%s", title, link));
+        if (PreConditions.notEmpty(packageName)) {
+            intent.setPackage(packageName);
+        }
+        context.startActivity(Intent.createChooser(intent, "分享方式"));
     }
 
     private Target mTarget;

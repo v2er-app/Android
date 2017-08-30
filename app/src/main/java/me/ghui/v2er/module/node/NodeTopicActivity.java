@@ -7,11 +7,9 @@ import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,6 +36,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.share.ShareManager;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
@@ -193,7 +192,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 if (PreConditions.notEmpty(desc)) {
                     title = title + "：" + desc;
                 }
-                Utils.shareLink(this, mNodeInfo.getUrl(), title);
+                ShareManager.shareText(title, mNodeInfo.getUrl(), this);
             } else if (item.getItemId() == R.id.action_block) {
 
             }

@@ -23,8 +23,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.List;
 
 import me.ghui.v2er.R;
@@ -308,14 +306,6 @@ public class Utils {
         return versionName;
     }
 
-    public static void shareLink(Context context, String link, String title) {
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT,
-                String.format("%s\n%s", title, link));
-        intent.putExtra(android.content.Intent.EXTRA_SUBJECT, title);
-        context.startActivity(Intent.createChooser(intent, "分享方式"));
-    }
 
     public static String[] cutString(String text, int cutPos) {
         if (PreConditions.isEmpty(text)) return null;
@@ -360,6 +350,17 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static boolean isAppAvailable(String appName) {
+        if (PreConditions.isEmpty(appName)) return true;
+        PackageManager pm = App.get().getPackageManager();
+        try {
+            pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
 }
