@@ -66,7 +66,7 @@
                 style="@style/ShareItem"
                 android:drawableTop="@drawable/ic_share_browser"
                 android:id="@+id/share_item_7"
-                android:text="浏览器" />
+                android:text="Web" />
 
             <TextView
                 style="@style/ShareItem"
