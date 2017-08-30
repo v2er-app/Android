@@ -13,6 +13,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.module.user.UserHomeContract;
 import me.ghui.v2er.module.user.UserHomePresenter;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -80,7 +81,7 @@ public class UserHomeModule {
             public void convert(ViewHolder holder, UserPageInfo.Item item, int position) {
                 UserPageInfo.ReplyItem replyItem = (UserPageInfo.ReplyItem) item;
                 holder.setText(R.id.reply_title_tv, replyItem.getTitle());
-                holder.setText(R.id.reply_content_tv, replyItem.getContent());
+                RichText.from(replyItem.getContent()).into(holder.getTextView(R.id.reply_content_tv));
                 holder.setText(R.id.reply_time_tv, replyItem.getTime());
             }
         });

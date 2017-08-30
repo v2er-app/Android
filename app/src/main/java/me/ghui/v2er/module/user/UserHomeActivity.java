@@ -325,6 +325,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this);
+        UserPageInfo.Item item = mAdapter.getDatas().get(position);
+        TopicActivity.open(item.getTopicLink(), this);
     }
 }

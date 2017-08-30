@@ -281,7 +281,7 @@ public class UserPageInfo extends BaseInfo {
     }
 
     private static class ReplyContentItem {
-        @Pick
+        @Pick(attr = Attrs.INNER_HTML)
         private String content;
 
         public String getContent() {
