@@ -100,14 +100,18 @@ public class WapActivity extends BaseActivity {
                     refresh();
                     break;
                 case R.id.action_share:
-                    ShareManager.shareText(toolBar.getTitle().toString(), mCurrentUrl, this);
+                    ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(toolBar.getTitle().toString())
+                            .link(mCurrentUrl)
+                            .build();
+                    ShareManager shareManager = new ShareManager(shareData, this);
+                    shareManager.showShareDialog();
                     break;
                 case R.id.action_copy_url:
                     Utils.copyToClipboard(this, mCurrentUrl);
                     toast("链接已拷贝成功");
                     break;
                 case R.id.action_open_in_browser:
-                    Utils.openInBrowser(mCurrentUrl,this);
+                    Utils.openInBrowser(mCurrentUrl, this);
                     break;
             }
             return false;

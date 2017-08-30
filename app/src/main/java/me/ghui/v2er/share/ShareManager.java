@@ -157,7 +157,7 @@ public class ShareManager {
 
 //        final String appName = "org.telegram.messenger";
 
-    public static void shareText(String title, String link, Context context) {
+    private static void shareText(String title, String link, Context context) {
         shareTo(null, title, link, context);
     }
 

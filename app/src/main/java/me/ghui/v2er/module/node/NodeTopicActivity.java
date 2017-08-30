@@ -28,7 +28,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -189,10 +189,14 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 if (mNodeInfo == null) return false;
                 String desc = mNodeInfo.getHeader();
                 String title = mNodeInfo.getTitle();
-                if (PreConditions.notEmpty(desc)) {
-                    title = title + "：" + desc;
-                }
-                ShareManager.shareText(title, mNodeInfo.getUrl(), this);
+//                ShareManager.shareText(title, mNodeInfo.getUrl(), this);
+                ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(title)
+                        .content(Vtml.fromHtml(desc).toString())
+                        .link(mNodeInfo.getUrl())
+                        .img(mNodeInfo.getAvatar())
+                        .build();
+                ShareManager shareManager = new ShareManager(shareData, this);
+                shareManager.showShareDialog();
             } else if (item.getItemId() == R.id.action_block) {
 
             }

@@ -246,7 +246,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .img(headerInfo.getAvatar())
                             .build();
                     ShareManager shareManager = new ShareManager(shareData, this);
-//                    shareManager.shareToWechat(ShareManager.ShareData.SESSION);
                     shareManager.showShareDialog();
                     break;
 
