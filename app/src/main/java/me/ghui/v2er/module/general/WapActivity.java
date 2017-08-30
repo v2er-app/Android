@@ -102,6 +102,7 @@ public class WapActivity extends BaseActivity {
                 case R.id.action_share:
                     ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(toolBar.getTitle().toString())
                             .link(mCurrentUrl)
+                            .content("链接分享")
                             .build();
                     ShareManager shareManager = new ShareManager(shareData, this);
                     shareManager.showShareDialog();
