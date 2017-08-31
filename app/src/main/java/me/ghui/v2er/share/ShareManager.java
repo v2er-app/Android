@@ -163,7 +163,7 @@ public class ShareManager {
 
     public static void shareTo(String packageName, String title, String link, Context context) {
         if (!Utils.isAppAvailable(packageName)) {
-            Voast.show("Telegram not Installed");
+            Voast.show("The App not Installed");
             return;
         }
         Intent intent = new Intent(Intent.ACTION_SEND);
