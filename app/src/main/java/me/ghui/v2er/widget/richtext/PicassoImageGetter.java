@@ -48,10 +48,9 @@ public class PicassoImageGetter implements Html.ImageGetter {
         NetWorkDrawable drawable = new NetWorkDrawable(mImageHolder);
         Target target = new NetWorkDrawableTarget(textView, drawable, mImageHolder.maxSize);
         mTargets.add(target);
-        int maxSize = ScaleUtils.getScreenContentH();
         Picasso.with(textView.getContext())
                 .load(source)
-                .resize(maxSize, maxSize)
+                .resize(ScaleUtils.getScreenW(), ScaleUtils.getScreenContentH())
                 .onlyScaleDown()
                 .centerInside()
                 .into(target);
