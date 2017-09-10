@@ -15,6 +15,23 @@
             android:title="清除缓存" />
         <SwitchPreference
             android:defaultValue="true"
+            android:key="@string/pref_key_shortcuts_back_to_home"
+            android:layout="@layout/preference_item"
+            android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
+            android:title="返回到首页" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_auto_checkin"
+            android:layout="@layout/preference_item"
+            android:summary="开启后当你每次打开App时会尝试自动签到"
+            android:title="自动签到" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="显示">
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="@string/pref_key_title_overview"
             android:layout="@layout/preference_item"
             android:summary="列表标题最多显示两行（标题刷新后生效）"
@@ -37,19 +54,6 @@
             android:layout="@layout/preference_item"
             android:summary="开启后可以高亮楼主的回帖"
             android:title="高亮楼主回帖" />
-
-        <SwitchPreference
-            android:defaultValue="true"
-            android:key="@string/pref_key_shortcuts_back_to_home"
-            android:layout="@layout/preference_item"
-            android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
-            android:title="返回到首页" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_key_auto_checkin"
-            android:layout="@layout/preference_item"
-            android:summary="开启后当你每次打开App时会尝试自动签到"
-            android:title="自动签到" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -57,17 +61,17 @@
         android:title="关于">
         <Preference
             android:layout="@layout/preference_item"
-            android:summary="一个V2EX第三方客户端"
+            android:summary="(To) be the best V2EX APP"
             android:title="V2er" />
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />
         <Preference
-            android:key="@string/pref_key_rate"
+            android:key="@string/pref_key_v2er_pro"
             android:layout="@layout/preference_item"
-            android:title="去评价" />
-
+            android:summary="更多实用功能并能支持V2er的长期开发"
+            android:title="获取Pro版" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+import android.preference.SwitchPreference;
 import android.view.View;
 import android.widget.ListView;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.Constants;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
@@ -34,6 +36,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private Preference cachePref;
     private Preference loginPreference;
+    private SwitchPreference mAutoCheckInPrefItem;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,17 +49,14 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
         updatePrefItem.setOnPreferenceClickListener(this);
         updatePrefItem.setSummary(String.format("当前版本 " + Utils.getVersionName() + " (" + Utils.getVersionCode() + ")"));
-        findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
-        findPreference(getString(R.string.pref_send_email)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_v2ex)).setOnPreferenceClickListener(this);
-//        findPreference(getString(R.string.pref_key_hide_create_btn)).setOnPreferenceClickListener(this);
-//        findPreference(getString(R.string.pref_key_os)).setOnPreferenceClickListener(this);
+        mAutoCheckInPrefItem = (SwitchPreference) findPreference(getString(R.string.pref_key_auto_checkin));
+        mAutoCheckInPrefItem.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -80,9 +81,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             }
             return true;
         } else if (key.equals(getString(R.string.pref_key_check_update))) {
-            Utils.openStorePage();
-            return true;
-        } else if (key.equals(getString(R.string.pref_key_rate))) {
             Utils.openStorePage();
             return true;
         } else if (key.equals(getString(R.string.pref_key_value_toggle_log))) {
@@ -115,6 +113,16 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap(getString(R.string.official_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
+        } else if (key.equals(getString(R.string.pref_key_auto_checkin))) {
+            if (!Utils.isPro()) {
+                mAutoCheckInPrefItem.setChecked(false);
+                new ConfirmDialog.Builder(getActivity())
+                        .title("功能不可用")
+                        .msg("自动签到是Pro版特性，获取Pro版开启")
+                        .positiveText("暂不")
+                        .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
+                        .build().show();
+            }
         }
         return false;
     }

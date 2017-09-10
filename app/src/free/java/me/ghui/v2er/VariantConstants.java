@@ -5,4 +5,5 @@ package me.ghui.v2er;
  */
 
 public interface VariantConstants {
+
 }

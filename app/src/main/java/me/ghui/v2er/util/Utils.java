@@ -31,6 +31,7 @@ import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
@@ -77,13 +78,17 @@ public class Utils {
     }
 
     public static void openStorePage() {
-        final String appPackageName = App.get().getPackageName();
+        final String pkgName = App.get().getPackageName();
+        openStorePage(pkgName);
+    }
+
+    public static void openStorePage(String pkgName) {
         try {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkgName));
             intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             App.get().startActivity(intent);
         } catch (android.content.ActivityNotFoundException anfe) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName));
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + pkgName));
             intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
             App.get().startActivity(intent);
         }
@@ -417,6 +422,10 @@ public class Utils {
 
         // Return largest texture size found, or default
         return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+    }
+
+    public static boolean isPro() {
+        return !BuildConfig.APPLICATION_ID.endsWith(".free");
     }
 
 }
