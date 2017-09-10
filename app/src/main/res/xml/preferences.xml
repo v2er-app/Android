@@ -56,11 +56,6 @@
         android:layout="@layout/preference_category_widget"
         android:title="关于">
         <Preference
-            android:key="@string/pref_key_v2ex"
-            android:layout="@layout/preference_item"
-            android:summary="V2EX 是一个关于分享和探索的地方"
-            android:title="V2EX" />
-        <Preference
             android:layout="@layout/preference_item"
             android:summary="一个V2EX第三方客户端"
             android:title="V2er" />
@@ -78,11 +73,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="联系">
-        <Preference
-            android:key="@string/pref_send_email"
-            android:layout="@layout/preference_item"
-            android:summary="@string/feedback_email"
-            android:title="Email" />
         <Preference
             android:key="@string/pref_weibo_personal_page"
             android:layout="@layout/preference_item"
