@@ -11,7 +11,8 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="android.max_aspect"
-            android:value="2.1"/>
+            android:value="2.1" />
+
         <activity
             android:name=".module.splash.SplashActivity"
             android:screenOrientation="portrait"
@@ -107,6 +108,9 @@
         <activity
             android:name=".module.general.WapActivity"
             android:label="" />
+        <activity
+            android:name=".module.settings.ProInfoActivity"
+            android:label="V2er Pro" />
     </application>
 
 </manifest>

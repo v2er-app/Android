@@ -57,6 +57,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
         mAutoCheckInPrefItem = (SwitchPreference) findPreference(getString(R.string.pref_key_auto_checkin));
         mAutoCheckInPrefItem.setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_v2er_pro)).setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -123,6 +124,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
                         .build().show();
             }
+        } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
+            Navigator.from(getActivity()).to(ProInfoActivity.class).start();
         }
         return false;
     }
