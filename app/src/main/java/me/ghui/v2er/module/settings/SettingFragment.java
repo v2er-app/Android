@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.ListView;
 
@@ -36,7 +37,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private Preference cachePref;
     private Preference loginPreference;
-    private SwitchPreference mAutoCheckInPrefItem;
 
 
     @Override
@@ -55,9 +55,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
-        mAutoCheckInPrefItem = (SwitchPreference) findPreference(getString(R.string.pref_key_auto_checkin));
-        mAutoCheckInPrefItem.setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_v2er_pro)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
+        Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
+        proItem.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -114,19 +115,36 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap(getString(R.string.official_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
-        } else if (key.equals(getString(R.string.pref_key_auto_checkin))) {
-            if (!Utils.isPro()) {
-                mAutoCheckInPrefItem.setChecked(false);
-                new ConfirmDialog.Builder(getActivity())
-                        .title("功能不可用")
-                        .msg("自动签到是Pro版特性，获取Pro版开启")
-                        .positiveText("暂不")
-                        .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
-                        .build().show();
-            }
         } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
-            Navigator.from(getActivity()).to(ProInfoActivity.class).start();
+            if (Utils.isPro()) {
+                Voast.show("感谢您的支持！");
+            } else {
+                Navigator.from(getActivity()).to(ProInfoActivity.class).start();
+            }
+        } else if (isFeatureUnavaliable(key)) {
+            SwitchPreference switchPreference = (SwitchPreference) preference;
+            switchPreference.setChecked(false);
+            new ConfirmDialog.Builder(getActivity())
+                    .title("功能不可用")
+                    .msg("此功能是Pro版特性，获取Pro版以开启")
+                    .positiveText("暂不")
+                    .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
+                    .build().show();
         }
         return false;
     }
+
+
+    private boolean isFeatureUnavaliable(String key) {
+        return !Utils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
+                R.string.pref_key_highlight_topic_owner_reply_item);
+    }
+
+    private boolean strEquals(String str, @StringRes int... strId) {
+        for (int id : strId) {
+            if (str.equals(getString(id))) return true;
+        }
+        return false;
+    }
+
 }

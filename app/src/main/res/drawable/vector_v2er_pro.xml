@@ -1,0 +1,27 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="512dp"
+    android:height="512dp"
+    android:viewportWidth="512"
+    android:viewportHeight="512">
+    <group android:name="group"/>
+    <group android:name="group_1"/>
+    <group android:name="page_1">
+        <group android:name="artboard_9">
+            <group android:name="ic_v2er">
+                <path
+                    android:name="rectangle_19"
+                    android:pathData="M 0 0 L 512 0 L 512 512 L 0 512 Z"
+                    android:fillColor="#000000"
+                    android:strokeWidth="1"/>
+                <group android:name="logo">
+                    <path
+                        android:name="shape"
+                        android:pathData="M 256.365 255.841 L 158.608 379.578 L 256.043 379.578 L 354.171 255.841 L 253.593 132.896 L 156.678 132.896 Z"
+                        android:fillColor="#ffffff"
+                        android:strokeWidth="1"/>
+                </group>
+            </group>
+        </group>
+    </group>
+</vector>

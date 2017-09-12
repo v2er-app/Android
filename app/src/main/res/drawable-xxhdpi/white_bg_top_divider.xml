@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="-10dp"
+        android:left="-10dp"
+        android:right="-10dp">
+        <shape android:shape="rectangle">
+            <stroke
+                android:width="@dimen/divider_size"
+                android:color="@color/divider_color" />
+            <solid android:color="@android:color/white" />
+        </shape>
+    </item>
+</layer-list>

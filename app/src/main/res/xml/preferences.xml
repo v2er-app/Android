@@ -70,9 +70,8 @@
         <Preference
             android:key="@string/pref_key_v2er_pro"
             android:layout="@layout/preference_item"
-            android:summary="更多实用功能并能支持V2er的长期开发"
-            android:title="获取Pro版">
-        </Preference>
+            android:summary="@string/go_get_pro_summary"
+            android:title="@string/go_get_pro_title" />
     </PreferenceCategory>
 
     <PreferenceCategory

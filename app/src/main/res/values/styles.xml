@@ -105,4 +105,16 @@
         <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
+    <style name="ProItem" parent="@style/BodyText">
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:background">@drawable/white_bg_top_divider</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:gravity">left</item>
+    </style>
+
 </resources>

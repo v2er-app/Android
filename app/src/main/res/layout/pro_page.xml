@@ -1,11 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_color"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingTop="16dp">
+
+    <ImageView
+        android:id="@+id/pro_logo_img"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/vector_v2er_pro" />
+
+    <TextView
+        android:id="@+id/pro_title_tv"
+        style="@style/SubTitleText"
+        android:layout_marginTop="6dp"
+        android:text="V2er Pro" />
+
+    <TextView
+        style="@style/SubTitleText"
+        android:layout_width="match_parent"
+        android:gravity="left"
+        android:padding="16dp"
+        android:text="获取Pro版你可以" />
+
+    <TextView
+        style="@style/ProItem"
+        android:text="1. 解锁Pro版特性" />
+
+    <TextView
+        style="@style/ProItem"
+        android:text="2. 优先体验新功能" />
+
+    <TextView
+        style="@style/ProItem"
+        android:text="3. 支持V2er项目的长期开发" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/go_get_pro_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:layout_marginTop="16dp"
+        android:background="@color/white"
+        android:elevation="0dp"
+        android:foreground="?android:selectableItemBackgroundBorderless"
+        android:stateListAnimator="@null"
+        android:text="去获取"
+        android:textStyle="normal" />
 </LinearLayout>
