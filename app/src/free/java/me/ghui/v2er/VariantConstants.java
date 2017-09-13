@@ -5,5 +5,7 @@ package me.ghui.v2er;
  */
 
 public interface VariantConstants {
-
+    String BUGLY_ID = "be3ffe5c12";
+    // TODO: 13/09/2017
+    String WECHAT_ID = "";
 }

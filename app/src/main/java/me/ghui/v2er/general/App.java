@@ -11,6 +11,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
+import me.ghui.v2er.VariantConstants;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
@@ -59,7 +60,7 @@ public class App extends Application {
 
     private void initBugly() {
         if (BuildConfig.DEBUG) return;
-        CrashReport.initCrashReport(getApplicationContext(), "6af3e083ba", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(getApplicationContext(), VariantConstants.BUGLY_ID, BuildConfig.DEBUG);
         if (UserUtils.isLogin()) {
             CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
         } else {
@@ -69,7 +70,7 @@ public class App extends Application {
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(this, null);
-        mWechat.registerApp("wx6f7962223cf45114");
+        mWechat.registerApp(VariantConstants.WECHAT_ID);
     }
 
     public IWXAPI wechat() {
