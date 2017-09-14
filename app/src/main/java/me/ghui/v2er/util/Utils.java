@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
@@ -421,11 +424,31 @@ public class Utils {
         egl.eglTerminate(display);
 
         // Return largest texture size found, or default
-        return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+//        return Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+        return IMAGE_MAX_BITMAP_DIMENSION;
     }
 
     public static boolean isPro() {
         return !BuildConfig.APPLICATION_ID.endsWith(".free");
+    }
+
+    public static Drawable scaleImage(Drawable image, float scaleFactor) {
+
+        if ((image == null) || !(image instanceof BitmapDrawable)) {
+            return image;
+        }
+
+        Bitmap b = ((BitmapDrawable) image).getBitmap();
+
+        int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
+        int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
+
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
+
+        image = new BitmapDrawable(App.get().getResources(), bitmapResized);
+
+        return image;
+
     }
 
 }

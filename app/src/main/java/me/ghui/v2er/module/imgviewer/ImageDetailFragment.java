@@ -13,18 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.github.chrisbanes.photoview.PhotoView;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.Voast;
+
+import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
 
 
 /**
@@ -69,29 +72,41 @@ public class ImageDetailFragment extends Fragment {
     }
 
     private void loadImage() {
+        int maxSize = Utils.getMaxTextureSize();
+        Logger.d("maxSize: " + maxSize);
         GlideApp.with(getContext())
                 .load(mImageUrl)
-                .listener(new RequestListener<Drawable>() {
+                .fitCenter()
+                .into(new SimpleTarget<Drawable>(maxSize, SIZE_ORIGINAL) {
+
                     @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         progressBar.setVisibility(View.GONE);
                         Voast.show("图片加载出错");
-                        return false;
                     }
 
                     @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         progressBar.setVisibility(View.GONE);
+                        int h = resource.getIntrinsicHeight();
+                        int w = resource.getIntrinsicWidth();
+                        int imgViewWidth = ViewUtils.getExactlyWidth(mPhotoView, true);
+                        float scaleW = Math.min(ScaleUtils.dp(w), imgViewWidth);
+                        float scaleH = h * (scaleW / w);
                         mPhotoView.setImageDrawable(resource);
+                        if (scaleW * mPhotoView.getMaximumScale() < imgViewWidth) {
+                            //make sure that the drawable can be scaled to fill the imgview' width.
+                            mPhotoView.setMaximumScale(imgViewWidth / scaleW);
+                        }
+
+                        Logger.e("onResourceReady: h=" + h + ", w=" + w);
+                        Logger.e("onResourceReady: sh=" + scaleH + ", sw=" + scaleW);
                         if (resource instanceof BitmapDrawable) {
                             Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
                             paletteBg(bitmap);
                         }
-                        return true;
                     }
-                })
-                .into(mPhotoView);
-
+                });
 
     }
 
