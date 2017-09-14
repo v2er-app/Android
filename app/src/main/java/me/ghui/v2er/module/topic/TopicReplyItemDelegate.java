@@ -82,7 +82,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             }
             RichText.from(replyContent)
                     .urlClick(clickListener)
-                    .widthDelta(75)
+                    .widthDelta(97)
                     .into(contentView);
         } else {
             contentView.setVisibility(View.GONE);
