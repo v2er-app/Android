@@ -30,7 +30,7 @@ public class ViewUtils {
             width = width - view.getPaddingLeft() - view.getPaddingRight();
         }
 
-        Logger.d("exactlyWidth: " + width);
+        Logger.e("exactlyWidth: " + width);
         return width;
     }
 

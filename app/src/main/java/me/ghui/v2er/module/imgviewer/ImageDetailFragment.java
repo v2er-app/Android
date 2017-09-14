@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.imgviewer;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,16 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.UriUtils;
-import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 
 
@@ -30,11 +32,10 @@ import me.ghui.v2er.util.Voast;
  */
 public class ImageDetailFragment extends Fragment {
     private String mImageUrl;
-    private SubsamplingScaleImageView mImageView;
+    private PhotoView mPhotoView;
     private ProgressBar progressBar;
     private View mImgRootView;
     private static String IMG_URL = Constants.PACKAGE_NAME + "_img_url";
-    private Target mTarget;
 
     public static ImageDetailFragment newInstance(String url) {
         final ImageDetailFragment f = new ImageDetailFragment();
@@ -62,40 +63,36 @@ public class ImageDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mImgRootView = view.findViewById(R.id.img_viewer_root);
         progressBar = (ProgressBar) view.findViewById(R.id.loading);
-        mImageView = (SubsamplingScaleImageView) view.findViewById(R.id.imageview);
-        mImageView.setDoubleTapZoomStyle(SubsamplingScaleImageView.ZOOM_FOCUS_CENTER);
-        mImageView.setOnClickListener(v -> getActivity().finish());
+        mPhotoView = (PhotoView) view.findViewById(R.id.imageview);
+//        mPhotoView.setOnClickListener(v -> getActivity().finish());
+//        PhotoViewAttacher picView = new PhotoViewAttacher(mPhotoView);
         loadImage();
     }
 
     private void loadImage() {
-        mTarget = new Target() {
-            @Override
-            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                mImageView.setImage(ImageSource.bitmap(bitmap));
-                progressBar.setVisibility(View.GONE);
-                paletteBg(bitmap);
-            }
-
-            @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
-                progressBar.setVisibility(View.GONE);
-                Voast.show("图片加载出错");
-            }
-
-            @Override
-            public void onPrepareLoad(Drawable placeHolderDrawable) {
-                progressBar.setVisibility(View.VISIBLE);
-            }
-        };
-
-        int maxSize = Utils.getMaxTextureSize();
-        Picasso.with(getContext())
+        GlideApp.with(getContext())
                 .load(mImageUrl)
-                .resize(maxSize, maxSize)
-                .onlyScaleDown()
-                .centerInside()
-                .into(mTarget);
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        Voast.show("图片加载出错");
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        if (resource instanceof BitmapDrawable) {
+                            Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                            paletteBg(bitmap);
+                        }
+                        return true;
+                    }
+                })
+                .into(mPhotoView);
+
+
     }
 
     private void paletteBg(Bitmap bitmap) {

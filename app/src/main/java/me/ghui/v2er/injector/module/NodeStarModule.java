@@ -2,13 +2,13 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.drawer.star.NodeStarContract;
 import me.ghui.v2er.module.drawer.star.NodeStarFragment;
@@ -34,7 +34,7 @@ public class NodeStarModule {
         return new CommonAdapter<NodeStarInfo.Item>(mFragment.getContext(), R.layout.node_item) {
             @Override
             protected void convert(ViewHolder holder, NodeStarInfo.Item item, int position) {
-                Picasso.with(mContext)
+                GlideApp.with(mContext)
                         .load(item.getImg())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.node_img));

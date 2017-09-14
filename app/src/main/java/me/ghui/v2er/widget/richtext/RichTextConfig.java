@@ -8,6 +8,7 @@ import android.widget.TextView;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.util.ScaleUtils;
 
 
 /**
@@ -65,6 +66,11 @@ public class RichTextConfig {
         return this;
     }
 
+    public RichTextConfig widthDelta(int deltaDp) {
+        this.maxSize = ScaleUtils.getScreenW() - ScaleUtils.dp(deltaDp);
+        return this;
+    }
+
     private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
         if (PreConditions.isEmpty(text)) return null;
 //        if (PreConditions.notEmpty(text) && text.charAt(0) == 65532) {
@@ -81,7 +87,7 @@ public class RichTextConfig {
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
-            mImageGetter = new PicassoImageGetter(textView, mImageHolder);
+            mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
         if (sourceText == null) sourceText = "";
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);

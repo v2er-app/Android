@@ -3,7 +3,6 @@ package me.ghui.v2er.injector.module;
 import android.widget.ImageView;
 
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
@@ -11,6 +10,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.home.NewsContract;
 import me.ghui.v2er.module.home.NewsFragment;
@@ -39,10 +39,14 @@ public class NewsModule {
         return new CommonLoadMoreAdapter<NewsInfo.Item>(mView.getContext(), R.layout.common_list_item) {
             @Override
             protected void convert(ViewHolder holder, NewsInfo.Item item, int position) {
-                Picasso.with(mContext)
+//                Picasso.with(mContext)
+//                        .load(item.getAvatar())
+//                        .placeholder(R.drawable.avatar_placeholder_drawable)
+//                        .into((ImageView) holder.getView(R.id.avatar_img));
+                GlideApp.with(mContext)
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
-                        .into((ImageView) holder.getView(R.id.avatar_img));
+                        .into(holder.getImgView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
                 holder.setText(R.id.time_tv, item.getTime());
                 holder.setText(R.id.tagview, item.getTagName());

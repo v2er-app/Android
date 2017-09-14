@@ -2,13 +2,13 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.drawer.star.TopicStarContract;
 import me.ghui.v2er.module.drawer.star.TopicStarFragment;
@@ -35,7 +35,7 @@ public class TopicStarModule {
         return new CommonLoadMoreAdapter<TopicStarInfo.Item>(mView.getContext(), R.layout.common_list_item) {
             @Override
             protected void convert(ViewHolder holder, TopicStarInfo.Item item, int position) {
-                Picasso.with(mContext)
+                GlideApp.with(mContext)
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));

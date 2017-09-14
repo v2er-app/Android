@@ -3,13 +3,13 @@ package me.ghui.v2er.injector.module;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
@@ -38,7 +38,7 @@ public class SpecialCareModule {
         return new CommonLoadMoreAdapter<CareInfo.Item>(mView, R.layout.common_list_item) {
             @Override
             protected void convert(ViewHolder holder, CareInfo.Item item, int position) {
-                Picasso.with(mContext)
+                GlideApp.with(mContext)
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));

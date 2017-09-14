@@ -4,7 +4,6 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -44,18 +43,9 @@ public class App extends Application {
                 .build();
         Logger.init().methodCount(1).hideThreadInfo();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        initPicasso();
         APIService.init();
         initBugly();
         initWechat();
-    }
-
-    private void initPicasso() {
-        Picasso picasso = new Picasso.Builder(this)
-//                .indicatorsEnabled(BuildConfig.DEBUG)
-                .loggingEnabled(BuildConfig.DEBUG)
-                .build();
-        Picasso.setSingletonInstance(picasso);
     }
 
     private void initBugly() {

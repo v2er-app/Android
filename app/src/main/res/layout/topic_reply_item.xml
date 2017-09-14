@@ -59,12 +59,11 @@
         android:id="@+id/content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
-        android:layout_marginRight="12dp"
         android:paddingBottom="4dp"
         android:paddingTop="4dp"
         android:textIsSelectable="true"
         app:layout_constraintLeft_toLeftOf="@id/reply_user_name_tv"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/reply_thx_img"
         app:layout_constraintTop_toBottomOf="@id/reply_avatar_img"
         tools:text="TextView" />
 

@@ -1,6 +1,5 @@
 package me.ghui.v2er.module.base;
 
-import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import android.widget.LinearLayout;
 import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
-import java.util.List;
 import java.util.Stack;
 
 import javax.inject.Inject;

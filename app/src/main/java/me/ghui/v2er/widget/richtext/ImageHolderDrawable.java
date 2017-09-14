@@ -27,8 +27,10 @@ public class ImageHolderDrawable extends Drawable {
     public ImageHolderDrawable(Context context, int width, int height) {
         mPaint = new Paint();
         mPaint.setTextSize(context.getResources().getDimension(R.dimen.mediumTextSize));
-        if (width == -1 || height == -1) {
-            width = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(32));
+        if (width == -1) {
+            width = ScaleUtils.getScreenW() - ScaleUtils.dp(32);
+        }
+        if (height == -1) {
             height = ScaleUtils.dp(100);
         }
         mRect = new Rect(0, 0, width, height);
@@ -37,6 +39,10 @@ public class ImageHolderDrawable extends Drawable {
 
     public ImageHolderDrawable(Context context) {
         this(context, -1, -1);
+    }
+
+    public ImageHolderDrawable(int maxWidth, Context context) {
+        this(context, maxWidth, -1);
     }
 
     public void setText(String text) {

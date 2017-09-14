@@ -81,7 +81,9 @@ public class UserHomeModule {
             public void convert(ViewHolder holder, UserPageInfo.Item item, int position) {
                 UserPageInfo.ReplyItem replyItem = (UserPageInfo.ReplyItem) item;
                 holder.setText(R.id.reply_title_tv, replyItem.getTitle());
-                RichText.from(replyItem.getContent()).into(holder.getTextView(R.id.reply_content_tv));
+                RichText.from(replyItem.getContent())
+                        .widthDelta(43)
+                        .into(holder.getTextView(R.id.reply_content_tv));
                 holder.setText(R.id.reply_time_tv, replyItem.getTime());
             }
         });

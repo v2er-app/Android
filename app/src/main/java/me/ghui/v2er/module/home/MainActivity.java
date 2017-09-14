@@ -19,12 +19,12 @@ import android.widget.TextView;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.PreConditions;
@@ -218,7 +218,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         UserInfo userInfo = UserUtils.getUserInfo();
         if (userInfo != null) {
             mUserNameTv.setText(userInfo.getUserName());
-            Picasso.with(getContext())
+            GlideApp.with(getContext())
                     .load(userInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);

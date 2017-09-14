@@ -2,6 +2,9 @@ package me.ghui.v2er.util;
 
 import android.os.Looper;
 
+import com.bumptech.glide.Glide;
+import com.orhanobut.logger.Logger;
+
 import java.io.File;
 import java.math.BigDecimal;
 
@@ -18,17 +21,13 @@ import me.ghui.v2er.general.App;
  * <p>
  * Glide缓存工具类
  */
-
-
-public class PicassoCatchUtil {
-    private static String PICASSO_CACHE = "picasso-cache";
+public class GlideCatchUtil {
 
     // 获取Glide磁盘缓存大小
     public static String getCacheSize() {
         try {
-
-            File cache = new File(App.get().getCacheDir(), PICASSO_CACHE);
-            return getFormatSize(getFolderSize(cache));
+            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
+            return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
         } catch (Exception e) {
             e.printStackTrace();
             return "获取失败";
@@ -39,13 +38,9 @@ public class PicassoCatchUtil {
     public static boolean clearDiskCache() {
         try {
             if (Looper.myLooper() == Looper.getMainLooper()) {
-                new Thread(() -> {
-                    File cache = new File(App.get().getCacheDir(), PICASSO_CACHE);
-                    deleteDir(cache);
-                }).start();
+                new Thread(() -> Glide.get(App.get()).clearDiskCache()).start();
             } else {
-                File cache = new File(App.get().getCacheDir(), PICASSO_CACHE);
-                deleteDir(cache);
+                Glide.get(App.get()).clearDiskCache();
             }
             return true;
         } catch (Exception e) {
@@ -54,19 +49,19 @@ public class PicassoCatchUtil {
         }
     }
 
-    private static boolean deleteDir(File dir) {
-        if (dir.exists() && dir.isDirectory()) {
-            String[] children = dir.list();
-            for (int i = 0; i < children.length; i++) {
-                boolean success = deleteDir(new File(dir, children[i]));
-                if (!success) {
-                    return false;
-                }
+    // 清除Glide内存缓存
+    public static boolean clearCacheMemory() {
+        try {
+            if (Looper.myLooper() == Looper.getMainLooper()) { //只能在主线程执行
+                Glide.get(App.get()).clearMemory();
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        // The directory is now empty so delete it
-        return dir.delete();
+        return false;
     }
+
 
     // 获取指定文件夹内所有文件大小的和
     private static long getFolderSize(File file) throws Exception {

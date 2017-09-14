@@ -3,13 +3,13 @@ package me.ghui.v2er.injector.module;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.home.MsgContract;
@@ -39,7 +39,7 @@ public class MsgModule {
         return new CommonLoadMoreAdapter<NotificationInfo.Reply>(mView.getContext(), R.layout.notification_item) {
             @Override
             protected void convert(ViewHolder holder, NotificationInfo.Reply reply, int position) {
-                Picasso.with(mView.getContext()).load(reply.getAvatar())
+                GlideApp.with(mView.getContext()).load(reply.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),
@@ -49,7 +49,8 @@ public class MsgModule {
                 if (!PreConditions.isEmpty(reply.getContent())) {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
 //                    holder.setText(R.id.msg_content_tv, reply.getContent());
-                    RichText.from(reply.getContent()).into(holder.getTextView(R.id.msg_content_tv));
+                    RichText.from(reply.getContent())
+                            .into(holder.getTextView(R.id.msg_content_tv));
                 } else {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
                 }

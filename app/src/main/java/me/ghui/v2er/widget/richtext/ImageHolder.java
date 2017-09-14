@@ -3,6 +3,8 @@ package me.ghui.v2er.widget.richtext;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -24,14 +26,15 @@ public class ImageHolder {
             }
         }
         this.maxSize = maxSize;
+        Logger.e("maxSize: " + maxSize);
         if (loadingDrawable == null) {
-            mLoadingDrawable = new ImageHolderDrawable(view.getContext());
+            mLoadingDrawable = new ImageHolderDrawable(maxSize, view.getContext());
             ((ImageHolderDrawable) (mLoadingDrawable)).setText("加载中...");
         } else {
             mLoadingDrawable = loadingDrawable;
         }
         if (loadErrorDrawable == null) {
-            mLoadErrorDrawable = new ImageHolderDrawable(view.getContext());
+            mLoadErrorDrawable = new ImageHolderDrawable(maxSize, view.getContext());
             ((ImageHolderDrawable) (mLoadErrorDrawable)).setText("加载失败");
         } else {
             mLoadErrorDrawable = loadErrorDrawable;

@@ -1,14 +1,11 @@
 package me.ghui.v2er.injector.module;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.Toast;
-
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +15,7 @@ import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
@@ -34,7 +32,6 @@ import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 05/05/2017.
@@ -147,7 +144,7 @@ public class TopicModule {
                 dividerView.setBackgroundColor(Color.WHITE);
             }
             holder.setText(R.id.replier_username_tv, reply.getUserName());
-            Picasso.with(mContext)
+            GlideApp.with(mContext)
                     .load(reply.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(holder.getImgView(R.id.replier_avatar_img));

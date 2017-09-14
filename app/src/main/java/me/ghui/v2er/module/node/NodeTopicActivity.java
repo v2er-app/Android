@@ -4,6 +4,8 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +15,10 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 import java.util.Map;
@@ -23,10 +27,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.picasso.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
@@ -264,24 +269,26 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         if (mNodeImg.getDrawable() == null || ViewUtils.isSameImgRes(mNodeImg, R.drawable.avatar_placeholder_drawable)) {
-            Picasso.with(this)
+            GlideApp.with(this)
                     .load(nodeInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
-                    .into(mNodeImg, new Callback() {
+                    .listener(new RequestListener<Drawable>() {
                         @Override
-                        public void onSuccess() {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                             scheduleStartPostponedTransition(mNodeImg);
+                            return false;
                         }
 
                         @Override
-                        public void onError() {
-                            onSuccess();
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            scheduleStartPostponedTransition(mNodeImg);
+                            return false;
                         }
-                    });
-            Picasso.with(this)
+                    }).into(mNodeImg);
+            GlideApp.with(this)
                     .load(nodeInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
-                    .transform(new BlurTransformation(this))
+                    .transform(new BlurTransformation())
                     .into(mBigImgBg);
         }
     }

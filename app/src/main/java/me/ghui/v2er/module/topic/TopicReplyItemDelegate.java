@@ -2,25 +2,20 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.text.style.URLSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
 
 import javax.annotation.Nullable;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 import me.ghui.v2er.widget.richtext.RichText;
 
@@ -53,7 +48,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.Reply replyInfo = (TopicInfo.Reply) item;
-        Picasso.with(mContext)
+        GlideApp.with(mContext)
                 .load(replyInfo.getAvatar())
                 .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into((ImageView) holder.getView(R.id.reply_avatar_img));
@@ -87,9 +82,9 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             }
             RichText.from(replyContent)
                     .urlClick(clickListener)
-//                    .maxSize(ScaleUtils.getScreenW() - ScaleUtils.dp(75))
-//                    .maxSize(ScaleUtils.dp(10))
+                    .widthDelta(75)
                     .into(contentView);
+            contentView.setTextIsSelectable(false);
         } else {
             contentView.setVisibility(View.GONE);
         }

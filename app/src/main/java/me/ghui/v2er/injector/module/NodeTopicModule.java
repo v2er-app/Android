@@ -2,13 +2,13 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.node.NodeTopicContract;
 import me.ghui.v2er.module.node.NodeTopicPresenter;
@@ -35,7 +35,7 @@ public class NodeTopicModule {
 
             @Override
             protected void convert(ViewHolder holder, NodeTopicInfo.Item item, int position) {
-                Picasso.with(mContext)
+                GlideApp.with(mContext)
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));

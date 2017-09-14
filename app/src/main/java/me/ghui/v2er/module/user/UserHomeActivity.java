@@ -4,6 +4,8 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,9 +14,11 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.orhanobut.logger.Logger;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -23,10 +27,11 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.picasso.transformations.BlurTransformation;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerUserHomeComponent;
@@ -197,22 +202,24 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     private void fillAvatar() {
         if (PreConditions.isEmpty(mAvatar)) return;
-        Picasso.with(this).load(mAvatar)
-                .transform(new BlurTransformation(this))
+        GlideApp.with(this).load(mAvatar)
+                .transform(new BlurTransformation())
                 .placeholder(R.drawable.avatar_placeholder_drawable)
-                .into(mBigImgBg, new Callback() {
+                .listener(new RequestListener<Drawable>() {
                     @Override
-                    public void onSuccess() {
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                         scheduleStartPostponedTransition(mAvatarImg);
+                        return false;
                     }
 
                     @Override
-                    public void onError() {
-                        onSuccess();
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        scheduleStartPostponedTransition(mAvatarImg);
+                        return false;
                     }
-                });
+                }).into(mBigImgBg);
         Logger.d("NewsAvatar:2 " + mAvatar);
-        Picasso.with(this)
+        GlideApp.with(this)
                 .load(mAvatar)
                 .placeholder(R.drawable.avatar_placeholder_drawable)
                 .into(mAvatarImg);
@@ -238,12 +245,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         }
         if (mAvatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
-            Picasso.with(this)
+            GlideApp.with(this)
                     .load(userPageInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
-            Picasso.with(this).load(userPageInfo.getAvatar())
-                    .transform(new BlurTransformation(this))
+            GlideApp.with(this).load(userPageInfo.getAvatar())
+                    .transform(new BlurTransformation())
                     .into(mBigImgBg);
         }
 

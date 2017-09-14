@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.view.View;
 
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.ThirdApp;
 import me.ghui.v2er.util.Utils;
@@ -176,7 +179,6 @@ public class ShareManager {
         context.startActivity(Intent.createChooser(intent, "分享方式"));
     }
 
-    private Target mTarget;
 
     private void shareToWechat(@ShareData.SENCE int type) {
         WXWebpageObject webpage = new WXWebpageObject();
@@ -190,27 +192,26 @@ public class ShareManager {
         req.scene = type;
 
         if (PreConditions.notEmpty(mShareData.img)) {
-            mTarget = new Target() {
-                @Override
-                public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                    msg.thumbData = bmpToByteArray(bitmap);
-                    App.get().wechat().sendReq(req);
-                }
-
-                @Override
-                public void onBitmapFailed(Drawable errorDrawable) {
-                    msg.thumbData = bmpToByteArray(getDefaultBitmap());
-                    App.get().wechat().sendReq(req);
-                }
-
-                @Override
-                public void onPrepareLoad(Drawable placeHolderDrawable) {
-                }
-            };
-            Picasso.with(mContext).load(mShareData.img)
+            GlideApp.with(mContext).load(mShareData.img)
                     .error(R.mipmap.ic_launcher)
-                    .resize(THUMB_SIZE, THUMB_SIZE)
-                    .into(mTarget);
+                    .override(THUMB_SIZE, THUMB_SIZE)
+                    .into(new SimpleTarget<Drawable>() {
+                        @Override
+                        public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                            if (resource instanceof BitmapDrawable) {
+                                msg.thumbData = bmpToByteArray(((BitmapDrawable) resource).getBitmap());
+                            } else {
+                                msg.thumbData = bmpToByteArray(getDefaultBitmap());
+                            }
+                            App.get().wechat().sendReq(req);
+                        }
+
+                        @Override
+                        public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                            msg.thumbData = bmpToByteArray(getDefaultBitmap());
+                            App.get().wechat().sendReq(req);
+                        }
+                    });
         } else {
             msg.thumbData = bmpToByteArray(getDefaultBitmap());
             App.get().wechat().sendReq(req);

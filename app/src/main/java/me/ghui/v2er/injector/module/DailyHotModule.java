@@ -2,13 +2,13 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotContract;
@@ -36,7 +36,7 @@ public class DailyHotModule {
 
             @Override
             protected void convert(ViewHolder holder, DailyHotInfo.Item item, int position) {
-                Picasso.with(mContext)
+                GlideApp.with(mContext)
                         .load(item.getMember().getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
