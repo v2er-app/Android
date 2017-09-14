@@ -12,6 +12,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.general.GlideApp;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 
 
@@ -86,10 +87,12 @@ public class GlideImageGetter implements Html.ImageGetter {
 
         private TextView mTextView;
         private NetWorkDrawable mDrawable;
+        private int mMaxWidth;
 
         public NetWorkDrawableTarget(TextView textView, NetWorkDrawable drawable, int maxWidth) {
             //这里只缩小不放大
             super(maxWidth, SIZE_ORIGINAL);
+            this.mMaxWidth = maxWidth;
             mTextView = textView;
             mDrawable = drawable;
         }
@@ -98,8 +101,12 @@ public class GlideImageGetter implements Html.ImageGetter {
         public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
             int h = resource.getIntrinsicHeight();
             int w = resource.getIntrinsicWidth();
+            float scaleW = Math.min(ScaleUtils.dp(w), mMaxWidth);
+            float scaleH = h * (scaleW / w);
+
             Logger.e("onResourceReady: h=" + h + ", w=" + w);
-            resource.setBounds(0, 0, w, h);
+            Logger.e("onResourceReady: sh=" + scaleH + ", sw=" + scaleW);
+            resource.setBounds(0, 0, (int) scaleW, (int) scaleH);
             mDrawable.setDrawable(resource);
             mTextView.setText(mTextView.getText());
         }
