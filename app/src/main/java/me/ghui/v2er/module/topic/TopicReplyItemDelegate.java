@@ -84,7 +84,6 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                     .urlClick(clickListener)
                     .widthDelta(75)
                     .into(contentView);
-            contentView.setTextIsSelectable(false);
         } else {
             contentView.setVisibility(View.GONE);
         }

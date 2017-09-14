@@ -39,7 +39,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         if (PreConditions.notEmpty(contentInfo.getContentHtml())) {
             contentTv.setVisibility(View.VISIBLE);
             RichText.from(contentInfo.getContentHtml())
-                    .widthDelta(24)
+                    .widthDelta(48)
                     .into(contentTv);
         } else {
             contentTv.setVisibility(View.GONE);

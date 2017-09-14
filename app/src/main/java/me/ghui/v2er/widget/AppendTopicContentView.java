@@ -93,7 +93,9 @@ public class AppendTopicContentView extends LinearLayout {
         public static ItemView create(TopicInfo.ContentInfo.PostScript post, Context context) {
             ItemView itemView = new ItemView(context);
             itemView.headerTV.setText(post.getHeader());
-            RichText.from(post.getContent()).into(itemView.contentTV);
+            RichText.from(post.getContent())
+                    .widthDelta(24)
+                    .into(itemView.contentTV);
             return itemView;
         }
     }

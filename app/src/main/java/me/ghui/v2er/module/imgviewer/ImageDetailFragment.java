@@ -83,6 +83,7 @@ public class ImageDetailFragment extends Fragment {
                     @Override
                     public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                         progressBar.setVisibility(View.GONE);
+                        mPhotoView.setImageDrawable(resource);
                         if (resource instanceof BitmapDrawable) {
                             Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
                             paletteBg(bitmap);
