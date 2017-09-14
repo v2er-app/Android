@@ -17,6 +17,7 @@ import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
@@ -71,7 +72,8 @@ public class TopicModule {
 
                 holder.setOnClickListener(v ->
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
-                holder.setOnClickListener(v -> {
+
+                View.OnClickListener onThxClickListener = v -> {
                     if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
 
@@ -97,8 +99,16 @@ public class TopicModule {
                                     }
                                 }
                             });
+                };
 
-                }, R.id.reply_thx_img);
+                if (Pref.readBool(R.string.pref_key_long_press_thx)) {
+                    holder.setOnLongClickListener(v -> {
+                        onThxClickListener.onClick(v);
+                        return true;
+                    }, R.id.reply_thx_img);
+                } else {
+                    holder.setOnClickListener(onThxClickListener, R.id.reply_thx_img);
+                }
 
                 holder.setOnClickListener(v -> mView.onItemMoreMenuClick(holder.index()), R.id.more_menu_img);
             }

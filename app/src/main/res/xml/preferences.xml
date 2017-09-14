@@ -7,7 +7,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="基本设置">
+        android:title="基本">
         <Preference
             android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"
@@ -19,6 +19,12 @@
             android:layout="@layout/preference_item"
             android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
             android:title="返回到首页" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_long_press_thx"
+            android:layout="@layout/preference_item"
+            android:summary="开启后长按才能发送感谢"
+            android:title="长按感谢" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="@string/pref_key_auto_checkin"
