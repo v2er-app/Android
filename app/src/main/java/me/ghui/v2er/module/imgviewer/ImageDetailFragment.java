@@ -64,8 +64,7 @@ public class ImageDetailFragment extends Fragment {
         mImgRootView = view.findViewById(R.id.img_viewer_root);
         progressBar = (ProgressBar) view.findViewById(R.id.loading);
         mPhotoView = (PhotoView) view.findViewById(R.id.imageview);
-//        mPhotoView.setOnClickListener(v -> getActivity().finish());
-//        PhotoViewAttacher picView = new PhotoViewAttacher(mPhotoView);
+        mPhotoView.setOnPhotoTapListener((view1, x, y) -> getActivity().finish());
         loadImage();
     }
 
