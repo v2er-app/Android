@@ -73,7 +73,6 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         TextView contentView = holder.getView(R.id.content_tv);
         if (PreConditions.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
-            contentView.setTextIsSelectable(true);
             contentView = holder.getView(R.id.content_tv);
             String replyContent = replyInfo.getReplyContent();
             OnMemberLinkClickListener clickListener = null;
