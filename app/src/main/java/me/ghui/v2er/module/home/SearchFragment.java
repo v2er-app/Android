@@ -11,6 +11,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.tencent.bugly.crashreport.CrashReport;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -167,8 +169,13 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mCardView.setVisibility(View.GONE);
-                    getActivity().getSupportFragmentManager().popBackStack();
+                    try {
+                        mCardView.setVisibility(View.GONE);
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        CrashReport.postCatchedException(e);
+                    }
                 }
             });
             mSearchRootView.animate().setDuration(300).alpha(0f).start();
