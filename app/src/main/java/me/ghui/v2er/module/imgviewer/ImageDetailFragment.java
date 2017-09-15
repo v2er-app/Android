@@ -15,7 +15,8 @@ import android.widget.ProgressBar;
 
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
-import com.github.chrisbanes.photoview.PhotoView;
+import com.davemorrissey.labs.subscaleview.ImageSource;
+import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
@@ -33,7 +34,7 @@ import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
  */
 public class ImageDetailFragment extends Fragment {
     private String mImageUrl;
-    private PhotoView mPhotoView;
+    private SubsamplingScaleImageView mPhotoView;
     private ProgressBar progressBar;
     private View mImgRootView;
     private static String IMG_URL = Constants.PACKAGE_NAME + "_img_url";
@@ -64,8 +65,15 @@ public class ImageDetailFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mImgRootView = view.findViewById(R.id.img_viewer_root);
         progressBar = (ProgressBar) view.findViewById(R.id.loading);
-        mPhotoView = (PhotoView) view.findViewById(R.id.imageview);
-        mPhotoView.setOnPhotoTapListener((view1, x, y) -> getActivity().finish());
+        mPhotoView = (SubsamplingScaleImageView) view.findViewById(R.id.imageview);
+        mPhotoView.setOnClickListener(v -> getActivity().finish());
+        mPhotoView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+
+                return false;
+            }
+        });
         loadImage();
     }
 
@@ -86,9 +94,10 @@ public class ImageDetailFragment extends Fragment {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         progressBar.setVisibility(View.GONE);
-                        mPhotoView.setImageDrawable(resource);
+//                        mPhotoView.animateScale();
                         if (resource instanceof BitmapDrawable) {
                             Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
+                            mPhotoView.setImage(ImageSource.bitmap(bitmap));
                             paletteBg(bitmap);
                         }
                     }
@@ -107,6 +116,9 @@ public class ImageDetailFragment extends Fragment {
                     }
                     mImgRootView.setBackgroundColor(textSwatch.getRgb());
 //                    titleColorText.setTextColor(textSwatch.getTitleTextColor());
+                    if (getActivity() instanceof IndicatorTextDelegator) {
+                        ((IndicatorTextDelegator) getActivity()).changeIndicatorColor(textSwatch.getBodyTextColor());
+                    }
                 });
     }
 

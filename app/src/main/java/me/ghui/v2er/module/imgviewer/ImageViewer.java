@@ -2,6 +2,7 @@ package me.ghui.v2er.module.imgviewer;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -14,7 +15,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.util.Utils;
 
-public class ImageViewer extends FragmentActivity {
+public class ImageViewer extends FragmentActivity implements IndicatorTextDelegator {
     public static final String EXTRA_IMG_DATA = Utils.KEY("extra_img_data");
     public static final String STATE_POSITION = Utils.KEY("state_position");
     public static ImagesInfo imgsData;
@@ -77,6 +78,11 @@ public class ImageViewer extends FragmentActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(STATE_POSITION, mPager.getCurrentItem());
+    }
+
+    @Override
+    public void changeIndicatorColor(@ColorInt int color) {
+        indicator.setTextColor(color);
     }
 
     private class ImagePagerAdapter extends FragmentStatePagerAdapter {
