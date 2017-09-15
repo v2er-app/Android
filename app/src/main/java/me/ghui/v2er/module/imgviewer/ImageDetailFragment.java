@@ -21,10 +21,8 @@ import com.orhanobut.logger.Logger;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.Voast;
 
 import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
@@ -72,13 +70,13 @@ public class ImageDetailFragment extends Fragment {
     }
 
     private void loadImage() {
+        progressBar.setVisibility(View.VISIBLE);
         int maxSize = Utils.getMaxTextureSize();
         Logger.d("maxSize: " + maxSize);
         GlideApp.with(getContext())
                 .load(mImageUrl)
                 .fitCenter()
                 .into(new SimpleTarget<Drawable>(maxSize, SIZE_ORIGINAL) {
-
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         progressBar.setVisibility(View.GONE);
@@ -88,19 +86,7 @@ public class ImageDetailFragment extends Fragment {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         progressBar.setVisibility(View.GONE);
-                        int h = resource.getIntrinsicHeight();
-                        int w = resource.getIntrinsicWidth();
-                        int imgViewWidth = ViewUtils.getExactlyWidth(mPhotoView, true);
-                        float scaleW = Math.min(ScaleUtils.dp(w), imgViewWidth);
-                        float scaleH = h * (scaleW / w);
                         mPhotoView.setImageDrawable(resource);
-                        if (scaleW * mPhotoView.getMaximumScale() < imgViewWidth) {
-                            //make sure that the drawable can be scaled to fill the imgview' width.
-                            mPhotoView.setMaximumScale(imgViewWidth / scaleW);
-                        }
-
-                        Logger.e("onResourceReady: h=" + h + ", w=" + w);
-                        Logger.e("onResourceReady: sh=" + scaleH + ", sw=" + scaleW);
                         if (resource instanceof BitmapDrawable) {
                             Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
                             paletteBg(bitmap);
