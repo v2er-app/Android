@@ -1,7 +1,7 @@
 package me.ghui.v2er.module.imgviewer;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.PointF;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -22,8 +22,10 @@ import com.orhanobut.logger.Logger;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.Voast;
 
 import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
@@ -80,11 +82,11 @@ public class ImageDetailFragment extends Fragment {
     private void loadImage() {
         progressBar.setVisibility(View.VISIBLE);
         int maxSize = Utils.getMaxTextureSize();
-        Logger.d("maxSize: " + maxSize);
         GlideApp.with(getContext())
+                .asBitmap()
                 .load(mImageUrl)
                 .fitCenter()
-                .into(new SimpleTarget<Drawable>(maxSize, SIZE_ORIGINAL) {
+                .into(new SimpleTarget<Bitmap>(maxSize, SIZE_ORIGINAL) {
                     @Override
                     public void onLoadFailed(@Nullable Drawable errorDrawable) {
                         progressBar.setVisibility(View.GONE);
@@ -92,17 +94,22 @@ public class ImageDetailFragment extends Fragment {
                     }
 
                     @Override
-                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
                         progressBar.setVisibility(View.GONE);
-//                        mPhotoView.animateScale();
-                        if (resource instanceof BitmapDrawable) {
-                            Bitmap bitmap = ((BitmapDrawable) resource).getBitmap();
-                            mPhotoView.setImage(ImageSource.bitmap(bitmap));
-                            paletteBg(bitmap);
+                        mPhotoView.setImage(ImageSource.bitmap(bitmap));
+                        int w = bitmap.getWidth();
+                        int h = bitmap.getHeight();
+                        float imgW = ViewUtils.getExactlyWidth(mPhotoView, true);
+                        if (w < imgW && h > ScaleUtils.getScreenContentH() * 1.5) {
+                            //long picture
+                            float newScale = (imgW / w);
+                            mPhotoView.animateScaleAndCenter(newScale, new PointF(imgW / 2f, 0))
+                                    .withDuration(500)
+                                    .start();
                         }
+                        paletteBg(bitmap);
                     }
                 });
-
     }
 
     private void paletteBg(Bitmap bitmap) {
