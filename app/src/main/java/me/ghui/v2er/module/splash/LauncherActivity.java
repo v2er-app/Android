@@ -12,7 +12,7 @@ import me.ghui.v2er.util.LightStatusBarUtils;
  * Created by ghui on 26/06/2017.
  */
 
-public class SplashActivity extends Activity {
+public class LauncherActivity extends Activity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
