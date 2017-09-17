@@ -49,6 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:background="@color/default_page_bg"
         app:headerLayout="@layout/navigation_header"
         app:itemBackground="?android:selectableItemBackground"
         app:itemTextColor="@color/bodyTextColor"

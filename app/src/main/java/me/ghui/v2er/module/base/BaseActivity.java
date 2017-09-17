@@ -3,7 +3,6 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -21,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
+import com.r0adkll.slidr.Slidr;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.Stack;
@@ -237,6 +237,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         super.onCreate(savedInstanceState);
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
+        if (supportSlideBack()) {
+            Slidr.attach(this);
+        }
         ButterKnife.bind(this);
         startInject();
         parseExtras(getIntent());
@@ -246,6 +249,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configToolBar(mToolbar);
         init();
         autoLoad();
+    }
+
+    protected boolean supportSlideBack() {
+        return true;
     }
 
     protected boolean supportShareElement() {
@@ -294,7 +301,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
+        mRootView.setBackgroundResource(R.color.default_page_bg);
         return mRootView;
     }
 

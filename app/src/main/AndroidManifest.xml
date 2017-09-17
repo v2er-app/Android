@@ -53,7 +53,8 @@
         </activity>
         <activity
             android:name=".module.home.MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/NoneSlideBackableTheme" />
         <activity
             android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="今日热议"

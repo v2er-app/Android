@@ -47,7 +47,6 @@ import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener {
-
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
     public static boolean isAlive;
@@ -84,6 +83,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void configSystemBars(Window window) {
         super.configSystemBars(window);
         Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
+    }
+
+    @Override
+    protected boolean supportSlideBack() {
+        return false;
     }
 
     @Override
