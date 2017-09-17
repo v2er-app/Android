@@ -228,7 +228,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
-    @CallSuper
     protected void configSystemBars(Window window) {
         LightStatusBarUtils.setLightStatusBar(window, true);
     }

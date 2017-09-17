@@ -3,11 +3,9 @@ package me.ghui.v2er.module.general;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.http.SslError;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebBackForwardList;
@@ -83,15 +81,8 @@ public class WapActivity extends BaseActivity {
     }
 
     @Override
-    protected void configSystemBars(Window window) {
-        super.configSystemBars(window);
-        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
-    }
-
-    @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.wapview_menu);
         mToolbar.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
