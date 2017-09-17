@@ -56,6 +56,12 @@
             android:title="隐藏发帖按钮" />
         <SwitchPreference
             android:defaultValue="false"
+            android:key="@string/pref_key_highlight_comment_num"
+            android:layout="@layout/preference_item"
+            android:summary="开启以高亮评论数"
+            android:title="高亮评论" />
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/pref_key_highlight_topic_owner_reply_item"
             android:layout="@layout/preference_item"
             android:summary="开启后可以高亮楼主的回帖"

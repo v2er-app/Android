@@ -1,5 +1,7 @@
 package me.ghui.v2er.injector.module;
 
+import android.widget.TextView;
+
 import javax.annotation.Nullable;
 
 import dagger.Module;
@@ -13,6 +15,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.module.user.UserHomeContract;
 import me.ghui.v2er.module.user.UserHomePresenter;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
@@ -62,7 +65,9 @@ public class UserHomeModule {
                 holder.setText(R.id.time_tv, topicItem.getTime());
                 holder.setText(R.id.tagview, topicItem.getTag());
                 holder.setText(R.id.title_tv, topicItem.getTitle());
-                holder.setText(R.id.comment_num_tv, "评论" + topicItem.getReplyNum());
+                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+                commentTV.setText("评论" + topicItem.getReplyNum());
+                ViewUtils.highlightCommentNum(commentTV);
             }
         });
 

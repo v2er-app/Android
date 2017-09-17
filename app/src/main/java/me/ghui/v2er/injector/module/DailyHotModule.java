@@ -1,7 +1,7 @@
 package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -16,6 +16,7 @@ import me.ghui.v2er.module.drawer.dailyhot.DailyHotPresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
+import me.ghui.v2er.util.ViewUtils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -44,7 +45,9 @@ public class DailyHotModule {
                 holder.setText(R.id.time_tv, item.getTime());
                 holder.setText(R.id.tagview, item.getNode().getTitle());
                 holder.setText(R.id.title_tv, item.getTitle());
-                holder.setText(R.id.comment_num_tv, "评论" + item.getReplies());
+                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+                commentTV.setText("评论" + item.getReplies());
+                ViewUtils.highlightCommentNum(commentTV);
             }
 
             @Override

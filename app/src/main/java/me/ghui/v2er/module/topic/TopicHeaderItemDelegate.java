@@ -12,6 +12,7 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.ViewUtils;
 
 /**
  * Created by ghui on 09/05/2017.
@@ -60,8 +61,10 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         } else {
             viewCountTv.setVisibility(View.GONE);
         }
-        holder.setText(R.id.comment_num_tv, headerInfo.getCommentNum());
         holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
+        TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+        commentTV.setText("评论" + headerInfo.getCommentNum());
+        ViewUtils.highlightCommentNum(commentTV);
     }
 
 }

@@ -4,16 +4,20 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 
 /**
  * Created by ghui on 05/07/2017.
@@ -82,6 +86,14 @@ public class ViewUtils {
         Rect containerBounds = new Rect();
         container.getHitRect(containerBounds);
         return view.getLocalVisibleRect(containerBounds);
+    }
+
+    public static void highlightCommentNum(TextView commentTV) {
+        boolean highLightCommentNum = Pref.readBool(R.string.pref_key_highlight_comment_num);
+        commentTV.setTypeface(highLightCommentNum ? Typeface.DEFAULT_BOLD : Typeface.DEFAULT);
+        commentTV.setTextColor(highLightCommentNum ?
+                App.get().getResources().getColor(R.color.bodyTextColor) :
+                App.get().getResources().getColor(R.color.hintTextColor));
     }
 
 }

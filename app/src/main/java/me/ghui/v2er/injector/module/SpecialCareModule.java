@@ -2,7 +2,7 @@ package me.ghui.v2er.injector.module;
 
 import android.view.View;
 import android.widget.ImageView;
-
+import android.widget.TextView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -18,6 +18,7 @@ import me.ghui.v2er.module.drawer.care.SpecialCarePresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.CareInfo;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -51,7 +52,9 @@ public class SpecialCareModule {
                 }
                 holder.setText(R.id.tagview, item.getTagName());
                 holder.setText(R.id.title_tv, item.getTitle());
-                holder.setText(R.id.comment_num_tv, "评论" + item.getComentNum());
+                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+                commentTV.setText("评论" + item.getComentNum());
+                ViewUtils.highlightCommentNum(commentTV);
             }
 
             @Override
