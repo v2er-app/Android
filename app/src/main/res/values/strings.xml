@@ -28,5 +28,6 @@
     <string name="login_str">去登录</string>
     <string name="mail_subject_prefix">【From V2er】</string>
     <string name="new_post">发帖</string>
-
+    <string name="shortcuts_daily_hot">热议</string>
+    <string name="shortcuts_new_post">发贴</string>
 </resources>
