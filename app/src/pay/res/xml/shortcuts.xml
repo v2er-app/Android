@@ -1,27 +1,23 @@
-<shortcuts xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/hot_nav_item"
+        android:icon="@drawable/ic_shortcuts_hot"
         android:shortcutId="dailyHot"
-        android:shortcutShortLabel="@string/daily_hot"
-        tools:ignore="UnusedAttribute">
+        android:shortcutShortLabel="@string/daily_hot">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
             android:targetPackage="me.ghui.v2er" />
-        <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/create_nav_item"
+        android:icon="@drawable/ic_shortcuts_new"
         android:shortcutId="newPost"
-        android:shortcutShortLabel="@string/new_post"
-        tools:ignore="UnusedAttribute">
+        android:shortcutShortLabel="@string/new_post">
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="me.ghui.v2er.module.create.CreateTopicActivity"
             android:targetPackage="me.ghui.v2er" />
-        <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>
