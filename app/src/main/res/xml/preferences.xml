@@ -73,7 +73,7 @@
         android:title="关于">
         <Preference
             android:layout="@layout/preference_item"
-            android:summary="(To) be the best V2EX APP"
+            android:summary="(To) Be The Best V2EX APP"
             android:title="V2er" />
         <Preference
             android:key="@string/pref_key_check_update"
