@@ -28,7 +28,7 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
         APIService.get()
                 .topicStarInfo(page)
                 .compose(mView.rx(page))
-                .subscribe(new GeneralConsumer<TopicStarInfo>() {
+                .subscribe(new GeneralConsumer<TopicStarInfo>(mView) {
                     @Override
                     public void onConsume(TopicStarInfo topicStarInfo) {
                         mView.fillView(topicStarInfo, page > 1);

@@ -21,7 +21,7 @@ public class DailyHotPresenter implements DailyHotContract.IPresenter {
         APIService.get()
                 .dailyHot()
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<DailyHotInfo>() {
+                .subscribe(new GeneralConsumer<DailyHotInfo>(mView) {
                     @Override
                     public void onConsume(DailyHotInfo items) {
                         mView.fillView(items);

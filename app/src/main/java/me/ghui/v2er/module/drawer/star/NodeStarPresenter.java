@@ -23,7 +23,7 @@ public class NodeStarPresenter implements NodeStarContract.IPresenter {
         APIService.get()
                 .nodeStarInfo()
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<NodeStarInfo>() {
+                .subscribe(new GeneralConsumer<NodeStarInfo>(mView) {
                     @Override
                     public void onConsume(NodeStarInfo nodeStarInfo) {
                         mView.fillView(nodeStarInfo);

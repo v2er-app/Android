@@ -60,7 +60,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         APIService.get().thxCreator(id, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<ThxResponseInfo>() {
+                .subscribe(new GeneralConsumer<ThxResponseInfo>(mView) {
                     @Override
                     public void onConsume(ThxResponseInfo responseInfo) {
                         mView.afterThxCreator(responseInfo.isValid());
@@ -74,7 +74,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         mView.afterStarTopic(topicInfo);
@@ -87,7 +87,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<TopicInfo>() {
+                .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         mView.afterUnStarTopic(topicInfo);
@@ -100,7 +100,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<DailyInfo>() {
+                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
                     @Override
                     public void onConsume(DailyInfo missionInfo) {
                         mView.afterIgnoreTopic(missionInfo.isValid());
@@ -113,7 +113,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().ignoreReply(replyId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<IgnoreResultInfo>() {
+                .subscribe(new GeneralConsumer<IgnoreResultInfo>(mView) {
                     @Override
                     public void onConsume(IgnoreResultInfo result) {
                         mView.afterIgnoreReply(position);

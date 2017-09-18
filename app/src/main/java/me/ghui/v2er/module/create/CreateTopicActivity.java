@@ -1,28 +1,21 @@
 package me.ghui.v2er.module.create;
 
-import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
-import io.reactivex.functions.Function;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
-import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
@@ -33,7 +26,6 @@ import me.ghui.v2er.network.bean.NewUserBannedCreateInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
-import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -177,7 +169,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                         }
                         return resultInfo;
                     })
-                    .subscribe(new GeneralConsumer<BaseInfo>() {
+                    .subscribe(new GeneralConsumer<BaseInfo>(this) {
                         @Override
                         public void onConsume(BaseInfo baseInfo) {
                             if (baseInfo instanceof CreateTopicPageInfo) {

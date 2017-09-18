@@ -88,7 +88,7 @@ public class TopicModule {
                     }
                     TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
                     mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
-                            .subscribe(new GeneralConsumer<ThxResponseInfo>() {
+                            .subscribe(new GeneralConsumer<ThxResponseInfo>(mView) {
                                 @Override
                                 public void onConsume(ThxResponseInfo thxReplyInfo) {
                                     if (thxReplyInfo.isValid()) {

@@ -3,7 +3,6 @@ package me.ghui.v2er.module.node;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -56,7 +55,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
         APIService.get().starNode(RefererUtils.tinyReferer(), url)
                 .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<SimpleInfo>() {
+                .subscribe(new GeneralConsumer<SimpleInfo>(mView) {
                     @Override
                     public void onConsume(SimpleInfo simpleInfo) {
                         boolean forStar = url.contains("/favorite/");
@@ -73,7 +72,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
     public void ignoreNode() {
         APIService.get().ignoreNode(mView.nodeId(), mTopicInfo.getOnce())
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<NodeTopicInfo>() {
+                .subscribe(new GeneralConsumer<NodeTopicInfo>(mView) {
                     @Override
                     public void onConsume(NodeTopicInfo nodeTopicInfo) {
                         // TODO: 26/07/2017  
