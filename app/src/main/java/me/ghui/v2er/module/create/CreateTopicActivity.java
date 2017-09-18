@@ -4,6 +4,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +75,13 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         super.configToolBar(toolBar);
         toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
         toolBar.setOnMenuItemClickListener(this);
+        Utils.setPaddingForStatusBar(toolBar);
+    }
+
+    @Override
+    protected void configSystemBars(Window window) {
+        super.configSystemBars(window);
+        Utils.transparentStatus(window);
     }
 
     @Override
