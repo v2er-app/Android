@@ -20,7 +20,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
-import com.r0adkll.slidr.Slidr;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.Stack;
@@ -36,6 +35,7 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
+import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
@@ -239,7 +239,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
-            Slidr.attach(this);
+            SlideBackManager.attach(this);
         }
         ButterKnife.bind(this);
         startInject();

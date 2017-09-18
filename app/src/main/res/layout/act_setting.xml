@@ -2,10 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/default_page_bg"
     android:orientation="vertical">
-    <include
-        layout="@layout/appbar_wrapper_toolbar"
-        />
+
+    <include layout="@layout/appbar_wrapper_toolbar" />
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/pref_rootview"
