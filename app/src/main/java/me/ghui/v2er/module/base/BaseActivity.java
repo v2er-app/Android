@@ -46,6 +46,7 @@ import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -453,7 +454,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void handleNotLoginError(int errCode, String errorMsg) {
         toast(errorMsg);
-        Navigator.from(getContext()).to(LoginActivity.class).start();
+        UserUtils.clearLogin();
+        Navigator.from(getContext())
+                .to(LoginActivity.class).start();
     }
 
     public void scheduleStartPostponedTransition(final View sharedElement) {

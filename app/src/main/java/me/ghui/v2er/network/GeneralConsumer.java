@@ -2,14 +2,9 @@ package me.ghui.v2er.network;
 
 import com.orhanobut.logger.Logger;
 
-import java.io.IOException;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
@@ -18,7 +13,6 @@ import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
-import okhttp3.ResponseBody;
 
 /**
  * Created by ghui on 19/06/2017.
@@ -76,7 +70,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                         if (resultInfo instanceof LoginParam) {
                             if (UserUtils.isLogin()) {
                                 generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
-                                generalError.setMessage("登录已过期，请重新登录");
+                                generalError.setMessage("登录已过期，请重新登");
                             } else {
                                 generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
                                 generalError.setMessage("需要您先去登录");

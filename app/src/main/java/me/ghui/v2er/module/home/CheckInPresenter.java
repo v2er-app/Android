@@ -34,7 +34,7 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
         mView.checkInBtn().startUpdate();
         APIService.get().dailyInfo()
                 .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<DailyInfo>() {
+                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {

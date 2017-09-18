@@ -33,6 +33,7 @@ import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.RxUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.PtrMaterialFrameLayout;
 
@@ -279,7 +280,10 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected void handleNotLoginError(int errCode, String errorMsg) {
-        Navigator.from(getContext()).to(LoginActivity.class).start();
+        toast(errorMsg);
+        UserUtils.clearLogin();
+        Navigator.from(getContext())
+                .to(LoginActivity.class).start();
     }
 
     @Override
