@@ -13,10 +13,6 @@ public class SlideBackManager {
 
     public static void attach(Activity activity) {
         SlidrConfig config = new SlidrConfig.Builder()
-//                .sensitivity(1f)
-//                .scrimColor(Color.BLACK)
-//                .scrimStartAlpha(0.8f)
-//                .scrimEndAlpha(0f)
                 .edge(true)
                 .build();
         Slidr.attach(activity, config);
