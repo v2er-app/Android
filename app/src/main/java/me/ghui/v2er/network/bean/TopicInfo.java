@@ -281,8 +281,8 @@ public class TopicInfo extends BaseInfo {
         }
 
         public String getCommentNum() {
-            if (PreConditions.isEmpty(comment)) return null;
-            return "评论" + comment.split(" ")[0];
+            if (PreConditions.isEmpty(comment)) return "";
+            return comment.split(" ")[0];
         }
 
         public String getTagLink() {

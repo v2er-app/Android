@@ -11,6 +11,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -40,10 +41,6 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
             Logger.d("NewsAvatar:4 " + headerInfo.getAvatar());
-//            Picasso.with(mContext)
-//                    .load(headerInfo.getAvatar())
-//                    .placeholder(R.drawable.avatar_placeholder_drawable)
-//                    .into(avatarImg);
             GlideApp.with(mContext)
                     .load(headerInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
@@ -63,7 +60,13 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         }
         holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
         TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-        commentTV.setText("评论" + headerInfo.getCommentNum());
+        String commentNum = headerInfo.getCommentNum();
+        if (PreConditions.isEmpty(commentNum)) {
+            commentTV.setVisibility(View.GONE);
+        } else {
+            commentTV.setVisibility(View.VISIBLE);
+            commentTV.setText("评论" + commentNum);
+        }
         ViewUtils.highlightCommentNum(commentTV);
     }
 
