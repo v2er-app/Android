@@ -58,6 +58,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
     }
@@ -134,6 +135,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .build().show();
         } else if (key.equals(getString(R.string.pref_key_trello))) {
             Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
+        } else if (key.equals(getString(R.string.pref_key_user_group))) {
+            Utils.openWap("http://ghui.u.qiniudn.com/v2er_group.png", getActivity());
         }
         return false;
     }
