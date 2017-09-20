@@ -72,9 +72,10 @@
         android:layout="@layout/preference_category_widget"
         android:title="关于">
         <Preference
+            android:key="@string/pref_key_trello"
             android:layout="@layout/preference_item"
-            android:summary="(To) Be The Best V2EX APP"
-            android:title="V2er" />
+            android:summary="这里有项目的最新开发计划..."
+            android:title="Trello主页" />
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"

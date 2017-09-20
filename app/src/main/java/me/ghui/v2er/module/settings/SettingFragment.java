@@ -56,6 +56,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
@@ -131,6 +132,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .positiveText("暂不")
                     .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
                     .build().show();
+        } else if (key.equals(getString(R.string.pref_key_trello))) {
+            Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
         }
         return false;
     }
