@@ -152,8 +152,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onResume() {
+        super.onResume();
         updateFabBtn();
     }
 
