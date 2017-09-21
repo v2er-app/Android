@@ -24,7 +24,6 @@
 
     <style name="NoneSlideBackableTheme" parent="BaseApp.Theme">
         <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">

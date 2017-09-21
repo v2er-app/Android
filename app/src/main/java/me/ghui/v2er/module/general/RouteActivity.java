@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.module.create.CreateTopicActivity;
-import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.module.shortcuts.CreateTopicShortcuts;
+import me.ghui.v2er.module.shortcuts.DailyHotShortcuts;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.util.LightStatusBarUtils;
 
@@ -46,10 +46,10 @@ public class RouteActivity extends Activity {
     private void v2erRoute(Uri data) {
         switch (data.getPath()) {
             case "/daily_hot":
-                Navigator.from(this).to(DailyHotActivity.class).start();
+                Navigator.from(this).to(DailyHotShortcuts.class).start();
                 break;
             case "/create_topic":
-                Navigator.from(this).to(CreateTopicActivity.class).start();
+                Navigator.from(this).to(CreateTopicShortcuts.class).start();
                 break;
         }
     }
