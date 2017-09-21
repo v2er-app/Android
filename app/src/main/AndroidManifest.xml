@@ -58,8 +58,16 @@
         <activity
             android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="今日热议"
-            android:parentActivityName=".module.home.MainActivity"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".module.create.CreateTopicActivity"
+            android:label="创作新主题"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
@@ -102,15 +110,7 @@
             android:name=".module.settings.SettingActivity"
             android:label="设置"
             android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.create.CreateTopicActivity"
-            android:label="创作新主题"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
+
         <activity
             android:name=".module.imgviewer.ImageViewer"
             android:screenOrientation="fullSensor" />

@@ -8,7 +8,7 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
-            android:targetPackage="@string/pkg_name" />
+            android:targetPackage="me.ghui.v2er.free" />
     </shortcut>
     <shortcut
         android:enabled="true"
@@ -18,6 +18,6 @@
         <intent
             android:action="android.intent.action.VIEW"
             android:targetClass="me.ghui.v2er.module.create.CreateTopicActivity"
-            android:targetPackage="@string/pkg_name" />
+            android:targetPackage="me.ghui.v2er.free" />
     </shortcut>
 </shortcuts>

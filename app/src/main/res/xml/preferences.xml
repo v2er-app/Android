@@ -14,7 +14,7 @@
             android:summary="@string/cache_summary"
             android:title="清除缓存" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_key_shortcuts_back_to_home"
             android:layout="@layout/preference_item"
             android:summary="通过快捷菜单启动App后返回时回到首页而不是关闭App"
