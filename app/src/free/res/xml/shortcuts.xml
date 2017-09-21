@@ -6,8 +6,8 @@
         android:shortcutId="dailyHot"
         android:shortcutShortLabel="@string/shortcuts_daily_hot">
         <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity"
+            android:action="shortcuts_daily_hot"
+            android:targetClass="me.ghui.v2er.module.general.ShortCutsActivity"
             android:targetPackage="me.ghui.v2er.free" />
     </shortcut>
     <shortcut
@@ -16,8 +16,8 @@
         android:shortcutId="newPost"
         android:shortcutShortLabel="@string/shortcuts_new_post">
         <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="me.ghui.v2er.module.create.CreateTopicActivity"
+            android:action="shortcuts_create_topic"
+            android:targetClass="me.ghui.v2er.module.general.ShortCutsActivity"
             android:targetPackage="me.ghui.v2er.free" />
     </shortcut>
 </shortcuts>

@@ -205,6 +205,9 @@ public class Utils {
                 .append('\n')
                 .append(" ,Model: ")
                 .append(Build.MODEL)
+                .append('\n')
+                .append(" ,AppVersion: ")
+                .append(getVersionName())
                 .append('\n');
         DisplayMetrics dm = ScaleUtils.getDisplayMetrics(context);
         String screen = " ( " + dm.widthPixels + ", " + dm.heightPixels + " ) ";
