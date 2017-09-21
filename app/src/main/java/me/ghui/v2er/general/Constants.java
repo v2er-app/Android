@@ -6,4 +6,5 @@ package me.ghui.v2er.general;
 
 public interface Constants {
     String PKG_PRO = "me.ghui.v2er";
+    String SCHEMA_V2ER = "v2er";
 }

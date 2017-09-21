@@ -14,7 +14,7 @@
             android:value="2.1" />
 
         <activity
-            android:name=".module.splash.LauncherActivity"
+            android:name=".module.general.RouteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -24,27 +24,20 @@
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-        </activity>
-        <activity
-            android:name=".module.general.OiaActivity"
-            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                //1. node
                 <data
                     android:host="@string/www_host"
                     android:pathPrefix="@string/node_url_prefix"
                     android:scheme="@string/scheme_https" />
-                //2. member
                 <data
                     android:host="@string/www_host"
                     android:pathPrefix="@string/member_url_prefix"
                     android:scheme="@string/scheme_https" />
-                //3. topic
                 <data
                     android:host="@string/www_host"
                     android:pathPrefix="@string/topic_url_prefix"
@@ -55,13 +48,6 @@
             android:name=".module.home.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme" />
-        <activity
-            android:name=".module.general.ShortCutsActivity"
-            android:theme="@style/NoneSlideBackableTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="今日热议"
