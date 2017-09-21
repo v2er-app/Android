@@ -75,7 +75,6 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                 .subscribe(new GeneralConsumer<NodeTopicInfo>(mView) {
                     @Override
                     public void onConsume(NodeTopicInfo nodeTopicInfo) {
-                        // TODO: 26/07/2017  
                     }
                 });
     }

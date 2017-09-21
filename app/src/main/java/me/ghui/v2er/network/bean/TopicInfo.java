@@ -259,7 +259,6 @@ public class TopicInfo extends BaseInfo {
 
         public void updateStarStatus(boolean stared) {
             if (stared) {
-                // TODO: 21/07/2017 favoriteLink is null
                 favoriteLink = favoriteLink.replace("/favorite/", "/unfavorite/");
             } else {
                 favoriteLink = favoriteLink.replace("/unfavorite/", "/favorite/");
