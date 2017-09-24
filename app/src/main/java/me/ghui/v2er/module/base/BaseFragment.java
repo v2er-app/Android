@@ -35,7 +35,7 @@ import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
-import me.ghui.v2er.widget.PtrMaterialFrameLayout;
+import me.ghui.v2er.widget.V2erPtrFrameLayout;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -134,14 +134,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         if (mRootView == null) {
             View contentView;
             if (attachPtrHandler() != null) {
-                PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(getContext());
+                V2erPtrFrameLayout ptrLayout = new V2erPtrFrameLayout(getContext());
                 ptrLayout.setId(R.id.frag_ptr_layout);
                 ptrLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
                         , ViewGroup.LayoutParams.MATCH_PARENT));
                 View content = inflater.inflate(attachLayoutRes(), ptrLayout, false);
                 ptrLayout.setContentView(content);
                 ptrLayout.setPtrHandler(attachPtrHandler());
-//                ptrLayout.setPinContent(true);
                 contentView = ptrLayout;
             } else {
                 contentView = inflater.inflate(attachLayoutRes(), container, false);

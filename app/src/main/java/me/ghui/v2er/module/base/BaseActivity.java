@@ -50,7 +50,7 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
-import me.ghui.v2er.widget.PtrMaterialFrameLayout;
+import me.ghui.v2er.widget.V2erPtrFrameLayout;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -280,7 +280,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
         ViewGroup viewBelowToolbar;
         if (attachPtrHandler() != null) {
-            PtrMaterialFrameLayout ptrLayout = new PtrMaterialFrameLayout(this);
+            V2erPtrFrameLayout ptrLayout = new V2erPtrFrameLayout(this);
             View content = getLayoutInflater().inflate(attachLayoutRes(), ptrLayout, false);
             ptrLayout.setContentView(content);
             ptrLayout.setPtrHandler(attachPtrHandler());
