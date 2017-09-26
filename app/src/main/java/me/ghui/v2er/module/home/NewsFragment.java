@@ -169,6 +169,11 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     }
 
     @Override
+    public void hideLoading() {
+        super.hideLoading();
+    }
+
+    @Override
     protected PtrHandler attachPtrHandler() {
         return new PtrDefaultHandler() {
             @Override

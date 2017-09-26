@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import in.srain.cube.views.ptr.PtrClassicDefaultHeader;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import me.ghui.v2er.util.ScaleUtils;
@@ -17,7 +16,7 @@ import me.ghui.v2er.util.ScaleUtils;
 
 public class V2erPtrFrameLayout extends PtrFrameLayout {
 
-    private PtrClassicDefaultHeader mPtrHeader;
+    private V2erHeaderView mPtrHeader;
 
     public V2erPtrFrameLayout(Context context) {
         super(context);
@@ -35,8 +34,8 @@ public class V2erPtrFrameLayout extends PtrFrameLayout {
     }
 
     private void init() {
-        mPtrHeader = new PtrClassicDefaultHeader(getContext());
-        mPtrHeader.setLayoutParams(new PtrFrameLayout.LayoutParams(-1, -2));
+        mPtrHeader = new V2erHeaderView(getContext());
+        mPtrHeader.setLayoutParams(new PtrFrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int padding = ScaleUtils.dp(8);
         mPtrHeader.setPadding(0, padding, 0, padding);
         setHeaderView(mPtrHeader);

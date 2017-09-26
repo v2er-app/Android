@@ -284,7 +284,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             View content = getLayoutInflater().inflate(attachLayoutRes(), ptrLayout, false);
             ptrLayout.setContentView(content);
             ptrLayout.setPtrHandler(attachPtrHandler());
-            ptrLayout.setPinContent(true);
             viewBelowToolbar = ptrLayout;
         } else {
             viewBelowToolbar = (ViewGroup) getLayoutInflater().inflate(attachLayoutRes(), null);
