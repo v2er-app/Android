@@ -25,6 +25,11 @@ import me.ghui.v2er.util.ScaleUtils;
  * Created by ghui on 24/09/2017.
  */
 
+/**
+ * 1. 下拉的过程中两箭头相对-靠近
+ * 2. 箭头相遇之前收回: 箭头相背远离
+ * 3. 箭头相遇之后收回: 箭头合起直接返回。
+ */
 public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.AnimatorUpdateListener {
     private Path mLeftPath = new Path();
     private Path mRightPath = new Path();
@@ -37,7 +42,8 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     private float mRotation = 0.0f;
     private ValueAnimator mRotationAnimator;
     private Paint clearPaint = new Paint();
-    private boolean isFinished = false;
+    private boolean isPullDown = true;
+    private float offset = 0;
 
     public V2erHeaderView(Context context) {
         super(context);
@@ -80,17 +86,11 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-
     @Override
-    protected void onDraw(Canvas canvas) {
-        int w = getWidth();
-        int h = getHeight();
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        Logger.d("w=" + w + ", h=" + h + ", oldW=" + oldw + ", oldH=" + oldh);
         int cW = w - getPaddingStart() - getPaddingEnd();
-
-        canvas.drawRect(0, 0, w, h, clearPaint);
-        canvas.drawColor(Color.WHITE);
-        canvas.drawLine(0, h - mDividerPaint.getStrokeWidth() / 2f, w, h - mDividerPaint.getStrokeWidth() / 2f, mDividerPaint);
-        canvas.translate(cW / 2, h / 2);
         mLeftPath.reset();
         mRightPath.reset();
         // config path
@@ -110,9 +110,22 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         mRightPath.rLineTo(-mDelta, 0);
         mRightPath.close();
         //calculate offset
-        float totalDistance = cW / 2f - 1.5f * mDelta;
-        float leftOffset = -mScrollRatio * totalDistance;
-        if (isFinished) leftOffset = -leftOffset;
+        offset = cW / 2f - 1.5f * mDelta;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        int w = getWidth();
+        int h = getHeight();
+        int cW = getWidth() - getPaddingLeft() - getPaddingRight();
+
+        canvas.drawRect(0, 0, w, h, clearPaint);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawLine(0, h - mDividerPaint.getStrokeWidth() / 2f, w, h - mDividerPaint.getStrokeWidth() / 2f, mDividerPaint);
+        canvas.translate(cW / 2, h / 2);
+
+        float leftOffset = -mScrollRatio * offset;
+        if (!isPullDown) leftOffset = -leftOffset;
         float rightOffset = -leftOffset;
         mLeftPath.offset(leftOffset, 0);
         mRightPath.offset(rightOffset, 0);
@@ -122,22 +135,14 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         canvas.drawPath(mLeftPath, mPaint);
         canvas.drawPath(mRightPath, mPaint);
         canvas.restore();
+
+        mLeftPath.offset(-leftOffset, 0);
+        mRightPath.offset(-rightOffset, 0);
     }
 
-    @Override
-    public void onUIReset(PtrFrameLayout frame) {
-        isFinished = false;
-    }
-
-    @Override
-    public void onUIRefreshPrepare(PtrFrameLayout frame) {
-        isFinished = false;
-    }
 
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
-        isFinished = false;
-        Logger.d("onUIRefreshBegin");
         if (mRotationAnimator != null && mRotationAnimator.isRunning()) return;
         mRotationAnimator = ValueAnimator.ofFloat(0f, 1f);
         mRotationAnimator.setInterpolator(new LinearInterpolator());
@@ -150,21 +155,18 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
 
     @Override
     public void onUIPositionChange(PtrFrameLayout frame, boolean isUnderTouch, byte status, PtrIndicator ptrIndicator) {
-        float offsetToRefresh = frame.getOffsetToRefresh();
         int currentPos = ptrIndicator.getCurrentPosY();
-        if (mScrollRatio == 0 && !isFinished) return;
         int lastPos = ptrIndicator.getLastPosY();
-        if (currentPos > lastPos) {//pull down
-            isFinished = false;
-        }
+        isPullDown = currentPos >= lastPos;
+        //case2. 相遇之后收起，直接返回不处理
+        if (mScrollRatio == 0 && !isPullDown) return;
+        float offsetToRefresh = frame.getOffsetToRefresh();
         mScrollRatio = Math.max(1 - currentPos / offsetToRefresh, 0);
-        Logger.d("mOffsetToRefresh: " + offsetToRefresh + ", currentPos: " + currentPos + ", mScrollRatio: " + mScrollRatio);
         invalidate();
     }
 
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame) {
-        isFinished = true;
         mRotation = 0;
         if (mRotationAnimator == null) return;
         mRotationAnimator.cancel();
@@ -175,5 +177,13 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     public void onAnimationUpdate(ValueAnimator animation) {
         mRotation = (float) animation.getAnimatedValue();
         invalidate();
+    }
+
+    @Override
+    public void onUIReset(PtrFrameLayout frame) {
+    }
+
+    @Override
+    public void onUIRefreshPrepare(PtrFrameLayout frame) {
     }
 }
