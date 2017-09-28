@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
@@ -35,15 +36,16 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     private Path mRightPath = new Path();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final int MAIN_COLOR = Color.BLACK;
+    private final int MAIN_COLOR = 0xff555555;
     //the short length of the glyph arrow
-    private final int mDelta = ScaleUtils.dp(8);
+    private final int mDelta = ScaleUtils.dp(7);
     private float mScrollRatio = 1.0f;
     private float mRotation = 0.0f;
     private ValueAnimator mRotationAnimator;
     private Paint clearPaint = new Paint();
     private boolean isPullDown = true;
     private float offset = 0;
+    private Rect dirtyRect;
 
     public V2erHeaderView(Context context) {
         super(context);
@@ -81,7 +83,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.AT_MOST) {
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(8 * mDelta, MeasureSpec.AT_MOST);
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(9 * mDelta, MeasureSpec.AT_MOST);
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
@@ -147,7 +149,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         mRotationAnimator = ValueAnimator.ofFloat(0f, 1f);
         mRotationAnimator.setInterpolator(new LinearInterpolator());
         mRotationAnimator.addUpdateListener(this);
-        mRotationAnimator.setDuration(800);
+        mRotationAnimator.setDuration(200);
         mRotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
         mRotationAnimator.setRepeatMode(ValueAnimator.RESTART);
         mRotationAnimator.start();
@@ -176,7 +178,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     @Override
     public void onAnimationUpdate(ValueAnimator animation) {
         mRotation = (float) animation.getAnimatedValue();
-        invalidate();
+        refresh();
     }
 
     @Override
@@ -186,4 +188,19 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
     }
+
+    private void refresh() {
+        if (dirtyRect == null) {
+            dirtyRect = new Rect();
+            int w = getWidth();
+            int h = getHeight();
+            int delta = (int) (1.5f * mDelta);
+            dirtyRect.left = w / 2 - delta;
+            dirtyRect.top = 0;
+            dirtyRect.right = w / 2 + delta;
+            dirtyRect.bottom = h;
+        }
+        invalidate(dirtyRect);
+    }
+
 }
