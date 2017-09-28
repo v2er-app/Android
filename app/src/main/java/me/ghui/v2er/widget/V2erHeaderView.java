@@ -131,7 +131,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         mRightPath.offset(rightOffset, 0);
 
         canvas.save();
-        canvas.rotate(mRotation * 360);
+        canvas.rotate(-mRotation * 360);
         canvas.drawPath(mLeftPath, mPaint);
         canvas.drawPath(mRightPath, mPaint);
         canvas.restore();
