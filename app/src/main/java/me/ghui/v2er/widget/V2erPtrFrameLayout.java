@@ -34,6 +34,8 @@ public class V2erPtrFrameLayout extends PtrFrameLayout {
     }
 
     private void init() {
+        setRatioOfHeaderHeightToRefresh(1.0f);
+        setEnabledNextPtrAtOnce(true);
         mPtrHeader = new V2erHeaderView(getContext());
         mPtrHeader.setLayoutParams(new PtrFrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         int padding = ScaleUtils.dp(8);

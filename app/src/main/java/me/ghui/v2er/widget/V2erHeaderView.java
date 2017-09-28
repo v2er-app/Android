@@ -129,7 +129,6 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
 
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
-        frame.setOffsetToRefresh(frame.getOffsetToKeepHeaderWhileLoading());
     }
 
     @Override
