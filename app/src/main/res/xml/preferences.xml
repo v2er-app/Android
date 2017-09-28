@@ -93,7 +93,7 @@
         <Preference
             android:key="@string/pref_key_user_group"
             android:layout="@layout/preference_item"
-            android:summary="加入V2er用户群，有问题直接反馈"
+            android:summary="加入TG用户群，有问题直接反馈"
             android:title="用户群" />
         <Preference
             android:key="@string/pref_weibo_personal_page"

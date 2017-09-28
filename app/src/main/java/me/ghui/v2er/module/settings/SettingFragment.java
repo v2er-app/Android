@@ -136,7 +136,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_trello))) {
             Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
-            Utils.openWap("http://ghui.u.qiniudn.com/v2er_group.png", getActivity());
+            Utils.openWap("https://t.me/v2er_app", getActivity());
         }
         return false;
     }
