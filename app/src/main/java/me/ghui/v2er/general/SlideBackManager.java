@@ -14,6 +14,7 @@ public class SlideBackManager {
 
     public static SlidrInterface attach(Activity activity) {
         SlidrConfig config = new SlidrConfig.Builder()
+                .sensitivity(0.5f)
                 .build();
         return Slidr.attach(activity, config);
     }
