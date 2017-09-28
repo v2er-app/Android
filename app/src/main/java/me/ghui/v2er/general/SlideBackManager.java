@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 /**
  * Created by ghui on 18/09/2017.
@@ -11,11 +12,10 @@ import com.r0adkll.slidr.model.SlidrConfig;
 
 public class SlideBackManager {
 
-    public static void attach(Activity activity) {
+    public static SlidrInterface attach(Activity activity) {
         SlidrConfig config = new SlidrConfig.Builder()
-                .edge(true)
                 .build();
-        Slidr.attach(activity, config);
+        return Slidr.attach(activity, config);
     }
 
 }

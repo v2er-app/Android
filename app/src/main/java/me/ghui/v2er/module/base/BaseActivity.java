@@ -20,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
+import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.Stack;
@@ -72,6 +73,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
+    protected SlidrInterface mSlidrInterface;
 
 
     public void setFirstLoadingDelay(long delay) {
@@ -239,7 +241,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
-            SlideBackManager.attach(this);
+            mSlidrInterface = SlideBackManager.attach(this);
         }
         ButterKnife.bind(this);
         startInject();
