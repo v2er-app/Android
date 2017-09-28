@@ -173,7 +173,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
      */
     protected void lazyLoad() {
         if (getPtrLayout() != null && !mHasAutoLoaded) {
-            getPtrLayout().autoRefresh();
+//            getPtrLayout().autoRefresh();
+            mPresenter.start();
             mHasAutoLoaded = true;
         }
     }
@@ -227,7 +228,9 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void showLoading() {
-        if (attachPtrHandler() != null) return;
+//        if (attachPtrHandler() != null) return;
+        if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) return;
+        if (getPtrLayout() != null && getPtrLayout().isRefreshing()) return;
         onCreateLoadingView();
         mLoadingView.setVisibility(View.VISIBLE);
     }

@@ -146,8 +146,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
             MainActivity activity = (MainActivity) getActivity();
             activity.getTabView(0).setText(mCurrentTab.title);
             hideNewsTabsMenu();
-            getPtrLayout().autoRefresh();
-//            mPresenter.start();
+            mPresenter.start();
         });
     }
 
