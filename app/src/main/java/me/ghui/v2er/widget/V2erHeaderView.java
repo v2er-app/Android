@@ -1,13 +1,17 @@
 package me.ghui.v2er.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import com.orhanobut.logger.Logger;
 
@@ -21,7 +25,7 @@ import me.ghui.v2er.util.ScaleUtils;
  * Created by ghui on 24/09/2017.
  */
 
-public class V2erHeaderView extends View implements PtrUIHandler {
+public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.AnimatorUpdateListener {
     private Path mLeftPath = new Path();
     private Path mRightPath = new Path();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -30,6 +34,10 @@ public class V2erHeaderView extends View implements PtrUIHandler {
     //the short length of the glyph arrow
     private final int mDelta = ScaleUtils.dp(8);
     private float mScrollRatio = 0f;
+    private float mRotation = 0.0f;
+    private ValueAnimator mRotationAnimator;
+    private int bgColor;
+    private Paint clearPaint = new Paint();
 
     public V2erHeaderView(Context context) {
         super(context);
@@ -58,7 +66,9 @@ public class V2erHeaderView extends View implements PtrUIHandler {
         mDividerPaint.setStyle(Paint.Style.STROKE);
         int strokeWidth = ScaleUtils.dp(0.5f);
         mDividerPaint.setStrokeWidth(strokeWidth);
-        mDividerPaint.setColor(getResources().getColor(R.color.divider_color));
+        bgColor = getResources().getColor(R.color.divider_color);
+        mDividerPaint.setColor(bgColor);
+        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
     }
 
@@ -75,11 +85,13 @@ public class V2erHeaderView extends View implements PtrUIHandler {
         int w = getWidth();
         int h = getHeight();
         int cW = w - getPaddingStart() - getPaddingEnd();
-        canvas.drawLine(0, h - mDividerPaint.getStrokeWidth() / 2f, w, h - mDividerPaint.getStrokeWidth() / 2f, mDividerPaint);
 
+        canvas.drawRect(0, 0, w, h, clearPaint);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawLine(0, h - mDividerPaint.getStrokeWidth() / 2f, w, h - mDividerPaint.getStrokeWidth() / 2f, mDividerPaint);
         canvas.translate(cW / 2, h / 2);
-        mLeftPath.rewind();
-        mRightPath.rewind();
+        mLeftPath.reset();
+        mRightPath.reset();
         // config path
         mLeftPath.moveTo(mDelta / 2, 0);
         mLeftPath.rLineTo(-mDelta, -mDelta);
@@ -103,8 +115,11 @@ public class V2erHeaderView extends View implements PtrUIHandler {
         mLeftPath.offset(leftOffset, 0);
         mRightPath.offset(rightOffset, 0);
 
+        canvas.save();
+        canvas.rotate(mRotation * 360);
         canvas.drawPath(mLeftPath, mPaint);
         canvas.drawPath(mRightPath, mPaint);
+        canvas.restore();
     }
 
     @Override
@@ -114,12 +129,20 @@ public class V2erHeaderView extends View implements PtrUIHandler {
 
     @Override
     public void onUIRefreshPrepare(PtrFrameLayout frame) {
-
+        frame.setOffsetToRefresh(frame.getOffsetToKeepHeaderWhileLoading());
     }
 
     @Override
     public void onUIRefreshBegin(PtrFrameLayout frame) {
-        // TODO: 24/09/2017 start rotation
+        Logger.d("onUIRefreshBegin");
+        if (mRotationAnimator != null && mRotationAnimator.isRunning()) return;
+        mRotationAnimator = ValueAnimator.ofFloat(0f, 1f);
+        mRotationAnimator.setInterpolator(new LinearInterpolator());
+        mRotationAnimator.addUpdateListener(this);
+        mRotationAnimator.setDuration(800);
+        mRotationAnimator.setRepeatCount(ValueAnimator.INFINITE);
+        mRotationAnimator.setRepeatMode(ValueAnimator.RESTART);
+        mRotationAnimator.start();
     }
 
     @Override
@@ -129,11 +152,20 @@ public class V2erHeaderView extends View implements PtrUIHandler {
         int currentPos = ptrIndicator.getCurrentPosY();
         mScrollRatio = Math.max(1 - currentPos / offsetToRefresh, 0);
         Logger.d("mOffsetToRefresh: " + offsetToRefresh + ", currentPos: " + currentPos + ", mScrollRatio: " + mScrollRatio);
-        postInvalidate();
+        invalidate();
     }
 
     @Override
     public void onUIRefreshComplete(PtrFrameLayout frame) {
-        // arrow up
+        if (mRotationAnimator == null) return;
+        mRotationAnimator.cancel();
+        mRotationAnimator = null;
+        mRotation = 0;
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        mRotation = (float) animation.getAnimatedValue();
+        invalidate();
     }
 }
