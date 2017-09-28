@@ -260,19 +260,17 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        boolean supportShare = mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getAvatar());
-        mNeedWaitForTransitionEnd = supportShare;
-        return supportShare;
+        return mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getAvatar());
     }
 
     private void shareElementAnimation() {
+        mNeedWaitForTransitionEnd = supportShareElement();
         final Transition transition = getWindow().getSharedElementEnterTransition();
         if (transition == null) {
             mNeedWaitForTransitionEnd = false;
             return;
         }
         transition.addListener(new ShareElementTransitionCallBack() {
-
             @Override
             public void onTransitionStart(Transition transition) {
                 if (mIsReturning) {
