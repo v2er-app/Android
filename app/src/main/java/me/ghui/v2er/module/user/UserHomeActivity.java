@@ -19,6 +19,8 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.orhanobut.logger.Logger;
+import com.r0adkll.slidr.model.SlidrConfig;
+import com.r0adkll.slidr.model.SlidrInterface;
 
 import java.util.List;
 import java.util.Map;
@@ -34,6 +36,7 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.injector.component.DaggerUserHomeComponent;
 import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -151,6 +154,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                 .appComponent(getAppComponent())
                 .userHomeModule(new UserHomeModule(this))
                 .build().inject(this);
+    }
+
+    @Override
+    protected SlidrInterface configSlideBack() {
+        SlidrConfig config = new SlidrConfig.Builder()
+                .sensitivity(0.20f)
+                .distanceThreshold(0.15f)
+                .build();
+        return SlideBackManager.attach(this, config);
     }
 
     @Override

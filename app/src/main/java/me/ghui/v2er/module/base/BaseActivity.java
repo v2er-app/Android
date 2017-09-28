@@ -241,7 +241,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
-            mSlidrInterface = SlideBackManager.attach(this);
+            mSlidrInterface = configSlideBack();
         }
         ButterKnife.bind(this);
         startInject();
@@ -252,6 +252,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configToolBar(mToolbar);
         init();
         autoLoad();
+    }
+
+    protected SlidrInterface configSlideBack() {
+        return SlideBackManager.attach(this);
     }
 
     protected boolean supportSlideBack() {

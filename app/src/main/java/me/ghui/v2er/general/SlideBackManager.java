@@ -19,4 +19,8 @@ public class SlideBackManager {
         return Slidr.attach(activity, config);
     }
 
+    public static SlidrInterface attach(Activity activity, SlidrConfig config) {
+        return Slidr.attach(activity, config);
+    }
+
 }
