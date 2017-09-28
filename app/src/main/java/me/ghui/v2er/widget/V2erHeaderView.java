@@ -80,6 +80,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         int w = getWidth();
@@ -152,6 +153,10 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         float offsetToRefresh = frame.getOffsetToRefresh();
         int currentPos = ptrIndicator.getCurrentPosY();
         if (mScrollRatio == 0 && !isFinished) return;
+        int lastPos = ptrIndicator.getLastPosY();
+        if (currentPos > lastPos) {//pull down
+            isFinished = false;
+        }
         mScrollRatio = Math.max(1 - currentPos / offsetToRefresh, 0);
         Logger.d("mOffsetToRefresh: " + offsetToRefresh + ", currentPos: " + currentPos + ", mScrollRatio: " + mScrollRatio);
         invalidate();
