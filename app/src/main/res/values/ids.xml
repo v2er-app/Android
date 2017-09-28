@@ -3,6 +3,7 @@
     <item name="action_search" type="id" />
     <item name="action_create" type="id" />
     <item name="action_star" type="id" />
+    <item name="action_reply" type="id" />
     <item name="action_thx" type="id" />
     <item name="action_block" type="id" />
     <item name="action_share" type="id" />

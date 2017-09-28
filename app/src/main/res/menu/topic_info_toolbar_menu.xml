@@ -7,6 +7,9 @@
         android:title="收藏"
         app:showAsAction="always" />
     <item
+        android:id="@id/action_reply"
+        android:title="回帖" />
+    <item
         android:id="@id/action_thx"
         android:title="@string/thx_str" />
     <item

@@ -40,6 +40,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
@@ -107,6 +108,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private boolean mNeedWaitForTransitionEnd = true;
     private boolean mIsReturning;
     public boolean isNeedAutoScroll = true;
+    private boolean mIsHideReplyBtn;
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -200,6 +202,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
+        MenuItem replyMenuItem = mToolbar.getMenu().findItem(R.id.action_reply);
+        mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
+        replyMenuItem.setVisible(mIsHideReplyBtn);
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
                 toast("请等到加载完成");
@@ -253,6 +258,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
                     toast("链接已拷贝成功");
                     break;
+                case R.id.action_reply:
+                    animateEditInnerWrapper(true);
+                    break;
             }
             return true;
         });
@@ -296,6 +304,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
+        mReplyFabBtn.setVisibility(mIsHideReplyBtn ? View.GONE : VISIBLE);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
@@ -325,7 +334,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (mTopicInfo == null) return;
+                if (mTopicInfo == null || mIsHideReplyBtn) return;
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
                     mReplyFabBtn.hide(); // or hideFab(), see below
                 else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
@@ -469,7 +478,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
-        mReplyFabBtn.setVisibility(VISIBLE);
+        if (!mIsHideReplyBtn) {
+            mReplyFabBtn.setVisibility(VISIBLE);
+        }
         fillAtList();
         autoScroll();
     }
@@ -562,16 +573,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @OnClick(R.id.reply_fab_btn)
     void onNewReplyFlbClicked(FloatingActionButton button) {
-        button.hide();
+        if (button != null) {
+            button.hide();
+        }
         animateEditInnerWrapper(true);
     }
 
 
     void animateEditInnerWrapper(boolean isShow) {
-        int cX = (int) (ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16));
+        int cX = ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16);
         int cY = ScaleUtils.dp(48) / 2;
         int startRadius = ScaleUtils.dp(25);
-        int endRadius = (int) ScaleUtils.getScreenW();
+        int endRadius = ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
             mReplyFabBtn.hide();
             Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
@@ -592,7 +605,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mReplyWrapper.setVisibility(View.INVISIBLE);
-                    mReplyFabBtn.show();
+                    if (!mIsHideReplyBtn) mReplyFabBtn.show();
                 }
 
                 @Override

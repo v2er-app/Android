@@ -56,6 +56,12 @@
             android:title="隐藏发帖按钮" />
         <SwitchPreference
             android:defaultValue="false"
+            android:key="@string/pref_key_hide_reply_btn"
+            android:layout="@layout/preference_item"
+            android:summary="开启以隐藏帖子页右下角回贴按钮"
+            android:title="隐藏回帖按钮" />
+        <SwitchPreference
+            android:defaultValue="false"
             android:key="@string/pref_key_highlight_comment_num"
             android:layout="@layout/preference_item"
             android:summary="开启以高亮评论数"
