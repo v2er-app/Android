@@ -164,4 +164,5 @@ public class NewsInfo extends BaseInfo {
         }
 
     }
+
 }

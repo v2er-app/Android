@@ -203,6 +203,11 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     }
 
     @Override
+    public List<NewsInfo.Item> getNewsInfo() {
+        return mAdapter.getDatas();
+    }
+
+    @Override
     public TabInfo getCurrentTab() {
         return mCurrentTab;
     }

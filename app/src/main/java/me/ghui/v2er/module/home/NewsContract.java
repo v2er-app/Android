@@ -1,5 +1,7 @@
 package me.ghui.v2er.module.home;
 
+import java.util.List;
+
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.network.bean.NewsInfo;
 
@@ -9,14 +11,16 @@ import me.ghui.v2er.network.bean.NewsInfo;
 
 public class NewsContract {
 
-	public interface IView extends BaseContract.IView {
-		void fillView(NewsInfo newsInfos, boolean isLoadMore);
+    public interface IView extends BaseContract.IView {
+        void fillView(NewsInfo newsInfos, boolean isLoadMore);
 
-		TabInfo getCurrentTab();
-	}
+        List<NewsInfo.Item> getNewsInfo();
 
-	public interface IPresenter extends BaseContract.IPresenter {
-		void loadMore(int page);
-	}
+        TabInfo getCurrentTab();
+    }
+
+    public interface IPresenter extends BaseContract.IPresenter {
+        void loadMore(int page);
+    }
 
 }
