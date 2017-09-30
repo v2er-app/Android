@@ -71,6 +71,11 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     }
 
     @Override
+    protected boolean supportSlideBack() {
+        return false;
+    }
+
+    @Override
     protected void init() {
         super.init();
         setFinishOnTouchOutside(false);
