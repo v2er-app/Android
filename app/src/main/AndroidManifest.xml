@@ -12,6 +12,7 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+
         <activity
             android:name=".module.general.RouteActivity"
             android:screenOrientation="portrait"
@@ -105,10 +106,7 @@
             android:name=".module.settings.SettingActivity"
             android:label="设置"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".module.imgviewer.ImageViewer"
-            android:screenOrientation="fullSensor" />
+        <activity android:name=".module.imgviewer.ImageViewer" />
         <activity
             android:name=".module.general.WapActivity"
             android:label="" />
