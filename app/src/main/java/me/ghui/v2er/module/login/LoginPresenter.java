@@ -5,6 +5,7 @@ import com.tencent.bugly.crashreport.CrashReport;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
@@ -30,13 +31,13 @@ public class LoginPresenter implements LoginContract.IPresenter {
     @Override
     public void start() {
         APIService.get().loginParam()
-                .compose(mView.rx(null))
+                .compose(mView.rx(mView))
                 .subscribe(new GeneralConsumer<LoginParam>() {
                     @Override
                     public void onConsume(LoginParam loginParam) {
                         if (loginParam.isValid()) {
                             mLoginParam = loginParam;
-                            mView.onFetchLoginParamSuccess();
+                            mView.onFetchLoginParamSuccess(loginParam);
                         } else {
                             mView.onFetchLoginParamFailure();
                         }
@@ -46,8 +47,8 @@ public class LoginPresenter implements LoginContract.IPresenter {
 
     @Override
     @SuppressWarnings("ConstantConditions")
-    public void login(String userName, String psw) {
-        APIService.get().login(mLoginParam.toMap(userName, psw))
+    public void login(String userName, String psw, String captcha) {
+        APIService.get().login(mLoginParam.toMap(userName, psw, captcha))
                 .compose(mView.rx())
                 .map(response -> response.body().string())
                 .map(s -> {
@@ -75,13 +76,17 @@ public class LoginPresenter implements LoginContract.IPresenter {
                         } else if (info instanceof LoginParam) {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;
-                            if (loginParam.isValid()) {
+                            String problemHtml = loginParam.getProblem();
+                            if (loginParam.isValid() && PreConditions.isEmpty(problemHtml)) {
                                 mLoginParam = loginParam;
-                                mView.onLoginFailure("登录失败，用户名和密码无法匹配");
+                                mView.onLoginFailure("登录失败，用户名和密码无法匹配", false);
+                            } else if (PreConditions.notEmpty(problemHtml)) {
+                                mLoginParam = loginParam;
+                                mView.onLoginFailure(problemHtml, true);
                             } else {
-                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error));
+                                mView.onLoginFailure(App.get().getString(R.string.login_occur_unknown_error), false);
                             }
-                        } else if(info instanceof TwoStepLoginInfo){
+                        } else if (info instanceof TwoStepLoginInfo) {
                             //you may enabled two step login
                             TwoStepLoginInfo twoStepLoginInfo = (TwoStepLoginInfo) info;
                             TwoStepLoginActivity.open(twoStepLoginInfo.getOnce(), mView.getContext());

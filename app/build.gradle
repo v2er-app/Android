@@ -113,4 +113,5 @@ dependencies {
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.r0adkll:slidableactivity:2.0.5'
+    compile "com.github.bumptech.glide:okhttp3-integration:4.1.1"
 }

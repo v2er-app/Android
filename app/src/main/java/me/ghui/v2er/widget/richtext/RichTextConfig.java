@@ -5,7 +5,7 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.util.ScaleUtils;
@@ -71,18 +71,6 @@ public class RichTextConfig {
         return this;
     }
 
-    private CharSequence removePadding(SpannableStringBuilder text, TextView textView) {
-        if (PreConditions.isEmpty(text)) return null;
-//        if (PreConditions.notEmpty(text) && text.charAt(0) == 65532) {
-//            int paddingTop = -(int) (3 * textView.getResources().getDimension(R.dimen.smallTextSize));
-//            textView.setPadding(textView.getPaddingLeft(), paddingTop,
-//                    textView.getPaddingRight(), textView.getPaddingBottom());
-//        }
-        while (text.charAt(text.length() - 1) == '\n') {
-            text = text.delete(text.length() - 1, text.length());
-        }
-        return text;
-    }
 
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
@@ -91,7 +79,7 @@ public class RichTextConfig {
         }
         if (sourceText == null) sourceText = "";
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
-        CharSequence content = removePadding(spanned, textView);
+        CharSequence content = Vtml.removePadding(spanned);
         textView.setText(content);
         ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
         textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images, textView));

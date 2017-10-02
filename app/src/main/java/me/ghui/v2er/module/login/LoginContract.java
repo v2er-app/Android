@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.login;
 
 import me.ghui.v2er.module.base.BaseContract;
+import me.ghui.v2er.network.bean.LoginParam;
 
 /**
  * Created by ghui on 01/05/2017.
@@ -12,11 +13,11 @@ public class LoginContract {
 
         void onFetchLoginParamFailure();
 
-        void onFetchLoginParamSuccess();
+        void onFetchLoginParamSuccess(LoginParam loginParam);
 
         void onLoginSuccess();
 
-        void onLoginFailure(String msg);
+        void onLoginFailure(String msg, boolean withProblem);
 
         void onOccuredTwoStep();
 
@@ -24,7 +25,7 @@ public class LoginContract {
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
-        void login(String userName, String psw);
+        void login(String userName, String psw, String captcha);
 
         void signInWithGoogle();
     }

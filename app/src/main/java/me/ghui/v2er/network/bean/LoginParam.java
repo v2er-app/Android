@@ -3,6 +3,7 @@ package me.ghui.v2er.network.bean;
 import java.util.HashMap;
 import java.util.Map;
 
+import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
 
@@ -18,6 +19,10 @@ public class LoginParam extends BaseInfo {
     private String pswParam;
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
+    @Pick(value = "input[placeholder*=验证码]", attr = "name")
+    private String captchaParam;
+    @Pick(value = "div.problem", attr = Attrs.INNER_HTML)
+    private String problem;
 
     @Override
     public String toString() {
@@ -25,6 +30,8 @@ public class LoginParam extends BaseInfo {
                 "nameParam='" + nameParam + '\'' +
                 ", pswParam='" + pswParam + '\'' +
                 ", once='" + once + '\'' +
+                ", captureParam='" + captchaParam + '\'' +
+                ", problem='" + problem + '\'' +
                 '}';
     }
 
@@ -52,10 +59,23 @@ public class LoginParam extends BaseInfo {
         this.once = once;
     }
 
-    public Map<String, String> toMap(String userName, String psw) {
+    public String getCaptchaParam() {
+        return captchaParam;
+    }
+
+    public boolean needCaptcha() {
+        return PreConditions.notEmpty(captchaParam);
+    }
+
+    public String getProblem() {
+        return problem;
+    }
+
+    public Map<String, String> toMap(String userName, String psw, String captcha) {
         Map map = new HashMap<String, String>();
         map.put(nameParam, userName);
         map.put(pswParam, psw);
+        map.put(captchaParam, captcha);
         map.put("once", once);
         map.put("next", "/mission/daily");
         return map;

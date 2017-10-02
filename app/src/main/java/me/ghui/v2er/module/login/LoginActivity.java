@@ -2,20 +2,27 @@ package me.ghui.v2er.module.login;
 
 import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
@@ -32,8 +39,16 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     TextInputLayout mPswInputLayout;
     @BindView(R.id.login_go_btn)
     Button mLoginBtn;
+    @BindView(R.id.captcha_img)
+    ImageView mCaptchaImg;
+    @BindView(R.id.login_captcha_text_input_layout)
+    TextInputLayout mCaptchaInputLayout;
+    @BindView(R.id.capcha_wrapper)
+    ViewGroup mCaptchaWrapper;
+
     //登录参数加载成功标识
     private boolean mHasLoaded;
+    private LoginParam mLoginParam;
 
     @Override
     protected void startInject() {
@@ -73,10 +88,17 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         mPresenter.start();
     }
 
+    @OnClick(R.id.captcha_img)
+    void onCatchaClicked(ImageView captchaImg) {
+        showLoading();
+        mPresenter.start();
+    }
+
     @OnClick(R.id.login_go_btn)
     void onLoginClicked() {
         String userName = mUserInputLayout.getEditText().getText().toString();
         String psw = mPswInputLayout.getEditText().getText().toString();
+        String captcha = mCaptchaInputLayout.getEditText().getText().toString();
         if (PreConditions.isEmpty(userName)) {
             mUserInputLayout.setError("请输入用户名");
             return;
@@ -90,7 +112,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
             toast("登录参数正在加载，请稍后...");
             return;
         }
-        mPresenter.login(userName, psw);
+
+        if (mCaptchaWrapper.getVisibility() == View.VISIBLE && PreConditions.isEmpty(captcha)) {
+            mCaptchaInputLayout.setError("请输入验证码");
+            return;
+        }
+
+        mPresenter.login(userName, psw, captcha);
     }
 
     @OnClick(R.id.login_by_google_btn)
@@ -102,6 +130,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     public void onFetchLoginParamFailure() {
         mHasLoaded = false;
         toast("加载登录参数出错");
+        mLoginParam = null;
         new ConfirmDialog.Builder(getActivity())
                 .title("加载登录参数出错")
                 .msg("是否重试")
@@ -110,8 +139,20 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
-    public void onFetchLoginParamSuccess() {
+    public void onFetchLoginParamSuccess(LoginParam loginParam) {
         Logger.d("加载登录参数成功");
+        mLoginParam = loginParam;
+        if (mLoginParam.needCaptcha()) {
+            mCaptchaWrapper.setVisibility(View.VISIBLE);
+            String capchaUrl = Constants.BASE_URL + "/_captcha?once=" + loginParam.getOnce();
+            GlideApp.with(this).
+                    load(capchaUrl)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(mCaptchaImg);
+        } else {
+            mCaptchaWrapper.setVisibility(View.GONE);
+        }
         mHasLoaded = true;
     }
 
@@ -129,7 +170,23 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
-    public void onLoginFailure(String msg) {
-        toast(msg);
+    public void onLoginFailure(String msg, boolean withProblem) {
+        if (!withProblem) {
+            toast(msg);
+        } else {
+            new ConfirmDialog.Builder(this)
+                    .msg(Vtml.fromHtml(msg))
+                    .positiveText("确定", dialog -> {
+                        try {
+                            mCaptchaInputLayout.getEditText().setText(null);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        showLoading();
+                        mPresenter.start();
+                    })
+                    .negativeText("取消", dialog -> finish())
+                    .build().show();
+        }
     }
 }

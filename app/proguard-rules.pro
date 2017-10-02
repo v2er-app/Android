@@ -36,6 +36,7 @@
 
 # for DexGuard only
 #-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+-keep public class * implements com.bumptech.glide.module.GlideModule
 #----------------- Glide End ----------------------------
 
 -dontwarn com.squareup.okhttp.**

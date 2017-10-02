@@ -39,21 +39,13 @@ public class APIService {
     private static Gson sGson;
     private static Fruit sFruit;
     private static WebkitCookieManagerProxy sCookieJar;
+    private static OkHttpClient sHttpClient;
 
 
     public static void init() {
         if (mAPI_SERVICE == null) {
-            OkHttpClient httpClient = new OkHttpClient.Builder()
-                    .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
-                    .cookieJar(cookieJar())
-                    .retryOnConnectionFailure(true)
-                    .addInterceptor(new ConfigInterceptor())
-                    .addInterceptor(new HttpLoggingInterceptor()
-                            .setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .build();
-
             Retrofit retrofit = new Retrofit.Builder()
-                    .client(httpClient)
+                    .client(httpClient())
                     .addConverterFactory(GlobalConverterFactory
                             .create()
                             .add(GsonConverterFactory.create(gson()), Json.class)
@@ -98,6 +90,20 @@ public class APIService {
             sFruit = new Fruit();
         }
         return sFruit;
+    }
+
+    public static OkHttpClient httpClient() {
+        if (sHttpClient == null) {
+            sHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
+                    .cookieJar(cookieJar())
+                    .retryOnConnectionFailure(true)
+                    .addInterceptor(new ConfigInterceptor())
+                    .addInterceptor(new HttpLoggingInterceptor()
+                            .setLevel(HttpLoggingInterceptor.Level.BODY))
+                    .build();
+        }
+        return sHttpClient;
     }
 
     public static WebkitCookieManagerProxy cookieJar() {
