@@ -8,7 +8,6 @@ bugly {
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
