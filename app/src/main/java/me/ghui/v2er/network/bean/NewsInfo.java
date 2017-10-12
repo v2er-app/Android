@@ -19,6 +19,12 @@ public class NewsInfo extends BaseInfo {
     private String unRead;
     @Pick("div.cell.item")
     private List<Item> items;
+    @Pick("form[action=/2fa]")
+    private String twoStepStr;
+
+    private boolean isTwoStepError() {
+        return PreConditions.notEmpty(twoStepStr) && twoStepStr.contains("两步验证");
+    }
 
     public int getUnReadCount() {
         if (PreConditions.isEmpty(unRead)) return 0;
@@ -44,6 +50,7 @@ public class NewsInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
+        if (isTwoStepError()) return false;
         return PreConditions.isEmpty(items) || PreConditions.notEmpty(items.get(0).userName);
     }
 

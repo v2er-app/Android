@@ -79,6 +79,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     protected void init() {
         super.init();
         setFinishOnTouchOutside(false);
+        mRootView.setBackgroundColor(getResources().getColor(R.color.transparent));
         mTextInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -169,7 +170,6 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                                 .to(MainActivity.class).start();
                                     }
                                 });
-
                     }
                 });
     }
