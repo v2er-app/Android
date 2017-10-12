@@ -1,6 +1,8 @@
 package me.ghui.v2er.module.drawer.star;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.IntRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +15,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -23,11 +26,22 @@ import me.ghui.v2er.widget.BaseToolBar;
 
 public class StarActivity extends BaseActivity {
     private ArrayList<Fragment> mFragments = new ArrayList<>(2);
+    private static final String TAB_INDEX = KEY("tab_index");
 
     @BindView(R.id.tablayout_main)
     SlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
+
+    public static void open(Context context) {
+        open(context, 0);
+    }
+
+    public static void open(Context context, @IntRange(from = 0, to = 1) int tabIndex) {
+        Navigator.from(context)
+                .putExtra(TAB_INDEX, tabIndex)
+                .to(StarActivity.class).start();
+    }
 
     @Override
     protected int attachLayoutRes() {
