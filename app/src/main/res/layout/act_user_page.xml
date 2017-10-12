@@ -91,7 +91,7 @@
                         android:id="@+id/user_block_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginBottom="12dp"
                         android:background="@drawable/accent_capsula_drawable"
                         android:visibility="invisible"
                         app:initIcon="@drawable/progress_button_block_icon"
