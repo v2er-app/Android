@@ -75,6 +75,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         super.configToolBar(toolBar);
         toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
         toolBar.setOnMenuItemClickListener(this);
+        toolBar.setNavigationOnClickListener(v -> finishToHome());
         Utils.setPaddingForStatusBar(toolBar);
     }
 
@@ -155,11 +156,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
             new ConfirmDialog.Builder(this)
                     .title("丢弃主题")
                     .msg("返回将丢弃当前编写的内容")
-                    .positiveText(R.string.ok, dialog -> finishToHome())
+                    .positiveText(R.string.ok, dialog -> finish())
                     .negativeText(R.string.cancel)
                     .build().show();
         } else {
-            finishToHome();
+            super.onBackPressed();
         }
     }
 

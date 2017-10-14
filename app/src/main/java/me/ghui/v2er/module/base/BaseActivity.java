@@ -35,7 +35,6 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
@@ -478,7 +477,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected void finishToHome() {
-        if (!MainActivity.isAlive && Pref.readBool(R.string.pref_key_shortcuts_back_to_home)) {
+        if (!MainActivity.isAlive) {
             Navigator.from(getActivity())
                     .addFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     .to(MainActivity.class).start();
