@@ -6,6 +6,7 @@
     <item name="action_reply" type="id" />
     <item name="action_thx" type="id" />
     <item name="action_block" type="id" />
+    <item name="action_report" type="id" />
     <item name="action_share" type="id" />
     <item name="action_copy_url" type="id" />
     <item name="action_refresh" type="id" />

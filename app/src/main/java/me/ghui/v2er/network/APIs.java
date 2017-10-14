@@ -19,10 +19,10 @@ import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
-import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
+import me.ghui.v2er.util.RefererUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.FieldMap;
@@ -131,7 +131,8 @@ public interface APIs {
 
     @Html
     @GET("/ignore/topic/{id}")
-    Observable<DailyInfo> ignoreTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
+    @Headers("Referer: " + RefererUtils.TINY_REFER)
+    Observable<DailyInfo> ignoreTopic(@Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/ignore/reply/{id}")
@@ -172,7 +173,8 @@ public interface APIs {
 
     @Html
     @GET
-    Observable<SimpleInfo> starNode(@Header("Referer") String referer, @Url String url);
+    @Headers("Referer: " + RefererUtils.TINY_REFER)
+    Observable<SimpleInfo> starNode( @Url String url);
 
     @Html
     @GET("/mission/daily")
@@ -189,5 +191,10 @@ public interface APIs {
     @Headers("Referer: " + Constants.BASE_URL + "/mission/daily")
     @POST("/2fa?next=/mission/daily")
     Observable<NewsInfo> signInTwoStep(@FieldMap Map<String, String> map);
+
+    @Html
+    @Headers("Referer: " + RefererUtils.TINY_REFER)
+    @GET
+    Observable<DailyInfo> reportTopic(@Url String url);
 
 }

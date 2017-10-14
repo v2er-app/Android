@@ -30,12 +30,26 @@ public class TopicInfo extends BaseInfo {
     private String once;
     @Pick(value = "meta[property=og:url]", attr = "content")
     private String topicLink;
+    @Pick(value = "a[onclick*=/report/topic/]", attr = "onclick")
+    private String reportStr;
 
     public String getTopicLink() {
         return topicLink;
     }
 
     private List<Item> items;
+
+    public boolean hasReport() {
+        return PreConditions.isEmpty(reportStr);
+    }
+
+    public String reportUrl() {
+        if (hasReport()) return null;
+        //if (confirm('你确认需要报告这个主题？')) { location.href = '/report/topic/390988?t=1456813618'; }
+        int sIndex = reportStr.indexOf("/report/topic/");
+        int eIndex = reportStr.lastIndexOf("'");
+        return reportStr.substring(sIndex, eIndex);
+    }
 
     public String getOnce() {
         return once;
@@ -199,7 +213,7 @@ public class TopicInfo extends BaseInfo {
         private String tag;
         @Pick(value = "div.box a[href^=/go]", attr = Attrs.HREF)
         private String tagLink;
-        @Pick("div.cell span.gray")
+        @Pick("div.cell span.gray:contains(回复)")
         private String comment;
         @Pick("div.box a.page_normal:last-child")
         private int page;

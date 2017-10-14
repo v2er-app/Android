@@ -15,6 +15,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 public class TopicContract {
     public interface IView extends BaseContract.IView {
         String getTopicId();
+
         void fillView(TopicInfo topicInfo, boolean isLoadMore);
 
         void afterStarTopic(TopicInfo topicInfo);
@@ -25,7 +26,9 @@ public class TopicContract {
 
         void afterIgnoreTopic(boolean success);
 
-        void afterIgnoreReply( int position);
+        void afterIgnoreReply(int position);
+
+        void afterReportTopic(boolean success);
 
         void afterReplyTopic(TopicInfo topicInfo);
 
@@ -50,6 +53,8 @@ public class TopicContract {
         void ignoreReply(int position, String replyId, String once);
 
         void replyTopic(String topicId, Map<String, String> replyMap);
+
+        void reportTopic();
 
     }
 }

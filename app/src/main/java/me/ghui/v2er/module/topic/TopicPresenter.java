@@ -19,6 +19,7 @@ import me.ghui.v2er.util.RefererUtils;
 public class TopicPresenter implements TopicContract.IPresenter {
 
     private TopicContract.IView mView;
+    private TopicInfo mTopicInfo;
 
     public TopicPresenter(TopicContract.IView view) {
         mView = view;
@@ -36,6 +37,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
+                        mTopicInfo = topicInfo;
                         mView.fillView(topicInfo, page > 1);
                     }
                 });
@@ -98,7 +100,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
     @Override
     public void ignoreTopic(String topicId, String once) {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
-        APIService.get().ignoreTopic(RefererUtils.tinyReferer(), topicId, once)
+        APIService.get().ignoreTopic(topicId, once)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<DailyInfo>(mView) {
                     @Override
@@ -130,6 +132,19 @@ public class TopicPresenter implements TopicContract.IPresenter {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         mView.afterReplyTopic(topicInfo);
+                    }
+                });
+    }
+
+    @Override
+    public void reportTopic() {
+        String reportUrl = mTopicInfo.reportUrl();
+        APIService.get().reportTopic(reportUrl)
+                .compose(mView.rx())
+                .subscribe(new GeneralConsumer<DailyInfo>() {
+                    @Override
+                    public void onConsume(DailyInfo dailyInfo) {
+                        mView.afterReportTopic(dailyInfo.isValid());
                     }
                 });
     }

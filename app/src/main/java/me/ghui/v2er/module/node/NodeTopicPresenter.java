@@ -53,7 +53,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
     @Override
     public void starNode(String url) {
         if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
-        APIService.get().starNode(RefererUtils.tinyReferer(), url)
+        APIService.get().starNode(url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<SimpleInfo>(mView) {
                     @Override

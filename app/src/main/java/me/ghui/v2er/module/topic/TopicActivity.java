@@ -42,6 +42,7 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
+import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
@@ -49,7 +50,6 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -102,6 +102,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
+    private MenuItem mReportMenuItem;
     private BottomSheetDialog mMenuSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
@@ -202,6 +203,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
         mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
+        mReportMenuItem = mToolbar.getMenu().findItem(R.id.action_report);
         MenuItem replyMenuItem = mToolbar.getMenu().findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
         replyMenuItem.setVisible(mIsHideReplyBtn);
@@ -244,6 +246,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .negativeText(R.string.cancel)
                             .build().show();
                     break;
+                case R.id.action_report:
+                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
+                    new ConfirmDialog.Builder(getActivity())
+                            .msg("确定要举报这个主题吗？")
+                            .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
+                            .negativeText(R.string.cancel)
+                            .build().show();
+                    break;
                 case R.id.action_share:
                     ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
                             .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
@@ -253,7 +263,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     ShareManager shareManager = new ShareManager(shareData, this);
                     shareManager.showShareDialog();
                     break;
-
                 case R.id.action_copy_url:
                     Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
                     toast("链接已拷贝成功");
@@ -478,6 +487,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
+        updateReportMenuItem(mTopicInfo.hasReport());
         if (!mIsHideReplyBtn) {
             mReplyFabBtn.setVisibility(VISIBLE);
         }
@@ -638,6 +648,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
     }
 
+    private void updateReportMenuItem(boolean hasReport) {
+        mReportMenuItem.setTitle(hasReport ? "已举报" : "举报");
+        mReportMenuItem.setEnabled(!hasReport);
+    }
+
     @Override
     public void afterStarTopic(TopicInfo topicInfo) {
         mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
@@ -677,6 +692,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         toast("已忽略");
         mAdapter.getDatas().remove(position);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void afterReportTopic(boolean success) {
+        if (success) {
+            toast("举报成功");
+            finish();
+        } else {
+            toast("举报主题遇到问题");
+        }
     }
 
     @Override
