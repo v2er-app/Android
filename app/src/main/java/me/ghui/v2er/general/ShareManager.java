@@ -1,4 +1,4 @@
-package me.ghui.v2er.share;
+package me.ghui.v2er.general;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,10 +24,6 @@ import java.lang.annotation.RetentionPolicy;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.GlideApp;
-import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.general.ThirdApp;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 

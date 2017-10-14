@@ -49,7 +49,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.share.ShareManager;
+import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;

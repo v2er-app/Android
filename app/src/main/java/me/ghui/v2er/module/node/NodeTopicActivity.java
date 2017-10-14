@@ -44,7 +44,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
-import me.ghui.v2er.share.ShareManager;
+import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
