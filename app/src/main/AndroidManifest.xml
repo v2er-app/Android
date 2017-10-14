@@ -53,7 +53,7 @@
             android:label="@string/page_daily_hot"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.shortcuts.DailyHotShortcuts"
+            android:name=".module.shortcuts.DailyHotShortcut"
             android:label="@string/page_daily_hot"
             android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme"
@@ -64,7 +64,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".module.shortcuts.CreateTopicShortcuts"
+            android:name=".module.shortcuts.CreateTopicShortcut"
             android:label="@string/page_create_topic"
             android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme" />
@@ -98,6 +98,11 @@
             android:name=".module.drawer.star.StarActivity"
             android:label="收藏"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".module.shortcuts.StarTopicShortcut"
+            android:label="收藏"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoneSlideBackableTheme" />
         <activity
             android:name=".module.node.NodeTopicActivity"
             android:label="节点"

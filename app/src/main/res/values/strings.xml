@@ -27,8 +27,9 @@
     <string name="logout_str">退出登录</string>
     <string name="login_str">去登录</string>
     <string name="new_post">发帖</string>
-    <string name="shortcuts_daily_hot">热议</string>
-    <string name="shortcuts_new_post">发贴</string>
     <string name="page_daily_hot">今日热议</string>
+    <string name="shortcuts_daily_hot">热议</string>
+    <string name="shortcuts_star">收藏</string>
+    <string name="shortcuts_new_post">发贴</string>
     <string name="page_create_topic">创作新主题</string>
 </resources>

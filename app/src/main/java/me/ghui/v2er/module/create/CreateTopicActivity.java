@@ -75,7 +75,6 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         super.configToolBar(toolBar);
         toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
         toolBar.setOnMenuItemClickListener(this);
-        toolBar.setNavigationOnClickListener(v -> finishToHome());
         Utils.setPaddingForStatusBar(toolBar);
     }
 

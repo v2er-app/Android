@@ -111,7 +111,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected void configToolBar(BaseToolBar toolBar) {
         if (toolBar == null) return;
         toolBar.setTitle(getTitle());
-        toolBar.setNavigationOnClickListener(view -> onBackPressed());
+        toolBar.setNavigationOnClickListener(view -> {
+            if (isTaskRoot()) finishToHome();
+        });
         toolBar.setOnDoubleTapListener(this);
     }
 
