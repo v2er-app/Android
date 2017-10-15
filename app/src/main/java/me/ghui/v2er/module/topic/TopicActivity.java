@@ -222,7 +222,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_thx:
-                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
+                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
                     if (UserUtils.getUserName().equals(mTopicInfo.getHeaderInfo().getUserName())) {
                         toast("自己不能感谢自己哦");
                         return false;
@@ -239,7 +239,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_block:
-                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
+                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定忽略此主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
@@ -247,7 +247,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .build().show();
                     break;
                 case R.id.action_report:
-                    if (PreConditions.notLoginAndProcessToLogin(this)) return false;
+                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定要举报这个主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
@@ -770,7 +770,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (v.getId()) {
                 case R.id.reply_dialog_btn1:
                     //reply to the comment
-                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
+                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return;
                     animateEditInnerWrapper(true);
                     mReplyEt.setText("@" + item.getUserName() + " ");
                     mReplyEt.setSelection(mReplyEt.getText().length());
@@ -783,7 +783,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
-                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
+                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return;
                     new ConfirmDialog.Builder(getActivity())
                             .title("忽略回复")
                             .msg("确定不再显示来自@" + item.getUserName() + "的这条回复？")

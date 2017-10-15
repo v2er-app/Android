@@ -4,7 +4,6 @@ import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
-import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
@@ -22,7 +21,7 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
 
     @Override
     public void start() {
-        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) {
+        if (PreConditions.notLoginAndProcessToLogin(true, mView.getContext())) {
             return;
         }
         APIService.get().topicCreatePageInfo()

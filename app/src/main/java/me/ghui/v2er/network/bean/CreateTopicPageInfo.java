@@ -52,7 +52,10 @@ public class CreateTopicPageInfo extends BaseInfo {
     private void addAdditonalNode() {
         allNodes.add(new Node("沙盒 / sandbox"));
         allNodes.add(new Node("二手交易 / all4all"));
-        // TODO: 15/10/2017  
+        allNodes.add(new Node("物物交换 / exchange"));
+        allNodes.add(new Node("免费赠送 / free"));
+        allNodes.add(new Node("团购 / tuan"));
+        // TODO: 15/10/2017
     }
 
     public Map<String, String> toPostMap(String title, String content, String nodeId) {

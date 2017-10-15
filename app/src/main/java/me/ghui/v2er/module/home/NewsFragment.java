@@ -214,7 +214,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @OnClick(R.id.news_fab_btn)
     void onNewFabClicked() {
-        if (PreConditions.notLoginAndProcessToLogin(getContext())) return;
+        if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return;
         Navigator.from(getContext()).to(CreateTopicActivity.class).start();
     }
 

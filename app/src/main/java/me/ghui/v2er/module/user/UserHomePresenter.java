@@ -33,7 +33,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void blockUser(String url) {
-        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().blockUser(url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<SimpleInfo>(mView) {
@@ -46,7 +46,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void followUser(String userName, String url) {
-        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().followUser(RefererUtils.userReferer(userName), url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<UserPageInfo>(mView) {

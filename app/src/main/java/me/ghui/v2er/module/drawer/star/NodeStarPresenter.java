@@ -19,7 +19,7 @@ public class NodeStarPresenter implements NodeStarContract.IPresenter {
 
     @Override
     public void start() {
-        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+        if (PreConditions.notLoginAndProcessToLogin(true, mView.getContext())) return;
         APIService.get()
                 .nodeStarInfo()
                 .compose(mView.rx())

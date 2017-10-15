@@ -24,7 +24,7 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
 
     @Override
     public void loadMore(int page) {
-        if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+        if (PreConditions.notLoginAndProcessToLogin(true, mView.getContext())) return;
         APIService.get()
                 .topicStarInfo(page)
                 .compose(mView.rx(page))

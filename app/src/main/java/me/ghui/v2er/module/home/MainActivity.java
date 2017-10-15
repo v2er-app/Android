@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Utils.sendOfficalV2erEmail(this);
                     break;
                 case R.id.create_nav_item:
-                    if (PreConditions.notLoginAndProcessToLogin(getContext())) return true;
+                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.love_nav_item:

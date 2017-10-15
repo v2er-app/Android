@@ -74,7 +74,7 @@ public class TopicModule {
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
 
                 View.OnClickListener onThxClickListener = v -> {
-                    if (PreConditions.notLoginAndProcessToLogin(mView.getContext())) return;
+                    if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
 
                     if (replyInfo.isSelf()) {
