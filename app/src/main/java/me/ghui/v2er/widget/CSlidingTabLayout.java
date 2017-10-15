@@ -22,7 +22,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,6 +34,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.PreConditions;
+
+import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
 /**
  * 滑动TabLayout,对于ViewPager的依赖性强
@@ -136,14 +139,13 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         obtainAttributes(context, attrs);
 
         //get layout_height
-        String height = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
-
-        if (height.equals(ViewGroup.LayoutParams.MATCH_PARENT + "")) {
-        } else if (height.equals(ViewGroup.LayoutParams.WRAP_CONTENT + "")) {
-        } else {
+        int height = WRAP_CONTENT;
+        String heightStr = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
+        if (PreConditions.notEmpty(heightStr)) height = Integer.parseInt(heightStr);
+        if (height != WRAP_CONTENT && height != MATCH_PARENT) {
             int[] systemAttrs = {android.R.attr.layout_height};
             TypedArray a = context.obtainStyledAttributes(attrs, systemAttrs);
-            mHeight = a.getDimensionPixelSize(0, ViewGroup.LayoutParams.WRAP_CONTENT);
+            mHeight = a.getDimensionPixelSize(0, WRAP_CONTENT);
             a.recycle();
         }
     }
@@ -309,10 +311,10 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
 
         /** 每一个Tab的布局参数 */
         LinearLayout.LayoutParams lp_tab = mTabSpaceEqual ?
-                new LinearLayout.LayoutParams(0, FrameLayout.LayoutParams.MATCH_PARENT, 1.0f) :
-                new LinearLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT);
+                new LinearLayout.LayoutParams(0, MATCH_PARENT, 1.0f) :
+                new LinearLayout.LayoutParams(WRAP_CONTENT, MATCH_PARENT);
         if (mTabWidth > 0) {
-            lp_tab = new LinearLayout.LayoutParams((int) mTabWidth, FrameLayout.LayoutParams.MATCH_PARENT);
+            lp_tab = new LinearLayout.LayoutParams((int) mTabWidth, MATCH_PARENT);
         }
 
         mTabsContainer.addView(tabView, position, lp_tab);

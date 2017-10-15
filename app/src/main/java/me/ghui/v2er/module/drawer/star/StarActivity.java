@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Window;
 
-import com.flyco.tablayout.SlidingTabLayout;
-
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -19,6 +17,7 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.CSlidingTabLayout;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -29,7 +28,7 @@ public class StarActivity extends BaseActivity {
     private static final String TAB_INDEX = KEY("tab_index");
 
     @BindView(R.id.tablayout_main)
-    SlidingTabLayout mSlidingTabLayout;
+    CSlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
 
@@ -52,6 +51,7 @@ public class StarActivity extends BaseActivity {
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
+        toolBar.getLayoutParams().height = (int) getResources().getDimension(R.dimen.toolbar_small_height);
         Utils.setPaddingForStatusBar(toolBar);
     }
 

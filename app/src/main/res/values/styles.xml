@@ -117,4 +117,21 @@
         <item name="android:gravity">left</item>
     </style>
 
+    <style name="CSTablayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minHeight">@dimen/tablayout_height</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="tl_indicator_height">2.5dp</item>
+        <item name="tl_indicator_color">@android:color/black</item>
+        <item name="tl_indicator_width_equal_title">true</item>
+        <item name="tl_tab_padding">22dp</item>
+        <item name="tl_tab_space_equal">true</item>
+        <item name="tl_textSelectColor">@color/bodyTextColor</item>
+        <item name="tl_textUnselectColor">#66000000</item>
+        <item name="tl_textsize">@dimen/mediumTextSize</item>
+        <item name="tl_underline_color">#40E0E0E0</item>
+        <item name="tl_underline_height">1dp</item>
+    </style>
+
 </resources>
