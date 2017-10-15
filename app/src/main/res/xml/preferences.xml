@@ -79,6 +79,7 @@
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
+            android:summary="建议去GooglePlay或酷安市场以获得及时更新"
             android:title="检查更新" />
         <Preference
             android:key="@string/pref_key_v2er_pro"
