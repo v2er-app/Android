@@ -36,6 +36,7 @@ public class RouteActivity extends Activity {
         switch (data.getScheme()) {
             case "https":
             case "http":
+                // TODO: 15/10/2017 black window when entered
                 UrlInterceptor.openWapPage(data.getPath(), this);
                 return;
             case "v2er":
