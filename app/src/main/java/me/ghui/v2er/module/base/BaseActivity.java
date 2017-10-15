@@ -113,6 +113,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         toolBar.setTitle(getTitle());
         toolBar.setNavigationOnClickListener(view -> {
             if (isTaskRoot()) finishToHome();
+            else onBackPressed();
         });
         toolBar.setOnDoubleTapListener(this);
     }
