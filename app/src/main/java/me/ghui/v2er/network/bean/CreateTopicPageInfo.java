@@ -45,8 +45,14 @@ public class CreateTopicPageInfo extends BaseInfo {
         }
         allNodes.addAll(hotNodes);
         allNodes.addAll(nodes);
-        allNodes.add(new Node("沙盒 / sandbox"));
+        addAdditonalNode();
         return allNodes;
+    }
+
+    private void addAdditonalNode() {
+        allNodes.add(new Node("沙盒 / sandbox"));
+        allNodes.add(new Node("二手交易 / all4all"));
+        // TODO: 15/10/2017  
     }
 
     public Map<String, String> toPostMap(String title, String content, String nodeId) {
