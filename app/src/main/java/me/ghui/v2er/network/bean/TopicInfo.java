@@ -40,7 +40,7 @@ public class TopicInfo extends BaseInfo {
     private List<Item> items;
 
     public boolean hasReport() {
-        return PreConditions.isEmpty(reportStr);
+        return UserUtils.isLogin() && PreConditions.isEmpty(reportStr);
     }
 
     public String reportUrl() {

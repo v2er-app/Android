@@ -64,7 +64,13 @@ public class ShareManager {
                 shareTo(ThirdApp.TELEGRAM, mShareData.title, mShareData.link, mContext);
                 break;
             case R.id.share_item_4:
-                shareTo(ThirdApp.WEIBO, mShareData.title, mShareData.link, mContext);
+                String pkg;
+                if (Utils.isAppAvailable(ThirdApp.WEIBO_INTERNATIONAL)) {
+                    pkg = ThirdApp.WEIBO_INTERNATIONAL;
+                } else {
+                    pkg = ThirdApp.WEIBO;
+                }
+                shareTo(pkg, mShareData.title, mShareData.link, mContext);
                 break;
             case R.id.share_item_5:
                 if (Utils.isAppAvailable(ThirdApp.QQ)) {
@@ -81,7 +87,7 @@ public class ShareManager {
                 shareToWechat(ShareData.FAVORITE);
                 break;
             case R.id.share_item_7:
-                Utils.openInBrowser(mShareData.link, mContext);
+                shareTo(ThirdApp.TWITTER, mShareData.title, mShareData.link, mContext);
                 break;
             case R.id.share_item_8:
                 Utils.copyToClipboard(mContext, String.format("%s\n%s", mShareData.title, mShareData.link));

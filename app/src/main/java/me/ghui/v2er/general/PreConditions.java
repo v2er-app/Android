@@ -1,6 +1,5 @@
 package me.ghui.v2er.general;
 
-import android.app.Activity;
 import android.content.Context;
 
 import java.util.List;
@@ -38,9 +37,9 @@ public class PreConditions {
         if (!UserUtils.isLogin()) {
             Voast.show("登录后才能进行此操作");
             Navigator.from(context).to(LoginActivity.class).start();
-            if (context instanceof Activity) {
-                ((Activity) context).finish();
-            }
+//            if (context instanceof Activity) {
+//                ((Activity) context).finish();
+//            }
             return true;
         }
         return false;

@@ -263,9 +263,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     ShareManager shareManager = new ShareManager(shareData, this);
                     shareManager.showShareDialog();
                     break;
-                case R.id.action_copy_url:
-                    Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
-                    toast("链接已拷贝成功");
+                case R.id.action_open_in_browser:
+//                    Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
+//                    toast("链接已拷贝成功");
+                    Utils.openInBrowser(mTopicInfo.getTopicLink(), this);
                     break;
                 case R.id.action_reply:
                     animateEditInnerWrapper(true);

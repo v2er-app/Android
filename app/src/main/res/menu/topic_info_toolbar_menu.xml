@@ -23,6 +23,6 @@
         android:icon="@drawable/love_normal_icon"
         android:title="分享" />
     <item
-        android:id="@id/action_copy_url"
-        android:title="复制链接" />
+        android:id="@id/action_open_in_browser"
+        android:title="在浏览器中打开" />
 </menu>

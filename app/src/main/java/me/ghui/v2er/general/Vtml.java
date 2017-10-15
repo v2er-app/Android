@@ -10,9 +10,10 @@ import android.text.SpannableStringBuilder;
 public class Vtml {
 
     public static CharSequence fromHtml(String html) {
-        if (PreConditions.isEmpty(html)) return null;
+        if (PreConditions.isEmpty(html)) return "";
         SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(html);
         CharSequence content = Vtml.removePadding(spanned);
+        if (PreConditions.isEmpty(content)) content = "";
         return content;
     }
 

@@ -287,13 +287,6 @@ public class Utils {
     }
 
     public static void openInBrowser(String url, Context context) {
-//        Intent intent = new Intent(Intent.ACTION_VIEW);
-//        intent.addCategory(Intent.CATEGORY_DEFAULT);
-//        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-//        intent.setData(Uri.parse(url));
-//        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-//        App.get().startActivity(intent);
-
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
                 .enableUrlBarHiding()
@@ -302,6 +295,7 @@ public class Utils {
                 .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
                 .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
                 .build();
+        customTabsIntent.intent.setPackage(PkgUtils.getDefaultBrowser());
         customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 
