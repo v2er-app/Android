@@ -8,9 +8,9 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import me.ghui.fruit.Fruit;
+import me.ghui.fruit.converter.retrofit.FruitConverterFactory;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.converter.GlobalConverterFactory;
-import me.ghui.v2er.network.converter.HtmlConverterFactory;
 import me.ghui.v2er.network.converter.annotations.Html;
 import me.ghui.v2er.network.converter.annotations.Json;
 import okhttp3.Interceptor;
@@ -49,7 +49,7 @@ public class APIService {
                     .addConverterFactory(GlobalConverterFactory
                             .create()
                             .add(GsonConverterFactory.create(gson()), Json.class)
-                            .add(HtmlConverterFactory.create(fruit()), Html.class))
+                            .add(FruitConverterFactory.create(fruit()), Html.class))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(Constants.BASE_URL)
                     .build();
