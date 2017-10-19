@@ -3,6 +3,8 @@ package me.ghui.v2er.network;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import me.ghui.retrofit.converter.annotations.Html;
+import me.ghui.retrofit.converter.annotations.Json;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
@@ -20,8 +22,6 @@ import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
-import me.ghui.v2er.network.converter.annotations.Html;
-import me.ghui.v2er.network.converter.annotations.Json;
 import me.ghui.v2er.util.RefererUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;

@@ -9,10 +9,10 @@ import java.util.concurrent.TimeUnit;
 
 import me.ghui.fruit.Fruit;
 import me.ghui.fruit.converter.retrofit.FruitConverterFactory;
+import me.ghui.retrofit.converter.GlobalConverterFactory;
+import me.ghui.retrofit.converter.annotations.Html;
+import me.ghui.retrofit.converter.annotations.Json;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.network.converter.GlobalConverterFactory;
-import me.ghui.v2er.network.converter.annotations.Html;
-import me.ghui.v2er.network.converter.annotations.Json;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,8 +48,8 @@ public class APIService {
                     .client(httpClient())
                     .addConverterFactory(GlobalConverterFactory
                             .create()
-                            .add(GsonConverterFactory.create(gson()), Json.class)
-                            .add(FruitConverterFactory.create(fruit()), Html.class))
+                            .add(FruitConverterFactory.create(fruit()), Html.class)
+                            .add(GsonConverterFactory.create(gson()), Json.class))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .baseUrl(Constants.BASE_URL)
                     .build();
