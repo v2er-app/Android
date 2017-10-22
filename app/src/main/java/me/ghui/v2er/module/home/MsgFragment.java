@@ -1,6 +1,5 @@
 package me.ghui.v2er.module.home;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -14,18 +13,13 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerMsgComponent;
 import me.ghui.v2er.injector.module.MsgModule;
 import me.ghui.v2er.module.base.BaseFragment;
-import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
-import me.ghui.v2er.network.bean.TopicBasicInfo;
-import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
  * Created by ghui on 10/05/2017.

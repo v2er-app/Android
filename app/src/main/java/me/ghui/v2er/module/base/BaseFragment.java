@@ -89,6 +89,9 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         if (supportShareElement()) {
             postponeEnterTransition();
         }
+        if (showLoadingOnCreateView()) {
+            showLoading();
+        }
         init();
         ViewGroup parent = (ViewGroup) mRootView.getParent();
         if (parent != null) {
@@ -96,6 +99,11 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         }
         return mRootView;
     }
+
+    protected boolean showLoadingOnCreateView() {
+        return true;
+    }
+
 
     protected boolean supportShareElement() {
         return false;
