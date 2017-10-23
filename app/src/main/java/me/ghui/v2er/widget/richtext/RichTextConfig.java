@@ -71,7 +71,6 @@ public class RichTextConfig {
         return this;
     }
 
-
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
