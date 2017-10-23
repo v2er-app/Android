@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="AppTheme" parent="BaseApp.Theme">
         <item name="android:windowLightStatusBar">true</item>
     </style>
+
+    <!--<style name="GalleryTheme" parent="Bas">-->
+        <!--<item name="android:windowLightStatusBar">false</item>-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+    <!--</style>-->
 </resources>

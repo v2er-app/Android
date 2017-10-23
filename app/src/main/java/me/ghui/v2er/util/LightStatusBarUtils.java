@@ -1,5 +1,8 @@
 package me.ghui.v2er.util;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -22,7 +25,7 @@ public class LightStatusBarUtils {
                 break;
 
             case RomUtils.AvailableRomType.ANDROID_NATIVE:
-//                setAndroidNativeLightStatusBar(window, darkText);
+                setAndroidNativeLightStatusBar(window, darkText);
                 break;
 
             case RomUtils.AvailableRomType.NA:
@@ -70,18 +73,18 @@ public class LightStatusBarUtils {
         }
     }
 
-//    private static void setAndroidNativeLightStatusBar(Window window, boolean dark) {
-//        View view = window.getDecorView();
-//        if (dark) {
-//            int flags = view.getSystemUiVisibility();
-//            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-//            view.setSystemUiVisibility(flags);
-//        } else {
-//            // We want to change tint color to white again.
-//            // You can also record the flags in advance so that you can turn UI back completely if
-//            // you have set other flags before, such as translucent or full screen.
-//            view.setSystemUiVisibility(0);
-//        }
-//    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private static void setAndroidNativeLightStatusBar(Window window, boolean dark) {
+        View view = window.getDecorView();
+        if (dark) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+        } else {
+            int flags = view.getSystemUiVisibility();
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+        }
+    }
 
 }

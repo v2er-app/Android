@@ -22,9 +22,15 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+
     <style name="NoneSlideBackableTheme" parent="BaseApp.Theme">
         <item name="android:windowIsTranslucent">false</item>
     </style>
+
+    <!--<style name="GalleryTheme" parent="BaseApp.Theme">-->
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+    <!--</style>-->
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
         <item name="colorPrimary">@color/colorPrimary</item>
