@@ -118,6 +118,7 @@
         <activity
             android:name=".module.settings.ProInfoActivity"
             android:label="获取Pro版" />
+        <activity android:name=".module.gallery.GalleryActivity" />
     </application>
 
 </manifest>

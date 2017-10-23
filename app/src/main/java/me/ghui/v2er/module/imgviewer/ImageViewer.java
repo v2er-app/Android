@@ -20,7 +20,6 @@ public class ImageViewer extends FragmentActivity implements IndicatorTextDelega
     public static final String STATE_POSITION = Utils.KEY("state_position");
     public static ImagesInfo imgsData;
     private ViewPager mPager;
-    private int pagerPosition;
     private TextView indicator;
 
     public static void open(ImagesInfo imgsData, Context context) {
@@ -36,7 +35,7 @@ public class ImageViewer extends FragmentActivity implements IndicatorTextDelega
         Utils.transparentBars(getWindow());
         setContentView(R.layout.image_detail_pager);
         imgsData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
-        pagerPosition = imgsData.getPosition();
+        int pagerPosition = imgsData.getPosition();
 
         mPager = (ViewPager) findViewById(R.id.pager);
         ImagePagerAdapter mAdapter = new ImagePagerAdapter(

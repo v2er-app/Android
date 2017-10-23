@@ -16,7 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
-import me.ghui.v2er.module.imgviewer.ImageViewer;
+import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.Utils;
 
@@ -221,7 +221,8 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
             if (mImageClickListener != null) {
                 mImageClickListener.onImgClick(imagesInfo);
             } else {
-                ImageViewer.open(imagesInfo, mTextView.getContext());
+//                ImageViewer.open(imagesInfo, mTextView.getContext());
+                GalleryActivity.open(imagesInfo, mTextView.getContext());
             }
         }
     }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.util.UriUtils;
 
 /**
  * Created by ghui on 06/07/2017.
@@ -36,6 +37,7 @@ public class ImagesInfo implements Serializable {
             private String url;
 
             public String getUrl() {
+                url = UriUtils.checkSchema(url);
                 return url;
             }
 

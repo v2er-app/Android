@@ -3,6 +3,7 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -280,10 +281,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             rootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT));
             rootView.setOrientation(LinearLayout.VERTICAL);
-            rootView.addView(mToolbarWrapper, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+            rootView.addView(mToolbarWrapper == null ? mToolbar : mToolbarWrapper, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT));
             mContentView = rootView;
-
         }
 
         ViewGroup viewBelowToolbar;
@@ -309,8 +309,13 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        mRootView.setBackgroundResource(R.color.default_page_bg);
+        mRootView.setBackgroundColor(pageColor());
         return mRootView;
+    }
+
+    @ColorInt
+    protected int pageColor() {
+        return getResources().getColor(R.color.default_page_bg);
     }
 
     @Nullable

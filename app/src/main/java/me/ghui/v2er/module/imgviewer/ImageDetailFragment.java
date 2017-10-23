@@ -1,8 +1,6 @@
 package me.ghui.v2er.module.imgviewer;
 
 import android.graphics.Bitmap;
-import android.graphics.PointF;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,22 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.davemorrissey.labs.subscaleview.ImageSource;
 import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
 import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.Constants;
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.ViewUtils;
-import me.ghui.v2er.util.Voast;
-
-import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
 
 
 /**
@@ -82,34 +71,44 @@ public class ImageDetailFragment extends Fragment {
     private void loadImage() {
         progressBar.setVisibility(View.VISIBLE);
         int maxSize = Utils.getMaxTextureSize();
-        GlideApp.with(getContext())
-                .asBitmap()
-                .load(mImageUrl)
-                .fitCenter()
-                .into(new SimpleTarget<Bitmap>(maxSize, SIZE_ORIGINAL) {
-                    @Override
-                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
-                        progressBar.setVisibility(View.GONE);
-                        Voast.show("图片加载出错");
-                    }
+//        GlideApp.with(getContext())
+//                .asBitmap()
+//                .load(mImageUrl)
+//                .fitCenter()
+//                .into(new SimpleTarget<Bitmap>(maxSize, SIZE_ORIGINAL) {
+//                    @Override
+//                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+//                        progressBar.setVisibility(View.GONE);
+//                        Voast.show("图片加载出错");
+//                    }
+//
+//                    @Override
+//                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
+//                        progressBar.setVisibility(View.GONE);
+//                        mPhotoView.setImage(ImageSource.bitmap(bitmap));
+//                        int w = bitmap.getWidth();
+//                        int h = bitmap.getHeight();
+//                        float imgW = ViewUtils.getExactlyWidth(mPhotoView, true);
+//                        if (w < imgW && h > ScaleUtils.getScreenContentH() * 1.5) {
+//                            //long picture
+//                            float newScale = (imgW / w);
+//                            mPhotoView.animateScaleAndCenter(newScale, new PointF(imgW / 2f, 0))
+//                                    .withDuration(500)
+//                                    .start();
+//                        }
+//                        paletteBg(bitmap);
+//                    }
+//                });
 
-                    @Override
-                    public void onResourceReady(Bitmap bitmap, Transition<? super Bitmap> transition) {
-                        progressBar.setVisibility(View.GONE);
-                        mPhotoView.setImage(ImageSource.bitmap(bitmap));
-                        int w = bitmap.getWidth();
-                        int h = bitmap.getHeight();
-                        float imgW = ViewUtils.getExactlyWidth(mPhotoView, true);
-                        if (w < imgW && h > ScaleUtils.getScreenContentH() * 1.5) {
-                            //long picture
-                            float newScale = (imgW / w);
-                            mPhotoView.animateScaleAndCenter(newScale, new PointF(imgW / 2f, 0))
-                                    .withDuration(500)
-                                    .start();
-                        }
-                        paletteBg(bitmap);
-                    }
-                });
+//        GlideApp.with(getContext())
+//                .load(mImageUrl)
+//                .fitCenter()
+//                .into(new SimpleTarget<Drawable>(maxSize, SIZE_ORIGINAL) {
+//                    @Override
+//                    public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
+//
+//                    }
+//                });
     }
 
     private void paletteBg(Bitmap bitmap) {
