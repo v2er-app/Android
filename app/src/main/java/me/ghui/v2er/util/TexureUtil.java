@@ -15,7 +15,12 @@ public class TexureUtil {
     private static int maxSize = -1;
     private static String KEY = "max_texture_size";
 
-    public static int getMaxTextureSize() {
+
+    public static int fitMaxWidth() {
+        return (int) (1.5f * ScaleUtils.getScreenW());
+    }
+
+    public static int fitMaxHeight() {
         if (maxSize > 0) return maxSize;
         maxSize = Pref.readInt(KEY);
         if (maxSize > 0) {
@@ -54,8 +59,9 @@ public class TexureUtil {
         // Release
         egl.eglTerminate(display);
         // Return largest texture size found, or default
-        maxSize = Math.max(maximumTextureSize, IMAGE_MAX_BITMAP_DIMENSION);
+        maxSize = (int) (Math.max(maximumTextureSize * 0.5, IMAGE_MAX_BITMAP_DIMENSION));
         Pref.save(KEY, maxSize);
         return maxSize;
     }
+
 }

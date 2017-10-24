@@ -62,6 +62,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
         ImagesInfo imgData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
         GalleryAdapter galleryAdapter = new GalleryAdapter(imgData, this);
         galleryAdapter.setSwipeToDissmissListener(this);
+        mViewPager.setOffscreenPageLimit(1);
         mViewPager.setAdapter(galleryAdapter);
         mViewPager.setCurrentItem(imgData.getPosition());
     }

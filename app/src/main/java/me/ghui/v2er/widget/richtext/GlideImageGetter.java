@@ -66,7 +66,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         @SuppressLint("RestrictedApi")
         public WrapperTarget(int maxWidth) {
             //这里只缩小不放大
-            super(maxWidth, TexureUtil.getMaxTextureSize());
+            super(maxWidth, TexureUtil.fitMaxHeight());
             this.mMaxWidth = maxWidth;
             wrapperDrawable = new DrawableWrapper(null);
             wrapperDrawable.setCallback(GlideImageGetter.this);

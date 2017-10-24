@@ -65,9 +65,8 @@ public class GalleryImageView extends FrameLayout {
         imageView.setLayoutParams(params);
         addView(imageView);
 
-        int maxSize = TexureUtil.getMaxTextureSize();
-        mTarget = new SimpleTarget<Drawable>(maxSize, maxSize) {
-           
+        mTarget = new SimpleTarget<Drawable>(TexureUtil.fitMaxWidth(), TexureUtil.fitMaxHeight()) {
+
             @Override
             public void onLoadStarted(@Nullable Drawable placeholder) {
                 imageView.setImageResource(android.R.color.transparent);
