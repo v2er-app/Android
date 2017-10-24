@@ -35,7 +35,9 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.TexureUtil;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.Voast;
 
 public class GalleryImageView extends FrameLayout {
@@ -80,6 +82,15 @@ public class GalleryImageView extends FrameLayout {
                     ((GifDrawable) resource).start();
                 }
                 progressBar.setVisibility(View.GONE);
+                float imgW = ViewUtils.getExactlyWidth(imageView, true);
+                int w = resource.getIntrinsicWidth();
+                float h = resource.getIntrinsicHeight();
+                if (w < imgW && h > ScaleUtils.getScreenContentH() * 1.5) {
+                    //long picture
+                    float newScale = (imgW / w);
+                    newScale = newScale * (h / ViewUtils.getExactlyHeight(imageView, false));
+                    imageView.animateScale(imageView.getScale(), newScale, imgW / 2, 0);
+                }
                 paletteBg(resource);
             }
 

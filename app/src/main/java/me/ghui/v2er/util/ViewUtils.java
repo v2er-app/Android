@@ -33,9 +33,21 @@ public class ViewUtils {
         if (excludePadding) {
             width = width - view.getPaddingLeft() - view.getPaddingRight();
         }
-
         Logger.e("exactlyWidth: " + width);
         return width;
+    }
+
+    public static int getExactlyHeight(View view, boolean excludePadding) {
+        int height = view.getHeight();
+        if (height <= 0) {
+            view.measure(0, 0);
+            height = view.getMeasuredHeight();
+        }
+        if (excludePadding) {
+            height = height - view.getPaddingTop() - view.getPaddingBottom();
+        }
+        Logger.e("exactlyWidth: " + height);
+        return height;
     }
 
     public static void drawCenterText(String text, Rect rect, Canvas canvas, Paint paint) {
