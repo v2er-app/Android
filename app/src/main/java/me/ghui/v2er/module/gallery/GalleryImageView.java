@@ -35,16 +35,15 @@ import com.bumptech.glide.request.transition.Transition;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.TexureUtil;
 import me.ghui.v2er.util.Voast;
-
-import static com.bumptech.glide.request.target.Target.SIZE_ORIGINAL;
 
 public class GalleryImageView extends FrameLayout {
     final MultiTouchImageView imageView;
     final ProgressBar progressBar;
     private final SimpleTarget<Drawable> mTarget;
 
+    // TODO: 24/10/2017 dark color 
     private int[] mRandomColor = {0xff04beed, 0xff532F87, 0xff04b33e, 0xff622C12, 0xff13646A, 0xff2a9bbd, 0xffffbd0f, 0xff99ae52, 0xff621230};
 
     public GalleryImageView(Context context) {
@@ -66,8 +65,9 @@ public class GalleryImageView extends FrameLayout {
         imageView.setLayoutParams(params);
         addView(imageView);
 
-        int maxSize = Utils.getMaxTextureSize();
-        mTarget = new SimpleTarget<Drawable>(maxSize, SIZE_ORIGINAL) {
+        int maxSize = TexureUtil.getMaxTextureSize();
+        mTarget = new SimpleTarget<Drawable>(maxSize, maxSize) {
+           
             @Override
             public void onLoadStarted(@Nullable Drawable placeholder) {
                 imageView.setImageResource(android.R.color.transparent);

@@ -19,6 +19,7 @@ import java.util.Collection;
 
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.TexureUtil;
 import me.ghui.v2er.util.UriUtils;
 
 
@@ -39,8 +40,6 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         mLoadingDrawable = imageHolder.mLoadingDrawable;
         mErrorDrawable = imageHolder.mLoadErrorDrawable;
         mMaxSize = imageHolder.maxSize;
-
-
     }
 
     @Override
@@ -67,7 +66,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
         @SuppressLint("RestrictedApi")
         public WrapperTarget(int maxWidth) {
             //这里只缩小不放大
-            super(maxWidth, SIZE_ORIGINAL);
+            super(maxWidth, TexureUtil.getMaxTextureSize());
             this.mMaxWidth = maxWidth;
             wrapperDrawable = new DrawableWrapper(null);
             wrapperDrawable.setCallback(GlideImageGetter.this);

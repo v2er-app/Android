@@ -50,7 +50,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     protected void configSystemBars(Window window) {
         Utils.transparentBars(window, Color.TRANSPARENT, Color.TRANSPARENT);
         LightStatusBarUtils.setLightStatusBar(window, false);
-        // TODO: 23/10/2017 light statusbar text
     }
 
     @Override

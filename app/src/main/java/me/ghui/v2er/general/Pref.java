@@ -22,6 +22,10 @@ public class Pref {
         return Prefs.with(app()).read(key);
     }
 
+    public static int readInt(String key) {
+        return Prefs.with(app()).readInt(key);
+    }
+
     public static boolean readBool(@StringRes int key) {
         return readBool(app().getString(key));
     }
@@ -36,5 +40,9 @@ public class Pref {
 
     public static void save(String key, String value) {
         Prefs.with(app()).write(key, value);
+    }
+
+    public static void save(String key, int value) {
+        Prefs.with(app()).writeInt(key, value);
     }
 }

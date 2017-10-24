@@ -16,8 +16,8 @@ import com.orhanobut.logger.Logger;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.network.Constants;
+import me.ghui.v2er.util.TexureUtil;
 import me.ghui.v2er.util.UriUtils;
-import me.ghui.v2er.util.Utils;
 
 
 /**
@@ -70,7 +70,7 @@ public class ImageDetailFragment extends Fragment {
 
     private void loadImage() {
         progressBar.setVisibility(View.VISIBLE);
-        int maxSize = Utils.getMaxTextureSize();
+        int maxSize = TexureUtil.getMaxTextureSize();
 //        GlideApp.with(getContext())
 //                .asBitmap()
 //                .load(mImageUrl)
