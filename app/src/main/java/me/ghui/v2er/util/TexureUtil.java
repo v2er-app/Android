@@ -59,7 +59,7 @@ public class TexureUtil {
         // Release
         egl.eglTerminate(display);
         // Return largest texture size found, or default
-        maxSize = (int) (Math.max(maximumTextureSize * 0.5, IMAGE_MAX_BITMAP_DIMENSION));
+        maxSize = (int) (Math.max(maximumTextureSize * 0.6, IMAGE_MAX_BITMAP_DIMENSION));
         Pref.save(KEY, maxSize);
         return maxSize;
     }
