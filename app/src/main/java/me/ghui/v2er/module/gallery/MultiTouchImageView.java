@@ -140,7 +140,7 @@ public class MultiTouchImageView extends android.support.v7.widget.AppCompatImag
             return false;
         }
 
-        // Do not allow touch events to be intercepted (usually for gallery swipes) by default
+        // Do not allow touch events to be intercepted (usually for gallery_toolbar_menu swipes) by default
         requestDisallowInterceptTouchEvent(true);
 
         boolean retVal = scaleGestureDetector.onTouchEvent(event);
@@ -214,7 +214,6 @@ public class MultiTouchImageView extends android.support.v7.widget.AppCompatImag
     Matrix getDrawMatrix() {
         drawMatrix.set(baseMatrix);
         drawMatrix.postConcat(updateMatrix);
-
         return drawMatrix;
     }
 

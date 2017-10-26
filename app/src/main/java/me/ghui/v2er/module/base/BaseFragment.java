@@ -36,6 +36,7 @@ import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.V2erPtrFrameLayout;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -304,4 +305,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     public void toast(String msg, boolean isToastLong) {
         Voast.show(msg, isToastLong);
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+
 }

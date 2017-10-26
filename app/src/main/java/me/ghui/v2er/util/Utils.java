@@ -27,11 +27,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.io.File;
 import java.util.List;
 
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
+import me.ghui.v2er.general.ImgFileProvider;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.Constants;
@@ -389,28 +391,41 @@ public class Utils {
     }
 
 
-
     public static boolean isPro() {
         return !BuildConfig.APPLICATION_ID.endsWith(".free");
     }
 
     public static Drawable scaleImage(Drawable image, float scaleFactor) {
-
         if ((image == null) || !(image instanceof BitmapDrawable)) {
             return image;
         }
-
         Bitmap b = ((BitmapDrawable) image).getBitmap();
-
         int sizeX = Math.round(image.getIntrinsicWidth() * scaleFactor);
         int sizeY = Math.round(image.getIntrinsicHeight() * scaleFactor);
-
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, sizeX, sizeY, false);
-
         image = new BitmapDrawable(App.get().getResources(), bitmapResized);
-
         return image;
+    }
 
+    public static void shareImg(File imgFile, String imageType, Context context) {
+        if (PreConditions.isEmpty(imageType)) return;
+        Uri uri = ImgFileProvider.getUriForFile(context, context.getString(R.string.glide_img_provider), imgFile);
+        Intent intent = new Intent(Intent.ACTION_SEND);
+//        intent.putExtra(Intent.EXTRA_SUBJECT, "Shared image");
+        intent.setType("image/" + imageType);
+//        intent.putExtra(Intent.EXTRA_TEXT, "Look what I found!");
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        context.startActivity(Intent.createChooser(intent, "Share image"));
+    }
+
+    public static String getTypeFromImgUrl(String url) {
+        String type = "*";
+        if (PreConditions.isEmpty(url)) return type;
+        if (url.endsWith(".gif")) type = "gif";
+        else if (url.endsWith(".png")) type = "png";
+        else if (url.endsWith(".jpg")) type = "jpg";
+        else if (url.endsWith(".jpeg")) type = "jpeg";
+        return type;
     }
 
 }

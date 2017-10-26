@@ -16,6 +16,8 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -23,4 +25,21 @@
         android:id="@+id/gallery_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/gallery_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        app:contentInsetEndWithActions="0dp"
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_white">
+
+        <TextView
+            android:id="@+id/indicator_tv"
+            style="@style/TitleText"
+            android:maxLines="1"
+            android:textColor="@color/white"
+            tools:text="1/6" />
+    </android.support.v7.widget.Toolbar>
 </RelativeLayout>

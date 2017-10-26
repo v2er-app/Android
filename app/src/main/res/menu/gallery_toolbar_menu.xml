@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@id/action_save"
+        android:title="保存" />
+    <item
+        android:id="@id/action_share"
+        android:title="分享" />
+    <item
+        android:id="@id/action_open_in_browser"
+        android:title="在浏览器中查看" />
+</menu>

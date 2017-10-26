@@ -18,6 +18,7 @@ public class GalleryAdapter extends PagerAdapter {
     private ImagesInfo mImagesInfo;
     private Context mContext;
     private SwipeToDismissTouchListener.Callback mSwipeToDissmissListener;
+    private View.OnClickListener mOnImageClickedListener;
 
     public GalleryAdapter(ImagesInfo imagesInfo, Context context) {
         mImagesInfo = imagesInfo;
@@ -26,6 +27,10 @@ public class GalleryAdapter extends PagerAdapter {
 
     public void setSwipeToDissmissListener(SwipeToDismissTouchListener.Callback swipeToDissmissListener) {
         mSwipeToDissmissListener = swipeToDissmissListener;
+    }
+
+    public void setOnImageClickedListener(View.OnClickListener clickedListener) {
+        mOnImageClickedListener = clickedListener;
     }
 
     @Override
@@ -51,6 +56,7 @@ public class GalleryAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         final GalleryImageView root = new GalleryImageView(mContext);
         root.setSwipeToDismissCallback(mSwipeToDissmissListener);
+        root.setOnImageClicked(mOnImageClickedListener);
         container.addView(root);
         GlideApp.with(mContext)
                 .load(getItem(position).getUrl())

@@ -136,7 +136,11 @@ public class GalleryImageView extends FrameLayout {
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.Callback callback) {
         final OnTouchListener listener =
                 SwipeToDismissTouchListener.createFromView(imageView, callback);
-        imageView.setOnTouchListener(listener);
+//        imageView.setOnTouchListener(listener);
+    }
+
+    public void setOnImageClicked(View.OnClickListener imageClicked) {
+        imageView.setOnClickListener(imageClicked);
     }
 
 }
