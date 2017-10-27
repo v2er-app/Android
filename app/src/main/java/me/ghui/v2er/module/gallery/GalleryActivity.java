@@ -238,6 +238,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     @Override
     public void onDismiss() {
         finish();
+        overridePendingTransition(0, android.R.anim.fade_out);
     }
 
     @Override
