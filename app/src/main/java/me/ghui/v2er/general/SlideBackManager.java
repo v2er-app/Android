@@ -15,10 +15,11 @@ import me.ghui.v2er.R;
 public class SlideBackManager {
 
     public static SlidrInterface attach(Activity activity) {
-        if (!Pref.readBool(R.string.pref_key_fullscreen_back)) return null;
+        boolean edgeBack = !Pref.readBool(R.string.pref_key_fullscreen_back);
         SlidrConfig config = new SlidrConfig.Builder()
                 .sensitivity(0.2f)
                 .distanceThreshold(0.15f)
+                .edge(edgeBack)
                 .build();
         return Slidr.attach(activity, config);
     }
