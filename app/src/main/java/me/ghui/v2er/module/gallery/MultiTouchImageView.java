@@ -102,6 +102,7 @@ public class MultiTouchImageView extends android.support.v7.widget.AppCompatImag
                 }
                 return true;
             }
+
         });
     }
 

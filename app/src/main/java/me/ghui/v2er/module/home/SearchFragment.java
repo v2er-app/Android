@@ -77,6 +77,11 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     }
 
     @Override
+    protected boolean showLoadingOnCreateView() {
+        return false;
+    }
+
+    @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mSearchRootView);
         mResultRecyV.addDivider(0XFFF5F5F5, 6);

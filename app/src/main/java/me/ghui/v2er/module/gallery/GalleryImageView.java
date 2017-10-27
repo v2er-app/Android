@@ -23,7 +23,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.v7.graphics.Palette;
+import android.view.GestureDetector;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
@@ -44,6 +46,8 @@ public class GalleryImageView extends FrameLayout {
     final MultiTouchImageView imageView;
     final ProgressBar progressBar;
     private final SimpleTarget<Drawable> mTarget;
+    private GestureDetector gestureDetector;
+    private View.OnClickListener mOnClickListener;
 
     // TODO: 24/10/2017 dark color 
     private int[] mRandomColor = {0xff04beed, 0xff532F87, 0xff04b33e, 0xff622C12, 0xff13646A, 0xff2a9bbd, 0xffffbd0f, 0xff99ae52, 0xff621230};
@@ -100,6 +104,20 @@ public class GalleryImageView extends FrameLayout {
                 Voast.show("图片加载出错");
             }
         };
+
+        gestureDetector = new GestureDetector(context, new GestureDetector
+                .SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                if (mOnClickListener != null) mOnClickListener.onClick(GalleryImageView.this);
+                return false;
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event) || super.dispatchTouchEvent(event);
     }
 
     private int getRandomColor() {
@@ -136,11 +154,11 @@ public class GalleryImageView extends FrameLayout {
     public void setSwipeToDismissCallback(SwipeToDismissTouchListener.Callback callback) {
         final OnTouchListener listener =
                 SwipeToDismissTouchListener.createFromView(imageView, callback);
-//        imageView.setOnTouchListener(listener);
+        imageView.setOnTouchListener(listener);
     }
 
     public void setOnImageClicked(View.OnClickListener imageClicked) {
-        imageView.setOnClickListener(imageClicked);
+        mOnClickListener = imageClicked;
     }
 
 }

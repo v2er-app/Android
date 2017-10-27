@@ -112,12 +112,15 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 mToolBar.setVisibility(View.GONE);
+                                Utils.fullScreen(getWindow(), true);
                             }
                         })
                         .start();
             } else {
                 mToolBar.setVisibility(View.VISIBLE);
-                mToolBar.animate().alpha(1).start();
+                mToolBar.animate().alpha(1).setListener(null).start();
+                Utils.fullScreen(getWindow(), false);
+                configSystemBars(getWindow());
             }
         });
         mViewPager.setOffscreenPageLimit(1);
