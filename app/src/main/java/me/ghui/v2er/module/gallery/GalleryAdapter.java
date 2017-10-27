@@ -60,7 +60,7 @@ public class GalleryAdapter extends PagerAdapter {
         container.addView(root);
         GlideApp.with(mContext)
                 .load(getItem(position).getUrl())
-                .fitCenter()
+                .centerInside()
                 .into(root.target());
         return root;
     }

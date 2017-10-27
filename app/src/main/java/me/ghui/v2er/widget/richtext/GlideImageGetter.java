@@ -50,7 +50,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
                 .load(UriUtils.checkSchema(source))
                 .placeholder(mLoadingDrawable)
                 .error(mErrorDrawable)
-                .fitCenter()
+                .centerInside()
                 .into(target);
         return target.getWrapperDrawable();
     }
