@@ -590,10 +590,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         animateEditInnerWrapper(true);
     }
 
-
     void animateEditInnerWrapper(boolean isShow) {
-        if (isShow) mSlidrInterface.lock();
-        else mSlidrInterface.unlock();
+        if (mSlidrInterface != null) {
+            if (isShow) mSlidrInterface.lock();
+            else mSlidrInterface.unlock();
+        }
 
         int cX = ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16);
         int cY = ScaleUtils.dp(48) / 2;

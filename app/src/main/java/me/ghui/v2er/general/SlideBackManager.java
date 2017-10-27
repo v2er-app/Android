@@ -6,6 +6,8 @@ import com.r0adkll.slidr.Slidr;
 import com.r0adkll.slidr.model.SlidrConfig;
 import com.r0adkll.slidr.model.SlidrInterface;
 
+import me.ghui.v2er.R;
+
 /**
  * Created by ghui on 18/09/2017.
  */
@@ -13,14 +15,11 @@ import com.r0adkll.slidr.model.SlidrInterface;
 public class SlideBackManager {
 
     public static SlidrInterface attach(Activity activity) {
+        if (!Pref.readBool(R.string.pref_key_fullscreen_back)) return null;
         SlidrConfig config = new SlidrConfig.Builder()
-                .sensitivity(0.5f)
+                .sensitivity(0.2f)
+                .distanceThreshold(0.15f)
                 .build();
         return Slidr.attach(activity, config);
     }
-
-    public static SlidrInterface attach(Activity activity, SlidrConfig config) {
-        return Slidr.attach(activity, config);
-    }
-
 }

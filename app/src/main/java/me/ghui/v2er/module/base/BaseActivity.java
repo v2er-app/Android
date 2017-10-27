@@ -74,6 +74,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
+    @Nullable
     protected SlidrInterface mSlidrInterface;
 
 

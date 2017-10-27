@@ -17,6 +17,7 @@
     <string name="pref_key_shortcuts_back_to_home">pref_key_shortcuts_back_to_home</string>
     <string name="pref_key_auto_checkin">pref_key_auto_checkin</string>
     <string name="pref_key_long_press_thx">pref_key_long_press_thx</string>
+    <string name="pref_key_fullscreen_back">pref_key_fullscreen_back</string>
     <string name="pref_key_trello">pref_key_trello</string>
     <string name="pref_key_user_group">pref_user_group</string>
 </resources>
