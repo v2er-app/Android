@@ -69,7 +69,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MenuItem mCreateMenuItem;
     private CheckInPresenter mCheckInPresenter;
     private boolean mHadRated = false;
-    private static String HAD_SHOW_RATE = KEY("had_show_rate_dialog");
     private TextView mTab1View;
     private TextView mTab2View;
     private TextView mTab3View;
@@ -265,11 +264,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private void showRateDialog() {
         new ConfirmDialog.Builder(this)
                 .title("V2er好用吗？")
-                .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评，或者直接向作者吐槽")
+                .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
                 .positiveText("去支持！", dialog -> Utils.openStorePage())
-                .negativeText("去吐槽", dialog -> {
-                    Utils.sendOfficalV2erEmail(getActivity());
-                })
+                .negativeText("暂不")
                 .build().show();
     }
 
@@ -296,16 +293,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 delegate.hideNewsTabsMenu();
                 return;
             }
-        }
-
-        if (!mHadRated) {
-            mHadRated = Pref.readBool(HAD_SHOW_RATE);
-        }
-        if (!mHadRated) {
-            showRateDialog();
-            mHadRated = true;
-            Pref.saveBool(HAD_SHOW_RATE, mHadRated);
-            return;
         }
         super.onBackPressed();
     }
