@@ -35,8 +35,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 
-import java.util.concurrent.ThreadLocalRandom;
-
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.TexureUtil;
 import me.ghui.v2er.util.ViewUtils;
@@ -48,9 +46,6 @@ public class GalleryImageView extends FrameLayout {
     private final SimpleTarget<Drawable> mTarget;
     private GestureDetector gestureDetector;
     private View.OnClickListener mOnClickListener;
-
-    // TODO: 24/10/2017 dark color 
-    private int[] mRandomColor = {0xff04beed, 0xff532F87, 0xff04b33e, 0xff622C12, 0xff13646A, 0xff2a9bbd, 0xffffbd0f, 0xff99ae52, 0xff621230};
 
     public GalleryImageView(Context context) {
         this(context, new MultiTouchImageView(context), new ProgressBar(context));
@@ -120,11 +115,6 @@ public class GalleryImageView extends FrameLayout {
         return gestureDetector.onTouchEvent(event) || super.dispatchTouchEvent(event);
     }
 
-    private int getRandomColor() {
-        int index = ThreadLocalRandom.current().nextInt(0, mRandomColor.length);
-        return mRandomColor[index];
-    }
-
     private void paletteBg(Drawable drawable) {
         Bitmap bitmap = null;
         if (drawable instanceof BitmapDrawable) {
@@ -139,7 +129,7 @@ public class GalleryImageView extends FrameLayout {
                     Palette.Swatch textSwatch = palette.getDarkMutedSwatch();
                     int color;
                     if (textSwatch == null) {
-                        color = getRandomColor();
+                        color = 0xff555555;
                     } else {
                         color = textSwatch.getRgb();
                     }
