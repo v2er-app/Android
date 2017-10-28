@@ -17,8 +17,8 @@ public class SlideBackManager {
     public static SlidrInterface attach(Activity activity) {
         boolean edgeBack = !Pref.readBool(R.string.pref_key_fullscreen_back);
         SlidrConfig config = new SlidrConfig.Builder()
-                .sensitivity(0.2f)
-                .distanceThreshold(0.15f)
+                .sensitivity(0.5f)
+                .distanceThreshold(0.25f)
                 .edge(edgeBack)
                 .build();
         return Slidr.attach(activity, config);

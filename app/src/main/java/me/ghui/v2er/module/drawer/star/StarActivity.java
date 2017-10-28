@@ -73,7 +73,6 @@ public class StarActivity extends BaseActivity {
         Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
-
     @Override
     protected void init() {
         mFragments.add(TopicStarFragment.newInstance());

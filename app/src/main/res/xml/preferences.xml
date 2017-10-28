@@ -20,7 +20,7 @@
             android:summary="开启后长按才能发送感谢"
             android:title="长按感谢" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="@string/pref_key_fullscreen_back"
             android:layout="@layout/preference_item"
             android:summary="开启后可全屏滑动返回，关闭后只能从左边沿滑动返回"
