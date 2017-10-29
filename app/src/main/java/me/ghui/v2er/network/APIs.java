@@ -9,6 +9,7 @@ import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.DailyHotInfo;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.NewsInfo;

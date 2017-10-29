@@ -1,8 +1,7 @@
-package me.ghui.v2er.network;
+package me.ghui.v2er.network.bean;
 
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.util.UriUtils;
 
 /**

@@ -3,7 +3,7 @@ package me.ghui.v2er.module.home;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.DailyInfo;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;

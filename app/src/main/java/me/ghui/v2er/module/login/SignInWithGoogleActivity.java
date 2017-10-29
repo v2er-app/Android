@@ -14,7 +14,7 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.DailyInfo;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.UserInfo;

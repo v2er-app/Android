@@ -5,7 +5,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.DailyInfo;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
