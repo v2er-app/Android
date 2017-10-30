@@ -28,12 +28,12 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerUserHomeComponent;
 import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -156,7 +156,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected boolean supportShareElement() {
-        return PreConditions.notEmpty(mAvatar);
+        return Check.notEmpty(mAvatar);
     }
 
     @Override
@@ -202,7 +202,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     private void fillAvatar() {
-        if (PreConditions.isEmpty(mAvatar)) return;
+        if (Check.isEmpty(mAvatar)) return;
         GlideApp.with(this).load(mAvatar)
                 .transform(new BlurTransformation())
                 .placeholder(R.drawable.avatar_placeholder_drawable)

@@ -4,11 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.DateUtils;
-import me.ghui.v2er.util.Utils;
-import okhttp3.ResponseBody;
 
 /**
  * Created by ghui on 25/03/2017.
@@ -30,7 +28,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase 
     @Override
     public boolean isValid() {
         if (size() <= 0) return true;
-        return PreConditions.notEmpty(get(0).id);
+        return Check.notEmpty(get(0).id);
     }
 
     public static class Item {

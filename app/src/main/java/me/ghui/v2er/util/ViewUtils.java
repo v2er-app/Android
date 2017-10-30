@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 
 /**
@@ -51,7 +51,7 @@ public class ViewUtils {
     }
 
     public static void drawCenterText(String text, Rect rect, Canvas canvas, Paint paint) {
-        if (PreConditions.isEmpty(text)) return;
+        if (Check.isEmpty(text)) return;
         Paint.Align align = paint.getTextAlign();
         float x;
         float y;

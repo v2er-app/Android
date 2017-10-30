@@ -6,11 +6,11 @@ import android.widget.TextView;
 
 import dagger.Module;
 import dagger.Provides;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareContract;
@@ -44,7 +44,7 @@ public class SpecialCareModule {
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
-                if (PreConditions.isEmpty(item.getTime())) {
+                if (Check.isEmpty(item.getTime())) {
                     holder.getView(R.id.time_tv).setVisibility(View.GONE);
                 } else {
                     holder.getView(R.id.time_tv).setVisibility(View.VISIBLE);

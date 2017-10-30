@@ -23,6 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -175,7 +176,7 @@ public class ShareManager {
         intent.setType("text/plain");
         intent.putExtra(Intent.EXTRA_TEXT,
                 String.format("%s\n%s", title, link));
-        if (PreConditions.notEmpty(packageName)) {
+        if (Check.notEmpty(packageName)) {
             intent.setPackage(packageName);
         }
         context.startActivity(Intent.createChooser(intent, "分享方式"));
@@ -186,14 +187,14 @@ public class ShareManager {
         WXWebpageObject webpage = new WXWebpageObject();
         webpage.webpageUrl = mShareData.link;
         WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = PreConditions.notEmpty(mShareData.title) && mShareData.title.length() > 512 ? mShareData.title.substring(0, 512) : mShareData.title;
-        msg.description = PreConditions.notEmpty(mShareData.content) && mShareData.content.length() > 1024 ? mShareData.content.substring(0, 1024) : mShareData.content;
+        msg.title = Check.notEmpty(mShareData.title) && mShareData.title.length() > 512 ? mShareData.title.substring(0, 512) : mShareData.title;
+        msg.description = Check.notEmpty(mShareData.content) && mShareData.content.length() > 1024 ? mShareData.content.substring(0, 1024) : mShareData.content;
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.message = msg;
         req.scene = type;
 
-        if (PreConditions.notEmpty(mShareData.img)) {
+        if (Check.notEmpty(mShareData.img)) {
             GlideApp.with(mContext).load(mShareData.img)
                     .error(R.mipmap.ic_launcher)
                     .override(THUMB_SIZE, THUMB_SIZE)

@@ -5,7 +5,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.Utils;
 
@@ -40,11 +40,11 @@ public class UserPageInfo extends BaseInfo {
 
 
     public boolean hadFollowed() {
-        return PreConditions.notEmpty(followOnClick) && followOnClick.contains("取消");
+        return Check.notEmpty(followOnClick) && followOnClick.contains("取消");
     }
 
     public boolean hadBlocked() {
-        return PreConditions.notEmpty(blockOnClick) && blockOnClick.contains("unblock");
+        return Check.notEmpty(blockOnClick) && blockOnClick.contains("unblock");
     }
 
     public void updateBlockUrl(boolean toBlock) {
@@ -66,7 +66,7 @@ public class UserPageInfo extends BaseInfo {
     }
 
     private String getUrl(String onclick) {
-        if (PreConditions.notEmpty(onclick)) {
+        if (Check.notEmpty(onclick)) {
             String reg = "{ location.href = '";
             int start = onclick.indexOf(reg) + reg.length();
             int end = onclick.lastIndexOf("'");
@@ -76,7 +76,7 @@ public class UserPageInfo extends BaseInfo {
     }
 
     private List<ReplyItem> getReplyItems() {
-        if (PreConditions.isEmpty(dockItems)) return null;
+        if (Check.isEmpty(dockItems)) return null;
         if (replyItems == null) {
             replyItems = new ArrayList<>(dockItems.size());
         } else {
@@ -95,18 +95,18 @@ public class UserPageInfo extends BaseInfo {
             items.clear();
         }
 
-        if (PreConditions.notEmpty(topicItems)) {
+        if (Check.notEmpty(topicItems)) {
             items.addAll(topicItems);
         }
         List<ReplyItem> replyItems = getReplyItems();
-        if (PreConditions.notEmpty(replyItems)) {
+        if (Check.notEmpty(replyItems)) {
             items.addAll(replyItems);
         }
         return items;
     }
 
     public boolean isOnline() {
-        return PreConditions.notEmpty(online) && online.equals("ONLINE");
+        return Check.notEmpty(online) && online.equals("ONLINE");
     }
 
 
@@ -141,7 +141,7 @@ public class UserPageInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(userName);
+        return Check.notEmpty(userName);
     }
 
     public abstract static class Item {

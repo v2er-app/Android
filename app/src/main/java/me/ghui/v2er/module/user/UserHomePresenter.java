@@ -1,11 +1,11 @@
 package me.ghui.v2er.module.user;
 
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.SimpleInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.RefererUtils;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 01/06/2017.
@@ -33,7 +33,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void blockUser(String url) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().blockUser(url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<SimpleInfo>(mView) {
@@ -46,7 +46,7 @@ public class UserHomePresenter implements UserHomeContract.IPresenter {
 
     @Override
     public void followUser(String userName, String url) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().followUser(RefererUtils.userReferer(userName), url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<UserPageInfo>(mView) {

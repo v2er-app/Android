@@ -3,13 +3,13 @@ package me.ghui.v2er.module.login;
 
 import com.tencent.bugly.crashreport.CrashReport;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BaseInfo;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -77,10 +77,10 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;
                             String problemHtml = loginParam.getProblem();
-                            if (loginParam.isValid() && PreConditions.isEmpty(problemHtml)) {
+                            if (loginParam.isValid() && Check.isEmpty(problemHtml)) {
                                 mLoginParam = loginParam;
                                 mView.onLoginFailure("登录失败，用户名和密码无法匹配", false);
-                            } else if (PreConditions.notEmpty(problemHtml)) {
+                            } else if (Check.notEmpty(problemHtml)) {
                                 mLoginParam = loginParam;
                                 mView.onLoginFailure(problemHtml, true);
                             } else {

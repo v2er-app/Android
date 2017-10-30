@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 
 /**
@@ -114,6 +114,6 @@ public class NodeInfo extends BaseInfo implements Serializable {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(name);
+        return Check.notEmpty(name);
     }
 }

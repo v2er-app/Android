@@ -24,12 +24,12 @@ import java.io.File;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.GlideRequest;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.FileUtils;
@@ -164,7 +164,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                             .compose(RxUtils.io_main())
                             .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(getCurrentImage())))
                             .subscribe(path -> {
-                                if (PreConditions.notEmpty(path)) {
+                                if (Check.notEmpty(path)) {
                                     MediaScannerConnection.scanFile(GalleryActivity.this, new String[]{path}, null, null);
                                     Voast.show("保存成功");
                                 } else {

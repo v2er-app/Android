@@ -1,7 +1,7 @@
 package me.ghui.v2er.network.bean;
 
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 16/08/2017.
@@ -15,7 +15,7 @@ public class TwoStepLoginInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(once) && PreConditions.notEmpty(title) && title.contains("两步验证");
+        return Check.notEmpty(once) && Check.notEmpty(title) && title.contains("两步验证");
     }
 
     public String getTitle() {

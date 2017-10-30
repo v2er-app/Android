@@ -1,8 +1,13 @@
 package me.ghui.v2er.util;
 
+import android.app.Activity;
+import android.content.Context;
+
 import es.dmoral.prefs.Prefs;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -18,7 +23,7 @@ public class UserUtils {
 
     public static UserInfo getUserInfo() {
         String json = Prefs.with(App.get()).read(USER_INFO_KEY);
-        if (PreConditions.notEmpty(json)) {
+        if (Check.notEmpty(json)) {
             return APIService.gson().fromJson(json, UserInfo.class);
         }
         return null;
@@ -31,11 +36,11 @@ public class UserUtils {
     }
 
     public static boolean isLogin() {
-        return PreConditions.notEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
+        return Check.notEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
     }
 
     public static void saveLogin(UserInfo userInfo) {
-        if (userInfo == null || PreConditions.isEmpty(userInfo.getUserName())) return;
+        if (userInfo == null || Check.isEmpty(userInfo.getUserName())) return;
         String json = APIService.gson().toJson(userInfo);
         Prefs.with(App.get()).write(USER_INFO_KEY, json);
     }
@@ -47,4 +52,15 @@ public class UserUtils {
         Prefs.with(App.get()).remove(USER_INFO_KEY);
     }
 
+    public static boolean notLoginAndProcessToLogin(boolean finishCurrentPage, Context context) {
+        if (!isLogin()) {
+            Voast.show("登录后才能进行此操作");
+            Navigator.from(context).to(LoginActivity.class).start();
+            if (context instanceof Activity && finishCurrentPage) {
+                ((Activity) context).finish();
+            }
+            return true;
+        }
+        return false;
+    }
 }

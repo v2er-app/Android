@@ -2,7 +2,6 @@ package me.ghui.v2er.injector.module;
 
 import android.widget.ImageView;
 
-
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;

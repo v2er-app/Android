@@ -9,9 +9,9 @@ import com.orhanobut.logger.Logger;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
@@ -37,7 +37,7 @@ public class UrlInterceptor {
      */
     public static boolean intercept(String url, Context context, boolean onlyCheck, boolean forchOpenedInWebview) {
         boolean result = false;
-        if (PreConditions.isEmpty(url)) return result;
+        if (Check.isEmpty(url)) return result;
 
         if (url.startsWith("mailto:")) {
             //send email
@@ -67,7 +67,7 @@ public class UrlInterceptor {
             return false;
         }
         String host = uri.getHost();
-        if (PreConditions.isEmpty(host)) return false;
+        if (Check.isEmpty(host)) return false;
         if (!forchOpenedInWebview && !host.contains(Constants.HOST_NAME)) {
             // 1. 外站
             CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()

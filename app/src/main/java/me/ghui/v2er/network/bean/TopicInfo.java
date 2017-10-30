@@ -7,7 +7,7 @@ import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.UriUtils;
@@ -40,7 +40,7 @@ public class TopicInfo extends BaseInfo {
     private List<Item> items;
 
     public boolean hasReport() {
-        return UserUtils.isLogin() && PreConditions.isEmpty(reportStr);
+        return UserUtils.isLogin() && Check.isEmpty(reportStr);
     }
 
     public String reportUrl() {
@@ -90,7 +90,7 @@ public class TopicInfo extends BaseInfo {
             }
         }
         String owner = headerInfo.getUserName();
-        if (PreConditions.notEmpty(replies)) {
+        if (Check.notEmpty(replies)) {
             for (Reply reply : replies) {
                 reply.setOwner(owner);
             }
@@ -160,7 +160,7 @@ public class TopicInfo extends BaseInfo {
 
         @Override
         public boolean isValid() {
-            return PreConditions.notEmpty(contentHtml);
+            return Check.notEmpty(contentHtml);
         }
 
         @Override
@@ -243,7 +243,7 @@ public class TopicInfo extends BaseInfo {
 
         @Override
         public boolean isValid() {
-            return PreConditions.notEmpty(userName, tag);
+            return Check.notEmpty(userName, tag);
         }
 
         /**
@@ -252,11 +252,11 @@ public class TopicInfo extends BaseInfo {
          * @return
          */
         public boolean canSendThanks() {
-            return PreConditions.notEmpty(canSendThanksText);
+            return Check.notEmpty(canSendThanksText);
         }
 
         public boolean hadThanked() {
-            return PreConditions.notEmpty(thankedText) && thankedText.contains("已发送");
+            return Check.notEmpty(thankedText) && thankedText.contains("已发送");
         }
 
         public void setFavoriteLink(String favoriteLink) {
@@ -280,21 +280,21 @@ public class TopicInfo extends BaseInfo {
         }
 
         public String getT() {
-            if (PreConditions.isEmpty(favoriteLink)) {
+            if (Check.isEmpty(favoriteLink)) {
                 return null;
             }
             return UriUtils.getParamValue(Constants.BASE_URL + favoriteLink, "t");
         }
 
         public boolean hadStared() {
-            if (PreConditions.isEmpty(favoriteLink) || !favoriteLink.contains("unfavorite/")) {
+            if (Check.isEmpty(favoriteLink) || !favoriteLink.contains("unfavorite/")) {
                 return false;
             }
             return true;
         }
 
         public String getCommentNum() {
-            if (PreConditions.isEmpty(comment)) return "";
+            if (Check.isEmpty(comment)) return "";
             return comment.split(" ")[0];
         }
 
@@ -397,7 +397,7 @@ public class TopicInfo extends BaseInfo {
         private boolean isOwner = false;
 
         public void setOwner(String owner) {
-            if (PreConditions.notEmpty(userName) && PreConditions.notEmpty(owner) && owner.equals(userName)) {
+            if (Check.notEmpty(userName) && Check.notEmpty(owner) && owner.equals(userName)) {
                 isOwner = true;
             } else {
                 isOwner = false;
@@ -413,7 +413,7 @@ public class TopicInfo extends BaseInfo {
         }
 
         public String getReplyId() {
-            if (PreConditions.isEmpty(replyId)) return null;
+            if (Check.isEmpty(replyId)) return null;
             try {
                 return replyId.substring(replyId.indexOf("_") + 1);
             } catch (Exception e) {
@@ -435,7 +435,7 @@ public class TopicInfo extends BaseInfo {
         }
 
         public boolean hadThanked() {
-            return PreConditions.notEmpty(alreadyThanked);
+            return Check.notEmpty(alreadyThanked);
         }
 
         public String getReplyContent() {
@@ -472,7 +472,7 @@ public class TopicInfo extends BaseInfo {
 
         public int getLove() {
             int loveCount = 0;
-            if (PreConditions.isEmpty(love)) {
+            if (Check.isEmpty(love)) {
                 return loveCount;
             }
             try {

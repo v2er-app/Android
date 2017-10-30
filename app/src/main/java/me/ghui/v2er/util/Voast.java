@@ -2,9 +2,9 @@ package me.ghui.v2er.util;
 
 import android.widget.Toast;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.PreConditions;
 
 /**
  * Created by ghui on 11/07/2017.
@@ -12,7 +12,7 @@ import me.ghui.v2er.general.PreConditions;
 
 public class Voast {
     public static void show(String msg) {
-        if (PreConditions.isEmpty(msg)) return;
+        if (Check.isEmpty(msg)) return;
         show(msg, false);
     }
 

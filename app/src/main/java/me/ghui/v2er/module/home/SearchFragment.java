@@ -17,10 +17,10 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerSearchComponent;
 import me.ghui.v2er.injector.module.SearchModule;
 import me.ghui.v2er.module.base.BaseFragment;
@@ -123,7 +123,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @OnClick(R.id.clear_search_img)
     void onClearClicked() {
-        if (PreConditions.isEmpty(getQueryStr())) {
+        if (Check.isEmpty(getQueryStr())) {
             animateSearchbar(false);
         } else {
             mSearchEt.setText(null);

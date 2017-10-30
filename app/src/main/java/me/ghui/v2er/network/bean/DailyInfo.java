@@ -1,7 +1,7 @@
 package me.ghui.v2er.network.bean;
 
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.UriUtils;
 
 /**
@@ -21,7 +21,7 @@ public class DailyInfo extends BaseInfo {
     private String checkinUrl; //location.href = '/mission/daily/redeem?once=84830';
 
     public boolean hadCheckedIn() {
-        return PreConditions.notEmpty(checkinUrl) && checkinUrl.equals("location.href = '/balance';");
+        return Check.notEmpty(checkinUrl) && checkinUrl.equals("location.href = '/balance';");
     }
 
     public String getCheckinDays() {
@@ -30,20 +30,20 @@ public class DailyInfo extends BaseInfo {
 
 
     public String getUserName() {
-        if (PreConditions.isEmpty(userLink)) {
+        if (Check.isEmpty(userLink)) {
             return null;
         }
         return userLink.split("/")[2];
     }
 
     public String getAvatar() {
-        if (PreConditions.isEmpty(avatar)) return null;
+        if (Check.isEmpty(avatar)) return null;
         return avatar.replace("normal.png", "large.png");
     }
 
     public String once() {
         String result = UriUtils.getParamValue(checkinUrl, "once");
-        if (PreConditions.notEmpty(result)) {
+        if (Check.notEmpty(result)) {
             result = result.replace("';", "");
         }
         return result;
@@ -51,7 +51,7 @@ public class DailyInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(checkinUrl);
+        return Check.notEmpty(checkinUrl);
     }
 
     @Override

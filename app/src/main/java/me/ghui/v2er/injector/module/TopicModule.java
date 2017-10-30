@@ -12,11 +12,11 @@ import java.util.List;
 
 import dagger.Module;
 import dagger.Provides;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
@@ -30,6 +30,7 @@ import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -74,7 +75,7 @@ public class TopicModule {
                         NodeTopicActivity.open(((TopicInfo.HeaderInfo) getItem(holder.index())).getTagLink(), mContext), R.id.tagview);
 
                 View.OnClickListener onThxClickListener = v -> {
-                    if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+                    if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
                     TopicInfo.Reply replyInfo = (TopicInfo.Reply) getItem(holder.index());
 
                     if (replyInfo.isSelf()) {
@@ -178,7 +179,7 @@ public class TopicModule {
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
                 List<TopicInfo.Item> datum = mView.topicReplyInfo();
-                if (PreConditions.isEmpty(constraint)) {
+                if (Check.isEmpty(constraint)) {
                     filterResults.values = datum;
                     filterResults.count = Utils.listSize(datum);
                     return filterResults;

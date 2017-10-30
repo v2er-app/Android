@@ -12,10 +12,10 @@ import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
@@ -99,12 +99,12 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         String userName = mUserInputLayout.getEditText().getText().toString();
         String psw = mPswInputLayout.getEditText().getText().toString();
         String captcha = mCaptchaInputLayout.getEditText().getText().toString();
-        if (PreConditions.isEmpty(userName)) {
+        if (Check.isEmpty(userName)) {
             mUserInputLayout.setError("请输入用户名");
             return;
         }
 
-        if (PreConditions.isEmpty(psw)) {
+        if (Check.isEmpty(psw)) {
             mPswInputLayout.setError("请输入密码");
             return;
         }
@@ -113,7 +113,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
             return;
         }
 
-        if (mCaptchaWrapper.getVisibility() == View.VISIBLE && PreConditions.isEmpty(captcha)) {
+        if (mCaptchaWrapper.getVisibility() == View.VISIBLE && Check.isEmpty(captcha)) {
             mCaptchaInputLayout.setError("请输入验证码");
             return;
         }

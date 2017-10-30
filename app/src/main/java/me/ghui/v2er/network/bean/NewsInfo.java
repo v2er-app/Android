@@ -4,7 +4,7 @@ package me.ghui.v2er.network.bean;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 
 
@@ -23,11 +23,11 @@ public class NewsInfo extends BaseInfo {
     private String twoStepStr;
 
     private boolean isTwoStepError() {
-        return PreConditions.notEmpty(twoStepStr) && twoStepStr.contains("两步验证");
+        return Check.notEmpty(twoStepStr) && twoStepStr.contains("两步验证");
     }
 
     public int getUnReadCount() {
-        if (PreConditions.isEmpty(unRead)) return 0;
+        if (Check.isEmpty(unRead)) return 0;
         else {
             return Integer.parseInt(unRead.split(" ")[0]);
         }
@@ -51,7 +51,7 @@ public class NewsInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         if (isTwoStepError()) return false;
-        return PreConditions.isEmpty(items) || PreConditions.notEmpty(items.get(0).userName);
+        return Check.isEmpty(items) || Check.notEmpty(items.get(0).userName);
     }
 
     public static class Item {
@@ -124,7 +124,7 @@ public class NewsInfo extends BaseInfo {
         }
 
         public String getTime() {
-            if (!PreConditions.isEmpty(time)) {
+            if (!Check.isEmpty(time)) {
                 return time.split("•")[0];
             }
             return time;
@@ -139,7 +139,7 @@ public class NewsInfo extends BaseInfo {
         }
 
         public String getTagId() {
-            if (PreConditions.isEmpty(tagLink)) return null;
+            if (Check.isEmpty(tagLink)) return null;
             return tagLink.substring(tagLink.lastIndexOf("/") + 1);
         }
 

@@ -11,8 +11,8 @@ import android.view.animation.AnimationUtils;
 
 import java.util.List;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
@@ -54,7 +54,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
 
     public T getItem(int position) {
-        return PreConditions.isEmpty(mDatas) ? null : mDatas.get(position);
+        return Check.isEmpty(mDatas) ? null : mDatas.get(position);
     }
 
     @Override

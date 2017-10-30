@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.Utils;
 
@@ -39,7 +39,7 @@ public class TopicStarInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         if (Utils.listSize(items) <= 0) return true;
-        return PreConditions.notEmpty(items.get(0).title);
+        return Check.notEmpty(items.get(0).title);
     }
 
     public static class Item {
@@ -76,7 +76,7 @@ public class TopicStarInfo extends BaseInfo {
 
         public String getTime() {
             //   • •  36 天前  •  最后回复来自
-            if (PreConditions.isEmpty(time) || !time.contains("前")) return "";
+            if (Check.isEmpty(time) || !time.contains("前")) return "";
             time = time.replaceAll(" ", "");
             int endIndex = time.indexOf("前");
             int startIndex = 0;
@@ -90,7 +90,7 @@ public class TopicStarInfo extends BaseInfo {
         }
 
         public String getUserName() {
-            if (PreConditions.isEmpty(userLink)) return null;
+            if (Check.isEmpty(userLink)) return null;
             else {
                 return userLink.substring(userLink.lastIndexOf("/") + 1);
             }

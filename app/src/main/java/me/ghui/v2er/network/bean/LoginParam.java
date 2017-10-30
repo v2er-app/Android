@@ -5,7 +5,7 @@ import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 
 /**
@@ -64,7 +64,7 @@ public class LoginParam extends BaseInfo {
     }
 
     public boolean needCaptcha() {
-        return PreConditions.notEmpty(captchaParam);
+        return Check.notEmpty(captchaParam);
     }
 
     public String getProblem() {
@@ -83,6 +83,6 @@ public class LoginParam extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(nameParam, pswParam, once);
+        return Check.notEmpty(nameParam, pswParam, once);
     }
 }

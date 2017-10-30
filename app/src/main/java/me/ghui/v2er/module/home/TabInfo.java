@@ -3,7 +3,7 @@ package me.ghui.v2er.module.home;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.util.Utils;
 
@@ -56,7 +56,7 @@ public class TabInfo {
 
     public static TabInfo getSelectTab() {
         String value = Pref.read(LAST_SELECTED_TAB_KEY);
-        if (PreConditions.isEmpty(value)) value = TAB_1_VALUES[0];
+        if (Check.isEmpty(value)) value = TAB_1_VALUES[0];
         List<TabInfo> defaults = getDefault();
         for (int i = 0; i < defaults.size(); i++) {
             if (defaults.get(i).value.equals(value)) return defaults.get(i);

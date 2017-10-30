@@ -24,11 +24,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
@@ -162,7 +162,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                if (PreConditions.isEmpty(constraint)) {
+                if (Check.isEmpty(constraint)) {
                     filterResults.values = mNodes;
                     filterResults.count = Utils.listSize(mNodes);
                     return filterResults;

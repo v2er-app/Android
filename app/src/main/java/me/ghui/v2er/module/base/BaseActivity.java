@@ -32,10 +32,10 @@ import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
@@ -173,7 +173,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void onBackPressed() {
-        if (PreConditions.notEmpty(mBackables)) {
+        if (Check.notEmpty(mBackables)) {
             mBackables.pop().onBackPressed();
         } else {
             super.onBackPressed();
@@ -181,7 +181,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected boolean isBackableEmpty() {
-        return PreConditions.isEmpty(mBackables);
+        return Check.isEmpty(mBackables);
     }
 
     @Override

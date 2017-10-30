@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
@@ -37,7 +37,7 @@ public class NodeTopicInfo extends BaseInfo {
     }
 
     public boolean hasStared() {
-        return PreConditions.notEmpty(favoriteLink) && favoriteLink.contains("/unfavorite/node/");
+        return Check.notEmpty(favoriteLink) && favoriteLink.contains("/unfavorite/node/");
     }
 
     public void updateStarStatus(boolean isStared) {
@@ -49,7 +49,7 @@ public class NodeTopicInfo extends BaseInfo {
     }
 
     public String getOnce() {
-        if (PreConditions.notEmpty(favoriteLink)) {
+        if (Check.notEmpty(favoriteLink)) {
             return UriUtils.getParamValue(favoriteLink, "once");
         }
         return null;
@@ -67,7 +67,7 @@ public class NodeTopicInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         if (Utils.listSize(items) <= 0) return true;
-        return PreConditions.notEmpty(items.get(0).userName);
+        return Check.notEmpty(items.get(0).userName);
     }
 
     public static class Item {
@@ -106,7 +106,7 @@ public class NodeTopicInfo extends BaseInfo {
 
         public int getClickNum() {
             //  •  719 个字符  •  109 次点击
-            if (PreConditions.isEmpty(clickedAndContentLength)) {
+            if (Check.isEmpty(clickedAndContentLength)) {
                 return 0;
             } else {
                 int count;
@@ -123,7 +123,7 @@ public class NodeTopicInfo extends BaseInfo {
         }
 
         public int getContentLength() {
-            if (PreConditions.isEmpty(clickedAndContentLength)) return 0;
+            if (Check.isEmpty(clickedAndContentLength)) return 0;
             else {
                 clickedAndContentLength = clickedAndContentLength.trim();
                 String result = clickedAndContentLength.substring(0, clickedAndContentLength.lastIndexOf("•")).trim();

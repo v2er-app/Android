@@ -7,8 +7,8 @@ import android.net.Uri;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.general.App;
-import me.ghui.v2er.general.PreConditions;
 
 import static android.content.pm.PackageManager.MATCH_DEFAULT_ONLY;
 
@@ -18,7 +18,7 @@ import static android.content.pm.PackageManager.MATCH_DEFAULT_ONLY;
 
 public class PkgUtils {
     public static String getDefaultAppFor(@NonNull String uri) {
-        if (PreConditions.isEmpty(uri)) {
+        if (Check.isEmpty(uri)) {
             throw new IllegalArgumentException("uri cannot be null");
         }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));

@@ -1,7 +1,7 @@
 package me.ghui.v2er.network;
 
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.bean.BaseInfo;
 
 /**
@@ -17,7 +17,7 @@ public class LoginResultInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(avatar) && PreConditions.notEmpty(avatar);
+        return Check.notEmpty(avatar) && Check.notEmpty(avatar);
     }
 
     @Override
@@ -29,14 +29,14 @@ public class LoginResultInfo extends BaseInfo {
     }
 
     public String getUserName() {
-        if (PreConditions.isEmpty(userLink)) {
+        if (Check.isEmpty(userLink)) {
             return null;
         }
         return userLink.split("/")[2];
     }
 
     public String getAvatar() {
-        if (PreConditions.isEmpty(avatar)) return null;
+        if (Check.isEmpty(avatar)) return null;
         return avatar.replace("normal.png", "large.png");
     }
 

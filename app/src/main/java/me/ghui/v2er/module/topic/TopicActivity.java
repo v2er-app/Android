@@ -37,9 +37,9 @@ import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
 import me.ghui.v2er.general.ShareManager;
@@ -187,7 +187,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
         mTopicBasicInfo = (TopicBasicInfo) intent.getSerializableExtra(TOPIC_BASIC_INFO);
         mAutoScrollReply = intent.getStringExtra(TOPIC_AUTO_SCROLL_REPLY);
-        isNeedAutoScroll = PreConditions.notEmpty(mAutoScrollReply);
+        isNeedAutoScroll = Check.notEmpty(mAutoScrollReply);
     }
 
     @Override
@@ -222,7 +222,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_thx:
-                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
+                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
                     if (UserUtils.getUserName().equals(mTopicInfo.getHeaderInfo().getUserName())) {
                         toast("自己不能感谢自己哦");
                         return false;
@@ -239,7 +239,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_block:
-                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
+                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定忽略此主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
@@ -247,7 +247,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                             .build().show();
                     break;
                 case R.id.action_report:
-                    if (PreConditions.notLoginAndProcessToLogin(false, this)) return false;
+                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定要举报这个主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
@@ -278,7 +278,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected boolean supportShareElement() {
-        return mTopicBasicInfo != null && PreConditions.notEmpty(mTopicBasicInfo.getAvatar());
+        return mTopicBasicInfo != null && Check.notEmpty(mTopicBasicInfo.getAvatar());
     }
 
     private void shareElementAnimation() {
@@ -361,7 +361,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             int cursorPos = mReplyEt.getSelectionStart();
             String[] cuttedStrs = Utils.cutString(inputStr, cursorPos);
             if (cuttedStrs == null) return;
-            if (PreConditions.isEmpty(cuttedStrs[1])) {
+            if (Check.isEmpty(cuttedStrs[1])) {
                 //后面无文字，append
                 StringBuilder inputTextBuilder = new StringBuilder(inputStr);
                 int lastIndexOfAt = inputTextBuilder.lastIndexOf("@");
@@ -435,11 +435,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     private void onInputQueryTextChanged(String query) {
         Logger.d("1Query: " + query);
-        if (PreConditions.isEmpty(query)) {
+        if (Check.isEmpty(query)) {
             mReplierRecyView.setVisibility(View.GONE);
             return;
         }
-        if (PreConditions.notEmpty(query) && query.startsWith("@")) {
+        if (Check.notEmpty(query) && query.startsWith("@")) {
             query = query.substring(1);
         }
         Logger.d("2Query: " + query);
@@ -499,7 +499,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private void autoScroll() {
         if (!isNeedAutoScroll) return;
         List<TopicInfo.Reply> items = mTopicInfo.getReplies();
-        if (PreConditions.isEmpty(items)) return;
+        if (Check.isEmpty(items)) return;
         int position = 0;
         for (int i = 0; i < items.size(); i++) {
             TopicInfo.Reply item = items.get(i);
@@ -544,7 +544,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         for (TopicInfo.Item item : datum) {
             String name = item.getUserName();
             //do check...
-            if (PreConditions.notEmpty(name)) {
+            if (Check.notEmpty(name)) {
                 boolean alreadyHas = false;
                 for (TopicInfo.Item reply : repliersInfo) {
                     if (name.equals(reply.getUserName())) {
@@ -723,7 +723,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @OnClick(R.id.reply_send_btn)
     void onPostBtnClicked() {
         CharSequence text = mReplyEt.getText();
-        if (PreConditions.isEmpty(text)) {
+        if (Check.isEmpty(text)) {
             toast("回复不能为空");
             return;
         }
@@ -771,7 +771,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (v.getId()) {
                 case R.id.reply_dialog_btn1:
                     //reply to the comment
-                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return;
+                    if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return;
                     animateEditInnerWrapper(true);
                     mReplyEt.setText("@" + item.getUserName() + " ");
                     mReplyEt.setSelection(mReplyEt.getText().length());
@@ -784,7 +784,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.reply_dialog_btn3:
                     //ignore reply
-                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return;
+                    if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return;
                     new ConfirmDialog.Builder(getActivity())
                             .title("忽略回复")
                             .msg("确定不再显示来自@" + item.getUserName() + "的这条回复？")
@@ -811,7 +811,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 replies.add((TopicInfo.Reply) item);
             }
         }
-        if (PreConditions.isEmpty(replies)) return;
+        if (Check.isEmpty(replies)) return;
         MentionedReplySheetDialog mentionedReplySheetDialog = new MentionedReplySheetDialog(this);
         mentionedReplySheetDialog.setData(replies, userName);
         mentionedReplySheetDialog.show();

@@ -1,10 +1,10 @@
 package me.ghui.v2er.module.create;
 
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 05/06/2017.
@@ -21,7 +21,7 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
 
     @Override
     public void start() {
-        if (PreConditions.notLoginAndProcessToLogin(true, mView.getContext())) {
+        if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) {
             return;
         }
         APIService.get().topicCreatePageInfo()

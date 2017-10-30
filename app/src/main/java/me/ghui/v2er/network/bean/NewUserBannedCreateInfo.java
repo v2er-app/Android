@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 31/07/2017.
@@ -48,7 +48,7 @@ public class NewUserBannedCreateInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(errorInfo)
+        return Check.notEmpty(errorInfo)
                 && errorInfo.contains("你的帐号刚刚注册")
                 && errorInfo.contains("距离能够发帖");
     }

@@ -12,8 +12,8 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -89,11 +89,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         switch (menuItem.getItemId()) {
             case R.id.action_create_topic:
                 String title = mTitleEt.getText().toString();
-                if (PreConditions.isEmpty(title)) {
+                if (Check.isEmpty(title)) {
                     mTitleTextInputLayout.setError("请输入标题");
                     return false;
                 }
-                if (mSelectNode == null || PreConditions.isEmpty(mSelectNode.getId())) {
+                if (mSelectNode == null || Check.isEmpty(mSelectNode.getId())) {
                     Toast.makeText(this, "请选择一个节点", Toast.LENGTH_SHORT).show();
                     return false;
                 }
@@ -167,7 +167,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     public void handleError(GeneralError generalError) {
         super.handleError(generalError);
         String response = generalError.getResponse();
-        if (PreConditions.notEmpty(response)) {
+        if (Check.notEmpty(response)) {
             Observable.just(response)
                     .compose(rx(null))
                     .map(s -> {

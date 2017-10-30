@@ -7,11 +7,11 @@ bugly {
 }
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 28
         versionName "1.0-RC6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -65,7 +65,7 @@ android {
 }
 
 ext {
-    supportVersion = '25.4.0'
+    supportVersion = '26.1.0'
 }
 
 dependencies {
@@ -75,6 +75,8 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
     testCompile 'junit:junit:4.12'
+    implementation project(':shareLib')
+
     compile "com.android.support:appcompat-v7:$supportVersion"
     compile "com.android.support:design:$supportVersion"
     compile "com.android.support:recyclerview-v7:$supportVersion"
@@ -97,7 +99,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:4.1.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.1.1'
     compile 'jp.wasabeef:glide-transformations:3.0.1'
-    compile "de.hdodenhof:circleimageview:2.1.0"
+    compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.trello.rxlifecycle2:rxlifecycle:2.0.1'
@@ -114,6 +116,6 @@ dependencies {
     compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile 'com.r0adkll:slidableactivity:2.0.5'
-    compile "com.github.bumptech.glide:okhttp3-integration:4.1.1"
+    compile 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
     compile 'pub.devrel:easypermissions:1.0.1'
 }

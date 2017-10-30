@@ -1,6 +1,6 @@
 package me.ghui.v2er.util;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.Constants;
 
 /**
@@ -9,7 +9,7 @@ import me.ghui.v2er.network.Constants;
 
 public class AvatarUtils {
     public static String adjustAvatar(String avatar) {
-        if (PreConditions.isEmpty(avatar)) return null;
+        if (Check.isEmpty(avatar)) return null;
         //1.
         if (!avatar.startsWith(Constants.HTTPS_SCHEME) && !avatar.startsWith(Constants.HTTP_SCHEME)) {
             avatar = Constants.HTTPS_SCHEME + avatar;

@@ -1,11 +1,11 @@
 package me.ghui.v2er.module.node;
 
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -51,7 +51,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void starNode(String url) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().starNode(url)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<SimpleInfo>(mView) {

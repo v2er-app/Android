@@ -1,9 +1,9 @@
 package me.ghui.v2er.module.drawer.care;
 
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CareInfo;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -24,7 +24,7 @@ public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
 
     @Override
     public void loadMore(int page) {
-        if (PreConditions.notLoginAndProcessToLogin(true, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) return;
         APIService.get().specialCareInfo(page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<CareInfo>(mView) {

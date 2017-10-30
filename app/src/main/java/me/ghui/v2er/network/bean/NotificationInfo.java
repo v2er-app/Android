@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.Utils;
 
@@ -38,7 +38,7 @@ public class NotificationInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         if (Utils.listSize(replies) <= 0) return true;
-        return PreConditions.notEmpty(replies.get(0).name);
+        return Check.notEmpty(replies.get(0).name);
     }
 
     public static class Reply {
@@ -73,7 +73,7 @@ public class NotificationInfo extends BaseInfo {
 
 
         public String getTitle() {
-            if (PreConditions.notEmpty(title))
+            if (Check.notEmpty(title))
                 return title.replaceFirst(name, "").trim();
             return title;
         }

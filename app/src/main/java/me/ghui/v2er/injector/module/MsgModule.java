@@ -3,14 +3,13 @@ package me.ghui.v2er.injector.module;
 import android.view.View;
 import android.widget.ImageView;
 
-
 import dagger.Module;
 import dagger.Provides;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.home.MsgContract;
 import me.ghui.v2er.module.home.MsgFragment;
@@ -46,7 +45,7 @@ public class MsgModule {
                         true, new int[]{0, reply.getName().length()});
                 holder.setText(R.id.msg_title_tv, titleWithUserName);
                 holder.getView(R.id.msg_content_tv);
-                if (!PreConditions.isEmpty(reply.getContent())) {
+                if (!Check.isEmpty(reply.getContent())) {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
 //                    holder.setText(R.id.msg_content_tv, reply.getContent());
                     RichText.from(reply.getContent())

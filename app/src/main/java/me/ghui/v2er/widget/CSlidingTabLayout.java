@@ -33,8 +33,8 @@ import com.flyco.tablayout.widget.MsgView;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.PreConditions;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -141,7 +141,7 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         //get layout_height
         int height = WRAP_CONTENT;
         String heightStr = attrs.getAttributeValue("http://schemas.android.com/apk/res/android", "layout_height");
-        if (PreConditions.notEmpty(heightStr)) height = Integer.parseInt(heightStr);
+        if (Check.notEmpty(heightStr)) height = Integer.parseInt(heightStr);
         if (height != WRAP_CONTENT && height != MATCH_PARENT) {
             int[] systemAttrs = {android.R.attr.layout_height};
             TypedArray a = context.obtainStyledAttributes(attrs, systemAttrs);

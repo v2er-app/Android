@@ -27,7 +27,6 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.create.CreateTopicActivity;
@@ -170,7 +169,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Utils.sendOfficalV2erEmail(this);
                     break;
                 case R.id.create_nav_item:
-                    if (PreConditions.notLoginAndProcessToLogin(false, getContext())) return true;
+                    if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.love_nav_item:

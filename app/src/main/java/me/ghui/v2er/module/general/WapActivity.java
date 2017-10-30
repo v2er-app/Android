@@ -24,9 +24,9 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.UrlInterceptor;
-import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 

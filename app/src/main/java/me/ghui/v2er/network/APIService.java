@@ -12,7 +12,7 @@ import me.ghui.fruit.converter.retrofit.FruitConverterFactory;
 import me.ghui.retrofit.converter.GlobalConverterFactory;
 import me.ghui.retrofit.converter.annotations.Html;
 import me.ghui.retrofit.converter.annotations.Json;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -63,7 +63,7 @@ public class APIService {
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
             String ua = request.header(UA_KEY);
-            if (PreConditions.isEmpty(ua)) {
+            if (Check.isEmpty(ua)) {
                 request = request.newBuilder()
                         .addHeader("user-agent", WAP_USER_AGENT)
                         .build();

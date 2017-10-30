@@ -5,7 +5,7 @@ import com.orhanobut.logger.Logger;
 import java.util.HashMap;
 import java.util.List;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NewsInfo;
@@ -62,7 +62,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
     }
 
     private void checkDuplicateItem(NewsInfo newsInfo) {
-        if (newsInfo == null || PreConditions.isEmpty(newsInfo.getItems())) return;
+        if (newsInfo == null || Check.isEmpty(newsInfo.getItems())) return;
         if (mCurrentItemsIndexMap == null) {
             List<NewsInfo.Item> currentItems = mView.getNewsInfo();
             mCurrentItemsIndexMap = new HashMap<>();

@@ -18,9 +18,9 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.network.APIService;
@@ -87,7 +87,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (PreConditions.isEmpty(getInput())) {
+                if (Check.isEmpty(getInput())) {
                     mPositiveBtn.setText("去复制");
                 } else {
                     mPositiveBtn.setText("验证");
@@ -128,7 +128,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     public void onPrimaryClipChanged() {
         if (mClipboardManager.hasPrimaryClip()) {
             CharSequence text = mClipboardManager.getPrimaryClip().getItemAt(0).getText();
-            if (PreConditions.notEmpty(text) && StringUtil.isNumeric(text.toString()) && text.length() == 6) {
+            if (Check.notEmpty(text) && StringUtil.isNumeric(text.toString()) && text.length() == 6) {
                 mTextInputLayout.getEditText().setText(text);
                 mTextInputLayout.getEditText().setSelection(text.length());
             }
@@ -138,7 +138,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     @OnClick(R.id.positive_btn)
     void onPositiveBtnClicked() {
         String input = getInput();
-        if (PreConditions.isEmpty(input)) {
+        if (Check.isEmpty(input)) {
             Utils.openApp(this, "com.google.android.apps.authenticator2");
             startMonitor();
             return;

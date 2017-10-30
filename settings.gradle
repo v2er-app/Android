@@ -1,1 +1,3 @@
-include ':app'
+//include ':app'
+include ':app', ':shareLib'
+project(':shareLib').projectDir = new File(settingsDir, '../Toolbox/shareLib')

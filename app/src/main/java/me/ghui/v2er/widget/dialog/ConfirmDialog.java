@@ -13,8 +13,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.widget.MaxHeightScrollView;
 
@@ -79,14 +79,14 @@ public class ConfirmDialog extends BaseDialog {
 
     private void init() {
         // TODO: 14/07/2017 一个按钮时显示异常
-        if (PreConditions.isEmpty(mTitle)) {
+        if (Check.isEmpty(mTitle)) {
             mTitleTV.setVisibility(View.GONE);
         } else {
             mTitleTV.setVisibility(View.VISIBLE);
             mTitleTV.setText(mTitle);
         }
 
-        if (PreConditions.isEmpty(mMsg)) {
+        if (Check.isEmpty(mMsg)) {
             mMsgTV.setVisibility(View.GONE);
         } else {
             mMsgTV.setVisibility(View.VISIBLE);

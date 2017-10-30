@@ -10,7 +10,7 @@ import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 05/06/2017.
@@ -38,7 +38,7 @@ public class CreateTopicPageInfo extends BaseInfo {
      * @return
      */
     public List<BaseNode> getNodes() {
-        if (PreConditions.isEmpty(allNodes)) {
+        if (Check.isEmpty(allNodes)) {
             allNodes = new ArrayList<>();
         } else {
             allNodes.clear();
@@ -78,7 +78,7 @@ public class CreateTopicPageInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(once) && PreConditions.notEmpty(nodes);
+        return Check.notEmpty(once) && Check.notEmpty(nodes);
     }
 
     public interface BaseNode extends Parcelable {
@@ -224,7 +224,7 @@ public class CreateTopicPageInfo extends BaseInfo {
         private List<String> tips;
 
         public boolean isEmpty() {
-            return PreConditions.isEmpty(tips) && PreConditions.isEmpty(title);
+            return Check.isEmpty(tips) && Check.isEmpty(title);
         }
 
         public List<String> getTips() {

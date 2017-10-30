@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.Utils;
 
@@ -26,7 +26,7 @@ public class NodeStarInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         if (Utils.listSize(items) <= 0) return true;
-        return PreConditions.notEmpty(items.get(0).name);
+        return Check.notEmpty(items.get(0).name);
     }
 
     public static class Item {

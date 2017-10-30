@@ -5,9 +5,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.v2er.general.PreConditions;
-import me.ghui.v2er.util.Utils;
-import okhttp3.ResponseBody;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 21/05/2017.
@@ -32,7 +30,7 @@ public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> implements IBase 
     @Override
     public boolean isValid() {
         if (size() <= 0) return true;
-        return PreConditions.notEmpty(get(0).category);
+        return Check.notEmpty(get(0).category);
     }
 
     public static class Item {

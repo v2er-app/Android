@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import java.io.Serializable;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 25/06/2017.
@@ -45,7 +45,7 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(author);
+        return Check.notEmpty(author);
     }
 
     public static class Builder {

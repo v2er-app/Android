@@ -7,11 +7,11 @@ import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -61,7 +61,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
         TextView commentTV = holder.getTextView(R.id.comment_num_tv);
         String commentNum = headerInfo.getCommentNum();
-        if (PreConditions.isEmpty(commentNum)) {
+        if (Check.isEmpty(commentNum)) {
             commentTV.setVisibility(View.GONE);
         } else {
             commentTV.setVisibility(View.VISIBLE);

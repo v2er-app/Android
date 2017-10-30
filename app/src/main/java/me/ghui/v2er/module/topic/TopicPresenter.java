@@ -3,14 +3,14 @@ package me.ghui.v2er.module.topic;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 04/05/2017.
@@ -57,7 +57,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void thxCreator(String id, String t) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
 
         APIService.get().thxCreator(id, t)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
@@ -73,7 +73,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void starTopic(String topicId, String t) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
@@ -86,7 +86,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void unStarTopic(String topicId, String t) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, t)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
@@ -99,7 +99,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void ignoreTopic(String topicId, String once) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().ignoreTopic(topicId, once)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<DailyInfo>(mView) {
@@ -112,7 +112,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void ignoreReply(int position, String replyId, String once) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().ignoreReply(replyId, once)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<IgnoreResultInfo>(mView) {
@@ -125,7 +125,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void replyTopic(String topicId, Map<String, String> replyMap) {
-        if (PreConditions.notLoginAndProcessToLogin(false, mView.getContext())) return;
+        if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().replyTopic(topicId, replyMap)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {

@@ -30,11 +30,11 @@ import android.widget.EditText;
 import java.io.File;
 import java.util.List;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.ImgFileProvider;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.UrlInterceptor;
@@ -239,7 +239,7 @@ public class Utils {
     }
 
     public static void sendEmail(Context context, String mail, String subject, String content) {
-        if (PreConditions.isEmpty(mail)) return;
+        if (Check.isEmpty(mail)) return;
         String mailUri = mail;
         if (!mail.startsWith("mailto:")) {
             mailUri = "mailto:" + mail;
@@ -343,7 +343,7 @@ public class Utils {
 
 
     public static String[] cutString(String text, int cutPos) {
-        if (PreConditions.isEmpty(text)) return null;
+        if (Check.isEmpty(text)) return null;
         String[] result = new String[2];
         result[0] = text.substring(0, cutPos);
         result[1] = text.substring(cutPos, text.length());
@@ -388,7 +388,7 @@ public class Utils {
     }
 
     public static boolean isAppAvailable(String appName) {
-        if (PreConditions.isEmpty(appName)) return true;
+        if (Check.isEmpty(appName)) return true;
         PackageManager pm = App.get().getPackageManager();
         try {
             pm.getPackageInfo(appName, PackageManager.GET_ACTIVITIES);
@@ -416,7 +416,7 @@ public class Utils {
     }
 
     public static void shareImg(File imgFile, String imageType, Context context) {
-        if (PreConditions.isEmpty(imageType)) return;
+        if (Check.isEmpty(imageType)) return;
         Uri uri = ImgFileProvider.getUriForFile(context, context.getString(R.string.glide_img_provider), imgFile);
         Intent intent = new Intent(Intent.ACTION_SEND);
 //        intent.putExtra(Intent.EXTRA_SUBJECT, "Shared image");
@@ -428,7 +428,7 @@ public class Utils {
 
     public static String getTypeFromImgUrl(String url) {
         String type = "*";
-        if (PreConditions.isEmpty(url)) return type;
+        if (Check.isEmpty(url)) return type;
         if (url.endsWith(".gif")) type = "gif";
         else if (url.endsWith(".png")) type = "png";
         else if (url.endsWith(".jpg")) type = "jpg";

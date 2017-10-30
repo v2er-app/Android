@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 03/05/2017.
@@ -156,6 +156,6 @@ public class UserInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
-        return PreConditions.notEmpty(id);
+        return Check.notEmpty(id);
     }
 }

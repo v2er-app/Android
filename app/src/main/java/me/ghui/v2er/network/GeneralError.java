@@ -1,6 +1,6 @@
 package me.ghui.v2er.network;
 
-import me.ghui.v2er.general.PreConditions;
+import me.ghui.toolbox.android.Check;
 
 /**
  * Created by ghui on 24/07/2017.
@@ -23,7 +23,7 @@ public class GeneralError extends Throwable {
 
     @Override
     public String getMessage() {
-        if (PreConditions.notEmpty(message)) return message;
+        if (Check.notEmpty(message)) return message;
         return super.getMessage();
     }
 

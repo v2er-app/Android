@@ -8,8 +8,8 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.PreConditions;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.widget.richtext.RichText;
@@ -43,7 +43,7 @@ public class AppendTopicContentView extends LinearLayout {
     }
 
     public void setData(List<TopicInfo.ContentInfo.PostScript> data) {
-        if (PreConditions.isEmpty(data)) {
+        if (Check.isEmpty(data)) {
             setVisibility(GONE);
         } else {
             setVisibility(VISIBLE);
