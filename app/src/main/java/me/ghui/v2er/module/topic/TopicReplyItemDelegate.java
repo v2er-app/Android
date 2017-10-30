@@ -2,11 +2,10 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import javax.annotation.Nullable;
 
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;

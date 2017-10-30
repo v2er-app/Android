@@ -1,8 +1,7 @@
 package me.ghui.v2er.injector.module;
 
+import android.support.annotation.Nullable;
 import android.widget.TextView;
-
-import javax.annotation.Nullable;
 
 import dagger.Module;
 import dagger.Provides;

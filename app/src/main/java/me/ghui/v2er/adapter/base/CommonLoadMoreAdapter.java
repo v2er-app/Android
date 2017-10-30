@@ -2,8 +2,7 @@ package me.ghui.v2er.adapter.base;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
-
-import javax.annotation.Nullable;
+import android.support.annotation.Nullable;
 
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
