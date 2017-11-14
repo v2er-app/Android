@@ -110,6 +110,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private boolean mIsReturning;
     public boolean isNeedAutoScroll = true;
     private boolean mIsHideReplyBtn;
+    private boolean mIsLogin = UserUtils.isLogin();
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -314,7 +315,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
-        mReplyFabBtn.setVisibility(mIsHideReplyBtn ? View.GONE : VISIBLE);
+        mReplyFabBtn.setVisibility(!mIsLogin || mIsHideReplyBtn ? View.GONE : VISIBLE);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
@@ -344,7 +345,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (mTopicInfo == null || mIsHideReplyBtn) return;
+                if (mTopicInfo == null || !mIsLogin || mIsHideReplyBtn) return;
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
                     mReplyFabBtn.hide(); // or hideFab(), see below
                 else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
@@ -489,7 +490,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
         updateReportMenuItem(mTopicInfo.hasReport());
-        if (!mIsHideReplyBtn) {
+        if (!mIsHideReplyBtn && mIsLogin) {
             mReplyFabBtn.setVisibility(VISIBLE);
         }
         fillAtList();
@@ -620,7 +621,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     mReplyWrapper.setVisibility(View.INVISIBLE);
-                    if (!mIsHideReplyBtn) mReplyFabBtn.show();
+                    if (!mIsHideReplyBtn && mIsLogin) mReplyFabBtn.show();
                 }
 
                 @Override

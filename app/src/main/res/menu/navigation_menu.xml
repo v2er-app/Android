@@ -32,6 +32,6 @@
         <item
             android:id="@+id/love_nav_item"
             android:icon="@drawable/rate_nav_item"
-            android:title="喜欢V2er？" />
+            android:title="好评" />
     </group>
 </menu>

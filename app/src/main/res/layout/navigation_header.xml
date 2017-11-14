@@ -25,10 +25,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:maxLines="1"
+        android:minWidth="@dimen/medium_avatar_size"
         android:paddingBottom="0dp"
         android:paddingTop="4dp"
         android:text="请先登录"
-        app:layout_constraintEnd_toEndOf="@id/avatar_img"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img" />
 
