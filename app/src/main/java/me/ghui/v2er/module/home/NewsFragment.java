@@ -13,7 +13,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.BuglyLog;
 
 import java.util.List;
 
@@ -28,6 +27,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.Pref;
@@ -254,11 +254,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void showNewsTabsMenu() {
-        if (mActivity == null) {
-            BuglyLog.e("showNewsTabsMenu", "activity is null in NewsFragment.showNewsTabsMenu");
-            return;
-        }
-        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) mActivity.getDrawable(R.drawable.animate_triangle_down);
+        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) App.get().getDrawable(R.drawable.animate_triangle_down);
         getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
         drawable.start();
         mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
