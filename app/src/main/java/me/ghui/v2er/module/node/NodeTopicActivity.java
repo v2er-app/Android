@@ -260,6 +260,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     public void fillHeaderView(NodeInfo nodeInfo) {
+        if (nodeInfo == null) {
+            toast("加载出错!");
+            return;
+        }
         mNodeInfo = nodeInfo;
         mStarBtn.setVisibility(View.VISIBLE);
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
