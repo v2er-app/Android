@@ -123,6 +123,10 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
 
     @OnClick(R.id.login_by_google_btn)
     void onSignInWithGoogleClicked() {
+        if (!mHasLoaded) {
+            toast("登录参数正在加载，请稍后...");
+            return;
+        }
         mPresenter.signInWithGoogle();
     }
 
