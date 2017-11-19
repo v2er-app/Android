@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.base;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -51,6 +52,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     protected T mPresenter;
     private boolean mHasAutoLoaded = false;
     private boolean isPageShow;
+    protected Activity mActivity;
 
     /**
      * if you want to support ptr, then attach a PtrHandler to it
@@ -118,6 +120,12 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
             Logger.d("lazyLoad in onViewCreated");
             lazyLoad();
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = activity;
     }
 
     @Override
