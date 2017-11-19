@@ -225,6 +225,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
                 .author(item.getUserName())
                 .tag(item.getTagName())
+                .tagLink(item.getTagLink())
                 .commentNum(item.getReplies())
                 .build();
         TopicActivity.open(item.getLinkPath(),

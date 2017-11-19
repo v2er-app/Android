@@ -12,8 +12,13 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
     private String avatar;
     private String author;
     private String tag;
+    private String tagLink;
     private String title;
     private int commentNum;
+
+    public String getTagLink() {
+        return tagLink;
+    }
 
     public String getAvatar() {
         return avatar;
@@ -40,6 +45,7 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
         this.avatar = builder.avatar;
         this.author = builder.author;
         this.tag = builder.tag;
+        this.tagLink = builder.tagLink;
         this.commentNum = builder.commentNum;
     }
 
@@ -53,6 +59,7 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
         private String avatar;
         private String author;
         private String tag;
+        private String tagLink;
         private int commentNum;
 
         public Builder(String title, String avatar) {
@@ -67,6 +74,11 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
 
         public Builder tag(String tag) {
             this.tag = tag;
+            return this;
+        }
+
+        public Builder tagLink(String tagLink) {
+            this.tagLink = tagLink;
             return this;
         }
 

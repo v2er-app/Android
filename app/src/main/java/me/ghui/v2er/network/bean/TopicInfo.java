@@ -232,9 +232,9 @@ public class TopicInfo extends BaseInfo {
         private HeaderInfo(TopicBasicInfo basicInfo) {
             this.avatar = basicInfo.getAvatar();
             this.title = basicInfo.getTitle();
-//            this.comment = basicInfo.getCommentNum() + " 回复";
             this.userName = basicInfo.getAuthor();
             this.tag = basicInfo.getTag();
+            this.tagLink = basicInfo.getTagLink();
         }
 
         public static HeaderInfo build(TopicBasicInfo basicInfo) {

@@ -11,6 +11,7 @@ import me.ghui.v2er.network.Constants;
 
 public class UriUtils {
     public static String getLastSegment(String url) {
+        if (Check.isEmpty(url)) return "";
         if (url.contains("#")) {
             url = url.substring(0, url.indexOf("#"));
         }
