@@ -37,6 +37,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
 
     public void setData(List<T> data, boolean shouldAppend) {
         if (shouldAppend) {
+            if (Check.isEmpty(data)) return;
             mDatas.addAll(data);
             notifyItemRangeChanged(mDatas.size() - data.size(), data.size());
         } else {
