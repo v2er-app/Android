@@ -309,6 +309,10 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @OnClick(R.id.node_info_star_ct)
     void onStarBtnClicked() {
         //star or unstar
+        if (mNodeTopicInfo == null) {
+            toast("请等待数据加载完成");
+            return;
+        }
         if (mNodeTopicInfo.hasStared()) {
             new ConfirmDialog.Builder(getActivity())
                     .title("取消收藏节点")
