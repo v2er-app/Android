@@ -369,8 +369,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 .commentNum(item.getCommentNum())
                 .author(item.getUserName())
                 .tag(mNodeInfo.getTitle())
+                .tagLink(mNodeInfo.getUrl())
                 .build();
-        // TODO: 14/07/2017 topicLink is null
         TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.avatar_img), basicInfo);
     }
 
