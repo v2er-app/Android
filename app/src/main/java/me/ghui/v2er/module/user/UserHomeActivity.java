@@ -44,7 +44,7 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
-import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.HackRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
@@ -57,10 +57,10 @@ import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
  */
 
 public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> implements
-        MultiItemTypeAdapter.OnItemClickListener, UserHomeContract.IView {
+        MultiItemTypeAdapter.OnItemClickListener, UserHomeContract.IView ,HackRecyclerView.AppBarTracking {
 
     @BindView(R.id.base_recyclerview)
-    LoadMoreRecyclerView mRecyclerView;
+    HackRecyclerView mRecyclerView;
     @BindView(R.id.user_img)
     ImageView mAvatarImg;
     @BindView(R.id.big_img_bg)
@@ -93,6 +93,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     private boolean mIsReturning;
     private boolean isAppbarExpanted;
     private String mTransitionName;
+
+    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
+    private int mAppBarOffset;
+    private boolean mAppBarIdle = false;
+    private int mAppBarMaxOffset;
+    //for bugfix end
 
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
@@ -173,6 +179,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
 //        mRecyclerView.addDivider();
+        mRecyclerView.setAppBarTracking(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
@@ -196,7 +203,16 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                     //中间状态
                 }
             }
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                super.onOffsetChanged(appBarLayout, verticalOffset);
+                mAppBarOffset = verticalOffset;
+                mAppBarIdle = (mAppBarOffset >= 0) || (mAppBarOffset <= mAppBarMaxOffset);
+            }
+
         });
+        mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
         mUserText.setText(mUserName);
         fillAvatar();
     }
@@ -335,5 +351,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     public void onItemClick(View view, ViewHolder holder, int position) {
         UserPageInfo.Item item = mAdapter.getDatas().get(position);
         TopicActivity.open(item.getTopicLink(), this);
+    }
+
+    @Override
+    public boolean isAppBarExpanded() {
+        return mAppBarOffset == 0;
+    }
+
+    @Override
+    public boolean isAppBarIdle() {
+        return mAppBarIdle;
     }
 }

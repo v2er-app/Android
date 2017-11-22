@@ -47,6 +47,7 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
+import me.ghui.v2er.widget.HackRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
@@ -58,7 +59,7 @@ import me.ghui.v2er.widget.richtext.RichText;
  */
 
 public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter> implements NodeTopicContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener {
+        MultiItemTypeAdapter.OnItemClickListener, LoadMoreRecyclerView.OnLoadMoreListener, HackRecyclerView.AppBarTracking {
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
     private static final String TAG_BASIC_NODE_INFO = KEY("node_basic_node_info");
@@ -67,7 +68,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private int mInitPage;
 
     @BindView(R.id.base_recyclerview)
-    LoadMoreRecyclerView mRecyclerView;
+    HackRecyclerView mRecyclerView;
     @BindView(R.id.node_img)
     ImageView mNodeImg;
     @BindView(R.id.big_img_bg)
@@ -97,7 +98,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private NodeTopicInfo mNodeTopicInfo;
     private boolean isAppbarExpanted;
     private boolean mIsReturning;
-
+    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
+    private int mAppBarOffset;
+    private boolean mAppBarIdle = false;
+    private int mAppBarMaxOffset;
+    //for bugfix end
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -208,6 +213,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             return true;
         });
 
+        mRecyclerView.setAppBarTracking(this);
         mRecyclerView.setOnLoadMoreListener(this);
 //        mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -234,7 +240,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                     //中间状态
                 }
             }
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                super.onOffsetChanged(appBarLayout, verticalOffset);
+                mAppBarOffset = verticalOffset;
+                mAppBarIdle = (mAppBarOffset >= 0) || (mAppBarOffset <= mAppBarMaxOffset);
+            }
         });
+
+        mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
 
         if (mNodeInfo != null) {
             fillHeaderView(mNodeInfo);
@@ -381,5 +396,15 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public void onLoadMore(int willLoadPage) {
         mPresenter.loadData(willLoadPage);
+    }
+
+    @Override
+    public boolean isAppBarExpanded() {
+        return mAppBarOffset == 0;
+    }
+
+    @Override
+    public boolean isAppBarIdle() {
+        return mAppBarIdle;
     }
 }
