@@ -40,6 +40,7 @@
 #----------------- Glide End ----------------------------
 
 -dontwarn com.squareup.okhttp.**
+-keep class okhttp3.internal.publicsuffix.PublicSuffixDatabase
 
 #----------------- PersistentCookieJar Start ---------------------------
 -dontwarn com.franmontiel.persistentcookiejar.**
