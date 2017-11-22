@@ -81,7 +81,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @Override
     protected void configSystemBars(Window window) {
         super.configSystemBars(window);
-        Utils.transparentStatus(window);
+//        Utils.transparentStatus(window);
     }
 
     @Override
