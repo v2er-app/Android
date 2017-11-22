@@ -32,7 +32,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
     public void start() {
         APIService.get().loginParam()
                 .compose(mView.rx(mView))
-                .subscribe(new GeneralConsumer<LoginParam>() {
+                .subscribe(new GeneralConsumer<LoginParam>(mView) {
                     @Override
                     public void onConsume(LoginParam loginParam) {
                         if (loginParam.isValid()) {
@@ -64,7 +64,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                     }
                     return resultInfo;
                 })
-                .subscribe(new GeneralConsumer<BaseInfo>() {
+                .subscribe(new GeneralConsumer<BaseInfo>(mView) {
                     @Override
                     public void onConsume(BaseInfo info) {
                         if (info instanceof DailyInfo) {
