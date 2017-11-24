@@ -133,9 +133,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         configToolBar();
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
-        mAvatarImg = (ImageView) mNavHeaderView.findViewById(R.id.avatar_img);
-        mUserNameTv = (TextView) mNavHeaderView.findViewById(R.id.user_name_tv);
-        mCheckInBtn = (FollowProgressBtn) mNavHeaderView.findViewById(R.id.check_in_progress_btn);
+        mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
+        mUserNameTv = mNavHeaderView.findViewById(R.id.user_name_tv);
+        mCheckInBtn = mNavHeaderView.findViewById(R.id.check_in_progress_btn);
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
