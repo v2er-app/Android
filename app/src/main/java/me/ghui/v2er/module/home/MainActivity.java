@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -37,6 +38,7 @@ import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.settings.SettingActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -71,6 +73,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView mTab1View;
     private TextView mTab2View;
     private TextView mTab3View;
+    private MenuItem mNightMenuItem;
+    private SwitchCompat mNightSwitch;
 
     @Override
     protected int attachLayoutRes() {
@@ -127,6 +131,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return false;
     }
 
+
     @Override
     protected void init() {
         isAlive = true;
@@ -151,6 +156,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
         mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
+        mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
+        mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
+        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            // TODO: 25/11/2017  
+        });
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -175,6 +185,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.love_nav_item:
                     showRateDialog();
                     break;
+                case R.id.day_night_item:
+                    mNightSwitch.toggle();
+                    break;
             }
             mDrawerLayout.closeDrawers();
             return true;
@@ -193,6 +206,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
+    }
+
+    private void updateDayNightMode() {
+        String dayNightTitle = getString(R.string.day_night_mode);
+        if (DayNightUtil.isAutoSwitch()) {
+            dayNightTitle += "（自动）";
+        }
+        mNightMenuItem.setTitle(dayNightTitle);
+        mNightSwitch.setChecked(DayNightUtil.isNightModeOn());
     }
 
     private void configNewsTabTitle() {
@@ -254,7 +276,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 break;
         }
     }
-
 
     private int getCurrentTab() {
         return mSlidingTabLayout.getCurrentTab();

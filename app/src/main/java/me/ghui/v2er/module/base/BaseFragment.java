@@ -321,5 +321,4 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
     }
 
-
 }

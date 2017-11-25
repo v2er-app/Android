@@ -33,4 +33,6 @@
     <string name="shortcuts_new_post">发贴</string>
     <string name="page_create_topic">创作新主题</string>
     <string name="glide_img_provider">me.ghui.v2er.fileprovider</string>
+    <string name="auto_day_night_mode">自动夜间</string>
+    <string name="day_night_mode">夜间模式</string>
 </resources>

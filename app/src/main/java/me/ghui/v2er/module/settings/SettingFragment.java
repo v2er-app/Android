@@ -10,10 +10,12 @@ import android.view.View;
 import android.widget.ListView;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
 import me.ghui.v2er.general.Constants;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -43,6 +45,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.addPreferencesFromResource(R.xml.preferences);
+//        Bus.register(this);
         cachePref = findPreference(getString(R.string.pref_key_clear_cache));
         cachePref.setOnPreferenceClickListener(this);
         cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
@@ -59,6 +62,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
     }
@@ -77,6 +81,18 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
+        if (isFeatureUnavaliable(key)) {
+            SwitchPreference switchPreference = (SwitchPreference) preference;
+            switchPreference.setChecked(false);
+            new ConfirmDialog.Builder(getActivity())
+                    .title("功能不可用")
+                    .msg("此功能是Pro版特性，获取Pro版以开启")
+                    .positiveText("暂不")
+                    .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
+                    .build().show();
+            return true;
+        }
+
         if (key.equals(getString(R.string.pref_key_clear_cache))) {
             String size = GlideCatchUtil.getCacheSize();
             boolean ok = GlideCatchUtil.clearDiskCache();
@@ -124,27 +140,24 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             } else {
                 Navigator.from(getActivity()).to(ProInfoActivity.class).start();
             }
-        } else if (isFeatureUnavaliable(key)) {
-            SwitchPreference switchPreference = (SwitchPreference) preference;
-            switchPreference.setChecked(false);
-            new ConfirmDialog.Builder(getActivity())
-                    .title("功能不可用")
-                    .msg("此功能是Pro版特性，获取Pro版以开启")
-                    .positiveText("暂不")
-                    .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
-                    .build().show();
         } else if (key.equals(getString(R.string.pref_key_trello))) {
             Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
+        } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
+            Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
         }
         return false;
     }
 
+    private boolean isItemChecked(Preference preference) {
+        SwitchPreference switchPreference = (SwitchPreference) preference;
+        return switchPreference.isChecked();
+    }
 
     private boolean isFeatureUnavaliable(String key) {
         return !Utils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
-                R.string.pref_key_highlight_topic_owner_reply_item);
+                R.string.pref_key_highlight_topic_owner_reply_item, R.string.pref_key_auto_daynight);
     }
 
     private boolean strEquals(String str, @StringRes int... strId) {
@@ -153,5 +166,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         }
         return false;
     }
+
 
 }

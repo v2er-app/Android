@@ -26,6 +26,10 @@ public class Pref {
         return Prefs.with(app()).readInt(key);
     }
 
+    public static int readInt(String key, int defaultValue) {
+        return Prefs.with(app()).readInt(key, defaultValue);
+    }
+
     public static boolean readBool(@StringRes int key) {
         return readBool(app().getString(key));
     }

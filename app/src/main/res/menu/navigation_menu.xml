@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <group android:id="@+id/main_menu">
         <item
             android:id="@+id/hot_nav_item"
@@ -18,13 +19,13 @@
         android:id="@+id/secondary"
         android:menuCategory="secondary">
         <item
-            android:id="@+id/setting_nav_item"
-            android:icon="@drawable/setting_nav_item"
-            android:title="设置" />
-        <item
             android:id="@+id/create_nav_item"
             android:icon="@drawable/create_nav_item"
             android:title="@string/new_post" />
+        <item
+            android:id="@+id/setting_nav_item"
+            android:icon="@drawable/setting_nav_item"
+            android:title="设置" />
         <item
             android:id="@+id/feedback_nav_item"
             android:icon="@drawable/feedback_nav_item"
@@ -33,5 +34,15 @@
             android:id="@+id/love_nav_item"
             android:icon="@drawable/rate_nav_item"
             android:title="好评" />
+    </group>
+    <group
+        android:id="@+id/day_night_menu"
+        android:menuCategory="secondary">
+        <item
+            android:id="@+id/day_night_item"
+            android:checkable="true"
+            android:icon="@drawable/night_nav_item"
+            android:title="@string/day_night_mode"
+            app:actionLayout="@layout/layout_switch" />
     </group>
 </menu>

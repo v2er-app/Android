@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseApp.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseApp.Theme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -28,8 +28,8 @@
     </style>
 
     <!--<style name="GalleryTheme" parent="BaseApp.Theme">-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+    <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
     <!--</style>-->
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">
