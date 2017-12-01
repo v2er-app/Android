@@ -30,12 +30,12 @@
             android:layout="@layout/preference_item"
             android:summary="开启后当你每次打开App时会尝试自动签到"
             android:title="自动签到" />
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/pref_key_auto_daynight"
-            android:layout="@layout/preference_item"
-            android:summary="开启后将会自动切换日夜间模式"
-            android:title="@string/auto_day_night_mode" />
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="@string/pref_key_auto_daynight"-->
+            <!--android:layout="@layout/preference_item"-->
+            <!--android:summary="开启后将会自动切换日夜间模式"-->
+            <!--android:title="@string/auto_day_night_mode" />-->
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"

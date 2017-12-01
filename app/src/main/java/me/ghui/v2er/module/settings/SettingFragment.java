@@ -62,7 +62,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
+//        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
     }

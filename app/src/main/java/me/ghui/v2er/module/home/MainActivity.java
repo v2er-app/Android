@@ -42,6 +42,7 @@ import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -157,10 +158,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
         mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
-        mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
-        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            // TODO: 25/11/2017  
-        });
+//        mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
+//        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            // TODO: 25/11/2017
+//        });
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -186,7 +187,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     showRateDialog();
                     break;
                 case R.id.day_night_item:
-                    mNightSwitch.toggle();
+//                    mNightSwitch.toggle();
+                    Voast.show("敬请期待");
                     break;
             }
             mDrawerLayout.closeDrawers();
