@@ -3,4 +3,5 @@
     <string name="go_get_pro_title">获取Pro版</string>
     <string name="go_get_pro_summary">更多实用功能并能支持V2er的长期开发</string>
     <string name="mail_subject_prefix">【From V2er】</string>
+    <string name="glide_img_provider">me.ghui.v2er.free.fileprovider</string>
 </resources>
