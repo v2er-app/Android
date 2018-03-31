@@ -47,7 +47,7 @@ public class BingSearchResultInfo extends BaseInfo {
         private String title;
         @Pick(value = "div.b_caption p")
         private String content;
-        @Pick(value = "h2 a[href*=v2ex]", attr = Attrs.HREF)
+        @Pick(value = "div.b_algoheader a", attr = Attrs.HREF)
         private String link;
 
         public String getTitle() {
