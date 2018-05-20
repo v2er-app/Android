@@ -44,10 +44,12 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     @Override
     public Drawable getDrawable(String source) {
+        source = UriUtils.checkSchema(source);
+        if(!UriUtils.isValideUrl(source)) return null;
         WrapperTarget target = new WrapperTarget(mMaxSize);
         mTargets.add(target);
         GlideApp.with(mTextView)
-                .load(UriUtils.checkSchema(source))
+                .load(source)
                 .placeholder(mLoadingDrawable)
                 .error(mErrorDrawable)
                 .centerInside()

@@ -2,6 +2,8 @@ package me.ghui.v2er.util;
 
 import android.net.Uri;
 
+import java.net.URL;
+
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.Constants;
 
@@ -34,6 +36,16 @@ public class UriUtils {
             }
         }
         return url;
+    }
+
+    public static boolean isValideUrl(String url) {
+        try {
+            URL u = new URL(url);
+            u.toURI();
+        } catch (Exception e){
+            return false;
+        }
+        return true;
     }
 
     public static String topicLink(String id) {
