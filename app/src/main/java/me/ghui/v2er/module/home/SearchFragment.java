@@ -179,7 +179,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                         getActivity().getSupportFragmentManager().popBackStack();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        CrashReport.postCatchedException(e);
+                        CrashReport.postCatchedException(new Exception("mCardView is null"));
                     }
                 }
             });
