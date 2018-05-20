@@ -3,10 +3,10 @@
 buildscript {
     repositories {
         jcenter()
-        maven { url "https://maven.google.com" }
+        google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0'
+        classpath 'com.android.tools.build:gradle:3.1.2'
         classpath 'com.tencent.bugly:symtabfileuploader:2.1.0'
     }
 }
@@ -14,7 +14,7 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://maven.google.com" }
+        google()
         maven { url "https://jitpack.io" }
 //        maven { url "https://dl.bintray.com/ghui/Java" }
     }
