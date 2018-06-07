@@ -15,7 +15,7 @@
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false">
 
@@ -23,7 +23,7 @@
                 android:id="@+id/big_img_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:foreground="#80FFFFFF"
+                android:foreground="?attr/banner_bg_color"
                 android:scaleType="centerCrop"
                 android:tint="#11000000"
                 app:layout_collapseMode="parallax" />

@@ -1,7 +1,6 @@
 package me.ghui.v2er.module.home;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -10,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -24,6 +24,7 @@ import com.orhanobut.logger.Logger;
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
@@ -42,7 +43,6 @@ import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -85,7 +85,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void configSystemBars(Window window) {
         super.configSystemBars(window);
-        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override
@@ -103,6 +102,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
         mToolbar.setNavigationIcon(R.drawable.nav);
+        mToolbar.getNavigationIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
         mToolbar.setNavigationOnClickListener(v -> {
             if (mDrawerLayout.isDrawerOpen(Gravity.START)) {
@@ -158,10 +158,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
         mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
-//        mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
-//        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-//            // TODO: 25/11/2017
-//        });
+        mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
+        mNightSwitch.setChecked(DayNightUtil.isNightMode());
+        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            String dayNightTitle = getString(isChecked ? R.string.night_mode : R.string.day_mode);
+            mNightMenuItem.setTitle(dayNightTitle);
+            DayNightUtil.saveMode(isChecked ? DayNightUtil.NIGHT_MODE : DayNightUtil.DAY_MODE);
+            recreate();
+            // TODO: 2018/6/1
+        });
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -187,13 +192,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     showRateDialog();
                     break;
                 case R.id.day_night_item:
-//                    mNightSwitch.toggle();
-                    Voast.show("敬请期待");
+                    mNightSwitch.toggle();
+//                    Voast.show("敬请期待");
                     break;
             }
             mDrawerLayout.closeDrawers();
             return true;
         });
+
+        Menu menu = mNavigationView.getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            menu.getItem(i).getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
+        }
 
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
@@ -208,15 +218,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
-    }
-
-    private void updateDayNightMode() {
-        String dayNightTitle = getString(R.string.day_night_mode);
-        if (DayNightUtil.isAutoSwitch()) {
-            dayNightTitle += "（自动）";
-        }
-        mNightMenuItem.setTitle(dayNightTitle);
-        mNightSwitch.setChecked(DayNightUtil.isNightModeOn());
     }
 
     private void configNewsTabTitle() {
@@ -366,9 +367,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onTabSelect(int position) {
         Logger.d("onTabSelect");
         if (position == 0) {
-            mTab1View.getCompoundDrawables()[2].setTint(getResources().getColor(R.color.bodyTextColor));
+            mTab1View.getCompoundDrawables()[2].setTint(Theme.getColor(R.attr.tablayout_selected_color, this));
         } else {
-            mTab1View.getCompoundDrawables()[2].setTint(0x66000000);
+            mTab1View.getCompoundDrawables()[2].setTint(Theme.getColor(R.attr.tablayout_unselected_color, this));
         }
     }
 

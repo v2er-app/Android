@@ -2,6 +2,7 @@ package me.ghui.v2er.module.home;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -27,6 +28,7 @@ import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.base.IBackable;
 import me.ghui.v2er.network.UrlInterceptor;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -84,7 +86,8 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mSearchRootView);
-        mResultRecyV.addDivider(0XFFF5F5F5, 6);
+        mCardView.setCardBackgroundColor(DayNightUtil.isNightMode() ? Color.BLACK : Color.WHITE);
+        mResultRecyV.addDivider(DayNightUtil.isNightMode() ? 0XFF000000 : 0XFFF5F5F5, 6);
         mResultRecyV.setLayoutManager(new LinearLayoutManager(getContext()));
         mResultRecyV.setAdapter(mResultAdapter);
         mResultRecyV.setOnLoadMoreListener(this);

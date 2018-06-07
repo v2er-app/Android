@@ -3,7 +3,6 @@ package me.ghui.v2er.module.node;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -11,7 +10,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -146,12 +144,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     public void finishAfterTransition() {
         mIsReturning = true;
         super.finishAfterTransition();
-    }
-
-    @Override
-    protected void configSystemBars(Window window) {
-        super.configSystemBars(window);
-        Utils.transparentBars(getWindow(), Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override

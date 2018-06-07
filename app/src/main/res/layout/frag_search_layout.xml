@@ -10,7 +10,7 @@
 
     <me.ghui.v2er.widget.LoadMoreRecyclerView
         style="@style/BaseRecyclerView"
-        android:background="@color/white"
+        android:background="?attr/page_bg_color"
         android:clipToPadding="false"
         android:paddingTop="60dp"
         android:visibility="invisible" />
@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
         android:visibility="invisible"
-        card_view:cardBackgroundColor="@color/white"
         card_view:cardCornerRadius="2dp">
 
         <RelativeLayout
@@ -43,14 +42,14 @@
                     android:contentDescription="back"
                     android:padding="15dp"
                     android:src="@drawable/ic_bing"
-                    android:tint="@color/colorAccent" />
+                    android:tint="?attr/icon_tint_color" />
 
                 <EditText
                     android:id="@+id/search_edit_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="#fff"
+                    style="@style/TitleEditText"
                     android:gravity="center_vertical"
                     android:hint="Search..."
                     android:imeOptions="actionSearch"
@@ -68,14 +67,13 @@
                     android:focusable="true"
                     android:padding="17.5dp"
                     android:src="@drawable/ic_close_black"
-                    android:tint="@color/colorAccent" />
+                    android:tint="?attr/icon_tint_color" />
             </LinearLayout>
 
             <me.ghui.v2er.widget.BaseRecyclerView
                 android:id="@+id/search_history_recyclerview"
                 style="@style/BaseRecyclerView"
                 android:layout_below="@id/linearLayout_search"
-                android:background="@drawable/common_top_divider"
                 android:divider="@color/white"
                 android:visibility="gone" />
         </RelativeLayout>

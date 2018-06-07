@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/mentioned_list_height"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:background="?attr/page_bg_color"
     android:orientation="vertical">
 
     <View
@@ -15,7 +16,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingBottom="4dp"

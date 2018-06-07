@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.ListView;
 
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
 import me.ghui.v2er.general.Constants;
@@ -71,6 +72,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
+        rootView.setBackgroundColor(Theme.getColor(R.attr.page_bg_color, getActivity()));
         ListView list = (ListView) rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);

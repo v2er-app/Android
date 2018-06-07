@@ -1,13 +1,16 @@
 package me.ghui.v2er.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
+import android.view.Menu;
 import android.view.MotionEvent;
 
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 
 /**
@@ -34,7 +37,20 @@ public class BaseToolBar extends Toolbar {
         setContentInsetStartWithNavigation(0);
         setContentInsetEndWithActions(0);
         setNavigationIcon(R.drawable.ic_arrow_back_black);
-//        setTitleTextColor(ResUtils.getColor(R.color.bodyTextColor, getContext()));
+        getNavigationIcon().setTint(Theme.getColor(R.attr.icon_tint_color, getContext()));
+    }
+
+    @Override
+    public void inflateMenu(int resId) {
+        super.inflateMenu(resId);
+        int tintColor = Theme.getColor(R.attr.icon_tint_color, getContext());
+        Menu menu = getMenu();
+        for (int i = 0; i < menu.size(); i++) {
+            Drawable drawable = menu.getItem(i).getIcon();
+            if (drawable != null) {
+                drawable.setTint(tintColor);
+            }
+        }
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
@@ -16,11 +15,11 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.transition.Transition;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
@@ -192,20 +191,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
-    protected void configSystemBars(Window window) {
-        super.configSystemBars(window);
-        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
-    }
-
-    @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
-        mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
-        mThxMenuItem = mToolbar.getMenu().findItem(R.id.action_thx);
-        mReportMenuItem = mToolbar.getMenu().findItem(R.id.action_report);
-        MenuItem replyMenuItem = mToolbar.getMenu().findItem(R.id.action_reply);
+        Menu menu = mToolbar.getMenu();
+        mLoveMenuItem = menu.findItem(R.id.action_star);
+        mThxMenuItem = menu.findItem(R.id.action_thx);
+        mReportMenuItem = menu.findItem(R.id.action_report);
+        MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
         replyMenuItem.setVisible(mIsHideReplyBtn);
         mToolbar.setOnMenuItemClickListener(item -> {

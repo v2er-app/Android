@@ -11,6 +11,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -236,13 +238,33 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
+    /**
+     * init theme here
+     */
+    protected void initTheme() {
+        switch (DayNightUtil.getMode()) {
+            case DayNightUtil.NIGHT_MODE:
+                setTheme(R.style.NightTheme);
+                break;
+            case DayNightUtil.AUTO_MODE:
+                break;
+            case DayNightUtil.DAY_MODE:
+            default:
+                setTheme(R.style.DayTheme);
+                break;
+        }
+    }
+
     protected void configSystemBars(Window window) {
-        LightStatusBarUtils.setLightStatusBar(window, true);
+        Utils.transparentBars(window);
+        boolean darkText = !DayNightUtil.isNightMode();
+        LightStatusBarUtils.setLightStatusBar(window, darkText);
     }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initTheme();
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
@@ -317,7 +339,9 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @ColorInt
     protected int pageColor() {
-        return getResources().getColor(R.color.default_page_bg);
+        TypedValue bg = new TypedValue();
+        getTheme().resolveAttribute(R.attr.page_bg_color, bg, true);
+        return getResources().getColor(bg.resourceId);
     }
 
     @Nullable

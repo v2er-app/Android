@@ -16,9 +16,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:backgroundTint="@color/white"
+        android:backgroundTint="?attr/fab_bg_color"
         android:scaleType="center"
         android:src="@drawable/ic_reply_topic"
+        android:tint="?attr/icon_tint_color"
         android:visibility="invisible"
         app:borderWidth="0dp"
         app:layout_anchor="@id/base_recyclerview"
@@ -41,13 +42,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            app:cardBackgroundColor="?attr/page_bg_color"
             app:cardCornerRadius="0dp"
             app:cardElevation="10dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
+                android:layout_height="wrap_content">
 
                 <me.ghui.v2er.widget.DividerView
                     android:id="@+id/divider"
@@ -56,7 +57,7 @@
 
                 <EditText
                     android:id="@+id/topic_reply_et"
-                    style="@style/BodyText"
+                    style="@style/EditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/divider"
@@ -71,6 +72,7 @@
                     android:layout_height="48dp"
                     android:layout_alignBottom="@id/topic_reply_et"
                     android:layout_alignParentEnd="true"
+                    android:tint="?attr/icon_tint_color"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_reply_send" />
             </RelativeLayout>

@@ -27,13 +27,12 @@
         app:layout_constraintStart_toEndOf="@id/avatar_img"
         tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />
 
-
     <TextView
         android:id="@+id/msg_content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
         android:layout_marginTop="8dp"
-        android:background="#FFFAFAFA"
+        android:background="?attr/quote_block_bg_color"
         android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/left_indicator"

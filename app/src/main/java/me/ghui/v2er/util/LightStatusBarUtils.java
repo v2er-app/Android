@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 public class LightStatusBarUtils {
 
     public static void setLightStatusBar(Window window, boolean darkText) {
+
         switch (RomUtils.getLightStatausBarAvailableRomType()) {
             case RomUtils.AvailableRomType.MIUI:
                 setMIUILightStatusBar(window, darkText);

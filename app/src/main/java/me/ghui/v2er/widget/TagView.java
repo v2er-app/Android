@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
+import android.view.Gravity;
 
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
@@ -40,6 +41,7 @@ public class TagView extends AppCompatTextView {
     private void init(Context context, AttributeSet attrs) {
         int padding = ScaleUtils.dp(5, context);
         setPadding(padding * 2, padding, padding * 2, padding);
+        setGravity(Gravity.CENTER);
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.TagView, 0, 0);
         try {
             mColor = a.getColor(R.styleable.TagView_tagColor, mColor);

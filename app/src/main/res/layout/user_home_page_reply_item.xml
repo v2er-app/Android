@@ -33,7 +33,7 @@
             android:id="@+id/reply_content_tv"
             style="@style/BodyText"
             android:layout_width="match_parent"
-            android:background="#FFFAFAFA"
+            android:background="?attr/quote_block_bg_color"
             android:padding="8dp"
             tools:text="同事的就没问题，同样的资源，都是联通宽带。唯一不同的就是他的是小米第一代带硬盘的路由器，我的是最新的 Pro" />
     </LinearLayout>

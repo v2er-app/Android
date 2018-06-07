@@ -13,7 +13,7 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/create_topic_title_et"
-            style="@style/TitleText"
+            style="@style/TitleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="标题"
@@ -55,6 +55,7 @@
         android:id="@+id/create_topic_content_et"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:textColorHint="?attr/hintTextColor"
         android:alpha="0.8"
         android:background="@null"
         android:gravity="top"

@@ -37,7 +37,6 @@ public class AppendTopicContentView extends LinearLayout {
 
     private void init() {
         setOrientation(VERTICAL);
-        setBackgroundColor(0xfffafafa);
         setDividerDrawable(getResources().getDrawable(R.drawable.common_divider));
         setShowDividers(SHOW_DIVIDER_MIDDLE);
     }

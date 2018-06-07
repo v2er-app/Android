@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?attr/page_bg_color"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingBottom="8dp"
@@ -22,5 +22,5 @@
         android:layout_width="0dp"
         android:layout_height="0.8dp"
         android:layout_weight="1"
-        android:background="#d9d9d9" />
+        android:background="?attr/hintTextColor" />
 </LinearLayout>

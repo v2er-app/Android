@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -23,6 +24,8 @@ public class ImageHolderDrawable extends Drawable {
     private Paint mPaint;
     private String text;
     private Rect mRect;
+    private int mBgColor;
+    private int mTextColor;
 
     public ImageHolderDrawable(Context context, int width, int height) {
         mPaint = new Paint();
@@ -35,6 +38,13 @@ public class ImageHolderDrawable extends Drawable {
         }
         mRect = new Rect(0, 0, width, height);
         setBounds(mRect);
+        if (DayNightUtil.isNightMode()) {
+            mBgColor = 0xFF222222;
+            mTextColor =0xFF707070;
+        } else {
+            mBgColor = 0xfff2f2f2;
+            mTextColor = 0xffc2c2c2;
+        }
     }
 
     public ImageHolderDrawable(Context context) {
@@ -51,9 +61,9 @@ public class ImageHolderDrawable extends Drawable {
 
     @Override
     public void draw(@NonNull Canvas canvas) {
-        mPaint.setColor(0xfff2f2f2);
+        mPaint.setColor(mBgColor);
         canvas.drawRect(mRect, mPaint);
-        mPaint.setColor(0xffc2c2c2);
+        mPaint.setColor(mTextColor);
         ViewUtils.drawCenterText(text, mRect, canvas, mPaint);
     }
 

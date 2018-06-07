@@ -23,11 +23,11 @@ import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.Pref;
@@ -69,6 +69,8 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
     private boolean mNeedHideFab = false;
 
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
+    private AnimatedVectorDrawable mUpDrawable;
+    private AnimatedVectorDrawable mDownDrawable;
 
     public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
         mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
@@ -250,14 +252,20 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
 
     private TextView getTabView() {
+        // TODO: 2018/6/3 mActivity is null
+        if(mActivity == null) {
+            mActivity = getActivity();
+        }
         return ((MainActivity) mActivity).getTabView(0);
     }
 
     @Override
     public void showNewsTabsMenu() {
-        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) App.get().getDrawable(R.drawable.animate_triangle_down);
-        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
-        drawable.start();
+        if(mDownDrawable == null){
+            mDownDrawable = (AnimatedVectorDrawable) getTabView().getCompoundDrawables()[2];
+        }
+        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, mDownDrawable, null);
+        mDownDrawable.start();
         mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
         mTabsWrapper.setVisibility(View.VISIBLE);
         mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_down));
@@ -271,9 +279,12 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void hideNewsTabsMenu() {
-        AnimatedVectorDrawable drawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_up);
-        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
-        drawable.start();
+        if(mUpDrawable == null){
+            mUpDrawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_up);
+            mUpDrawable.setTint(Theme.getColor(R.attr.tablayout_selected_color, mActivity));
+        }
+        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, mUpDrawable, null);
+        mUpDrawable.start();
         mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up));
         Animation fadeout = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
         fadeout.setStartOffset(50);

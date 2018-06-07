@@ -2,7 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="@color/white" />
+            <solid android:color="#555555" />
             <size
                 android:width="500dp"
                 android:height="1000dp" />
@@ -11,6 +11,7 @@
     <item>
         <bitmap
             android:gravity="center"
+            android:tint="@color/white"
             android:src="@drawable/splash_logo" />
     </item>
 </layer-list>

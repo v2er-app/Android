@@ -7,10 +7,9 @@
     <group
         android:name="triangle"
         android:pivotX="50"
-        android:pivotY="75"
-        >
+        android:pivotY="75">
         <path
-            android:fillColor="@color/bodyTextColor"
+            android:fillColor="?attr/tablayout_selected_color"
             android:pathData="
 			M0,50
             H100

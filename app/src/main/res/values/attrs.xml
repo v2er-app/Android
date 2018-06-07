@@ -10,10 +10,22 @@
     <declare-styleable name="BaseRecyclerView">
         <attr name="shouldPaddingNav" format="boolean" />
     </declare-styleable>
-
     <declare-styleable name="FollowProgressBtn">
         <attr name="initText" format="string|reference" />
         <attr name="initIcon" format="reference" />
         <attr name="tintColor" format="color|reference" />
     </declare-styleable>
+    <attr name="bodyTextColor" format="color|reference" />
+    <attr name="hintTextColor" format="color|reference" />
+    <attr name="page_bg_color" format="color|reference" />
+    <attr name="tag_bg_color" format="color|reference" />
+    <attr name="quote_block_bg_color" format="color|reference" />
+    <attr name="fab_bg_color" format="color|reference" />
+    <attr name="splash_log" format="reference" />
+    <attr name="banner_bg_color" format="reference|color" />
+    <attr name="searchbar_bg_color" format="reference|color"/>
+    <attr name="tablayout_selected_color" format="color" />
+    <attr name="tablayout_unselected_color" format="color" />
+    <attr name="tab_menu_bg_color" format="color" />
+    <attr name="icon_tint_color" format="color"/>
 </resources>

@@ -3,7 +3,6 @@ package me.ghui.v2er.widget;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
@@ -19,6 +18,7 @@ import com.orhanobut.logger.Logger;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
 
@@ -37,6 +37,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int MAIN_COLOR = 0xff555555;
+    private int mBgColor;
     //the short length of the glyph arrow
     private final int mDelta = ScaleUtils.dp(7);
     private float mScrollRatio = 1.0f;
@@ -77,7 +78,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         int dividerColor = getResources().getColor(R.color.divider_color);
         mDividerPaint.setColor(dividerColor);
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-
+        mBgColor = Theme.getColor(R.attr.page_bg_color, getContext());
     }
 
     @Override
@@ -122,7 +123,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         int cW = getWidth() - getPaddingLeft() - getPaddingRight();
 
         canvas.drawRect(0, 0, w, h, clearPaint);
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(mBgColor);
         canvas.drawLine(0, h - mDividerPaint.getStrokeWidth() / 2f, w, h - mDividerPaint.getStrokeWidth() / 2f, mDividerPaint);
         canvas.translate(cW / 2, h / 2);
 

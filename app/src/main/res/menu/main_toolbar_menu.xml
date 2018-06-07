@@ -6,8 +6,4 @@
         android:icon="@drawable/ic_search"
         android:title="Search"
         app:showAsAction="always" />
-    <!--<item-->
-        <!--android:id="@id/action_create"-->
-        <!--android:title="发帖"-->
-        <!--app:showAsAction="never" />-->
 </menu>

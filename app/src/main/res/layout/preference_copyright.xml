@@ -3,6 +3,7 @@
     android:id="@android:id/title"
     style="@style/hintText"
     android:layout_width="match_parent"
+    android:background="?attr/page_bg_color"
     android:gravity="center"
     android:minHeight="100dp"
     android:text="© 2017 ghui.me" />

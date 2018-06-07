@@ -28,7 +28,7 @@
 
     <TextView
         android:id="@+id/reply_user_tag_tv"
-        style="@style/BodyText"
+        style="@style/smallText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
@@ -75,6 +75,7 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:padding="3dp"
         android:src="@drawable/love_normal_icon"
+        android:tint="?attr/icon_tint_color"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/reply_avatar_img" />
 
@@ -88,7 +89,6 @@
         app:layout_constraintTop_toTopOf="@id/reply_thx_img"
         tools:text="1" />
 
-
     <ImageView
         android:id="@+id/more_menu_img"
         android:layout_width="wrap_content"
@@ -97,6 +97,7 @@
         android:background="?android:attr/selectableItemBackgroundBorderless"
         android:padding="3dp"
         android:src="@drawable/ic_more"
+        android:tint="?attr/icon_tint_color"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/content_tv" />
 

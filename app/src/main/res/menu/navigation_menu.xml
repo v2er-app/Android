@@ -32,6 +32,7 @@
             android:title="反馈" />
         <item
             android:id="@+id/love_nav_item"
+            android:iconTint="@android:color/holo_red_dark"
             android:icon="@drawable/rate_nav_item"
             android:title="好评" />
     </group>
@@ -42,7 +43,7 @@
             android:id="@+id/day_night_item"
             android:checkable="true"
             android:icon="@drawable/night_nav_item"
-            android:title="@string/day_night_mode"
+            android:title="@string/night_mode"
             app:actionLayout="@layout/layout_switch" />
     </group>
 </menu>

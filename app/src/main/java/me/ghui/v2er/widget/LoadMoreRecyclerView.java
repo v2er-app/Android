@@ -1,7 +1,6 @@
 package me.ghui.v2er.widget;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.orhanobut.logger.Logger;
 
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -133,9 +133,10 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
 
         private void init() {
-            setBackgroundColor(Color.WHITE);
+//            setBackgroundColor(Color.WHITE);
             setVisibility(GONE);//default is gone
             setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.smallTextSize));
+            setTextColor(Theme.getColor(R.attr.bodyTextColor, getContext()));
             LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             setLayoutParams(layoutParams);
             int padding = ScaleUtils.dp(20, getContext());

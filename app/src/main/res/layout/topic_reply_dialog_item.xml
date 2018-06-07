@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:divider="@drawable/common_divider"
     android:orientation="vertical"
+    android:background="?attr/page_bg_color"
     android:showDividers="middle|end">
 
     <Button

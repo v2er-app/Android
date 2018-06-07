@@ -22,6 +22,7 @@
         android:id="@+id/append_topic_contentview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/quote_block_bg_color"
         android:visibility="gone"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/content_tv" />

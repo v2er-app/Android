@@ -18,7 +18,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:src="@drawable/v2ex_title_logo" />
+                android:src="@drawable/v2ex_title_logo"
+                android:tint="?attr/icon_tint_color" />
         </me.ghui.v2er.widget.BaseToolBar>
 
         <me.ghui.v2er.widget.CSlidingTabLayout
@@ -36,7 +37,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@color/default_page_bg"
+        android:background="?attr/page_bg_color"
         app:headerLayout="@layout/navigation_header"
         app:itemBackground="?android:selectableItemBackground"
         app:itemTextColor="@color/bodyTextColor"
