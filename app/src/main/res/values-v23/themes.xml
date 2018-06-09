@@ -19,6 +19,14 @@
         <item name="tablayout_unselected_color">#66000000</item>
         <item name="tab_menu_bg_color">@color/white</item>
         <item name="icon_tint_color">#3B3A3A</item>
+        <item name="android:actionOverflowButtonStyle">@style/ToolbarOverflowStyle</item>
+        <item name="android:colorControlNormal">@color/colorAccent</item>
+        <item name="actionMenuTextColor">?attr/icon_tint_color</item>
+        <item name="button_color">?attr/icon_tint_color</item>
+        <item name="colorControlHighlight">?attr/hintTextColor</item>
+        <item name="divider_color">#f4f2f2</item>
+        <item name="android:listDivider">?attr/divider_color</item>
+        <item name="dialog_bg_color">#FFFAFAFA</item>
     </style>
 
     <style name="NightTheme" parent="BaseApp.Theme">
@@ -40,6 +48,14 @@
         <item name="tablayout_unselected_color">#555555</item>
         <item name="tab_menu_bg_color">#151618</item>
         <item name="icon_tint_color">#A4A5A7</item>
+        <item name="android:actionOverflowButtonStyle">@style/ToolbarOverflowStyle</item>
+        <item name="android:colorControlNormal">#FFA4A5A7</item>
+        <item name="actionMenuTextColor">?attr/icon_tint_color</item>
+        <item name="button_color">?attr/icon_tint_color</item>
+        <item name="colorControlHighlight">?attr/hintTextColor</item>
+        <item name="divider_color">#202020</item>
+        <item name="android:listDivider">?attr/divider_color</item>
+        <item name="dialog_bg_color">#1d1d1b</item>
     </style>
 
     <!--<style name="GalleryTheme" parent="Bas">-->

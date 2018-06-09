@@ -43,6 +43,11 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
+    <style name="TextInput" parent="@android:style/TextAppearance">
+        <item name="android:textColor">?attr/hintTextColor</item>
+    </style>
+
+
     <style name="NormalBtn">
         <item name="android:background">@drawable/default_submit_btn_selector</item>
         <item name="android:textColor">@color/white</item>
@@ -58,12 +63,27 @@
         <item name="android:textColor">?attr/icon_tint_color</item>
     </style>
 
-    <style name="BaseToolBar">
+    <style name="BaseToolBar" parent="Base.Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="titleTextAppearance">@style/Toolbar.TitleText</item>
         <item name="subtitleTextAppearance">@style/Toolbar.SubTitleText</item>
+        <item name="popupTheme">@style/ToolBar.ThemeOverlay</item>
+        <item name="android:textColor">?attr/icon_tint_color</item>
+    </style>
+
+    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    </style>
+
+    <style name="ToolbarOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">?attr/icon_tint_color</item>
+    </style>
+
+    <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat">
+        <item name="android:colorBackground">?attr/page_bg_color</item>
+        <item name="android:textColorPrimary">?attr/bodyTextColor</item>
     </style>
 
     <style name="AvatarImg">
@@ -85,7 +105,7 @@
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:minHeight">36dp</item>
-        <item name="android:textColor">?attr/bodyTextColor</item>
+        <item name="android:textColor">?attr/button_color</item>
         <item name="android:textSize">@dimen/mediumTextSize</item>
         <item name="android:textStyle">bold</item>
     </style>

@@ -56,7 +56,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
-        findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
@@ -73,7 +72,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
         rootView.setBackgroundColor(Theme.getColor(R.attr.page_bg_color, getActivity()));
-        ListView list = (ListView) rootView.findViewById(android.R.id.list);
+        ListView list = rootView.findViewById(android.R.id.list);
         if (list != null) {
             list.setDivider(null);
             Utils.setPaddingForNavbar(list);

@@ -8,6 +8,8 @@
     <me.ghui.v2er.widget.BaseToolBar
         android:id="@+id/node_select_toolbar"
         style="@style/BaseToolBar"
+        android:background="@android:color/transparent"
+        app:navigationIcon="@null"
         android:layout_height="@dimen/toolbar_size"
         app:elevation="2dp"
         app:title="选择节点" />

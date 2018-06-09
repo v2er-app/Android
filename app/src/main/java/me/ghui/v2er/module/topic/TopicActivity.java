@@ -37,6 +37,7 @@ import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.toolbox.android.Check;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;
@@ -633,6 +634,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private void updateStarStatus(boolean isStared, boolean needUpdateData) {
         mLoveMenuItem.setIcon(isStared ?
                 R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+        mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (needUpdateData) {
             mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
         }

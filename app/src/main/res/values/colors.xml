@@ -13,7 +13,6 @@
     <color name="white">@android:color/white</color>
     <color name="ripple_color">#d4d4d4</color>
     <color name="button_background_color">#3A3636</color>
-    <color name="divider_color">#60e2e2e2</color>
     <color name="transparent_navbar_color">#66000000</color>
     <color name="default_page_bg">#ffffff</color>
     <color name="night_default_page_bg">#111214</color>

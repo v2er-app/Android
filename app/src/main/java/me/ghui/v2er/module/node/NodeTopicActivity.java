@@ -26,6 +26,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -366,6 +367,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
                 R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+        mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (isStared) {
             mStarBtn.setStatus(FollowProgressBtn.FINISHED, "已收藏", R.drawable.progress_button_done_icon);
         } else {

@@ -72,6 +72,9 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+        Window window = getDialog().getWindow();
+        window.setDimAmount(0.45f);
+        window.setBackgroundDrawableResource(R.drawable.confirm_dialog_bg);
         View view = inflater.inflate(R.layout.node_select, container);
         ButterKnife.bind(this, view);
         return view;
@@ -93,6 +96,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        mToolbar.setNavigationIcon(null);
         mToolbar.inflateMenu(R.menu.search_note_menu);
         mToolbar.setOnMenuItemClickListener(menuItem -> {
             Toast.makeText(getActivity(), "do search", Toast.LENGTH_SHORT).show();

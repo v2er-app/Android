@@ -23,6 +23,7 @@
         android:id="@+id/user_name_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
+        android:textColor="?attr/icon_tint_color"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxLines="1"

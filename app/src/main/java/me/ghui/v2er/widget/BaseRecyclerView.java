@@ -10,6 +10,7 @@ import android.util.AttributeSet;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
@@ -49,7 +50,7 @@ public class BaseRecyclerView extends RecyclerView {
     }
 
     public void addDivider() {
-        addDivider(getResources().getColor(R.color.divider_color), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
+        addDivider(Theme.getColor(R.attr.divider_color, getContext()), ScaleUtils.px2Dp(getResources().getDimension(R.dimen.divider_size)));
     }
 
     public void addDivider(@ColorInt int dividerColor) {

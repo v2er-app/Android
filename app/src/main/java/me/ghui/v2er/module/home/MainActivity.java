@@ -70,7 +70,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private FollowProgressBtn mCheckInBtn;
     private MenuItem mCreateMenuItem;
     private CheckInPresenter mCheckInPresenter;
-    private boolean mHadRated = false;
     private TextView mTab1View;
     private TextView mTab2View;
     private TextView mTab3View;

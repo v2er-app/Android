@@ -44,8 +44,9 @@ public class SpecialCareModule {
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
                 holder.setText(R.id.user_name_tv, item.getUserName());
+                // TODO: 2018/6/9 time is null
                 if (Check.isEmpty(item.getTime())) {
-                    holder.getView(R.id.time_tv).setVisibility(View.GONE);
+                    holder.getView(R.id.time_tv).setVisibility(View.INVISIBLE);
                 } else {
                     holder.getView(R.id.time_tv).setVisibility(View.VISIBLE);
                     holder.setText(R.id.time_tv, item.getTime());

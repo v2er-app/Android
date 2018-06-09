@@ -7,7 +7,7 @@
         <shape android:shape="rectangle">
             <stroke
                 android:width="@dimen/divider_size"
-                android:color="@color/divider_color" />
+                android:color="?attr/divider_color" />
             <solid android:color="@android:color/white" />
         </shape>
     </item>

@@ -35,6 +35,7 @@
     <TextView
         android:id="@+id/comment_num_tv"
         style="@style/hintText"
+        android:paddingLeft="0dp"
         android:layout_alignBottom="@id/avatar_img"
         android:layout_toRightOf="@id/time_tv"
         tools:text="评论38" />

@@ -20,6 +20,7 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 
 /**
@@ -75,8 +76,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
         mDividerPaint.setStyle(Paint.Style.STROKE);
         int strokeWidth = ScaleUtils.dp(0.5f);
         mDividerPaint.setStrokeWidth(strokeWidth);
-        int dividerColor = getResources().getColor(R.color.divider_color);
-        mDividerPaint.setColor(dividerColor);
+        mDividerPaint.setColor(Theme.getColor(R.attr.divider_color, getContext()));
         clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
         mBgColor = Theme.getColor(R.attr.page_bg_color, getContext());
     }

@@ -9,13 +9,14 @@
     <android.support.design.widget.TextInputLayout
         android:id="@+id/create_topic_title_layout"
         android:layout_width="match_parent"
+        android:textColorHint="?attr/hintTextColor"
         android:layout_height="wrap_content">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/create_topic_title_et"
-            style="@style/TitleEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="?attr/bodyTextColor"
             android:hint="标题"
             android:inputType="text"
             android:maxLines="1" />
@@ -26,6 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
+        app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/capsule_gray_drawable"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -40,12 +42,14 @@
             android:layout_height="20dp"
             android:alpha="0.6"
             android:paddingRight="2dp"
+            android:tint="?attr/icon_tint_color"
             android:src="@drawable/ic_node" />
 
         <TextView
             android:id="@+id/create_topic_node_tv"
             style="@style/BodyText"
             android:alpha="0.8"
+            android:textColor="?attr/icon_tint_color"
             android:gravity="center"
             android:text="选择节点"
             android:textSize="@dimen/microTextSize" />
@@ -56,6 +60,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:textColorHint="?attr/hintTextColor"
+        android:textColor="?attr/bodyTextColor"
         android:alpha="0.8"
         android:background="@null"
         android:gravity="top"

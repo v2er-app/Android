@@ -21,6 +21,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0.8dp"
+        android:alpha="0.3"
         android:layout_weight="1"
         android:background="?attr/hintTextColor" />
 </LinearLayout>

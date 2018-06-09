@@ -21,7 +21,6 @@
         android:id="@+id/node_name_tv"
         style="@style/BodyText"
         android:layout_width="match_parent"
-        android:background="@drawable/common_bottom_divider"
         android:foreground="?android:attr/selectableItemBackgroundBorderless"
         android:padding="16dp"
         tools:text="问与答" />

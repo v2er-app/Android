@@ -2,7 +2,6 @@ package me.ghui.v2er.module.home;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +18,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.toolbox.android.Check;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -86,7 +86,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     @Override
     protected void init() {
         Utils.setPaddingForStatusBar(mSearchRootView);
-        mCardView.setCardBackgroundColor(DayNightUtil.isNightMode() ? Color.BLACK : Color.WHITE);
+        mCardView.setCardBackgroundColor(Theme.getColor(R.attr.dialog_bg_color, getContext()));
         mResultRecyV.addDivider(DayNightUtil.isNightMode() ? 0XFF000000 : 0XFFF5F5F5, 6);
         mResultRecyV.setLayoutManager(new LinearLayoutManager(getContext()));
         mResultRecyV.setAdapter(mResultAdapter);

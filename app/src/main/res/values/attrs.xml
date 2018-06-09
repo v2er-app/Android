@@ -28,4 +28,7 @@
     <attr name="tablayout_unselected_color" format="color" />
     <attr name="tab_menu_bg_color" format="color" />
     <attr name="icon_tint_color" format="color"/>
+    <attr name="button_color" format="color"/>
+    <attr name="divider_color" format="color"/>
+    <attr name="dialog_bg_color" format="color"/>
 </resources>

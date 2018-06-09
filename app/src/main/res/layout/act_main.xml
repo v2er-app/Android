@@ -40,6 +40,6 @@
         android:background="?attr/page_bg_color"
         app:headerLayout="@layout/navigation_header"
         app:itemBackground="?android:selectableItemBackground"
-        app:itemTextColor="@color/bodyTextColor"
+        app:itemTextColor="?attr/icon_tint_color"
         app:menu="@menu/navigation_menu" />
 </android.support.v4.widget.DrawerLayout>
