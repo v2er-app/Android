@@ -44,7 +44,7 @@
     </style>
 
     <style name="TextInput" parent="@android:style/TextAppearance">
-        <item name="android:textColor">?attr/hintTextColor</item>
+        <item name="android:textColor">?attr/icon_tint_color</item>
     </style>
 
 
