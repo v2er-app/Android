@@ -15,7 +15,6 @@ import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.injector.component.DaggerMsgComponent;
 import me.ghui.v2er.injector.module.MsgModule;
-import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.util.UserUtils;
@@ -25,7 +24,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  * Created by ghui on 10/05/2017.
  */
 
-public class MsgFragment extends BaseFragment<MsgContract.IPresenter>
+public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
         implements MsgContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
     @BindView(R.id.base_recyclerview)

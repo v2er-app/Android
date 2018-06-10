@@ -33,7 +33,6 @@ import me.ghui.v2er.general.OnFragmentReEnter;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerNewsComponent;
 import me.ghui.v2er.injector.module.NewsModule;
-import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
@@ -48,7 +47,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  * Created by ghui on 22/03/2017.
  */
 
-public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implements NewsContract.IView,
+public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> implements NewsContract.IView,
         MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.NewsTabMenuTabDelegate {
 
     @BindView(R.id.base_recyclerview)
@@ -253,7 +252,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     private TextView getTabView() {
         // TODO: 2018/6/3 mActivity is null
-        if(mActivity == null) {
+        if (mActivity == null) {
             mActivity = getActivity();
         }
         return ((MainActivity) mActivity).getTabView(0);
@@ -261,7 +260,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void showNewsTabsMenu() {
-        if(mDownDrawable == null){
+        if (mDownDrawable == null) {
             mDownDrawable = (AnimatedVectorDrawable) getTabView().getCompoundDrawables()[2];
         }
         getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, mDownDrawable, null);
@@ -279,7 +278,7 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
 
     @Override
     public void hideNewsTabsMenu() {
-        if(mUpDrawable == null){
+        if (mUpDrawable == null) {
             mUpDrawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_up);
             mUpDrawable.setTint(Theme.getColor(R.attr.tablayout_selected_color, mActivity));
         }
@@ -292,5 +291,6 @@ public class NewsFragment extends BaseFragment<NewsContract.IPresenter> implemen
         mTabsRecyclerView.setVisibility(View.GONE);
         mTabsWrapper.setVisibility(View.GONE);
     }
+
 
 }

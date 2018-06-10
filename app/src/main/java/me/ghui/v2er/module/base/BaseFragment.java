@@ -239,8 +239,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
             mLoadingView = LayoutInflater.from(getActivity()).inflate(R.layout.base_loading_view, mRootView, false);
             mRootView.addView(mLoadingView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
             mLoadingView.bringToFront();
+            onLoadingViewCreated(mLoadingView);
         }
         return mLoadingView;
+    }
+
+    protected void onLoadingViewCreated(View loadingView){
+
     }
 
     @Override

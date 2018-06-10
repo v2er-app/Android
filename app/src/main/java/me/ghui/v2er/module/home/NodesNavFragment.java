@@ -13,7 +13,6 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.injector.component.DaggerNodesNavComponent;
 import me.ghui.v2er.injector.module.NodesNavModule;
-import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
@@ -21,7 +20,7 @@ import me.ghui.v2er.widget.BaseRecyclerView;
  * Created by ghui on 22/03/2017.
  */
 
-public class NodesNavFragment extends BaseFragment<NodesNavConstract.IPresenter> implements NodesNavConstract.IView {
+public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresenter> implements NodesNavConstract.IView {
 
     @Inject
     CommonAdapter<NodesNavInfo.Item> mAdapter;
