@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="DayTheme" parent="BaseApp.Theme" >
+
+    <style name="DayTheme" parent="BaseApp.Theme">
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -58,9 +59,11 @@
         <item name="dialog_bg_color">#1d1d1b</item>
     </style>
 
+
+
     <!--<style name="GalleryTheme" parent="Bas">-->
-        <!--<item name="android:windowLightStatusBar">false</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
+    <!--<item name="android:windowLightStatusBar">false</item>-->
+    <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
+    <!--<item name="android:navigationBarColor">@android:color/transparent</item>-->
     <!--</style>-->
 </resources>

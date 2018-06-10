@@ -74,6 +74,11 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
+    protected void initTheme() {
+//        super.initTheme();
+    }
+
+    @Override
     protected int attachLayoutRes() {
         return R.layout.act_gallery;
     }

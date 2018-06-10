@@ -73,12 +73,12 @@
         <item name="android:textColor">?attr/icon_tint_color</item>
     </style>
 
-    <style name="AppTheme.ActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
-
-    </style>
-
     <style name="ToolbarOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
         <item name="android:tint">?attr/icon_tint_color</item>
+    </style>
+
+    <style name="GalleryToolbarOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:tint">@color/white</item>
     </style>
 
     <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat">
@@ -139,7 +139,7 @@
         <item name="android:paddingBottom">16dp</item>
         <item name="android:clickable">true</item>
         <item name="android:paddingStart">16dp</item>
-        <item name="android:textColor">@color/white</item>
+
         <item name="android:paddingEnd">16dp</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:foreground">?android:selectableItemBackgroundBorderless</item>

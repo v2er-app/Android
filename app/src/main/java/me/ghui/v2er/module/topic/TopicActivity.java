@@ -5,6 +5,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
@@ -304,6 +306,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(savedInstanceState != null){
+            mNeedWaitForTransitionEnd = false;
+
+        }
+    }
+
+    @Override
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
@@ -449,6 +460,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 mLoadMoreRecyclerView.resetWillLoadPage();
+                mNeedWaitForTransitionEnd = false;
                 mPresenter.loadData(mTopicId);
             }
 
@@ -473,13 +485,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void fillView(TopicInfo topicInfo, boolean isLoadMore) {
-        // TODO: 2018/6/10 refresh failured
         mTopicInfo = topicInfo;
         if (mNeedWaitForTransitionEnd) return;
         if (topicInfo == null) {
             mAdapter.setData(null);
             return;
         }
+
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
