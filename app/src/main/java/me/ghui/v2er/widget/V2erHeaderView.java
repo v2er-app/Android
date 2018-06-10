@@ -20,7 +20,6 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.indicator.PtrIndicator;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
-import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 
 /**
@@ -37,7 +36,6 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     private Path mRightPath = new Path();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final int MAIN_COLOR = 0xff555555;
     private int mBgColor;
     //the short length of the glyph arrow
     private final int mDelta = ScaleUtils.dp(7);
@@ -70,7 +68,7 @@ public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.
     }
 
     private void init() {
-        mPaint.setColor(MAIN_COLOR);
+        mPaint.setColor(Theme.getColor(R.attr.icon_tint_color, getContext()));
         mPaint.setStyle(Paint.Style.FILL);
 
         mDividerPaint.setStyle(Paint.Style.STROKE);

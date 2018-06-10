@@ -50,6 +50,7 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener {
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
+    private static final String CURRENT_PAGE = KEY("current_page_index");
     private ArrayList<Fragment> mFragments = new ArrayList<>(3);
     public static boolean isAlive;
 
@@ -163,8 +164,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             String dayNightTitle = getString(isChecked ? R.string.night_mode : R.string.day_mode);
             mNightMenuItem.setTitle(dayNightTitle);
             DayNightUtil.saveMode(isChecked ? DayNightUtil.NIGHT_MODE : DayNightUtil.DAY_MODE);
-            recreate();
-            // TODO: 2018/6/1
+            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+            intent.putExtra(CURRENT_PAGE, mSlidingTabLayout.getCurrentTab());
+            startActivity(intent);
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+            finish();
         });
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
@@ -192,7 +196,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     break;
                 case R.id.day_night_item:
                     mNightSwitch.toggle();
-//                    Voast.show("敬请期待");
                     break;
             }
             mDrawerLayout.closeDrawers();
@@ -217,6 +220,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
+
+        int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
+        mSlidingTabLayout.setCurrentTab(index);
     }
 
     private void configNewsTabTitle() {

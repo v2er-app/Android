@@ -473,6 +473,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void fillView(TopicInfo topicInfo, boolean isLoadMore) {
+        // TODO: 2018/6/10 refresh failured
         mTopicInfo = topicInfo;
         if (mNeedWaitForTransitionEnd) return;
         if (topicInfo == null) {

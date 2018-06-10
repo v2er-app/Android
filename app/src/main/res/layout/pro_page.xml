@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EBEBEB"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="16dp">
@@ -17,14 +16,16 @@
         android:id="@+id/pro_title_tv"
         style="@style/SubTitleText"
         android:layout_marginTop="6dp"
-        android:text="V2er Pro" />
+        android:text="V2er Pro"
+        android:textColor="@color/white" />
 
     <TextView
         style="@style/SubTitleText"
         android:layout_width="match_parent"
         android:gravity="left"
         android:padding="16dp"
-        android:text="获取Pro版你可以" />
+        android:text="获取Pro版你可以 : "
+        android:textColor="@color/white" />
 
     <TextView
         style="@style/ProItem"
@@ -38,15 +39,28 @@
         style="@style/ProItem"
         android:text="3. 支持V2er项目的长期开发" />
 
-    <Button
-        android:id="@+id/go_get_pro_btn"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:background="@color/white"
-        android:elevation="0dp"
-        android:foreground="?android:selectableItemBackgroundBorderless"
-        android:stateListAnimator="@null"
-        android:text="去获取"
-        android:textStyle="normal" />
+        android:paddingRight="6dp"
+        android:paddingBottom="36dp"
+        android:layout_height="match_parent">
+
+        <Button
+            android:id="@+id/go_get_pro_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp"
+            android:drawableRight="@drawable/vector_v2er_pro_go"
+            android:background="@color/transparent"
+            android:elevation="0dp"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            android:stateListAnimator="@null"
+            android:text="Get"
+            android:textColor="@color/white"
+            android:textStyle="italic" />
+    </RelativeLayout>
 </LinearLayout>

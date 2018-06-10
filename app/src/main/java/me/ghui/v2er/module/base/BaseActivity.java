@@ -11,7 +11,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,6 +33,7 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
 import me.ghui.toolbox.android.Check;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
@@ -339,9 +339,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @ColorInt
     protected int pageColor() {
-        TypedValue bg = new TypedValue();
-        getTheme().resolveAttribute(R.attr.page_bg_color, bg, true);
-        return getResources().getColor(bg.resourceId);
+        return Theme.getColor(R.attr.page_bg_color, this);
     }
 
     @Nullable
