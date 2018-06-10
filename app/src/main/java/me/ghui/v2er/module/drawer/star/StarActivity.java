@@ -1,13 +1,11 @@
 package me.ghui.v2er.module.drawer.star;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.support.annotation.IntRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.Window;
 
 import java.util.ArrayList;
 
@@ -66,11 +64,6 @@ public class StarActivity extends BaseActivity {
             return true;
         }
         return false;
-    }
-
-    @Override
-    protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override

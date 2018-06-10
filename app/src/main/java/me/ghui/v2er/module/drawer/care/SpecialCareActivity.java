@@ -1,9 +1,7 @@
 package me.ghui.v2er.module.drawer.care;
 
-import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.view.Window;
 
 import javax.inject.Inject;
 
@@ -47,11 +45,6 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
                 .appComponent(getAppComponent())
                 .specialCareModule(new SpecialCareModule(this))
                 .build().inject(this);
-    }
-
-    @Override
-    protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, Color.TRANSPARENT, getResources().getColor(R.color.transparent_navbar_color));
     }
 
     @Override

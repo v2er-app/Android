@@ -11,7 +11,6 @@ import me.ghui.v2er.module.shortcuts.CreateTopicShortcut;
 import me.ghui.v2er.module.shortcuts.DailyHotShortcut;
 import me.ghui.v2er.module.shortcuts.StarTopicShortcut;
 import me.ghui.v2er.network.UrlInterceptor;
-import me.ghui.v2er.util.LightStatusBarUtils;
 
 /**
  * Created by ghui on 30/06/2017.
@@ -20,8 +19,9 @@ import me.ghui.v2er.util.LightStatusBarUtils;
 public class RouteActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LightStatusBarUtils.setLightStatusBar(getWindow(), true);
         super.onCreate(savedInstanceState);
+//        Utils.transparentBars(getWindow());
+//        LightStatusBarUtils.setLightStatusBar(getWindow(), false);
         route();
         finish();
     }
