@@ -12,7 +12,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -80,11 +79,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_main;
-    }
-
-    @Override
-    protected void configSystemBars(Window window) {
-        super.configSystemBars(window);
     }
 
     @Override
