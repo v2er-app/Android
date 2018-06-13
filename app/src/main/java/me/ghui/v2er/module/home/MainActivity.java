@@ -206,7 +206,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         for (int i = 0; i < menu.size(); i++) {
             menu.getItem(i).getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         }
-
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
