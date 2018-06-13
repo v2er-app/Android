@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.util.DayNightUtil;
-import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 
@@ -18,9 +17,6 @@ public class SettingActivity extends Activity {
         super.onCreate(savedInstanceState);
         initTheme();
         Utils.transparentBars(getWindow());
-        boolean darkText = !DayNightUtil.isNightMode();
-        LightStatusBarUtils.setLightStatusBar(getWindow(), darkText);
-
         setContentView(R.layout.act_setting);
         SlideBackManager.attach(this);
         getFragmentManager().beginTransaction()

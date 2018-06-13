@@ -32,8 +32,8 @@ import me.ghui.v2er.general.GlideRequest;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.FileUtils;
-import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -90,8 +90,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, Color.TRANSPARENT, Color.TRANSPARENT);
-        LightStatusBarUtils.setLightStatusBar(window, false);
+        Utils.transparentBars(window, Color.TRANSPARENT, Color.TRANSPARENT, !DayNightUtil.isNightMode());
     }
 
     @Override

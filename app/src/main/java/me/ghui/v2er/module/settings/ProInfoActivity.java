@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.settings;
 
 import android.graphics.Color;
+import android.view.Window;
 
 import butterknife.OnClick;
 import me.ghui.v2er.R;
@@ -18,6 +19,11 @@ public class ProInfoActivity extends BaseActivity {
     @Override
     protected int attachLayoutRes() {
         return R.layout.pro_page;
+    }
+
+    @Override
+    protected void configSystemBars(Window window) {
+        Utils.transparentBars(window, false);
     }
 
     @Override

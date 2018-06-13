@@ -136,28 +136,27 @@ public class Utils {
         clipboard.setPrimaryClip(clip);
     }
 
-    public static void transparentBars(Window window, int statusBarColor, int navBarColor) {
+    public static void transparentBars(Window window, int statusBarColor, int navBarColor, boolean lightStatus) {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
                 | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        int flag = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        if (lightStatus) {
+            flag |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+        }
+        window.getDecorView().setSystemUiVisibility(flag);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(statusBarColor);
         window.setNavigationBarColor(navBarColor);
     }
 
     public static void transparentBars(Window window) {
-        transparentBars(window, Color.TRANSPARENT, App.get().getResources().getColor(R.color.transparent_navbar_color));
+        transparentBars(window, !DayNightUtil.isNightMode());
     }
 
-    public static void transparentStatus(Window window) {
-        window.requestFeature(Window.FEATURE_NO_TITLE);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.setStatusBarColor(Color.TRANSPARENT);
+    public static void transparentBars(Window window, boolean lightStatus) {
+        transparentBars(window, Color.TRANSPARENT, App.get().getResources().getColor(R.color.transparent_navbar_color), lightStatus);
     }
 
     public static void fullScreen(Window window, boolean fullScreen) {

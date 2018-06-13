@@ -47,7 +47,6 @@ import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.DayNightUtil;
-import me.ghui.v2er.util.LightStatusBarUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -257,8 +256,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void configSystemBars(Window window) {
         Utils.transparentBars(window);
-        boolean darkText = !DayNightUtil.isNightMode();
-        LightStatusBarUtils.setLightStatusBar(window, darkText);
     }
 
     @Override
