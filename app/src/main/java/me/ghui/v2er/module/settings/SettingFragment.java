@@ -2,21 +2,21 @@ package me.ghui.v2er.module.settings;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
-import android.preference.SwitchPreference;
 import android.support.annotation.StringRes;
 import android.view.View;
 import android.widget.ListView;
 
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
 import me.ghui.v2er.general.Constants;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
-import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -83,7 +83,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (isFeatureUnavaliable(key)) {
-            SwitchPreference switchPreference = (SwitchPreference) preference;
+            CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
             switchPreference.setChecked(false);
             new ConfirmDialog.Builder(getActivity())
                     .title("功能不可用")
@@ -152,7 +152,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     }
 
     private boolean isItemChecked(Preference preference) {
-        SwitchPreference switchPreference = (SwitchPreference) preference;
+        CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
         return switchPreference.isChecked();
     }
 
