@@ -79,6 +79,9 @@
 
     <style name="NoneSlideBackableTheme" parent="BaseApp.Theme">
         <item name="android:windowIsTranslucent">false</item>
+        <item name="android:windowBackground">@drawable/splash_drawable</item>
+        <item name="android:navigationBarColor">@color/transparent</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.MinWidth">

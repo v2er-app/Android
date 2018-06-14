@@ -25,11 +25,15 @@
         <me.ghui.v2er.widget.CSlidingTabLayout
             android:id="@+id/tablayout_main"
             style="@style/CSTablayout" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager_main"
+        <FrameLayout
+            android:id="@+id/tab_menu_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewpager_main"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

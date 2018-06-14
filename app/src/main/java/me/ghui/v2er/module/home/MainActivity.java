@@ -3,15 +3,19 @@ package me.ghui.v2er.module.home;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,8 +23,6 @@ import android.widget.TextView;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.ghui.toolbox.android.Theme;
@@ -47,11 +49,13 @@ import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener, HomeFilterMenu.OnMenuItemClickListener {
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     private static final String CURRENT_PAGE = KEY("current_page_index");
-    private ArrayList<Fragment> mFragments = new ArrayList<>(3);
     public static boolean isAlive;
+    private NewsFragment mNewsFragment;
+    private MsgFragment mMsgFragment;
+    private NodesNavFragment mNavFragment;
 
     @BindView(R.id.left_draw_layout)
     DrawerLayout mDrawerLayout;
@@ -63,6 +67,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ViewPager mViewPager;
     @BindView(R.id.main_toolbar)
     BaseToolBar mToolbar;
+    @BindView(R.id.tab_menu_container)
+    ViewGroup mTabMenuContainer;
 
     private View mNavHeaderView;
     private ImageView mAvatarImg;
@@ -75,6 +81,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private TextView mTab3View;
     private MenuItem mNightMenuItem;
     private SwitchCompat mNightSwitch;
+    private HomeFilterMenu mFilterMenu;
 
     @Override
     protected int attachLayoutRes() {
@@ -115,8 +122,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public boolean onToolbarDoubleTaped() {
-        int index = mSlidingTabLayout.getCurrentTab();
-        View rootView = mFragments.get(index).getView();
+        View rootView = getCurrentFragment().getView();
         if (rootView == null) return false;
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
@@ -125,7 +131,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
         return false;
     }
-
 
     @Override
     protected void init() {
@@ -140,15 +145,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
         updateHeaderView();
-
-        NewsFragment newsFragment = NewsFragment.newInstance();
-        newsFragment.setUpdateUnReadMsgDelegate(this);
-        MsgFragment msgFragment = MsgFragment.newInstance();
-        msgFragment.setUpdateUnReadMsgDelegate(this);
-        mFragments.add(newsFragment);
-        mFragments.add(msgFragment);
-        mFragments.add(NodesNavFragment.newInstance());
-
         mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
         mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
@@ -209,13 +205,65 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         });
 
         TAB_TITLES[0] = TabInfo.getSelectTab().title;
-        mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES, getActivity(), mFragments);
+        mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(2);
+        mSlidingTabLayout.setViewPager(mViewPager, TAB_TITLES);
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
 
         int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
         mSlidingTabLayout.setCurrentTab(index);
+    }
+
+    private class SlidePagerAdapter extends FragmentPagerAdapter {
+
+        public SlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+            switch (position) {
+                case 0:
+                    NewsFragment newsFragment = NewsFragment.newInstance();
+                    newsFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
+                    fragment = newsFragment;
+                    break;
+                case 1:
+                    MsgFragment msgFragment = MsgFragment.newInstance();
+                    msgFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
+                    fragment = msgFragment;
+                    break;
+                case 2:
+                    fragment = NodesNavFragment.newInstance();
+                    break;
+            }
+            return fragment;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            switch (position) {
+                case 0:
+                    mNewsFragment = (NewsFragment) fragment;
+                    break;
+                case 1:
+                    mMsgFragment = (MsgFragment) fragment;
+                    break;
+                case 2:
+                    mNavFragment = (NodesNavFragment) fragment;
+                    break;
+            }
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return TAB_TITLES.length;
+        }
     }
 
     private void configNewsTabTitle() {
@@ -308,12 +356,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             return;
         }
 
-        if (mFragments.get(0) instanceof NewsTabMenuTabDelegate) {
-            NewsTabMenuTabDelegate delegate = ((NewsTabMenuTabDelegate) mFragments.get(0));
-            if (delegate.isShowing()) {
-                delegate.hideNewsTabsMenu();
-                return;
-            }
+        if (mFilterMenu != null && mFilterMenu.isShowing()) {
+            mFilterMenu.hide();
+            return;
         }
         super.onBackPressed();
     }
@@ -341,18 +386,27 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onDestroy() {
         super.onDestroy();
         isAlive = false;
+        Log.e("MainActivity", "MainActivity is destoryed");
     }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
+    private Fragment getCurrentFragment() {
+        int pos = getCurrentTab();
+        switch (pos) {
+            case 0:
+                return mNewsFragment;
+            case 1:
+                return mMsgFragment;
+            case 2:
+                return mNavFragment;
+        }
+        return null;
     }
 
     @Override
     public void onActivityReenter(int resultCode, Intent data) {
         super.onActivityReenter(resultCode, data);
-        if (mFragments.get(getCurrentTab()) instanceof OnFragmentReEnter) {
-            ((OnFragmentReEnter) mFragments.get(getCurrentTab())).onFragmentReEnter();
+        if (getCurrentFragment() instanceof OnFragmentReEnter) {
+            ((OnFragmentReEnter) getCurrentFragment()).onFragmentReEnter();
         }
     }
 
@@ -368,32 +422,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             mTab1View.getCompoundDrawables()[2].setTint(Theme.getColor(R.attr.tablayout_selected_color, this));
         } else {
             mTab1View.getCompoundDrawables()[2].setTint(Theme.getColor(R.attr.tablayout_unselected_color, this));
+            if (mFilterMenu != null && mFilterMenu.isShowing()) {
+                mFilterMenu.hide();
+            }
         }
     }
 
     @Override
     public void onTabReselect(int position) {
         Logger.d("onTabReSelect");
-        if (position == 0 && mFragments.get(0) instanceof NewsTabMenuTabDelegate) {
-            NewsTabMenuTabDelegate delegate = ((NewsTabMenuTabDelegate) mFragments.get(0));
-            if (!delegate.isShowing()) {
-                delegate.showNewsTabsMenu();
-            } else {
-                delegate.hideNewsTabsMenu();
+        if (position == 0) {
+            if (mFilterMenu == null) {
+                mFilterMenu = new HomeFilterMenu(mTabMenuContainer, mTab1View);
+                mFilterMenu.setOnItemClickListner(this);
             }
+            mFilterMenu.toggle();
         }
     }
 
-    public TextView getTabView(int position) {
-        return mSlidingTabLayout.getTitleView(position);
+    @Override
+    public void onMenuItemClicked(TabInfo tabInfo) {
+        ChangeTabTypeDelegate delegate = (ChangeTabTypeDelegate) mNewsFragment;
+        delegate.changeTabType(tabInfo);
     }
 
-    public interface NewsTabMenuTabDelegate {
-
-        void hideNewsTabsMenu();
-
-        void showNewsTabsMenu();
-
-        boolean isShowing();
+    public interface ChangeTabTypeDelegate {
+        void changeTabType(TabInfo tabInfo);
     }
 }

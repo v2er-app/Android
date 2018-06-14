@@ -13,4 +13,5 @@ public abstract class BaseHomeFragment<T extends BaseContract.IPresenter> extend
         int padding = (int) (getResources().getDimension(R.dimen.toolbar_small_height) + getResources().getDimension(R.dimen.tablayout_height));
         loadingView.setPadding(0, 0, 0, padding);
     }
+
 }

@@ -7,24 +7,6 @@
 
     <include layout="@layout/common_load_more_recyclerview" />
 
-    <LinearLayout
-        android:id="@+id/tabs_wrapper"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#66000000"
-        android:visibility="gone">
-
-        <me.ghui.v2er.widget.BaseRecyclerView
-            android:id="@+id/tabs_recyclerview"
-            style="@style/BaseRecyclerView"
-            android:layout_height="wrap_content"
-            android:background="?attr/tab_menu_bg_color"
-            android:clipToPadding="false"
-            android:padding="16dp"
-            android:visibility="invisible"
-            app:shouldPaddingNav="false" />
-    </LinearLayout>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/news_fab_btn"
         android:layout_width="wrap_content"

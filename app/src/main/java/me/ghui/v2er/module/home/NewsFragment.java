@@ -1,16 +1,11 @@
 package me.ghui.v2er.module.home;
 
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.TextView;
 
 import com.orhanobut.logger.Logger;
 
@@ -23,9 +18,7 @@ import butterknife.OnClick;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
-import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
-import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.Navigator;
@@ -40,7 +33,6 @@ import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -48,28 +40,17 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.NewsTabMenuTabDelegate {
+        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.ChangeTabTypeDelegate {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
     @BindView(R.id.news_fab_btn)
     FloatingActionButton mNewFab;
-    @BindView(R.id.tabs_recyclerview)
-    BaseRecyclerView mTabsRecyclerView;
-    @BindView(R.id.tabs_wrapper)
-    View mTabsWrapper;
-    private TabInfo mCurrentTab;
-
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
-    @Inject
-    CommonAdapter<TabInfo> mTabAdapter;
-
+    private TabInfo mCurrentTab;
     private boolean mNeedHideFab = false;
-
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
-    private AnimatedVectorDrawable mUpDrawable;
-    private AnimatedVectorDrawable mDownDrawable;
 
     public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
         mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
@@ -130,25 +111,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
                     showFab(true);
             }
         });
-
-        mTabsRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        mTabsRecyclerView.setAdapter(mTabAdapter);
-//        mTabsRecyclerView.addDivider(Color.WHITE, 16);
-//        mTabsRecyclerView.addVerticalDivider(Color.WHITE, 16);
-        mTabAdapter.setOnItemClickListener((view, holder, position) -> {
-            TabInfo tabInfo = TabInfo.getDefault().get(position);
-            if (tabInfo.needLogin && !UserUtils.isLogin()) {
-                toast("登录后再能查看＂" + tabInfo.title + "＂下的内容");
-                return;
-            }
-
-            mCurrentTab = tabInfo;
-            TabInfo.saveSelectTab(mCurrentTab);
-            MainActivity activity = (MainActivity) getActivity();
-            activity.getTabView(0).setText(mCurrentTab.title);
-            hideNewsTabsMenu();
-            mPresenter.start();
-        });
     }
 
     @Override
@@ -184,7 +146,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, mRecyclerView, header) && !isShowing();
+                return super.checkCanDoRefresh(frame, mRecyclerView, header);
             }
         };
     }
@@ -244,53 +206,10 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         else mNewFab.setVisibility(View.VISIBLE);
     }
 
-    @OnClick(R.id.tabs_wrapper)
-    void onTabsWrapperBgClicked() {
-        hideNewsTabsMenu();
-    }
-
-
-    private TextView getTabView() {
-        // TODO: 2018/6/3 mActivity is null
-        if (mActivity == null) {
-            mActivity = getActivity();
-        }
-        return ((MainActivity) mActivity).getTabView(0);
-    }
-
     @Override
-    public void showNewsTabsMenu() {
-        if (mDownDrawable == null) {
-            mDownDrawable = (AnimatedVectorDrawable) getTabView().getCompoundDrawables()[2];
-        }
-        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, mDownDrawable, null);
-        mDownDrawable.start();
-        mTabsWrapper.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
-        mTabsWrapper.setVisibility(View.VISIBLE);
-        mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_down));
-        mTabsRecyclerView.setVisibility(View.VISIBLE);
+    public void changeTabType(TabInfo tabInfo) {
+        mCurrentTab = tabInfo;
+        mPresenter.start();
     }
-
-    @Override
-    public boolean isShowing() {
-        return mTabsWrapper != null && mTabsWrapper.getVisibility() == View.VISIBLE;
-    }
-
-    @Override
-    public void hideNewsTabsMenu() {
-        if (mUpDrawable == null) {
-            mUpDrawable = (AnimatedVectorDrawable) getResources().getDrawable(R.drawable.animate_triangle_up);
-            mUpDrawable.setTint(Theme.getColor(R.attr.tablayout_selected_color, mActivity));
-        }
-        getTabView().setCompoundDrawablesWithIntrinsicBounds(null, null, mUpDrawable, null);
-        mUpDrawable.start();
-        mTabsRecyclerView.startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.news_tabs_menu_slide_up));
-        Animation fadeout = AnimationUtils.loadAnimation(getContext(), R.anim.fadeout);
-        fadeout.setStartOffset(50);
-        mTabsWrapper.startAnimation(fadeout);
-        mTabsRecyclerView.setVisibility(View.GONE);
-        mTabsWrapper.setVisibility(View.GONE);
-    }
-
 
 }

@@ -8,7 +8,6 @@ import com.orhanobut.logger.Logger;
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
-import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.CommonLoadMoreAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
@@ -16,7 +15,6 @@ import me.ghui.v2er.injector.scope.PerFragment;
 import me.ghui.v2er.module.home.NewsContract;
 import me.ghui.v2er.module.home.NewsFragment;
 import me.ghui.v2er.module.home.NewsPresenter;
-import me.ghui.v2er.module.home.TabInfo;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
@@ -83,19 +81,5 @@ public class NewsModule {
     public NewsContract.IPresenter provideNewsPresenter() {
         return new NewsPresenter(mView);
     }
-
-    @Provides
-    public CommonAdapter<TabInfo> provideTabAdapter() {
-        CommonAdapter<TabInfo> adapter = new CommonAdapter<TabInfo>(mView.getContext(), R.layout.tab_info_item) {
-            @Override
-            protected void convert(ViewHolder holder, TabInfo tabInfo, int position) {
-                holder.setText(R.id.tab_title_tv, tabInfo.title);
-            }
-        };
-        adapter.setData(TabInfo.getDefault());
-        return adapter;
-
-    }
-
 
 }
