@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 import android.webkit.WebSettings;
 
-import com.tencent.bugly.crashreport.CrashReport;
+
+import com.crashlytics.android.Crashlytics;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -78,7 +79,7 @@ public class SignInWithGoogleActivity extends WapActivity {
                         Navigator.from(SignInWithGoogleActivity.this)
                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 .to(MainActivity.class).start();
-                        CrashReport.setUserId(checkInInfo.getUserName());
+                        Crashlytics.setUserName(checkInInfo.getUserName());
                         finish();
                     }
                 });

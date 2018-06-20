@@ -8,7 +8,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 
-import com.tencent.bugly.crashreport.CrashReport;
+import com.crashlytics.android.Crashlytics;
 
 import org.jsoup.helper.StringUtil;
 
@@ -58,6 +58,11 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     protected void parseExtras(Intent intent) {
         super.parseExtras(intent);
         mOnce = intent.getStringExtra(KEY_TWO_STEP_LOGIN_ONCE);
+    }
+
+    @Override
+    protected void initTheme() {
+        // TODO: 2018/6/21
     }
 
     @Override
@@ -163,7 +168,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                     public void onConsume(LoginResultInfo resultInfo) {
                                         toast("登录成功");
                                         UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-                                        CrashReport.setUserId(resultInfo.getUserName());
+                                        Crashlytics.setUserName(resultInfo.getUserName());
                                         finish();
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
