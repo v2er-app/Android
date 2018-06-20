@@ -14,6 +14,9 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="48180181efc70a677f6860a96ac4b365a68357f5" />
         <provider
             android:name="me.ghui.v2er.general.ImgFileProvider"
             android:authorities="@string/glide_img_provider"

@@ -4,10 +4,11 @@ buildscript {
     repositories {
         jcenter()
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'com.tencent.bugly:symtabfileuploader:2.1.0'
+        classpath 'io.fabric.tools:gradle:1.+'
     }
 }
 
