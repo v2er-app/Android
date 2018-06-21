@@ -28,6 +28,7 @@ import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.LoginResultInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -61,11 +62,6 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     }
 
     @Override
-    protected void initTheme() {
-        // TODO: 2018/6/21
-    }
-
-    @Override
     protected int attachLayoutRes() {
         return R.layout.act_two_step_login;
     }
@@ -78,6 +74,21 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     @Override
     protected boolean supportSlideBack() {
         return false;
+    }
+
+    @Override
+    protected void initTheme() {
+        switch (DayNightUtil.getMode()) {
+            case DayNightUtil.NIGHT_MODE:
+                setTheme(R.style.NightDialogTheme);
+                break;
+            case DayNightUtil.AUTO_MODE:
+                break;
+            case DayNightUtil.DAY_MODE:
+            default:
+                setTheme(R.style.DialogTheme);
+                break;
+        }
     }
 
     @Override

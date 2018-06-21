@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebBackForwardList;
@@ -64,7 +65,6 @@ public class WapActivity extends BaseActivity {
         return R.layout.wap_layout;
     }
 
-
     @Override
     protected void init() {
         mWebView.setWebChromeClient(new BaseWebChromeClient());
@@ -83,6 +83,7 @@ public class WapActivity extends BaseActivity {
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
+        Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.wapview_menu);
         mToolbar.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {

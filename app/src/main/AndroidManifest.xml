@@ -95,7 +95,7 @@
             android:name=".module.login.TwoStepLoginActivity"
             android:label="两步验证"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
+            />
         <activity
             android:name=".module.login.SignInWithGoogleActivity"
             android:label="Sign in With Google"
