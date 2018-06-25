@@ -189,6 +189,16 @@ public class Utils {
         return false;
     }
 
+    public static void sendMigrateMail(Activity context){
+        String content = null;
+        if(UserUtils.getUserInfo() != null){
+            content = "V2EX用户名：" + UserUtils.getUserName() + "\n";
+        }
+        content += "请输入您的Google play账户：\n";
+        sendEmail(context, context.getString(R.string.feedback_email),
+               "获取内购兑换码" + context.getString(R.string.mail_subject_prefix),
+                content);
+    }
 
     public static void sendOfficalV2erEmail(Activity context) {
         StringBuilder sb = new StringBuilder();
@@ -398,6 +408,14 @@ public class Utils {
 
     public static boolean isPro() {
         return !BuildConfig.APPLICATION_ID.endsWith(".free");
+    }
+
+    public static boolean hasShowedMigratedDialog(){
+        return Pref.readBool("has_showed_migrated");
+    }
+
+    public static void saveHasShowedMigrated(boolean showed){
+        Pref.saveBool("has_showed_migrated", showed);
     }
 
     public static Drawable scaleImage(Drawable image, float scaleFactor) {

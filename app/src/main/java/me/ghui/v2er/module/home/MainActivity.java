@@ -160,6 +160,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             overridePendingTransition(R.anim.fadein, R.anim.fadeout);
             finish();
         });
+
+        MenuItem migrateItem = mNavigationView.getMenu().findItem(R.id.love_nav_item);
+        migrateItem.setTitle("迁移计划");
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -182,7 +185,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.love_nav_item:
-                    showRateDialog();
+//                    showRateDialog();
+                    showMigrateDialog();
                     break;
                 case R.id.day_night_item:
                     mNightSwitch.toggle();
@@ -214,6 +218,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
         mSlidingTabLayout.setCurrentTab(index);
+
+        if(!Utils.hasShowedMigratedDialog()){
+            Utils.saveHasShowedMigrated(true);
+            showMigrateDialog();
+        }
+    }
+
+    private void showMigrateDialog(){
+        new ConfirmDialog.Builder(this)
+                .title("V2er APP合并计划")
+                .msg("V2er和V2erPro将合并为同一个应用，原Pro用户将以内购商品的方式区分，" +
+                        "你是原Pro用户可免费获得Pro内购兑换码，给您带来的不便深感抱歉")
+                .positiveText("去获取", dialog -> Utils.sendMigrateMail(this))
+                .negativeText("暂不")
+                .build().show();
     }
 
     private class SlidePagerAdapter extends FragmentPagerAdapter {
