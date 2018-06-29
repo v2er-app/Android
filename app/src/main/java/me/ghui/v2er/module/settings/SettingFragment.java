@@ -136,7 +136,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
-            if (Utils.isPro()) {
+            if (UserUtils.isPro()) {
                 Voast.show("感谢您的支持！");
             } else {
                 Navigator.from(getActivity()).to(ProInfoActivity.class).start();
@@ -157,7 +157,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     }
 
     private boolean isFeatureUnavaliable(String key) {
-        return !Utils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
+        return !UserUtils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
                 R.string.pref_key_highlight_topic_owner_reply_item, R.string.pref_key_auto_daynight);
     }
 

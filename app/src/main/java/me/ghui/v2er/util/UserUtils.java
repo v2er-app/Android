@@ -7,6 +7,7 @@ import es.dmoral.prefs.Prefs;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
@@ -19,6 +20,7 @@ import me.ghui.v2er.network.bean.UserInfo;
 public class UserUtils {
 
     private static final String USER_INFO_KEY = Constants.PACKAGE_NAME + "user_info_key";
+    private static final String IS_PRO_KEY = Constants.PACKAGE_NAME + "is_pro";
 
 
     public static UserInfo getUserInfo() {
@@ -63,4 +65,14 @@ public class UserUtils {
         }
         return false;
     }
+
+    public static void savePro(boolean isPro){
+        // TODO: 2018/6/29 is it save
+        Pref.save(IS_PRO_KEY, isPro);
+    }
+
+    public static boolean isPro(){
+        return Pref.readBool(IS_PRO_KEY);
+    }
+
 }

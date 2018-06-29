@@ -31,7 +31,6 @@ import java.io.File;
 import java.util.List;
 
 import me.ghui.toolbox.android.Check;
-import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.ImgFileProvider;
@@ -403,19 +402,6 @@ public class Utils {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
-    }
-
-
-    public static boolean isPro() {
-        return !BuildConfig.APPLICATION_ID.endsWith(".free");
-    }
-
-    public static boolean hasShowedMigratedDialog(){
-        return Pref.readBool("has_showed_migrated");
-    }
-
-    public static void saveHasShowedMigrated(boolean showed){
-        Pref.saveBool("has_showed_migrated", showed);
     }
 
     public static Drawable scaleImage(Drawable image, float scaleFactor) {

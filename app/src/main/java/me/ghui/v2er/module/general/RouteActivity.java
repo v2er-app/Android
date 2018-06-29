@@ -20,8 +20,6 @@ public class RouteActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Utils.transparentBars(getWindow());
-//        LightStatusBarUtils.setLightStatusBar(getWindow(), false);
         route();
         finish();
     }

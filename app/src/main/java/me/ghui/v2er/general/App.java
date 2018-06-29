@@ -46,6 +46,7 @@ public class App extends Application {
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
         Logger.init().methodCount(1).hideThreadInfo();
+        new BillingManager().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         APIService.init();
         initWechat();
