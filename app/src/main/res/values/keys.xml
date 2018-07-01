@@ -21,4 +21,6 @@
     <string name="pref_key_fullscreen_back">pref_key_fullscreen_back</string>
     <string name="pref_key_trello">pref_key_trello</string>
     <string name="pref_key_user_group">pref_user_group</string>
+    <string name="pref_key_email">pref_key_email</string>
+    <string name="pref_key_feedback">pref_key_feedback</string>
 </resources>

@@ -67,7 +67,6 @@ public class UserUtils {
     }
 
     public static void savePro(boolean isPro){
-        // TODO: 2018/6/29 is it save
         Pref.save(IS_PRO_KEY, isPro);
     }
 

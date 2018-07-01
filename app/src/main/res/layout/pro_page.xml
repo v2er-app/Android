@@ -45,6 +45,22 @@
         android:paddingBottom="36dp"
         android:layout_height="match_parent">
 
+
+        <Button
+            android:id="@+id/old_pro_user_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="16dp"
+            android:paddingHorizontal="16dp"
+            android:background="@color/transparent"
+            android:elevation="0dp"
+            android:foreground="?android:selectableItemBackgroundBorderless"
+            android:stateListAnimator="@null"
+            android:text="原Pro版用户？"
+            android:textColor="@color/white"
+            android:textStyle="italic" />
         <Button
             android:id="@+id/go_get_pro_btn"
             android:layout_width="wrap_content"

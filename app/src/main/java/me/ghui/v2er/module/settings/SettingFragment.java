@@ -13,7 +13,7 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
-import me.ghui.v2er.general.Constants;
+import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
@@ -57,13 +57,16 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
         findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_value_copyright)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_email)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
+        proItem.setTitle(UserUtils.isPro()? "Pro特性已开启" : "激活Pro特性");
+        proItem.setSummary(UserUtils.isPro()? "感谢支持" : "更多实用功能并能支持V2er的长期开发");
         proItem.setOnPreferenceClickListener(this);
     }
 
@@ -87,9 +90,18 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             switchPreference.setChecked(false);
             new ConfirmDialog.Builder(getActivity())
                     .title("功能不可用")
-                    .msg("此功能是Pro版特性，获取Pro版以开启")
+                    .msg("此功能是Pro版特性，激活Pro版以开启")
                     .positiveText("暂不")
-                    .negativeText("去开启", dialog -> Utils.openStorePage(Constants.PKG_PRO))
+                    .negativeText("去激活", dialog -> {
+                        BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
+                            String msg = isSuccess?"激活成功!" : "激活失败";
+                            Voast.show(msg);
+                            Preference item = findPreference(key);
+                            if(item instanceof  CheckBoxPreference){
+                                ((CheckBoxPreference) item).setChecked(isSuccess);
+                            }
+                        });
+                    })
                     .build().show();
             return true;
         }
@@ -131,22 +143,25 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
             Utils.jumpToTwitterProfilePage(getActivity());
             return true;
-        } else if (key.equals(getString(R.string.pref_key_value_copyright))) {
-            Utils.openWap(getString(R.string.official_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
-            if (UserUtils.isPro()) {
-                Voast.show("感谢您的支持！");
-            } else {
-                Navigator.from(getActivity()).to(ProInfoActivity.class).start();
-            }
+            Navigator.from(getActivity()).to(ProInfoActivity.class).start();
         } else if (key.equals(getString(R.string.pref_key_trello))) {
             Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
             Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
+        } else if (key.equals(getString(R.string.pref_key_email))){
+            Utils.sendOfficalV2erEmail(getActivity());
+        } else if (key.equals(getString(R.string.pref_key_rate))){
+             new ConfirmDialog.Builder(getActivity())
+                        .title("V2er好用吗？")
+                        .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
+                        .positiveText("去支持！", dialog -> Utils.openStorePage())
+                        .negativeText("暂不")
+                        .build().show();
         }
         return false;
     }

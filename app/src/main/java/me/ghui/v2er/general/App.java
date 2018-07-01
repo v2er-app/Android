@@ -46,14 +46,13 @@ public class App extends Application {
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
         Logger.init().methodCount(1).hideThreadInfo();
-        new BillingManager().checkIsProAsyc();
+        BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         APIService.init();
         initWechat();
     }
 
     private void initFabric(){
-        if (BuildConfig.DEBUG) return;
         Crashlytics crashlyticsKit = new Crashlytics.Builder()
                 .core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build())
                 .build();

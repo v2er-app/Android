@@ -79,26 +79,12 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="关于">
-        <Preference
-            android:key="@string/pref_key_trello"
-            android:layout="@layout/preference_item"
-            android:summary="这里有项目的最新开发计划..."
-            android:title="Trello主页" />
-        <Preference
-            android:key="@string/pref_key_check_update"
-            android:layout="@layout/preference_item"
-            android:summary="建议去GooglePlay或酷安市场以获得及时更新"
-            android:title="检查更新" />
-        <Preference
-            android:key="@string/pref_key_v2er_pro"
-            android:layout="@layout/preference_item"
-            android:summary="@string/go_get_pro_summary"
-            android:title="@string/go_get_pro_title" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:layout="@layout/preference_category_widget"
         android:title="联系">
+        <Preference
+            android:key="@string/pref_key_email"
+            android:layout="@layout/preference_item"
+            android:summary="有问题可直接发邮件给我"
+            android:title="邮件" />
         <Preference
             android:key="@string/pref_key_user_group"
             android:layout="@layout/preference_item"
@@ -110,12 +96,29 @@
             android:summary="@string/twitter_username"
             android:title="Twitter" />
     </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
+        android:title="关于">
+        <Preference
+            android:key="@string/pref_key_check_update"
+            android:layout="@layout/preference_item"
+            android:title="检查更新" />
+        <Preference
+            android:key="@string/pref_key_v2er_pro"
+            android:layout="@layout/preference_item" />
+        <Preference
+            android:key="@string/pref_key_trello"
+            android:layout="@layout/preference_item"
+            android:summary="这里有项目的最新开发计划..."
+            android:title="Trello" />
+        <Preference
+            android:key="@string/pref_key_rate"
+            android:title="好评"
+            android:summary="去商店给V2er一个好评吧"
+            android:layout="@layout/preference_item" />
+    </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"
         android:layout="@layout/preference_logout_item"
         android:title="@string/logout_str" />
-    <Preference
-        android:key="@string/pref_key_value_copyright"
-        android:layout="@layout/preference_copyright"
-        android:title="© 2017 ghui.me" />
 </PreferenceScreen>

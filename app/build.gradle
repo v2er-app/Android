@@ -22,8 +22,8 @@ android {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 38
-        versionName "1.0-RC7.4"
+        versionCode 39
+        versionName "1.0-RC7.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }

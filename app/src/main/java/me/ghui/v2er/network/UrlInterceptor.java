@@ -17,6 +17,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 
@@ -41,7 +42,8 @@ public class UrlInterceptor {
 
         if (url.startsWith("mailto:")) {
             //send email
-            Utils.sendEmail(context, url, context.getString(R.string.mail_subject_prefix));
+            String title = UserUtils.isPro() ? "【From V2er Pro】" : "【From V2er】";
+            Utils.sendEmail(context, url, title);
             return true;
         }
 

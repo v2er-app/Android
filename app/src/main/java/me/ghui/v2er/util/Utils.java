@@ -195,7 +195,7 @@ public class Utils {
         }
         content += "请输入您的Google play账户：\n";
         sendEmail(context, context.getString(R.string.feedback_email),
-               "获取内购兑换码" + context.getString(R.string.mail_subject_prefix),
+               "获取内购兑换码",
                 content);
     }
 
@@ -237,7 +237,8 @@ public class Utils {
                     .append('\n')
                     .append("} ");
         }
-        sendEmail(context, context.getString(R.string.feedback_email), context.getString(R.string.mail_subject_prefix), sb.toString());
+        String title = UserUtils.isPro() ? "【From V2er Pro】" : "【From V2er】";
+        sendEmail(context, context.getString(R.string.feedback_email), title, sb.toString());
     }
 
     public static void sendEmail(Context context, String mail, String subject) {

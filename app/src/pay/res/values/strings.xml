@@ -1,6 +1,3 @@
 <resources>
-    <string name="go_get_pro_title">Pro特性已开启</string>
-    <string name="go_get_pro_summary">感谢选择Pro版</string>
-    <string name="mail_subject_prefix">【From V2er Pro】</string>
     <string name="glide_img_provider">me.ghui.v2er.fileprovider</string>
 </resources>

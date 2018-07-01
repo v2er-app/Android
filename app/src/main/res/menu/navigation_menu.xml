@@ -26,11 +26,6 @@
             android:id="@+id/feedback_nav_item"
             android:icon="@drawable/feedback_nav_item"
             android:title="反馈" />
-        <item
-            android:id="@+id/love_nav_item"
-            android:iconTint="@android:color/holo_red_dark"
-            android:icon="@drawable/rate_nav_item"
-            android:title="好评" />
     </group>
     <group
         android:id="@+id/day_night_menu"

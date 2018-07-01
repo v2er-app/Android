@@ -47,7 +47,6 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
-import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener, HomeFilterMenu.OnMenuItemClickListener {
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
@@ -161,8 +160,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             finish();
         });
 
-        MenuItem migrateItem = mNavigationView.getMenu().findItem(R.id.love_nav_item);
-        migrateItem.setTitle("迁移计划");
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -183,9 +180,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.create_nav_item:
                     if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
-                    break;
-                case R.id.love_nav_item:
-                    showRateDialog();
                     break;
                 case R.id.day_night_item:
                     mNightSwitch.toggle();
@@ -333,14 +327,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return mSlidingTabLayout.getCurrentTab();
     }
 
-    private void showRateDialog() {
-        new ConfirmDialog.Builder(this)
-                .title("V2er好用吗？")
-                .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
-                .positiveText("去支持！", dialog -> Utils.openStorePage())
-                .negativeText("暂不")
-                .build().show();
-    }
 
     @Override
     public void onBackPressed() {
