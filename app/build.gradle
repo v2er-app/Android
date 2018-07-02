@@ -22,8 +22,8 @@ android {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 39
-        versionName "1.0-RC7.5"
+        versionCode 40
+        versionName "1.0-rc8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -60,7 +60,6 @@ android {
         }
         pay {
             dimension "default"
-            versionNameSuffix "-pay"
         }
     }
 
