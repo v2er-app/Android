@@ -51,17 +51,6 @@ android {
             signingConfig signingConfigs.release
         }
     }
-    flavorDimensions "default"
-    productFlavors {
-        free {
-            dimension "default"
-            applicationIdSuffix ".free"
-            versionNameSuffix "-free"
-        }
-        pay {
-            dimension "default"
-        }
-    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

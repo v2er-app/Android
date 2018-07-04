@@ -13,7 +13,6 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import io.fabric.sdk.android.Fabric;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
-import me.ghui.v2er.VariantConstants;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
@@ -62,7 +61,7 @@ public class App extends Application {
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(this, null);
-        mWechat.registerApp(VariantConstants.WECHAT_ID);
+        mWechat.registerApp("wx6f7962223cf45114");
     }
 
     public IWXAPI wechat() {

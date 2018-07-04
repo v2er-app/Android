@@ -47,7 +47,6 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
-import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener, HomeFilterMenu.OnMenuItemClickListener {
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
@@ -212,16 +211,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
         mSlidingTabLayout.setCurrentTab(index);
-        showMigrateDialog();
-    }
-
-    private void showMigrateDialog(){
-        new ConfirmDialog.Builder(this)
-                .title("V2er停止更新提示")
-                .msg("V2er和V2erPro已合并为同一个应用，此应用将不再更新，请去下载新版")
-                .positiveText("获取新版", dialog -> Utils.openStorePage("me.ghui.v2er"))
-                .negativeText("暂不")
-                .build().show();
     }
 
     private class SlidePagerAdapter extends FragmentPagerAdapter {
