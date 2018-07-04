@@ -1,3 +1,6 @@
+apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 buildscript {
     repositories {
         maven { url 'https://maven.fabric.io/public' }
@@ -7,8 +10,6 @@ buildscript {
         classpath 'io.fabric.tools:gradle:1.+'
     }
 }
-apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
@@ -22,8 +23,8 @@ android {
         applicationId "me.ghui.v2er"
         minSdkVersion 21
         targetSdkVersion 26
-        versionCode 40
-        versionName "1.0-rc8"
+        versionCode rootProject.ext.app.versionCode
+        versionName rootProject.ext.app.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -51,6 +52,16 @@ android {
             signingConfig signingConfigs.release
         }
     }
+    flavorDimensions "default"
+    productFlavors {
+        beta {
+            dimension "default"
+            versionNameSuffix rootProject.ext.app.betaSuffix
+        }
+        stable {
+            dimension "default"
+        }
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -62,10 +73,6 @@ android {
     }
 }
 
-ext {
-    supportVersion = '26.1.0'
-}
-
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -75,12 +82,12 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation project(':toolboxLib')
 
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:recyclerview-v7:$supportVersion"
-    implementation "com.android.support:cardview-v7:$supportVersion"
-    implementation "com.android.support:customtabs:$supportVersion"
-    implementation "com.android.support:palette-v7:$supportVersion"
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.android.supportVersion"
+    implementation "com.android.support:design:$rootProject.ext.android.supportVersion"
+    implementation "com.android.support:recyclerview-v7:$rootProject.ext.android.supportVersion"
+    implementation "com.android.support:cardview-v7:$rootProject.ext.android.supportVersion"
+    implementation "com.android.support:customtabs:$rootProject.ext.android.supportVersion"
+    implementation "com.android.support:palette-v7:$rootProject.ext.android.supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.android:flexbox:0.2.6'
     // 3rd part Dependencies...

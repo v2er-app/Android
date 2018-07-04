@@ -13,6 +13,7 @@ import com.orhanobut.logger.Logger;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.toolbox.android.Check;
+import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
@@ -99,6 +100,11 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     void onCatchaClicked(ImageView captchaImg) {
         showLoading();
         mPresenter.start();
+    }
+
+    @Override
+    protected int pageColor() {
+        return Theme.getColor(R.attr.colorPrimary, this);
     }
 
     @OnClick(R.id.login_go_btn)

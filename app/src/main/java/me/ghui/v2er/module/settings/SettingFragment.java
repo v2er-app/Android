@@ -52,7 +52,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
         Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
         updatePrefItem.setOnPreferenceClickListener(this);
-        updatePrefItem.setSummary(String.format("当前版本 " + Utils.getVersionName() + " (" + Utils.getVersionCode() + ")") + "\n建议去Play商店或酷安市场以获取及时更新");
+        updatePrefItem.setSummary("当前版本 " + Utils.getVersionName());
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
