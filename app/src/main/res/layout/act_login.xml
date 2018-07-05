@@ -15,6 +15,7 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="username"
             android:inputType="textWebEditText"
             android:textColor="?attr/icon_tint_color"
             android:textSize="@dimen/largeTextSize" />
@@ -31,6 +32,7 @@
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="password"
             android:inputType="textPassword"
             android:textColor="?attr/icon_tint_color"
             android:textSize="@dimen/largeTextSize" />
@@ -62,12 +64,12 @@
         </android.support.design.widget.TextInputLayout>
 
         <FrameLayout
-            android:layout_width="0dp"
             android:id="@+id/captcha_img_wrapper"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="5dp"
-            android:background="?android:selectableItemBackground"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:background="?android:selectableItemBackground">
 
             <ImageView
                 android:id="@+id/captcha_img"
