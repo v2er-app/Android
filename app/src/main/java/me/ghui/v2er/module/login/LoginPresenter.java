@@ -31,7 +31,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
     @Override
     public void start() {
         APIService.get().loginParam()
-                .compose(mView.rx(mView))
+                .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<LoginParam>(mView) {
                     @Override
                     public void onConsume(LoginParam loginParam) {

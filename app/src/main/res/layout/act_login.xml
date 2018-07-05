@@ -25,7 +25,8 @@
         style="@style/TextInput"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="密码">
+        android:hint="密码"
+        android:paddingTop="5dp">
 
         <android.support.design.widget.TextInputEditText
             android:layout_width="match_parent"
@@ -35,17 +36,21 @@
             android:textSize="@dimen/largeTextSize" />
     </android.support.design.widget.TextInputLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/capcha_wrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:visibility="visible">
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/login_captcha_text_input_layout"
             style="@style/TextInput"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="3"
             android:hint="验证码">
 
             <android.support.design.widget.TextInputEditText
@@ -56,17 +61,29 @@
                 android:textSize="@dimen/largeTextSize" />
         </android.support.design.widget.TextInputLayout>
 
-        <ImageView
-            android:id="@+id/captcha_img"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:layout_width="0dp"
+            android:id="@+id/captcha_img_wrapper"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:paddingRight="5dp" />
-    </RelativeLayout>
+            android:layout_marginHorizontal="5dp"
+            android:background="?android:selectableItemBackground"
+            android:layout_weight="2">
+
+            <ImageView
+                android:id="@+id/captcha_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="30dp"
+                android:scaleType="fitXY" />
+
+            <ProgressBar
+                android:id="@+id/img_loading_view"
+                style="@style/Widget.AppCompat.ProgressBar"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center" />
+        </FrameLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/login_go_btn"

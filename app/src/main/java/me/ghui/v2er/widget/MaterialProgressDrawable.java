@@ -117,7 +117,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
     private double mHeight;
     boolean mFinishing;
 
-    MaterialProgressDrawable(Context context, View parent) {
+    public MaterialProgressDrawable(Context context, View parent) {
         mParent = parent;
         mResources = context.getResources();
 

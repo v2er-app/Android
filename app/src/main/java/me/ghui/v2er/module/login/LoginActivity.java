@@ -1,13 +1,20 @@
 package me.ghui.v2er.module.login;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
@@ -25,6 +32,7 @@ import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
@@ -46,6 +54,8 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     TextInputLayout mCaptchaInputLayout;
     @BindView(R.id.capcha_wrapper)
     ViewGroup mCaptchaWrapper;
+    @BindView(R.id.img_loading_view)
+    ProgressBar mImgLoadingView;
 
     //登录参数加载成功标识
     private boolean mHasLoaded;
@@ -96,9 +106,10 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         mPresenter.start();
     }
 
-    @OnClick(R.id.captcha_img)
-    void onCatchaClicked(ImageView captchaImg) {
-        showLoading();
+    @OnClick(R.id.captcha_img_wrapper)
+    void onCatchaClicked() {
+        mCaptchaImg.setVisibility(View.INVISIBLE);
+        mImgLoadingView.setVisibility(View.VISIBLE);
         mPresenter.start();
     }
 
@@ -160,15 +171,27 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         Logger.d("加载登录参数成功");
         mLoginParam = loginParam;
         if (mLoginParam.needCaptcha()) {
-            mCaptchaWrapper.setVisibility(View.VISIBLE);
             String capchaUrl = Constants.BASE_URL + "/_captcha?once=" + loginParam.getOnce();
             GlideApp.with(this).
                     load(capchaUrl)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            Voast.show("验证码加载失败");
+                            mImgLoadingView.setVisibility(View.INVISIBLE);
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            mImgLoadingView.setVisibility(View.INVISIBLE);
+                            mCaptchaImg.setVisibility(View.VISIBLE);
+                            return false;
+                        }
+                    })
                     .into(mCaptchaImg);
-        } else {
-            mCaptchaWrapper.setVisibility(View.GONE);
         }
         mHasLoaded = true;
     }
