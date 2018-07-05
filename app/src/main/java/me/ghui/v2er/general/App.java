@@ -61,6 +61,7 @@ public class App extends Application {
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(this, null);
+        // TODO: 2018/7/5 替换新的ID
         mWechat.registerApp("wx6f7962223cf45114");
     }
 
