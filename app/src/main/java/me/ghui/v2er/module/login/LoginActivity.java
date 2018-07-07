@@ -222,8 +222,8 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        showLoading();
-                        mPresenter.start();
+                        // auto refresh
+                        onCatchaClicked();
                     })
                     .negativeText("取消", dialog -> finish())
                     .build().show();
