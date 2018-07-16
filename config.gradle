@@ -1,6 +1,6 @@
 ext {
     app = [
-            versionCode: 41,
+            versionCode: 50,
             versionName: "1.0.0",
             betaSuffix: "_Beta1"
     ]
