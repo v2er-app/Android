@@ -12,7 +12,7 @@
         <me.ghui.v2er.widget.BaseToolBar
             android:id="@+id/main_toolbar"
             style="@style/BaseToolBar"
-            android:layout_height="@dimen/toolbar_small_height">
+            android:layout_height="wrap_content">
 
             <ImageView
                 android:layout_width="match_parent"
