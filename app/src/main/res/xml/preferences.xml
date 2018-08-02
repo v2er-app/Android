@@ -40,6 +40,13 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="显示">
+        <ListPreference
+            android:key="@string/pref_key_fontsize"
+            android:title="文字大小"
+            android:layout="@layout/preference_item"
+            android:defaultValue="中"
+            android:entries="@array/font_sizes_entry"
+            android:entryValues="@array/font_sizes" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_key_title_overview"

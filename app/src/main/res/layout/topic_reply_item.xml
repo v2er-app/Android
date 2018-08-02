@@ -55,7 +55,7 @@
         tools:text="1小时17分钟前" />
 
 
-    <TextView
+    <me.ghui.v2er.widget.SizeAutoChangeTextView
         android:id="@+id/content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"

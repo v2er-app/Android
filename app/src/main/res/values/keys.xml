@@ -23,4 +23,5 @@
     <string name="pref_key_user_group">pref_user_group</string>
     <string name="pref_key_email">pref_key_email</string>
     <string name="pref_key_feedback">pref_key_feedback</string>
+    <string name="pref_key_fontsize">pref_key_fontsize</string>
 </resources>

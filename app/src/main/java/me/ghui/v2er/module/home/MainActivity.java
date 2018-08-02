@@ -24,9 +24,14 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.orhanobut.logger.Logger;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import butterknife.BindView;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.bus.Bus;
+import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.OnFragmentReEnter;
@@ -135,6 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void init() {
         isAlive = true;
         configToolBar();
+        Bus.register(this);
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
@@ -375,6 +381,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void onDestroy() {
         super.onDestroy();
         isAlive = false;
+        Bus.unRegister(this);
         Log.e("MainActivity", "MainActivity is destoryed");
     }
 
@@ -438,4 +445,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);
     }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTextSizeChanged(TextSizeChangeEvent event) {
+        recreate();
+    };
 }

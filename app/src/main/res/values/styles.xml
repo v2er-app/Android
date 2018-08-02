@@ -164,4 +164,8 @@
         <item name="tl_underline_height">1.5dp</item>
     </style>
 
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize">@dimen/mediumTextSize</item><!-- text size in menu-->
+    </style>
+
 </resources>

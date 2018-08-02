@@ -13,7 +13,7 @@ import me.ghui.v2er.general.Pref;
  * Created by ghui on 20/07/2017.
  */
 
-public class CommonTitleTextView extends AppCompatTextView {
+public class CommonTitleTextView extends SizeAutoChangeTextView {
     public CommonTitleTextView(Context context) {
         super(context);
         init(context);

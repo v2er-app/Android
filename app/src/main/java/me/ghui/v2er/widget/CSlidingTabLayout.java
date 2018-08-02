@@ -134,6 +134,7 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
 
         this.mContext = context;
         mTabsContainer = new LinearLayout(context);
+        mTabsContainer.setBackgroundColor(Color.YELLOW);
         addView(mTabsContainer);
 
         obtainAttributes(context, attrs);
@@ -168,6 +169,7 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
 
         mUnderlineColor = ta.getColor(R.styleable.SlidingTabLayout_tl_underline_color, Color.parseColor("#ffffff"));
         mUnderlineHeight = ta.getDimension(R.styleable.SlidingTabLayout_tl_underline_height, dp2px(0));
+        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), (int) (getPaddingBottom() + 2*mUnderlineHeight));
         mUnderlineGravity = ta.getInt(R.styleable.SlidingTabLayout_tl_underline_gravity, Gravity.BOTTOM);
 
         mDividerColor = ta.getColor(R.styleable.SlidingTabLayout_tl_divider_color, Color.parseColor("#ffffff"));

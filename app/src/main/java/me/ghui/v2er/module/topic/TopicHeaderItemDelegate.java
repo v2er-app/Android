@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.ViewUtils;
 
 /**
@@ -20,9 +22,11 @@ import me.ghui.v2er.util.ViewUtils;
  */
 
 public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
+    private float contentTextSize;
 
     public TopicHeaderItemDelegate(Context context) {
         super(context);
+        contentTextSize = FontSizeUtil.getContentSize();
     }
 
     @Override
@@ -58,7 +62,9 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         } else {
             viewCountTv.setVisibility(View.GONE);
         }
-        holder.setText(R.id.topic_header_title_tv, headerInfo.getTitle());
+        TextView titleTv = holder.getTextView(R.id.topic_header_title_tv);
+        titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, contentTextSize);
+        titleTv.setText(headerInfo.getTitle());
         TextView commentTV = holder.getTextView(R.id.comment_num_tv);
         String commentNum = headerInfo.getCommentNum();
         if (Check.isEmpty(commentNum)) {

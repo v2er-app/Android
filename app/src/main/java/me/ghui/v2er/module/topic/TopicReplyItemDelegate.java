@@ -3,6 +3,7 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +15,7 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.richtext.OnUrlClickListener;
 import me.ghui.v2er.widget.richtext.RichText;
@@ -70,6 +72,7 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
         TextView contentView = holder.getView(R.id.content_tv);
+        contentView.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         if (Check.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
             contentView = holder.getView(R.id.content_tv);

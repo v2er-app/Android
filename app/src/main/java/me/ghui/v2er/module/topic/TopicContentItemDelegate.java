@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.AppendTopicContentView;
 import me.ghui.v2er.widget.richtext.RichText;
 

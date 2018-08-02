@@ -3,6 +3,7 @@ package me.ghui.v2er.module.settings;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
+import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.support.annotation.StringRes;
@@ -13,10 +14,12 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
+import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -65,9 +68,17 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_email)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
-        proItem.setTitle(UserUtils.isPro()? "Pro特性已开启" : "激活Pro特性");
-        proItem.setSummary(UserUtils.isPro()? "感谢支持" : "更多实用功能并能支持V2er的长期开发");
+        proItem.setTitle(UserUtils.isPro() ? "Pro特性已开启" : "激活Pro特性");
+        proItem.setSummary(UserUtils.isPro() ? "感谢支持" : "更多实用功能并能支持V2er的长期开发");
         proItem.setOnPreferenceClickListener(this);
+
+        ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
+        fontItem.setSummary(fontItem.getValue());
+        fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
+            fontItem.setSummary(newValue + "");
+            Bus.post(new TextSizeChangeEvent(FontSizeUtil.getContentSize()));
+            return true;
+        });
     }
 
     @Override
@@ -94,10 +105,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .positiveText("暂不")
                     .negativeText("去激活", dialog -> {
                         BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
-                            String msg = isSuccess?"激活成功!" : "激活失败";
+                            String msg = isSuccess ? "激活成功!" : "激活失败";
                             Voast.show(msg);
                             Preference item = findPreference(key);
-                            if(item instanceof  CheckBoxPreference){
+                            if (item instanceof CheckBoxPreference) {
                                 ((CheckBoxPreference) item).setChecked(isSuccess);
                             }
                         });
@@ -153,15 +164,15 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
             Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
-        } else if (key.equals(getString(R.string.pref_key_email))){
+        } else if (key.equals(getString(R.string.pref_key_email))) {
             Utils.sendOfficalV2erEmail(getActivity());
-        } else if (key.equals(getString(R.string.pref_key_rate))){
-             new ConfirmDialog.Builder(getActivity())
-                        .title("V2er好用吗？")
-                        .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
-                        .positiveText("去支持！", dialog -> Utils.openStorePage())
-                        .negativeText("暂不")
-                        .build().show();
+        } else if (key.equals(getString(R.string.pref_key_rate))) {
+            new ConfirmDialog.Builder(getActivity())
+                    .title("V2er好用吗？")
+                    .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
+                    .positiveText("去支持！", dialog -> Utils.openStorePage())
+                    .negativeText("暂不")
+                    .build().show();
         }
         return false;
     }

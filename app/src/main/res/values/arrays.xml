@@ -6,4 +6,16 @@
         <!--<item>0xFFF7D23E</item>-->
         <!--<item>0xFF34A350</item>-->
     </integer-array>
+
+    <string-array name="font_sizes_entry">
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+    </string-array>
+
+    <string-array name="font_sizes">
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
+    </string-array>
 </resources>
