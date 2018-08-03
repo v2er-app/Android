@@ -134,7 +134,6 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
 
         this.mContext = context;
         mTabsContainer = new LinearLayout(context);
-        mTabsContainer.setBackgroundColor(Color.YELLOW);
         addView(mTabsContainer);
 
         obtainAttributes(context, attrs);
