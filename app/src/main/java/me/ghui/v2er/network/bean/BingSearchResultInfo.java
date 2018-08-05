@@ -17,11 +17,13 @@ public class BingSearchResultInfo extends BaseInfo {
 
     @Pick("li.b_algo")
     private List<Item> items;
-    @Pick(value = "a.sb_pagN", attr = Attrs.HREF)
+    @Pick(value = "a.sb_fullnpl")
     private String next;
+    @Pick(value = "a.sb_halfnext")
+    private String next2;
 
     public boolean hasMore() {
-        return Check.notEmpty(next);
+        return Check.notEmpty(next) || Check.notEmpty(next2);
     }
 
     public List<Item> getItems() {
@@ -31,7 +33,7 @@ public class BingSearchResultInfo extends BaseInfo {
     @Override
     public String toString() {
         return "BingSearchResultInfo{" +
-                "hasNext=" + items +
+                "hasNext=" + hasMore() +
                 ",items=" + items +
                 '}';
     }
