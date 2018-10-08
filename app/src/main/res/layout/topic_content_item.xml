@@ -3,20 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp">
 
-    <me.ghui.v2er.widget.SizeAutoChangeTextView
-        android:id="@+id/content_tv"
-        style="@style/BodyText"
+    <!--<me.ghui.v2er.widget.SizeAutoChangeTextView-->
+    <!--android:id="@+id/content_tv"-->
+    <!--style="@style/BodyText"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:paddingBottom="8dp"-->
+    <!--android:paddingTop="8dp"-->
+    <!--android:textIsSelectable="false"-->
+    <!--app:layout_constraintStart_toStartOf="@id/avatar_img"-->
+    <!--app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv"-->
+    <!--tools:text="媳妇的 iphone 掉了, 想买个安卓机, 2000 以下, 丢了不容易心疼." />-->
+    <WebView
+        android:id="@+id/content_webview"
         android:layout_width="match_parent"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp"
-        android:textIsSelectable="false"
-        app:layout_constraintStart_toStartOf="@id/avatar_img"
-        app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv"
-        tools:text="媳妇的 iphone 掉了, 想买个安卓机, 2000 以下, 丢了不容易心疼." />
+        android:layout_height="wrap_content"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp" />
 
     <me.ghui.v2er.widget.AppendTopicContentView
         android:id="@+id/append_topic_contentview"

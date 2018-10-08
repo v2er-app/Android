@@ -3,6 +3,7 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import me.ghui.toolbox.android.Check;
@@ -16,6 +17,7 @@ import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 09/05/2017.
+ * 主题内容的Item（不包含附言）
  */
 
 public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
@@ -26,7 +28,8 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     @Override
     public int getItemViewLayoutId() {
-        return R.layout.topic_content_item;
+        // 加载中的占位图
+        return R.layout.topic_content_webview_item;
     }
 
     @Override
@@ -37,16 +40,12 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
-        TextView contentTv = holder.getView(R.id.content_tv);
+        WebView contentWebView = holder.getView(R.id.content_webview);
         if (Check.notEmpty(contentInfo.getContentHtml())) {
-            contentTv.setVisibility(View.VISIBLE);
-            RichText.from(contentInfo.getContentHtml())
-                    .widthDelta(24)
-                    .into(contentTv);
+            contentWebView.setVisibility(View.VISIBLE);
+            contentWebView.loadData(contentInfo.getContentHtml(), null, null);
         } else {
-            contentTv.setVisibility(View.GONE);
+            contentWebView.setVisibility(View.GONE);
         }
-        ((AppendTopicContentView) holder.getView(R.id.append_topic_contentview))
-                .setData(contentInfo.getPostScripts());
     }
 }

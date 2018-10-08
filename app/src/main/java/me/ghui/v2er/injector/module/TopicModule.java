@@ -20,6 +20,7 @@ import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.scope.PerActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.module.topic.TopicAppendContentDelegate;
 import me.ghui.v2er.module.topic.TopicContentItemDelegate;
 import me.ghui.v2er.module.topic.TopicContract;
 import me.ghui.v2er.module.topic.TopicHeaderItemDelegate;
@@ -121,6 +122,7 @@ public class TopicModule {
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
+        adapter.addItemViewDelegate(new TopicAppendContentDelegate(mView));
         TopicReplyItemDelegate replyItemDelegate = new TopicReplyItemDelegate(mView);
         replyItemDelegate.setMemberClickListener(mView);
         adapter.addItemViewDelegate(replyItemDelegate);
