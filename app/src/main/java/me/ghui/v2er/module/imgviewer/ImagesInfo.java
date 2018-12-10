@@ -21,6 +21,11 @@ public class ImagesInfo implements Serializable {
         this.images = images;
     }
 
+    public ImagesInfo(int position, String[] imgs) {
+        this.position = position;
+        this.images = new Images(imgs);
+    }
+
     public int getPosition() {
         return position;
     }
@@ -32,9 +37,25 @@ public class ImagesInfo implements Serializable {
     @Pick(value = "img")
     public static class Images extends ArrayList<Images.Image> implements Serializable {
 
+        public Images() {
+        }
+
+        Images(String[] imgs) {
+            for (String img: imgs) {
+                add(new Image(img));
+            }
+        }
+
         public static class Image implements Serializable {
             @Pick(attr = Attrs.SRC)
             private String url;
+
+            public Image(){
+            }
+
+            public Image(String url) {
+                this.url = url;
+            }
 
             public String getUrl() {
                 url = UriUtils.checkSchema(url);

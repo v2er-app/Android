@@ -1,0 +1,13 @@
+html, body, div, p {
+    margin: 0;
+    padding: 0;
+}
+a {
+    color:#778087
+}
+.topic_content{
+    font-size:14px;
+    line-height:1.8;
+    color:#555555;
+    word-wrap:break-word
+}

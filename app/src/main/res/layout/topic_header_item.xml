@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@drawable/common_bottom_divider"
     android:padding="@dimen/common_padding_size">
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -65,11 +66,4 @@
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img"
         tools:text="想玩玩 Linux ,有没有钱再买电脑，怎么破？" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_size"
-        android:layout_marginTop="12dp"
-        android:background="?attr/divider_color"
-        app:layout_constraintTop_toBottomOf="@id/topic_header_title_tv" />
 </android.support.constraint.ConstraintLayout>

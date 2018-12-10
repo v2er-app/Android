@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.TypedValue;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import me.ghui.toolbox.android.Check;
@@ -21,6 +22,8 @@ import me.ghui.v2er.widget.richtext.RichText;
  */
 
 public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
+
+    private HtmlView  mHtmlView;
 
     public TopicContentItemDelegate(Context context) {
         super(context);
@@ -40,12 +43,20 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
-        WebView contentWebView = holder.getView(R.id.content_webview);
+        FrameLayout webviewContainer = holder.getView(R.id.htmlview_container);
+        View placeHolder = webviewContainer.findViewById(R.id.webview_placeholder);
+        if(mHtmlView == null) {
+            mHtmlView = new HtmlView(mContext);
+            webviewContainer.addView(mHtmlView);
+        }
+        placeHolder.setVisibility(View.VISIBLE);
         if (Check.notEmpty(contentInfo.getContentHtml())) {
-            contentWebView.setVisibility(View.VISIBLE);
-            contentWebView.loadData(contentInfo.getContentHtml(), null, null);
+            webviewContainer.setVisibility(View.VISIBLE);
+            mHtmlView.loadContentView(contentInfo.getContentHtml());
+            placeHolder.setVisibility(View.GONE);
         } else {
-            contentWebView.setVisibility(View.GONE);
+            webviewContainer.setVisibility(View.GONE);
         }
     }
+
 }
