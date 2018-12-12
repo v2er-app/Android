@@ -3,9 +3,9 @@ package me.ghui.v2er.module.topic;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -13,6 +13,7 @@ import android.webkit.WebViewClient;
 import me.ghui.toolbox.android.Assets;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.util.Utils;
 
 public class HtmlView extends WebView {
 
@@ -50,6 +51,12 @@ public class HtmlView extends WebView {
     private class V2exWebViewClient extends WebViewClient {
 
         @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            Utils.openWap(request.getUrl().toString(), getContext());
+            return true;
+        }
+
+        @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
         }
@@ -61,18 +68,7 @@ public class HtmlView extends WebView {
         }
 
         private void addIMGClickListener() {
-            HtmlView.this.loadUrl("javascript:(function(){" +
-                    "var imgs = document.getElementsByTagName(\"img\"); " +
-                    "var urls = new Array();" +
-                    "for(var i=0;i<imgs.length;i++)  " +
-                    "{" +  "var index = i-1;" +
-                    " urls[i] = imgs[i].src;"
-                    + "    imgs[i].onclick=function()  " +
-                    "    {  "
-                    + "        window.imagelistener.openImage(index, urls);  " +
-                    "    }  " +
-                    "}" +
-                    "})()");
+            HtmlView.this.post(() -> HtmlView.this.loadUrl("javascript:addClickToImg()"));
         }
 
     }
@@ -81,7 +77,7 @@ public class HtmlView extends WebView {
         @JavascriptInterface
         public void openImage(int index, String[] imgs) {
             ImagesInfo imagesInfo = new ImagesInfo(index, imgs);
-                GalleryActivity.open(imagesInfo, getContext());
+            GalleryActivity.open(imagesInfo, getContext());
         }
 
     }

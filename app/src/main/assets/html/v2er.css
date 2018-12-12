@@ -11,3 +11,5 @@ a {
     color:#555555;
     word-wrap:break-word
 }
+
+img { max-width: 100%%; }
