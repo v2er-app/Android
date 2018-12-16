@@ -5,6 +5,12 @@ html, body, div, p {
 a {
     color:#778087
 }
+img{
+    display: inline;
+    height: auto;
+    max-width: 100%;
+  }
+
 .topic_content{
     font-size:14px;
     line-height:1.8;
@@ -12,4 +18,4 @@ a {
     word-wrap:break-word
 }
 
-img { max-width: 100%%; }
+
