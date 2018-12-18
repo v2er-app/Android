@@ -254,7 +254,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     break;
                 case R.id.action_share:
                     ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
-                            .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getContentHtml()).toString())
+                            .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getFormattedHtml()).toString())
                             .link(UriUtils.topicLink(mTopicId))
                             .img(headerInfo.getAvatar())
                             .build();

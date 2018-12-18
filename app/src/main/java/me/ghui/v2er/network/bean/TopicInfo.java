@@ -1,5 +1,12 @@
 package me.ghui.v2er.network.bean;
 
+import android.text.TextUtils;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -127,40 +134,27 @@ public class TopicInfo extends BaseInfo {
     }
 
     public static class ContentInfo extends BaseInfo implements Item {
-        @Pick(value = "div.cell div.topic_content", attr = Attrs.INNER_HTML)
-        private String contentHtml;
-        @Pick("div.subtle")
-        private List<PostScript> postScripts;
+        @Pick(attr = Attrs.HTML)
+        private String html;
 
-        public String getContentHtml() {
-            return contentHtml;
-        }
+        private String formatedHtml;
 
-        public void setContentHtml(String contentHtml) {
-            this.contentHtml = contentHtml;
-        }
-
-        public List<PostScript> getPostScripts() {
-            return postScripts;
-        }
-
-        public void setPostScripts(List<PostScript> postScripts) {
-            this.postScripts = postScripts;
-        }
-
-        @Override
-        public String getUserName() {
-            return null;
-        }
-
-        @Override
-        public String getAvatar() {
-            return null;
+        /**
+         * 得到处理后的html, 移除最后一个element(时间，收藏，等不需要显示的信息)
+         * @return
+         */
+        public String getFormattedHtml() {
+            if(formatedHtml != null) return formatedHtml;
+            Document parentNode = Jsoup.parse(html);
+            parentNode.getElementsByClass("header").remove();
+            parentNode.getElementsByClass("inner").remove();
+            formatedHtml = parentNode.outerHtml();
+            return formatedHtml;
         }
 
         @Override
         public boolean isValid() {
-            return Check.notEmpty(contentHtml);
+            return !TextUtils.isEmpty(getFormattedHtml());
         }
 
         @Override
@@ -178,27 +172,14 @@ public class TopicInfo extends BaseInfo {
             return false;
         }
 
-        public static class PostScript {
-            @Pick("span.fade")
-            private String header;
-            @Pick(value = "div.topic_content", attr = Attrs.INNER_HTML)
-            private String content;
+        @Override
+        public String getUserName() {
+            return null;
+        }
 
-            public String getHeader() {
-                return header;
-            }
-
-            public String getContent() {
-                return content;
-            }
-
-            @Override
-            public String toString() {
-                return "PostScript{" +
-                        "header='" + header + '\'' +
-                        ", content='" + content + '\'' +
-                        '}';
-            }
+        @Override
+        public String getAvatar() {
+            return null;
         }
     }
 

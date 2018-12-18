@@ -1,24 +1,18 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.FontSizeUtil;
-import me.ghui.v2er.widget.AppendTopicContentView;
-import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 09/05/2017.
- * 主题内容的Item（不包含附言）
+ * 主题内容的Item
  */
 
 public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
@@ -50,9 +44,9 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             webviewContainer.addView(mHtmlView);
         }
         placeHolder.setVisibility(View.VISIBLE);
-        if (Check.notEmpty(contentInfo.getContentHtml())) {
+        if (Check.notEmpty(contentInfo.getFormattedHtml())) {
             webviewContainer.setVisibility(View.VISIBLE);
-            mHtmlView.loadContentView(contentInfo.getContentHtml());
+            mHtmlView.loadContentView(contentInfo.getFormattedHtml());
             placeHolder.setVisibility(View.GONE);
         } else {
             webviewContainer.setVisibility(View.GONE);
