@@ -73,7 +73,7 @@ import static android.view.View.VISIBLE;
  */
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
-        LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged, TopicReplyItemDelegate.OnMemberClickListener {
+        LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged, TopicReplyItemDelegate.OnMemberClickListener, HtmlView.OnHtmlRenderListener {
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
     private static final String TOPIC_AUTO_SCROLL_REPLY = KEY("TOPIC_AUTO_SCROLL_REPLY");
@@ -165,6 +165,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         openById(UriUtils.getLastSegment(link), context, null, null, autoScrollReply);
     }
 
+    @Override
+    protected void autoLoad() {
+        super.autoLoad();
+        showLoading();
+    }
 
     @Override
     protected int attachLayoutRes() {
@@ -764,6 +769,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public void onKeyboardHidden() {
         Logger.d("onKeyboardHidden");
         Utils.setPaddingForNavbar(mReplyWrapper);
+    }
+
+    @Override
+    public void onRenderCompleted() {
+        hideLoading();
     }
 
 

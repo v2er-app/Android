@@ -41,6 +41,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         View placeHolder = webviewContainer.findViewById(R.id.webview_placeholder);
         if(mHtmlView == null) {
             mHtmlView = new HtmlView(mContext);
+            mHtmlView.setOnHtmlRenderListener((HtmlView.OnHtmlRenderListener) mContext);
             webviewContainer.addView(mHtmlView);
         }
         placeHolder.setVisibility(View.VISIBLE);

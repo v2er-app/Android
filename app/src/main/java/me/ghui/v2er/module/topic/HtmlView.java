@@ -17,6 +17,12 @@ import me.ghui.v2er.util.Utils;
 
 public class HtmlView extends WebView {
 
+    private OnHtmlRenderListener onHtmlRenderListener;
+
+    public void setOnHtmlRenderListener(OnHtmlRenderListener onHtmlRenderListener) {
+        this.onHtmlRenderListener = onHtmlRenderListener;
+    }
+
     public HtmlView(Context context) {
         super(context);
         init();
@@ -64,6 +70,9 @@ public class HtmlView extends WebView {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            if(onHtmlRenderListener != null) {
+                onHtmlRenderListener.onRenderCompleted();
+            }
             addIMGClickListener();
         }
 
@@ -80,6 +89,10 @@ public class HtmlView extends WebView {
             GalleryActivity.open(imagesInfo, getContext());
         }
 
+    }
+
+    public interface OnHtmlRenderListener {
+        void onRenderCompleted();
     }
 
 }
