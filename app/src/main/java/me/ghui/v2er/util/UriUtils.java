@@ -51,4 +51,25 @@ public class UriUtils {
     public static String topicLink(String id) {
         return Constants.BASE_URL + "/t/" + id;
     }
+
+
+    /**
+     * 获取 mimeType
+     */
+    public static String getMimeType(String url) {
+        if (url.endsWith(".png") || url.endsWith(".PNG")) {
+            return "data:image/png;base64,";
+        } else if (url.endsWith(".jpg") || url.endsWith(".jpeg") || url.endsWith(".JPG") || url.endsWith(".JPEG")) {
+            return "data:image/jpg;base64,";
+        } else if (url.endsWith(".gif") || url.endsWith(".GIF")) {
+            return "data:image/gif;base64,";
+        } else {
+            return "";
+        }
+    }
+
+    public static boolean isImg(String url) {
+        String REGULAR_RULE = "(?:([^:/?#]+):)?(?://([^/?#]*))?([^?#]*\\.(?:jpg|jpeg|gif|png|JPG|JPEG|GIF|PNG))(?:\\?([^#]*))?(?:#(.*))?";
+        return url.matches(REGULAR_RULE);
+    }
 }

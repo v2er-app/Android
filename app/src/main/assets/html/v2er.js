@@ -3,11 +3,19 @@ function addClickToImg() {
     var urls = new Array();
     for (var i = 0; i < imgs.length; i++) {
         const index = i;
-        urls[i] = imgs[i].src;
+        urls[i] = imgs[i].getAttribute('original_src');
         imgs[i].onclick = function () {
-//            alert("index: " + index + ", sum: " + imgs.length);
-              window.imagelistener.openImage(index, urls);
+           window.imagelistener.openImage(index, urls);
         };
+    }
+}
+
+function reloadImg(original_img, localPath) {
+//    console.error(localPath);
+    var imgs = document.querySelectorAll("*[original_src='" + original_img + "']");
+    for (var i=0; i<imgs.length; i++) {
+        console.error(imgs[i]);
+        imgs[i].setAttribute("src", localPath);
     }
 }
 

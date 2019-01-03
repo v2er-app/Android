@@ -9,6 +9,7 @@ img{
     display: inline;
     height: auto;
     max-width: 100%;
+    alt: "loading"
   }
 
 .topic_content{
