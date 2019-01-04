@@ -429,13 +429,19 @@ public class Utils {
     }
 
     public static String getTypeFromImgUrl(String url) {
+        // TODO: 2019/1/4 http://sss.com/fds/1.png-sm
         String type = "*";
         if (Check.isEmpty(url)) return type;
         if (url.endsWith(".gif")) type = "gif";
         else if (url.endsWith(".png")) type = "png";
         else if (url.endsWith(".jpg")) type = "jpg";
         else if (url.endsWith(".jpeg")) type = "jpeg";
+        else if(url.endsWith(".svg")) type = "svg";
         return type;
+    }
+
+    public static boolean isSVG(String url) {
+        return "svg".equals(getTypeFromImgUrl(url));
     }
 
 }

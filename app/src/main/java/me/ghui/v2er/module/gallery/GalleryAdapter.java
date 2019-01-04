@@ -58,10 +58,21 @@ public class GalleryAdapter extends PagerAdapter {
         root.setSwipeToDismissCallback(mSwipeToDissmissListener);
         root.setOnImageClicked(mOnImageClickedListener);
         container.addView(root);
-        GlideApp.with(mContext)
-                .load(getItem(position).getUrl())
-                .centerInside()
-                .into(root.target());
+        // TODO: 2019/1/4 support svg
+        String url = getItem(position).getUrl();
+        if(!Utils.isSVG(url)){
+            GlideApp.with(mContext)
+                    .load(url)
+                    .centerInside()
+                    .into(root.target());
+        } else {
+            GlideApp.with(mContext)
+//                    .as(PictureDrawable.class)
+//                    .listener(new SvgSoftwareLayerSetter())
+                    .load(url)
+                    .into(root.target());
+        }
+
         return root;
     }
 

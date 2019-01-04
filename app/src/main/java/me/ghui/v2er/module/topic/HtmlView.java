@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +33,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import io.reactivex.Observable;
-import io.reactivex.functions.Consumer;
 import me.ghui.toolbox.android.Assets;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
@@ -159,6 +159,7 @@ public class HtmlView extends WebView {
 
         private void downloadImgs() {
             for (String url : mImgs) {
+                Logger.d("start download image: " + url);
                 GlideApp.with(App.get())
                         .downloadOnly()
                         .load(url)
@@ -172,6 +173,7 @@ public class HtmlView extends WebView {
                             @SuppressLint("CheckResult")
                             @Override
                             public boolean onResourceReady(File file, Object model, Target<File> target, DataSource dataSource, boolean isFirstResource) {
+                                Logger.d("image download finished: " + url);
                                 Observable.just(file)
                                         .compose(RxUtils.io_main())
                                         .map(rawFile -> {
@@ -188,17 +190,10 @@ public class HtmlView extends WebView {
                                                 }
                                             }
                                             return "file://" + directory + File.separator + name;
-                                        }).subscribe(new Consumer<String>() {
-                                    @Override
-                                    public void accept(String localPath) throws Exception {
-                                        HtmlView.this.post(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
-                                            }
+                                        }).subscribe(localPath -> {
+                                            Logger.d("reload image: " + localPath);
+                                            HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
                                         });
-                                    }
-                                });
                                 return false;
                             }
                         }).submit();
