@@ -74,7 +74,7 @@ public class HtmlView extends WebView {
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         setWebViewClient(new V2exWebViewClient());
-        setScrollBarStyle(View.SCROLLBARS_INSIDE_OVERLAY);
+        setVerticalScrollBarEnabled(false);
         addJavascriptInterface(new ImgClickJSInterface(), "imagelistener");
     }
 
