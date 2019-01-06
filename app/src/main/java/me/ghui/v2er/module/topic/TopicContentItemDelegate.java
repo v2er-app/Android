@@ -9,6 +9,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.ScaleUtils;
 
 /**
  * Created by ghui on 09/05/2017.
@@ -17,7 +18,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 
 public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
-    private HtmlView  mHtmlView;
+    private HtmlView mHtmlView;
 
     public TopicContentItemDelegate(Context context) {
         super(context);
@@ -37,18 +38,18 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
         TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
+        String content = contentInfo.getFormattedHtml();
         FrameLayout webviewContainer = holder.getView(R.id.htmlview_container);
-        View placeHolder = webviewContainer.findViewById(R.id.webview_placeholder);
-        if(mHtmlView == null) {
-            mHtmlView = new HtmlView(mContext);
-            mHtmlView.setOnHtmlRenderListener((HtmlView.OnHtmlRenderListener) mContext);
-            webviewContainer.addView(mHtmlView);
-        }
-        placeHolder.setVisibility(View.VISIBLE);
-        if (Check.notEmpty(contentInfo.getFormattedHtml())) {
+        webviewContainer.setMinimumHeight(ScaleUtils.getScreenContentH());
+        HtmlView.OnHtmlRenderListener renderListener = (HtmlView.OnHtmlRenderListener) mContext;
+        if (Check.notEmpty(content)) {
+            if (mHtmlView == null) {
+                mHtmlView = new HtmlView(mContext);
+                mHtmlView.setOnHtmlRenderListener(renderListener);
+                webviewContainer.addView(mHtmlView);
+            }
             webviewContainer.setVisibility(View.VISIBLE);
-            mHtmlView.loadContentView(contentInfo.getFormattedHtml());
-            placeHolder.setVisibility(View.GONE);
+            mHtmlView.loadContentView(content);
         } else {
             webviewContainer.setVisibility(View.GONE);
         }

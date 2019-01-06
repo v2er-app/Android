@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -124,6 +124,10 @@ public class HtmlView extends WebView {
             // download the imgs in mImgs list
             downloadImgs();
             if (onHtmlRenderListener != null) {
+                HtmlView.this.postDelayed(() -> {
+                    ViewGroup parent = (ViewGroup) getParent();
+                    parent.setMinimumHeight(0);
+                }, 100);
                 onHtmlRenderListener.onRenderCompleted();
             }
             addIMGClickListener();
@@ -134,7 +138,7 @@ public class HtmlView extends WebView {
          */
         @Nullable
         private WebResourceResponse getWebResourceResponse(String url) {
-            if(!mImgs.contains(url)) {
+            if (!mImgs.contains(url)) {
                 return null;
             }
             try {
@@ -177,11 +181,11 @@ public class HtmlView extends WebView {
                                 Observable.just(file)
                                         .compose(RxUtils.io_main())
                                         .map(rawFile -> {
-                                            String directory =rawFile.getParentFile().getPath();
+                                            String directory = rawFile.getParentFile().getPath();
                                             String name = rawFile.getName().split("\\.")[0] + "." + Utils.getTypeFromImgUrl(url);
                                             // check file is exist
                                             File imgFile = new File(directory, name);
-                                            if(!imgFile.exists()) {
+                                            if (!imgFile.exists()) {
                                                 try {
                                                     Okio.buffer(Okio.source(rawFile))
                                                             .readAll(Okio.sink(imgFile));
@@ -191,9 +195,9 @@ public class HtmlView extends WebView {
                                             }
                                             return "file://" + directory + File.separator + name;
                                         }).subscribe(localPath -> {
-                                            Logger.d("reload image: " + localPath);
-                                            HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
-                                        });
+                                    Logger.d("reload image: " + localPath);
+                                    HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
+                                });
                                 return false;
                             }
                         }).submit();

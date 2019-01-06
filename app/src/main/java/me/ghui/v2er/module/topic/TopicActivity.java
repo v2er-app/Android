@@ -313,7 +313,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mNeedWaitForTransitionEnd = false;
 
         }
@@ -321,6 +321,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
+        getPtrLayout().setResistance(2.5f);
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
         setEnterSharedElementCallback(mCallback);
@@ -498,6 +499,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
 
         mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
+        if (!topicInfo.getContentInfo().isValid()) {
+           onRenderCompleted();
+        }
         mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);

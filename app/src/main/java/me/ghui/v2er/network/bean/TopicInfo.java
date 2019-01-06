@@ -4,8 +4,6 @@ import android.text.TextUtils;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -141,14 +139,20 @@ public class TopicInfo extends BaseInfo {
 
         /**
          * 得到处理后的html, 移除最后一个element(时间，收藏，等不需要显示的信息)
+         *
          * @return
          */
         public String getFormattedHtml() {
-            if(formatedHtml != null) return formatedHtml;
+            if (formatedHtml != null) return formatedHtml;
             Document parentNode = Jsoup.parse(html);
             parentNode.getElementsByClass("header").remove();
             parentNode.getElementsByClass("inner").remove();
-            formatedHtml = parentNode.outerHtml();
+            if ("".equals(parentNode.text())) {
+                formatedHtml = null;
+                return formatedHtml;
+            } else {
+                formatedHtml = parentNode.outerHtml();
+            }
             return formatedHtml;
         }
 
