@@ -35,6 +35,7 @@ import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
@@ -81,13 +82,16 @@ public class HtmlView extends WebView {
         // add css style to contentView
         String formattedHtml = replaceImageSrc(contentStr);
         String container = Assets.getString("html/v2er.html", getContext());
-        container = injectLightDarkMode(container);
+        container = injectParams(container);
         formattedHtml = container.replace("{injecttedContent}", formattedHtml);
         loadDataWithBaseURL(null, formattedHtml, "text/html", "UTF-8", null);
     }
 
-    private String injectLightDarkMode(String html) {
-       return html.replace("{isDarkThemee}", String.valueOf(DayNightUtil.isNightMode()));
+    private String injectParams(String html) {
+        boolean isDark = DayNightUtil.isNightMode();
+        float fontSize = FontSizeUtil.getHtmlFontSize();
+        String params = "'" + isDark + "'" + ", " + "'" + fontSize + "px" + "'";
+        return html.replace("{INJECT_PARAMS}", params);
     }
 
     /**

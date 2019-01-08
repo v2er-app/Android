@@ -3,21 +3,21 @@ html, body, div, p {
     padding: 0;
 }
 
-.dark body {
-    color:#7F8082;
+body {
 }
 
 a {
     color:#778087
 }
+
 img{
     display: inline;
     height: auto;
     max-width: 100%;
     alt: "loading"
 }
+
 .topic_content{
-    font-size:16px;
     line-height:1.8;
     color:#555555;
     word-wrap:break-word
@@ -25,4 +25,5 @@ img{
 
 .dark .topic_content{
     background:#111214;
+    color:#7F8082;
 }
