@@ -2,6 +2,11 @@ html, body, div, p {
     margin: 0;
     padding: 0;
 }
+
+.dark body {
+    color:#7F8082;
+}
+
 a {
     color:#778087
 }
@@ -10,13 +15,14 @@ img{
     height: auto;
     max-width: 100%;
     alt: "loading"
-  }
-
+}
 .topic_content{
-    font-size:14px;
+    font-size:16px;
     line-height:1.8;
     color:#555555;
     word-wrap:break-word
 }
 
-
+.dark .topic_content{
+    background:#111214;
+}

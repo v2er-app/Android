@@ -19,3 +19,7 @@ function reloadImg(original_img, localPath) {
     }
 }
 
+function setDarkMode(isDark) {
+    document.body.className += isDark ? 'dark ' : ' ';
+    document.body.style.visibility = 'visible';
+}

@@ -151,7 +151,7 @@ public class TopicInfo extends BaseInfo {
                 formatedHtml = null;
                 return formatedHtml;
             } else {
-                formatedHtml = parentNode.outerHtml();
+                formatedHtml = parentNode.body().html();
             }
             return formatedHtml;
         }

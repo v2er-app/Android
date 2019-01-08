@@ -8,13 +8,11 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
@@ -26,20 +24,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Assets;
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.RxUtils;
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import okio.Okio;
@@ -76,14 +72,22 @@ public class HtmlView extends WebView {
         setWebViewClient(new V2exWebViewClient());
         setVerticalScrollBarEnabled(false);
         addJavascriptInterface(new ImgClickJSInterface(), "imagelistener");
+        setBackgroundColor(DayNightUtil.isNightMode() ?
+                getContext().getResources().getColor(R.color.night_default_page_bg) :
+                getContext().getResources().getColor(R.color.default_page_bg));
     }
 
     public void loadContentView(String contentStr) {
         // add css style to contentView
         String formattedHtml = replaceImageSrc(contentStr);
         String container = Assets.getString("html/v2er.html", getContext());
-        formattedHtml = String.format(container, formattedHtml);
+        container = injectLightDarkMode(container);
+        formattedHtml = container.replace("{injecttedContent}", formattedHtml);
         loadDataWithBaseURL(null, formattedHtml, "text/html", "UTF-8", null);
+    }
+
+    private String injectLightDarkMode(String html) {
+       return html.replace("{isDarkThemee}", String.valueOf(DayNightUtil.isNightMode()));
     }
 
     /**
@@ -103,7 +107,7 @@ public class HtmlView extends WebView {
             e.attr("original_src", imgUrl);
             e.attr("src", "file:///android_asset/html/image_holder_loading.gif");
         }
-        return doc.outerHtml();
+        return doc.body().html();
     }
 
     private class V2exWebViewClient extends WebViewClient {
@@ -131,34 +135,6 @@ public class HtmlView extends WebView {
                 onHtmlRenderListener.onRenderCompleted();
             }
             addIMGClickListener();
-        }
-
-        /**
-         * 获取本地资源
-         */
-        @Nullable
-        private WebResourceResponse getWebResourceResponse(String url) {
-            if (!mImgs.contains(url)) {
-                return null;
-            }
-            try {
-                File imgFile = GlideApp.with(App.get())
-                        .downloadOnly()
-                        .load(url)
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)
-                        .submit(ScaleUtils.getScreenW(), ScaleUtils.getScreenW())
-                        .get();
-                try {
-                    return new WebResourceResponse(UriUtils.getMimeType(url), "UTF-8", new FileInputStream(imgFile));
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-            return null;
         }
 
         private void downloadImgs() {
@@ -203,17 +179,6 @@ public class HtmlView extends WebView {
                         }).submit();
             }
         }
-
-//        /**
-//         * 根据glide返回的文件及对应的图片url，返回对应的图片(png/jpg等格式的压缩图片，非.0格式的图片)
-//         * 若本地无对应的图片，则从file中生成一份
-//         * @param file
-//         * @param url
-//         * @return 本地压缩后的图片路径, file:///...
-//         */
-//        private String getLocalImagePath(File file, String url) {
-//
-//        }
 
         private void addIMGClickListener() {
             HtmlView.this.post(() -> HtmlView.this.loadUrl("javascript:addClickToImg()"));
