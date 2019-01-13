@@ -90,7 +90,7 @@ public class HtmlView extends WebView {
     private String injectParams(String html) {
         boolean isDark = DayNightUtil.isNightMode();
         float fontSize = FontSizeUtil.getHtmlFontSize();
-        String params = "'" + isDark + "'" + ", " + "'" + fontSize + "px" + "'";
+        String params = isDark + ", " + "'" + fontSize + "px" + "'";
         return html.replace("{INJECT_PARAMS}", params);
     }
 
