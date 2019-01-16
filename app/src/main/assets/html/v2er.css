@@ -21,7 +21,9 @@ img{
 
 .topic_content{
     color:#555555;
-    word-wrap:break-word
+    word-wrap:break-word;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
 .dark .topic_content{
@@ -30,17 +32,22 @@ img{
 }
 
 div.subtle {
-    background-color: #fffff9;
-    border-left: .2em solid #dfe2e5;
+    border-bottom: 1px solid #f4f2f2;
+    background-color: rgba(250, 250, 250, 0.5);
+    border-left: 3px solid rgba(126, 126, 126, 0.5);
     padding: 5px;
     line-height: 120%;
     text-align: left;
-    border-bottom: 1px solid #e2e2e2;
+}
+
+.dark div.subtle {
+    background-color: rgba(120, 120, 120, 0.5);
 }
 
 div.subtle span.fade {
     opacity: 0.8;
     color: #ccc;
+    fontSize: 13px;
 }
 
 .embedded_video {
