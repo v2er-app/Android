@@ -147,7 +147,8 @@ public class TopicInfo extends BaseInfo {
             Document parentNode = Jsoup.parse(html);
             parentNode.getElementsByClass("header").remove();
             parentNode.getElementsByClass("inner").remove();
-            if ("".equals(parentNode.text())) {
+            if ("".equals(parentNode.text())
+                    && parentNode.getElementsByClass("embedded_video_wrapper") == null) {
                 formatedHtml = null;
                 return formatedHtml;
             } else {
