@@ -28,3 +28,17 @@ img{
     background:#111214;
     color:#7F8082;
 }
+
+div.subtle {
+    background-color: #fffff9;
+    border-left: .2em solid #dfe2e5;
+    padding: 5px;
+    line-height: 120%;
+    text-align: left;
+    border-bottom: 1px solid #e2e2e2;
+}
+
+div.subtle span.fade {
+    opacity: 0.8;
+    color: #ccc;
+}
