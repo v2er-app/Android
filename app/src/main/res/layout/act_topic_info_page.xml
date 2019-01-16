@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <me.ghui.v2er.widget.LoadMoreRecyclerView style="@style/BaseRecyclerView"
-        android:descendantFocusability="blocksDescendants" />
+        android:descendantFocusability="beforeDescendants" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/reply_fab_btn"
