@@ -68,6 +68,8 @@ public class HtmlView extends WebView {
         settings.setDatabaseEnabled(true);
         settings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
         settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setTextZoom(100);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         setWebViewClient(new V2exWebViewClient());

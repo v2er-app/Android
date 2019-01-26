@@ -3,11 +3,11 @@
     <dimen name="mediumTextSize">16dp</dimen>
     <dimen name="smallTextSize">14dp</dimen>
 
-    <dimen name="microTextSize">13dp</dimen>
-    <dimen name="tinyTextSize">11dp</dimen>
+    <dimen name="microTextSize">12dp</dimen>
+    <dimen name="tinyTextSize">10dp</dimen>
     <dimen name="tinyTinyTextSize">9dp</dimen>
     <dimen name="small_avatar_size">30dp</dimen>
-    <dimen name="common_avatar_size">40dp</dimen>
+    <dimen name="common_avatar_size">34dp</dimen>
     <dimen name="medium_avatar_size">75dp</dimen>
     <dimen name="large_avatar_size">90dp</dimen>
     <dimen name="divider_size">0.5dp</dimen>
