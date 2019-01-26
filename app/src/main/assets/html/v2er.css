@@ -61,3 +61,13 @@ div.subtle span.fade {
     height: 100%;
     min-height: 200px
 }
+
+pre {
+    border: none;
+    border-radius: 0;
+    padding: 0;
+}
+
+::selection {
+  background: #bbbbbb;
+}
