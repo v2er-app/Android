@@ -2,6 +2,7 @@ package me.ghui.v2er.module.topic;
 
 import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import me.ghui.toolbox.android.Check;
@@ -40,6 +41,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
         String content = contentInfo.getFormattedHtml();
         FrameLayout webviewContainer = holder.getView(R.id.htmlview_container);
+        webviewContainer.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
         webviewContainer.setMinimumHeight(ScaleUtils.getScreenContentH());
         HtmlView.OnHtmlRenderListener renderListener = (HtmlView.OnHtmlRenderListener) mContext;
         if (Check.notEmpty(content)) {

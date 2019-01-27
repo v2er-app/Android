@@ -1,6 +1,7 @@
 h1 {
+    color: #000;
     font-size: 22px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0;
@@ -8,18 +9,24 @@ h1 {
 }
 
 h2 {
+    color: #000;
     font-size: 18px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0 0 8px 0;
-    border-bottom: 1px solid #e2e2e2;
+    border-bottom: 0.5px solid #f4f2f2;
     word-break: break-word
 }
 
+.dark h2 {
+    border-bottom: 0.5px solid #202020;
+}
+
 h3 {
+    color: #000;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0;
@@ -27,8 +34,9 @@ h3 {
 }
 
 h4 {
-    font-size: 14px;
-    font-weight: bold;
+    color: #000;
+    font-size: 15px;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0;
@@ -36,8 +44,9 @@ h4 {
 }
 
 h5 {
+    color: #000;
     font-size: 12px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0;
@@ -45,8 +54,9 @@ h5 {
 }
 
 h6 {
+    color: #000;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: 500;
     line-height: 100%;
     margin: 15px 0 15px 0;
     padding: 0;
