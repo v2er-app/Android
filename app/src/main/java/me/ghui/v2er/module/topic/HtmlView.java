@@ -153,6 +153,8 @@ public class HtmlView extends WebView {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<File> target, boolean isFirstResource) {
                                 // TODO: 2018/12/23
+//                                String localPath = "file:///android_asset/html/image_holder_failed.png";
+//                                HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
                                 return false;
                             }
 
