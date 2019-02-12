@@ -19,9 +19,7 @@ h2 {
     word-break: break-word
 }
 
-.dark h2 {
-    border-bottom: 0.5px solid #202020;
-}
+
 
 h3 {
     color: #000;
@@ -61,4 +59,26 @@ h6 {
     margin: 15px 0 15px 0;
     padding: 0;
     word-break: break-word
+}
+.dark h1 {
+    color: #7F8080
+}
+
+.dark h2 {
+    border-bottom: 0.5px solid #202020;
+    color: #7F8080
+}
+
+.dark h3 {
+    color: #7F8080
+}
+
+.dark h4 {
+    color: #7F8080
+}
+.dark h5 {
+    color: #7F8080
+}
+.dark h6 {
+    color: #7F8080
 }
