@@ -49,7 +49,6 @@ public class StarActivity extends BaseActivity {
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         toolBar.setElevation(0);
-        toolBar.getLayoutParams().height = (int) getResources().getDimension(R.dimen.toolbar_small_height);
         Utils.setPaddingForStatusBar(toolBar);
     }
 
