@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.create;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
@@ -37,6 +38,10 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
 
     @Override
     public void sendPost(String title, String content, String nodeId) {
+        // replace \n to \n\n
+        if (Check.notEmpty(content)) {
+            content = content.replaceAll("\n", "\n\n");
+        }
         APIService.get().postTopic(mTopicPageInfo.toPostMap(title, content, nodeId))
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
