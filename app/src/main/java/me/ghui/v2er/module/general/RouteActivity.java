@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Window;
+import android.view.WindowManager;
 
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
@@ -11,6 +13,7 @@ import me.ghui.v2er.module.shortcuts.CreateTopicShortcut;
 import me.ghui.v2er.module.shortcuts.DailyHotShortcut;
 import me.ghui.v2er.module.shortcuts.StarTopicShortcut;
 import me.ghui.v2er.network.UrlInterceptor;
+import me.ghui.v2er.util.DayNightUtil;
 
 /**
  * Created by ghui on 30/06/2017.
@@ -19,9 +22,19 @@ import me.ghui.v2er.network.UrlInterceptor;
 public class RouteActivity extends Activity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        if (DayNightUtil.isNightMode()) {
+            changeBrightness();
+        }
         super.onCreate(savedInstanceState);
         route();
         finish();
+    }
+
+    private void changeBrightness() {
+        Window window = getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.screenBrightness = 0.3f;
+        window.setAttributes(lp);
     }
 
     private void route() {
