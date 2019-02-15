@@ -370,7 +370,7 @@ public class TopicInfo extends BaseInfo {
         private String userName;
         @Pick(value = "img.avatar", attr = "src")
         private String avatar;
-        @Pick("span.fade.small:contains(前)")
+        @Pick("span.fade.small:not(:contains(♥))")
         private String time;
         @Pick("span.fade.small:contains(♥)")
         private String love;
