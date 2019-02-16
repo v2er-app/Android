@@ -56,6 +56,11 @@
 }
 #----------------- PersistentCookieJar End ----------------------------
 
+#----------------- Bugly Start ----------------------------
+-dontwarn com.tencent.bugly.**
+-keep public class com.tencent.bugly.**{*;}
+#----------------- Bugly End ----------------------------
+
 #----------------- Jsoup Start ----------------------------
 -keeppackagenames org.jsoup.nodes
 #----------------- Jsoup End ----------------------------

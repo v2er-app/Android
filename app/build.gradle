@@ -1,4 +1,10 @@
 apply plugin: 'com.android.application'
+apply plugin: 'bugly'
+
+bugly {
+    appId = 'b0ba618423' // 注册时分配的App ID
+    appKey = 'fb61ed5e-87a4-44f1-820f-2be4eea0fae9' // 注册时分配的App Key
+}
 
 android {
     compileSdkVersion 26
@@ -100,6 +106,7 @@ dependencies {
     implementation 'me.ghui:fruit-converter-retrofit:1.0.5'
     implementation 'me.ghui:global-retrofit-converter:1.0.2'
     implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     //noinspection GradleDynamicVersion
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'

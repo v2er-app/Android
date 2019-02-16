@@ -4,6 +4,7 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 
 import com.orhanobut.logger.Logger;
+import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -43,12 +44,23 @@ public class App extends Application {
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         APIService.init();
+        initBugly();
         initWechat();
     }
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(this, null);
         mWechat.registerApp("wxdb7f82c706f4516c");
+    }
+
+    private void initBugly() {
+        if (BuildConfig.DEBUG) return;
+        CrashReport.initCrashReport(getApplicationContext(), "b0ba618423", BuildConfig.DEBUG);
+        if (UserUtils.isLogin()) {
+            CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
+        } else {
+            CrashReport.setUserId("UnLogin");
+        }
     }
 
     public IWXAPI wechat() {
