@@ -59,13 +59,13 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
-        findPreference(getString(R.string.pref_twitter_personal_page)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_email)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setTitle(UserUtils.isPro() ? "Pro特性已开启" : "激活Pro特性");

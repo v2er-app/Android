@@ -98,10 +98,10 @@
             android:summary="加入TG用户群，及时获取更新信息..."
             android:title="用户群" />
         <Preference
-            android:key="@string/pref_twitter_personal_page"
+            android:key="@string/pref_weibo_personal_page"
             android:layout="@layout/preference_item"
-            android:summary="@string/twitter_username"
-            android:title="Twitter" />
+            android:summary="@string/weibo_username"
+            android:title="Weibo" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
