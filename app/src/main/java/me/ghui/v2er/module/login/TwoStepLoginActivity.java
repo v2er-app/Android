@@ -8,7 +8,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 
-import com.crashlytics.android.Crashlytics;
 
 import org.jsoup.helper.StringUtil;
 
@@ -179,7 +178,6 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                     public void onConsume(LoginResultInfo resultInfo) {
                                         toast("登录成功");
                                         UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-                                        Crashlytics.setUserName(resultInfo.getUserName());
                                         finish();
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
