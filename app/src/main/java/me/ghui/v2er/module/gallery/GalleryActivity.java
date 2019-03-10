@@ -84,11 +84,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
-    protected boolean supportSlideBack() {
-        return false;
-    }
-
-    @Override
     protected void configSystemBars(Window window) {
         Utils.transparentBars(window, Color.TRANSPARENT, Color.TRANSPARENT, !DayNightUtil.isNightMode());
     }

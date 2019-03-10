@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import com.orhanobut.logger.Logger;
-import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import java.util.Stack;
@@ -37,7 +36,6 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
@@ -75,9 +73,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
-    @Nullable
-    protected SlidrInterface mSlidrInterface;
-
 
     public void setFirstLoadingDelay(long delay) {
         mFirstLoadingDelay = delay;
@@ -264,9 +259,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         initTheme();
         configSystemBars(getWindow());
         setContentView(onCreateRootView());
-        if (supportSlideBack()) {
-            mSlidrInterface = configSlideBack();
-        }
         ButterKnife.bind(this);
         startInject();
         parseExtras(getIntent());
@@ -276,14 +268,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configToolBar(mToolbar);
         init();
         autoLoad();
-    }
-
-    protected SlidrInterface configSlideBack() {
-        return SlideBackManager.attach(this);
-    }
-
-    protected boolean supportSlideBack() {
-        return true;
     }
 
     protected boolean supportShareElement() {

@@ -72,11 +72,6 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     }
 
     @Override
-    protected boolean supportSlideBack() {
-        return false;
-    }
-
-    @Override
     protected void initTheme() {
         switch (DayNightUtil.getMode()) {
             case DayNightUtil.NIGHT_MODE:
