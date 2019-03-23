@@ -60,7 +60,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_trello)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
@@ -158,9 +157,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
             Navigator.from(getActivity()).to(ProInfoActivity.class).start();
-        } else if (key.equals(getString(R.string.pref_key_trello))) {
-            Utils.openWap("https://trello.com/b/Eg3uFzbr/v2er", getActivity());
-        } else if (key.equals(getString(R.string.pref_key_user_group))) {
+        }  else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
             Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));

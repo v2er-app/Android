@@ -114,11 +114,6 @@
             android:key="@string/pref_key_v2er_pro"
             android:layout="@layout/preference_item" />
         <Preference
-            android:key="@string/pref_key_trello"
-            android:layout="@layout/preference_item"
-            android:summary="这里有项目的最新开发计划..."
-            android:title="Trello" />
-        <Preference
             android:key="@string/pref_key_rate"
             android:title="好评"
             android:summary="去商店给V2er一个好评吧"
