@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="transparent">@android:color/transparent</color>
-    <color name="colorPrimary">#e1e0e0</color>
+    <color name="colorPrimary">#fff4f4f4</color>
+    <color name="colorPrimaryDark">#fff4f4f4</color>
     <color name="colorPrimary_night">#151618</color>
-    <color name="colorPrimaryDark">#e1e0e0</color>
     <color name="colorPrimaryDark_night">#151618</color>
     <color name="tag_bg_color">#F5F5F5</color>
     <color name="tag_bg_color_night">#80000000</color>

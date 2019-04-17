@@ -9,7 +9,8 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="DayTheme" parent="BaseApp.Theme" >
+    <style name="DayTheme" parent="BaseApp.Theme">
+        <item name="android:windowLightStatusBar">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -32,15 +33,17 @@
         <item name="actionMenuTextColor">?attr/icon_tint_color</item>
         <item name="button_color">?attr/icon_tint_color</item>
         <item name="colorControlHighlight">?attr/hintTextColor</item>
-        <item name="android:listDivider">?attr/divider_color</item>
         <item name="divider_color">#f4f2f2</item>
+        <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#FFFAFAFA</item>
+        <item name="android:autofilledHighlight">@color/autofill_color</item>
     </style>
 
     <style name="NightTheme" parent="BaseApp.Theme">
+        <item name="android:windowLightStatusBar">false</item>
         <item name="colorPrimary">@color/colorPrimary_night</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_night</item>
+        <item name="colorAccent">#FFA4A5A7</item>
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
 
         <item name="page_bg_color">@color/night_default_page_bg</item>
@@ -60,9 +63,10 @@
         <item name="actionMenuTextColor">?attr/icon_tint_color</item>
         <item name="button_color">?attr/icon_tint_color</item>
         <item name="colorControlHighlight">?attr/hintTextColor</item>
+        <item name="divider_color">#202020</item>
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#1d1d1b</item>
-        <item name="divider_color">#202020</item>
+        <item name="android:autofilledHighlight">@color/autofill_color_night</item>
     </style>
 
     <style name="GalleryTheme" parent="NightTheme">

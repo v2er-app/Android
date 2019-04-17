@@ -10,7 +10,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "me.ghui.v2er"
-        minSdkVersion 21
+        minSdkVersion 23
         targetSdkVersion 26
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
