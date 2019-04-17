@@ -357,11 +357,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (mTopicInfo == null || !mIsLogin || mIsHideReplyBtn) return;
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-                    mReplyFabBtn.hide(); // or hideFab(), see below
-                else if (newState == RecyclerView.SCROLL_STATE_IDLE && mReplyWrapper.getVisibility() != VISIBLE)
-                    mReplyFabBtn.show(); // or showFab(), see below
             }
         });
         mMentionedLinearLayoutManager = new LinearLayoutManager(this);
