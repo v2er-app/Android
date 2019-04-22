@@ -14,9 +14,12 @@ import me.ghui.v2er.network.bean.TopicInfo;
 
 public class TopicContract {
     public interface IView extends BaseContract.IView {
+
+        boolean getScanOrder();
+
         String getTopicId();
 
-        void fillView(TopicInfo topicInfo, boolean isLoadMore);
+        void fillView(TopicInfo topicInfo, int page);
 
         void afterStarTopic(TopicInfo topicInfo);
 
@@ -37,8 +40,6 @@ public class TopicContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void loadData(String topicId, int page);
-
-        void loadData(String topicId);
 
         Observable<ThxResponseInfo> thxReplier(String replyId, String t);
 

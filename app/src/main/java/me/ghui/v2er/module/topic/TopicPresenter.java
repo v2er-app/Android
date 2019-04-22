@@ -27,7 +27,8 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void start() {
-        loadData(mView.getTopicId(), 1);
+        boolean isScanInOrder = mView.getScanOrder();
+        loadData(mView.getTopicId(), isScanInOrder ? 1 : 999);
     }
 
     @Override
@@ -38,14 +39,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         mTopicInfo = topicInfo;
-                        mView.fillView(topicInfo, page > 1);
+                        mView.fillView(topicInfo, page);
                     }
                 });
-    }
-
-    @Override
-    public void loadData(String topicId) {
-        loadData(topicId, 1);
     }
 
     @Override

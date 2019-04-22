@@ -52,6 +52,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.CommonConstants;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -113,6 +114,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public boolean isNeedAutoScroll = true;
     private boolean mIsHideReplyBtn;
     private boolean mIsLogin = UserUtils.isLogin();
+    private boolean mIsScanInOrder = Pref.readBool(CommonConstants.IS_SCAN_IN_ORDER, true);
 
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
@@ -210,6 +212,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
         replyMenuItem.setVisible(mIsHideReplyBtn);
+        MenuItem scanOrderMenuItem = menu.findItem(R.id.action_scan_order);
+        scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
                 toast("请等到加载完成");
@@ -274,6 +278,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 case R.id.action_reply:
                     animateEditInnerWrapper(true);
                     break;
+                case R.id.action_scan_order:
+                    // reload
+                    mIsScanInOrder = !mIsScanInOrder;
+                    Pref.saveBool(CommonConstants.IS_SCAN_IN_ORDER, mIsScanInOrder);
+                    mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
+                    // 重新加载
+                    loadFromStart();
+                    showLoading();
+                    break;
             }
             return true;
         });
@@ -304,7 +317,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 Logger.e("onTransitionEnd");
                 mNeedWaitForTransitionEnd = false;
                 if (mTopicInfo != null) {
-                    delay(30, () -> fillView(mTopicInfo, false));
+                    delay(30, () -> fillView(mTopicInfo, mIsScanInOrder ? 1 : mTopicInfo.getTotalPage()));
                 }
             }
         });
@@ -332,6 +345,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
         mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
         mLoadMoreRecyclerView.setTransitionGroup(true);
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
@@ -454,22 +468,30 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mReplierAdapter.getFilter().filter(query);
     }
 
+    /**
+     * 下拉刷新，重新加载页面
+     */
+    private void loadFromStart() {
+        // TODO: 2019/4/17 逆序第一次加载完需要重置willLoadPage = totalPage -1
+        int willLoadPage = mIsScanInOrder ? 1 : 999;
+        mLoadMoreRecyclerView.setWillLoadPage(willLoadPage);
+        mNeedWaitForTransitionEnd = false;
+        mPresenter.loadData(mTopicId, willLoadPage);
+    }
+
 
     @Override
     protected PtrHandler attachPtrHandler() {
         return new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                mLoadMoreRecyclerView.resetWillLoadPage();
-                mNeedWaitForTransitionEnd = false;
-                mPresenter.loadData(mTopicId);
+                loadFromStart();
             }
 
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                boolean checkCanDoRefresh = (mReplierRecyView.getVisibility() != VISIBLE &&
+                return (mReplierRecyView.getVisibility() != VISIBLE &&
                         checkContentCanBePulledDown(frame, mLoadMoreRecyclerView, header));
-                return checkCanDoRefresh;
             }
         };
     }
@@ -480,24 +502,45 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
+    public boolean getScanOrder() {
+        return mIsScanInOrder;
+    }
+
+    @Override
     public String getTopicId() {
         return mTopicId;
     }
 
     @Override
-    public void fillView(TopicInfo topicInfo, boolean isLoadMore) {
+    public void fillView(TopicInfo topicInfo, int page) {
         mTopicInfo = topicInfo;
         if (mNeedWaitForTransitionEnd) return;
         if (topicInfo == null) {
             mAdapter.setData(null);
             return;
         }
-
-        mAdapter.setData(topicInfo.getItems(isLoadMore), isLoadMore);
-        if (!topicInfo.getContentInfo().isValid()) {
-           onRenderCompleted();
+        // 对于逆序加载，页面第一次打开时不知道一共有多少页，自然也就不知道首先应该加载哪一页
+        // 所以对于这种情况，默认要加载的页面为999，这样v2ex也会返回最后一页的内容，当内容返回
+        // 后就可以拿到准确的总页面数，此时记得如果是逆序浏览要修正正确的willLoadPage
+        if (page == 999) {
+            // 纠正当前加载的真实页面
+            page = topicInfo.getTotalPage();
+            // 纠正当前加载的willLoadPage为正确值
+            mLoadMoreRecyclerView.setWillLoadPage(page);
         }
-        mLoadMoreRecyclerView.setHasMore(topicInfo.getTotalPage());
+        boolean hasMore = mIsScanInOrder ? page < mTopicInfo.getTotalPage() : page > 1;
+        // 内部会计算下一次的willLoadPage
+        mLoadMoreRecyclerView.setHasMore(hasMore);
+        // TODO: 2019/4/17 reverse
+        boolean isLoadMore = mIsScanInOrder ? page > 1 : page != topicInfo.getTotalPage();
+        if (!mIsScanInOrder) {
+            // 逆序加载的话需要reverse reply序列
+
+        }
+        mAdapter.setData(topicInfo.getItems(isLoadMore, mIsScanInOrder), isLoadMore);
+        if (!topicInfo.getContentInfo().isValid()) {
+            onRenderCompleted();
+        }
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
@@ -718,7 +761,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void afterReplyTopic(TopicInfo topicInfo) {
         if (topicInfo.isValid()) {
-            fillView(topicInfo, false);
+            fillView(topicInfo, topicInfo.getTotalPage());
             mReplyEt.setText(null);
             toast("回复成功");
             Utils.toggleKeyboard(false, mReplyEt);
@@ -743,7 +786,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (mMenuSheetDialog == null) {
             mMenuSheetDialog = new BottomSheetDialog(getContext());
             mMenuSheetDialog.setContentView(R.layout.topic_reply_dialog_item);
-            ViewGroup parentView = (ViewGroup) mMenuSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
+            ViewGroup parentView = mMenuSheetDialog.findViewById(R.id.topic_reply_dialog_rootview);
             mBottomSheetDialogItemClickListener = new OnBottomDialogItemClickListener();
             for (int i = 0; i < parentView.getChildCount(); i++) {
                 parentView.getChildAt(i).setOnClickListener(mBottomSheetDialogItemClickListener);

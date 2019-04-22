@@ -29,7 +29,10 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     private LoadMoreScrollListener mScrollListener;
     private boolean mLoading = false;
     private ILoadMoreFooter.IdleStatus mStatus = ILoadMoreFooter.IdleStatus.INIT;
+    // 是否正序浏览
+    private boolean mIsLoadInOrder = true;
     private int mWillLoadPage = 1;
+
     private ILoadMoreFooter mLoadMoreFooter;
 
     public LoadMoreRecyclerView(Context context) {
@@ -53,21 +56,25 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
     }
 
-    public void resetWillLoadPage() {
-        resetWillLoadPage(1);
+    /**
+     * 设置是否正序加载
+     *
+     * @param isInOrder 是否正序加载
+     */
+    public void setLoadOrder(boolean isInOrder) {
+        mIsLoadInOrder = isInOrder;
     }
 
-    public void resetWillLoadPage(int willLoadPage) {
+
+    public void resetWillLoadPage() {
+        mWillLoadPage = mIsLoadInOrder ? 1 : 999;
+    }
+
+    public void setWillLoadPage(int willLoadPage) {
         mWillLoadPage = willLoadPage;
     }
 
-
     public void setHasMore(boolean hasMore) {
-        setHasMore(hasMore, true);
-    }
-
-
-    public void setHasMore(boolean hasMore, boolean loadSuccess) {
         mLoading = false;
         if (hasMore) {
             mStatus = ILoadMoreFooter.IdleStatus.HAS_MORE;
@@ -77,12 +84,8 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         if (mLoadMoreFooter != null) {
             mLoadMoreFooter.onIdle(mStatus);
         }
-        mWillLoadPage = loadSuccess ? mWillLoadPage + 1 : 1;
+        mWillLoadPage = mIsLoadInOrder ? mWillLoadPage + 1 : mWillLoadPage - 1;
         Logger.i("mWillLoadPage: " + mWillLoadPage);
-    }
-
-    public void setHasMore(int totalPage) {
-        setHasMore(mWillLoadPage + 1 <= totalPage);
     }
 
     public boolean hasMore() {
@@ -91,10 +94,6 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
 
     public ILoadMoreFooter.IdleStatus getStatus() {
         return mStatus;
-    }
-
-    public int getWillLoadPage() {
-        return mWillLoadPage;
     }
 
     public void setAdapter(Adapter loadMoreAdapter) {

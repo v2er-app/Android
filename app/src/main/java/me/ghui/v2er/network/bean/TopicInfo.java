@@ -6,6 +6,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -79,16 +80,22 @@ public class TopicInfo extends BaseInfo {
      * 加载分页后的数据
      *
      * @param isLoadMore
+     * @param isInOrder 是否是正序加载
      * @return
      */
-    public List<Item> getItems(boolean isLoadMore) {
+    public List<Item> getItems(boolean isLoadMore, boolean isInOrder) {
         if (items == null) {
             items = new ArrayList<>(Utils.listSize(replies) + 2);
         } else {
             items.clear();
         }
 
+        if (!isInOrder) {
+            Collections.reverse(replies);
+        }
+
         if (!isLoadMore) {
+            // 第一次加载需要将头部、内容信息加入列表
             items.add(headerInfo);
             if (contentInfo.isValid()) {
                 items.add(contentInfo);
@@ -113,7 +120,7 @@ public class TopicInfo extends BaseInfo {
     }
 
     public int getTotalPage() {
-        return headerInfo.getPage();
+        return headerInfo.getTotalPage();
     }
 
     @Override
@@ -203,6 +210,8 @@ public class TopicInfo extends BaseInfo {
         private String comment;
         @Pick("div.box a.page_normal:last-child")
         private int page;
+        @Pick("div.box span.page_current")
+        private int currentPage;
         @Pick("div.box h1")
         private String title;
         @Pick(value = "div.box a[href*=favorite/]", attr = Attrs.HREF)
@@ -322,8 +331,8 @@ public class TopicInfo extends BaseInfo {
             return title;
         }
 
-        public int getPage() {
-            return page < 1 ? 1 : page;
+        public int getTotalPage() {
+            return Math.max(page, currentPage);
         }
 
 
