@@ -78,7 +78,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
     private static final String TOPIC_AUTO_SCROLL_REPLY = KEY("TOPIC_AUTO_SCROLL_REPLY");
-
+    public boolean isNeedAutoScroll = true;
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @BindView(R.id.topic_reply_wrapper)
@@ -91,17 +91,15 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     FloatingActionButton mReplyFabBtn;
     @BindView(R.id.repliers_recyclerview)
     BaseRecyclerView mReplierRecyView;
-    private LinearLayoutManager mLinearLayoutManager;
-    private LinearLayoutManager mMentionedLinearLayoutManager;
-
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
     @Inject
     TopicModule.TopicAtAdapter mReplierAdapter;
+    private LinearLayoutManager mLinearLayoutManager;
+    private LinearLayoutManager mMentionedLinearLayoutManager;
     private String mTopicId;
     private TopicBasicInfo mTopicBasicInfo;
     private String mAutoScrollReply;
-
     private TopicInfo mTopicInfo;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
@@ -111,11 +109,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private List<TopicInfo.Item> repliersInfo;
     private boolean mNeedWaitForTransitionEnd = true;
     private boolean mIsReturning;
-    public boolean isNeedAutoScroll = true;
-    private boolean mIsHideReplyBtn;
-    private boolean mIsLogin = UserUtils.isLogin();
-    private boolean mIsScanInOrder = Pref.readBool(CommonConstants.IS_SCAN_IN_ORDER, true);
-
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -127,7 +120,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             }
         }
     };
-
+    private boolean mIsHideReplyBtn;
+    private boolean mIsLogin = UserUtils.isLogin();
+    private boolean mIsScanInOrder = Pref.readBool(CommonConstants.IS_SCAN_IN_ORDER, true);
 
     /**
      * @param topicId
@@ -813,6 +808,30 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         hideLoading();
     }
 
+    @Override
+    public void onMemberClick(String userName, int index) {
+        List<TopicInfo.Item> datum = mAdapter.getDatas();
+        List<TopicInfo.Reply> replies = new ArrayList<>();
+        if (mIsScanInOrder) {
+            for (int i = index - 1; i >= 0; i--) {
+                TopicInfo.Item item = datum.get(i);
+                if (item instanceof TopicInfo.Reply && item.getUserName().equals(userName)) {
+                    replies.add((TopicInfo.Reply) item);
+                }
+            }
+        } else {
+            for (int i = index + 1; i < datum.size(); i++) {
+                TopicInfo.Item item = datum.get(i);
+                if (item instanceof TopicInfo.Reply && item.getUserName().equals(userName)) {
+                    replies.add((TopicInfo.Reply) item);
+                }
+            }
+        }
+        if (Check.isEmpty(replies)) return;
+        MentionedReplySheetDialog mentionedReplySheetDialog = new MentionedReplySheetDialog(this);
+        mentionedReplySheetDialog.setData(replies, userName);
+        mentionedReplySheetDialog.show();
+    }
 
     private class OnBottomDialogItemClickListener implements View.OnClickListener {
         private TopicInfo.Reply item;
@@ -856,21 +875,5 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             }
             mMenuSheetDialog.dismiss();
         }
-    }
-
-    @Override
-    public void onMemberClick(String userName, int index) {
-        List<TopicInfo.Item> datum = mAdapter.getDatas();
-        List<TopicInfo.Reply> replies = new ArrayList<>();
-        for (int i = index - 1; i >= 0; i--) {
-            TopicInfo.Item item = datum.get(i);
-            if (item instanceof TopicInfo.Reply && item.getUserName().equals(userName)) {
-                replies.add((TopicInfo.Reply) item);
-            }
-        }
-        if (Check.isEmpty(replies)) return;
-        MentionedReplySheetDialog mentionedReplySheetDialog = new MentionedReplySheetDialog(this);
-        mentionedReplySheetDialog.setData(replies, userName);
-        mentionedReplySheetDialog.show();
     }
 }
