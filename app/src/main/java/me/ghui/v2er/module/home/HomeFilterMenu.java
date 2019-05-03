@@ -42,14 +42,14 @@ public class HomeFilterMenu implements MultiItemTypeAdapter.OnItemClickListener 
         mOnMenuItemClickListener = onItemClickListner;
     }
 
-    boolean isShowing(){
+    boolean isShowing() {
         return mTabsWrapper != null && mTabsWrapper.getVisibility() == View.VISIBLE;
     }
 
-    public void toggle(){
-        if(isShowing()){
+    public void toggle() {
+        if (isShowing()) {
             hide();
-        }else {
+        } else {
             show();
         }
     }

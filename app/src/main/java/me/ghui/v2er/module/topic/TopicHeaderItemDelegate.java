@@ -1,7 +1,6 @@
 package me.ghui.v2er.module.topic;
 
 import android.content.Context;
-import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;

@@ -54,13 +54,9 @@ import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener, HomeFilterMenu.OnMenuItemClickListener {
-    private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     private static final String CURRENT_PAGE = KEY("current_page_index");
     public static boolean isAlive;
-    private NewsFragment mNewsFragment;
-    private MsgFragment mMsgFragment;
-    private NodesNavFragment mNavFragment;
-
+    private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     @BindView(R.id.left_draw_layout)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.navigationview_main)
@@ -73,7 +69,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     BaseToolBar mToolbar;
     @BindView(R.id.tab_menu_container)
     ViewGroup mTabMenuContainer;
-
+    private NewsFragment mNewsFragment;
+    private MsgFragment mMsgFragment;
+    private NodesNavFragment mNavFragment;
     private View mNavHeaderView;
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
@@ -214,56 +212,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mSlidingTabLayout.setCurrentTab(index);
     }
 
-    private class SlidePagerAdapter extends FragmentPagerAdapter {
-
-        public SlidePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = null;
-            switch (position) {
-                case 0:
-                    NewsFragment newsFragment = NewsFragment.newInstance();
-                    newsFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
-                    fragment = newsFragment;
-                    break;
-                case 1:
-                    MsgFragment msgFragment = MsgFragment.newInstance();
-                    msgFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
-                    fragment = msgFragment;
-                    break;
-                case 2:
-                    fragment = NodesNavFragment.newInstance();
-                    break;
-            }
-            return fragment;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            Fragment fragment = (Fragment) super.instantiateItem(container, position);
-            switch (position) {
-                case 0:
-                    mNewsFragment = (NewsFragment) fragment;
-                    break;
-                case 1:
-                    mMsgFragment = (MsgFragment) fragment;
-                    break;
-                case 2:
-                    mNavFragment = (NodesNavFragment) fragment;
-                    break;
-            }
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return TAB_TITLES.length;
-        }
-    }
-
     private void configNewsTabTitle() {
         mTab1View = mSlidingTabLayout.getTitleView(0);
         mTab2View = mSlidingTabLayout.getTitleView(1);
@@ -327,7 +275,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private int getCurrentTab() {
         return mSlidingTabLayout.getCurrentTab();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -437,12 +384,64 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         delegate.changeTabType(tabInfo);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTextSizeChanged(TextSizeChangeEvent event) {
+        recreate();
+    }
+
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onTextSizeChanged(TextSizeChangeEvent event) {
-        recreate();
-    };
+    private class SlidePagerAdapter extends FragmentPagerAdapter {
+
+        public SlidePagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Fragment fragment = null;
+            switch (position) {
+                case 0:
+                    NewsFragment newsFragment = NewsFragment.newInstance();
+                    newsFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
+                    fragment = newsFragment;
+                    break;
+                case 1:
+                    MsgFragment msgFragment = MsgFragment.newInstance();
+                    msgFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
+                    fragment = msgFragment;
+                    break;
+                case 2:
+                    fragment = NodesNavFragment.newInstance();
+                    break;
+            }
+            return fragment;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            switch (position) {
+                case 0:
+                    mNewsFragment = (NewsFragment) fragment;
+                    break;
+                case 1:
+                    mMsgFragment = (MsgFragment) fragment;
+                    break;
+                case 2:
+                    mNavFragment = (NodesNavFragment) fragment;
+                    break;
+            }
+            return fragment;
+        }
+
+        @Override
+        public int getCount() {
+            return TAB_TITLES.length;
+        }
+    }
+
+    ;
 }

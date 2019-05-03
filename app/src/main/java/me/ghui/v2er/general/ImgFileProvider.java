@@ -19,6 +19,30 @@ public class ImgFileProvider extends FileProvider {
 
     private ImageHeaderParser mImageHeaderParser = new DefaultImageHeaderParser();
 
+    private static String getTypeFromImageType(ImageHeaderParser.ImageType imageType,
+                                               String defaultType) {
+        String extension;
+        switch (imageType) {
+            case GIF:
+                extension = "gif";
+                break;
+            case JPEG:
+                extension = "jpg";
+                break;
+            case PNG_A:
+            case PNG:
+                extension = "png";
+                break;
+            case WEBP_A:
+            case WEBP:
+                extension = "webp";
+                break;
+            default:
+                return defaultType;
+        }
+        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+    }
+
     @Override
     public String getType(Uri uri) {
         String type = super.getType(uri);
@@ -45,30 +69,5 @@ public class ImgFileProvider extends FileProvider {
             e.printStackTrace();
         }
         return type;
-    }
-
-
-    private static String getTypeFromImageType(ImageHeaderParser.ImageType imageType,
-                                               String defaultType) {
-        String extension;
-        switch (imageType) {
-            case GIF:
-                extension = "gif";
-                break;
-            case JPEG:
-                extension = "jpg";
-                break;
-            case PNG_A:
-            case PNG:
-                extension = "png";
-                break;
-            case WEBP_A:
-            case WEBP:
-                extension = "webp";
-                break;
-            default:
-                return defaultType;
-        }
-        return MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
     }
 }

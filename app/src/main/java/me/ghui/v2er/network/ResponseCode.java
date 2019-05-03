@@ -5,5 +5,5 @@ package me.ghui.v2er.network;
  */
 
 public interface ResponseCode {
-	int CODE_SUCCESS = 0;
+    int CODE_SUCCESS = 0;
 }

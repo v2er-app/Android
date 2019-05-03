@@ -12,11 +12,6 @@ import java.util.ArrayList;
 
 public class KeyboardDetectorRelativeLayout extends RelativeLayout {
 
-    public interface IKeyboardChanged {
-        void onKeyboardShown();
-        void onKeyboardHidden();
-    }
-
     private ArrayList<IKeyboardChanged> keyboardListener = new ArrayList<IKeyboardChanged>();
 
     public KeyboardDetectorRelativeLayout(Context context, AttributeSet attrs, int defStyle) {
@@ -62,6 +57,12 @@ public class KeyboardDetectorRelativeLayout extends RelativeLayout {
         for (IKeyboardChanged listener : keyboardListener) {
             listener.onKeyboardShown();
         }
+    }
+
+    public interface IKeyboardChanged {
+        void onKeyboardShown();
+
+        void onKeyboardHidden();
     }
 
 }

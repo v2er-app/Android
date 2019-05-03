@@ -10,10 +10,10 @@
         style="@style/TitleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
         android:paddingLeft="24dp"
-        android:paddingRight="24dp"
         android:paddingTop="24dp"
+        android:paddingRight="24dp"
+        android:paddingBottom="16dp"
         android:text="两步验证" />
 
     <android.support.design.widget.TextInputLayout
@@ -36,10 +36,10 @@
         android:layout_height="wrap_content"
         android:gravity="right|center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="16dp"
         android:paddingLeft="24dp"
+        android:paddingTop="16dp"
         android:paddingRight="8dp"
-        android:paddingTop="16dp">
+        android:paddingBottom="16dp">
 
         <Button
             android:id="@+id/negative_btn"

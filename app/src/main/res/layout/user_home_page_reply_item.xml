@@ -11,9 +11,9 @@
         android:id="@+id/reply_title_tv"
         style="@style/hintText"
         android:layout_width="match_parent"
-        android:paddingBottom="8dp"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
+        android:paddingBottom="8dp"
         tools:text="回复了 HRTops 创建的主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！" />
 
     <LinearLayout
@@ -43,10 +43,10 @@
         style="@style/hintText"
         android:layout_width="match_parent"
         android:gravity="right"
-        android:paddingBottom="12dp"
         android:paddingLeft="12dp"
-        android:paddingRight="12dp"
         android:paddingTop="8dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="12dp"
         tools:text="32天前" />
 
     <View

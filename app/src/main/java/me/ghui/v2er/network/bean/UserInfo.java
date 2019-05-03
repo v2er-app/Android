@@ -43,6 +43,13 @@ public class UserInfo extends BaseInfo {
     private String avatar;
     private String created;
 
+    public static UserInfo build(String userName, String avatar) {
+        UserInfo userInfo = new UserInfo();
+        userInfo.setUserName(userName);
+        userInfo.setAvatar(avatar);
+        return userInfo;
+    }
+
     public String getStatus() {
         return status;
     }
@@ -145,13 +152,6 @@ public class UserInfo extends BaseInfo {
 
     public void setCreated(String created) {
         this.created = created;
-    }
-
-    public static UserInfo build(String userName, String avatar) {
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserName(userName);
-        userInfo.setAvatar(avatar);
-        return userInfo;
     }
 
     @Override

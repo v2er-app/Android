@@ -32,6 +32,9 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
+    private Preference cachePref;
+    private Preference loginPreference;
+
     public static SettingFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -40,10 +43,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         fragment.setArguments(args);
         return fragment;
     }
-
-    private Preference cachePref;
-    private Preference loginPreference;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -157,7 +156,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
             Navigator.from(getActivity()).to(ProInfoActivity.class).start();
-        }  else if (key.equals(getString(R.string.pref_key_user_group))) {
+        } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
             Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));

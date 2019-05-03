@@ -12,5 +12,5 @@ import me.ghui.v2er.module.home.NewsFragment;
 @PerFragment
 @Component(dependencies = AppComponent.class, modules = NewsModule.class)
 public interface NewsComponent {
-	void inject(NewsFragment fragment);
+    void inject(NewsFragment fragment);
 }

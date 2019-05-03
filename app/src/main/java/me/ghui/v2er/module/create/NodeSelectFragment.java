@@ -130,6 +130,10 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
         dismiss();
     }
 
+    public interface OnSelectedListener {
+        void onSelected(CreateTopicPageInfo.BaseNode node);
+    }
+
     private class FilterAdapter extends CommonAdapter<CreateTopicPageInfo.BaseNode> implements Filterable {
         private ValueFilter mValueFilter;
 
@@ -188,11 +192,6 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
                 notifyDataSetChanged();
             }
         }
-    }
-
-
-    public interface OnSelectedListener {
-        void onSelected(CreateTopicPageInfo.BaseNode node);
     }
 
 }

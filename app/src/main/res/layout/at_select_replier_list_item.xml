@@ -3,25 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/mentioned_list_height"
-    android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:background="?attr/page_bg_color"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="vertical">
 
     <View
         android:id="@+id/top_cardview_divider"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:visibility="gone"
-        android:background="@drawable/cardview_top_shadow" />
+        android:background="@drawable/cardview_top_shadow"
+        android:visibility="gone" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingBottom="4dp"
         android:paddingLeft="16dp"
-        android:paddingTop="4dp">
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/replier_avatar_img"

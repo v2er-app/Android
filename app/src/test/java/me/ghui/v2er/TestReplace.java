@@ -9,6 +9,6 @@ public class TestReplace {
     public void testReplaceString() {
         String str = "abc\nfdafa";
         str = str.replaceAll("\n", "\n\n");
-        Assert.assertEquals(str,"abc\n\nfdafa");
+        Assert.assertEquals(str, "abc\n\nfdafa");
     }
 }

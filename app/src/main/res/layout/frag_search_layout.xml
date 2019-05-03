@@ -46,10 +46,10 @@
 
                 <EditText
                     android:id="@+id/search_edit_text"
+                    style="@style/TitleEditText"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    style="@style/TitleEditText"
                     android:gravity="center_vertical"
                     android:hint="Search..."
                     android:imeOptions="actionSearch"

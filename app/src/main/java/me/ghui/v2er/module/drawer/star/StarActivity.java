@@ -22,13 +22,12 @@ import me.ghui.v2er.widget.CSlidingTabLayout;
  */
 
 public class StarActivity extends BaseActivity {
-    private ArrayList<Fragment> mFragments = new ArrayList<>(2);
     private static final String TAB_INDEX = KEY("tab_index");
-
     @BindView(R.id.tablayout_main)
     CSlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
+    private ArrayList<Fragment> mFragments = new ArrayList<>(2);
 
     public static void open(Context context) {
         open(context, 0);

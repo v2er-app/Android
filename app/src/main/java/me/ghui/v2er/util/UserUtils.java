@@ -66,11 +66,11 @@ public class UserUtils {
         return false;
     }
 
-    public static void savePro(boolean isPro){
+    public static void savePro(boolean isPro) {
         Pref.save(IS_PRO_KEY, isPro);
     }
 
-    public static boolean isPro(){
+    public static boolean isPro() {
         return Pref.readBool(IS_PRO_KEY);
     }
 

@@ -52,15 +52,15 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     private boolean mNeedHideFab = false;
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
 
-    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
-        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
-    }
-
     public static NewsFragment newInstance() {
         Bundle args = new Bundle();
         NewsFragment fragment = new NewsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
+        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
     }
 
     @Override

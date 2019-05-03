@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
-    android:paddingBottom="20dp"
-    android:paddingEnd="16dp"
     android:paddingStart="16dp"
-    android:paddingTop="50dp">
+    android:paddingTop="50dp"
+    android:paddingEnd="16dp"
+    android:paddingBottom="20dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
@@ -23,14 +23,14 @@
         android:id="@+id/user_name_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
-        android:textColor="?attr/icon_tint_color"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:maxLines="1"
         android:minWidth="@dimen/medium_avatar_size"
-        android:paddingBottom="0dp"
         android:paddingTop="4dp"
+        android:paddingBottom="0dp"
         android:text="请先登录"
+        android:textColor="?attr/icon_tint_color"
         app:layout_constraintStart_toStartOf="@id/avatar_img"
         app:layout_constraintTop_toBottomOf="@id/avatar_img" />
 

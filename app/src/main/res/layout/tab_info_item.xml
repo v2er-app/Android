@@ -4,13 +4,13 @@
     android:id="@+id/tab_title_tv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textColor="?attr/bodyTextColor"
     android:layout_margin="6dp"
     android:background="?attr/tag_bg_color"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:gravity="center"
     android:maxLines="1"
-    android:paddingBottom="8dp"
     android:paddingTop="8dp"
+    android:paddingBottom="8dp"
+    android:textColor="?attr/bodyTextColor"
     tools:text="TEST" />
 

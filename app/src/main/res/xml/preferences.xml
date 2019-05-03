@@ -31,22 +31,22 @@
             android:summary="开启后当你每次打开App时会尝试自动签到"
             android:title="自动签到" />
         <!--<SwitchPreference-->
-            <!--android:defaultValue="false"-->
-            <!--android:key="@string/pref_key_auto_daynight"-->
-            <!--android:layout="@layout/preference_item"-->
-            <!--android:summary="开启后将会自动切换日夜间模式"-->
-            <!--android:title="@string/auto_day_night_mode" />-->
+        <!--android:defaultValue="false"-->
+        <!--android:key="@string/pref_key_auto_daynight"-->
+        <!--android:layout="@layout/preference_item"-->
+        <!--android:summary="开启后将会自动切换日夜间模式"-->
+        <!--android:title="@string/auto_day_night_mode" />-->
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="显示">
         <ListPreference
-            android:key="@string/pref_key_fontsize"
-            android:title="文字大小"
-            android:layout="@layout/preference_item"
             android:defaultValue="中"
             android:entries="@array/font_sizes_entry"
-            android:entryValues="@array/font_sizes" />
+            android:entryValues="@array/font_sizes"
+            android:key="@string/pref_key_fontsize"
+            android:layout="@layout/preference_item"
+            android:title="文字大小" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_key_title_overview"
@@ -115,9 +115,9 @@
             android:layout="@layout/preference_item" />
         <Preference
             android:key="@string/pref_key_rate"
-            android:title="好评"
+            android:layout="@layout/preference_item"
             android:summary="去商店给V2er一个好评吧"
-            android:layout="@layout/preference_item" />
+            android:title="好评" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"

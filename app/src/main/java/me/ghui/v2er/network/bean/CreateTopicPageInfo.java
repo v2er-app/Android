@@ -88,6 +88,17 @@ public class CreateTopicPageInfo extends BaseInfo {
     }
 
     public static class HotNode implements BaseNode {
+        public static final Creator<HotNode> CREATOR = new Creator<HotNode>() {
+            @Override
+            public HotNode createFromParcel(Parcel in) {
+                return new HotNode(in);
+            }
+
+            @Override
+            public HotNode[] newArray(int size) {
+                return new HotNode[size];
+            }
+        };
         @Pick
         private String title;
         @Pick(attr = Attrs.HREF)
@@ -101,18 +112,6 @@ public class CreateTopicPageInfo extends BaseInfo {
             title = in.readString();
             idText = in.readString();
         }
-
-        public static final Creator<HotNode> CREATOR = new Creator<HotNode>() {
-            @Override
-            public HotNode createFromParcel(Parcel in) {
-                return new HotNode(in);
-            }
-
-            @Override
-            public HotNode[] newArray(int size) {
-                return new HotNode[size];
-            }
-        };
 
         @Override
         public String getTitle() {
@@ -152,6 +151,17 @@ public class CreateTopicPageInfo extends BaseInfo {
 
     //浏览器 / browsers
     public static class Node implements BaseNode {
+        public static final Creator<Node> CREATOR = new Creator<Node>() {
+            @Override
+            public Node createFromParcel(Parcel in) {
+                return new Node(in);
+            }
+
+            @Override
+            public Node[] newArray(int size) {
+                return new Node[size];
+            }
+        };
         @Pick("option")
         private String titleAndId;
 
@@ -165,18 +175,6 @@ public class CreateTopicPageInfo extends BaseInfo {
         protected Node(Parcel in) {
             titleAndId = in.readString();
         }
-
-        public static final Creator<Node> CREATOR = new Creator<Node>() {
-            @Override
-            public Node createFromParcel(Parcel in) {
-                return new Node(in);
-            }
-
-            @Override
-            public Node[] newArray(int size) {
-                return new Node[size];
-            }
-        };
 
         @Override
         public String getTitle() {

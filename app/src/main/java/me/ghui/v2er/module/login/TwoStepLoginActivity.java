@@ -39,12 +39,11 @@ import me.ghui.v2er.widget.BaseToolBar;
 
 public class TwoStepLoginActivity extends BaseActivity implements ClipboardManager.OnPrimaryClipChangedListener {
     private static String KEY_TWO_STEP_LOGIN_ONCE = KEY("two_step_login_once");
-    private String mOnce;
-
     @BindView(R.id.login_code_text_input_layout)
     TextInputLayout mTextInputLayout;
     @BindView(R.id.positive_btn)
     Button mPositiveBtn;
+    private String mOnce;
     private ClipboardManager mClipboardManager;
 
     public static void open(String once, Context context) {

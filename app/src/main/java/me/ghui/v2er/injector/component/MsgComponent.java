@@ -12,5 +12,5 @@ import me.ghui.v2er.module.home.MsgFragment;
 @PerFragment
 @Component(dependencies = AppComponent.class, modules = MsgModule.class)
 public interface MsgComponent {
-	void inject(MsgFragment fragment);
+    void inject(MsgFragment fragment);
 }

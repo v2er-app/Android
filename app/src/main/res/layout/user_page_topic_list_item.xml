@@ -40,15 +40,15 @@
         android:layout_below="@id/user_name_tv"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
-        android:paddingBottom="8dp"
         android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
-        android:layout_alignParentRight="true"
         android:layout_below="@id/title_tv"
+        android:layout_alignParentRight="true"
         android:layout_marginRight="12dp"
         android:paddingBottom="12dp"
         tools:text="1小时17分钟前" />

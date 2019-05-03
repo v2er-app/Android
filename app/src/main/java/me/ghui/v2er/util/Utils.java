@@ -188,14 +188,14 @@ public class Utils {
         return false;
     }
 
-    public static void sendMigrateMail(Activity context){
+    public static void sendMigrateMail(Activity context) {
         String content = null;
-        if(UserUtils.getUserInfo() != null){
+        if (UserUtils.getUserInfo() != null) {
             content = "V2EX用户名：" + UserUtils.getUserName() + "\n";
         }
         content += "请输入您的Google play账户：\n";
         sendEmail(context, context.getString(R.string.feedback_email),
-               "获取内购兑换码",
+                "获取内购兑换码",
                 content);
     }
 
@@ -382,18 +382,6 @@ public class Utils {
         context.startActivity(i);
     }
 
-    public boolean isRunning(Context ctx) {
-        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
-
-        for (ActivityManager.RunningTaskInfo task : tasks) {
-            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName()))
-                return true;
-        }
-
-        return false;
-    }
-
     public static boolean isAppAvailable(String appName) {
         if (Check.isEmpty(appName)) return true;
         PackageManager pm = App.get().getPackageManager();
@@ -436,12 +424,24 @@ public class Utils {
         else if (url.endsWith(".png")) type = "png";
         else if (url.endsWith(".jpg")) type = "jpg";
         else if (url.endsWith(".jpeg")) type = "jpeg";
-        else if(url.endsWith(".svg")) type = "svg";
+        else if (url.endsWith(".svg")) type = "svg";
         return type;
     }
 
     public static boolean isSVG(String url) {
         return "svg".equals(getTypeFromImgUrl(url));
+    }
+
+    public boolean isRunning(Context ctx) {
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (ActivityManager.RunningTaskInfo task : tasks) {
+            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName()))
+                return true;
+        }
+
+        return false;
     }
 
 }

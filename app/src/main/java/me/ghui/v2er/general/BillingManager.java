@@ -26,19 +26,19 @@ import me.ghui.v2er.util.Utils;
 
 public class BillingManager implements PurchasesUpdatedListener {
     private static final String TAG = "BillingManager";
-    private final BillingClient mBillingClient;
     private static final String SKU_TYPE = BillingClient.SkuType.INAPP;
     private static final String SKU_ID = "v2er.pro";
     private static final String LAST_CHECK_TIME = Utils.KEY("last_check_time");
+    private final BillingClient mBillingClient;
     private PurchaseListener mPurchaseListener;
 
 
-    public static BillingManager get() {
-        return new BillingManager();
-    }
-
     private BillingManager() {
         mBillingClient = BillingClient.newBuilder(App.get()).setListener(this).build();
+    }
+
+    public static BillingManager get() {
+        return new BillingManager();
     }
 
     public void destroy() {

@@ -27,17 +27,17 @@
     <TextView
         android:id="@+id/time_tv"
         style="@style/hintText"
-        android:layout_alignBottom="@id/avatar_img"
         android:layout_alignLeft="@id/user_name_tv"
+        android:layout_alignBottom="@id/avatar_img"
         android:paddingRight="4dp"
         tools:text="1小时17分钟前" />
 
     <TextView
         android:id="@+id/comment_num_tv"
         style="@style/hintText"
-        android:paddingLeft="0dp"
         android:layout_alignBottom="@id/avatar_img"
         android:layout_toRightOf="@id/time_tv"
+        android:paddingLeft="0dp"
         tools:text="评论38" />
 
     <me.ghui.v2er.widget.TagView

@@ -62,10 +62,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
     private static final String TAG_BASIC_NODE_INFO = KEY("node_basic_node_info");
-    private String mTagName;
-    //page value when enter
-    private int mInitPage;
-
     @BindView(R.id.base_recyclerview)
     HackRecyclerView mRecyclerView;
     @BindView(R.id.node_img)
@@ -88,21 +84,17 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     TextView mNodeStarNumTv;
     @BindView(R.id.node_info_star_ct)
     FollowProgressBtn mStarBtn;
-
     @Inject
     LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> mAdapter;
+    private String mTagName;
+    //page value when enter
+    private int mInitPage;
     private NodeInfo mNodeInfo;
 
     private MenuItem mLoveMenuItem;
     private NodeTopicInfo mNodeTopicInfo;
     private boolean isAppbarExpanted;
     private boolean mIsReturning;
-    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
-    private int mAppBarOffset;
-    private boolean mAppBarIdle = false;
-    private int mAppBarMaxOffset;
-    //for bugfix end
-
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -112,6 +104,11 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             }
         }
     };
+    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
+    private int mAppBarOffset;
+    private boolean mAppBarIdle = false;
+    //for bugfix end
+    private int mAppBarMaxOffset;
 
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         if (sourceView != null && sourceView instanceof ImageView) {

@@ -60,7 +60,7 @@ public class GalleryAdapter extends PagerAdapter {
         container.addView(root);
         // TODO: 2019/1/4 support svg
         String url = getItem(position).getUrl();
-        if(!Utils.isSVG(url)){
+        if (!Utils.isSVG(url)) {
             GlideApp.with(mContext)
                     .load(url)
                     .centerInside()

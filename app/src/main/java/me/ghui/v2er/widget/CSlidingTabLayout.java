@@ -43,6 +43,15 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
  * 滑动TabLayout,对于ViewPager的依赖性强
  */
 public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager.OnPageChangeListener {
+    private static final int STYLE_NORMAL = 0;
+    private static final int STYLE_TRIANGLE = 1;
+    private static final int STYLE_BLOCK = 2;
+    /**
+     * title
+     */
+    private static final int TEXT_BOLD_NONE = 0;
+    private static final int TEXT_BOLD_WHEN_SELECT = 1;
+    private static final int TEXT_BOLD_BOTH = 2;
     private Context mContext;
     private ViewPager mViewPager;
     private ArrayList<String> mTitles;
@@ -59,20 +68,14 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
      */
     private Rect mTabRect = new Rect();
     private GradientDrawable mIndicatorDrawable = new GradientDrawable();
-
     private Paint mRectPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mTrianglePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mTrianglePath = new Path();
-    private static final int STYLE_NORMAL = 0;
-    private static final int STYLE_TRIANGLE = 1;
-    private static final int STYLE_BLOCK = 2;
     private int mIndicatorStyle = STYLE_NORMAL;
-
     private float mTabPadding;
     private boolean mTabSpaceEqual;
     private float mTabWidth;
-
     /**
      * indicator
      */
@@ -86,27 +89,18 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
     private float mIndicatorMarginBottom;
     private int mIndicatorGravity;
     private boolean mIndicatorWidthEqualTitle;
-
     /**
      * underline
      */
     private int mUnderlineColor;
     private float mUnderlineHeight;
     private int mUnderlineGravity;
-
     /**
      * divider
      */
     private int mDividerColor;
     private float mDividerWidth;
     private float mDividerPadding;
-
-    /**
-     * title
-     */
-    private static final int TEXT_BOLD_NONE = 0;
-    private static final int TEXT_BOLD_WHEN_SELECT = 1;
-    private static final int TEXT_BOLD_BOTH = 2;
     private float mTextsize;
     private int mTextSelectColor;
     private int mTextUnselectColor;
@@ -116,6 +110,11 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
     private int mLastScrollX;
     private int mHeight;
     private boolean mSnapOnTabClick;
+    private float margin;
+    // show MsgTipView
+    private Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private SparseArray<Boolean> mInitSetMap = new SparseArray<>();
+    private OnTabSelectListener mListener;
 
     public CSlidingTabLayout(Context context) {
         this(context, null, 0);
@@ -168,7 +167,7 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
 
         mUnderlineColor = ta.getColor(R.styleable.SlidingTabLayout_tl_underline_color, Color.parseColor("#ffffff"));
         mUnderlineHeight = ta.getDimension(R.styleable.SlidingTabLayout_tl_underline_height, dp2px(0));
-        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), (int) (getPaddingBottom() + 2*mUnderlineHeight));
+        setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), (int) (getPaddingBottom() + 2 * mUnderlineHeight));
         mUnderlineGravity = ta.getInt(R.styleable.SlidingTabLayout_tl_underline_gravity, Gravity.BOTTOM);
 
         mDividerColor = ta.getColor(R.styleable.SlidingTabLayout_tl_divider_color, Color.parseColor("#ffffff"));
@@ -411,8 +410,6 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         }
     }
 
-    private float margin;
-
     private void calcIndicatorRect() {
         View currentTabView = mTabsContainer.getChildAt(this.mCurrentTab);
         float left = currentTabView.getLeft();
@@ -559,56 +556,9 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         }
     }
 
-    //setter and getter
-    public void setCurrentTab(int currentTab) {
-        this.mCurrentTab = currentTab;
-        mViewPager.setCurrentItem(currentTab);
-
-    }
-
     public void setCurrentTab(int currentTab, boolean smoothScroll) {
         this.mCurrentTab = currentTab;
         mViewPager.setCurrentItem(currentTab, smoothScroll);
-    }
-
-    public void setIndicatorStyle(int indicatorStyle) {
-        this.mIndicatorStyle = indicatorStyle;
-        invalidate();
-    }
-
-    public void setTabPadding(float tabPadding) {
-        this.mTabPadding = dp2px(tabPadding);
-        updateTabStyles();
-    }
-
-    public void setTabSpaceEqual(boolean tabSpaceEqual) {
-        this.mTabSpaceEqual = tabSpaceEqual;
-        updateTabStyles();
-    }
-
-    public void setTabWidth(float tabWidth) {
-        this.mTabWidth = dp2px(tabWidth);
-        updateTabStyles();
-    }
-
-    public void setIndicatorColor(int indicatorColor) {
-        this.mIndicatorColor = indicatorColor;
-        invalidate();
-    }
-
-    public void setIndicatorHeight(float indicatorHeight) {
-        this.mIndicatorHeight = dp2px(indicatorHeight);
-        invalidate();
-    }
-
-    public void setIndicatorWidth(float indicatorWidth) {
-        this.mIndicatorWidth = dp2px(indicatorWidth);
-        invalidate();
-    }
-
-    public void setIndicatorCornerRadius(float indicatorCornerRadius) {
-        this.mIndicatorCornerRadius = dp2px(indicatorCornerRadius);
-        invalidate();
     }
 
     public void setIndicatorGravity(int indicatorGravity) {
@@ -630,65 +580,14 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         invalidate();
     }
 
-    public void setUnderlineColor(int underlineColor) {
-        this.mUnderlineColor = underlineColor;
-        invalidate();
-    }
-
-    public void setUnderlineHeight(float underlineHeight) {
-        this.mUnderlineHeight = dp2px(underlineHeight);
-        invalidate();
-    }
-
     public void setUnderlineGravity(int underlineGravity) {
         this.mUnderlineGravity = underlineGravity;
         invalidate();
     }
 
-    public void setDividerColor(int dividerColor) {
-        this.mDividerColor = dividerColor;
-        invalidate();
-    }
-
-    public void setDividerWidth(float dividerWidth) {
-        this.mDividerWidth = dp2px(dividerWidth);
-        invalidate();
-    }
-
-    public void setDividerPadding(float dividerPadding) {
-        this.mDividerPadding = dp2px(dividerPadding);
-        invalidate();
-    }
-
-    public void setTextsize(float textsize) {
-        this.mTextsize = sp2px(textsize);
-        updateTabStyles();
-    }
-
-    public void setTextSelectColor(int textSelectColor) {
-        this.mTextSelectColor = textSelectColor;
-        updateTabStyles();
-    }
-
-    public void setTextUnselectColor(int textUnselectColor) {
-        this.mTextUnselectColor = textUnselectColor;
-        updateTabStyles();
-    }
-
-    public void setTextBold(int textBold) {
-        this.mTextBold = textBold;
-        updateTabStyles();
-    }
-
-    public void setTextAllCaps(boolean textAllCaps) {
-        this.mTextAllCaps = textAllCaps;
-        updateTabStyles();
-    }
-
     public void setSnapOnTabClick(boolean snapOnTabClick) {
         mSnapOnTabClick = snapOnTabClick;
     }
-
 
     public int getTabCount() {
         return mTabCount;
@@ -698,36 +597,83 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         return mCurrentTab;
     }
 
+    //setter and getter
+    public void setCurrentTab(int currentTab) {
+        this.mCurrentTab = currentTab;
+        mViewPager.setCurrentItem(currentTab);
+
+    }
+
     public int getIndicatorStyle() {
         return mIndicatorStyle;
+    }
+
+    public void setIndicatorStyle(int indicatorStyle) {
+        this.mIndicatorStyle = indicatorStyle;
+        invalidate();
     }
 
     public float getTabPadding() {
         return mTabPadding;
     }
 
+    public void setTabPadding(float tabPadding) {
+        this.mTabPadding = dp2px(tabPadding);
+        updateTabStyles();
+    }
+
     public boolean isTabSpaceEqual() {
         return mTabSpaceEqual;
+    }
+
+    public void setTabSpaceEqual(boolean tabSpaceEqual) {
+        this.mTabSpaceEqual = tabSpaceEqual;
+        updateTabStyles();
     }
 
     public float getTabWidth() {
         return mTabWidth;
     }
 
+    public void setTabWidth(float tabWidth) {
+        this.mTabWidth = dp2px(tabWidth);
+        updateTabStyles();
+    }
+
     public int getIndicatorColor() {
         return mIndicatorColor;
+    }
+
+    public void setIndicatorColor(int indicatorColor) {
+        this.mIndicatorColor = indicatorColor;
+        invalidate();
     }
 
     public float getIndicatorHeight() {
         return mIndicatorHeight;
     }
 
+    public void setIndicatorHeight(float indicatorHeight) {
+        this.mIndicatorHeight = dp2px(indicatorHeight);
+        invalidate();
+    }
+
     public float getIndicatorWidth() {
         return mIndicatorWidth;
     }
 
+    public void setIndicatorWidth(float indicatorWidth) {
+        this.mIndicatorWidth = dp2px(indicatorWidth);
+        invalidate();
+    }
+
     public float getIndicatorCornerRadius() {
         return mIndicatorCornerRadius;
+    }
+
+    public void setIndicatorCornerRadius(float indicatorCornerRadius) {
+        this.mIndicatorCornerRadius = dp2px(indicatorCornerRadius);
+        invalidate();
     }
 
     public float getIndicatorMarginLeft() {
@@ -750,40 +696,92 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         return mUnderlineColor;
     }
 
+    public void setUnderlineColor(int underlineColor) {
+        this.mUnderlineColor = underlineColor;
+        invalidate();
+    }
+
     public float getUnderlineHeight() {
         return mUnderlineHeight;
+    }
+
+    public void setUnderlineHeight(float underlineHeight) {
+        this.mUnderlineHeight = dp2px(underlineHeight);
+        invalidate();
     }
 
     public int getDividerColor() {
         return mDividerColor;
     }
 
+    public void setDividerColor(int dividerColor) {
+        this.mDividerColor = dividerColor;
+        invalidate();
+    }
+
     public float getDividerWidth() {
         return mDividerWidth;
+    }
+
+    public void setDividerWidth(float dividerWidth) {
+        this.mDividerWidth = dp2px(dividerWidth);
+        invalidate();
     }
 
     public float getDividerPadding() {
         return mDividerPadding;
     }
 
+    public void setDividerPadding(float dividerPadding) {
+        this.mDividerPadding = dp2px(dividerPadding);
+        invalidate();
+    }
+
     public float getTextsize() {
         return mTextsize;
+    }
+
+    public void setTextsize(float textsize) {
+        this.mTextsize = sp2px(textsize);
+        updateTabStyles();
     }
 
     public int getTextSelectColor() {
         return mTextSelectColor;
     }
 
+    public void setTextSelectColor(int textSelectColor) {
+        this.mTextSelectColor = textSelectColor;
+        updateTabStyles();
+    }
+
     public int getTextUnselectColor() {
         return mTextUnselectColor;
+    }
+
+    public void setTextUnselectColor(int textUnselectColor) {
+        this.mTextUnselectColor = textUnselectColor;
+        updateTabStyles();
     }
 
     public int getTextBold() {
         return mTextBold;
     }
 
+    public void setTextBold(int textBold) {
+        this.mTextBold = textBold;
+        updateTabStyles();
+    }
+
+    //setter and getter
+
     public boolean isTextAllCaps() {
         return mTextAllCaps;
+    }
+
+    public void setTextAllCaps(boolean textAllCaps) {
+        this.mTextAllCaps = textAllCaps;
+        updateTabStyles();
     }
 
     public TextView getTitleView(int tab) {
@@ -791,12 +789,6 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         TextView tv_tab_title = (TextView) tabView.findViewById(R.id.tv_tab_title);
         return tv_tab_title;
     }
-
-    //setter and getter
-
-    // show MsgTipView
-    private Paint mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private SparseArray<Boolean> mInitSetMap = new SparseArray<>();
 
     /**
      * 显示未读消息
@@ -883,10 +875,40 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         return tipView;
     }
 
-    private OnTabSelectListener mListener;
-
     public void setOnTabSelectListener(OnTabSelectListener listener) {
         this.mListener = listener;
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("instanceState", super.onSaveInstanceState());
+        bundle.putInt("mCurrentTab", mCurrentTab);
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state instanceof Bundle) {
+            Bundle bundle = (Bundle) state;
+            mCurrentTab = bundle.getInt("mCurrentTab");
+            state = bundle.getParcelable("instanceState");
+            if (mCurrentTab != 0 && mTabsContainer.getChildCount() > 0) {
+                updateTabSelection(mCurrentTab);
+                scrollToCurrentTab();
+            }
+        }
+        super.onRestoreInstanceState(state);
+    }
+
+    protected int dp2px(float dp) {
+        final float scale = mContext.getResources().getDisplayMetrics().density;
+        return (int) (dp * scale + 0.5f);
+    }
+
+    protected int sp2px(float sp) {
+        final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (sp * scale + 0.5f);
     }
 
     class InnerPagerAdapter extends FragmentPagerAdapter {
@@ -924,37 +946,5 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         public int getItemPosition(Object object) {
             return PagerAdapter.POSITION_NONE;
         }
-    }
-
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        Bundle bundle = new Bundle();
-        bundle.putParcelable("instanceState", super.onSaveInstanceState());
-        bundle.putInt("mCurrentTab", mCurrentTab);
-        return bundle;
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Parcelable state) {
-        if (state instanceof Bundle) {
-            Bundle bundle = (Bundle) state;
-            mCurrentTab = bundle.getInt("mCurrentTab");
-            state = bundle.getParcelable("instanceState");
-            if (mCurrentTab != 0 && mTabsContainer.getChildCount() > 0) {
-                updateTabSelection(mCurrentTab);
-                scrollToCurrentTab();
-            }
-        }
-        super.onRestoreInstanceState(state);
-    }
-
-    protected int dp2px(float dp) {
-        final float scale = mContext.getResources().getDisplayMetrics().density;
-        return (int) (dp * scale + 0.5f);
-    }
-
-    protected int sp2px(float sp) {
-        final float scale = this.mContext.getResources().getDisplayMetrics().scaledDensity;
-        return (int) (sp * scale + 0.5f);
     }
 }

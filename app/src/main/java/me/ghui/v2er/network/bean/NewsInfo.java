@@ -138,13 +138,13 @@ public class NewsInfo extends BaseInfo {
             return tagName;
         }
 
+        public void setTagName(String tagName) {
+            this.tagName = tagName;
+        }
+
         public String getTagId() {
             if (Check.isEmpty(tagLink)) return null;
             return tagLink.substring(tagLink.lastIndexOf("/") + 1);
-        }
-
-        public void setTagName(String tagName) {
-            this.tagName = tagName;
         }
 
         public String getTagLink() {

@@ -12,14 +12,7 @@ import java.io.InputStreamReader;
  */
 public class RomUtils {
 
-    class AvailableRomType {
-        public static final int MIUI = 1;
-        public static final int FLYME = 2;
-        public static final int ANDROID_NATIVE = 3;
-        public static final int NA = 4;
-    }
-
-    public static boolean isLightStatusBarAvailable () {
+    public static boolean isLightStatusBarAvailable() {
         if (isMIUIV6OrAbove() || isFlymeV4OrAbove() || isAndroidMOrAbove()) {
             return true;
         }
@@ -68,7 +61,8 @@ public class RomUtils {
                 if (miuiVersionCode >= 4) {
                     return true;
                 }
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
         return false;
     }
@@ -100,5 +94,12 @@ public class RomUtils {
             }
         }
         return line;
+    }
+
+    class AvailableRomType {
+        public static final int MIUI = 1;
+        public static final int FLYME = 2;
+        public static final int ANDROID_NATIVE = 3;
+        public static final int NA = 4;
     }
 }

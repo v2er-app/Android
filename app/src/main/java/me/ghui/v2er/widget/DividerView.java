@@ -7,7 +7,6 @@ import android.view.View;
 
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
-import me.ghui.v2er.util.DayNightUtil;
 
 /**
  * Created by ghui on 11/05/2017.

@@ -55,8 +55,11 @@ import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
  */
 
 public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> implements
-        MultiItemTypeAdapter.OnItemClickListener, UserHomeContract.IView ,HackRecyclerView.AppBarTracking {
+        MultiItemTypeAdapter.OnItemClickListener, UserHomeContract.IView, HackRecyclerView.AppBarTracking {
 
+    public static final String USER_NAME_KEY = KEY("user_name_key");
+    private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
+    private static final String USER_SHARE_ELEMENT_AVATAR_KEY = KEY("user_share_element_avatar_key");
     @BindView(R.id.base_recyclerview)
     HackRecyclerView mRecyclerView;
     @BindView(R.id.user_img)
@@ -79,26 +82,13 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     FollowProgressBtn mUserFollowbtn;
     @BindView(R.id.user_block_btn)
     FollowProgressBtn mUserBlockBtn;
-    private UserPageInfo mUserPageInfo;
-
     @Inject
     MultiItemTypeAdapter<UserPageInfo.Item> mAdapter;
-    public static final String USER_NAME_KEY = KEY("user_name_key");
-    private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
-    private static final String USER_SHARE_ELEMENT_AVATAR_KEY = KEY("user_share_element_avatar_key");
+    private UserPageInfo mUserPageInfo;
     private String mUserName;
     private String mAvatar;
     private boolean mIsReturning;
     private boolean isAppbarExpanted;
-    private String mTransitionName;
-
-    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
-    private int mAppBarOffset;
-    private boolean mAppBarIdle = false;
-    private int mAppBarMaxOffset;
-    //for bugfix end
-
-
     private final SharedElementCallback mCallback = new SharedElementCallback() {
         @Override
         public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
@@ -108,6 +98,28 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             }
         }
     };
+    private String mTransitionName;
+    //for bugfix start: https://stackoverflow.com/questions/45192654/how-to-avoid-collapsingtoolbarlayout-not-being-snapped-or-being-wobbly-when-sc
+    private int mAppBarOffset;
+    private boolean mAppBarIdle = false;
+    //for bugfix end
+    private int mAppBarMaxOffset;
+
+    public static void open(String userName, Context context, View sourceView, String avatar) {
+        if (sourceView != null && sourceView instanceof ImageView) {
+            ImageView imgview = (ImageView) sourceView;
+            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable) || imgview.getDrawable() == null) {
+                sourceView = null;
+            }
+        }
+        Navigator.from(context)
+                .to(UserHomeActivity.class)
+                .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                .putExtra(UserHomeActivity.USER_AVATAR_KEY, avatar)
+                .putExtra(UserHomeActivity.USER_SHARE_ELEMENT_AVATAR_KEY, sourceView == null ? null : sourceView.getTransitionName())
+                .shareElement(sourceView)
+                .start();
+    }
 
     @Override
     protected int attachLayoutRes() {
@@ -124,23 +136,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mUserName = intent.getStringExtra(USER_NAME_KEY);
         mAvatar = intent.getStringExtra(USER_AVATAR_KEY);
         mTransitionName = intent.getStringExtra(USER_SHARE_ELEMENT_AVATAR_KEY);
-    }
-
-
-    public static void open(String userName, Context context, View sourceView, String avatar) {
-        if (sourceView != null && sourceView instanceof ImageView) {
-            ImageView imgview = (ImageView) sourceView;
-            if (ViewUtils.isSameImgRes(imgview, R.drawable.avatar_placeholder_drawable) || imgview.getDrawable() == null) {
-                sourceView = null;
-            }
-        }
-        Navigator.from(context)
-                .to(UserHomeActivity.class)
-                .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
-                .putExtra(UserHomeActivity.USER_AVATAR_KEY, avatar)
-                .putExtra(UserHomeActivity.USER_SHARE_ELEMENT_AVATAR_KEY, sourceView == null ? null : sourceView.getTransitionName())
-                .shareElement(sourceView)
-                .start();
     }
 
     @Override

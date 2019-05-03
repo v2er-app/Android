@@ -41,8 +41,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp">
 
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/node_img"

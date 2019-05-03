@@ -16,8 +16,8 @@ import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 
 public class MentionedRecyclerView extends BaseRecyclerView implements MultiItemTypeAdapter.OnItemCountChangedListener {
 
-    private int ITEM_HEIGHT;
     private final int MAX_SHOW_SIZE = 3;
+    private int ITEM_HEIGHT;
     private int mScrollDis;
 
     public MentionedRecyclerView(Context context) {

@@ -8,10 +8,10 @@
     <me.ghui.v2er.widget.BaseToolBar
         android:id="@+id/node_select_toolbar"
         style="@style/BaseToolBar"
-        android:background="@android:color/transparent"
-        app:navigationIcon="@null"
         android:layout_height="@dimen/toolbar_size"
+        android:background="@android:color/transparent"
         app:elevation="2dp"
+        app:navigationIcon="@null"
         app:title="选择节点" />
 
     <me.ghui.v2er.widget.BaseRecyclerView

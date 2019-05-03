@@ -41,7 +41,7 @@ public class ImagesInfo implements Serializable {
         }
 
         Images(String[] imgs) {
-            for (String img: imgs) {
+            for (String img : imgs) {
                 add(new Image(img));
             }
         }
@@ -50,7 +50,7 @@ public class ImagesInfo implements Serializable {
             @Pick(attr = Attrs.SRC)
             private String url;
 
-            public Image(){
+            public Image() {
             }
 
             public Image(String url) {

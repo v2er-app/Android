@@ -20,8 +20,8 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class ProInfoActivity extends BaseActivity {
 
-    private boolean isPro;
     TextView mProTextTitle;
+    private boolean isPro;
 
     @Override
     protected int attachLayoutRes() {
@@ -43,7 +43,7 @@ public class ProInfoActivity extends BaseActivity {
         super.init();
         mProTextTitle = findViewById(R.id.pro_title_tv);
         isPro = UserUtils.isPro();
-        mProTextTitle.setText(isPro? "V2er Pro『已激活』" : "V2er Pro");
+        mProTextTitle.setText(isPro ? "V2er Pro『已激活』" : "V2er Pro");
     }
 
     @Override
@@ -74,13 +74,13 @@ public class ProInfoActivity extends BaseActivity {
 
     @OnClick(R.id.go_get_pro_btn)
     void onGetProClicked() {
-        if(isPro){
+        if (isPro) {
             Voast.show("Pro已激活，感谢支持!");
             return;
         }
         BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
             isPro = isSuccess;
-            String msg = isSuccess?"激活成功!" : "激活失败";
+            String msg = isSuccess ? "激活成功!" : "激活失败";
             Voast.show(msg);
         });
     }

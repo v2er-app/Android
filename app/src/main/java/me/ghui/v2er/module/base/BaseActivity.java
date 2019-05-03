@@ -60,19 +60,22 @@ import pub.devrel.easypermissions.EasyPermissions;
 public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView,
         IBindToLife, IBackHandler, BaseToolBar.OnDoubleTapListener {
 
+    public static long FIRST_LOADING_DELAY = 100;
+    @Inject
+    public T mPresenter;
     protected FrameLayout mRootView;
     protected ViewGroup mContentView;
     @Nullable
     protected BaseToolBar mToolbar;
     protected AppBarLayout mToolbarWrapper;
     protected View mLoadingView;
-
-    @Inject
-    public T mPresenter;
     private Stack<IBackable> mBackables;
-    public static long FIRST_LOADING_DELAY = 100;
     private long mFirstLoadingDelay = FIRST_LOADING_DELAY;
     private Runnable mDelayLoadingRunnable;
+
+    protected static String KEY(String key) {
+        return Utils.KEY(key);
+    }
 
     public void setFirstLoadingDelay(long delay) {
         mFirstLoadingDelay = delay;
@@ -147,7 +150,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected PtrHandler attachPtrHandler() {
         return null;
     }
-
 
     @Override
     public void handleBackable(IBackable backable) {
@@ -413,7 +415,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         return bindToLifecycle();
     }
 
-
     @Override
     public <K> ObservableTransformer<K, K> rx() {
         return rx(this);
@@ -440,10 +441,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void cancleRunnable(Runnable runnable) {
         mContentView.removeCallbacks(runnable);
-    }
-
-    protected static String KEY(String key) {
-        return Utils.KEY(key);
     }
 
     @SuppressWarnings("unchecked")

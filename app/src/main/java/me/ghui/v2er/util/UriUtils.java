@@ -42,7 +42,7 @@ public class UriUtils {
         try {
             URL u = new URL(url);
             u.toURI();
-        } catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
         return true;

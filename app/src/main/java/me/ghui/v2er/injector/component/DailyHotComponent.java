@@ -12,5 +12,5 @@ import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 @PerActivity
 @Component(dependencies = AppComponent.class, modules = DailyHotModule.class)
 public interface DailyHotComponent {
-	void inject(DailyHotActivity dailyHotActivity);
+    void inject(DailyHotActivity dailyHotActivity);
 }

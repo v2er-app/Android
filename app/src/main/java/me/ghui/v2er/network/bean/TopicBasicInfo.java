@@ -16,6 +16,15 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
     private String title;
     private int commentNum;
 
+    private TopicBasicInfo(Builder builder) {
+        this.title = builder.title;
+        this.avatar = builder.avatar;
+        this.author = builder.author;
+        this.tag = builder.tag;
+        this.tagLink = builder.tagLink;
+        this.commentNum = builder.commentNum;
+    }
+
     public String getTagLink() {
         return tagLink;
     }
@@ -38,15 +47,6 @@ public class TopicBasicInfo extends BaseInfo implements Serializable {
 
     public int getCommentNum() {
         return commentNum;
-    }
-
-    private TopicBasicInfo(Builder builder) {
-        this.title = builder.title;
-        this.avatar = builder.avatar;
-        this.author = builder.author;
-        this.tag = builder.tag;
-        this.tagLink = builder.tagLink;
-        this.commentNum = builder.commentNum;
     }
 
     @Override

@@ -24,6 +24,9 @@ import me.ghui.v2er.R;
 
 public class FollowProgressBtn extends FrameLayout {
 
+    public static final int NORMAL = 0;
+    public static final int UPDATING = 1;
+    public static final int FINISHED = 2;
     @BindView(R.id.status_imgview)
     ImageView statusView;
     @BindView(R.id.title_tv)
@@ -31,7 +34,6 @@ public class FollowProgressBtn extends FrameLayout {
     @BindView(R.id.progressbar)
     ProgressBar mProgressBar;
     private int mStatusInt;
-
 
     public FollowProgressBtn(Context context) {
         super(context);
@@ -106,14 +108,9 @@ public class FollowProgressBtn extends FrameLayout {
     public void startUpdate() {
         setStatus(UPDATING, mTitleTv.getText().toString(), -1);
     }
-
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({NORMAL, UPDATING, FINISHED})
     public @interface StatusInt {
     }
-
-    public static final int NORMAL = 0;
-    public static final int UPDATING = 1;
-    public static final int FINISHED = 2;
 
 }

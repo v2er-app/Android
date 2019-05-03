@@ -57,21 +57,6 @@ public class APIService {
         }
     }
 
-    private static class ConfigInterceptor implements Interceptor {
-
-        @Override
-        public Response intercept(Chain chain) throws IOException {
-            Request request = chain.request();
-            String ua = request.header(UA_KEY);
-            if (Check.isEmpty(ua)) {
-                request = request.newBuilder()
-                        .addHeader("user-agent", WAP_USER_AGENT)
-                        .build();
-            }
-            return chain.proceed(request);
-        }
-    }
-
     public static APIs get() {
         return mAPI_SERVICE;
     }
@@ -112,6 +97,21 @@ public class APIService {
             sCookieJar = new WebkitCookieManagerProxy();
         }
         return sCookieJar;
+    }
+
+    private static class ConfigInterceptor implements Interceptor {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            Request request = chain.request();
+            String ua = request.header(UA_KEY);
+            if (Check.isEmpty(ua)) {
+                request = request.newBuilder()
+                        .addHeader("user-agent", WAP_USER_AGENT)
+                        .build();
+            }
+            return chain.proceed(request);
+        }
     }
 
 }

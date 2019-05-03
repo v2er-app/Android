@@ -34,15 +34,15 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
     LoadMoreRecyclerView.Adapter<NotificationInfo.Reply> mAdapter;
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
 
-    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
-        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
-    }
-
     public static MsgFragment newInstance() {
         Bundle args = new Bundle();
         MsgFragment fragment = new MsgFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
+        mUpdateUnReadMsgDelegate = updateUnReadMsgDelegate;
     }
 
     @Override

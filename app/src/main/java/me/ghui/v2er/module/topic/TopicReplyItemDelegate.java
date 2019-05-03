@@ -28,12 +28,12 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     private OnMemberClickListener mMemberClickListener;
 
-    public void setMemberClickListener(OnMemberClickListener memberClickListener) {
-        mMemberClickListener = memberClickListener;
-    }
-
     public TopicReplyItemDelegate(Context context) {
         super(context);
+    }
+
+    public void setMemberClickListener(OnMemberClickListener memberClickListener) {
+        mMemberClickListener = memberClickListener;
     }
 
     @Override
@@ -91,6 +91,10 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }
 
+    public interface OnMemberClickListener {
+        void onMemberClick(String userName, int index);
+    }
+
     private class OnMemberLinkClickListener implements OnUrlClickListener {
         private int clickIndex;
 
@@ -111,10 +115,6 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             }
             return false;
         }
-    }
-
-    public interface OnMemberClickListener {
-        void onMemberClick(String userName, int index);
     }
 
 }

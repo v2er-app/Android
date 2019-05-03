@@ -10,15 +10,12 @@ public class GeneralError extends Throwable {
 
     private String response;
     private String message;
+    private int errorCode;
 
     public GeneralError(int errorCode, String message) {
         super(message);
         this.message = message;
         this.errorCode = errorCode;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
     }
 
     @Override
@@ -27,15 +24,17 @@ public class GeneralError extends Throwable {
         return super.getMessage();
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getResponse() {
         return response;
     }
 
-    private int errorCode;
+    public void setResponse(String response) {
+        this.response = response;
+    }
 
     public int getErrorCode() {
         return errorCode;

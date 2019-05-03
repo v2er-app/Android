@@ -25,21 +25,15 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 public class SwipeToDismissTouchListener implements View.OnTouchListener {
-    private int touchSlop;
-    private float initialY;
     private final float maxTranslate;
     private final float closeThreshold;
+    private int touchSlop;
+    private float initialY;
     private Callback callback;
     private float lastX;
     private float lastY;
     private int pointerIndex;
     private boolean isMoving;
-
-    public static SwipeToDismissTouchListener createFromView(View view, Callback listener) {
-        return new SwipeToDismissTouchListener(listener,
-                ViewConfiguration.get(view.getContext()).getScaledTouchSlop(),
-                view.getContext().getResources().getDisplayMetrics().heightPixels * 0.5f);
-    }
 
     SwipeToDismissTouchListener(Callback listener, int touchSlop, float maxTranslate) {
         // If swiping more than 20% of the max distance, trigger the dismiss listener.
@@ -52,6 +46,12 @@ public class SwipeToDismissTouchListener implements View.OnTouchListener {
         this.touchSlop = touchSlop;
         this.maxTranslate = maxTranslate;
         this.closeThreshold = closeThreshold;
+    }
+
+    public static SwipeToDismissTouchListener createFromView(View view, Callback listener) {
+        return new SwipeToDismissTouchListener(listener,
+                ViewConfiguration.get(view.getContext()).getScaledTouchSlop(),
+                view.getContext().getResources().getDisplayMetrics().heightPixels * 0.5f);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class SwipeToDismissTouchListener implements View.OnTouchListener {
                 }
                 break;
             }
-            case MotionEvent.ACTION_POINTER_DOWN:{
+            case MotionEvent.ACTION_POINTER_DOWN: {
                 settleView(swipeableView);
                 isMoving = false;
                 pointerIndex = -1; // invalidate pointer index until next ACTION_DOWN

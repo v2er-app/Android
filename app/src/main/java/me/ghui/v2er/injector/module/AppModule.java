@@ -13,16 +13,16 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-	Context context;
+    Context context;
 
-	public AppModule(Context context) {
-		this.context = context;
-	}
+    public AppModule(Context context) {
+        this.context = context;
+    }
 
-	@Provides
-	@Singleton
-	public Context provideContext() {
-		return context;
-	}
+    @Provides
+    @Singleton
+    public Context provideContext() {
+        return context;
+    }
 
 }

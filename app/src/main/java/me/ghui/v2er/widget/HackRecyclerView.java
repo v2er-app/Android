@@ -14,10 +14,15 @@ import android.view.View;
 
 public class HackRecyclerView extends LoadMoreRecyclerView {
 
+    @SuppressWarnings("unused")
+    private static final String TAG = "MyRecyclerView";
+    private AppBarTracking mAppBarTracking;
+    private View mView;
+    private int mTopPos;
+    private LinearLayoutManager mLayoutManager;
     public HackRecyclerView(Context context) {
         this(context, null);
     }
-
     public HackRecyclerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -25,11 +30,6 @@ public class HackRecyclerView extends LoadMoreRecyclerView {
     public HackRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
-
-    private AppBarTracking mAppBarTracking;
-    private View mView;
-    private int mTopPos;
-    private LinearLayoutManager mLayoutManager;
 
     @Override
     public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow,
@@ -88,9 +88,6 @@ public class HackRecyclerView extends LoadMoreRecyclerView {
         }
         return super.hasNestedScrollingParent(type);
     }
-
-    @SuppressWarnings("unused")
-    private static final String TAG = "MyRecyclerView";
 
     public interface AppBarTracking {
         boolean isAppBarIdle();

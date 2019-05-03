@@ -46,13 +46,12 @@ import pub.devrel.easypermissions.EasyPermissions;
 public abstract class BaseFragment<T extends BaseContract.IPresenter> extends RxFragment implements BaseContract.IView, IBindToLife {
 
     protected FrameLayout mRootView;
-    private View mLoadingView;
-
     @Inject
     protected T mPresenter;
+    protected Activity mActivity;
+    private View mLoadingView;
     private boolean mHasAutoLoaded = false;
     private boolean isPageShow;
-    protected Activity mActivity;
 
     /**
      * if you want to support ptr, then attach a PtrHandler to it
@@ -244,7 +243,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         return mLoadingView;
     }
 
-    protected void onLoadingViewCreated(View loadingView){
+    protected void onLoadingViewCreated(View loadingView) {
 
     }
 

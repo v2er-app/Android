@@ -29,7 +29,7 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
     private static final int CLICK = 1;
     private static final int UP = 2;
     private static final int DOWN = 3;
-
+    private static Object FROM_BELOW = new NoCopySpan.Concrete();
     private OnUrlClickListener mUrlClickListener;
     private OnImageClickListener mImageClickListener;
     private ImagesInfo.Images imgs;
@@ -285,6 +285,4 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
             text.removeSpan(FROM_BELOW);
         }
     }
-
-    private static Object FROM_BELOW = new NoCopySpan.Concrete();
 }

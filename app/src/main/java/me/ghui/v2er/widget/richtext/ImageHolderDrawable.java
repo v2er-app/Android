@@ -40,7 +40,7 @@ public class ImageHolderDrawable extends Drawable {
         setBounds(mRect);
         if (DayNightUtil.isNightMode()) {
             mBgColor = 0xFF222222;
-            mTextColor =0xFF707070;
+            mTextColor = 0xFF707070;
         } else {
             mBgColor = 0xfff2f2f2;
             mTextColor = 0xffc2c2c2;

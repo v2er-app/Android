@@ -14,28 +14,14 @@ import me.ghui.v2er.util.Utils;
 public class TabInfo {
     private final static String[] TAB_1_TITLES = {"全部", "技术", "创意", "好玩", "Apple", "酷工作", "交易", "城市", "问与答", "最热", "R2", "节点", "关注"};
     private final static String[] TAB_1_VALUES = {"all", "tech", "creative", "play", "apple", "jobs", "deals", "city", "qna", "hot", "r2", "nodes", "members"};
-    private static List<TabInfo> defaults = new ArrayList<>(TAB_1_TITLES.length);
     private final static String LAST_SELECTED_TAB_KEY = Utils.KEY("last_select_tab");
-
-    public TabInfo(String title, String value) {
-        this.title = title;
-        this.value = value;
-    }
-
+    private static List<TabInfo> defaults = new ArrayList<>(TAB_1_TITLES.length);
     public String title;
     public String value;
     public boolean needLogin = false;
-
-    public boolean isDefaultTab() {
-        return TAB_1_VALUES[0].equals(value);
-    }
-
-    @Override
-    public String toString() {
-        return "TabInfo{" +
-                "title='" + title + '\'' +
-                ", value='" + value + '\'' +
-                '}';
+    public TabInfo(String title, String value) {
+        this.title = title;
+        this.value = value;
     }
 
     public static List<TabInfo> getDefault() {
@@ -62,6 +48,18 @@ public class TabInfo {
             if (defaults.get(i).value.equals(value)) return defaults.get(i);
         }
         return defaults.get(0);
+    }
+
+    public boolean isDefaultTab() {
+        return TAB_1_VALUES[0].equals(value);
+    }
+
+    @Override
+    public String toString() {
+        return "TabInfo{" +
+                "title='" + title + '\'' +
+                ", value='" + value + '\'' +
+                '}';
     }
 
 }

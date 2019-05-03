@@ -28,8 +28,8 @@ import me.ghui.v2er.util.UriUtils;
  */
 
 public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
-    private TextView mTextView;
     private final Collection<Target> mTargets = new ArrayList<>();
+    private TextView mTextView;
     private Drawable mLoadingDrawable;
     private Drawable mErrorDrawable;
     private int mMaxSize;
@@ -45,7 +45,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
     @Override
     public Drawable getDrawable(String source) {
         source = UriUtils.checkSchema(source);
-        if(!UriUtils.isValideUrl(source)) return null;
+        if (!UriUtils.isValideUrl(source)) return null;
         WrapperTarget target = new WrapperTarget(mMaxSize);
         mTargets.add(target);
         GlideApp.with(mTextView)
@@ -59,6 +59,20 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     private void clearTarget(Target target) {
         mTargets.remove(target);
+    }
+
+    @Override
+    public void invalidateDrawable(@NonNull Drawable who) {
+        mTextView.setText(mTextView.getText());
+        mTextView.invalidate();
+    }
+
+    @Override
+    public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
+    }
+
+    @Override
+    public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
     }
 
     private class WrapperTarget extends SimpleTarget<Drawable> {
@@ -112,20 +126,6 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
             wrapperDrawable.setBounds(drawable.getBounds());
             wrapperDrawable.invalidateSelf();
         }
-    }
-
-    @Override
-    public void invalidateDrawable(@NonNull Drawable who) {
-        mTextView.setText(mTextView.getText());
-        mTextView.invalidate();
-    }
-
-    @Override
-    public void scheduleDrawable(@NonNull Drawable who, @NonNull Runnable what, long when) {
-    }
-
-    @Override
-    public void unscheduleDrawable(@NonNull Drawable who, @NonNull Runnable what) {
     }
 
 }

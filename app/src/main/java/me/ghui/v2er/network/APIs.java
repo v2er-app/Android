@@ -175,7 +175,7 @@ public interface APIs {
     @Html
     @GET
     @Headers("Referer: " + RefererUtils.TINY_REFER)
-    Observable<SimpleInfo> starNode( @Url String url);
+    Observable<SimpleInfo> starNode(@Url String url);
 
     @Html
     @GET("/mission/daily")

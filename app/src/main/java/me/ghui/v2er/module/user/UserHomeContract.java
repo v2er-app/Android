@@ -22,6 +22,6 @@ public class UserHomeContract {
     public interface IPresenter extends BaseContract.IPresenter {
         void blockUser(String url);
 
-        void followUser(String userName,String url);
+        void followUser(String userName, String url);
     }
 }

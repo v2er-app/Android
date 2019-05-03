@@ -45,10 +45,6 @@ public class HtmlView extends WebView {
     private List<String> mImgs = new ArrayList<>();
     private OnHtmlRenderListener onHtmlRenderListener;
 
-    public void setOnHtmlRenderListener(OnHtmlRenderListener onHtmlRenderListener) {
-        this.onHtmlRenderListener = onHtmlRenderListener;
-    }
-
     public HtmlView(Context context) {
         super(context);
         init();
@@ -57,6 +53,10 @@ public class HtmlView extends WebView {
     public HtmlView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+    }
+
+    public void setOnHtmlRenderListener(OnHtmlRenderListener onHtmlRenderListener) {
+        this.onHtmlRenderListener = onHtmlRenderListener;
     }
 
     private void init() {
@@ -114,6 +114,10 @@ public class HtmlView extends WebView {
             e.attr("src", "file:///android_asset/html/image_holder_loading.gif");
         }
         return doc.body().html();
+    }
+
+    public interface OnHtmlRenderListener {
+        void onRenderCompleted();
     }
 
     private class V2exWebViewClient extends WebViewClient {
@@ -201,10 +205,6 @@ public class HtmlView extends WebView {
             GalleryActivity.open(imagesInfo, getContext());
         }
 
-    }
-
-    public interface OnHtmlRenderListener {
-        void onRenderCompleted();
     }
 
 }

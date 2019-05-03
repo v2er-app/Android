@@ -6,10 +6,10 @@
     android:background="?attr/page_bg_color"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
     android:paddingLeft="16dp"
+    android:paddingTop="16dp"
     android:paddingRight="16dp"
-    android:paddingTop="16dp">
+    android:paddingBottom="8dp">
 
     <TextView
         android:id="@android:id/title"
@@ -21,7 +21,7 @@
     <View
         android:layout_width="0dp"
         android:layout_height="0.8dp"
-        android:alpha="0.3"
         android:layout_weight="1"
+        android:alpha="0.3"
         android:background="?attr/hintTextColor" />
 </LinearLayout>

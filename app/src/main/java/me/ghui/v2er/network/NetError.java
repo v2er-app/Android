@@ -5,28 +5,28 @@ package me.ghui.v2er.network;
  */
 
 public class NetError extends Throwable {
-	private int mCode;
-	private String mErrMsg;
+    private int mCode;
+    private String mErrMsg;
 
-	public NetError(int code, String message) {
-		super(message);
-		mCode = code;
-		mErrMsg = message;
-	}
+    public NetError(int code, String message) {
+        super(message);
+        mCode = code;
+        mErrMsg = message;
+    }
 
-	public int getErrCode() {
-		return mCode;
-	}
+    public int getErrCode() {
+        return mCode;
+    }
 
-	public String getErrMsg() {
-		return mErrMsg;
-	}
+    public String getErrMsg() {
+        return mErrMsg;
+    }
 
-	@Override
-	public String toString() {
-		return "CIError{" +
-				"mCode=" + mCode +
-				", mErrMsg='" + mErrMsg + '\'' +
-				'}';
-	}
+    @Override
+    public String toString() {
+        return "CIError{" +
+                "mCode=" + mCode +
+                ", mErrMsg='" + mErrMsg + '\'' +
+                '}';
+    }
 }

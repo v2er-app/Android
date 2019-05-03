@@ -38,12 +38,11 @@ public class TopicInfo extends BaseInfo {
     private String topicLink;
     @Pick(value = "a[onclick*=/report/topic/]", attr = "onclick")
     private String reportStr;
+    private List<Item> items;
 
     public String getTopicLink() {
         return topicLink;
     }
-
-    private List<Item> items;
 
     public boolean hasReport() {
         return UserUtils.isLogin() && Check.isEmpty(reportStr);
@@ -80,7 +79,7 @@ public class TopicInfo extends BaseInfo {
      * 加载分页后的数据
      *
      * @param isLoadMore
-     * @param isInOrder 是否是正序加载
+     * @param isInOrder  是否是正序加载
      * @return
      */
     public List<Item> getItems(boolean isLoadMore, boolean isInOrder) {
@@ -111,12 +110,12 @@ public class TopicInfo extends BaseInfo {
         return items;
     }
 
-    public void setHeaderInfo(HeaderInfo headerInfo) {
-        this.headerInfo = headerInfo;
-    }
-
     public HeaderInfo getHeaderInfo() {
         return headerInfo;
+    }
+
+    public void setHeaderInfo(HeaderInfo headerInfo) {
+        this.headerInfo = headerInfo;
     }
 
     public int getTotalPage() {
@@ -136,6 +135,18 @@ public class TopicInfo extends BaseInfo {
     @Override
     public boolean isValid() {
         return headerInfo.isValid();
+    }
+
+    public interface Item {
+        boolean isHeaderItem();
+
+        boolean isContentItem();
+
+        boolean isSelf();
+
+        String getUserName();
+
+        String getAvatar();
     }
 
     public static class ContentInfo extends BaseInfo implements Item {
@@ -254,12 +265,12 @@ public class TopicInfo extends BaseInfo {
             return Check.notEmpty(thankedText) && thankedText.contains("已发送");
         }
 
-        public void setFavoriteLink(String favoriteLink) {
-            this.favoriteLink = favoriteLink;
-        }
-
         public String getFavoriteLink() {
             return favoriteLink;
+        }
+
+        public void setFavoriteLink(String favoriteLink) {
+            this.favoriteLink = favoriteLink;
         }
 
         public void updateThxStatus(boolean thxed) {
@@ -391,16 +402,16 @@ public class TopicInfo extends BaseInfo {
         private String replyId;
         private boolean isOwner = false;
 
+        public boolean isOwner() {
+            return isOwner;
+        }
+
         public void setOwner(String owner) {
             if (Check.notEmpty(userName) && Check.notEmpty(owner) && owner.equals(userName)) {
                 isOwner = true;
             } else {
                 isOwner = false;
             }
-        }
-
-        public boolean isOwner() {
-            return isOwner;
         }
 
         public String getFloor() {
@@ -508,18 +519,6 @@ public class TopicInfo extends BaseInfo {
                 return false;
             }
         }
-    }
-
-    public interface Item {
-        boolean isHeaderItem();
-
-        boolean isContentItem();
-
-        boolean isSelf();
-
-        String getUserName();
-
-        String getAvatar();
     }
 
 }

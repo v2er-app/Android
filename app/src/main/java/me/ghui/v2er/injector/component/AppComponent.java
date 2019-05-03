@@ -15,5 +15,5 @@ import me.ghui.v2er.injector.module.AppModule;
 @Component(modules = AppModule.class)
 public interface AppComponent {
 
-	Context getContext();
+    Context getContext();
 }

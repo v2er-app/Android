@@ -32,13 +32,13 @@ import me.ghui.v2er.util.ScaleUtils;
  * 3. 箭头相遇之后收回: 箭头合起直接返回。
  */
 public class V2erHeaderView extends View implements PtrUIHandler, ValueAnimator.AnimatorUpdateListener {
+    //the short length of the glyph arrow
+    private final int mDelta = ScaleUtils.dp(7);
     private Path mLeftPath = new Path();
     private Path mRightPath = new Path();
     private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mDividerPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private int mBgColor;
-    //the short length of the glyph arrow
-    private final int mDelta = ScaleUtils.dp(7);
     private float mScrollRatio = 1.0f;
     private float mRotation = 0.0f;
     private ValueAnimator mRotationAnimator;

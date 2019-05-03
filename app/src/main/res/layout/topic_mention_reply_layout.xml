@@ -22,8 +22,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/mention_title_tv"
-        android:layout_marginBottom="4dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_toRightOf="@id/left_indicator"
         app:shouldPaddingNav="false" />
 
@@ -31,8 +31,8 @@
         android:id="@+id/left_indicator"
         android:layout_width="3dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/base_recyclerview"
         android:layout_alignTop="@id/base_recyclerview"
+        android:layout_alignBottom="@id/base_recyclerview"
         android:layout_marginLeft="16dp"
         android:background="#80555555" />
 

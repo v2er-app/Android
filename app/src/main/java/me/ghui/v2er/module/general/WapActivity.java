@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebBackForwardList;

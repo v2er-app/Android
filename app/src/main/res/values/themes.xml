@@ -72,6 +72,7 @@
     <style name="GalleryTheme" parent="NightTheme">
         <item name="android:actionOverflowButtonStyle">@style/GalleryToolbarOverflowStyle</item>
     </style>
+
     <style name="SplashTheme" parent="DayTheme">
         <item name="android:windowBackground">@drawable/splash_drawable</item>
         <item name="android:windowIsTranslucent">false</item>

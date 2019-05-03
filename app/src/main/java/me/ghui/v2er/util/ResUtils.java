@@ -11,11 +11,11 @@ import me.ghui.v2er.general.App;
  */
 
 public class ResUtils {
-	public static int getColor(@ColorRes int colorId) {
-		return ContextCompat.getColor(App.get(), colorId);
-	}
+    public static int getColor(@ColorRes int colorId) {
+        return ContextCompat.getColor(App.get(), colorId);
+    }
 
-	public static int getColor(@ColorRes int colorId, Context context) {
-		return ContextCompat.getColor(context, colorId);
-	}
+    public static int getColor(@ColorRes int colorId, Context context) {
+        return ContextCompat.getColor(context, colorId);
+    }
 }

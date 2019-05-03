@@ -105,13 +105,13 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
     }
 
     public interface ILoadMoreFooter {
-        public enum IdleStatus {
-            INIT, HAS_MORE, NO_MORE
-        }
-
         void onIdle(IdleStatus status);
 
         void onLoading();
+
+        public enum IdleStatus {
+            INIT, HAS_MORE, NO_MORE
+        }
     }
 
     public static class CommonLoadMoreFooter extends android.support.v7.widget.AppCompatTextView implements ILoadMoreFooter {
@@ -173,32 +173,6 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
     }
 
-    private class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            if (!mLoading && hasMore() && newState == RecyclerView.SCROLL_STATE_IDLE) {
-                LayoutManager layoutManager = getLayoutManager();
-                View lastItem = null;
-                if (layoutManager instanceof LinearLayoutManager) {
-                    lastItem = layoutManager.findViewByPosition(((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition());
-                } else if (layoutManager instanceof StaggeredGridLayoutManager) {
-                    int[] pos = ((StaggeredGridLayoutManager) layoutManager).findLastCompletelyVisibleItemPositions(null);
-                    for (int p : pos) {
-                        if ((lastItem = layoutManager.findViewByPosition(p)) instanceof ILoadMoreFooter)
-                            break;
-                    }
-                }
-
-                if (lastItem != null && lastItem instanceof ILoadMoreFooter) {
-                    mLoading = true;
-                    mLoadMoreFooter = (ILoadMoreFooter) lastItem;
-                    mLoadMoreFooter.onLoading();
-                    mOnLoadMoreListener.onLoadMore(mWillLoadPage);
-                }
-            }
-        }
-    }
-
     public static class Adapter<T> extends MultiItemTypeAdapter<T> {
 
         public Adapter(final Context context) {
@@ -238,6 +212,32 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
             return getItemCount() - 1;
         }
 
+    }
+
+    private class LoadMoreScrollListener extends RecyclerView.OnScrollListener {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            if (!mLoading && hasMore() && newState == RecyclerView.SCROLL_STATE_IDLE) {
+                LayoutManager layoutManager = getLayoutManager();
+                View lastItem = null;
+                if (layoutManager instanceof LinearLayoutManager) {
+                    lastItem = layoutManager.findViewByPosition(((LinearLayoutManager) layoutManager).findLastCompletelyVisibleItemPosition());
+                } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                    int[] pos = ((StaggeredGridLayoutManager) layoutManager).findLastCompletelyVisibleItemPositions(null);
+                    for (int p : pos) {
+                        if ((lastItem = layoutManager.findViewByPosition(p)) instanceof ILoadMoreFooter)
+                            break;
+                    }
+                }
+
+                if (lastItem != null && lastItem instanceof ILoadMoreFooter) {
+                    mLoading = true;
+                    mLoadMoreFooter = (ILoadMoreFooter) lastItem;
+                    mLoadMoreFooter.onLoading();
+                    mOnLoadMoreListener.onLoadMore(mWillLoadPage);
+                }
+            }
+        }
     }
 
 }
