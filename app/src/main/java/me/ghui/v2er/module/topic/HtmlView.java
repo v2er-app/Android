@@ -39,6 +39,7 @@ import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import okio.Okio;
 
 public class HtmlView extends WebView {
@@ -156,9 +157,10 @@ public class HtmlView extends WebView {
                         .listener(new RequestListener<File>() {
                             @Override
                             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<File> target, boolean isFirstResource) {
-                                // TODO: 2018/12/23
-//                                String localPath = "file:///android_asset/html/image_holder_failed.png";
-//                                HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
+                                // TODO: 2018/12/23 click load again
+                                String localPath = "file:///android_asset/html/image_holder_failed.png";
+                                HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
+                                Voast.debug("load image failed");
                                 return false;
                             }
 
