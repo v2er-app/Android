@@ -89,7 +89,7 @@ public class TopicInfo extends BaseInfo {
             items.clear();
         }
 
-        if (!isInOrder) {
+        if (!isInOrder && Check.notEmpty(replies)) {
             Collections.reverse(replies);
         }
 
