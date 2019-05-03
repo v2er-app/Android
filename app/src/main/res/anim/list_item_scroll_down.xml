@@ -2,8 +2,8 @@
 <set xmlns:android="http://schemas.android.com/apk/res/android">
     <scale
         android:duration="@integer/list_animation_default_dur"
-        android:fromXScale="0.92"
-        android:fromYScale="0.92"
+        android:fromXScale="0.96"
+        android:fromYScale="0.96"
         android:pivotX="50%"
         android:pivotY="100%"
         android:toXScale="1.0"

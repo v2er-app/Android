@@ -113,11 +113,6 @@ public class TopicModule {
                 holder.setOnClickListener(v -> mView.onItemMoreMenuClick(holder.index()), R.id.more_menu_img);
             }
 
-            @Override
-            protected boolean shouldAnimate(int pos) {
-                return pos > 1 && super.shouldAnimate(pos);
-            }
-
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
@@ -154,11 +149,6 @@ public class TopicModule {
                     .load(reply.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(holder.getImgView(R.id.replier_avatar_img));
-        }
-
-        @Override
-        protected boolean shouldAnimate(int position) {
-            return false;
         }
 
         @Override

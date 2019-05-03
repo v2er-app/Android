@@ -9,11 +9,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
+import com.orhanobut.logger.Logger;
+
 import java.util.List;
 
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -119,21 +122,26 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, getItem(position));
-        if (shouldAnimate(position)) {
+        if (shouldAnimate()) {
+            clearAnimation(holder.itemView);
             animate(holder.itemView, position);
         }
     }
 
-    protected boolean shouldAnimate(int position) {
-        if (mRecyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
-            return false;
+    protected boolean shouldAnimate() {
+        return false;
+    }
+
+    private void clearAnimation(View itemView) {
+        if (itemView.getAnimation() != null) {
+            itemView.clearAnimation();
         }
-        return true;
     }
 
     private void animate(View itemView, int position) {
-        if (itemView.getAnimation() != null) {
-            itemView.clearAnimation();
+        int state = mRecyclerView.getScrollState();
+        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+            return;
         }
         if (mLayoutManager instanceof LinearLayoutManager) {
             LinearLayoutManager layoutmanager = (LinearLayoutManager) mLayoutManager;

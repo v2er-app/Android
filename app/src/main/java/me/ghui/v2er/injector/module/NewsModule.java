@@ -37,6 +37,12 @@ public class NewsModule {
     @Provides
     public LoadMoreRecyclerView.Adapter<NewsInfo.Item> provideNewsAdapter() {
         return new CommonLoadMoreAdapter<NewsInfo.Item>(mView.getContext(), R.layout.common_list_item) {
+
+            @Override
+            protected boolean shouldAnimate() {
+                return true;
+            }
+
             @Override
             protected void convert(ViewHolder holder, NewsInfo.Item item, int position) {
 //                Picasso.with(mContext)

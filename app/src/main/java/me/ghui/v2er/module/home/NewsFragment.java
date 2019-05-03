@@ -85,7 +85,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
-            Logger.e("onLoadMore.willLoadPage: " + willLoadPage);
+            Logger.d("onLoadMore.willLoadPage: " + willLoadPage);
 
             if (!mCurrentTab.isDefaultTab()) {
                 toast("只有全部标签支持加载更多");
