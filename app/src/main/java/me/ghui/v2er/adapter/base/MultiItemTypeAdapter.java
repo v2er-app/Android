@@ -13,8 +13,10 @@ import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
+import es.dmoral.prefs.Prefs;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -122,7 +124,7 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         convert(holder, getItem(position));
-        if (shouldAnimate()) {
+        if (shouldAnimate() && !Pref.readBool(R.string.pref_key_close_list_animate)) {
             clearAnimation(holder.itemView);
             animate(holder.itemView, position);
         }

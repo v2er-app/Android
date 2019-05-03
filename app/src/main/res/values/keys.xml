@@ -9,6 +9,7 @@
     <string name="pref_key_v2ex">pref_key_v2ex</string>
     <string name="pref_key_title_btn_overlay">pref_key_btn_overlay</string>
     <string name="pref_key_title_overview">pref_key_title_overview</string>
+    <string name="pref_key_close_list_animate">pref_key_close_list_animate</string>
     <string name="pref_key_hide_create_btn">pref_key_hide_create_btn</string>
     <string name="pref_key_hide_reply_btn">pref_key_hide_reply_btn</string>
     <string name="pref_key_highlight_comment_num">pref_key_highlight_comment_num</string>

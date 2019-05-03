@@ -20,12 +20,6 @@
             android:title="长按感谢" />
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/pref_key_fullscreen_back"
-            android:layout="@layout/preference_item"
-            android:summary="开启后可全屏滑动返回，关闭后只能从左边沿滑动返回"
-            android:title="全屏返回" />
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/pref_key_auto_checkin"
             android:layout="@layout/preference_item"
             android:summary="开启后当你每次打开App时会尝试自动签到"
@@ -39,7 +33,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="显示">
+        android:title="外观">
         <ListPreference
             android:defaultValue="中"
             android:entries="@array/font_sizes_entry"
@@ -83,6 +77,12 @@
             android:layout="@layout/preference_item"
             android:summary="开启后可以高亮楼主的回帖"
             android:title="高亮楼主回帖" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_close_list_animate"
+            android:layout="@layout/preference_item"
+            android:summary="开启后首页列表在滚动时将不播放缩放动画"
+            android:title="关闭列表动画"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
