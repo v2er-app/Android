@@ -216,9 +216,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab1View = mSlidingTabLayout.getTitleView(0);
         mTab2View = mSlidingTabLayout.getTitleView(1);
         mTab3View = mSlidingTabLayout.getTitleView(2);
-        mTab1View.setBackgroundResource(R.drawable.default_ripple);
-        mTab2View.setBackgroundResource(R.drawable.default_ripple);
-        mTab3View.setBackgroundResource(R.drawable.default_ripple);
         int padding = ScaleUtils.dp(2.5f);
         mTab1View.setPadding(mTab1View.getPaddingLeft(), padding, mTab1View.getPaddingRight(), padding);
         mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
