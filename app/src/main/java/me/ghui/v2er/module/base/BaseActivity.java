@@ -463,7 +463,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                     .msg("可能的原因：\n" +
                             "1. 新注册用户无回复及发帖权限\n" +
                             "2. 查看的帖子已被删除\n" +
-                            "3. 你的账户已被限制")
+                            "3. 查看的帖子需要登录或你无查看权限\n" +
+                            "4. 其它可能的账户权限问题")
                     .positiveText("回到首页", dialog -> {
                         Navigator.from(BaseActivity.this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
                         finish();
