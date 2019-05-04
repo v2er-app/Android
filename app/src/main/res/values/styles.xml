@@ -152,16 +152,17 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minHeight">@dimen/tablayout_height</item>
         <item name="android:background">?attr/colorPrimary</item>
-        <item name="tl_indicator_height">2.5dp</item>
+        <item name="tl_indicator_height">3.5dp</item>
         <item name="tl_indicator_color">?attr/tablayout_selected_color</item>
         <item name="tl_indicator_width_equal_title">true</item>
         <item name="tl_tab_padding">22dp</item>
         <item name="tl_tab_space_equal">true</item>
         <item name="tl_textSelectColor">?attr/tablayout_selected_color</item>
         <item name="tl_textUnselectColor">?attr/tablayout_unselected_color</item>
-        <item name="tl_textsize">@dimen/mediumTextSize</item>
+        <item name="tl_textsize">@dimen/largeTextSize</item>
         <item name="tl_underline_color">?attr/colorPrimary</item>
-        <item name="tl_underline_height">1.5dp</item>
+        <item name="tl_underline_height">3.5dp</item>
+        <item name="tl_indicator_corner_radius">20dp</item>
     </style>
 
     <style name="NavigationDrawerStyle">

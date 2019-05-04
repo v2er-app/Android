@@ -24,7 +24,7 @@
         <item name="fab_bg_color">#ffffff</item>
         <item name="banner_bg_color">#80FFFFFF</item>
         <item name="searchbar_bg_color">@color/white</item>
-        <item name="tablayout_selected_color">#FF555555</item>
+        <item name="tablayout_selected_color">#474747</item>
         <item name="tablayout_unselected_color">#66000000</item>
         <item name="tab_menu_bg_color">@color/white</item>
         <item name="icon_tint_color">#3B3A3A</item>
