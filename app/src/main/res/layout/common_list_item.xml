@@ -7,7 +7,7 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="horizontal"
-    android:padding="12dp">
+    android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
@@ -28,14 +28,14 @@
         android:id="@+id/time_tv"
         style="@style/hintText"
         android:layout_alignLeft="@id/user_name_tv"
-        android:layout_alignBottom="@id/avatar_img"
+        android:layout_below="@id/user_name_tv"
         android:paddingRight="4dp"
         tools:text="1小时17分钟前" />
 
     <TextView
         android:id="@+id/comment_num_tv"
         style="@style/hintText"
-        android:layout_alignBottom="@id/avatar_img"
+        android:layout_alignBaseline="@id/time_tv"
         android:layout_toRightOf="@id/time_tv"
         android:paddingLeft="0dp"
         tools:text="评论38" />
