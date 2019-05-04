@@ -4,9 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <me.ghui.v2er.widget.CSlidingTabLayout
-        android:id="@+id/tablayout_main"
-        style="@style/CSTablayout" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:stateListAnimator="@animator/appbar_always_elevated">
+
+        <me.ghui.v2er.widget.BaseToolBar
+            android:id="@+id/star_toolbar"
+            style="@style/BaseToolBar"
+            android:layout_height="wrap_content" />
+
+        <me.ghui.v2er.widget.CSlidingTabLayout
+            android:id="@+id/tablayout_main"
+            style="@style/CSTablayout" />
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager_main"

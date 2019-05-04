@@ -5,6 +5,7 @@ import android.support.annotation.IntRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import me.ghui.v2er.widget.CSlidingTabLayout;
 
 public class StarActivity extends BaseActivity {
     private static final String TAB_INDEX = KEY("tab_index");
+    @BindView(R.id.star_toolbar)
+    BaseToolBar  mToolBar;
     @BindView(R.id.tablayout_main)
     CSlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
@@ -39,16 +42,22 @@ public class StarActivity extends BaseActivity {
                 .to(StarActivity.class).start();
     }
 
+
+    @Override
+    protected BaseToolBar attachToolbar() {
+        return null;
+    }
+
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_star;
     }
 
-    @Override
-    protected void configToolBar(BaseToolBar toolBar) {
-        super.configToolBar(toolBar);
-        toolBar.setElevation(0);
-        Utils.setPaddingForStatusBar(toolBar);
+    protected void configToolBar() {
+        mToolBar.setTitle(getTitle());
+        mToolBar.setElevation(0);
+        mToolBar.setOnDoubleTapListener(this);
+        Utils.setPaddingForStatusBar(mToolBar);
     }
 
     @Override
@@ -56,7 +65,7 @@ public class StarActivity extends BaseActivity {
         int index = mSlidingTabLayout.getCurrentTab();
         View rootView = mFragments.get(index).getView();
         if (rootView == null) return false;
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
+        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;
@@ -66,6 +75,7 @@ public class StarActivity extends BaseActivity {
 
     @Override
     protected void init() {
+        configToolBar();
         mFragments.add(TopicStarFragment.newInstance());
         mFragments.add(NodeStarFragment.newInstance());
         mSlidingTabLayout.setViewPager(mViewPager, new String[]{"主题", "节点"}, getActivity(), mFragments);

@@ -53,19 +53,6 @@ public class BaseToolBar extends Toolbar {
         }
     }
 
-    @Override
-    public void setElevation(float elevation) {
-        super.setElevation(elevation);
-        try {
-            AppBarLayout parent = (AppBarLayout) getParent();
-            if (elevation <= 0) {
-                parent.setStateListAnimator(null);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     public void setOnDoubleTapListener(OnDoubleTapListener onDoubleTapListener) {
         if (onDoubleTapListener != null) {
             GestureDetector gestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {

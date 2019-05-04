@@ -9,22 +9,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <me.ghui.v2er.widget.BaseToolBar
-            android:id="@+id/main_toolbar"
-            style="@style/BaseToolBar"
-            android:layout_height="wrap_content">
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:stateListAnimator="@animator/appbar_always_elevated">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:src="@drawable/v2ex_title_logo"
-                android:tint="?attr/icon_tint_color" />
-        </me.ghui.v2er.widget.BaseToolBar>
+            <me.ghui.v2er.widget.BaseToolBar
+                android:id="@+id/main_toolbar"
+                style="@style/BaseToolBar"
+                android:layout_height="wrap_content">
 
-        <me.ghui.v2er.widget.CSlidingTabLayout
-            android:id="@+id/tablayout_main"
-            style="@style/CSTablayout" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:src="@drawable/v2ex_title_logo"
+                    android:tint="?attr/icon_tint_color" />
+            </me.ghui.v2er.widget.BaseToolBar>
+
+            <me.ghui.v2er.widget.CSlidingTabLayout
+                android:id="@+id/tablayout_main"
+                style="@style/CSTablayout" />
+        </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
             android:id="@+id/tab_menu_container"
