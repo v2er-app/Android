@@ -51,6 +51,7 @@ import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.V2erPtrFrameLayout;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
 /**
@@ -457,8 +458,20 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (generalError.getErrorCode() == ResultCode.LOGIN_EXPIRED || generalError.getErrorCode() == ResultCode.LOGIN_NEEDED) {
             handleNotLoginError(generalError.getErrorCode(), generalError.getMessage());
         } else if (generalError.getErrorCode() == ResultCode.REDIRECT_TO_HOME) {
-            Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
-            finish();
+            new ConfirmDialog.Builder(this)
+                    .title("遇到错误")
+                    .msg("可能的原因：\n" +
+                            "1. 新注册用户无回复及发帖权限\n" +
+                            "2. 查看的帖子已被删除\n" +
+                            "3. 你的账户已被限制")
+                    .positiveText("回到首页", dialog -> {
+                        Navigator.from(BaseActivity.this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+                        finish();
+                    }).negativeText("查看详情", dialog -> {
+                        // todo open a faq page
+                        Navigator.from(BaseActivity.this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+                        finish();
+            }).build().show();
         } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {
             String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();
             TwoStepLoginActivity.open(once, getActivity());
