@@ -32,7 +32,7 @@
         <item name="android:colorControlNormal">@color/colorAccent</item>
         <item name="actionMenuTextColor">?attr/icon_tint_color</item>
         <item name="button_color">?attr/icon_tint_color</item>
-        <item name="colorControlHighlight">?attr/hintTextColor</item>
+        <item name="colorControlHighlight">#1F000000</item>
         <item name="divider_color">#f4f2f2</item>
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#FFFAFAFA</item>
@@ -62,7 +62,7 @@
         <item name="android:colorControlNormal">#FFA4A5A7</item>
         <item name="actionMenuTextColor">?attr/icon_tint_color</item>
         <item name="button_color">?attr/icon_tint_color</item>
-        <item name="colorControlHighlight">?attr/hintTextColor</item>
+        <item name="colorControlHighlight">#33ffffff</item>
         <item name="divider_color">#202020</item>
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#1d1d1b</item>
