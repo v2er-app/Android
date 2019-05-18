@@ -216,13 +216,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mTab1View = mSlidingTabLayout.getTitleView(0);
         mTab2View = mSlidingTabLayout.getTitleView(1);
         mTab3View = mSlidingTabLayout.getTitleView(2);
-        int padding = ScaleUtils.dp(2.5f);
+        int padding = ScaleUtils.dp(6f);
         mTab1View.setPadding(mTab1View.getPaddingLeft(), padding, mTab1View.getPaddingRight(), padding);
         mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
         mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
 
         mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.animate_triangle_down, 0);
-        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(2));
+        mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(6));
     }
 
     private void initCheckIn() {

@@ -24,6 +24,7 @@ import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
+import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -60,11 +61,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_user_group)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_email)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_weibo_personal_page)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_contact)).setOnPreferenceClickListener(this::onPreferenceClick);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setTitle(UserUtils.isPro() ? "Pro特性已开启" : "激活Pro特性");
         proItem.setSummary(UserUtils.isPro() ? "感谢支持" : "更多实用功能并能支持V2er的长期开发");
@@ -168,6 +167,15 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .msg("V2er需要你的支持，你可以选择去商店给V2er一个5星好评。")
                     .positiveText("去支持！", dialog -> Utils.openStorePage())
                     .negativeText("暂不")
+                    .build().show();
+        } else if (key.equals(getString(R.string.pref_key_contact))) {
+            new ConfirmDialog.Builder(getActivity())
+                    .title("联系开发者")
+                    .msg("建议先阅读使用手册")
+                    .positiveText("使用手册")
+                    .negativeText("联系", (BaseDialog dialog) -> {
+                        Utils.jumpToWeiboProfileInfo(getContext());
+                    })
                     .build().show();
         }
         return false;

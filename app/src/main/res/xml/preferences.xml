@@ -6,7 +6,7 @@
     android:title="设置">
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="基本">
+        android:title="常规设置">
         <Preference
             android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"
@@ -24,16 +24,10 @@
             android:layout="@layout/preference_item"
             android:summary="开启后当你每次打开App时会尝试自动签到"
             android:title="自动签到" />
-        <!--<SwitchPreference-->
-        <!--android:defaultValue="false"-->
-        <!--android:key="@string/pref_key_auto_daynight"-->
-        <!--android:layout="@layout/preference_item"-->
-        <!--android:summary="开启后将会自动切换日夜间模式"-->
-        <!--android:title="@string/auto_day_night_mode" />-->
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="外观">
+        android:title="外观设置">
         <ListPreference
             android:defaultValue="中"
             android:entries="@array/font_sizes_entry"
@@ -86,26 +80,7 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="联系">
-        <Preference
-            android:key="@string/pref_key_email"
-            android:layout="@layout/preference_item"
-            android:summary="有问题可直接发邮件给我"
-            android:title="邮件" />
-        <Preference
-            android:key="@string/pref_key_user_group"
-            android:layout="@layout/preference_item"
-            android:summary="加入TG用户群，及时获取更新信息..."
-            android:title="用户群" />
-        <Preference
-            android:key="@string/pref_weibo_personal_page"
-            android:layout="@layout/preference_item"
-            android:summary="@string/weibo_username"
-            android:title="Weibo" />
-    </PreferenceCategory>
-    <PreferenceCategory
-        android:layout="@layout/preference_category_widget"
-        android:title="关于">
+        android:title="其它">
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
@@ -116,8 +91,12 @@
         <Preference
             android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"
-            android:summary="去商店给V2er一个好评吧"
-            android:title="好评" />
+            android:title="给我评价" />
+        <Preference
+            android:key="@string/pref_key_contact"
+            android:layout="@layout/preference_item"
+            android:summary="反馈或吐槽"
+            android:title="联系开发者" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"

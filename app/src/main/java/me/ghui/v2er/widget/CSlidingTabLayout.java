@@ -17,6 +17,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -415,12 +416,14 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         float left = currentTabView.getLeft();
         float right = currentTabView.getRight();
 
+        float delta = 0;
         //for mIndicatorWidthEqualTitle
         if (mIndicatorStyle == STYLE_NORMAL && mIndicatorWidthEqualTitle) {
             TextView tab_title = (TextView) currentTabView.findViewById(R.id.tv_tab_title);
             mTextPaint.setTextSize(mTextsize);
-//            float textWidth = mTextPaint.measureText(tab_title.getText().toString());
+            float textWidth = mTextPaint.measureText(tab_title.getText().toString());
             float contentWidth = tab_title.getMeasuredWidth() - tab_title.getPaddingLeft() - tab_title.getPaddingRight();
+            delta = contentWidth - textWidth;
             margin = (right - left - contentWidth) / 2;
         }
 
@@ -430,7 +433,7 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
             float nextTabRight = nextTabView.getRight();
 
             left = left + mCurrentPositionOffset * (nextTabLeft - left);
-            right = right + mCurrentPositionOffset * (nextTabRight - right);
+            right = right + mCurrentPositionOffset * (nextTabRight - right + delta);
 
             //for mIndicatorWidthEqualTitle
             if (mIndicatorStyle == STYLE_NORMAL && mIndicatorWidthEqualTitle) {
@@ -446,8 +449,9 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         mIndicatorRect.right = (int) right;
         //for mIndicatorWidthEqualTitle
         if (mIndicatorStyle == STYLE_NORMAL && mIndicatorWidthEqualTitle) {
-            mIndicatorRect.left = (int) (left + margin - 1);
-            mIndicatorRect.right = (int) (right - margin - 1);
+            mIndicatorRect.left = (int) (left + margin);
+            mIndicatorRect.right = (int) (right - margin - delta);
+            Log.e("DBG", "delta: " + delta + ", index: " + getCurrentTab());
         }
 
         mTabRect.left = (int) left;

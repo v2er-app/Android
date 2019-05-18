@@ -18,6 +18,7 @@ import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -176,14 +177,16 @@ public class Utils {
     }
 
 
-    public static boolean isAppInstalled(String packageName) {
+    public static boolean isAppInstalled(String... packageNames) {
         PackageManager packageManager = App.get().getPackageManager();
         if (packageManager == null)
             return false;
         List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
         for (PackageInfo info : packageInfoList) {
-            if (info.packageName.equals(packageName))
-                return true;
+            for (String packageName: packageNames) {
+                if (info.packageName.equals(packageName))
+                    return true;
+            }
         }
         return false;
     }
@@ -264,18 +267,19 @@ public class Utils {
 
     // 跳转至微博个人页
     public static void jumpToWeiboProfileInfo(Context context) {
-        boolean weiboInstalled = Utils.isAppInstalled("com.sina.weibo");
-        if (weiboInstalled) {
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.addCategory(Intent.CATEGORY_DEFAULT);
-            intent.addCategory(Intent.CATEGORY_BROWSABLE);
-            intent.setData(Uri.parse("sinaweibo://userinfo?uid=ghuiii"));
-            context.startActivity(intent);
-        } else {
-            Utils.openWap("http://weibo.com/ghuiii", context);
-        }
+            boolean hasWeiboClient = Utils.isAppInstalled("com.weico.international",
+                    "com.hengye.share", "com.sina.weibo");
+            if (hasWeiboClient) {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+                intent.setData(Uri.parse("sinaweibo://userinfo?uid=3692784380"));
+                App.get().startActivity(intent);
+            } else {
+                Utils.openWap("http://weibo.com/ghuiii", context);
+            }
     }
-
 
     public static void jumpToTwitterProfilePage(Context context) {
         if (Utils.isAppInstalled("com.twitter.android")) {
