@@ -184,7 +184,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     mNightSwitch.toggle();
                     break;
             }
-            mDrawerLayout.closeDrawers();
+            mDrawerLayout.closeDrawer(Gravity.START, false);
             return true;
         });
 
