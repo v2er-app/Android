@@ -57,6 +57,10 @@ public class StarActivity extends BaseActivity {
         mToolBar.setTitle(getTitle());
         mToolBar.setElevation(0);
         mToolBar.setOnDoubleTapListener(this);
+        mToolBar.setNavigationOnClickListener(view -> {
+            if (isTaskRoot()) finishToHome();
+            else onBackPressed();
+        });
         Utils.setPaddingForStatusBar(mToolBar);
     }
 
