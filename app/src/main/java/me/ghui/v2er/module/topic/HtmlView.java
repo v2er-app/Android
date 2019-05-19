@@ -8,6 +8,7 @@ import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -87,7 +88,7 @@ public class HtmlView extends WebView {
         String container = Assets.getString("html/v2er.html", getContext());
         container = injectParams(container);
         formattedHtml = container.replace("{injecttedContent}", formattedHtml);
-        loadDataWithBaseURL(null, formattedHtml, "text/html", "UTF-8", null);
+        loadDataWithBaseURL("https://www.v2ex.com", formattedHtml, "text/html", "UTF-8", null);
     }
 
     private String injectParams(String html) {
@@ -122,6 +123,22 @@ public class HtmlView extends WebView {
     }
 
     private class V2exWebViewClient extends WebViewClient {
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            return super.shouldInterceptRequest(view, url);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return super.shouldOverrideUrlLoading(view, url);
+        }
+
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
             Utils.openWap(request.getUrl().toString(), getContext());
