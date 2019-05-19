@@ -130,6 +130,9 @@
         <activity
             android:name=".module.gallery.GalleryActivity"
             android:theme="@style/GalleryTheme" />
+        <activity
+            android:name=".module.settings.UserManualActivity"
+            android:label="常见问题" />
     </application>
 
 </manifest>
