@@ -265,6 +265,15 @@ public class Utils {
         }
     }
 
+    public static void jumpToJikeProfileInfo() {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addCategory(Intent.CATEGORY_BROWSABLE);
+        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+        intent.setData(Uri.parse("jike://page.jk/user/862E2527-9EBC-4CED-A431-F5971343307D"));
+        App.get().startActivity(intent);
+    }
+
     // 跳转至微博个人页
     public static void jumpToWeiboProfileInfo(Context context) {
             boolean hasWeiboClient = Utils.isAppInstalled("com.weico.international",

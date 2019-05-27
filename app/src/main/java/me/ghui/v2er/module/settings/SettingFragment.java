@@ -176,7 +176,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         startActivity(new Intent(getContext(), UserManualActivity.class));
                     })
                     .negativeText("联系", (BaseDialog dialog) -> {
-                        Utils.jumpToWeiboProfileInfo(getContext());
+                        Utils.jumpToJikeProfileInfo();
                     })
                     .build().show();
         }

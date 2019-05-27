@@ -23,9 +23,9 @@
             android:icon="@drawable/create_nav_item"
             android:title="@string/new_post" />
         <item
-            android:id="@+id/feedback_nav_item"
-            android:icon="@drawable/feedback_nav_item"
-            android:title="反馈" />
+            android:id="@+id/faq_nav_item"
+            android:icon="@drawable/faq_nav_item"
+            android:title="FAQ" />
     </group>
     <group
         android:id="@+id/day_night_menu"

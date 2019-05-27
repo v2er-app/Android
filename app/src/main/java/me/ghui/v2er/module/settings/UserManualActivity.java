@@ -21,7 +21,7 @@ public class UserManualActivity extends BaseActivity {
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(toolBar);
-        Utils.setPaddingForNavbar(mRootView);
+        Utils.setPaddingForNavbar(mHtmlView);
     }
 
     @Override

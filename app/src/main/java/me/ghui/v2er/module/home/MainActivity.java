@@ -43,6 +43,7 @@ import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.star.StarActivity;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.settings.SettingActivity;
+import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.DayNightUtil;
@@ -173,8 +174,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 case R.id.setting_nav_item:
                     Navigator.from(getContext()).to(SettingActivity.class).start();
                     break;
-                case R.id.feedback_nav_item:
-                    Utils.sendOfficalV2erEmail(this);
+                case R.id.faq_nav_item:
+                    startActivity(new Intent(getContext(), UserManualActivity.class));
                     break;
                 case R.id.create_nav_item:
                     if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return true;
