@@ -85,7 +85,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         rootView.setBackgroundColor(Theme.getColor(R.attr.page_bg_color, getActivity()));
         ListView list = rootView.findViewById(android.R.id.list);
         if (list != null) {
-            list.setDivider(null);
+//            list.setDivider(null);
+            list.setDivider(getActivity().getDrawable(R.drawable.common_divider));
             Utils.setPaddingForNavbar(list);
         }
     }
