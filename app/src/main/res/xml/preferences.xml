@@ -83,5 +83,6 @@
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"
+        android:layout="@layout/preference_logout_item"
         android:title="@string/logout_str" />
 </PreferenceScreen>

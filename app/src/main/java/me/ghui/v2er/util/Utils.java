@@ -265,13 +265,18 @@ public class Utils {
         }
     }
 
-    public static void jumpToJikeProfileInfo() {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addCategory(Intent.CATEGORY_BROWSABLE);
-        intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-        intent.setData(Uri.parse("jike://page.jk/user/862E2527-9EBC-4CED-A431-F5971343307D"));
-        App.get().startActivity(intent);
+    public static void jumpToJikeProfileInfo(Context context) {
+        boolean hasJikeClient = Utils.isAppInstalled("com.ruguoapp.jike");
+        if (hasJikeClient) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("jike://page.jk/user/862E2527-9EBC-4CED-A431-F5971343307D"));
+            App.get().startActivity(intent);
+        } else {
+            Utils.openWap("https://h5.okjike.com/partner-fe/?from=singlemessage&isappinstalled=0#/share?id=862E2527-9EBC-4CED-A431-F5971343307D&shareType=invite&jk=e7fd66b5", context);
+        }
     }
 
     // 跳转至微博个人页

@@ -3,7 +3,6 @@
     <string name="pref_key_clear_cache">pref_key_clear_cache</string>
     <string name="pref_key_check_update">pref_key_check_update</string>
     <string name="pref_key_rate">pref_key_rate</string>
-    <string name="pref_key_contact_me">pref_value_contact_me</string>
     <string name="pref_key_os">pref_key_os</string>
     <string name="pref_key_value_toggle_log">pref_key_toggle_log</string>
     <string name="pref_key_value_copyright">pref_key_copyright</string>
@@ -24,6 +23,10 @@
     <string name="pref_key_trello">pref_key_trello</string>
     <string name="pref_key_user_group">pref_user_group</string>
     <string name="pref_key_email">pref_key_email</string>
-    <string name="pref_key_feedback">pref_key_feedback</string>
     <string name="pref_key_fontsize">pref_key_fontsize</string>
+    <string name="pref_key_contact_me">pref_value_contact_me</string>
+    <string name="pref_key_contact_me_tg">pref_key_contact_me_tg</string>
+    <string name="pref_key_contact_me_jike">pref_key_contact_me_jike</string>
+    <string name="pref_key_contact_me_weibo">pref_key_contact_me_weibo</string>
+    <string name="pref_key_contact_me_mail">pref_key_contact_me_mail</string>
 </resources>

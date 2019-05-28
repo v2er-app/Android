@@ -177,7 +177,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         startActivity(new Intent(getContext(), UserManualActivity.class));
                     })
                     .negativeText("联系", (BaseDialog dialog) -> {
-                        Utils.jumpToJikeProfileInfo();
+//                        Utils.jumpToJikeProfileInfo();
+                        Navigator.from(getContext()).to(ContactActivity.class).start();
                     })
                     .build().show();
         }

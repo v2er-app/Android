@@ -122,6 +122,10 @@
             android:label="设置"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".module.settings.ContactActivity"
+            android:label="联系"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".module.general.WapActivity"
             android:label="" />
         <activity
