@@ -3,10 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:minHeight="55dp"
     android:gravity="center_vertical"
     android:background="@drawable/common_bottom_divider"
     android:orientation="horizontal"
-    android:paddingLeft="24dp"
+    android:paddingLeft="20dp"
     android:paddingTop="10dp"
     android:paddingRight="16dp"
     android:paddingBottom="10dp">

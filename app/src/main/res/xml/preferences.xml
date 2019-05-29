@@ -2,82 +2,99 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:divider="@drawable/common_divider"
+    android:layout="@layout/preference_item"
     android:title="设置">
     <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="常规设置">
         <Preference
             android:key="@string/pref_key_clear_cache"
+            android:layout="@layout/preference_item"
             android:summary="@string/cache_summary"
             android:title="清除缓存" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_long_press_thx"
+            android:layout="@layout/preference_item"
             android:summary="开启后长按才能发送感谢"
             android:title="长按感谢" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_auto_checkin"
+            android:layout="@layout/preference_item"
             android:summary="开启后当你每次打开App时会尝试自动签到"
             android:title="自动签到" />
     </PreferenceCategory>
     <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="外观设置">
         <ListPreference
             android:defaultValue="中"
             android:entries="@array/font_sizes_entry"
             android:entryValues="@array/font_sizes"
             android:key="@string/pref_key_fontsize"
+            android:layout="@layout/preference_item"
             android:title="文字大小" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_key_title_overview"
+            android:layout="@layout/preference_item"
             android:summary="列表标题最多显示两行（标题刷新后生效）"
             android:title="标题概览" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_title_btn_overlay"
+            android:layout="@layout/preference_item"
             android:summary="回复框或浮动按钮被遮挡，请开启此选项"
             android:title="被遮挡" />
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/pref_key_hide_create_btn"
+            android:layout="@layout/preference_item"
             android:summary="开启以隐藏首页右下角发贴按钮"
             android:title="隐藏发帖按钮" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_hide_reply_btn"
+            android:layout="@layout/preference_item"
             android:summary="开启以隐藏帖子页右下角回贴按钮"
             android:title="隐藏回帖按钮" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_highlight_comment_num"
+            android:layout="@layout/preference_item"
             android:summary="开启以高亮评论数"
             android:title="高亮评论" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_highlight_topic_owner_reply_item"
+            android:layout="@layout/preference_item"
             android:summary="开启后可以高亮楼主的回帖"
             android:title="高亮楼主回帖" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/pref_key_close_list_animate"
+            android:layout="@layout/preference_item"
             android:summary="开启后首页列表在滚动时将不播放缩放动画"
             android:title="关闭列表动画"/>
     </PreferenceCategory>
     <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="其它">
         <Preference
             android:key="@string/pref_key_check_update"
+            android:layout="@layout/preference_item"
             android:title="检查更新" />
         <Preference
             android:key="@string/pref_key_v2er_pro"
-            />
+            android:layout="@layout/preference_item" />
         <Preference
             android:key="@string/pref_key_rate"
+            android:layout="@layout/preference_item"
             android:title="给我评价" />
         <Preference
             android:key="@string/pref_key_contact"
+            android:layout="@layout/preference_item"
             android:summary="反馈或吐槽"
             android:title="联系开发者" />
     </PreferenceCategory>

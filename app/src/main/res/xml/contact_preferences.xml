@@ -2,21 +2,26 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout="@layout/preference_item"
     android:divider="@drawable/common_divider"
     android:title="联系">
         <Preference
             android:key="@string/pref_key_contact_me_jike"
+            android:layout="@layout/preference_item"
             android:summary="\@ghui"
             android:title="即刻" />
         <Preference
             android:key="@string/pref_key_contact_me_weibo"
+            android:layout="@layout/preference_item"
             android:summary="\@ghuiii"
             android:title="微博" />
         <Preference
             android:key="@string/pref_key_contact_me_tg"
+            android:layout="@layout/preference_item"
             android:summary="\@v2er_app"
             android:title="Telegram群" />
         <Preference
             android:key="@string/pref_key_contact_me_mail"
+            android:layout="@layout/preference_item"
             android:title="邮件" />
 </PreferenceScreen>
