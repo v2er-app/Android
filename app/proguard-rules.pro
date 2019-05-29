@@ -63,6 +63,7 @@
 
 #----------------- Jsoup Start ----------------------------
 -keeppackagenames org.jsoup.nodes
+-keep class org.jsoup.**
 #----------------- Jsoup End ----------------------------
 
 ##---------------Begin: proguard configuration for Gson  ----------
