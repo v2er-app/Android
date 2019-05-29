@@ -29,6 +29,7 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.login.TwoStepLoginActivity;
+import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
@@ -304,8 +305,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
                         Navigator.from(getActivity()).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
                         getActivity().finish();
                     }).negativeText("查看详情", dialog -> {
-                         // todo open a faq page
-                         Navigator.from(getActivity()).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+                         Navigator.from(getActivity()).to(UserManualActivity.class).start();
                          getActivity().finish();
             }).build().show();
         } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {

@@ -329,7 +329,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
-        getPtrLayout().setResistance(2.5f);
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
         setEnterSharedElementCallback(mCallback);
