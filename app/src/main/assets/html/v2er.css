@@ -45,6 +45,27 @@ div.subtle {
     background:#08090b;
 }
 
+blockquote {
+    border-left: 3px solid rgba(126, 126, 126, 0.5);
+    background-color: rgba(250, 250, 250, 0.5);
+    padding: 5px;
+    line-height: 120%;
+    text-align: left;
+}
+
+.dark blockquote {
+    background:#08090b;
+}
+
+div.subtle blockquote {
+    border-left: 0px solid rgba(126, 126, 126, 0.5);
+    display: block;
+}
+
+.dark div.subtle blockquote {
+    background:#08090b;
+}
+
 .dark div.subtle .topic_content {
     background:#08090b;
 }
