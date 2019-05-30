@@ -25,6 +25,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -203,7 +204,9 @@ public class HtmlView extends WebView {
                                             return "file://" + directory + File.separator + name;
                                         }).subscribe(localPath -> {
                                     Logger.d("reload image: " + localPath);
-                                    HtmlView.this.loadUrl("javascript:reloadImg(" + "'" + url + "'" + "," + "'" + localPath + "'" + ");");
+                                    String encodeUrl = URLEncoder.encode(url);
+                                    String js = "javascript:reloadImg(" + "'" + encodeUrl + "'" + "," + "'" + localPath + "'" + ");";
+                                    HtmlView.this.loadUrl(js);
                                 });
                                 return false;
                             }
