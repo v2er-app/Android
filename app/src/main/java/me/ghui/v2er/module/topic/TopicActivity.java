@@ -17,6 +17,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -365,6 +366,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                Log.e("TTTT", "state: " + newState);
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (recyclerView.getLayerType() != View.LAYER_TYPE_SOFTWARE) {
+                        recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+                    }
+                } else {
+                    if (recyclerView.getLayerType() != View.LAYER_TYPE_HARDWARE) {
+                        recyclerView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+                    }
+                }
             }
         });
         mMentionedLinearLayoutManager = new LinearLayoutManager(this);
