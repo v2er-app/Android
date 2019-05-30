@@ -366,7 +366,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                Log.e("TTTT", "state: " + newState);
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     if (recyclerView.getLayerType() != View.LAYER_TYPE_SOFTWARE) {
                         recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
