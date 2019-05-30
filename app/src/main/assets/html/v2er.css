@@ -95,3 +95,10 @@ pre {
 ::selection {
   background: #bbbbbb;
 }
+
+code {
+}
+
+.dark code {
+
+}
