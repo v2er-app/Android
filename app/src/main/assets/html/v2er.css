@@ -97,8 +97,12 @@ pre {
 }
 
 code {
+    font-size: 80%;
 }
 
 .dark code {
-
+    border-style: solid;
+    border-color: rgba(126, 126, 126, 0.5);
+    color: #7F8082;
+    background: none;
 }
