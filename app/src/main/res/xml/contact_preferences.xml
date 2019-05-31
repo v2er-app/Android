@@ -6,15 +6,15 @@
     android:divider="@drawable/common_divider"
     android:title="联系">
         <Preference
-            android:key="@string/pref_key_contact_me_jike"
-            android:layout="@layout/preference_item"
-            android:summary="\@ghui"
-            android:title="即刻" />
-        <Preference
             android:key="@string/pref_key_contact_me_weibo"
             android:layout="@layout/preference_item"
             android:summary="\@ghuiii"
             android:title="微博" />
+        <Preference
+            android:key="@string/pref_key_contact_me_jike"
+            android:layout="@layout/preference_item"
+            android:summary="\@ghui"
+            android:title="即刻" />
         <Preference
             android:key="@string/pref_key_contact_me_tg"
             android:layout="@layout/preference_item"
