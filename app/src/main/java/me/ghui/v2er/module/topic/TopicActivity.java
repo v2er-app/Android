@@ -17,7 +17,6 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.transition.Transition;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -277,6 +276,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 case R.id.action_scan_order:
                     // reload
                     mIsScanInOrder = !mIsScanInOrder;
+                    scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
                     Pref.saveBool(CommonConstants.IS_SCAN_IN_ORDER, mIsScanInOrder);
                     mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
                     // 重新加载

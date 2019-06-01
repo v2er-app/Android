@@ -53,6 +53,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
             webviewContainer.setVisibility(View.VISIBLE);
             mHtmlView.loadContentView(content);
         } else {
+            renderListener.onRenderCompleted();
             webviewContainer.setVisibility(View.GONE);
         }
     }
