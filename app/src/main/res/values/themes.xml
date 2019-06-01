@@ -6,6 +6,8 @@
         <item name="android:windowAnimationStyle">@style/AppActAnimation</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowReturnTransition">@android:transition/fade</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@color/transparent</item>
     </style>
 
     <style name="DayTheme" parent="BaseApp.Theme">
