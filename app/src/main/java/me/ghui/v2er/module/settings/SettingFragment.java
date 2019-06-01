@@ -62,11 +62,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
 //        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact)).setOnPreferenceClickListener(this::onPreferenceClick);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
-        proItem.setTitle(UserUtils.isPro() ? "Pro特性已开启" : "激活Pro特性");
-        proItem.setSummary(UserUtils.isPro() ? "感谢支持" : "更多实用功能并能支持V2er的长期开发");
         proItem.setOnPreferenceClickListener(this);
 
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
@@ -110,8 +109,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                                 ((CheckBoxPreference) item).setChecked(isSuccess);
                             }
                         });
-                    })
-                    .build().show();
+                    }).build().show();
             return true;
         }
 
@@ -192,7 +190,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private boolean isFeatureUnavaliable(String key) {
         return !UserUtils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
-                R.string.pref_key_highlight_topic_owner_reply_item, R.string.pref_key_auto_daynight);
+                R.string.pref_key_highlight_topic_owner_reply_item, R.string.pref_key_auto_daynight,
+                R.string.pref_key_is_scan_in_reverse);
     }
 
     private boolean strEquals(String str, @StringRes int... strId) {

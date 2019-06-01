@@ -24,6 +24,12 @@
             android:layout="@layout/preference_item"
             android:summary="开启后当你每次打开App时会尝试自动签到"
             android:title="自动签到" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_is_scan_in_reverse"
+            android:layout="@layout/preference_item"
+            android:summary="优先浏览帖子最新回复"
+            android:title="逆序浏览" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
@@ -76,18 +82,20 @@
             android:key="@string/pref_key_close_list_animate"
             android:layout="@layout/preference_item"
             android:summary="开启后首页列表在滚动时将不播放缩放动画"
-            android:title="关闭列表动画"/>
+            android:title="关闭列表动画" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="其它">
         <Preference
+            android:key="@string/pref_key_v2er_pro"
+            android:layout="@layout/preference_item"
+            android:summary="更多实用功能并能支持V2er的长期开发"
+            android:title="V2er高级版" />
+        <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />
-        <Preference
-            android:key="@string/pref_key_v2er_pro"
-            android:layout="@layout/preference_item" />
         <Preference
             android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"

@@ -65,9 +65,9 @@ public class ConfirmDialog extends BaseDialog {
 
         //relayout btn wrapper
         if (mOnlyOneBtn) {
-            int paddingH = layoutParams.width / 4;
-            mBtnWrapper.setPadding(paddingH,
-                    mBtnWrapper.getPaddingTop(), paddingH, ScaleUtils.dp(24));
+//            int paddingH = layoutParams.width / 4;
+//            mBtnWrapper.setPadding(paddingH,
+//                    mBtnWrapper.getPaddingTop(), paddingH, ScaleUtils.dp(24));
         }
     }
 

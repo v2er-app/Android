@@ -34,6 +34,10 @@ public class Pref {
         return readBool(app().getString(key));
     }
 
+    public static boolean readBool(@StringRes int key, boolean defaultValue) {
+        return readBool(app().getString(key), defaultValue);
+    }
+
     public static boolean readBool(String key) {
         return Prefs.with(app()).readBoolean(key);
     }
@@ -44,6 +48,10 @@ public class Pref {
 
     public static void saveBool(String key, boolean value) {
         Prefs.with(app()).writeBoolean(key, value);
+    }
+
+    public static void saveBool(@StringRes int key, boolean value) {
+        Prefs.with(app()).writeBoolean(app().getString(key), value);
     }
 
     public static void save(String key, String value) {

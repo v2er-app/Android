@@ -6,6 +6,8 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
@@ -41,6 +43,7 @@ import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
@@ -49,10 +52,10 @@ import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.settings.ProInfoActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.CommonConstants;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -122,7 +125,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     };
     private boolean mIsHideReplyBtn;
     private boolean mIsLogin = UserUtils.isLogin();
-    private boolean mIsScanInOrder = Pref.readBool(CommonConstants.IS_SCAN_IN_ORDER, true);
+    private boolean mIsScanInOrder = !Pref.readBool(R.string.pref_key_is_scan_in_reverse, false);
 
     /**
      * @param topicId
@@ -274,10 +277,21 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     animateEditInnerWrapper(true);
                     break;
                 case R.id.action_scan_order:
+                    // check first
+                    if (!UserUtils.isPro()) {
+                        new ConfirmDialog.Builder(getActivity())
+                                .title("功能不可用")
+                                .msg("此功能是Pro版特性，激活Pro版以开启")
+                                .positiveText("暂不")
+                                .negativeText("去激活", dialog -> {
+                                    Navigator.from(TopicActivity.this).to(ProInfoActivity.class).start();
+                                }).build().show();
+                        return true;
+                    }
                     // reload
                     mIsScanInOrder = !mIsScanInOrder;
                     scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
-                    Pref.saveBool(CommonConstants.IS_SCAN_IN_ORDER, mIsScanInOrder);
+                    Pref.saveBool(R.string.pref_key_is_scan_in_reverse, !mIsScanInOrder);
                     mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
                     // 重新加载
                     loadFromStart();
@@ -287,6 +301,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             return true;
         });
     }
+
 
     @Override
     protected boolean supportShareElement() {
