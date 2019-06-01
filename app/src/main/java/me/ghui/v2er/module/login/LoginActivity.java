@@ -29,6 +29,7 @@ import me.ghui.v2er.injector.component.DaggerLoginComponent;
 import me.ghui.v2er.injector.module.LoginModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
+import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.util.Utils;
@@ -88,7 +89,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
             } else if (item.getItemId() == R.id.action_forgot_psw) {
                 Utils.openWap(Constants.BASE_URL + "/forgot", this);
             } else if (item.getItemId() == R.id.action_faq) {
-                Utils.openWap(Constants.BASE_URL + "/faq", this);
+                Navigator.from(this).to(UserManualActivity.class).start();
             } else if (item.getItemId() == R.id.action_about) {
                 Utils.openWap(Constants.BASE_URL + "/about", this);
             }
