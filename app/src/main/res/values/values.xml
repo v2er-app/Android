@@ -15,4 +15,5 @@
     <string name="node_url_prefix" translatable="false">/go/</string>
     <string name="member_url_prefix" translatable="false">/member/</string>
     <string name="glide_img_provider">me.ghui.v2er.fileprovider</string>
+    <string name="wechat_username">"ghuiii"</string>
 </resources>

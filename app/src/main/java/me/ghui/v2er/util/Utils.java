@@ -3,6 +3,8 @@ package me.ghui.v2er.util;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ActivityNotFoundException;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -18,7 +20,6 @@ import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -460,6 +461,13 @@ public class Utils {
         }
 
         return false;
+    }
+
+    public static void copy2Clipboard(String text) {
+        ClipboardManager clipboard = (ClipboardManager) App.get().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", text);
+        assert clipboard != null;
+        clipboard.setPrimaryClip(clip);
     }
 
 }

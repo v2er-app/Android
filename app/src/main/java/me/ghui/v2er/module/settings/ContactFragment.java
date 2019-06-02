@@ -10,6 +10,7 @@ import android.widget.ListView;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 public class ContactFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
 
@@ -27,6 +28,7 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         findPreference(R.string.pref_key_contact_me_jike).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_tg).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_weibo).setOnPreferenceClickListener(this);
+        findPreference(R.string.pref_key_contact_me_wechat).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_mail).setOnPreferenceClickListener(this);
     }
 
@@ -46,13 +48,17 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (key.equals(getString(R.string.pref_key_contact_me_jike))) {
-            Utils.jumpToJikeProfileInfo(getContext());
+            Utils.jumpToJikeProfileInfo(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_weibo))) {
-            Utils.jumpToWeiboProfileInfo(getContext());
+            Utils.jumpToWeiboProfileInfo(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_mail))) {
             Utils.sendOfficalV2erEmail(getActivity());
+        } else if (key.equals(getString(R.string.pref_key_contact_me_wechat))) {
+            // copy wechat to clipboard
+            Utils.copy2Clipboard(getString(R.string.wechat_username));
+            Voast.show("已复制");
         }
         return true;
     }
