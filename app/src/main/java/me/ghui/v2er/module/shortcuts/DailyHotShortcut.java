@@ -7,4 +7,8 @@ import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
  */
 
 public class DailyHotShortcut extends DailyHotActivity {
+    @Override
+    protected boolean supportSlideBack() {
+        return false;
+    }
 }

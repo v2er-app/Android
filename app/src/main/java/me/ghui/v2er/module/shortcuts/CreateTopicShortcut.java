@@ -7,4 +7,8 @@ import me.ghui.v2er.module.create.CreateTopicActivity;
  */
 
 public class CreateTopicShortcut extends CreateTopicActivity {
+    @Override
+    protected boolean supportSlideBack() {
+        return false;
+    }
 }

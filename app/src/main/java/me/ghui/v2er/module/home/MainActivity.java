@@ -92,6 +92,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected boolean supportSlideBack() {
+        return false;
+    }
+
+    @Override
     protected BaseToolBar attachToolbar() {
         return null;
     }

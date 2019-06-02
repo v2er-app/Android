@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.SlideBackManager;
 import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -17,6 +18,7 @@ public class SettingActivity extends Activity {
         initTheme();
         Utils.transparentBars(getWindow());
         setContentView(R.layout.act_setting);
+        SlideBackManager.attach(this);
         getFragmentManager().beginTransaction()
                 .add(R.id.pref_rootview, SettingFragment.newInstance())
                 .commit();

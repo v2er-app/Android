@@ -83,5 +83,18 @@ public class StarActivity extends BaseActivity {
         mFragments.add(TopicStarFragment.newInstance());
         mFragments.add(NodeStarFragment.newInstance());
         mSlidingTabLayout.setViewPager(mViewPager, new String[]{"主题", "节点"}, getActivity(), mFragments);
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                if (mSlidrInterface == null) return;
+                if (position == 0) {
+                    mSlidrInterface.unlock();
+                } else {
+                    mSlidrInterface.lock();
+                }
+            }
+        });
     }
+
+
 }

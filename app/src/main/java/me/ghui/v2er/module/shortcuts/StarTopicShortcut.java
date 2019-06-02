@@ -7,4 +7,8 @@ import me.ghui.v2er.module.drawer.star.StarActivity;
  */
 
 public class StarTopicShortcut extends StarActivity {
+    @Override
+    protected boolean supportSlideBack() {
+        return false;
+    }
 }
