@@ -3,6 +3,7 @@ package me.ghui.v2er.general;
 import android.app.Application;
 import android.preference.PreferenceManager;
 
+import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -49,13 +50,13 @@ public class App extends Application {
     }
 
     private void initWechat() {
-        mWechat = WXAPIFactory.createWXAPI(this, null);
+        mWechat = WXAPIFactory.createWXAPI(CondomContext.wrap(this, "wechat"), null);
         mWechat.registerApp("wxdb7f82c706f4516c");
     }
 
     private void initBugly() {
         if (BuildConfig.DEBUG) return;
-        CrashReport.initCrashReport(getApplicationContext(), "b0ba618423", BuildConfig.DEBUG);
+        CrashReport.initCrashReport(CondomContext.wrap(this, "bugly"), "b0ba618423", BuildConfig.DEBUG);
         if (UserUtils.isLogin()) {
             CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
         } else {
