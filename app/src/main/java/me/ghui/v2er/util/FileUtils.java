@@ -5,6 +5,7 @@ import android.os.Environment;
 import java.io.File;
 import java.util.UUID;
 
+import me.ghui.v2er.general.App;
 import okio.Okio;
 
 import static android.os.Environment.DIRECTORY_PICTURES;
@@ -17,12 +18,8 @@ public class FileUtils {
 
     public static String saveImg(File imageFile, String imgType) {
         if (!isExternalStorageWritable()) return null;
-        File imgRoot = Environment.getExternalStoragePublicDirectory(DIRECTORY_PICTURES);
-        File v2erDir = new File(imgRoot, "V2er");
-        if (!v2erDir.exists()) {
-            if (!v2erDir.mkdirs()) return null;
-        }
-        File destFile = new File(v2erDir, UUID.randomUUID() + "." + imgType);
+        File imgRoot = App.get().getExternalMediaDirs()[0];
+        File destFile = new File(imgRoot, UUID.randomUUID() + "." + imgType);
         try {
             Okio.buffer(Okio.source(imageFile))
                     .readAll(Okio.sink(destFile));

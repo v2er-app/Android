@@ -1,14 +1,11 @@
 package me.ghui.v2er.module.gallery;
 
-import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
-import android.net.Uri;
-import android.provider.Settings;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -25,7 +22,6 @@ import java.io.File;
 import butterknife.BindView;
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
-import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.GlideRequest;
@@ -38,21 +34,14 @@ import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
-import me.ghui.v2er.widget.dialog.BaseDialog;
-import me.ghui.v2er.widget.dialog.ConfirmDialog;
-import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
-import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * Created by ghui on 22/10/2017.
  */
 
 public class GalleryActivity extends BaseActivity implements SwipeToDismissTouchListener.Callback, Toolbar.OnMenuItemClickListener {
-
     public static final String EXTRA_IMG_DATA = Utils.KEY("extra_img_data");
-    private static final int RC_WRITE_EXTERNAL_STORAGE = 1;
-
     @BindView(R.id.gallery_viewpager)
     ViewPager mViewPager;
     @BindView(R.id.gallery_toolbar)
@@ -152,61 +141,28 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
         return mData.getImages().get(index).getUrl();
     }
 
-    @AfterPermissionGranted(RC_WRITE_EXTERNAL_STORAGE)
-    private void requestWritePermission() {
-        String perm = Manifest.permission.WRITE_EXTERNAL_STORAGE;
-        if (EasyPermissions.hasPermissions(this, perm)) {
-            // Already have permission, do the thing
-            glideRequest(getCurrentImage()).into(new SimpleTarget<File>() {
-                @Override
-                public void onResourceReady(File file, Transition<? super File> transition) {
-                    if (!FileUtils.isExternalStorageWritable()) {
-                        Voast.show("存储空间不可用");
-                        return;
-                    }
-                    Observable.just(file)
-                            .compose(RxUtils.io_main())
-                            .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(getCurrentImage())))
-                            .subscribe(path -> {
-                                if (Check.notEmpty(path)) {
-                                    MediaScannerConnection.scanFile(GalleryActivity.this, new String[]{path}, null, null);
-                                    Voast.show("保存成功");
-                                } else {
-                                    Voast.show("保存失败");
-                                }
-                            });
+    private void saveImage() {
+        // Already have permission, do the thing
+        glideRequest(getCurrentImage()).into(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(File file, Transition<? super File> transition) {
+                if (!FileUtils.isExternalStorageWritable()) {
+                    Voast.show("存储空间不可用");
+                    return;
                 }
-            });
-        } else {
-            if (EasyPermissions.permissionPermanentlyDenied(GalleryActivity.this, perm)) {
-                new ConfirmDialog.Builder(getActivity())
-                        .title("无法继续")
-                        .msg("请打开并允许" + getString(R.string.app_name) + "使用存储权限")
-                        .negativeText("取消")
-                        .positiveText("去设置", new BaseDialog.OnDialogClickListener() {
-                            @Override
-                            public void onClick(BaseDialog dialog) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", BuildConfig.APPLICATION_ID, null);
-                                intent.setData(uri);
-                                startActivityForResult(intent, AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE);
+                Observable.just(file)
+                        .compose(RxUtils.io_main())
+                        .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(getCurrentImage())))
+                        .subscribe(path -> {
+                            if (Check.notEmpty(path)) {
+                                MediaScannerConnection.scanFile(GalleryActivity.this, new String[]{path}, null, null);
+                                Voast.show("保存成功");
+                            } else {
+                                Voast.show("保存失败");
                             }
-                        }).build().show();
-            } else {
-                // Do not have permissions, request them now
-                EasyPermissions.requestPermissions(this, "保存图片需要存储权限",
-                        RC_WRITE_EXTERNAL_STORAGE, perm);
+                        });
             }
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == AppSettingsDialog.DEFAULT_SETTINGS_REQ_CODE) {
-            requestWritePermission();
-        }
+        });
     }
 
     @Override
@@ -217,7 +173,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                 break;
             case R.id.action_save:
                 //check write external permission then do save stuff
-                requestWritePermission();
+                saveImage();
                 break;
             case R.id.action_share:
                 glideRequest(getCurrentImage()).into(new SimpleTarget<File>() {
