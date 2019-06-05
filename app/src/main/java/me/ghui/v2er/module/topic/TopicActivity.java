@@ -6,13 +6,12 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsClient;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -37,13 +36,9 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
@@ -500,19 +495,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
 
     @Override
-    protected PtrHandler attachPtrHandler() {
-        return new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                loadFromStart();
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return (mReplierRecyView.getVisibility() != VISIBLE &&
-                        checkContentCanBePulledDown(frame, mLoadMoreRecyclerView, header));
-            }
-        };
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
+        return () -> loadFromStart();
     }
 
     @Override

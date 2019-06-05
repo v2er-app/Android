@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -29,8 +30,6 @@ import java.util.Stack;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
@@ -53,7 +52,6 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
-import me.ghui.v2er.widget.V2erPtrFrameLayout;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -155,7 +153,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      *
      * @return PtrHandler
      */
-    protected PtrHandler attachPtrHandler() {
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
         return null;
     }
 
@@ -313,11 +311,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
 
         ViewGroup viewBelowToolbar;
-        if (attachPtrHandler() != null) {
-            V2erPtrFrameLayout ptrLayout = new V2erPtrFrameLayout(this);
+        if (attachOnRefreshListener() != null) {
+            SwipeRefreshLayout ptrLayout = new SwipeRefreshLayout(this);
             View content = getLayoutInflater().inflate(attachLayoutRes(), ptrLayout, false);
-            ptrLayout.setContentView(content);
-            ptrLayout.setPtrHandler(attachPtrHandler());
+            ptrLayout.addView(content);
+            ptrLayout.setOnRefreshListener(attachOnRefreshListener());
             viewBelowToolbar = ptrLayout;
         } else {
             viewBelowToolbar = (ViewGroup) getLayoutInflater().inflate(attachLayoutRes(), null);
@@ -345,13 +343,13 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     @Nullable
-    protected PtrFrameLayout getPtrLayout() {
-        if (attachPtrHandler() == null) return null;
-        PtrFrameLayout ptrLayout;
+    protected SwipeRefreshLayout getPtrLayout() {
+        if (attachOnRefreshListener() == null) return null;
+        SwipeRefreshLayout ptrLayout;
         if (mToolbar != null) {
-            ptrLayout = (PtrFrameLayout) mContentView.getChildAt(1);
+            ptrLayout = (SwipeRefreshLayout) mContentView.getChildAt(1);
         } else {
-            ptrLayout = (PtrFrameLayout) mContentView;
+            ptrLayout = (SwipeRefreshLayout) mContentView;
         }
         return ptrLayout;
     }
@@ -401,7 +399,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Override
     public void hideLoading() {
         if (getPtrLayout() != null) {
-            getPtrLayout().refreshComplete();
+            getPtrLayout().setRefreshing(false);
         }
         if (mLoadingView != null) {
             if (mFirstLoadingDelay != 0) {

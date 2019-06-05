@@ -1,15 +1,13 @@
 package me.ghui.v2er.module.drawer.star;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -62,13 +60,8 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     }
 
     @Override
-    protected PtrHandler attachPtrHandler() {
-        return new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPresenter.start();
-            }
-        };
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
+        return () -> mPresenter.start();
     }
 
     @Override

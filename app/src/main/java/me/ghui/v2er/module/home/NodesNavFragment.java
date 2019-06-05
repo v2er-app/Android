@@ -1,14 +1,12 @@
 package me.ghui.v2er.module.home;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.injector.component.DaggerNodesNavComponent;
@@ -54,13 +52,8 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
     }
 
     @Override
-    protected PtrHandler attachPtrHandler() {
-        return new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mPresenter.start();
-            }
-        };
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
+        return () -> mPresenter.start();
     }
 
     @Override

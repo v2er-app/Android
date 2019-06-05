@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +20,6 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import io.reactivex.ObservableTransformer;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
@@ -37,7 +36,6 @@ import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
-import me.ghui.v2er.widget.V2erPtrFrameLayout;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -60,7 +58,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
      *
      * @return PtrHandler
      */
-    protected PtrHandler attachPtrHandler() {
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
         return null;
     }
 
@@ -151,15 +149,13 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         Logger.d("onCreateRootView");
         if (mRootView == null) {
             View contentView;
-            if (attachPtrHandler() != null) {
-                V2erPtrFrameLayout ptrLayout = new V2erPtrFrameLayout(getContext());
-                ptrLayout.setId(R.id.frag_ptr_layout);
-                ptrLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
-                        , ViewGroup.LayoutParams.MATCH_PARENT));
-                View content = inflater.inflate(attachLayoutRes(), ptrLayout, false);
-                ptrLayout.setContentView(content);
-                ptrLayout.setPtrHandler(attachPtrHandler());
-                contentView = ptrLayout;
+            if (attachOnRefreshListener() != null) {
+                SwipeRefreshLayout refreshLayout = new SwipeRefreshLayout(getActivity());
+                refreshLayout.setId(R.id.frag_ptr_layout);
+                View content = inflater.inflate(attachLayoutRes(), refreshLayout, false);
+                refreshLayout.addView(content);
+                refreshLayout.setOnRefreshListener(attachOnRefreshListener());
+                contentView = refreshLayout;
             } else {
                 contentView = inflater.inflate(attachLayoutRes(), container, false);
             }
@@ -172,9 +168,9 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     }
 
     @Nullable
-    protected PtrFrameLayout getPtrLayout() {
-        if (attachPtrHandler() != null) {
-            return (PtrFrameLayout) mRootView.findViewById(R.id.frag_ptr_layout);
+    protected SwipeRefreshLayout getPtrLayout() {
+        if (attachOnRefreshListener() != null) {
+            return (SwipeRefreshLayout) mRootView.findViewById(R.id.frag_ptr_layout);
         } else return null;
     }
 
@@ -251,7 +247,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void showLoading() {
-//        if (attachPtrHandler() != null) return;
+//        if (attachOnRefreshListener() != null) return;
         if (mLoadingView != null && mLoadingView.getVisibility() == View.VISIBLE) return;
         if (getPtrLayout() != null && getPtrLayout().isRefreshing()) return;
         onCreateLoadingView();
@@ -260,7 +256,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     @Override
     public void hideLoading() {
-        if (getPtrLayout() != null) getPtrLayout().refreshComplete();
+        if (getPtrLayout() != null) getPtrLayout().setRefreshing(false);
         if (mLoadingView != null) {
             mLoadingView.setVisibility(View.INVISIBLE);
         }

@@ -3,6 +3,7 @@ package me.ghui.v2er.module.home;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -15,9 +16,6 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -136,18 +134,10 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     }
 
     @Override
-    protected PtrHandler attachPtrHandler() {
-        return new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                mRecyclerView.resetWillLoadPage();
-                mPresenter.start();
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, mRecyclerView, header);
-            }
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
+        return () -> {
+            mRecyclerView.resetWillLoadPage();
+            mPresenter.start();
         };
     }
 

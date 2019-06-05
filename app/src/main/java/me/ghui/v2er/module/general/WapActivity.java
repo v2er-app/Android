@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
-import android.view.View;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -19,9 +19,6 @@ import com.orhanobut.logger.Logger;
 import java.util.Map;
 
 import butterknife.BindView;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
-import in.srain.cube.views.ptr.PtrFrameLayout;
-import in.srain.cube.views.ptr.PtrHandler;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.ShareManager;
@@ -111,18 +108,8 @@ public class WapActivity extends BaseActivity {
     }
 
     @Override
-    protected PtrHandler attachPtrHandler() {
-        return new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                refresh();
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return super.checkCanDoRefresh(frame, mWebView, header);
-            }
-        };
+    protected SwipeRefreshLayout.OnRefreshListener attachOnRefreshListener() {
+        return () -> refresh();
     }
 
     protected void refresh() {
