@@ -4,20 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
             android:stateListAnimator="@animator/appbar_always_elevated">
 
             <me.ghui.v2er.widget.BaseToolBar
                 android:id="@+id/main_toolbar"
                 style="@style/BaseToolBar"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|snap">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -40,9 +43,10 @@
             <android.support.v4.view.ViewPager
                 android:id="@+id/viewpager_main"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         </FrameLayout>
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigationview_main"
