@@ -150,8 +150,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
         if (mRootView == null) {
             View contentView;
             if (attachOnRefreshListener() != null) {
-                SwipeRefreshLayout refreshLayout = new SwipeRefreshLayout(getActivity());
-                refreshLayout.setId(R.id.frag_ptr_layout);
+                SwipeRefreshLayout refreshLayout = (SwipeRefreshLayout) LayoutInflater.from(getContext())
+                        .inflate(R.layout.swipe_refresh, null, false);
                 View content = inflater.inflate(attachLayoutRes(), refreshLayout, false);
                 refreshLayout.addView(content);
                 refreshLayout.setOnRefreshListener(attachOnRefreshListener());
@@ -301,8 +301,8 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
                         Navigator.from(getActivity()).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
                         getActivity().finish();
                     }).negativeText("查看详情", dialog -> {
-                         Navigator.from(getActivity()).to(UserManualActivity.class).start();
-                         getActivity().finish();
+                Navigator.from(getActivity()).to(UserManualActivity.class).start();
+                getActivity().finish();
             }).build().show();
         } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {
             String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();

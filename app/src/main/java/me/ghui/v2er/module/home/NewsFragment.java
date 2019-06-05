@@ -78,9 +78,9 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
     @Override
     protected void init() {
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) getPtrLayout().getLayoutParams();
-        layoutParams.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-        getPtrLayout().requestLayout();
+//        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) getPtrLayout().getLayoutParams();
+//        layoutParams.setBehavior(new AppBarLayout.ScrollingViewBehavior());
+//        getPtrLayout().requestLayout();
 
         mCurrentTab = TabInfo.getSelectTab();
         mAdapter.setOnItemClickListener(this);
