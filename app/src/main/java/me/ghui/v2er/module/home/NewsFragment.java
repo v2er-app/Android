@@ -103,10 +103,10 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-                    mNewFab.hide(); // or hideFab(), see below
-                else if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                    showFab(true);
+//                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
+////                    mNewFab.hide(); // or hideFab(), see below
+//                else if (newState == RecyclerView.SCROLL_STATE_IDLE)
+////                    showFab(true);
             }
         });
     }
