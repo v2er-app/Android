@@ -1,6 +1,7 @@
 package me.ghui.v2er.general;
 
 import android.app.Application;
+import android.content.Context;
 import android.preference.PreferenceManager;
 
 import com.oasisfeng.condom.CondomContext;
@@ -9,6 +10,8 @@ import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import io.sentry.Sentry;
+import io.sentry.android.AndroidSentryClientFactory;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
@@ -45,23 +48,19 @@ public class App extends Application {
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         APIService.init();
-        initBugly();
+        initSentry();
         initWechat();
+    }
+
+    private void initSentry() {
+        Context ctx = this.getApplicationContext();
+        String sentryDsn = "https://09079965b3d74fdba7d4e5b867df5df3@sentry.io/1476360";
+        Sentry.init(sentryDsn, new AndroidSentryClientFactory(ctx));
     }
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(CondomContext.wrap(this, "wechat"), null);
         mWechat.registerApp("wxdb7f82c706f4516c");
-    }
-
-    private void initBugly() {
-        if (BuildConfig.DEBUG) return;
-        CrashReport.initCrashReport(CondomContext.wrap(this, "bugly"), "b0ba618423", BuildConfig.DEBUG);
-        if (UserUtils.isLogin()) {
-            CrashReport.setUserId(UserUtils.getUserInfo().getUserName());
-        } else {
-            CrashReport.setUserId("UnLogin");
-        }
     }
 
     public IWXAPI wechat() {
