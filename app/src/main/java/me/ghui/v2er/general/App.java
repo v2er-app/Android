@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.preference.PreferenceManager;
 
+import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.Logger;
 import com.tencent.bugly.crashreport.CrashReport;
@@ -50,6 +51,13 @@ public class App extends Application {
         APIService.init();
         initSentry();
         initWechat();
+        initFlurry();
+    }
+
+    private void initFlurry() {
+        new FlurryAgent.Builder()
+                .withLogEnabled(true)
+                .build(this, "4PZMS4HSZP3YNMBP8W4R");
     }
 
     private void initSentry() {
