@@ -11,7 +11,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.tencent.bugly.crashreport.CrashReport;
+import com.flurry.android.FlurryAgent;
 
 import javax.inject.Inject;
 
@@ -182,7 +182,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                         getActivity().getSupportFragmentManager().popBackStack();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        CrashReport.postCatchedException(new Exception("mCardView is null"));
+                        FlurryAgent.logEvent("mCardView is null");
                     }
                 }
             });

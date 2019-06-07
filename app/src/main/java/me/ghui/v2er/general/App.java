@@ -1,18 +1,18 @@
 package me.ghui.v2er.general;
 
 import android.app.Application;
-import android.content.Context;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.Logger;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
+import io.sentry.event.User;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
@@ -26,7 +26,6 @@ import me.ghui.v2er.util.UserUtils;
  */
 
 public class App extends Application {
-
     private static App sInstance;
     private AppComponent mAppComponent;
     private IWXAPI mWechat;
@@ -49,22 +48,26 @@ public class App extends Application {
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         APIService.init();
-//        initSentry();
+        initSentry();
         initFlurry();
         initWechat();
     }
 
     private void initFlurry() {
         new FlurryAgent.Builder()
-                .withLogEnabled(true)
+                .withLogEnabled(BuildConfig.DEBUG)
+                .withLogLevel(Log.VERBOSE)
+                .withCaptureUncaughtExceptions(false)
                 .build(this, "4PZMS4HSZP3YNMBP8W4R");
+        FlurryAgent.setUserId(UserUtils.getUserName());
     }
 
-//    private void initSentry() {
-//        Context ctx = this.getApplicationContext();
-//        String sentryDsn = "https://09079965b3d74fdba7d4e5b867df5df3@sentry.io/1476360";
-//        Sentry.init(sentryDsn, new AndroidSentryClientFactory(ctx));
-//    }
+    private void initSentry() {
+        String sentryDsn = "https://09079965b3d74fdba7d4e5b867df5df3@sentry.io/1476360";
+        Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
+        User user = new User(null, UserUtils.getUserName(), null, null, null);
+        Sentry.getContext().setUser(user);
+    }
 
     private void initWechat() {
         mWechat = WXAPIFactory.createWXAPI(CondomContext.wrap(this, "wechat"), null);
