@@ -340,9 +340,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void init() {
-        if (true) {
-            throw new RuntimeException("TEST Flurry ENable false");
-        }
         AndroidBug5497Workaround.assistActivity(this);
         Utils.setPaddingForNavbar(mReplyWrapper);
         setEnterSharedElementCallback(mCallback);
