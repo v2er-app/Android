@@ -5,7 +5,7 @@
     android:viewportHeight="512">
     <path
         android:name="shape"
-        android:fillColor="#ffffff"
+        android:fillColor="?attr/colorAccent"
         android:pathData="M 256.365 255.841 L 158.608 379.578 L 256.043 379.578 L 354.171 255.841 L 253.593 132.896 L 156.678 132.896 Z"
         android:strokeWidth="1" />
 </vector>

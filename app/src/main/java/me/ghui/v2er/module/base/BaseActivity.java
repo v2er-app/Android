@@ -258,7 +258,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(window);
     }
 
     @Override

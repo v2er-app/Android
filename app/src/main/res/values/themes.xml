@@ -2,12 +2,15 @@
 <resources>
     <!-- Base application theme. -->
     <style name="BaseApp.Theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="android:windowAnimationStyle">@style/AppActAnimation</item>
         <item name="android:windowContentTransitions">true</item>
         <item name="android:windowReturnTransition">@android:transition/fade</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/transparent</item>
+        <!--会导致statusbar下方的区域也可绘制，不光是navigation-->
+        <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:navigationBarColor">?attr/colorPrimary</item>
+        <item name="android:statusBarColor">?attr/colorPrimary</item>
     </style>
 
     <style name="DayTheme" parent="BaseApp.Theme">
@@ -72,6 +75,7 @@
 
     <style name="GalleryTheme" parent="NightTheme">
         <item name="android:actionOverflowButtonStyle">@style/GalleryToolbarOverflowStyle</item>
+        <item name="android:statusBarColor">@color/transparent</item>
     </style>
 
     <style name="SplashTheme" parent="DayTheme">
@@ -135,6 +139,4 @@
         <!-- 旧Activity退出 -->
         <item name="android:activityOpenExitAnimation">@anim/open_exit_slide</item>
     </style>
-
-
 </resources>

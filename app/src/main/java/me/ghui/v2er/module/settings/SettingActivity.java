@@ -16,7 +16,7 @@ public class SettingActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
-        Utils.transparentBars(getWindow());
+//        Utils.transparentBars(getWindow());
         setContentView(R.layout.act_setting);
         SlideBackManager.attach(this);
         getFragmentManager().beginTransaction()

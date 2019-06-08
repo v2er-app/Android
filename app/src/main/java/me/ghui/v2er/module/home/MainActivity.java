@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -99,6 +100,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected BaseToolBar attachToolbar() {
         return null;
+    }
+
+    @Override
+    protected void configSystemBars(Window window) {
+//        super.configSystemBars(window);
     }
 
     protected void configToolBar() {

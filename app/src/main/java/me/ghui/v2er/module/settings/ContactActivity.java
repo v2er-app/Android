@@ -16,7 +16,7 @@ public class ContactActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
-        Utils.transparentBars(getWindow());
+//        Utils.transparentBars(getWindow());
         setContentView(R.layout.contact_page);
         getFragmentManager().beginTransaction()
                 .add(R.id.pref_rootview, ContactFragment.newInstance())

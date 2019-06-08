@@ -3,7 +3,6 @@ package me.ghui.v2er.module.gallery;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaScannerConnection;
 import android.support.v4.view.ViewPager;
@@ -28,13 +27,11 @@ import me.ghui.v2er.general.GlideRequest;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
-import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.FileUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
-import pub.devrel.easypermissions.AppSettingsDialog;
 
 /**
  * Created by ghui on 22/10/2017.
@@ -79,7 +76,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, Color.TRANSPARENT, Color.TRANSPARENT, !DayNightUtil.isNightMode());
     }
 
     @Override

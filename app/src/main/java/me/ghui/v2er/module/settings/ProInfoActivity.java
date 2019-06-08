@@ -1,6 +1,5 @@
 package me.ghui.v2er.module.settings;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.Window;
 
@@ -29,13 +28,13 @@ public class ProInfoActivity extends BaseActivity {
 
     @Override
     protected void configSystemBars(Window window) {
-        Utils.transparentBars(window, false);
+//        Utils.transparentBars(window, false);
     }
 
-    @Override
-    protected void initTheme() {
-        setTheme(R.style.NightTheme);
-    }
+//    @Override
+//    protected void initTheme() {
+//        setTheme(R.style.NightTheme);
+//    }
 
     @Override
     protected void init() {
@@ -47,17 +46,17 @@ public class ProInfoActivity extends BaseActivity {
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
         Utils.setPaddingForStatusBar(mRootView);
-        Utils.setPaddingForNavbar(mRootView);
-        toolBar.setElevation(0);
-        toolBar.setBackgroundColor(Color.TRANSPARENT);
-        toolBar.setTitleTextColor(Color.WHITE);
-        toolBar.getNavigationIcon().setTint(Color.WHITE);
+//        Utils.setPaddingForNavbar(mRootView);
+//        toolBar.setElevation(0);
+//        toolBar.setBackgroundColor(Color.TRANSPARENT);
+//        toolBar.setTitleTextColor(Color.WHITE);
+//        toolBar.getNavigationIcon().setTint(Color.WHITE);
     }
 
-    @Override
-    protected int pageColor() {
-        return 0xFF000000;
-    }
+//    @Override
+//    protected int pageColor() {
+//        return getColor(R.color.colorPrimaryDark_night);
+//    }
 
     @OnClick(R.id.go_get_pro_btn)
     void onGetProClicked() {

@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:gravity="left"
         android:padding="16dp"
-        android:text="获取高级版你可以 : "
-        android:textColor="@color/white" />
+        android:text="获取高级版你可以 : " />
     <TextView
         style="@style/ProItem"
         android:text="1. 支持V2er项目的长期开发、激励开发者做的更好" />
@@ -38,7 +37,6 @@
         android:gravity="center"
         android:padding="16dp"
         android:text="Get"
-        android:textColor="@color/white"
         android:textStyle="italic|bold" />
     <TextView
         style="@style/hintText"

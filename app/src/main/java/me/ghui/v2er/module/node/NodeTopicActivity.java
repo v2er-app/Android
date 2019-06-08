@@ -3,6 +3,7 @@ package me.ghui.v2er.module.node;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -176,6 +177,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);

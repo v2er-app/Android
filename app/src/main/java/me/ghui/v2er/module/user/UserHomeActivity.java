@@ -3,6 +3,7 @@ package me.ghui.v2er.module.user;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -160,6 +161,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void init() {
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
         mAvatarImg.setTransitionName(mTransitionName);
         Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
