@@ -44,7 +44,7 @@ public class BaseRecyclerView extends RecyclerView {
             boolean shouldPaddingNav = styledAttrs.getBoolean(R.styleable.BaseRecyclerView_shouldPaddingNav, true);
             styledAttrs.recycle();
             if (shouldPaddingNav) {
-                setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom() + Utils.getNavigationBarHeight() + ScaleUtils.dp(20));
+                setPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom() + Utils.getNavigationBarHeight() + ScaleUtils.dp(30));
             }
         }
     }
