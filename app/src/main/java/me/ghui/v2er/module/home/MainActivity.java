@@ -34,8 +34,6 @@ import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.OnFragmentReEnter;
-import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
@@ -127,7 +125,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public boolean onToolbarDoubleTaped() {
         View rootView = getCurrentFragment().getView();
         if (rootView == null) return false;
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.base_recyclerview);
+        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
         if (recyclerView != null) {
             recyclerView.scrollToPosition(0);
             return true;
@@ -150,7 +148,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCheckInBtn.setOnClickListener(this);
         updateHeaderView();
         mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
-        mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
         mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
         mNightSwitch.setChecked(DayNightUtil.isNightMode());
@@ -202,7 +199,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             @Override
             public void onDrawerOpened(View drawerView) {
                 updateHeaderView();
-                mCreateMenuItem.setVisible(Pref.readBool(R.string.pref_key_hide_create_btn));
             }
         });
 
@@ -341,14 +337,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 return mNavFragment;
         }
         return null;
-    }
-
-    @Override
-    public void onActivityReenter(int resultCode, Intent data) {
-        super.onActivityReenter(resultCode, data);
-        if (getCurrentFragment() instanceof OnFragmentReEnter) {
-            ((OnFragmentReEnter) getCurrentFragment()).onFragmentReEnter();
-        }
     }
 
     @Override

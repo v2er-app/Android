@@ -1,12 +1,8 @@
 package me.ghui.v2er.module.home;
 
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.orhanobut.logger.Logger;
@@ -16,22 +12,15 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.OnFragmentReEnter;
-import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.injector.component.DaggerNewsComponent;
 import me.ghui.v2er.injector.module.NewsModule;
-import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
-import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -39,16 +28,13 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener, OnFragmentReEnter, MainActivity.ChangeTabTypeDelegate {
+        MultiItemTypeAdapter.OnItemClickListener,  MainActivity.ChangeTabTypeDelegate {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
-    @BindView(R.id.news_fab_btn)
-    FloatingActionButton mNewFab;
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
     private TabInfo mCurrentTab;
-    private boolean mNeedHideFab = false;
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
 
     public static NewsFragment newInstance() {
@@ -64,7 +50,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
     @Override
     protected int attachLayoutRes() {
-        return R.layout.frag_news;
+        return R.layout.common_load_more_recyclerview;
     }
 
     @Override
@@ -78,10 +64,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
     @Override
     protected void init() {
-//        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) getPtrLayout().getLayoutParams();
-//        layoutParams.setBehavior(new AppBarLayout.ScrollingViewBehavior());
-//        getPtrLayout().requestLayout();
-
         mCurrentTab = TabInfo.getSelectTab();
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.addDivider();
@@ -104,33 +86,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
             mPresenter.loadMore(willLoadPage);
         });
-
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                if (newState == RecyclerView.SCROLL_STATE_DRAGGING)
-////                    mNewFab.hide(); // or hideFab(), see below
-//                else if (newState == RecyclerView.SCROLL_STATE_IDLE)
-////                    showFab(true);
-            }
-        });
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateFabBtn();
-    }
-
-    private void updateFabBtn() {
-        mNeedHideFab = Pref.readBool(R.string.pref_key_hide_create_btn);
-        if (mNeedHideFab) {
-            mNewFab.hide();
-            return;
-        }
-        mNewFab.show();
-        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mNewFab.getLayoutParams();
-        layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
     }
 
     @Override
@@ -170,12 +125,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         return mCurrentTab;
     }
 
-    @OnClick(R.id.news_fab_btn)
-    void onNewFabClicked() {
-        if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return;
-        Navigator.from(getContext()).to(CreateTopicActivity.class).start();
-    }
-
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         View shareView = holder.getView(R.id.avatar_img);
@@ -190,16 +139,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
                 getContext(), shareView, basicInfo);
     }
 
-    @Override
-    public void onFragmentReEnter() {
-        showFab(true);
-    }
-
-    private void showFab(boolean shouldAnimate) {
-        if (mNeedHideFab) return;
-        if (shouldAnimate) mNewFab.show();
-        else mNewFab.setVisibility(View.VISIBLE);
-    }
 
     @Override
     public void changeTabType(TabInfo tabInfo) {
