@@ -34,13 +34,13 @@ import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Page;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.star.StarActivity;
 import me.ghui.v2er.module.login.LoginActivity;
-import me.ghui.v2er.module.settings.SettingActivity;
 import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
@@ -171,7 +171,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Navigator.from(getContext()).to(StarActivity.class).start();
                     break;
                 case R.id.setting_nav_item:
-                    Navigator.from(getContext()).to(SettingActivity.class).start();
+                    Navigator.from(getContext()).to(Page.SETTING).start();
                     break;
                 case R.id.faq_nav_item:
                     startActivity(new Intent(getContext(), UserManualActivity.class));

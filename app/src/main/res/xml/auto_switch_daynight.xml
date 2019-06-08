@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout="@layout/preference_item">
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="@string/pref_key_auto_daynight_switch"
+        android:layout="@layout/preference_item"
+        android:title="开启" />
+    <me.ghui.v2er.module.settings.TimePreference
+        android:defaultValue="07:00"
+        android:key="@string/pref_key_day_mode_start_time"
+        android:layout="@layout/preference_item"
+        android:title="日间模式开始时间" />
+    <me.ghui.v2er.module.settings.TimePreference
+        android:defaultValue="17:00"
+        android:key="@string/pref_key_night_mode_start_time"
+        android:layout="@layout/preference_item"
+        android:title="夜间模式开始时间" />
+</PreferenceScreen>

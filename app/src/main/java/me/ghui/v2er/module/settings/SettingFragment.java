@@ -13,10 +13,10 @@ import android.widget.ListView;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
-import me.ghui.v2er.bus.event.AutoDayNightModeEvent;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Page;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.util.FontSizeUtil;
@@ -37,9 +37,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private Preference loginPreference;
 
     public static SettingFragment newInstance() {
-
         Bundle args = new Bundle();
-
         SettingFragment fragment = new SettingFragment();
         fragment.setArguments(args);
         return fragment;
@@ -63,7 +61,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
-//        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact)).setOnPreferenceClickListener(this::onPreferenceClick);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
@@ -157,7 +155,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
-            Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
+//            Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
+            Navigator.from(getContext()).to(Page.AUTO_SWITCH_DAYNIGHT).start();
         } else if (key.equals(getString(R.string.pref_key_email))) {
             Utils.sendOfficalV2erEmail(getActivity());
         } else if (key.equals(getString(R.string.pref_key_rate))) {
@@ -175,8 +174,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         startActivity(new Intent(getContext(), UserManualActivity.class));
                     })
                     .negativeText("联系", (BaseDialog dialog) -> {
-//                        Utils.jumpToJikeProfileInfo();
-                        Navigator.from(getContext()).to(ContactActivity.class).start();
+                        Navigator.from(getContext()).to(Page.CONTACT).start();
                     })
                     .build().show();
         }

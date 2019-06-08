@@ -41,6 +41,12 @@ public class Navigator {
         return navigator;
     }
 
+    public <T extends Activity> Navigator to(Page pageID) {
+        to(PageHost.class);
+        putExtra(PageHost.PAGE_ID, pageID);
+        return navigator;
+    }
+
     public void start() {
         Context context = mFrom.get();
         if (context != null) {

@@ -36,6 +36,11 @@
             android:layout="@layout/preference_item"
             android:summary="优先浏览帖子最新回复"
             android:title="逆序浏览" />
+        <Preference
+            android:key="@string/pref_key_auto_daynight"
+            android:layout="@layout/preference_item"
+            android:summary="自动切换日夜间模式"
+            android:title="自动日夜" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"

@@ -17,7 +17,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class ProInfoActivity extends BaseActivity {
-
     private boolean isPro;
 
     @Override

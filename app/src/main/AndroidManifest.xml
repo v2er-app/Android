@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="me.ghui.v2er">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".general.App"
         android:icon="@mipmap/ic_launcher"
@@ -116,14 +118,6 @@
             android:label="节点"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".module.settings.SettingActivity"
-            android:label="设置"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".module.settings.ContactActivity"
-            android:label="联系"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".module.general.WapActivity"
             android:label="" />
         <activity
@@ -135,6 +129,7 @@
         <activity
             android:name=".module.settings.UserManualActivity"
             android:label="常见问题" />
+        <activity android:name=".general.PageHost" />
     </application>
 
 </manifest>
