@@ -76,11 +76,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private ImageView mAvatarImg;
     private TextView mUserNameTv;
     private FollowProgressBtn mCheckInBtn;
-    private MenuItem mCreateMenuItem;
     private CheckInPresenter mCheckInPresenter;
     private TextView mTab1View;
-    private TextView mTab2View;
-    private TextView mTab3View;
     private MenuItem mNightMenuItem;
     private SwitchCompat mNightSwitch;
     private HomeFilterMenu mFilterMenu;
@@ -148,7 +145,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
         updateHeaderView();
-        mCreateMenuItem = mNavigationView.getMenu().findItem(R.id.create_nav_item);
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
         mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
         mNightSwitch.setChecked(DayNightUtil.isNightMode());
