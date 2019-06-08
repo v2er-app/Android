@@ -9,7 +9,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.TextView;
 
 import com.bumptech.glide.request.RequestOptions;
@@ -75,10 +74,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
-    protected void configSystemBars(Window window) {
-    }
-
-    @Override
     protected BaseToolBar attachToolbar() {
         return null;
     }
@@ -109,7 +104,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                 mToolBar.setVisibility(View.VISIBLE);
                 mToolBar.animate().alpha(1).setListener(null).start();
                 Utils.fullScreen(getWindow(), false);
-                configSystemBars(getWindow());
             }
         });
         mViewPager.setOffscreenPageLimit(1);

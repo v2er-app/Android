@@ -4,7 +4,6 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,12 +76,6 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         toolBar.setOnMenuItemClickListener(this);
         Utils.setPaddingForStatusBar(toolBar);
         Utils.setPaddingForNavbar(mRootView);
-    }
-
-    @Override
-    protected void configSystemBars(Window window) {
-        super.configSystemBars(window);
-//        Utils.transparentStatus(window);
     }
 
     @Override

@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -257,14 +256,10 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
     }
 
-    protected void configSystemBars(Window window) {
-    }
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
-        configSystemBars(getWindow());
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
             mSlidrInterface = configSlideBack();
