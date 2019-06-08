@@ -132,8 +132,7 @@ public interface APIs {
 
     @Html
     @GET("/ignore/topic/{id}")
-    @Headers("Referer: " + RefererUtils.TINY_REFER)
-    Observable<DailyInfo> ignoreTopic(@Path("id") String id, @Query("once") String once);
+    Observable<NewsInfo> ignoreTopic(@Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/ignore/reply/{id}")

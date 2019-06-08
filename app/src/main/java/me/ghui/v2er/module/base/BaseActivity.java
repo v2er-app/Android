@@ -474,6 +474,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (generalError.getErrorCode() == ResultCode.LOGIN_EXPIRED || generalError.getErrorCode() == ResultCode.LOGIN_NEEDED) {
             handleNotLoginError(generalError.getErrorCode(), generalError.getMessage());
         } else if (generalError.getErrorCode() == ResultCode.REDIRECT_TO_HOME) {
+            // TODO 回到首页不一定是错误
             new ConfirmDialog.Builder(this)
                     .title("遇到错误")
                     .msg("可能的原因：\n" +

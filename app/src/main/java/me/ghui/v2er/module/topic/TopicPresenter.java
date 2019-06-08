@@ -7,6 +7,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.IgnoreResultInfo;
+import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.RefererUtils;
@@ -98,10 +99,11 @@ public class TopicPresenter implements TopicContract.IPresenter {
         if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
         APIService.get().ignoreTopic(topicId, once)
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
+                .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
-                    public void onConsume(DailyInfo missionInfo) {
-                        mView.afterIgnoreTopic(missionInfo.isValid());
+                    public void onConsume(NewsInfo newsInfo) {
+                        // todo 可能没成功
+                        mView.afterIgnoreTopic(newsInfo.isValid());
                     }
                 });
     }
