@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Pref;
+import me.ghui.v2er.widget.BaseToolBar;
 
 /**
  * Created by ghui on 05/07/2017.
@@ -106,6 +108,25 @@ public class ViewUtils {
         commentTV.setTextColor(highLightCommentNum ?
                 App.get().getResources().getColor(R.color.bodyTextColor) :
                 App.get().getResources().getColor(R.color.hintTextColor));
+    }
+
+    /**
+     * 开启/关闭自动隐藏Toolbar
+     * @param toolbar
+     */
+    public static void configToolbarScroll(BaseToolBar toolbar) {
+        AppBarLayout.LayoutParams params;
+        try {
+            params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+            return;
+        }
+        boolean autoHideToolbar = Pref.readBool(R.string.pref_key_scroll_title);
+        int flags = autoHideToolbar ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS : 0;
+        params.setScrollFlags(flags);
+        toolbar.setLayoutParams(params);
     }
 
 }

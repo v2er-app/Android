@@ -794,6 +794,11 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         return tv_tab_title;
     }
 
+    public void setTitleViewVerticalPadding(int tabIndex, int padding) {
+        TextView titleView = getTitleView(tabIndex);
+        titleView.setPadding(titleView.getPaddingLeft(), padding, titleView.getPaddingRight(), padding);
+    }
+
     /**
      * 显示未读消息
      *

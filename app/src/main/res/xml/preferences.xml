@@ -49,6 +49,11 @@
             android:title="文字大小" />
         <CheckBoxPreference
             android:defaultValue="true"
+            android:key="@string/pref_key_scroll_title"
+            android:layout="@layout/preference_item"
+            android:title="收缩标题栏" />
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:key="@string/pref_key_title_overview"
             android:layout="@layout/preference_item"
             android:summary="列表标题最多显示两行（标题刷新后生效）"

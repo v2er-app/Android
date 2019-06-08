@@ -5,7 +5,6 @@ import android.support.annotation.IntRange;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,7 +13,9 @@ import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 
@@ -25,7 +26,7 @@ import me.ghui.v2er.widget.CSlidingTabLayout;
 public class StarActivity extends BaseActivity {
     private static final String TAB_INDEX = KEY("tab_index");
     @BindView(R.id.star_toolbar)
-    BaseToolBar  mToolBar;
+    BaseToolBar mToolbar;
     @BindView(R.id.tablayout_main)
     CSlidingTabLayout mSlidingTabLayout;
     @BindView(R.id.viewpager_main)
@@ -54,14 +55,14 @@ public class StarActivity extends BaseActivity {
     }
 
     protected void configToolBar() {
-        mToolBar.setTitle(getTitle());
-        mToolBar.setElevation(0);
-        mToolBar.setOnDoubleTapListener(this);
-        mToolBar.setNavigationOnClickListener(view -> {
+        mToolbar.setTitle(getTitle());
+        mToolbar.setElevation(0);
+        mToolbar.setOnDoubleTapListener(this);
+        mToolbar.setNavigationOnClickListener(view -> {
             if (isTaskRoot()) finishToHome();
             else onBackPressed();
         });
-        Utils.setPaddingForStatusBar(mToolBar);
+        Utils.setPaddingForStatusBar(mToolbar);
     }
 
     @Override
@@ -94,7 +95,14 @@ public class StarActivity extends BaseActivity {
                 }
             }
         });
+        int padding = ScaleUtils.dp(6f);
+        mSlidingTabLayout.setTitleViewVerticalPadding(0, padding);
+        mSlidingTabLayout.setTitleViewVerticalPadding(1, padding);
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewUtils.configToolbarScroll(mToolbar);
+    }
 }

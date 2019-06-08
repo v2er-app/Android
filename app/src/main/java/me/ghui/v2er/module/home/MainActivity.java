@@ -48,6 +48,7 @@ import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -215,14 +216,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     private void configNewsTabTitle() {
-        mTab1View = mSlidingTabLayout.getTitleView(0);
-        mTab2View = mSlidingTabLayout.getTitleView(1);
-        mTab3View = mSlidingTabLayout.getTitleView(2);
         int padding = ScaleUtils.dp(6f);
-        mTab1View.setPadding(mTab1View.getPaddingLeft(), padding, mTab1View.getPaddingRight(), padding);
-        mTab2View.setPadding(mTab2View.getPaddingLeft(), padding, mTab2View.getPaddingRight(), padding);
-        mTab3View.setPadding(mTab3View.getPaddingLeft(), padding, mTab3View.getPaddingRight(), padding);
-
+        mSlidingTabLayout.setTitleViewVerticalPadding(0, padding);
+        mSlidingTabLayout.setTitleViewVerticalPadding(1, padding);
+        mSlidingTabLayout.setTitleViewVerticalPadding(2, padding);
+        mTab1View = mSlidingTabLayout.getTitleView(0);
         mTab1View.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.animate_triangle_down, 0);
         mTab1View.setCompoundDrawablePadding(ScaleUtils.dp(6));
     }
@@ -316,6 +314,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             lp.height = Math.round(textSize * 1.5f);
             msgView.setLayoutParams(lp);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ViewUtils.configToolbarScroll(mToolbar);
     }
 
     @Override
