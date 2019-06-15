@@ -11,6 +11,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.injector.component.DaggerDailyHotComponent;
 import me.ghui.v2er.injector.module.DailyHotModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -68,6 +69,11 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     }
 
     @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
+    }
+
+    @Override
     public void fillView(DailyHotInfo dailyHotInfo) {
         mDailyHotAdapter.setData(dailyHotInfo);
     }
@@ -82,5 +88,6 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
                 .build();
         TopicActivity.openById(item.getId(), this, holder.getView(R.id.avatar_img), basicInfo);
     }
+
 
 }

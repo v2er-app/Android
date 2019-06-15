@@ -22,6 +22,7 @@ import butterknife.OnClick;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Vtml;
@@ -75,6 +76,11 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     protected void init() {
         super.init();
         Utils.setPaddingForNavbar(mRootView);
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 
     @Override

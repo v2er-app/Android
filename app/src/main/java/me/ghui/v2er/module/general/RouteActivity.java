@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
+import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.shortcuts.CreateTopicShortcut;
@@ -20,11 +21,26 @@ import me.ghui.v2er.util.DayNightUtil;
  */
 
 public class RouteActivity extends Activity {
+
+
+    protected void initTheme() {
+        switch (DayNightUtil.getMode()) {
+            case DayNightUtil.NIGHT_MODE:
+                setTheme(R.style.NightTheme);
+                break;
+            case DayNightUtil.DAY_MODE:
+            default:
+                setTheme(R.style.DayTheme);
+                break;
+        }
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        if (DayNightUtil.isNightMode()) {
-            changeBrightness();
-        }
+//        if (DayNightUtil.isNightMode()) {
+//            changeBrightness();
+//        }
+        initTheme();
         super.onCreate(savedInstanceState);
         route();
         finish();

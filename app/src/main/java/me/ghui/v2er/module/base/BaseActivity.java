@@ -3,6 +3,7 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
@@ -13,6 +14,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +26,9 @@ import com.orhanobut.logger.Logger;
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -33,6 +38,8 @@ import io.reactivex.ObservableTransformer;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.bus.Bus;
+import me.ghui.v2er.bus.event.DayNightModeEvent;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.SlideBackManager;
@@ -75,6 +82,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     private Runnable mDelayLoadingRunnable;
     @Nullable
     protected SlidrInterface mSlidrInterface;
+    protected DayNightModeEvent mDayNightModeEvent;
 
 
     protected static String KEY(String key) {
@@ -190,6 +198,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Bus.unRegister(this);
         if (mBackables != null) {
             mBackables.clear();
         }
@@ -247,8 +256,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             case DayNightUtil.NIGHT_MODE:
                 setTheme(R.style.NightTheme);
                 break;
-            case DayNightUtil.AUTO_MODE:
-                break;
             case DayNightUtil.DAY_MODE:
             default:
                 setTheme(R.style.DayTheme);
@@ -260,6 +267,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
+        Bus.register(this);
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
             mSlidrInterface = configSlideBack();
@@ -273,6 +281,35 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configToolBar(mToolbar);
         init();
         autoLoad();
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            onToolbarDoubleTaped();
+        }
+        return super.onKeyLongPress(keyCode, event);
+    }
+
+    /**
+     * 刷新当前页面的日夜模式
+     */
+    protected abstract void refreshMode(@DayNightUtil.DayNightMode int mode);
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DayNightModeEvent event) {
+        Logger.d("need change mode to: " + event.getModeName());
+        mDayNightModeEvent = event.copy();
+    }
+
+    @Override @CallSuper
+    protected void onResume() {
+        super.onResume();
+        if (mDayNightModeEvent != null) {
+            int changeToMode = mDayNightModeEvent.getMode();
+            mDayNightModeEvent = null;
+            refreshMode(changeToMode);
+        }
     }
 
     protected SlidrInterface configSlideBack() {
@@ -480,8 +517,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                         Navigator.from(BaseActivity.this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
                         finish();
                     }).negativeText("查看详情", dialog -> {
-                        Navigator.from(BaseActivity.this).to(UserManualActivity.class).start();
-                        finish();
+                Navigator.from(BaseActivity.this).to(UserManualActivity.class).start();
+                finish();
             }).build().show();
         } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {
             String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();

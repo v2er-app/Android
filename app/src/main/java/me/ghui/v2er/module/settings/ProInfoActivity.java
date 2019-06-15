@@ -5,6 +5,7 @@ import android.view.View;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.BillingManager;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -28,6 +29,11 @@ public class ProInfoActivity extends BaseActivity {
     protected void init() {
         super.init();
         isPro = UserUtils.isPro();
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 
     @Override

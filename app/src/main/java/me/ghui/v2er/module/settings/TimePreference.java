@@ -90,7 +90,7 @@ public class TimePreference extends DialogPreference {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, lastHour);
         cal.set(Calendar.MINUTE, lastMinute);
-        DateFormat sdf = SimpleDateFormat.getTimeInstance(SimpleDateFormat.SHORT);
+        DateFormat sdf = new SimpleDateFormat("HH:mm");
         return sdf.format(cal.getTime());
     }
 

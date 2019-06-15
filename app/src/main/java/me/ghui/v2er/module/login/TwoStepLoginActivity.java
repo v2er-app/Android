@@ -20,6 +20,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
@@ -81,13 +82,16 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
             case DayNightUtil.NIGHT_MODE:
                 setTheme(R.style.NightDialogTheme);
                 break;
-            case DayNightUtil.AUTO_MODE:
-                break;
             case DayNightUtil.DAY_MODE:
             default:
                 setTheme(R.style.DialogTheme);
                 break;
         }
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 
     @Override

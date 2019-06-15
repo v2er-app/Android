@@ -52,8 +52,11 @@ import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
+import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
-public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener, HomeFilterMenu.OnMenuItemClickListener {
+public class MainActivity extends BaseActivity implements View.OnClickListener,
+        UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener,
+        HomeFilterMenu.OnMenuItemClickListener {
     private static final String CURRENT_PAGE = KEY("current_page_index");
     public static boolean isAlive;
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
@@ -132,10 +135,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     }
 
     @Override
+    protected void refreshMode(int mode) {
+        Intent intent = new Intent(MainActivity.this, MainActivity.class);
+        intent.putExtra(CURRENT_PAGE, mSlidingTabLayout.getCurrentTab());
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+        finish();
+    }
+
+    private void refreshDayNightItem() {
+        mNightMenuItem.setTitle(DayNightUtil.isAutoModeEnabled() ? "夜间模式(自动)" : "夜间模式");
+        mNightSwitch.setChecked(DayNightUtil.isNightMode());
+    }
+
+    @Override
     protected void init() {
         isAlive = true;
         configToolBar();
-        Bus.register(this);
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
@@ -144,21 +160,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
-        updateHeaderView();
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
         mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
-        mNightSwitch.setChecked(DayNightUtil.isNightMode());
-        mNightSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            String dayNightTitle = getString(isChecked ? R.string.night_mode : R.string.day_mode);
-            mNightMenuItem.setTitle(dayNightTitle);
-            DayNightUtil.saveMode(isChecked ? DayNightUtil.NIGHT_MODE : DayNightUtil.DAY_MODE);
-            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-            intent.putExtra(CURRENT_PAGE, mSlidingTabLayout.getCurrentTab());
-            startActivity(intent);
-            overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-            finish();
-        });
-
+        updateDrawLayout();
         mNavigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.hot_nav_item:
@@ -181,7 +185,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.day_night_item:
-                    mNightSwitch.toggle();
+                    onNightMenuItemClicked(DayNightUtil.isNightMode());
                     break;
             }
             delay(50, () -> mDrawerLayout.closeDrawer(Gravity.START, false));
@@ -195,7 +199,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mDrawerLayout.addDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerOpened(View drawerView) {
-                updateHeaderView();
+                updateDrawLayout();
             }
         });
 
@@ -209,6 +213,25 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
         int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
         mSlidingTabLayout.setCurrentTab(index);
+    }
+
+    private void onNightMenuItemClicked(boolean isNightMode) {
+        int wanttedMode = isNightMode ? DayNightUtil.DAY_MODE : DayNightUtil.NIGHT_MODE;
+        if (DayNightUtil.isAutoModeEnabled()) {
+            new ConfirmDialog.Builder(MainActivity.this)
+                    .title("要关闭自动切换模式吗？")
+                    .msg("当前为自动切换模式，确定关闭自动切换吗")
+                    .positiveText("关闭", dialog -> {
+                        DayNightUtil.saveAutoMode(false);
+                        DayNightUtil.saveMode(wanttedMode);
+                        refreshMode(wanttedMode);
+                    }).negativeText("暂时不用")
+                    .build().show();
+        } else {
+            mNightSwitch.toggle();
+            DayNightUtil.saveMode(wanttedMode);
+            refreshMode(wanttedMode);
+        }
     }
 
     private void configNewsTabTitle() {
@@ -226,7 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         mCheckInPresenter.start();
     }
 
-    private void updateHeaderView() {
+    private void updateDrawLayout() {
         UserInfo userInfo = UserUtils.getUserInfo();
         if (userInfo != null) {
             mUserNameTv.setText(userInfo.getUserName());
@@ -235,6 +258,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
         }
+        refreshDayNightItem();
     }
 
     @Override
@@ -379,6 +403,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onTextSizeChanged(TextSizeChangeEvent event) {
         recreate();
     }
+
 
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);

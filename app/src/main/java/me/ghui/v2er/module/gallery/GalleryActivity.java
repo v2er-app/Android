@@ -64,6 +64,11 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
+    protected void refreshMode(int mode) {
+        // do nothing
+    }
+
+    @Override
     protected int attachLayoutRes() {
         return R.layout.act_gallery;
     }

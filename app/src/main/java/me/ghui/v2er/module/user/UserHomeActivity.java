@@ -31,6 +31,7 @@ import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerUserHomeComponent;
@@ -204,6 +205,15 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
         mUserText.setText(mUserName);
         fillAvatar();
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this)
+                .putExtra(USER_NAME_KEY, mUserName)
+                .putExtra(USER_AVATAR_KEY, mAvatar)
+                .putExtra(USER_SHARE_ELEMENT_AVATAR_KEY, mTransitionName)
+                .reload();
     }
 
     private void fillAvatar() {

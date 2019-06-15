@@ -31,6 +31,7 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.ShareManager;
@@ -246,6 +247,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         if (mNodeInfo != null) {
             fillHeaderView(mNodeInfo);
         }
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        Intent intent = getIntent();
+        ColorModeReloader.target(this)
+                .putExtra(TAG_NODE_ID_KEY, intent.getStringExtra(TAG_NODE_ID_KEY))
+                .putExtra(TAG_INIT_PAGE_KEY, intent.getStringExtra(TAG_INIT_PAGE_KEY))
+                .putExtra(TAG_BASIC_NODE_INFO, intent.getSerializableExtra(TAG_BASIC_NODE_INFO))
+                .reload();
     }
 
     @Override

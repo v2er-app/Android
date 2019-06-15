@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.ScaleUtils;
@@ -98,6 +99,11 @@ public class StarActivity extends BaseActivity {
         int padding = ScaleUtils.dp(6f);
         mSlidingTabLayout.setTitleViewVerticalPadding(0, padding);
         mSlidingTabLayout.setTitleViewVerticalPadding(1, padding);
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 
     @Override

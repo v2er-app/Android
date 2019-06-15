@@ -49,6 +49,11 @@ public class App extends Application {
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.setDefaultValues(this, R.xml.auto_switch_daynight, false);
         APIService.init();
+        initThirdPartySDK();
+    }
+
+    private void initThirdPartySDK() {
+        if (BuildConfig.DEBUG) return;
         initSentry();
         initFlurry();
         initWechat();

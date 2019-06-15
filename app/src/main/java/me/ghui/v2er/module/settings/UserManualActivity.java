@@ -3,6 +3,7 @@ package me.ghui.v2er.module.settings;
 import butterknife.BindView;
 import me.ghui.toolbox.android.Assets;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.HtmlView;
 import me.ghui.v2er.util.Utils;
@@ -29,5 +30,10 @@ public class UserManualActivity extends BaseActivity {
         super.init();
         String localContent = Assets.getString("html/user_manual.html", this);
         mHtmlView.loadContentView(localContent);
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 }

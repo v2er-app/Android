@@ -11,6 +11,7 @@ import me.ghui.v2er.util.Utils;
 
 public class PageHost extends BaseActivity {
     public static final String PAGE_ID = "PageHost.pageId";
+    private Page mPage;
 
     @Override
     protected int attachLayoutRes() {
@@ -21,13 +22,20 @@ public class PageHost extends BaseActivity {
     protected void init() {
         super.init();
         Utils.setPaddingForStatusBar(mRootView);
-        Page page = (Page) getIntent().getSerializableExtra(PAGE_ID);
-        if (page == null) {
+        mPage = (Page) getIntent().getSerializableExtra(PAGE_ID);
+        if (mPage == null) {
             throw new RuntimeException("wrong page id");
         }
         getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, getFragment(page))
+                .add(R.id.fragment_container, getFragment(mPage))
                 .commit();
+    }
+
+    @Override
+    public void refreshMode(int mode) {
+        ColorModeReloader.target(this)
+                .putExtra(PAGE_ID, mPage)
+                .reload();
     }
 
     private Fragment getFragment(Page pageID) {

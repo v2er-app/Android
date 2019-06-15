@@ -21,7 +21,7 @@
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
 
         <item name="page_bg_color">@color/default_page_bg</item>
-        <item name="bodyTextColor">@color/bodyTextColor</item>
+        <item name="bodyTextColor">@color/body_text_color_selector</item>
         <item name="hintTextColor">@color/hintTextColor</item>
         <item name="tag_bg_color">@color/tag_bg_color</item>
         <item name="quote_block_bg_color">#FFFAFAFA</item>
@@ -51,7 +51,7 @@
         <item name="android:colorEdgeEffect">@color/colorAccent</item>
 
         <item name="page_bg_color">@color/night_default_page_bg</item>
-        <item name="bodyTextColor">@color/night_bodyTextColor</item>
+        <item name="bodyTextColor">@color/night_body_text_color_selector</item>
         <item name="hintTextColor">@color/night_hintTextColor</item>
         <item name="tag_bg_color">@color/tag_bg_color_night</item>
         <item name="quote_block_bg_color">#80000000</item>

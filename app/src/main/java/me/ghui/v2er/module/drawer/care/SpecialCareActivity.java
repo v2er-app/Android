@@ -10,6 +10,7 @@ import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.injector.component.DaggerSpecialCareComponent;
 import me.ghui.v2er.injector.module.SpecialCareModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -58,6 +59,11 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+        ColorModeReloader.target(this).reload();
     }
 
     @Override

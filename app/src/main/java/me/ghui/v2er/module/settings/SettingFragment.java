@@ -155,7 +155,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
-//            Bus.post(new AutoDayNightModeEvent(isItemChecked(preference)));
+//            Bus.post(new DayNightModeEvent(isItemChecked(preference)));
             Navigator.from(getContext()).to(Page.AUTO_SWITCH_DAYNIGHT).start();
         } else if (key.equals(getString(R.string.pref_key_email))) {
             Utils.sendOfficalV2erEmail(getActivity());
@@ -188,7 +188,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     private boolean isFeatureUnavaliable(String key) {
         return !UserUtils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
-                R.string.pref_key_highlight_topic_owner_reply_item, R.string.pref_key_auto_daynight,
+                R.string.pref_key_highlight_topic_owner_reply_item,
                 R.string.pref_key_is_scan_in_reverse);
     }
 

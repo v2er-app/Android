@@ -39,6 +39,7 @@ import butterknife.OnClick;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
@@ -336,6 +337,17 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             mNeedWaitForTransitionEnd = false;
 
         }
+    }
+
+    @Override
+    protected void refreshMode(int mode) {
+//         .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
+//                .putExtra(TOPIC_BASIC_INFO, topicBasicInfo)
+//                .putExtra(TOPIC_AUTO_SCROLL_REPLY, scrollToReply)
+        ColorModeReloader.target(this)
+                .putExtra(TOPIC_ID_KEY, getIntent().getStringExtra(TOPIC_ID_KEY))
+                .putExtra(TOPIC_BASIC_INFO, getIntent().getSerializableExtra(TOPIC_BASIC_INFO))
+                .reload();
     }
 
     @Override
