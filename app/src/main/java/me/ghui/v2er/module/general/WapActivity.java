@@ -71,7 +71,7 @@ public class WapActivity extends BaseActivity {
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this)
                 .putExtra(URL_KEY, mStartUrl)
                 .putExtra(FORCH_OPENED_WEBVIEW, mForchOpenedInWebView)

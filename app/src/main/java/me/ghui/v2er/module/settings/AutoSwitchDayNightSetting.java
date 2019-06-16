@@ -53,7 +53,7 @@ public class AutoSwitchDayNightSetting extends PreferenceFragment implements Pre
             int mode = DayNightUtil.getMode();
             if (modeWhenEnter != mode && getActivity() instanceof PageHost) {
                 PageHost pageHost = (PageHost) getActivity();
-                pageHost.refreshMode(mode);
+                pageHost.reloadMode(mode);
             }
         } else {
             // 关闭了自动切换，需要保持页面进来时的模式

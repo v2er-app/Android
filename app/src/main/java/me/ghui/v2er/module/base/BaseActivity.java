@@ -294,7 +294,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * 刷新当前页面的日夜模式
      */
-    protected abstract void refreshMode(@DayNightUtil.DayNightMode int mode);
+    protected abstract void reloadMode(@DayNightUtil.DayNightMode int mode);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DayNightModeEvent event) {
@@ -308,7 +308,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         if (mDayNightModeEvent != null) {
             int changeToMode = mDayNightModeEvent.getMode();
             mDayNightModeEvent = null;
-            refreshMode(changeToMode);
+            reloadMode(changeToMode);
         }
     }
 

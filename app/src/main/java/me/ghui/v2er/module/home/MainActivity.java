@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         Intent intent = new Intent(MainActivity.this, MainActivity.class);
         intent.putExtra(CURRENT_PAGE, mSlidingTabLayout.getCurrentTab());
         startActivity(intent);
@@ -224,13 +224,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     .positiveText("关闭", dialog -> {
                         DayNightUtil.saveAutoMode(false);
                         DayNightUtil.saveMode(wanttedMode);
-                        refreshMode(wanttedMode);
+                        reloadMode(wanttedMode);
                     }).negativeText("暂时不用")
                     .build().show();
         } else {
             mNightSwitch.toggle();
             DayNightUtil.saveMode(wanttedMode);
-            refreshMode(wanttedMode);
+            reloadMode(wanttedMode);
         }
     }
 

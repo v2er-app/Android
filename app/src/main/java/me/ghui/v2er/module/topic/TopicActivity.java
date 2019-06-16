@@ -77,6 +77,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
     private static final String TOPIC_AUTO_SCROLL_REPLY = KEY("TOPIC_AUTO_SCROLL_REPLY");
+    private static final String TOPIC_INTO_KEY = KEY("TOPIC_INTO_KEY");
+    private static final String TOPIC_CURRENT_PAGE = KEY("TOPIC_CURRENT_PAGE");
+    private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
+
     public boolean isNeedAutoScroll = true;
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
@@ -100,6 +104,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private TopicBasicInfo mTopicBasicInfo;
     private String mAutoScrollReply;
     private TopicInfo mTopicInfo;
+    private int mPage;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
     private MenuItem mReportMenuItem;
@@ -163,8 +168,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     protected void autoLoad() {
-        super.autoLoad();
-        showLoading();
+        if (mTopicInfo == null) {
+            super.autoLoad();
+            showLoading();
+        }
     }
 
     @Override
@@ -190,8 +197,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     protected void parseExtras(Intent intent) {
         mTopicId = intent.getStringExtra(TOPIC_ID_KEY);
         mTopicBasicInfo = (TopicBasicInfo) intent.getSerializableExtra(TOPIC_BASIC_INFO);
+        mTopicInfo = (TopicInfo) intent.getSerializableExtra(TOPIC_INTO_KEY);
         mAutoScrollReply = intent.getStringExtra(TOPIC_AUTO_SCROLL_REPLY);
         isNeedAutoScroll = Check.notEmpty(mAutoScrollReply);
+        mPage = intent.getIntExtra(TOPIC_CURRENT_PAGE, 1);
     }
 
     @Override
@@ -333,20 +342,21 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null || mTopicInfo != null) {
             mNeedWaitForTransitionEnd = false;
 
         }
     }
 
     @Override
-    protected void refreshMode(int mode) {
-//         .putExtra(TopicActivity.TOPIC_ID_KEY, topicId)
-//                .putExtra(TOPIC_BASIC_INFO, topicBasicInfo)
-//                .putExtra(TOPIC_AUTO_SCROLL_REPLY, scrollToReply)
+    protected void reloadMode(int mode) {
+        int pos = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
+        Logger.d("firstVisiablePos: " + pos);
         ColorModeReloader.target(this)
                 .putExtra(TOPIC_ID_KEY, getIntent().getStringExtra(TOPIC_ID_KEY))
-                .putExtra(TOPIC_BASIC_INFO, getIntent().getSerializableExtra(TOPIC_BASIC_INFO))
+                .putExtra(TOPIC_INTO_KEY, mTopicInfo)
+                .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())
+                .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
                 .reload();
     }
 
@@ -366,12 +376,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoadMoreRecyclerView.setTransitionGroup(true);
         mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
-        if (mTopicBasicInfo != null) {
-            List<TopicInfo.Item> data = new ArrayList<>();
-            data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
-            mAdapter.setData(data);
-            post(() -> scheduleStartPostponedTransition($(R.id.topic_header_title_tv)));
-        }
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mLoadMoreRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -399,6 +403,20 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 }
             }
         });
+
+        if (mTopicInfo != null) {
+            // 代表是从夜间模式切换过来的
+            mNeedWaitForTransitionEnd = false;
+            fillView(mTopicInfo, mPage);
+            int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
+            Logger.d("firstVisiablePos2: " + pos);
+            post(() -> mLinearLayoutManager.scrollToPosition(pos));
+        } else if (mTopicBasicInfo != null) {
+            List<TopicInfo.Item> data = new ArrayList<>();
+            data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
+            mAdapter.setData(data);
+            post(() -> scheduleStartPostponedTransition($(R.id.topic_header_title_tv)));
+        }
         mMentionedLinearLayoutManager = new LinearLayoutManager(this);
         mReplierRecyView.setLayoutManager(mMentionedLinearLayoutManager);
         mReplierRecyView.setAdapter(mReplierAdapter);
@@ -499,6 +517,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
      */
     private void loadFromStart() {
         // TODO: 2019/4/17 逆序第一次加载完需要重置willLoadPage = totalPage -1
+        mTopicInfo = null;
         int willLoadPage = mIsScanInOrder ? 1 : 999;
         mLoadMoreRecyclerView.setWillLoadPage(willLoadPage);
         mNeedWaitForTransitionEnd = false;

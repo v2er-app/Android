@@ -33,7 +33,7 @@ public class UserManualActivity extends BaseActivity {
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this).reload();
     }
 }

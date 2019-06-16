@@ -57,5 +57,7 @@ public class TopicContract {
 
         void reportTopic();
 
+        int getPage();
+
     }
 }

@@ -66,7 +66,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         // TODO: 2019-06-15
         ColorModeReloader.target(this).reload();
     }

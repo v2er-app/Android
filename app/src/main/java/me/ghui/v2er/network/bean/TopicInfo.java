@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -89,7 +90,7 @@ public class TopicInfo extends BaseInfo {
             items.clear();
         }
 
-        if (!isInOrder && Check.notEmpty(replies)) {
+        if (!isInOrder && Check.notEmpty(replies) && !hasReversed()) {
             Collections.reverse(replies);
         }
 
@@ -108,6 +109,17 @@ public class TopicInfo extends BaseInfo {
             items.addAll(replies);
         }
         return items;
+    }
+
+    /**
+     * replies是否已经reversed
+     * @return
+     */
+    private boolean hasReversed() {
+        if (replies.size() >= 2) {
+            return replies.get(0).floor > replies.get(1).floor;
+        }
+        return true;
     }
 
     public HeaderInfo getHeaderInfo() {
@@ -137,7 +149,7 @@ public class TopicInfo extends BaseInfo {
         return headerInfo.isValid();
     }
 
-    public interface Item {
+    public interface Item extends Serializable {
         boolean isHeaderItem();
 
         boolean isContentItem();

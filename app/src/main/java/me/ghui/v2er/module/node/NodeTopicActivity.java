@@ -250,7 +250,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         Intent intent = getIntent();
         ColorModeReloader.target(this)
                 .putExtra(TAG_NODE_ID_KEY, intent.getStringExtra(TAG_NODE_ID_KEY))

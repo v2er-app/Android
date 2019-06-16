@@ -62,7 +62,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this).reload();
     }
 

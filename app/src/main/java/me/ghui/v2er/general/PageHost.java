@@ -32,7 +32,7 @@ public class PageHost extends BaseActivity {
     }
 
     @Override
-    public void refreshMode(int mode) {
+    public void reloadMode(int mode) {
         ColorModeReloader.target(this)
                 .putExtra(PAGE_ID, mPage)
                 .reload();

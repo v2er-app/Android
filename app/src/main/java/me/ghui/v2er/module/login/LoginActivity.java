@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this).reload();
     }
 

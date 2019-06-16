@@ -69,7 +69,7 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this).reload();
     }
 

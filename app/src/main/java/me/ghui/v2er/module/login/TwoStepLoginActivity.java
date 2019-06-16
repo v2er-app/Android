@@ -90,7 +90,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this).reload();
     }
 

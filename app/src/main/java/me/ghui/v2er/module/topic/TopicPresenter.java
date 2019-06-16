@@ -21,6 +21,16 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     private TopicContract.IView mView;
     private TopicInfo mTopicInfo;
+    // 当前加载的页面
+    private int mPage;
+
+    /**
+     * 当前加载的页面
+     * @return
+     */
+    public int getPage() {
+        return mPage;
+    }
 
     public TopicPresenter(TopicContract.IView view) {
         mView = view;
@@ -34,6 +44,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void loadData(String topicId, int page) {
+        mPage = page;
         APIService.get().topicDetails(topicId, page)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {

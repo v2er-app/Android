@@ -208,7 +208,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     }
 
     @Override
-    protected void refreshMode(int mode) {
+    protected void reloadMode(int mode) {
         ColorModeReloader.target(this)
                 .putExtra(USER_NAME_KEY, mUserName)
                 .putExtra(USER_AVATAR_KEY, mAvatar)
