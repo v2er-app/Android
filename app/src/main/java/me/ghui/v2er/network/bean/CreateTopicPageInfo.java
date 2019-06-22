@@ -3,6 +3,7 @@ package me.ghui.v2er.network.bean;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,7 +82,7 @@ public class CreateTopicPageInfo extends BaseInfo {
         return Check.notEmpty(once) && Check.notEmpty(nodes);
     }
 
-    public interface BaseNode extends Parcelable {
+    public interface BaseNode extends Parcelable, Serializable {
         String getTitle();
 
         String getId();
@@ -215,7 +216,7 @@ public class CreateTopicPageInfo extends BaseInfo {
         }
     }
 
-    public static class Problem {
+    public static class Problem implements Serializable {
         @Pick(attr = Attrs.OWN_TEXT)
         private String title;
         @Pick("ul li")

@@ -19,5 +19,6 @@ public class CreateTopicContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void sendPost(String title, String content, String nodeId);
+        void restoreData(CreateTopicPageInfo createTopicPageInfo);
     }
 }

@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.create;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -14,9 +15,11 @@ import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
@@ -49,6 +52,11 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     private CreateTopicPageInfo mTopicPageInfo;
     private CreateTopicPageInfo.BaseNode mSelectNode;
 
+    private static final String KEY_TITLE = KEY("topic_title");
+    private static final String KEY_CONTENT = KEY("topic_content");
+    private static final String KEY_TOPIC_SELECT_NODE = KEY("topic_select_node");
+    private static final String KEY_CREATE_TOPIC_INFO = KEY("create_topic_info");
+
     @Override
     protected int attachLayoutRes() {
         return R.layout.act_new_topic;
@@ -63,17 +71,33 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
 
     @Override
     protected void init() {
+        Intent intent = getIntent();
+        mTitleEt.setText(intent.getStringExtra(KEY_TITLE));
+        mContentEt.setText(intent.getStringExtra(KEY_CONTENT));
+        mSelectNode = (CreateTopicPageInfo.BaseNode) intent.getSerializableExtra(KEY_TOPIC_SELECT_NODE);
+        if (mSelectNode != null) {
+            mNodeTv.setText(mSelectNode.getTitle());
+        }
+        mTopicPageInfo = (CreateTopicPageInfo) intent.getSerializableExtra(KEY_CREATE_TOPIC_INFO);
+        mPresenter.restoreData(mTopicPageInfo);
     }
 
     @Override
     protected void reloadMode(int mode) {
-        // TODO: 2019-06-15
-        ColorModeReloader.target(this).reload();
+        ColorModeReloader.target(this)
+                .putExtra(KEY_CREATE_TOPIC_INFO, mTopicPageInfo)
+                .putExtra(KEY_TITLE, mTitleEt.getText().toString())
+                .putExtra(KEY_CONTENT, mContentEt.getText().toString())
+                .putExtra(KEY_TOPIC_SELECT_NODE, mSelectNode)
+                .reload();
     }
+
 
     @Override
     protected void autoLoad() {
-        mPresenter.start();
+        if (mTopicPageInfo == null) {
+            mPresenter.start();
+        }
     }
 
     @Override

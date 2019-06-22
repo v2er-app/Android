@@ -16,6 +16,11 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
     private CreateTopicContract.IView mView;
     private CreateTopicPageInfo mTopicPageInfo;
 
+    @Override
+    public void restoreData(CreateTopicPageInfo createTopicPageInfo) {
+        mTopicPageInfo = createTopicPageInfo;
+    }
+
     public CreateTopicPresenter(CreateTopicContract.IView iView) {
         this.mView = iView;
     }
@@ -51,4 +56,6 @@ public class CreateTopicPresenter implements CreateTopicContract.IPresenter {
                     }
                 });
     }
+
+
 }
