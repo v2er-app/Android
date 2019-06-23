@@ -67,7 +67,6 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 public abstract class BaseActivity<T extends BaseContract.IPresenter> extends RxActivity implements BaseContract.IView,
         IBindToLife, IBackHandler, BaseToolBar.OnDoubleTapListener {
-
     public static long FIRST_LOADING_DELAY = 100;
     @Inject
     public T mPresenter;

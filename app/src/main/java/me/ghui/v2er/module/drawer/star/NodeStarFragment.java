@@ -5,6 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -31,6 +33,17 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
     BaseRecyclerView mRecyclerView;
     @Inject
     CommonAdapter<NodeStarInfo.Item> mAdapter;
+    private NodeStarInfo mNodeStarInfo;
+    private static final String KEY_PAGE_DATA = "page_data";
+    private GridLayoutManager mGridLayoutManager;
+
+    public static NodeStarFragment newInstance(RestoreData restoreData) {
+        Bundle args = new Bundle();
+        args.putSerializable(KEY_PAGE_DATA, restoreData);
+        NodeStarFragment fragment = new NodeStarFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public static NodeStarFragment newInstance() {
         Bundle args = new Bundle();
@@ -54,9 +67,22 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     protected void init() {
-        mRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        mRecyclerView.setLayoutManager(mGridLayoutManager = new GridLayoutManager(getContext(), 3));
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
+        RestoreData restoreData = (RestoreData) getArguments().getSerializable(KEY_PAGE_DATA);
+        if (restoreData != null) {
+            mNodeStarInfo = restoreData.nodeStarInfo;
+            fillView(mNodeStarInfo);
+            post(() -> mGridLayoutManager.scrollToPositionWithOffset(restoreData.pos, restoreData.offset));
+        }
+    }
+
+    @Override
+    protected void lazyLoad() {
+        if (mNodeStarInfo == null) {
+            super.lazyLoad();
+        }
     }
 
     @Override
@@ -66,7 +92,11 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
 
     @Override
     public void fillView(NodeStarInfo nodeInfo) {
-        if (nodeInfo == null) mAdapter.setData(null);
+        mNodeStarInfo = nodeInfo;
+        if (nodeInfo == null) {
+            mAdapter.setData(null);
+            return;
+        }
         mAdapter.setData(nodeInfo.getItems());
     }
 
@@ -82,4 +112,27 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
                 holder.getView(R.id.node_img),
                 nodeInfo);
     }
+
+    public RestoreData getRestoreData() {
+        int pos = mGridLayoutManager.findFirstVisibleItemPosition();
+        View firstChild = mRecyclerView.getChildAt(0);
+        int offset = 0;
+        if (firstChild != null) {
+            offset = firstChild.getTop();
+        }
+        return new RestoreData(mNodeStarInfo, pos, offset);
+    }
+
+    public static class RestoreData implements Serializable {
+        NodeStarInfo nodeStarInfo;
+        public int pos;
+        public int offset;
+
+        public RestoreData(NodeStarInfo nodeStarInfo, int pos, int offset) {
+            this.nodeStarInfo = nodeStarInfo;
+            this.pos = pos;
+            this.offset = offset;
+        }
+    }
+
 }

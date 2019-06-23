@@ -12,6 +12,7 @@ import me.ghui.v2er.util.UserUtils;
 public class TopicStarPresenter implements TopicStarContract.IPresenter {
 
     private TopicStarContract.IView mView;
+    private int mPage = 1;
 
     public TopicStarPresenter(TopicStarContract.IView view) {
         mView = view;
@@ -25,6 +26,7 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
     @Override
     public void loadMore(int page) {
         if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) return;
+        mPage = page;
         APIService.get()
                 .topicStarInfo(page)
                 .compose(mView.rx(page))
@@ -34,5 +36,10 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
                         mView.fillView(topicStarInfo, page > 1);
                     }
                 });
+    }
+
+    @Override
+    public int getPage() {
+        return mPage;
     }
 }

@@ -5,6 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -19,6 +21,8 @@ import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
+import static me.ghui.v2er.util.Utils.KEY;
+
 /**
  * Created by ghui on 17/05/2017.
  */
@@ -30,13 +34,31 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @Inject
     LoadMoreRecyclerView.Adapter<TopicStarInfo.Item> mAdapter;
+    private static final String KEY_DATA = KEY("page_data");
+    private TopicStarInfo mTopicStarInfo;
+    private LinearLayoutManager mLayoutManager;
 
-
-    public static TopicStarFragment newInstance() {
+    public static TopicStarFragment newInstance(RestoreData restoreData) {
         Bundle args = new Bundle();
+        if (restoreData != null) {
+            args.putSerializable(KEY_DATA, restoreData);
+        }
         TopicStarFragment fragment = new TopicStarFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static TopicStarFragment newInstance() {
+        return newInstance(null);
+    }
+
+    public RestoreData getRestoreData() {
+        int offset = mLoadMoreRecyclerView.getChildAt(0).getTop();
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        if (mTopicStarInfo != null) {
+            mTopicStarInfo.setItems(mAdapter.getDatas());
+        }
+        return new RestoreData(mPresenter.getPage(), pos, offset, mTopicStarInfo);
     }
 
     @Override
@@ -55,10 +77,19 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
     @Override
     protected void init() {
         mLoadMoreRecyclerView.addDivider();
-        mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreRecyclerView.setLayoutManager(mLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
+
+        RestoreData restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
+        if (restoreData != null) {
+            mTopicStarInfo = restoreData.topicStarInfo;
+            mLoadMoreRecyclerView.setWillLoadPage(restoreData.page);
+            fillView(mTopicStarInfo, false);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+        }
     }
 
     @Override
@@ -85,6 +116,13 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
     }
 
     @Override
+    protected void lazyLoad() {
+        if (mTopicStarInfo == null) {
+            super.lazyLoad();
+        }
+    }
+
+    @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         TopicStarInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
@@ -93,5 +131,19 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
                 .tag(item.getTag())
                 .build();
         TopicActivity.open(item.getLink(), getContext(), holder.getView(R.id.avatar_img), basicInfo);
+    }
+
+    public static class RestoreData implements Serializable {
+        public int page;
+        public int scrollPos;
+        public int scrollOffset;
+        public TopicStarInfo topicStarInfo;
+
+        public RestoreData(int page, int scrollPos, int scrollOffset, TopicStarInfo topicStarINfo) {
+            this.page = page;
+            this.scrollPos = scrollPos;
+            this.scrollOffset = scrollOffset;
+            this.topicStarInfo = topicStarINfo;
+        }
     }
 }

@@ -24,6 +24,10 @@ public class TopicStarInfo extends BaseInfo {
         return items;
     }
 
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
     public int getTotal() {
         return total;
     }
