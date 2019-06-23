@@ -12,6 +12,16 @@ import me.ghui.v2er.util.UserUtils;
 public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
 
     private SpecialCareContract.IView mView;
+    // 当前加载的页面
+    private int mPage = 1;
+
+    /**
+     * 当前加载的页面
+     * @return
+     */
+    public int getPage() {
+        return mPage;
+    }
 
     public SpecialCarePresenter(SpecialCareContract.IView spcialCareView) {
         this.mView = spcialCareView;
@@ -25,6 +35,7 @@ public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
     @Override
     public void loadMore(int page) {
         if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) return;
+        mPage = page;
         APIService.get().specialCareInfo(page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<CareInfo>(mView) {

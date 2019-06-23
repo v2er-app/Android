@@ -4,6 +4,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -27,11 +29,16 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPresenter> implements SpecialCareContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, MultiItemTypeAdapter.OnItemClickListener {
-
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mLoadMoreRecyclerView;
     @Inject
     LoadMoreRecyclerView.Adapter<CareInfo.Item> mAdapter;
+    private final String KEY_CARE_INFO = KEY("care_info");
+    private static final String TOPIC_CURRENT_PAGE = KEY("TOPIC_CURRENT_PAGE");
+    private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
+    private static final String TOPIC_Y_POS_OFFSET_KEY = KEY("topic_y_pos_offset");
+    private LinearLayoutManager mLinearLayoutManager;
+    private CareInfo mCareInfo;
 
     @Override
     protected int attachLayoutRes() {
@@ -55,15 +62,46 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     @Override
     protected void init() {
         mLoadMoreRecyclerView.addDivider();
-        mLoadMoreRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLinearLayoutManager = new LinearLayoutManager(getContext());
+        mLoadMoreRecyclerView.setLayoutManager(mLinearLayoutManager);
         mLoadMoreRecyclerView.setAdapter(mAdapter);
         mLoadMoreRecyclerView.setOnLoadMoreListener(this);
         mAdapter.setOnItemClickListener(this);
+        mCareInfo = (CareInfo) getIntent().getSerializableExtra(KEY_CARE_INFO);
+        if (mCareInfo != null) {
+            int page = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
+            // 当前加载到了mPage页
+            mLoadMoreRecyclerView.setWillLoadPage(page);
+            // fillView中setHasMore会根据当前列表显示条目数和总条目数计算下一次将加载的mPage
+            fillView(mCareInfo, false);
+            int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
+            int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
+            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            post(()-> mLinearLayoutManager.scrollToPositionWithOffset(pos, offset));
+        }
+    }
+
+    @Override
+    protected void autoLoad() {
+        if (mCareInfo == null) {
+            super.autoLoad();
+        }
     }
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this).reload();
+        int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
+        int top = mLoadMoreRecyclerView.getChildAt(0).getTop();
+        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + top);
+        if (mCareInfo != null) {
+            mCareInfo.setItems(mAdapter.getDatas());
+        }
+        ColorModeReloader.target(this)
+                .putExtra(KEY_CARE_INFO, mCareInfo)
+                .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())
+                .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
+                .putExtra(TOPIC_Y_POS_OFFSET_KEY, top)
+                .reload();
     }
 
     @Override
@@ -81,6 +119,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
 
     @Override
     public void fillView(CareInfo careInfo, boolean isLoadMore) {
+        mCareInfo = careInfo;
         if (careInfo == null) {
             mAdapter.setData(null);
             return;

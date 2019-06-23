@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.Attrs;
@@ -19,6 +20,10 @@ public class CareInfo extends BaseInfo {
     private int total;
     @Pick("div.cell.item")
     private List<Item> items;
+
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
     @Override
     public String toString() {
@@ -42,7 +47,7 @@ public class CareInfo extends BaseInfo {
         return Check.notEmpty(items.get(0).userName);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         @Pick(value = "img.avatar", attr = Attrs.SRC)
         private String avatar;
         @Pick("strong a[href^=/member/]")

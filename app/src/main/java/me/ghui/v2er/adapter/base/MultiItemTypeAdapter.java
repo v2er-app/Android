@@ -9,16 +9,12 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
-import es.dmoral.prefs.Prefs;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -57,7 +53,6 @@ public class MultiItemTypeAdapter<T> extends RecyclerView.Adapter<ViewHolder> {
     public void setData(List<T> data) {
         setData(data, false);
     }
-
 
     public T getItem(int position) {
         return Check.isEmpty(mDatas) ? null : mDatas.get(position);

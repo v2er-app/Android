@@ -16,6 +16,7 @@ public class SpecialCareContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void loadMore(int page);
+        int getPage();
     }
 
 }

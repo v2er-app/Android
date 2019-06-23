@@ -407,6 +407,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (mTopicInfo != null) {
             // 代表是从夜间模式切换过来的
             mNeedWaitForTransitionEnd = false;
+            // TODO: 2019-06-22 check
+//            mLoadMoreRecyclerView.setWillLoadPage(mPage);
             fillView(mTopicInfo, mPage);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             Logger.d("firstVisiablePos2: " + pos);
@@ -571,6 +573,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             // 逆序加载的话需要reverse reply序列
 
         }
+        // TODO: 2019-06-23 save info from adapter
         mAdapter.setData(topicInfo.getItems(isLoadMore, mIsScanInOrder), isLoadMore);
         if (!topicInfo.getContentInfo().isValid()) {
             onRenderCompleted();
