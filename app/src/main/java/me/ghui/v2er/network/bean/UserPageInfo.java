@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,7 +145,7 @@ public class UserPageInfo extends BaseInfo {
         return Check.notEmpty(userName);
     }
 
-    public abstract static class Item {
+    public abstract static class Item implements Serializable {
         public abstract String getTopicLink();
     }
 
@@ -250,7 +251,7 @@ public class UserPageInfo extends BaseInfo {
         }
     }
 
-    private static class ReplyDockItem {
+    private static class ReplyDockItem implements Serializable {
         @Pick("span.gray")
         private String title;
         @Pick(value = "span.gray > a", attr = Attrs.HREF)
@@ -280,7 +281,7 @@ public class UserPageInfo extends BaseInfo {
         }
     }
 
-    private static class ReplyContentItem {
+    private static class ReplyContentItem implements Serializable {
         @Pick(attr = Attrs.INNER_HTML)
         private String content;
 

@@ -62,6 +62,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     public static final String USER_NAME_KEY = KEY("user_name_key");
     private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
     private static final String USER_SHARE_ELEMENT_AVATAR_KEY = KEY("user_share_element_avatar_key");
+    private static final String PAGE_DATA_KEY = KEY("user_data");
+    private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
+    private static final String TOPIC_Y_POS_OFFSET_KEY = KEY("topic_y_pos_offset");
+    private static final String TOPIC_IS_APPBAR_EXPANDED = KEY("topic_is_appbar_snapped");
     @BindView(R.id.base_recyclerview)
     HackRecyclerView mRecyclerView;
     @BindView(R.id.user_img)
@@ -106,6 +110,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     private boolean mAppBarIdle = false;
     //for bugfix end
     private int mAppBarMaxOffset;
+    private LinearLayoutManager mLayoutManager;
 
     public static void open(String userName, Context context, View sourceView, String avatar) {
         if (sourceView != null && sourceView instanceof ImageView) {
@@ -170,7 +175,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());
 //        mRecyclerView.addDivider();
         mRecyclerView.setAppBarTracking(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -205,14 +211,33 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
         mUserText.setText(mUserName);
         fillAvatar();
+
+        mUserPageInfo = (UserPageInfo) getIntent().getSerializableExtra(PAGE_DATA_KEY);
+        if (mUserPageInfo != null) {
+            // restore from reloadMode
+            isAppbarExpanted = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, false);
+            mAppBarLayout.setExpanded(isAppbarExpanted);
+            mUserName = mUserPageInfo.getUserName();
+            fillView(mUserPageInfo);
+            int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
+            int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
+            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            if (!isAppbarExpanted) {
+                mToolbar.setTitle(mUserName);
+            }
+            post(()-> mLayoutManager.scrollToPositionWithOffset(pos, offset));
+        }
     }
 
     @Override
     protected void reloadMode(int mode) {
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = mRecyclerView.getChildAt(0).getTop();
         ColorModeReloader.target(this)
-                .putExtra(USER_NAME_KEY, mUserName)
-                .putExtra(USER_AVATAR_KEY, mAvatar)
-                .putExtra(USER_SHARE_ELEMENT_AVATAR_KEY, mTransitionName)
+                .putExtra(PAGE_DATA_KEY, mUserPageInfo)
+                .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
+                .putExtra(TOPIC_Y_POS_OFFSET_KEY, offset)
+                .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanted)
                 .reload();
     }
 
@@ -244,7 +269,9 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected void autoLoad() {
-        mPresenter.start();
+        if (mUserPageInfo == null) {
+            mPresenter.start();
+        }
     }
 
     @Override
