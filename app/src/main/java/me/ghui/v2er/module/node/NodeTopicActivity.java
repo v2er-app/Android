@@ -18,6 +18,7 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.orhanobut.logger.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private static final String TAG_NODE_ID_KEY = KEY("node_id_key");
     private static final String TAG_INIT_PAGE_KEY = KEY("node_init_page_key");
     private static final String TAG_BASIC_NODE_INFO = KEY("node_basic_node_info");
+    private static final String PAGE_DATA_NODE_KEY = KEY("page_node_data");
+    private static final String PAGE_DATA_NODE_TOPIC_KEY = KEY("page_node_topic_data");
+    private static final String TOPIC_PAGE_Y_POS_KEY = KEY("topic_page_y_pos_key");
+    private static final String TOPIC_Y_POS_OFFSET_KEY = KEY("topic_y_pos_offset");
+    private static final String TOPIC_IS_APPBAR_EXPANDED = KEY("topic_is_appbar_expanded");
+    private static final String TOPIC_CURRENT_PAGE = KEY("topic_current_page");
     @BindView(R.id.base_recyclerview)
     HackRecyclerView mRecyclerView;
     @BindView(R.id.node_img)
@@ -111,6 +118,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     private boolean mAppBarIdle = false;
     //for bugfix end
     private int mAppBarMaxOffset;
+    private LinearLayoutManager mLayoutManager;
 
     public static void openById(String nodeId, int page, Context context, View sourceView, NodeInfo nodeInfo) {
         if (sourceView != null && sourceView instanceof ImageView) {
@@ -209,7 +217,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mRecyclerView.setAppBarTracking(this);
         mRecyclerView.setOnLoadMoreListener(this);
 //        mRecyclerView.addDivider();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(this);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
@@ -247,16 +256,52 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         if (mNodeInfo != null) {
             fillHeaderView(mNodeInfo);
         }
+
+        mNodeTopicInfo = (NodeTopicInfo) getIntent().getSerializableExtra(PAGE_DATA_NODE_TOPIC_KEY);
+        if (mNodeTopicInfo != null) {
+            isAppbarExpanted = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, false);
+            mAppBarLayout.setExpanded(isAppbarExpanted);
+            mNodeInfo = (NodeInfo) getIntent().getSerializableExtra(PAGE_DATA_NODE_KEY);
+            if (mNodeInfo != null) {
+                fillHeaderView(mNodeInfo);
+            }
+            int page = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
+            mRecyclerView.setWillLoadPage(page);
+            fillListView(mNodeTopicInfo, false);
+            int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
+            int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
+            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(pos, offset));
+        }
+
     }
 
     @Override
     protected void reloadMode(int mode) {
         Intent intent = getIntent();
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = mRecyclerView.getChildAt(0).getTop();
+        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
+        if (mNodeTopicInfo != null) {
+            mNodeTopicInfo.setItems(mAdapter.getDatas());
+        }
         ColorModeReloader.target(this)
                 .putExtra(TAG_NODE_ID_KEY, intent.getStringExtra(TAG_NODE_ID_KEY))
                 .putExtra(TAG_INIT_PAGE_KEY, intent.getStringExtra(TAG_INIT_PAGE_KEY))
-                .putExtra(TAG_BASIC_NODE_INFO, intent.getSerializableExtra(TAG_BASIC_NODE_INFO))
+                .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())
+                .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
+                .putExtra(TOPIC_Y_POS_OFFSET_KEY, offset)
+                .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanted)
+                .putExtra(PAGE_DATA_NODE_KEY, mNodeInfo)
+                .putExtra(PAGE_DATA_NODE_TOPIC_KEY, mNodeTopicInfo)
                 .reload();
+    }
+
+    @Override
+    protected void autoLoad() {
+        if (mNodeTopicInfo == null) {
+            super.autoLoad();
+        }
     }
 
     @Override

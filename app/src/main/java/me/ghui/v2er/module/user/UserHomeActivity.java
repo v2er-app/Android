@@ -62,10 +62,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     public static final String USER_NAME_KEY = KEY("user_name_key");
     private static final String USER_AVATAR_KEY = KEY("user_avatar_key");
     private static final String USER_SHARE_ELEMENT_AVATAR_KEY = KEY("user_share_element_avatar_key");
-    private static final String PAGE_DATA_KEY = KEY("user_data");
+    private static final String PAGE_DATA_KEY = KEY("page_data");
     private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
     private static final String TOPIC_Y_POS_OFFSET_KEY = KEY("topic_y_pos_offset");
-    private static final String TOPIC_IS_APPBAR_EXPANDED = KEY("topic_is_appbar_snapped");
+    private static final String TOPIC_IS_APPBAR_EXPANDED = KEY("topic_is_appbar_expanded");
     @BindView(R.id.base_recyclerview)
     HackRecyclerView mRecyclerView;
     @BindView(R.id.user_img)

@@ -17,6 +17,8 @@ public class NodeTopicContract {
         void ignoreNode();
 
         void unIgnoreNode();
+
+        public int getPage();
     }
 
     public interface IView extends BaseContract.IView {
@@ -37,5 +39,6 @@ public class NodeTopicContract {
         void afterIgnoreNode();
 
         void afterUnIgnoreNode();
+
     }
 }

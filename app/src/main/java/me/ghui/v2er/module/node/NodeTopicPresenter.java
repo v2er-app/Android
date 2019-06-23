@@ -15,6 +15,12 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     private NodeTopicContract.IView mView;
     private NodeTopicInfo mTopicInfo;
+    private int mPage = 1;
+
+    @Override
+    public int getPage() {
+        return mPage;
+    }
 
     public NodeTopicPresenter(NodeTopicContract.IView view) {
         mView = view;
@@ -39,6 +45,7 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void loadData(int page) {
+        mPage = page;
         APIService.get().nodesInfo(mView.nodeName(), page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<NodeTopicInfo>() {
