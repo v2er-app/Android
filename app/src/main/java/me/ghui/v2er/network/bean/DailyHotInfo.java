@@ -2,6 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import me.ghui.toolbox.android.Check;
@@ -12,7 +13,7 @@ import me.ghui.v2er.util.DateUtils;
  * Created by ghui on 25/03/2017.
  */
 
-public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase {
+public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase, Serializable {
     private String mResponseBody;
 
     @Override
@@ -31,7 +32,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase 
         return Check.notEmpty(get(0).id);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         private String id;
         private String title;
         private String url;
@@ -120,7 +121,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase 
             this.node = node;
         }
 
-        public static class Member {
+        public static class Member implements Serializable {
             private String id;
             @SerializedName("username")
             private String userName;
@@ -161,7 +162,7 @@ public class DailyHotInfo extends ArrayList<DailyHotInfo.Item> implements IBase 
             }
         }
 
-        public static class Node {
+        public static class Node implements Serializable {
             private String id;
             private String name;
             private String title;

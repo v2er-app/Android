@@ -4,6 +4,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -30,9 +32,13 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
 
     @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
-
     @Inject
     CommonAdapter<DailyHotInfo.Item> mDailyHotAdapter;
+    private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
+    private static final String TOPIC_Y_POS_OFFSET_KEY = KEY("topic_y_pos_offset");
+    private static final String TOPIC_DATA_KEY = KEY("topic_data");
+    private LinearLayoutManager mLayoutManager;
+    private DailyHotInfo mData;
 
 
     @Override
@@ -63,18 +69,35 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     @Override
     protected void init() {
         mRecyclerView.addDivider();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mDailyHotAdapter);
         mDailyHotAdapter.setOnItemClickListener(this);
+        DailyHotInfoWrapper dailyHotInfoWrapper = (DailyHotInfoWrapper) getIntent().getSerializableExtra(TOPIC_DATA_KEY);
+        if (dailyHotInfoWrapper != null) {
+            mData = dailyHotInfoWrapper.dailyHotInfo;
+            fillView(mData);
+            int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
+            int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
+            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(pos, offset));
+        }
     }
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this).reload();
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = mRecyclerView.getChildAt(0).getTop();
+        ColorModeReloader.target(this)
+                .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
+                .putExtra(TOPIC_Y_POS_OFFSET_KEY, offset)
+                .putExtra(TOPIC_DATA_KEY, DailyHotInfoWrapper.create(mData))
+                .reload();
     }
 
     @Override
     public void fillView(DailyHotInfo dailyHotInfo) {
+        mData = dailyHotInfo;
         mDailyHotAdapter.setData(dailyHotInfo);
     }
 

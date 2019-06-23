@@ -91,8 +91,8 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     @Override
     protected void reloadMode(int mode) {
         int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
-        int top = mLoadMoreRecyclerView.getChildAt(0).getTop();
-        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + top);
+        int offset = mLoadMoreRecyclerView.getChildAt(0).getTop();
+        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
         if (mCareInfo != null) {
             mCareInfo.setItems(mAdapter.getDatas());
         }
@@ -100,7 +100,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
                 .putExtra(KEY_CARE_INFO, mCareInfo)
                 .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())
                 .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
-                .putExtra(TOPIC_Y_POS_OFFSET_KEY, top)
+                .putExtra(TOPIC_Y_POS_OFFSET_KEY, offset)
                 .reload();
     }
 
