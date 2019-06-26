@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.Attrs;
@@ -29,7 +30,7 @@ public class NodeStarInfo extends BaseInfo {
         return Check.notEmpty(items.get(0).name);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         @Pick(value = "img", attr = Attrs.SRC)
         private String img;
         @Pick(value = "div", attr = Attrs.OWN_TEXT)

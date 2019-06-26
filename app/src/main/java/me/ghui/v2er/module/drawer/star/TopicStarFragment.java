@@ -89,11 +89,13 @@ public class TopicStarFragment extends BaseFragment<TopicStarContract.IPresenter
             mLoadMoreRecyclerView.setWillLoadPage(restoreData.page);
             fillView(mTopicStarInfo, false);
             post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+            hideLoading();
         }
     }
 
     @Override
     public void fillView(TopicStarInfo starInfo, boolean isLoadMore) {
+        mTopicStarInfo = starInfo;
         if (starInfo == null) {
             mAdapter.setData(null);
             return;

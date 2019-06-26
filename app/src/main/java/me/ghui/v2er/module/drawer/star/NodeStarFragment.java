@@ -75,6 +75,7 @@ public class NodeStarFragment extends BaseFragment<NodeStarContract.IPresenter> 
             mNodeStarInfo = restoreData.nodeStarInfo;
             fillView(mNodeStarInfo);
             post(() -> mGridLayoutManager.scrollToPositionWithOffset(restoreData.pos, restoreData.offset));
+            hideLoading();
         }
     }
 

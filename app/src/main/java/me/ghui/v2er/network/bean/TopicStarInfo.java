@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.Attrs;
@@ -46,7 +47,7 @@ public class TopicStarInfo extends BaseInfo {
         return Check.notEmpty(items.get(0).title);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         @Pick(value = "td>a[href^=/member]", attr = Attrs.HREF)
         private String userLink;
         @Pick(value = "img.avatar", attr = Attrs.SRC)
