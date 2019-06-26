@@ -15,6 +15,7 @@ public class MsgContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void loadMore(int page);
+        int getPage();
     }
 
 }

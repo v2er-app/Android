@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> implements IBase 
         return Check.notEmpty(get(0).category);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         @Pick("span.fade")
         private String category;
         @Pick("a")
@@ -55,7 +56,7 @@ public class NodesNavInfo extends ArrayList<NodesNavInfo.Item> implements IBase 
             return nodes;
         }
 
-        public static class NodeItem {
+        public static class NodeItem implements Serializable{
             @Pick
             private String name;
             @Pick(attr = Attrs.HREF)

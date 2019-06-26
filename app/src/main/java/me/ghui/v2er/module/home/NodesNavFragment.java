@@ -3,6 +3,7 @@ package me.ghui.v2er.module.home;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import javax.inject.Inject;
 
@@ -12,6 +13,7 @@ import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.injector.component.DaggerNodesNavComponent;
 import me.ghui.v2er.injector.module.NodesNavModule;
 import me.ghui.v2er.network.bean.NodesNavInfo;
+import me.ghui.v2er.network.bean.NodesNavInfoWrapper;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
 /**
@@ -24,12 +26,34 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
     CommonAdapter<NodesNavInfo.Item> mAdapter;
     @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
+    private NodesNavInfoWrapper mNodesNavInfoWrapper;
+    private LinearLayoutManager mLayoutManager;
 
-    public static NodesNavFragment newInstance() {
+    public static NodesNavFragment newInstance(RestoreData restoreData) {
         Bundle args = new Bundle();
+        if (restoreData != null) {
+            args.putSerializable(KEY_DATA, restoreData);
+        }
         NodesNavFragment fragment = new NodesNavFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static NodesNavFragment newInstance() {
+        return newInstance(null);
+    }
+
+    public RestoreData<NodesNavInfoWrapper> getRestoreData() {
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = 0;
+        View firstChild = mRecyclerView.getChildAt(0);
+        if (firstChild != null) {
+            offset = firstChild.getTop();
+        }
+        if (mNodesNavInfoWrapper == null) {
+            return null;
+        }
+        return new RestoreData<>(1, pos, offset, mNodesNavInfoWrapper);
     }
 
     @Override
@@ -47,8 +71,15 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
 
     @Override
     protected void init() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
+        RestoreData<NodesNavInfoWrapper> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
+        if (restoreData != null) {
+            mNodesNavInfoWrapper = restoreData.info;
+            fillView(restoreData.info.nodesNavInfo);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+            hideLoading();
+        }
     }
 
     @Override
@@ -57,7 +88,15 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
     }
 
     @Override
+    protected void lazyLoad() {
+        if (mNodesNavInfoWrapper == null || mNodesNavInfoWrapper.nodesNavInfo == null) {
+            super.lazyLoad();
+        }
+    }
+
+    @Override
     public void fillView(NodesNavInfo navInfo) {
+        mNodesNavInfoWrapper = NodesNavInfoWrapper.wrapper(navInfo);
         mAdapter.setData(navInfo);
     }
 }

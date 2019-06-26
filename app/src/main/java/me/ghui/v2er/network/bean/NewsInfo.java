@@ -1,6 +1,7 @@
 package me.ghui.v2er.network.bean;
 
 
+import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
@@ -54,7 +55,7 @@ public class NewsInfo extends BaseInfo {
         return Check.isEmpty(items) || Check.notEmpty(items.get(0).userName);
     }
 
-    public static class Item {
+    public static class Item implements Serializable {
         @Pick(value = "span.item_title > a")
         private String title;
         @Pick(value = "span.item_title > a", attr = "href")

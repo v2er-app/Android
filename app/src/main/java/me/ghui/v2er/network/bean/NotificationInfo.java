@@ -1,5 +1,6 @@
 package me.ghui.v2er.network.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.Attrs;
@@ -27,6 +28,10 @@ public class NotificationInfo extends BaseInfo {
         return replies;
     }
 
+    public void setReplies(List<Reply> replies) {
+        this.replies = replies;
+    }
+
     @Override
     public String toString() {
         return "NotificationInfo{" +
@@ -41,7 +46,7 @@ public class NotificationInfo extends BaseInfo {
         return Check.notEmpty(replies.get(0).name);
     }
 
-    public static class Reply {
+    public static class Reply implements Serializable {
         @Pick("a[href^=/member/] strong")
         private String name;
         @Pick(value = "a[href^=/member/] img", attr = Attrs.SRC)

@@ -19,6 +19,12 @@ public class NewsPresenter implements NewsContract.IPresenter {
     private NewsContract.IView mView;
     //title index map for current items
     private HashMap<String, Integer> mCurrentItemsIndexMap;
+    private int mPage = 1;
+
+    @Override
+    public int getPage() {
+        return mPage;
+    }
 
     public NewsPresenter(NewsContract.IView view) {
         mView = view;
@@ -56,10 +62,12 @@ public class NewsPresenter implements NewsContract.IPresenter {
                 .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
+                        mPage = page;
                         mView.fillView(newsInfo, true);
                     }
                 });
     }
+
 
     private void checkDuplicateItem(NewsInfo newsInfo) {
         if (newsInfo == null || Check.isEmpty(newsInfo.getItems())) return;

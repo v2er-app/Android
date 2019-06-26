@@ -31,12 +31,36 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
     @Inject
     LoadMoreRecyclerView.Adapter<NotificationInfo.Reply> mAdapter;
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
+    private NotificationInfo mNotificationInfo;
+    private LinearLayoutManager mLayoutManager;
 
-    public static MsgFragment newInstance() {
+
+    public static MsgFragment newInstance(RestoreData restoreData) {
         Bundle args = new Bundle();
+        if (restoreData != null) {
+            args.putSerializable(KEY_DATA, restoreData);
+        }
         MsgFragment fragment = new MsgFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static MsgFragment newInstance() {
+        return newInstance(null);
+    }
+
+    public RestoreData<NotificationInfo> getRestoreData() {
+        if (mNotificationInfo == null) {
+            return null;
+        }
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = 0;
+        View firstChild = mRecyclerView.getChildAt(0);
+        if (firstChild != null) {
+            offset = firstChild.getTop();
+        }
+        mNotificationInfo.setReplies(mAdapter.getDatas());
+        return new RestoreData<>(mPresenter.getPage(), pos, offset, mNotificationInfo);
     }
 
     public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
@@ -59,18 +83,29 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
     @Override
     protected void init() {
         mAdapter.setOnItemClickListener(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.addDivider();
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> mPresenter.loadMore(willLoadPage));
+
+        RestoreData<NotificationInfo> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
+        if (restoreData != null) {
+            mNotificationInfo = restoreData.info;
+            mRecyclerView.setWillLoadPage(restoreData.page);
+            fillView(mNotificationInfo, false);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+            hideLoading();
+        }
     }
 
     @Override
     protected void lazyLoad() {
-        if (UserUtils.isLogin()) {
-            super.lazyLoad();
-        } else {
-            mPresenter.start();
+        if (mNotificationInfo == null) {
+            if (UserUtils.isLogin()) {
+                super.lazyLoad();
+            } else {
+                mPresenter.start();
+            }
         }
     }
 
@@ -84,6 +119,7 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
 
     @Override
     public void fillView(NotificationInfo info, boolean isLoadMore) {
+        mNotificationInfo = info;
         if (info == null) {
             mAdapter.setData(null);
             return;

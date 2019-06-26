@@ -1,6 +1,7 @@
 package me.ghui.v2er.module.home;
 
 import android.content.Intent;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +33,7 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
+import me.ghui.v2er.general.ColorModeReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Page;
@@ -53,11 +55,18 @@ import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
+import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
         UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener,
         HomeFilterMenu.OnMenuItemClickListener {
-    private static final String CURRENT_PAGE = KEY("current_page_index");
+
+    private static final String TAB_INDEX = KEY("tab_index");
+    private static final String PAGE_ONE_DATA = KEY("page_one_data");
+    private static final String PAGE_TWO_DATA = KEY("page_two_data");
+    private static final String PAGE_THREE_DATA = KEY("page_three_data");
+    private static final String TOPIC_IS_APPBAR_EXPANDED = KEY("toolbar_is_appbar_expanded");
+
     public static boolean isAlive;
     private final String[] TAB_TITLES = {" 全部", "消息", "节点"};
     @BindView(R.id.left_draw_layout)
@@ -72,6 +81,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     BaseToolBar mToolbar;
     @BindView(R.id.tab_menu_container)
     ViewGroup mTabMenuContainer;
+    @BindView(R.id.main_appbar)
+    AppBarLayout mAppBarLayout;
     private NewsFragment mNewsFragment;
     private MsgFragment mMsgFragment;
     private NodesNavFragment mNavFragment;
@@ -84,6 +95,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private MenuItem mNightMenuItem;
     private SwitchCompat mNightSwitch;
     private HomeFilterMenu mFilterMenu;
+    private boolean isAppbarExpanted = true;
 
     @Override
     protected int attachLayoutRes() {
@@ -134,14 +146,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return false;
     }
 
-    @Override
-    protected void reloadMode(int mode) {
-        Intent intent = new Intent(MainActivity.this, MainActivity.class);
-        intent.putExtra(CURRENT_PAGE, mSlidingTabLayout.getCurrentTab());
-        startActivity(intent);
-        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-        finish();
-    }
+
 
     private void refreshDayNightItem() {
         mNightMenuItem.setTitle(DayNightUtil.isAutoModeEnabled() ? "夜间模式(自动)" : "夜间模式");
@@ -152,6 +157,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     protected void init() {
         isAlive = true;
         configToolBar();
+
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
@@ -203,6 +209,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             }
         });
 
+        mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+            @Override
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
+                isAppbarExpanted = state == State.EXPANDED;
+            }
+        });
+
         TAB_TITLES[0] = TabInfo.getSelectTab().title;
         mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
         mViewPager.setOffscreenPageLimit(2);
@@ -211,8 +224,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         configNewsTabTitle();
         initCheckIn();
 
-        int index = getIntent().getIntExtra(CURRENT_PAGE, 0);
+        int index = getIntent().getIntExtra(TAB_INDEX, 0);
         mSlidingTabLayout.setCurrentTab(index);
+        isAppbarExpanted = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
+        mAppBarLayout.setExpanded(isAppbarExpanted);
+    }
+
+    @Override
+    protected void reloadMode(int mode) {
+        ColorModeReloader.target(this)
+                .putExtra(TAB_INDEX, mSlidingTabLayout.getCurrentTab())
+                .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanted)
+                .putExtra(PAGE_ONE_DATA, mNewsFragment.getRestoreData())
+                .putExtra(PAGE_TWO_DATA, mMsgFragment.getRestoreData())
+                .putExtra(PAGE_THREE_DATA, mNavFragment.getRestoreData())
+                .reload();
     }
 
     private void onNightMenuItemClicked(boolean isNightMode) {
@@ -418,19 +444,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         @Override
         public Fragment getItem(int position) {
             Fragment fragment = null;
+            BaseHomeFragment.RestoreData restoreData;
             switch (position) {
                 case 0:
-                    NewsFragment newsFragment = NewsFragment.newInstance();
+                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_ONE_DATA);
+                    NewsFragment newsFragment = NewsFragment.newInstance(restoreData);
                     newsFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
                     fragment = newsFragment;
                     break;
                 case 1:
-                    MsgFragment msgFragment = MsgFragment.newInstance();
+                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_TWO_DATA);
+                    MsgFragment msgFragment = MsgFragment.newInstance(restoreData);
                     msgFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
                     fragment = msgFragment;
                     break;
                 case 2:
-                    fragment = NodesNavFragment.newInstance();
+                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_THREE_DATA);
+                    fragment = NodesNavFragment.newInstance(restoreData);
                     break;
             }
             return fragment;

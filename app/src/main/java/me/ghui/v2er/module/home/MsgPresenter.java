@@ -12,6 +12,7 @@ import me.ghui.v2er.util.UserUtils;
 public class MsgPresenter implements MsgContract.IPresenter {
 
     private MsgContract.IView mView;
+    private int mPage = 1;
 
     public MsgPresenter(MsgContract.IView view) {
         mView = view;
@@ -35,10 +36,16 @@ public class MsgPresenter implements MsgContract.IPresenter {
                 .subscribe(new GeneralConsumer<NotificationInfo>(mView) {
                     @Override
                     public void onConsume(NotificationInfo info) {
+                        mPage = page;
                         boolean isLoadMore = page > 1;
                         mView.fillView(info, isLoadMore);
                     }
                 });
+    }
+
+    @Override
+    public int getPage() {
+        return mPage;
     }
 
 }

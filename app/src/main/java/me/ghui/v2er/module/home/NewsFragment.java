@@ -28,7 +28,7 @@ import me.ghui.v2er.widget.LoadMoreRecyclerView;
  */
 
 public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> implements NewsContract.IView,
-        MultiItemTypeAdapter.OnItemClickListener,  MainActivity.ChangeTabTypeDelegate {
+        MultiItemTypeAdapter.OnItemClickListener, MainActivity.ChangeTabTypeDelegate {
 
     @BindView(R.id.base_recyclerview)
     LoadMoreRecyclerView mRecyclerView;
@@ -36,12 +36,35 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
     private TabInfo mCurrentTab;
     private UpdateUnReadMsgDelegate mUpdateUnReadMsgDelegate;
+    private NewsInfo mNewsInfo;
+    private LinearLayoutManager mLayoutManager;
 
-    public static NewsFragment newInstance() {
+    public static NewsFragment newInstance(NewsFragment.RestoreData restoreData) {
         Bundle args = new Bundle();
+        if (restoreData != null) {
+            args.putSerializable(KEY_DATA, restoreData);
+        }
         NewsFragment fragment = new NewsFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    public static NewsFragment newInstance() {
+        return newInstance(null);
+    }
+
+    public RestoreData getRestoreData() {
+        if (mNewsInfo == null) {
+            return null;
+        }
+        int pos = mLayoutManager.findFirstVisibleItemPosition();
+        int offset = 0;
+        View firstChild = mRecyclerView.getChildAt(0);
+        if (firstChild != null) {
+            offset = firstChild.getTop();
+        }
+        mNewsInfo.setItems(mAdapter.getDatas());
+        return new RestoreData<>(mPresenter.getPage(), pos, offset, mNewsInfo);
     }
 
     public void setUpdateUnReadMsgDelegate(UpdateUnReadMsgDelegate updateUnReadMsgDelegate) {
@@ -67,7 +90,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mCurrentTab = TabInfo.getSelectTab();
         mAdapter.setOnItemClickListener(this);
         mRecyclerView.addDivider();
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             Logger.d("onLoadMore.willLoadPage: " + willLoadPage);
@@ -86,11 +109,22 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
             mPresenter.loadMore(willLoadPage);
         });
+
+        RestoreData<NewsInfo> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
+        if (restoreData != null) {
+            mNewsInfo = restoreData.info;
+            mRecyclerView.setWillLoadPage(restoreData.page);
+            fillView(mNewsInfo, false);
+            post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+            hideLoading();
+        }
     }
 
     @Override
-    public void hideLoading() {
-        super.hideLoading();
+    protected void lazyLoad() {
+        if (mNewsInfo == null) {
+            super.lazyLoad();
+        }
     }
 
     @Override
@@ -102,12 +136,13 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     }
 
     @Override
-    public void fillView(NewsInfo newsInfos, boolean isLoadMore) {
+    public void fillView(NewsInfo newsInfo, boolean isLoadMore) {
+        mNewsInfo = newsInfo;
         if (mUpdateUnReadMsgDelegate != null) {
-            mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfos.getUnReadCount());
+            mUpdateUnReadMsgDelegate.updateUnReadMsg(1, newsInfo.getUnReadCount());
         }
 
-        List<NewsInfo.Item> items = newsInfos.getItems();
+        List<NewsInfo.Item> items = newsInfo.getItems();
         mAdapter.setData(items, isLoadMore);
         mRecyclerView.setHasMore(mCurrentTab.isDefaultTab());
         if (!isLoadMore) {
@@ -145,5 +180,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mCurrentTab = tabInfo;
         mPresenter.start();
     }
+
+
 
 }
