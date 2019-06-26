@@ -35,12 +35,12 @@ public class SpecialCarePresenter implements SpecialCareContract.IPresenter {
     @Override
     public void loadMore(int page) {
         if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) return;
-        mPage = page;
         APIService.get().specialCareInfo(page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<CareInfo>(mView) {
                     @Override
                     public void onConsume(CareInfo careInfo) {
+                        mPage = page;
                         mView.fillView(careInfo, page > 1);
                     }
                 });

@@ -26,13 +26,13 @@ public class TopicStarPresenter implements TopicStarContract.IPresenter {
     @Override
     public void loadMore(int page) {
         if (UserUtils.notLoginAndProcessToLogin(true, mView.getContext())) return;
-        mPage = page;
         APIService.get()
                 .topicStarInfo(page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<TopicStarInfo>(mView) {
                     @Override
                     public void onConsume(TopicStarInfo topicStarInfo) {
+                        mPage = page;
                         mView.fillView(topicStarInfo, page > 1);
                     }
                 });

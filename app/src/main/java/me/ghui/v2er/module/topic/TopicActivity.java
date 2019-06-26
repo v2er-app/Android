@@ -104,7 +104,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private TopicBasicInfo mTopicBasicInfo;
     private String mAutoScrollReply;
     private TopicInfo mTopicInfo;
-    private int mPage;
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
     private MenuItem mReportMenuItem;
@@ -200,7 +199,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mTopicInfo = (TopicInfo) intent.getSerializableExtra(TOPIC_INTO_KEY);
         mAutoScrollReply = intent.getStringExtra(TOPIC_AUTO_SCROLL_REPLY);
         isNeedAutoScroll = Check.notEmpty(mAutoScrollReply);
-        mPage = intent.getIntExtra(TOPIC_CURRENT_PAGE, 1);
     }
 
     @Override
@@ -407,9 +405,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (mTopicInfo != null) {
             // 代表是从夜间模式切换过来的
             mNeedWaitForTransitionEnd = false;
-            // TODO: 2019-06-22 check
-//            mLoadMoreRecyclerView.setWillLoadPage(mPage);
-            fillView(mTopicInfo, mPage);
+            int page  = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
+            fillView(mTopicInfo, page);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             Logger.d("firstVisiablePos2: " + pos);
             post(() -> mLinearLayoutManager.scrollToPosition(pos));

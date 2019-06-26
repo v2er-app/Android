@@ -44,12 +44,12 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     @Override
     public void loadData(String topicId, int page) {
-        mPage = page;
         APIService.get().topicDetails(topicId, page)
                 .compose(mView.rx(null))
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
+                        mPage = page;
                         mTopicInfo = topicInfo;
                         mView.fillView(topicInfo, page);
                     }

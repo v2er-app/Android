@@ -45,12 +45,12 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void loadData(int page) {
-        mPage = page;
         APIService.get().nodesInfo(mView.nodeName(), page)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<NodeTopicInfo>() {
                     @Override
                     public void onConsume(NodeTopicInfo nodesInfo) {
+                        mPage = page;
                         mView.fillListView(nodesInfo, page > 1 && mView.initPage() == 1);
                     }
                 });
