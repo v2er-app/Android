@@ -92,22 +92,11 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         if (isFeatureUnavaliable(key)) {
-            CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
-            switchPreference.setChecked(false);
-            new ConfirmDialog.Builder(getActivity())
-                    .title("功能不可用")
-                    .msg("此功能是Pro版特性，激活Pro版以开启")
-                    .positiveText("暂不")
-                    .negativeText("去激活", dialog -> {
-                        BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
-                            String msg = isSuccess ? "激活成功!" : "激活失败";
-                            Voast.show(msg);
-                            Preference item = findPreference(key);
-                            if (item instanceof CheckBoxPreference) {
-                                ((CheckBoxPreference) item).setChecked(isSuccess);
-                            }
-                        });
-                    }).build().show();
+            if (preference instanceof CheckBoxPreference) {
+                CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
+                switchPreference.setChecked(false);
+            }
+            showFeatureUnavaliableDialog(key);
             return true;
         }
 
@@ -181,6 +170,23 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         return false;
     }
 
+    private void showFeatureUnavaliableDialog(String key) {
+        new ConfirmDialog.Builder(getActivity())
+                .title("功能不可用")
+                .msg("此功能是Pro版特性，激活Pro版以开启")
+                .positiveText("暂不")
+                .negativeText("去激活", dialog -> {
+                    BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
+                        String msg = isSuccess ? "激活成功!" : "激活失败";
+                        Voast.show(msg);
+                        Preference item = findPreference(key);
+                        if (item instanceof CheckBoxPreference) {
+                            ((CheckBoxPreference) item).setChecked(isSuccess);
+                        }
+                    });
+                }).build().show();
+    }
+
     private boolean isItemChecked(Preference preference) {
         CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
         return switchPreference.isChecked();
@@ -189,7 +195,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private boolean isFeatureUnavaliable(String key) {
         return !UserUtils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
                 R.string.pref_key_highlight_topic_owner_reply_item,
-                R.string.pref_key_is_scan_in_reverse);
+                R.string.pref_key_is_scan_in_reverse, R.string.pref_key_auto_daynight);
     }
 
     private boolean strEquals(String str, @StringRes int... strId) {
@@ -198,6 +204,5 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         }
         return false;
     }
-
 
 }

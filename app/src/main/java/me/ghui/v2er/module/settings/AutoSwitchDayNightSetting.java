@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.PageHost;
 import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.UserUtils;
 
 public class AutoSwitchDayNightSetting extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
     private TimePreference dayStartTimePref;
@@ -29,10 +30,11 @@ public class AutoSwitchDayNightSetting extends PreferenceFragment implements Pre
         SwitchPreference daynightSwitch = (SwitchPreference) findPreference(getString(R.string.pref_key_auto_daynight_switch));
         dayStartTimePref = (TimePreference) findPreference(getString(R.string.pref_key_day_mode_start_time));
         nightStartTimePref = (TimePreference) findPreference(getString(R.string.pref_key_night_mode_start_time));
+        daynightSwitch.setEnabled(UserUtils.isPro());
         daynightSwitch.setOnPreferenceChangeListener(this);
         dayStartTimePref.setOnPreferenceChangeListener(this);
         nightStartTimePref.setOnPreferenceChangeListener(this);
-        boolean enable = daynightSwitch.isChecked();
+        boolean enable = daynightSwitch.isChecked() && UserUtils.isPro();
         dayStartTimePref.setEnabled(enable);
         nightStartTimePref.setEnabled(enable);
         modeWhenEnter = DayNightUtil.getMode();
