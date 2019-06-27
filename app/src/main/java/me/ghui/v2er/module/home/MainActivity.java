@@ -113,7 +113,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     protected void configToolBar() {
-        Utils.setPaddingForStatusBar(mToolbar);
+        Utils.setPaddingForStatusBar(mAppBarLayout);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
         mToolbar.setNavigationIcon(R.drawable.nav);
@@ -128,6 +128,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         });
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
+                // TODO: 2019-06-27
                 pushFragment(SearchFragment.newInstance());
             }
             return true;
