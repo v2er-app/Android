@@ -384,7 +384,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     mToolbar.setSubtitle(null);
                 } else {
                     //title 不可见
-                    mToolbar.setSubtitle(mTopicInfo.getHeaderInfo().getTitle());
+                    if (mTopicInfo != null && mTopicInfo.getHeaderInfo() != null) {
+                        mToolbar.setSubtitle(mTopicInfo.getHeaderInfo().getTitle());
+                    }
                 }
             }
 
