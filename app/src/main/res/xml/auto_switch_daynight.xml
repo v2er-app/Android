@@ -14,7 +14,7 @@
         android:layout="@layout/preference_item"
         android:title="日间模式开始时间" />
     <me.ghui.v2er.module.settings.TimePreference
-        android:defaultValue="17:00"
+        android:defaultValue="19:00"
         android:key="@string/pref_key_night_mode_start_time"
         android:layout="@layout/preference_item"
         android:title="夜间模式开始时间" />
