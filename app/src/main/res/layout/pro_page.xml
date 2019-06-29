@@ -13,17 +13,21 @@
         android:src="@drawable/vector_v2er_pro" />
 
     <TextView
-        style="@style/SubTitleText"
+        style="@style/TitleText"
         android:layout_width="match_parent"
         android:gravity="left"
-        android:padding="16dp"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
         android:text="获取高级版你可以 : " />
+
     <TextView
         style="@style/ProItem"
-        android:text="1. 支持V2er项目的长期开发、激励开发者做的更好. V2er目前依然存在大量需要完善的功能与待优化的体验, 你的支持能让V2er保持更新、不断进步." />
+        android:text="@string/pro_tip1" />
+
     <TextView
         style="@style/ProItem"
-        android:text="2. 作为答谢你将解锁所有高级版特性，包括：自动签到、自动切换日夜主题、逆序浏览、楼主回帖高亮，以及后续不断到来的新功能." />
+        android:text="@string/pro_tip2" />
+
     <TextView
         android:id="@+id/go_get_pro_btn"
         style="@style/TitleText"
@@ -35,12 +39,14 @@
         android:padding="16dp"
         android:text="Get"
         android:textStyle="italic|bold" />
+
     <TextView
         style="@style/hintText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onNoResponseClicked"
         android:gravity="right"
+        android:onClick="onNoResponseClicked"
         android:padding="16dp"
-        android:text="点击无反应？" />
+        android:text="支付遇到问题?"
+        android:textStyle="italic" />
 </LinearLayout>

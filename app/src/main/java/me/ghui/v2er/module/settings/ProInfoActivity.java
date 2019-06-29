@@ -59,7 +59,7 @@ public class ProInfoActivity extends BaseActivity {
         new ConfirmDialog.Builder(this)
                 .title("购买遇到问题")
                 .msg("1. 目前只支持Google Play商店购买方式, 请确定你的手机已正确安装Play Store\n" +
-                        "2. 部分手机需要到应用设置里允许Google Play显示在其他应用之上")
+                        "2. 部分手机需要到应用设置里允许Google Play显示在其他应用之上\n3. 其它问题可直接联系开发者微信: ghuiii")
                 .positiveText(R.string.ok)
                 .build().show();
     }

@@ -174,7 +174,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         new ConfirmDialog.Builder(getActivity())
                 .title("功能不可用")
                 .msg("此功能是Pro版特性，激活Pro版以开启")
-                .positiveText("暂不")
+                .positiveText("暂不", dialog -> {
+                    Navigator.from(getContext()).to(ProInfoActivity.class).start();
+                })
                 .negativeText("去激活", dialog -> {
                     BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
                         String msg = isSuccess ? "激活成功!" : "激活失败";
