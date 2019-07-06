@@ -88,7 +88,7 @@ dependencies {
     implementation 'jp.wasabeef:glide-transformations:3.0.1'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2'
-    implementation 'com.orhanobut:logger:1.15'
+    implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'

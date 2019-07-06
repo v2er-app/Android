@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.orhanobut.logger.Logger;
+
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
@@ -19,10 +21,13 @@ import me.ghui.v2er.util.ScaleUtils;
 
 public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
+    private FrameLayout mWebviewContainer;
     private HtmlView mHtmlView;
+    private String mLastContent;
 
     public TopicContentItemDelegate(Context context) {
         super(context);
+        Logger.e("TopicContentItemDelegate init------");
     }
 
     @Override
@@ -38,23 +43,31 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
-        TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
-        String content = contentInfo.getFormattedHtml();
-        FrameLayout webviewContainer = holder.getView(R.id.htmlview_container);
-        webviewContainer.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
-        webviewContainer.setMinimumHeight(ScaleUtils.getScreenContentH());
+        Logger.e("------------convert------");
         HtmlView.OnHtmlRenderListener renderListener = (HtmlView.OnHtmlRenderListener) mContext;
+        TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
+        if (mWebviewContainer == null) {
+            mWebviewContainer = holder.getView(R.id.htmlview_container);
+            mWebviewContainer.setDescendantFocusability(ViewGroup.FOCUS_BLOCK_DESCENDANTS);
+            mWebviewContainer.setMinimumHeight(ScaleUtils.getScreenContentH());
+            mHtmlView = mWebviewContainer.findViewById(R.id.topic_htmlview);
+            mHtmlView.setOnHtmlRenderListener(renderListener);
+        }
+        String content = contentInfo.getFormattedHtml();
         if (Check.notEmpty(content)) {
-            if (mHtmlView == null) {
-                mHtmlView = new HtmlView(mContext);
-                mHtmlView.setOnHtmlRenderListener(renderListener);
-                webviewContainer.addView(mHtmlView);
+            mWebviewContainer.setVisibility(View.VISIBLE);
+            boolean isContentChanged = !content.equals(mLastContent);
+            Logger.e("----load content----");
+            if (isContentChanged) {
+                Logger.e("----content changed----");
+                mHtmlView.loadContentView(content);
+                mLastContent = content;
+            } else {
+                renderListener.onRenderCompleted();
             }
-            webviewContainer.setVisibility(View.VISIBLE);
-            mHtmlView.loadContentView(content);
         } else {
             renderListener.onRenderCompleted();
-            webviewContainer.setVisibility(View.GONE);
+            mWebviewContainer.setVisibility(View.GONE);
         }
     }
 

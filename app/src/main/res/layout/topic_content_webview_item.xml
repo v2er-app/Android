@@ -5,4 +5,10 @@
     android:layout_height="wrap_content"
     android:background="@drawable/common_bottom_divider"
     android:paddingHorizontal="@dimen/common_padding_size"
-    android:paddingBottom="1dp"></FrameLayout>
+    android:paddingBottom="1dp">
+
+    <me.ghui.v2er.module.topic.HtmlView
+        android:id="@+id/topic_htmlview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</FrameLayout>

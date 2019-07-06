@@ -2,10 +2,12 @@ package me.ghui.v2er.general;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
+import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
@@ -44,7 +46,12 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
-        Logger.init().methodCount(1).hideThreadInfo();
+        Logger.addLogAdapter(new AndroidLogAdapter() {
+            @Override
+            public boolean isLoggable(int priority, @Nullable String tag) {
+                return BuildConfig.DEBUG;
+            }
+        });
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.setDefaultValues(this, R.xml.auto_switch_daynight, false);
