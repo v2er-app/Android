@@ -26,7 +26,7 @@ public class ImageHolder {
             }
         }
         this.maxSize = maxSize;
-        Logger.e("maxSize: " + maxSize);
+//        Logger.e("maxSize: " + maxSize);
         if (loadingDrawable == null) {
             mLoadingDrawable = new ImageHolderDrawable(maxSize, view.getContext());
             ((ImageHolderDrawable) (mLoadingDrawable)).setText("加载中...");
