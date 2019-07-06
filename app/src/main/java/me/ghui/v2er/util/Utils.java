@@ -444,4 +444,8 @@ public class Utils {
         }
     }
 
+    public static String generateTopicLinkById(String topicId) {
+        return "https://www.v2ex.com/t/" + topicId;
+    }
+
 }

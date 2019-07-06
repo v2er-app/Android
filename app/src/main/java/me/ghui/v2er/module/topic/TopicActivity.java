@@ -217,7 +217,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
-                toast("请等到加载完成");
+                if (item.getItemId() == R.id.action_open_in_browser) {
+                    String topicLink = Utils.generateTopicLinkById(mTopicId);
+                    Utils.openInBrowser(topicLink, this);
+                } else {
+                    toast("请等到加载完成");
+                }
                 return true;
             }
             TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
