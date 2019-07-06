@@ -6,20 +6,10 @@
     android:divider="@drawable/common_divider"
     android:title="联系">
         <Preference
-            android:key="@string/pref_key_contact_me_weibo"
+            android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"
-            android:summary="\@ghuiii"
-            android:title="Weibo" />
-        <Preference
-            android:key="@string/pref_key_contact_me_wechat"
-            android:layout="@layout/preference_item"
-            android:summary="@string/wechat_username"
-            android:title="WeChat" />
-        <Preference
-            android:key="@string/pref_key_contact_me_jike"
-            android:layout="@layout/preference_item"
-            android:summary="\ghui"
-            android:title="即刻" />
+            android:summary="\@ghuizh"
+            android:title="Twitter" />
         <Preference
             android:key="@string/pref_key_contact_me_tg"
             android:layout="@layout/preference_item"

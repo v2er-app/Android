@@ -32,6 +32,7 @@
     <string name="pref_key_contact_me">pref_value_contact_me</string>
     <string name="pref_key_contact_me_tg">pref_key_contact_me_tg</string>
     <string name="pref_key_contact_me_jike">pref_key_contact_me_jike</string>
+    <string name="pref_key_contact_me_twitter">pref_key_contact_me_twitter</string>
     <string name="pref_key_contact_me_weibo">pref_key_contact_me_weibo</string>
     <string name="pref_key_contact_me_wechat">pref_key_contact_me_wechat</string>
     <string name="pref_key_contact_me_mail">pref_key_contact_me_mail</string>

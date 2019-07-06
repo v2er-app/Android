@@ -25,10 +25,8 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.addPreferencesFromResource(R.xml.contact_preferences);
-        findPreference(R.string.pref_key_contact_me_jike).setOnPreferenceClickListener(this);
+        findPreference(R.string.pref_key_contact_me_twitter).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_tg).setOnPreferenceClickListener(this);
-        findPreference(R.string.pref_key_contact_me_weibo).setOnPreferenceClickListener(this);
-        findPreference(R.string.pref_key_contact_me_wechat).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_mail).setOnPreferenceClickListener(this);
     }
 
@@ -59,6 +57,8 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
             // copy wechat to clipboard
             Utils.copy2Clipboard(getString(R.string.wechat_username));
             Voast.show("已复制");
+        } else if (key.equals(getString(R.string.pref_key_contact_me_twitter))) {
+            Utils.jumpToTwitterProfilePage(getActivity());
         }
         return true;
     }
