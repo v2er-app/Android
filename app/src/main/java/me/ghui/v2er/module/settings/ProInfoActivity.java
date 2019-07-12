@@ -1,7 +1,9 @@
 package me.ghui.v2er.module.settings;
 
 import android.view.View;
+import android.widget.TextView;
 
+import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.BillingManager;
@@ -18,6 +20,9 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class ProInfoActivity extends BaseActivity {
+
+    @BindView(R.id.go_get_pro_btn)
+    TextView mBuyButton;
     private boolean isPro;
 
     @Override
@@ -29,6 +34,11 @@ public class ProInfoActivity extends BaseActivity {
     protected void init() {
         super.init();
         isPro = UserUtils.isPro();
+        updateUI();
+    }
+
+    private void updateUI() {
+        mBuyButton.setText(isPro ? "Pro已激活, 感谢支持" : "去支持");
     }
 
     @Override
@@ -45,13 +55,14 @@ public class ProInfoActivity extends BaseActivity {
     @OnClick(R.id.go_get_pro_btn)
     void onGetProClicked() {
         if (isPro) {
-            Voast.show("Pro已激活，感谢支持");
+            Voast.show("Pro已激活, 感谢支持");
             return;
         }
         BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
             isPro = isSuccess;
             String msg = isSuccess ? "激活成功!" : "激活失败";
             Voast.show(msg);
+            updateUI();
         });
     }
 

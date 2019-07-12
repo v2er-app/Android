@@ -36,6 +36,7 @@
     <string name="day_mode">日间模式</string>
     <string name="night_mode">夜间模式</string>
 
-    <string name="pro_tip1">1. 支持V2er项目的长期开发、激励开发者做的更好. (开发一个能用的APP不难, V站也诞生过很多这样的APP, 但开发一个真正好用并能保持不断更新优化的APP就需要耗费大量的时间与精力, 而这仅仅依靠最初的开发热情很难维持, V2er目前依然存在大量需要完善的功能与待优化的体验, 你的支持能让V2er不断更新, 免于成为下一个仅仅是能用的APP)</string>
+    <string name="pro_tip1">1. 支持V2er项目的长期开发、激励开发者做的更好.
+        V2er目前依然存在大量需要完善的功能与待优化的体验, 你的支持能让V2er保持更新, 不断进步.</string>
     <string name="pro_tip2">2. 作为答谢你将解锁所有高级版特性包括：自动签到、自动切换日夜主题、逆序浏览、楼主回帖高亮，以及后续不断到来的新功能.</string>
 </resources>

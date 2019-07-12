@@ -37,8 +37,8 @@
         android:foreground="?android:selectableItemBackgroundBorderless"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Get"
-        android:textStyle="italic|bold" />
+        android:text="去支持"
+        android:textStyle="bold" />
 
     <TextView
         style="@style/hintText"
