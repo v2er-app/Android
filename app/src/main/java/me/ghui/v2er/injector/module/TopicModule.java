@@ -86,8 +86,7 @@ public class TopicModule {
                         Toast.makeText(mContext, R.string.already_thx_cannot_return, Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) getItem(0);
-                    mView.mPresenter.thxReplier(replyInfo.getReplyId(), headerInfo.getT())
+                    mView.mPresenter.thxReplier(replyInfo.getReplyId(), mView.getOnce())
                             .subscribe(new GeneralConsumer<ThxResponseInfo>(mView) {
                                 @Override
                                 public void onConsume(ThxResponseInfo thxReplyInfo) {

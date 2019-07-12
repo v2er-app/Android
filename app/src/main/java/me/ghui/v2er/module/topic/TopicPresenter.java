@@ -57,8 +57,8 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public Observable<ThxResponseInfo> thxReplier(String replyId, String t) {
-        return APIService.get().thxReplier(replyId, t)
+    public Observable<ThxResponseInfo> thxReplier(String replyId, String once) {
+        return APIService.get().thxReplier(replyId, once)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx());
     }

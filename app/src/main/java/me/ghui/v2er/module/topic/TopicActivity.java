@@ -412,7 +412,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (mTopicInfo != null) {
             // 代表是从夜间模式切换过来的
             mNeedWaitForTransitionEnd = false;
-            int page  = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
+            int page = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
             fillView(mTopicInfo, page);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             Logger.d("firstVisiablePos2: " + pos);
@@ -549,6 +549,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public String getTopicId() {
         return mTopicId;
+    }
+
+    @Override
+    public String getOnce() {
+        if (mTopicInfo == null) return null;
+        return mTopicInfo.getOnce();
     }
 
     @Override

@@ -19,6 +19,8 @@ public class TopicContract {
 
         String getTopicId();
 
+        String getOnce();
+
         void fillView(TopicInfo topicInfo, int page);
 
         void afterStarTopic(TopicInfo topicInfo);

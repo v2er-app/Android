@@ -116,7 +116,7 @@ public interface APIs {
 
     @Html
     @POST("/thank/reply/{id}")
-    Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Query("t") String t);
+    Observable<SimpleInfo> thxReplier(@Path("id") String replyId, @Query("once") String once);
 
     @Html
     @POST("/thank/topic/{id}")
