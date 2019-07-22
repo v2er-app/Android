@@ -14,7 +14,6 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
-import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Page;
 import me.ghui.v2er.module.home.MainActivity;
@@ -32,7 +31,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
-
     private Preference cachePref;
     private Preference loginPreference;
 
@@ -96,7 +94,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                 CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
                 switchPreference.setChecked(false);
             }
-            showFeatureUnavaliableDialog(key);
+            showFeatureUnavaliableDialog();
             return true;
         }
 
@@ -170,23 +168,14 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         return false;
     }
 
-    private void showFeatureUnavaliableDialog(String key) {
+    private void showFeatureUnavaliableDialog() {
         new ConfirmDialog.Builder(getActivity())
                 .title("功能不可用")
                 .msg("此功能是Pro版特性，激活Pro版以开启")
-                .positiveText("暂不", dialog -> {
-                    Navigator.from(getContext()).to(ProInfoActivity.class).start();
-                })
-                .negativeText("去激活", dialog -> {
-                    BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
-                        String msg = isSuccess ? "激活成功!" : "激活失败";
-                        Voast.show(msg);
-                        Preference item = findPreference(key);
-                        if (item instanceof CheckBoxPreference) {
-                            ((CheckBoxPreference) item).setChecked(isSuccess);
-                        }
-                    });
-                }).build().show();
+                .positiveText("去激活",
+                        dialog -> Navigator.from(getContext()).to(ProInfoActivity.class).start())
+                .negativeText("暂不")
+                .build().show();
     }
 
     private boolean isItemChecked(Preference preference) {

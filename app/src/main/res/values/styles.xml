@@ -134,7 +134,7 @@
         <item name="android:foreground">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
-    <style name="ProItem" parent="@style/BodyText">
+    <style name="ProItem" parent="@style/SubTitleText">
         <item name="android:paddingTop">8dp</item>
         <item name="android:paddingBottom">8dp</item>
         <item name="android:clickable">true</item>

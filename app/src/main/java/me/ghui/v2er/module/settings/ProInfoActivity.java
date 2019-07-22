@@ -20,7 +20,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class ProInfoActivity extends BaseActivity {
-
     @BindView(R.id.go_get_pro_btn)
     TextView mBuyButton;
     private boolean isPro;
@@ -63,7 +62,7 @@ public class ProInfoActivity extends BaseActivity {
             String msg = isSuccess ? "激活成功!" : "激活失败";
             Voast.show(msg);
             updateUI();
-        });
+        }, true);
     }
 
     public void onNoResponseClicked(View view) {

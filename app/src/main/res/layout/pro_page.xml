@@ -47,6 +47,6 @@
         android:gravity="right"
         android:onClick="onNoResponseClicked"
         android:padding="16dp"
-        android:text="支付遇到问题?"
+        android:text="支付遇到问题? "
         android:textStyle="italic" />
 </LinearLayout>

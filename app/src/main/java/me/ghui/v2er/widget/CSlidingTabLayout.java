@@ -17,7 +17,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -451,7 +450,6 @@ public class CSlidingTabLayout extends HorizontalScrollView implements ViewPager
         if (mIndicatorStyle == STYLE_NORMAL && mIndicatorWidthEqualTitle) {
             mIndicatorRect.left = (int) (left + margin);
             mIndicatorRect.right = (int) (right - margin - delta);
-            Log.e("DBG", "delta: " + delta + ", index: " + getCurrentTab());
         }
 
         mTabRect.left = (int) left;
