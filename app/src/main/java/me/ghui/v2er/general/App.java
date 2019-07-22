@@ -2,9 +2,14 @@ package me.ghui.v2er.general;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
+import android.support.annotation.Nullable;
 
 import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
+import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.FormatStrategy;
+import com.orhanobut.logger.Logger;
+import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -42,11 +47,27 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
+        initLogger();
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.setDefaultValues(this, R.xml.auto_switch_daynight, false);
         APIService.init();
         initThirdPartySDK();
+    }
+
+    private void initLogger() {
+        FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
+                .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
+                .methodCount(0)         // (Optional) How many method line to show. Default 2
+                .methodOffset(7)        // (Optional) Hides internal method calls up to offset. Default 5
+                .tag("V2er.Log")   // (Optional) Global tag for every log. Default PRETTY_LOGGER
+                .build();
+        Logger.addLogAdapter(new AndroidLogAdapter(formatStrategy) {
+            @Override
+            public boolean isLoggable(int priority, @Nullable String tag) {
+                return BuildConfig.DEBUG;
+            }
+        });
     }
 
     private void initThirdPartySDK() {

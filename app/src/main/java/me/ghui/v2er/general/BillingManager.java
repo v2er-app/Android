@@ -56,6 +56,7 @@ public class BillingManager implements PurchasesUpdatedListener {
      * 异步检查是否是付费用户
      */
     public void checkIsProAsyc() {
+        L.e("checkIsProAsyc");
         checkIsProAsyc(false, null);
     }
 

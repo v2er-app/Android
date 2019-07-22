@@ -14,6 +14,7 @@ import me.ghui.retrofit.converter.annotations.Html;
 import me.ghui.retrofit.converter.annotations.Json;
 import me.ghui.toolbox.android.BuildConfig;
 import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.L;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -86,8 +87,8 @@ public class APIService {
                     .retryOnConnectionFailure(true)
                     .addInterceptor(new ConfigInterceptor());
             if (BuildConfig.DEBUG) {
-                builder.addInterceptor(new HttpLoggingInterceptor()
-                        .setLevel(HttpLoggingInterceptor.Level.BODY));
+                builder.addInterceptor(new HttpLoggingInterceptor(L::i)
+                        .setLevel(HttpLoggingInterceptor.Level.HEADERS));
             }
             sHttpClient = builder.build();
         }
