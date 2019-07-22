@@ -5,8 +5,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +18,7 @@ import me.ghui.v2er.injector.module.NewsModule;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
@@ -93,7 +92,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
-            Logger.d("onLoadMore.willLoadPage: " + willLoadPage);
+            L.d("onLoadMore.willLoadPage: " + willLoadPage);
 
             if (!mCurrentTab.isDefaultTab()) {
                 toast("只有全部标签支持加载更多");

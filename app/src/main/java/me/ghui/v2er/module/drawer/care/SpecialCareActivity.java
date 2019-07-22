@@ -4,8 +4,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.orhanobut.logger.Logger;
-
 import javax.inject.Inject;
 
 import butterknife.BindView;
@@ -19,6 +17,7 @@ import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -76,7 +75,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
             fillView(mCareInfo, false);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
-            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            L.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
             post(()-> mLinearLayoutManager.scrollToPositionWithOffset(pos, offset));
         }
     }
@@ -92,7 +91,7 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     protected void reloadMode(int mode) {
         int pos = mLinearLayoutManager.findFirstVisibleItemPosition();
         int offset = mLoadMoreRecyclerView.getChildAt(0).getTop();
-        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
+        L.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
         if (mCareInfo != null) {
             mCareInfo.setItems(mAdapter.getDatas());
         }

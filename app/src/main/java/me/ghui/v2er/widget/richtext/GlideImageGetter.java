@@ -12,12 +12,12 @@ import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import me.ghui.v2er.general.GlideApp;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.TexureUtil;
 import me.ghui.v2er.util.UriUtils;
@@ -100,7 +100,7 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
         @Override
         public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
-            Logger.e("IMG", "onResourceReady----------");
+            L.e( "onResourceReady----------");
             clearTarget(this);
             int h = resource.getIntrinsicHeight();
             int w = resource.getIntrinsicWidth();

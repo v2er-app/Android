@@ -26,8 +26,6 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +50,7 @@ import me.ghui.v2er.module.settings.ProInfoActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -333,7 +332,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onTransitionEnd(Transition transition) {
-                Logger.e("onTransitionEnd");
+                L.e("onTransitionEnd");
                 mNeedWaitForTransitionEnd = false;
                 if (mTopicInfo != null) {
                     delay(30, () -> fillView(mTopicInfo, mIsScanInOrder ? 1 : mTopicInfo.getTotalPage()));
@@ -354,7 +353,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void reloadMode(int mode) {
         int pos = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
-        Logger.d("firstVisiablePos: " + pos);
+        L.d("firstVisiablePos: " + pos);
         ColorModeReloader.target(this)
                 .putExtra(TOPIC_ID_KEY, getIntent().getStringExtra(TOPIC_ID_KEY))
                 .putExtra(TOPIC_INTO_KEY, mTopicInfo)
@@ -415,7 +414,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             int page = getIntent().getIntExtra(TOPIC_CURRENT_PAGE, 1);
             fillView(mTopicInfo, page);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
-            Logger.d("firstVisiablePos2: " + pos);
+            L.d("firstVisiablePos2: " + pos);
             post(() -> mLinearLayoutManager.scrollToPosition(pos));
         } else if (mTopicBasicInfo != null) {
             List<TopicInfo.Item> data = new ArrayList<>();
@@ -467,7 +466,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 CharSequence changedText = s.subSequence(start, start + count);
-                Logger.d("text: onTextChanged: " + changedText);
+                L.d("text: onTextChanged: " + changedText);
                 if ("@".equals(changedText.toString())) {
                     int startIndex = mLinearLayoutManager.findFirstVisibleItemPosition();
                     int endIndex = mLinearLayoutManager.findLastVisibleItemPosition() + 2;
@@ -498,7 +497,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                         break;
                     }
                 }
-                Logger.e("lastIndexOfAt: " + lastIndexOfat);
+                L.e("lastIndexOfAt: " + lastIndexOfat);
                 String text = inputStr.substring(lastIndexOfat, cursorPos);
                 onInputQueryTextChanged(text);
             }
@@ -506,7 +505,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     private void onInputQueryTextChanged(String query) {
-        Logger.d("1Query: " + query);
+        L.d("1Query: " + query);
         if (Check.isEmpty(query)) {
             mReplierRecyView.setVisibility(View.GONE);
             return;
@@ -514,7 +513,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (Check.notEmpty(query) && query.startsWith("@")) {
             query = query.substring(1);
         }
-        Logger.d("2Query: " + query);
+        L.d("2Query: " + query);
         mReplierAdapter.getFilter().filter(query);
     }
 
@@ -850,13 +849,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void onKeyboardShown() {
-        Logger.d("onKeyboardShown");
+        L.d("onKeyboardShown");
         mReplyWrapper.setPadding(mReplyWrapper.getPaddingLeft(), mReplyWrapper.getPaddingTop(), mReplyWrapper.getPaddingRight(), 0);
     }
 
     @Override
     public void onKeyboardHidden() {
-        Logger.d("onKeyboardHidden");
+        L.d("onKeyboardHidden");
         Utils.setPaddingForNavbar(mReplyWrapper);
     }
 

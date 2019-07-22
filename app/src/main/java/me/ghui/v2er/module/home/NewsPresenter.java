@@ -1,7 +1,5 @@
 package me.ghui.v2er.module.home;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,6 +7,7 @@ import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.NewsInfo;
+import me.ghui.v2er.util.L;
 
 /**
  * Created by ghui on 03/04/2017.
@@ -39,7 +38,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
                 .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
-                        Logger.d("newsInfo: " + newsInfo);
+                        L.d("newsInfo: " + newsInfo);
                         if (mCurrentItemsIndexMap != null) {
                             mCurrentItemsIndexMap.clear();
                             mCurrentItemsIndexMap = null;
@@ -88,7 +87,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
             if (index == null) {
                 mCurrentItemsIndexMap.put(item.getTitle(), mCurrentItemsIndexMap.size());
             } else {
-                Logger.e("duplicate items: " + item.getTitle());
+                L.e("duplicate items: " + item.getTitle());
                 newItems.remove(item);
             }
         }

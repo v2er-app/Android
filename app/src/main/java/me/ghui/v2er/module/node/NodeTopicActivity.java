@@ -18,7 +18,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -44,6 +43,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
@@ -270,7 +270,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             fillListView(mNodeTopicInfo, false);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
-            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            L.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
             post(()-> mLayoutManager.scrollToPositionWithOffset(pos, offset));
         }
 
@@ -281,7 +281,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         Intent intent = getIntent();
         int pos = mLayoutManager.findFirstVisibleItemPosition();
         int offset = mRecyclerView.getChildAt(0).getTop();
-        Logger.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
+        L.d("0findFirstCompletelyVisibleItemPosition: " + pos + ", top: " + offset);
         if (mNodeTopicInfo != null) {
             mNodeTopicInfo.setItems(mAdapter.getDatas());
         }

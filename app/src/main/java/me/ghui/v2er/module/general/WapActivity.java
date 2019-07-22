@@ -14,8 +14,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.orhanobut.logger.Logger;
-
 import java.util.Map;
 
 import butterknife.BindView;
@@ -25,6 +23,7 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.UrlInterceptor;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 
@@ -132,7 +131,7 @@ public class WapActivity extends BaseActivity {
     protected void loadUrl(String url, Map<String, String> headers) {
         if (url != null) {
             mCurrentUrl = url;
-            Logger.d("set current url: " + mCurrentUrl);
+            L.d("set current url: " + mCurrentUrl);
             if (headers != null) {
                 mWebView.loadUrl(url, headers);
             } else {

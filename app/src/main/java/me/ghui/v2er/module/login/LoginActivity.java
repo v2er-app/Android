@@ -15,7 +15,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.orhanobut.logger.Logger;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -33,6 +32,7 @@ import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.bean.LoginParam;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -175,7 +175,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
 
     @Override
     public void onFetchLoginParamSuccess(LoginParam loginParam) {
-        Logger.d("加载登录参数成功");
+        L.d("加载登录参数成功");
         mLoginParam = loginParam;
         if (mLoginParam.needCaptcha()) {
             String capchaUrl = Constants.BASE_URL + "/_captcha?once=" + loginParam.getOnce();

@@ -8,7 +8,6 @@ import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 
@@ -17,6 +16,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -46,7 +46,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 && Check.notEmpty(purchases)
                 && SKU_ID.equals(purchases.get(0).getSku());
         UserUtils.savePro(isPro);
-        Logger.e("onPurchasesUpdated, isPro: " + isPro);
+        L.e("onPurchasesUpdated, isPro: " + isPro);
         if (mPurchaseListener != null) {
             mPurchaseListener.onPurchaseFinished(isPro);
         }
@@ -69,7 +69,7 @@ public class BillingManager implements PurchasesUpdatedListener {
         // check first
         checkIsProAsyc(true, isPro -> {
             if (isPro) {
-                Logger.e("Already is Pro!");
+                L.e("Already is Pro!");
                 if (purchaseListener != null) {
                     purchaseListener.onPurchaseFinished(true);
                 }
@@ -79,7 +79,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                             .setType(SKU_TYPE)
                             .setSku(SKU_ID)
                             .build();
-                    Logger.e("start Buy flow");
+                    L.e("start Buy flow");
                     mBillingClient.launchBillingFlow(activity, billingFlowParams);
                 };
                 mPurchaseListener = purchaseListener;
@@ -90,19 +90,19 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     private void startServiceConnectionIfNeeded(boolean toastError, final Runnable runable) {
         if (runable == null) {
-            Logger.e("runnable is null, return");
+            L.e("runnable is null, return");
             return;
         }
         if (mBillingClient.isReady()) {
-            Logger.e("BillClient is Ready");
+            L.e("BillClient is Ready");
             runable.run();
         } else {
-            Logger.e("BillClient doesn't ready, startConnection");
+            L.e("BillClient doesn't ready, startConnection");
             mBillingClient.startConnection(new BillingClientStateListener() {
                 @Override
                 public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponse) {
                     if (billingResponse == BillingClient.BillingResponse.OK) {
-                        Logger.e("onBillingSetupFinished");
+                        L.e("onBillingSetupFinished");
                         runable.run();
                     } else {
                         Voast.show("与Google Play通信失败，请检查你的网络连接", true);
@@ -111,7 +111,7 @@ public class BillingManager implements PurchasesUpdatedListener {
 
                 @Override
                 public void onBillingServiceDisconnected() {
-                    Logger.e("onBillingServiceDisconnected");
+                    L.e("onBillingServiceDisconnected");
                 }
             });
         }
@@ -129,7 +129,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                                     Check.notEmpty(result.getPurchasesList())
                                     && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
                             UserUtils.savePro(isPro);
-                            Logger.e("checkIsProAsyc, isPro: " + isPro);
+                            L.e("checkIsProAsyc, isPro: " + isPro);
                             if (isPro) {
                                 Prefs.with(App.get()).writeLong(LAST_CHECK_TIME, System.currentTimeMillis());
                             }

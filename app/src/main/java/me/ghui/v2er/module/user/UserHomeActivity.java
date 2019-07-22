@@ -17,7 +17,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.orhanobut.logger.Logger;
 
 import java.util.List;
 import java.util.Map;
@@ -39,6 +38,7 @@ import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
@@ -221,7 +221,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             fillView(mUserPageInfo);
             int pos = getIntent().getIntExtra(TOPIC_PAGE_Y_POS_KEY, 0);
             int offset = getIntent().getIntExtra(TOPIC_Y_POS_OFFSET_KEY, 0);
-            Logger.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
+            L.d("1findFirstCompletelyVisibleItemPosition: " + pos + ", offset: " + offset);
             if (!isAppbarExpanted) {
                 mToolbar.setTitle(mUserName);
             }
@@ -259,7 +259,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
                         return false;
                     }
                 }).into(mBigImgBg);
-        Logger.d("NewsAvatar:2 " + mAvatar);
+        L.d("NewsAvatar:2 " + mAvatar);
         GlideApp.with(this)
                 .load(mAvatar)
                 .placeholder(R.drawable.avatar_placeholder_drawable)
@@ -287,7 +287,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             mUserBlockBtn.setVisibility(View.VISIBLE);
         }
         if (mAvatarImg.getDrawable() == null) {
-            Logger.d("NewsAvatar:3 " + userPageInfo.getAvatar());
+            L.d("NewsAvatar:3 " + userPageInfo.getAvatar());
             GlideApp.with(this)
                     .load(userPageInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)

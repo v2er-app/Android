@@ -5,13 +5,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
 
 /**
@@ -27,7 +26,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     public TopicContentItemDelegate(Context context) {
         super(context);
-        Logger.e("TopicContentItemDelegate init------");
+        L.e("TopicContentItemDelegate init------");
     }
 
     @Override
@@ -43,7 +42,7 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
 
     @Override
     public void convert(ViewHolder holder, TopicInfo.Item item, int position) {
-        Logger.e("------------convert------");
+        L.e("------------convert------");
         HtmlView.OnHtmlRenderListener renderListener = (HtmlView.OnHtmlRenderListener) mContext;
         TopicInfo.ContentInfo contentInfo = (TopicInfo.ContentInfo) item;
         if (mWebviewContainer == null) {
@@ -57,9 +56,9 @@ public class TopicContentItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         if (Check.notEmpty(content)) {
             mWebviewContainer.setVisibility(View.VISIBLE);
             boolean isContentChanged = !content.equals(mLastContent);
-            Logger.e("----load content----");
+            L.e("----load content----");
             if (isContentChanged) {
-                Logger.e("----content changed----");
+                L.e("----content changed----");
                 mHtmlView.loadContentView(content);
                 mLastContent = content;
             } else {

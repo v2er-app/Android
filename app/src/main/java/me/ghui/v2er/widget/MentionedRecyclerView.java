@@ -5,10 +5,9 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.util.L;
 
 /**
  * Created by ghui on 20/07/2017.
@@ -55,7 +54,7 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
     private void updatePaddingTop(int itemCount) {
         int showSize = Math.min(MAX_SHOW_SIZE, itemCount);
         int top = getMeasuredHeight() - ITEM_HEIGHT * showSize;
-        Logger.d("onSizeChanged, top: " + top + ", showSize: " + showSize);
+        L.d("onSizeChanged, top: " + top + ", showSize: " + showSize);
         setPadding(getPaddingLeft(), top, getPaddingRight(), getPaddingBottom());
     }
 
@@ -78,7 +77,7 @@ public class MentionedRecyclerView extends BaseRecyclerView implements MultiItem
         } else {
             result = super.onTouchEvent(e);
         }
-        Logger.d("0onTouchEvent: " + result + ", mScrollY: " + mScrollDis);
+        L.d("0onTouchEvent: " + result + ", mScrollY: " + mScrollDis);
         return result;
     }
 

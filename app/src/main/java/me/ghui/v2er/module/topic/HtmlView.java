@@ -17,7 +17,6 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.orhanobut.logger.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -38,6 +37,7 @@ import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
@@ -168,7 +168,7 @@ public class HtmlView extends WebView {
 
         private void downloadImgs() {
             for (String url : mImgs) {
-                Logger.d("start download image: " + url);
+                L.d("start download image: " + url);
                 GlideApp.with(App.get())
                         .downloadOnly()
                         .load(url)
@@ -185,7 +185,7 @@ public class HtmlView extends WebView {
                             @SuppressLint("CheckResult")
                             @Override
                             public boolean onResourceReady(File file, Object model, Target<File> target, DataSource dataSource, boolean isFirstResource) {
-                                Logger.d("image download finished: " + url);
+                                L.d("image download finished: " + url);
                                 Observable.just(file)
                                         .compose(RxUtils.io_main())
                                         .map(rawFile -> {
@@ -203,7 +203,7 @@ public class HtmlView extends WebView {
                                             }
                                             return "file://" + directory + File.separator + name;
                                         }).subscribe(localPath -> {
-                                    Logger.d("reload image: " + localPath);
+                                    L.d("reload image: " + localPath);
                                     String encodeUrl = URLEncoder.encode(url);
                                     String js = "javascript:reloadImg(" + "'" + encodeUrl + "'" + "," + "'" + localPath + "'" + ");";
                                     HtmlView.this.loadUrl(js);

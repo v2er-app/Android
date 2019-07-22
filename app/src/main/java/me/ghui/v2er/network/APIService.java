@@ -12,6 +12,7 @@ import me.ghui.fruit.converter.retrofit.FruitConverterFactory;
 import me.ghui.retrofit.converter.GlobalConverterFactory;
 import me.ghui.retrofit.converter.annotations.Html;
 import me.ghui.retrofit.converter.annotations.Json;
+import me.ghui.toolbox.android.BuildConfig;
 import me.ghui.toolbox.android.Check;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -79,14 +80,16 @@ public class APIService {
 
     public static OkHttpClient httpClient() {
         if (sHttpClient == null) {
-            sHttpClient = new OkHttpClient.Builder()
+            OkHttpClient.Builder builder = new OkHttpClient.Builder()
                     .connectTimeout(TIMEOUT_LENGTH, TimeUnit.SECONDS)
                     .cookieJar(cookieJar())
                     .retryOnConnectionFailure(true)
-                    .addInterceptor(new ConfigInterceptor())
-                    .addInterceptor(new HttpLoggingInterceptor()
-                            .setLevel(HttpLoggingInterceptor.Level.BODY))
-                    .build();
+                    .addInterceptor(new ConfigInterceptor());
+            if (BuildConfig.DEBUG) {
+                builder.addInterceptor(new HttpLoggingInterceptor()
+                        .setLevel(HttpLoggingInterceptor.Level.BODY));
+            }
+            sHttpClient = builder.build();
         }
         return sHttpClient;
     }

@@ -5,8 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegate;
@@ -14,6 +12,7 @@ import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ViewUtils;
 
 /**
@@ -43,7 +42,7 @@ public class TopicHeaderItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         TopicInfo.HeaderInfo headerInfo = (TopicInfo.HeaderInfo) item;
         ImageView avatarImg = holder.getImgView(R.id.avatar_img);
         if (avatarImg.getDrawable() == null) {
-            Logger.d("NewsAvatar:4 " + headerInfo.getAvatar());
+            L.d("NewsAvatar:4 " + headerInfo.getAvatar());
             GlideApp.with(mContext)
                     .load(headerInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)

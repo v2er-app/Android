@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import com.orhanobut.logger.Logger;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
 import javax.inject.Inject;
@@ -33,6 +32,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
@@ -116,7 +116,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (isPageShow) {
-            Logger.d("lazyLoad in onViewCreated");
+            L.d("lazyLoad in onViewCreated");
             lazyLoad();
         }
     }
@@ -146,7 +146,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     }
 
     protected View onCreateRootView(LayoutInflater inflater, ViewGroup container) {
-        Logger.d("onCreateRootView");
+        L.d("onCreateRootView");
         if (mRootView == null) {
             View contentView;
             if (attachOnRefreshListener() != null) {
@@ -177,7 +177,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Logger.i("onActivityCreated." + this.getClass().getSimpleName());
+        L.i("onActivityCreated." + this.getClass().getSimpleName());
     }
 
 
@@ -208,7 +208,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
 
     protected void onFragmentShow() {
         if (mRootView != null) {
-            Logger.d("lazyLoad in onFragmentShow");
+            L.d("lazyLoad in onFragmentShow");
             lazyLoad();
         }
     }

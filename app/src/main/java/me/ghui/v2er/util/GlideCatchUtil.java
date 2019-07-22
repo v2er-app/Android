@@ -26,7 +26,7 @@ public class GlideCatchUtil {
     // 获取Glide磁盘缓存大小
     public static String getCacheSize() {
         try {
-            Logger.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
+            L.d("Glide cache path: " + Glide.getPhotoCacheDir(App.get()));
             return getFormatSize(getFolderSize(Glide.getPhotoCacheDir(App.get())));
         } catch (Exception e) {
             e.printStackTrace();

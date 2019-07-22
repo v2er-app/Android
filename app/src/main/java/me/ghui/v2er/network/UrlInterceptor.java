@@ -4,8 +4,6 @@ import android.content.Context;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
 
-import com.orhanobut.logger.Logger;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -16,6 +14,7 @@ import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -103,7 +102,7 @@ public class UrlInterceptor {
         } else if (url.contains("/member/")) {
             //user page
             String userName = UriUtils.getLastSegment(url);
-            Logger.d("userName: " + userName);
+            L.d("userName: " + userName);
             Navigator.from(context)
                     .to(UserHomeActivity.class)
                     .putExtra(UserHomeActivity.USER_NAME_KEY, userName)

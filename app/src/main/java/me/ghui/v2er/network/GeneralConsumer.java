@@ -1,7 +1,5 @@
 package me.ghui.v2er.network;
 
-import com.orhanobut.logger.Logger;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -10,6 +8,7 @@ import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
@@ -35,7 +34,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        Logger.d("API RESPONSE: \n" + t.toString() + "\n");
+        L.d("API RESPONSE: \n" + t.toString() + "\n");
         if (t.isValid()) {
             onConsume(t);
         } else {

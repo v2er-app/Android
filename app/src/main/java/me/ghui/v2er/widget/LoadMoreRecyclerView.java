@@ -11,12 +11,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
 
 /**
@@ -85,7 +84,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
             mLoadMoreFooter.onIdle(mStatus);
         }
         mWillLoadPage = mIsLoadInOrder ? mWillLoadPage + 1 : mWillLoadPage - 1;
-        Logger.i("mWillLoadPage: " + mWillLoadPage);
+        L.i("mWillLoadPage: " + mWillLoadPage);
     }
 
     public boolean hasMore() {

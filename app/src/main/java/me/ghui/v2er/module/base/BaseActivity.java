@@ -22,7 +22,6 @@ import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import com.orhanobut.logger.Logger;
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
 
@@ -53,6 +52,7 @@ import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -297,7 +297,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DayNightModeEvent event) {
-        Logger.d("need change mode to: " + event.getModeName());
+        L.d("need change mode to: " + event.getModeName());
         mDayNightModeEvent = event.copy();
     }
 
@@ -416,12 +416,12 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                 if (mFirstLoadingDelay != 0) {
                     mFirstLoadingDelay = 0;
                     mLoadingView.setVisibility(View.VISIBLE);
-                    Logger.d("delay show loading");
+                    L.d("delay show loading");
                 }
             };
             delay(mFirstLoadingDelay, mDelayLoadingRunnable);
         } else {
-            Logger.d("show loading");
+            L.d("show loading");
             mLoadingView.setVisibility(View.VISIBLE);
         }
     }
@@ -442,7 +442,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             }
             mLoadingView.setVisibility(View.INVISIBLE);
         }
-        Logger.d(" hide loading");
+        L.d(" hide loading");
     }
 
     protected void toast(@StringRes int msgId) {

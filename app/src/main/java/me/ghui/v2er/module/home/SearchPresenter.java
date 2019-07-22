@@ -2,11 +2,10 @@ package me.ghui.v2er.module.home;
 
 import android.net.Uri;
 
-import com.orhanobut.logger.Logger;
-
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
+import me.ghui.v2er.util.L;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -39,7 +38,7 @@ public class SearchPresenter implements SearchContract.IPresenter {
         query += " site:v2ex.com";
         mUriBuilder.appendQueryParameter("q", query);
         mUriBuilder.appendQueryParameter("first", String.valueOf(first));
-        Logger.d("bing Search: " + mUriBuilder.build().toString());
+        L.d("bing Search: " + mUriBuilder.build().toString());
         APIService.get().bingSearch(mUriBuilder.build().toString())
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<BingSearchResultInfo>() {

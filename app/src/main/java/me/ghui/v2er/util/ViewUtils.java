@@ -35,7 +35,7 @@ public class ViewUtils {
         if (excludePadding) {
             width = width - view.getPaddingLeft() - view.getPaddingRight();
         }
-        Logger.e("exactlyWidth: " + width);
+        L.e("exactlyWidth: " + width);
         return width;
     }
 
@@ -48,7 +48,7 @@ public class ViewUtils {
         if (excludePadding) {
             height = height - view.getPaddingTop() - view.getPaddingBottom();
         }
-        Logger.e("exactlyWidth: " + height);
+        L.e("exactlyWidth: " + height);
         return height;
     }
 

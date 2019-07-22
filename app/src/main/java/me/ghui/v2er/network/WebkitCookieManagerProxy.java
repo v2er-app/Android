@@ -1,7 +1,5 @@
 package me.ghui.v2er.network;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -13,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.ghui.v2er.util.L;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -102,7 +101,7 @@ public class WebkitCookieManagerProxy extends CookieManager implements CookieJar
         try {
             put(url.uri(), generatedResponseHeaders);
         } catch (IOException e) {
-            Log.e(TAG, "Error adding cookies through okhttp", e);
+            L.e(e.toString());
         }
     }
 
@@ -122,7 +121,7 @@ public class WebkitCookieManagerProxy extends CookieManager implements CookieJar
                 }
             }
         } catch (IOException e) {
-            Log.e(TAG, "error making cookie!", e);
+            L.e(e.toString());
         }
         return cookieArrayList;
     }

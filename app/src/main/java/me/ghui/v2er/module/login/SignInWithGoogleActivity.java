@@ -2,7 +2,6 @@ package me.ghui.v2er.module.login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.webkit.WebSettings;
 
 import com.flurry.android.FlurryAgent;
@@ -18,6 +17,7 @@ import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 
 /**
@@ -58,7 +58,7 @@ public class SignInWithGoogleActivity extends WapActivity {
 
     @Override
     protected boolean checkIntercept(String currentUrl) {
-        Log.d("GoogleSign", "url: " + currentUrl);
+        L.d("url: " + currentUrl);
         if (currentUrl.startsWith(Constants.BASE_URL + "/mission/daily")) {
             mWebView.getSettings().setUserAgentString(APIService.WAP_USER_AGENT);
             doGetUserInfo();
