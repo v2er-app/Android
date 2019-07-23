@@ -24,6 +24,10 @@ public class L {
         Logger.i(msg);
     }
 
+    public static void v(String msg) {
+        Logger.v(msg);
+    }
+
     public static void json(String msg) {
         Logger.json(msg);
     }

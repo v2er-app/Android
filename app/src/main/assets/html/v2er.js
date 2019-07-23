@@ -20,6 +20,7 @@ function reloadImg(original_img, localPath) {
 }
 
 function injectOnLoad(isDark, fontSize) {
+    decodeEmail();
     document.body.className += isDark ? 'dark ' : ' ';
     document.body.style.fontSize = fontSize;
 }

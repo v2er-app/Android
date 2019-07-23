@@ -34,7 +34,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
-        L.d("API RESPONSE: \n" + t.toString() + "\n");
+        L.v("API RESPONSE: \n" + t.toString() + "\n");
         if (t.isValid()) {
             onConsume(t);
         } else {

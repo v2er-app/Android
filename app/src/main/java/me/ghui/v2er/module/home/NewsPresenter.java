@@ -38,7 +38,6 @@ public class NewsPresenter implements NewsContract.IPresenter {
                 .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
-                        L.d("newsInfo: " + newsInfo);
                         if (mCurrentItemsIndexMap != null) {
                             mCurrentItemsIndexMap.clear();
                             mCurrentItemsIndexMap = null;

@@ -87,7 +87,7 @@ public class APIService {
                     .retryOnConnectionFailure(true)
                     .addInterceptor(new ConfigInterceptor());
             if (BuildConfig.DEBUG) {
-                builder.addInterceptor(new HttpLoggingInterceptor(L::i)
+                builder.addInterceptor(new HttpLoggingInterceptor(L::v)
                         .setLevel(HttpLoggingInterceptor.Level.HEADERS));
             }
             sHttpClient = builder.build();
