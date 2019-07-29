@@ -10,6 +10,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.sentry.Sentry;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
@@ -114,7 +115,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
             mNewsInfo = restoreData.info;
             mRecyclerView.setWillLoadPage(restoreData.page);
             fillView(mNewsInfo, false);
-            post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+            post(() -> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
             hideLoading();
         }
     }
@@ -161,6 +162,10 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
+        if (position < 0) {
+            Sentry.capture("NewsFragment.onItemClick.postion < 0");
+            return;
+        }
         View shareView = holder.getView(R.id.avatar_img);
         NewsInfo.Item item = mAdapter.getDatas().get(position);
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
@@ -179,7 +184,6 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mCurrentTab = tabInfo;
         mPresenter.start();
     }
-
 
 
 }
