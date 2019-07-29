@@ -26,6 +26,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.sentry.Sentry;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
@@ -47,6 +48,7 @@ import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.HackRecyclerView;
@@ -433,6 +435,12 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         NodeTopicInfo.Item item = mAdapter.getItem(position);
+        if (item == null) {
+            Sentry.capture("NodeTopicInfo.Item is null: postion: " + position
+                    + ", mAdapter.size: " + mAdapter.getItemCount()
+                    + ", nodeName: " + mTagName);
+            return;
+        }
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
                 .commentNum(item.getCommentNum())
                 .author(item.getUserName())
