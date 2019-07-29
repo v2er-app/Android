@@ -6,8 +6,9 @@ import android.util.AttributeSet;
 import android.util.TypedValue;
 
 import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.widget.richtext.HackyTextView;
 
-public class SizeAutoChangeTextView extends AppCompatTextView {
+public class SizeAutoChangeTextView extends HackyTextView {
 
     public SizeAutoChangeTextView(Context context) {
         super(context);

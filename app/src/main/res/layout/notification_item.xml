@@ -27,7 +27,7 @@
         app:layout_constraintStart_toEndOf="@id/avatar_img"
         tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />
 
-    <TextView
+    <me.ghui.v2er.widget.richtext.HackyTextView
         android:id="@+id/msg_content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"

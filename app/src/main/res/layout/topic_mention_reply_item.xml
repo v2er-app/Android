@@ -17,7 +17,7 @@
         android:src="@drawable/point_indicator"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <me.ghui.v2er.widget.richtext.HackyTextView
         android:id="@+id/reply_content_tv"
         style="@style/BodyText"
         android:layout_width="0dp"
@@ -28,6 +28,7 @@
         android:gravity="top"
         app:layout_constraintLeft_toRightOf="@id/point_img"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         tools:text="被逼去掉了外外接屏幕 外接屏幕 外接屏幕 接屏幕 哎000000" />
 
     <TextView

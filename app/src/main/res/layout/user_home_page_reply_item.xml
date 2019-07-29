@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:background="#80555555" />
 
-        <TextView
+        <me.ghui.v2er.widget.richtext.HackyTextView
             android:id="@+id/reply_content_tv"
             style="@style/BodyText"
             android:layout_width="match_parent"
