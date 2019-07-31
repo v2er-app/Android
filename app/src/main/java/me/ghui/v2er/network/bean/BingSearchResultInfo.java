@@ -57,6 +57,9 @@ public class BingSearchResultInfo extends BaseInfo {
         }
 
         public String getContent() {
+            if (Check.isEmpty(content)) {
+                return "";
+            }
             content = content.replace("移动版", "");
             return content;
         }
