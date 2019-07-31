@@ -34,6 +34,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.sentry.Sentry;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
@@ -828,6 +829,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         CharSequence text = mReplyEt.getText();
         if (Check.isEmpty(text)) {
             toast("回复不能为空");
+            return;
+        }
+        if (mTopicInfo == null) {
+            toast("页面加载失败");
             return;
         }
         mPresenter.replyTopic(mTopicId, mTopicInfo.toReplyMap(text.toString()));
