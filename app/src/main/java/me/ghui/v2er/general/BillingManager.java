@@ -16,6 +16,7 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -125,21 +126,23 @@ public class BillingManager implements PurchasesUpdatedListener {
         Runnable checkTask = () -> Observable.just(mBillingClient.queryPurchases(SKU_TYPE))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                            boolean isPro = result.getResponseCode() == BillingClient.BillingResponse.OK &&
-                                    Check.notEmpty(result.getPurchasesList())
-                                    && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
-                            UserUtils.savePro(isPro);
-                            L.e("checkIsProAsyc, isPro: " + isPro);
-                            if (isPro) {
-                                Prefs.with(App.get()).writeLong(LAST_CHECK_TIME, System.currentTimeMillis());
-                            }
-                            if (listener != null) {
-                                listener.onResult(isPro);
-                            }
-                            mBillingClient.endConnection();
+                .subscribe(new BaseConsumer<Purchase.PurchasesResult>() {
+                    @Override
+                    public void onConsume(Purchase.PurchasesResult result) {
+                        boolean isPro = result.getResponseCode() == BillingClient.BillingResponse.OK &&
+                                Check.notEmpty(result.getPurchasesList())
+                                && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
+                        UserUtils.savePro(isPro);
+                        L.e("checkIsProAsyc, isPro: " + isPro);
+                        if (isPro) {
+                            Prefs.with(App.get()).writeLong(LAST_CHECK_TIME, System.currentTimeMillis());
                         }
-                );
+                        if (listener != null) {
+                            listener.onResult(isPro);
+                        }
+                        mBillingClient.endConnection();
+                    }
+                });
         startServiceConnectionIfNeeded(false, checkTask);
     }
 

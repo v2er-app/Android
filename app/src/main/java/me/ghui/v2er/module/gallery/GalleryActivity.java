@@ -26,6 +26,7 @@ import me.ghui.v2er.general.GlideRequest;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.FileUtils;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.Utils;
@@ -148,12 +149,15 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                 Observable.just(file)
                         .compose(RxUtils.io_main())
                         .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(getCurrentImage())))
-                        .subscribe(path -> {
-                            if (Check.notEmpty(path)) {
-                                MediaScannerConnection.scanFile(GalleryActivity.this, new String[]{path}, null, null);
-                                Voast.show("保存成功");
-                            } else {
-                                Voast.show("保存失败");
+                        .subscribe(new BaseConsumer<String>() {
+                            @Override
+                            public void onConsume(String path) {
+                                if (Check.notEmpty(path)) {
+                                    MediaScannerConnection.scanFile(GalleryActivity.this, new String[]{path}, null, null);
+                                    Voast.show("保存成功");
+                                } else {
+                                    Voast.show("保存失败");
+                                }
                             }
                         });
             }

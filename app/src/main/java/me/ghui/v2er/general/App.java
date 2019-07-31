@@ -13,6 +13,7 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import io.reactivex.plugins.RxJavaPlugins;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import io.sentry.event.User;
@@ -22,7 +23,9 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -47,12 +50,20 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
+        rxjava();
         initLogger();
         BillingManager.get().checkIsProAsyc();
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.setDefaultValues(this, R.xml.auto_switch_daynight, false);
         APIService.init();
         initThirdPartySDK();
+    }
+
+    private void rxjava() {
+        RxJavaPlugins.setErrorHandler(e -> {
+            L.e("globalHandler: " + e.getMessage());
+            Sentry.capture(e);
+        });
     }
 
     private void initLogger() {

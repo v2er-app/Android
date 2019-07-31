@@ -35,6 +35,7 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.L;
@@ -202,12 +203,16 @@ public class HtmlView extends WebView {
                                                 }
                                             }
                                             return "file://" + directory + File.separator + name;
-                                        }).subscribe(localPath -> {
-                                    L.d("reload image: " + localPath);
-                                    String encodeUrl = URLEncoder.encode(url);
-                                    String js = "javascript:reloadImg(" + "'" + encodeUrl + "'" + "," + "'" + localPath + "'" + ");";
-                                    HtmlView.this.loadUrl(js);
-                                });
+                                        })
+                                        .subscribe(new BaseConsumer<String>() {
+                                            @Override
+                                            public void onConsume(String localPath) {
+                                                L.d("reload image: " + localPath);
+                                                String encodeUrl = URLEncoder.encode(url);
+                                                String js = "javascript:reloadImg(" + "'" + encodeUrl + "'" + "," + "'" + localPath + "'" + ");";
+                                                HtmlView.this.loadUrl(js);
+                                            }
+                                        });
                                 return false;
                             }
                         }).submit();

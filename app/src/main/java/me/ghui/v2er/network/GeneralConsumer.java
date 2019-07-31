@@ -61,29 +61,31 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                         // 31/07/2017 More tries...
                         return resultInfo;
                     })
-                    .subscribe(resultInfo -> {
-                        if (resultInfo == null || !resultInfo.isValid()) {
-                            onError(generalError);
-                            return;
-                        }
-                        if (resultInfo instanceof LoginParam) {
-                            if (UserUtils.isLogin()) {
-                                generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
-                                generalError.setMessage("登录已过期，请重新登");
-                            } else {
-                                generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
-                                generalError.setMessage("需要您先去登录");
+                    .subscribe(new BaseConsumer<BaseInfo>() {
+                        @Override
+                        public void onConsume(BaseInfo resultInfo) {
+                            if (resultInfo == null || !resultInfo.isValid()) {
+                                onError(generalError);
+                                return;
                             }
-                        } else if (resultInfo instanceof NewsInfo) {
-                            generalError.setErrorCode(ResultCode.REDIRECT_TO_HOME);
-                            generalError.setMessage("Redirecting to home");
-                        } else if (resultInfo instanceof TwoStepLoginInfo) {
-                            generalError.setErrorCode(ResultCode.LOGIN_TWO_STEP);
-                            generalError.setMessage("Two Step Login");
+                            if (resultInfo instanceof LoginParam) {
+                                if (UserUtils.isLogin()) {
+                                    generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
+                                    generalError.setMessage("登录已过期，请重新登");
+                                } else {
+                                    generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
+                                    generalError.setMessage("需要您先去登录");
+                                }
+                            } else if (resultInfo instanceof NewsInfo) {
+                                generalError.setErrorCode(ResultCode.REDIRECT_TO_HOME);
+                                generalError.setMessage("Redirecting to home");
+                            } else if (resultInfo instanceof TwoStepLoginInfo) {
+                                generalError.setErrorCode(ResultCode.LOGIN_TWO_STEP);
+                                generalError.setMessage("Two Step Login");
+                            }
+                            onError(generalError);
                         }
-                        onError(generalError);
                     });
-
         }
     }
 
