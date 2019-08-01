@@ -761,6 +761,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void afterStarTopic(TopicInfo topicInfo) {
+        if (mTopicInfo == null) {
+            Sentry.capture("afterStarTopic.mTopicID: " + mTopicId);
+            toast("收藏遇到问题");
+            return;
+        }
         mTopicInfo.getHeaderInfo().setFavoriteLink(topicInfo.getHeaderInfo().getFavoriteLink());
         updateStarStatus(mTopicInfo.getHeaderInfo().hadStared(), true);
         toast("收藏成功");
