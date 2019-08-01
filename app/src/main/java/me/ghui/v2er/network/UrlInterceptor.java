@@ -1,5 +1,6 @@
 package me.ghui.v2er.network;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.net.Uri;
 import android.support.customtabs.CustomTabsIntent;
@@ -7,6 +8,7 @@ import android.support.customtabs.CustomTabsIntent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import io.sentry.Sentry;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
@@ -79,7 +81,12 @@ public class UrlInterceptor {
                     .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
                     .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
                     .build();
-            customTabsIntent.launchUrl(context, Uri.parse(url));
+            try {
+                customTabsIntent.launchUrl(context, Uri.parse(url));
+            } catch (ActivityNotFoundException e) {
+                Sentry.capture(e);
+                WapActivity.open(url, context, true);
+            }
             return true;
         }
 
