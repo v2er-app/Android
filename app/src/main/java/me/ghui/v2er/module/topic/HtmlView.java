@@ -30,6 +30,7 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Assets;
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
@@ -113,6 +114,9 @@ public class HtmlView extends WebView {
         Elements es = doc.getElementsByTag("img");
         for (Element e : es) {
             String imgUrl = UriUtils.checkSchema(e.attr("src"));
+            if (Check.isEmpty(imgUrl)) {
+                continue;
+            }
             mImgs.add(imgUrl);
             e.attr("original_src", imgUrl);
             e.attr("src", "file:///android_asset/html/image_holder_loading.gif");
