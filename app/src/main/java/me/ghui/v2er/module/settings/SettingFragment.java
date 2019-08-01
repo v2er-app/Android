@@ -154,16 +154,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .negativeText("暂不")
                     .build().show();
         } else if (key.equals(getString(R.string.pref_key_contact))) {
-            new ConfirmDialog.Builder(getActivity())
-                    .title("联系开发者")
-                    .msg("建议先阅读常见问题")
-                    .positiveText("常见问题", dialog -> {
-                        startActivity(new Intent(getContext(), UserManualActivity.class));
-                    })
-                    .negativeText("联系", (BaseDialog dialog) -> {
-                        Navigator.from(getContext()).to(Page.CONTACT).start();
-                    })
-                    .build().show();
+            Navigator.from(getContext()).to(Page.CONTACT).start();
         }
         return false;
     }

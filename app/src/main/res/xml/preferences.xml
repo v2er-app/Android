@@ -109,7 +109,7 @@
         <Preference
             android:key="@string/pref_key_rate"
             android:layout="@layout/preference_item"
-            android:title="给我评价" />
+            android:title="打分" />
         <Preference
             android:key="@string/pref_key_contact"
             android:layout="@layout/preference_item"
