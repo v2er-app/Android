@@ -282,7 +282,7 @@ public class Utils {
                 .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
                 .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
                 .build();
-        customTabsIntent.intent.setPackage(PkgUtils.getDefaultBrowser());
+        customTabsIntent.intent.setSelector(PkgUtils.getBrowserIntentExcludeV2er());
         customTabsIntent.launchUrl(context, Uri.parse(url));
     }
 

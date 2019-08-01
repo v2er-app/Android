@@ -17,7 +17,7 @@ import static android.content.pm.PackageManager.MATCH_DEFAULT_ONLY;
  */
 
 public class PkgUtils {
-    public static String getDefaultAppFor(@NonNull String uri) {
+    private static String getDefaultAppFor(@NonNull String uri) {
         if (Check.isEmpty(uri)) {
             throw new IllegalArgumentException("uri cannot be null");
         }
@@ -30,4 +30,9 @@ public class PkgUtils {
     public static String getDefaultBrowser() {
         return getDefaultAppFor("https://www.google.com/");
     }
+
+    public static Intent getBrowserIntentExcludeV2er() {
+        return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com/"));
+    }
+
 }
