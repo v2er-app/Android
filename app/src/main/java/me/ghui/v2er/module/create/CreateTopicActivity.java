@@ -156,8 +156,12 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         fillView(createTopicPageInfo);
         CreateTopicPageInfo.Problem problem = createTopicPageInfo.getProblem();
         String msg = "";
-        for (String tip : problem.getTips()) {
-            msg = msg + tip + "\n";
+        if (problem == null) {
+            msg = "发贴失败";
+        } else {
+            for (String tip : problem.getTips()) {
+                msg = msg + tip + "\n";
+            }
         }
         new ConfirmDialog.Builder(getActivity())
                 .title(problem.getTitle())
