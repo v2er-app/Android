@@ -146,6 +146,7 @@ public class TopicInfo extends BaseInfo {
 
     @Override
     public boolean isValid() {
+        if (headerInfo == null) return false;
         return headerInfo.isValid();
     }
 
