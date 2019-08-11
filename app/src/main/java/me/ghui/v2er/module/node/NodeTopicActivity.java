@@ -444,8 +444,8 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())
                 .commentNum(item.getCommentNum())
                 .author(item.getUserName())
-                .tag(mNodeInfo.getTitle())
-                .tagLink(mNodeInfo.getUrl())
+                .tag(mNodeInfo == null ? "" : mNodeInfo.getTitle())
+                .tagLink(mNodeInfo == null ? "" : mNodeInfo.getUrl())
                 .build();
         TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.avatar_img), basicInfo);
     }
