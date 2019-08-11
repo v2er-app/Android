@@ -3,6 +3,7 @@ package me.ghui.v2er.module.topic;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import io.sentry.Sentry;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.DailyInfo;
@@ -87,6 +88,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
+                        if (topicInfo == null) {
+                            Sentry.capture("afterStarTopic.mTopicID: " + topicId + ", t: " + t);
+                        }
                         mView.afterStarTopic(topicInfo);
                     }
                 });
