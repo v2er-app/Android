@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import io.sentry.Sentry;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
@@ -161,7 +162,11 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                     Utils.toggleKeyboard(true, mSearchEt);
                 }
             });
-            mSearchRootView.animate().alpha(1f).start();
+            if (mSearchRootView.isAttachedToWindow()) {
+                mSearchRootView.animate().alpha(1f).start();
+            } else {
+                Sentry.capture("mSearchRootView is Detached");
+            }
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,
                     mCardView.getWidth() - mClearBtn.getWidth() / 2,
