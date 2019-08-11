@@ -520,7 +520,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
                 finish();
             }).build().show();
         } else if (generalError.getErrorCode() == ResultCode.LOGIN_TWO_STEP) {
-            // TODO: 2019-08-11 two step may enter  handleNotLoginError
             String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();
             TwoStepLoginActivity.open(once, getActivity());
         } else {
