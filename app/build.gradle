@@ -11,6 +11,7 @@ android {
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
         release {
