@@ -91,13 +91,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         toolBar.inflateMenu(R.menu.login_toolbar_menu);
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_register) {
-                Utils.openWap(Constants.BASE_URL + "/signup?r=ghui", this);
+                Utils.openInBrowser(Constants.BASE_URL + "/signup?r=ghui", this);
             } else if (item.getItemId() == R.id.action_forgot_psw) {
-                Utils.openWap(Constants.BASE_URL + "/forgot", this);
+                Utils.openInBrowser(Constants.BASE_URL + "/forgot", this);
             } else if (item.getItemId() == R.id.action_faq) {
                 Navigator.from(this).to(UserManualActivity.class).start();
             } else if (item.getItemId() == R.id.action_about) {
-                Utils.openWap(Constants.BASE_URL + "/about", this);
+                Utils.openInBrowser(Constants.BASE_URL + "/about", this);
             }
             return true;
         });

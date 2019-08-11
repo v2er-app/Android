@@ -82,7 +82,7 @@ public class WapActivity extends BaseActivity {
     }
 
     protected void configWebView(WebSettings settings) {
-        settings.setJavaScriptEnabled(true);
+//        settings.setJavaScriptEnabled(true);
     }
 
     @Override
