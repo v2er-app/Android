@@ -72,7 +72,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                         @Override
                         public void onConsume(BaseInfo resultInfo) {
                             if (resultInfo == null || !resultInfo.isValid()) {
-                                onError(generalError);
+                                onGeneralError(generalError);
                                 return;
                             }
                             if (resultInfo instanceof LoginParam) {
@@ -90,13 +90,22 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                                 generalError.setErrorCode(ResultCode.LOGIN_TWO_STEP);
                                 generalError.setMessage("Two Step Login");
                             }
-                            onError(generalError);
+                            onGeneralError(generalError);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            onGeneralError(e);
                         }
                     });
         }
     }
 
     public abstract void onConsume(T t);
+
+    private void onGeneralError(Throwable e) {
+        this.onError(e);
+    }
 
     @Override
     public void onError(Throwable e) {
