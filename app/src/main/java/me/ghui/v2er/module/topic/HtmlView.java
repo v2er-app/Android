@@ -31,6 +31,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Assets;
 import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
@@ -65,7 +66,7 @@ public class HtmlView extends WebView {
     }
 
     private void init() {
-        WebView.setWebContentsDebuggingEnabled(true);
+        WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);

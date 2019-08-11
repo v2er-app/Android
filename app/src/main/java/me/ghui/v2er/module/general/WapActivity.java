@@ -81,7 +81,8 @@ public class WapActivity extends BaseActivity {
         loadUrl(mStartUrl, headers);
     }
 
-    protected void configWebView(WebSettings webSettings) {
+    protected void configWebView(WebSettings settings) {
+        settings.setJavaScriptEnabled(true);
     }
 
     @Override
