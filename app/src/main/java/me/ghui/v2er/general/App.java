@@ -62,7 +62,7 @@ public class App extends Application {
     private void rxjava() {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
-            Sentry.capture(e);
+            Sentry.capture("rxGlobalHandler: " + e);
         });
     }
 

@@ -3,6 +3,7 @@ package me.ghui.v2er.network;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import io.sentry.Sentry;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
@@ -34,6 +35,12 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
 
     @Override
     public void onNext(T t) {
+        if (t == null) {
+            L.e("API RESPONSE: NULL");
+            onError(new Throwable("Unknown Error"));
+            Sentry.capture("GeneralConsumer: t is null");
+            return;
+        }
         L.v("API RESPONSE: \n" + t.toString() + "\n");
         if (t.isValid()) {
             onConsume(t);
