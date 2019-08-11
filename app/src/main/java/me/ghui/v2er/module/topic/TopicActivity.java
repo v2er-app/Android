@@ -600,6 +600,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     private void autoScroll() {
+        // TODO: 2019-08-11 向上滑动帖子调动
         if (!isNeedAutoScroll) return;
         List<TopicInfo.Reply> items = mTopicInfo.getReplies();
         if (Check.isEmpty(items)) return;
@@ -620,7 +621,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         if (isNeedAutoScroll && position > 0) {
             isNeedAutoScroll = false;
             int finalPosition = position;
-            post(() -> {
+            delay(350, () -> {
                 mLinearLayoutManager.scrollToPositionWithOffset(finalPosition, 0);
                 post(() -> {
 //                    if (mLinearLayoutManager.findFirstVisibleItemPosition() == finalPosition)
