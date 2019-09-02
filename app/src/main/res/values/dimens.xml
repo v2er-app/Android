@@ -1,4 +1,5 @@
 <resources>
+    <dimen name="extralargeTextSize">20dp</dimen>
     <dimen name="largeTextSize">18dp</dimen>
     <dimen name="mediumTextSize">16dp</dimen>
     <dimen name="smallTextSize">14dp</dimen>

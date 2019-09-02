@@ -16,6 +16,9 @@ public class FontSizeUtil {
             case "大":
                 id = R.dimen.largeTextSize;
                 break;
+            case "特大":
+                id = R.dimen.extralargeTextSize;
+                break;
             case "中":
             default:
                 id = R.dimen.mediumTextSize;
