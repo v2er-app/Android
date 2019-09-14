@@ -9,7 +9,7 @@
             android:key="@string/pref_key_contact_me_wechat"
             android:layout="@layout/preference_item"
             android:summary="仅V2er高级版用户可见"
-            android:title="Wechat Group" />
+            android:title="微信群" />
         <Preference
             android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"

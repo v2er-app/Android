@@ -9,6 +9,7 @@ import android.widget.ListView;
 
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 
@@ -28,7 +29,12 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         findPreference(R.string.pref_key_contact_me_twitter).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_tg).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_mail).setOnPreferenceClickListener(this);
-        findPreference(R.string.pref_key_contact_me_wechat).setOnPreferenceClickListener(this);
+        Preference wechatgroupItem = findPreference(R.string.pref_key_contact_me_wechat);
+        if (UserUtils.isPro()) {
+            wechatgroupItem.setOnPreferenceClickListener(this);
+        } else {
+            getPreferenceScreen().removePreference(wechatgroupItem);
+        }
     }
 
     @Override
