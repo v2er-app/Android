@@ -103,6 +103,11 @@
             android:summary="更多实用功能并能支持V2er的长期开发"
             android:title="V2er高级版" />
         <Preference
+            android:key="@string/pref_key_v2er_app"
+            android:layout="@layout/preference_item"
+            android:summary="v2er.app"
+            android:title="V2er官网" />
+        <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />

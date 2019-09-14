@@ -141,7 +141,7 @@ public class Utils {
             return false;
         List<PackageInfo> packageInfoList = packageManager.getInstalledPackages(0);
         for (PackageInfo info : packageInfoList) {
-            for (String packageName: packageNames) {
+            for (String packageName : packageNames) {
                 if (info.packageName.equals(packageName))
                     return true;
             }
@@ -239,18 +239,18 @@ public class Utils {
 
     // 跳转至微博个人页
     public static void jumpToWeiboProfileInfo(Context context) {
-            boolean hasWeiboClient = Utils.isAppInstalled("com.weico.international",
-                    "com.hengye.share", "com.sina.weibo");
-            if (hasWeiboClient) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.addCategory(Intent.CATEGORY_DEFAULT);
-                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
-                intent.setData(Uri.parse("sinaweibo://userinfo?uid=3692784380"));
-                App.get().startActivity(intent);
-            } else {
-                Utils.openWap("http://weibo.com/ghuiii", context);
-            }
+        boolean hasWeiboClient = Utils.isAppInstalled("com.weico.international",
+                "com.hengye.share", "com.sina.weibo");
+        if (hasWeiboClient) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_DEFAULT);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.addFlags(FLAG_ACTIVITY_NEW_TASK);
+            intent.setData(Uri.parse("sinaweibo://userinfo?uid=3692784380"));
+            App.get().startActivity(intent);
+        } else {
+            Utils.openWap("http://weibo.com/ghuiii", context);
+        }
     }
 
     public static void jumpToTwitterProfilePage(Context context) {
@@ -275,7 +275,8 @@ public class Utils {
 
     public static void openInBrowser(String url, Context context) {
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
+                .setToolbarColor(context.getColor(
+                        DayNightUtil.isNightMode() ? R.color.colorPrimary_night : R.color.colorPrimary))
                 .enableUrlBarHiding()
                 .setShowTitle(true)
                 .addDefaultShareMenuItem()
@@ -427,7 +428,7 @@ public class Utils {
         clipboard.setPrimaryClip(clip);
     }
 
-        public static void fullScreen(Window window, boolean fullScreen) {
+    public static void fullScreen(Window window, boolean fullScreen) {
         if (fullScreen) {
             window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION

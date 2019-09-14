@@ -59,6 +59,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
+        findPreference(getString(R.string.pref_key_v2er_app)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact)).setOnPreferenceClickListener(this::onPreferenceClick);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
@@ -155,6 +156,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .build().show();
         } else if (key.equals(getString(R.string.pref_key_contact))) {
             Navigator.from(getContext()).to(Page.CONTACT).start();
+        } else if (key.equals(getString(R.string.pref_key_v2er_app))) {
+            Utils.openInBrowser("https://v2er.app", getActivity());
         }
         return false;
     }
