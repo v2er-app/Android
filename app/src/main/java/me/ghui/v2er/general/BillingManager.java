@@ -107,7 +107,9 @@ public class BillingManager implements PurchasesUpdatedListener {
                         L.e("onBillingSetupFinished");
                         runable.run();
                     } else {
-                        Voast.show("与Google Play通信失败，请检查你的网络连接", true);
+                        if (toastError) {
+                            Voast.show("与Google Play通信失败，请检查你的网络连接", true);
+                        }
                     }
                 }
 
