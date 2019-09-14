@@ -6,6 +6,11 @@
     android:divider="@drawable/common_divider"
     android:title="联系">
         <Preference
+            android:key="@string/pref_key_contact_me_wechat"
+            android:layout="@layout/preference_item"
+            android:summary="仅V2er高级版用户可见"
+            android:title="Wechat Group" />
+        <Preference
             android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"
             android:summary="\@ghuizh"
