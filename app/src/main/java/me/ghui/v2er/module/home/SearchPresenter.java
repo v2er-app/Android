@@ -35,7 +35,7 @@ public class SearchPresenter implements SearchContract.IPresenter {
     public void search(String query, int page) {
         int first = (page - 1) * 10 + 1;
         mUriBuilder.clearQuery();
-        query += " site:v2ex.com";
+        query += " site:v2ex.com/t";
         mUriBuilder.appendQueryParameter("q", query);
         mUriBuilder.appendQueryParameter("first", String.valueOf(first));
         L.d("bing Search: " + mUriBuilder.build().toString());
