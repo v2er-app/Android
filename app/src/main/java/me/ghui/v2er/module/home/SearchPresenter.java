@@ -44,6 +44,7 @@ public class SearchPresenter implements SearchContract.IPresenter {
                 .subscribe(new GeneralConsumer<BingSearchResultInfo>() {
                     @Override
                     public void onConsume(BingSearchResultInfo bingSearchResultInfo) {
+                        // TODO: 2019-10-04 bingSearchResultInfo is null stm
                         mView.fillView(bingSearchResultInfo, page > 1);
                     }
                 });
