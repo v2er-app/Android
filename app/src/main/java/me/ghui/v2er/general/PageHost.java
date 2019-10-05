@@ -28,7 +28,7 @@ public class PageHost extends BaseActivity {
         }
         getFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, getFragment(mPage))
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     @Override

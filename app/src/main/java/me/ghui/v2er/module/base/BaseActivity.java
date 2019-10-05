@@ -212,7 +212,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         getSupportFragmentManager().beginTransaction()
                 .add(mRootView.getId(), fragment)
                 .addToBackStack(null)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     /**
@@ -223,7 +223,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     public void addFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .add(mRootView.getId(), fragment)
-                .commit();
+                .commitAllowingStateLoss();
     }
 
     /**
