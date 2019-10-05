@@ -125,8 +125,8 @@ public class NewsInfo extends BaseInfo {
         }
 
         public String getTime() {
-            if (!Check.isEmpty(time)) {
-                return time.split("•")[0];
+            if (!Check.isEmpty(time) && time.contains("•")) {
+                time = time.split("•")[0];
             }
             return time;
         }

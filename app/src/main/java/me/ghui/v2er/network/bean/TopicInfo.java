@@ -113,6 +113,7 @@ public class TopicInfo extends BaseInfo {
 
     /**
      * replies是否已经reversed
+     *
      * @return
      */
     private boolean hasReversed() {
@@ -244,6 +245,7 @@ public class TopicInfo extends BaseInfo {
         private String thankedText;// 感谢已发送
         @Pick("div.box div.inner div#topic_thank")
         private String canSendThanksText;
+        private String computedTime;
 
         public HeaderInfo() {
         }
@@ -327,11 +329,17 @@ public class TopicInfo extends BaseInfo {
 
         public String getTime() {
             try {
-                return time.split(",")[0].trim().substring(6).replaceAll(" ", "").trim();
+                if (Check.isEmpty(computedTime) && Check.notEmpty(time) && time.contains(",")) {
+                    computedTime = time.split(",")[0].trim().substring(6).replaceAll(" ", "").trim();
+                    if (computedTime.contains("-") && computedTime.contains("+")) {
+                        computedTime = computedTime.substring(0, 10);
+                    }
+                }
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
             }
+            return computedTime;
         }
 
         public int getViewCount() {
