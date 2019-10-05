@@ -2,10 +2,13 @@ package me.ghui.v2er.module.home;
 
 import android.net.Uri;
 
+import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.util.L;
+import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -17,11 +20,13 @@ public class SearchPresenter implements SearchContract.IPresenter {
 
     private SearchContract.IView mView;
     private Uri.Builder mUriBuilder;
+    // 是否已经尝试过一次, 个别情况下第一次bing搜索会出现搜索结果为空的情况
+    private boolean mTried = false;
 
     public SearchPresenter(SearchContract.IView view) {
         mView = view;
         mUriBuilder = new Uri.Builder();
-        mUriBuilder.scheme("http")
+        mUriBuilder.scheme("https")
                 .authority("cn.bing.com")
                 .appendPath("search");
     }
@@ -45,7 +50,14 @@ public class SearchPresenter implements SearchContract.IPresenter {
                     @Override
                     public void onConsume(BingSearchResultInfo bingSearchResultInfo) {
                         // TODO: 2019-10-04 bingSearchResultInfo is null stm
-                        mView.fillView(bingSearchResultInfo, page > 1);
+                        if (Check.isEmpty(bingSearchResultInfo.getItems()) && !mTried && page == 1) {
+                            // try it once
+                            mTried = true;
+                            Voast.debug("BingSearch result is null, try again");
+                            start();
+                        } else {
+                            mView.fillView(bingSearchResultInfo, page > 1);
+                        }
                     }
                 });
 

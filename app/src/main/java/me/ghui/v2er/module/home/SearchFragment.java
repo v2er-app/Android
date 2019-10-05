@@ -99,6 +99,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                 mResultRecyV.getLayoutManager().scrollToPosition(0);
                 mPresenter.start();
                 Utils.toggleKeyboard(false, mSearchEt);
+                mSearchEt.clearFocus();
                 return true;
             }
             return false;
