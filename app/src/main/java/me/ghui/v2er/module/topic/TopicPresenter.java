@@ -65,10 +65,10 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public void thxCreator(String id, String t) {
+    public void thxCreator(String id, String once) {
         if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
 
-        APIService.get().thxCreator(id, t)
+        APIService.get().thxCreator(id, once)
                 .flatMap(simpleInfo -> APIService.get().thxMoney())
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<ThxResponseInfo>(mView) {

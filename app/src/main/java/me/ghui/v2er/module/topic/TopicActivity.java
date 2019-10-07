@@ -245,7 +245,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                         return true;
                     }
                     if (!headerInfo.hadThanked()) {
-                        mPresenter.thxCreator(mTopicId, headerInfo.getT());
+                        mPresenter.thxCreator(mTopicId, getOnce());
                     } else {
                         toast(R.string.already_thx_cannot_return);
                         return true;

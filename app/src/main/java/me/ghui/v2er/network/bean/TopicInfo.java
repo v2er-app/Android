@@ -241,7 +241,7 @@ public class TopicInfo extends BaseInfo {
         private String title;
         @Pick(value = "div.box a[href*=favorite/]", attr = Attrs.HREF)
         private String favoriteLink;
-        @Pick("div.box div[id=topic_thank] span.f11.gray")
+        @Pick("div.box div[id=topic_thank]")
         private String thankedText;// 感谢已发送
         @Pick("div.box div.inner div#topic_thank")
         private String canSendThanksText;

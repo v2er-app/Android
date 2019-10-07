@@ -120,7 +120,7 @@ public interface APIs {
 
     @Html
     @POST("/thank/topic/{id}")
-    Observable<SimpleInfo> thxCreator(@Path("id") String id, @Query("t") String t);
+    Observable<SimpleInfo> thxCreator(@Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/ajax/money")
