@@ -29,10 +29,11 @@ public class UriUtils {
     public static String checkSchema(String url) {
         if (Check.isEmpty(url)) return null;
         if (!url.startsWith("http") && !url.startsWith("https")) {
+            String schema = url.contains("i.v2ex.co") ? "https" : "http";
             if (url.startsWith("//")) {
-                url = "http:" + url;
+                url = schema + ":" + url;
             } else {
-                url = "http://" + url;
+                url = schema + "://" + url;
             }
         }
         return url;
