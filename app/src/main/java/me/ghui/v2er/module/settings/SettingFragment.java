@@ -51,19 +51,19 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
         Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
         updatePrefItem.setOnPreferenceClickListener(this);
-        updatePrefItem.setSummary("当前版本 " + Utils.getVersionName());
+        updatePrefItem.setSummary("Version " + Utils.getVersionName());
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_rate)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_v2er_app)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_contact)).setOnPreferenceClickListener(this::onPreferenceClick);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_contact_me_twitter)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_contact_me_tg)).setOnPreferenceClickListener(this);
 
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
         fontItem.setSummary(fontItem.getValue());
@@ -158,6 +158,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Navigator.from(getContext()).to(Page.CONTACT).start();
         } else if (key.equals(getString(R.string.pref_key_v2er_app))) {
             Utils.openInBrowser("https://v2er.app", getActivity());
+        } else if (key.equals(getString(R.string.pref_key_contact_me_twitter))) {
+            Utils.jumpToTwitterProfilePage(getActivity());
+        } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
+            Utils.openWap("https://t.me/v2er_app", getActivity());
         }
         return false;
     }

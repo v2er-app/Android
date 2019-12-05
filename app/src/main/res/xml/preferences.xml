@@ -96,30 +96,35 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
+        android:title="联系">
+        <Preference
+            android:key="@string/pref_key_contact_me_twitter"
+            android:layout="@layout/preference_item"
+            android:summary="\@sethcreate"
+            android:title="Twitter" />
+        <Preference
+            android:key="@string/pref_key_contact_me_tg"
+            android:layout="@layout/preference_item"
+            android:summary="\v2er_app"
+            android:title="Telegram Group" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="其它">
         <Preference
             android:key="@string/pref_key_v2er_pro"
             android:layout="@layout/preference_item"
-            android:summary="更多实用功能并能支持V2er的长期开发"
-            android:title="V2er高级版" />
+            android:summary="V2er因为你的支持而在变好"
+            android:title="V2er Pro" />
         <Preference
             android:key="@string/pref_key_v2er_app"
             android:layout="@layout/preference_item"
-            android:summary="v2er.app"
-            android:title="V2er官网" />
+            android:summary="https://v2er.app"
+            android:title="v2er.app" />
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />
-        <Preference
-            android:key="@string/pref_key_rate"
-            android:layout="@layout/preference_item"
-            android:title="打分" />
-        <Preference
-            android:key="@string/pref_key_contact"
-            android:layout="@layout/preference_item"
-            android:summary="反馈或吐槽"
-            android:title="联系开发者" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"

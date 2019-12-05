@@ -6,14 +6,9 @@
     android:divider="@drawable/common_divider"
     android:title="联系">
         <Preference
-            android:key="@string/pref_key_contact_me_wechat"
-            android:layout="@layout/preference_item"
-            android:summary="仅V2er高级版用户可见"
-            android:title="微信群" />
-        <Preference
             android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"
-            android:summary="\@ghuizh"
+            android:summary="\@sethcreate"
             android:title="Twitter" />
         <Preference
             android:key="@string/pref_key_contact_me_tg"
@@ -21,8 +16,8 @@
             android:summary="\v2er_app"
             android:title="Telegram Group" />
         <Preference
-            android:key="@string/pref_key_contact_me_mail"
+            android:key="@string/pref_key_contact_me_wechat"
             android:layout="@layout/preference_item"
-            android:summary="@string/feedback_email"
-            android:title="Email" />
+            android:summary="仅V2er高级版用户可见"
+            android:title="微信群" />
 </PreferenceScreen>

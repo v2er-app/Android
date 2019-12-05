@@ -28,7 +28,6 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         this.addPreferencesFromResource(R.xml.contact_preferences);
         findPreference(R.string.pref_key_contact_me_twitter).setOnPreferenceClickListener(this);
         findPreference(R.string.pref_key_contact_me_tg).setOnPreferenceClickListener(this);
-        findPreference(R.string.pref_key_contact_me_mail).setOnPreferenceClickListener(this);
         Preference wechatgroupItem = findPreference(R.string.pref_key_contact_me_wechat);
         if (UserUtils.isPro()) {
             wechatgroupItem.setOnPreferenceClickListener(this);

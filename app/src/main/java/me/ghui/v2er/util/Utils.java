@@ -258,10 +258,10 @@ public class Utils {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.addCategory(Intent.CATEGORY_DEFAULT);
             intent.addCategory(Intent.CATEGORY_BROWSABLE);
-            intent.setData(Uri.parse("twitter://user?screen_name=ghuizh"));
+            intent.setData(Uri.parse("twitter://user?screen_name=sethcreate"));
             context.startActivity(intent);
         } else {
-            Utils.openWap("https://mobile.twitter.com/ghuizh", context);
+            Utils.openWap("https://mobile.twitter.com/sethcreate", context);
         }
     }
 
