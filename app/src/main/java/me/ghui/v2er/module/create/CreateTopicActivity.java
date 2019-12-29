@@ -25,6 +25,7 @@ import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
 import me.ghui.v2er.network.bean.NewUserBannedCreateInfo;
+import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -36,7 +37,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPresenter> implements CreateTopicContract.IView,
         Toolbar.OnMenuItemClickListener, NodeSelectFragment.OnSelectedListener {
-
     @BindView(R.id.create_topic_title_layout)
     TextInputLayout mTitleTextInputLayout;
     @BindView(R.id.create_topic_title_et)
@@ -48,12 +48,14 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     @BindView(R.id.create_topic_node_tv)
     TextView mNodeTv;
     private CreateTopicPageInfo mTopicPageInfo;
-    private CreateTopicPageInfo.BaseNode mSelectNode;
+    private NodesInfo mNodesInfo;
+    private NodesInfo.Node mSelectNode;
 
     private static final String KEY_TITLE = KEY("topic_title");
     private static final String KEY_CONTENT = KEY("topic_content");
     private static final String KEY_TOPIC_SELECT_NODE = KEY("topic_select_node");
     private static final String KEY_CREATE_TOPIC_INFO = KEY("create_topic_info");
+    private static final String KEY_NODES_INFO = KEY("key_nodes_info");
 
     @Override
     protected int attachLayoutRes() {
@@ -72,18 +74,20 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         Intent intent = getIntent();
         mTitleEt.setText(intent.getStringExtra(KEY_TITLE));
         mContentEt.setText(intent.getStringExtra(KEY_CONTENT));
-        mSelectNode = (CreateTopicPageInfo.BaseNode) intent.getSerializableExtra(KEY_TOPIC_SELECT_NODE);
+        mSelectNode = (NodesInfo.Node) intent.getSerializableExtra(KEY_TOPIC_SELECT_NODE);
         if (mSelectNode != null) {
-            mNodeTv.setText(mSelectNode.getTitle());
+            mNodeTv.setText(mSelectNode.text);
         }
         mTopicPageInfo = (CreateTopicPageInfo) intent.getSerializableExtra(KEY_CREATE_TOPIC_INFO);
-        mPresenter.restoreData(mTopicPageInfo);
+        mNodesInfo = (NodesInfo) intent.getSerializableExtra(KEY_NODES_INFO);
+        mPresenter.restoreData(mTopicPageInfo, mNodesInfo);
     }
 
     @Override
     protected void reloadMode(int mode) {
         ColorModeReloader.target(this)
                 .putExtra(KEY_CREATE_TOPIC_INFO, mTopicPageInfo)
+                .putExtra(KEY_NODES_INFO, mNodesInfo)
                 .putExtra(KEY_TITLE, mTitleEt.getText().toString())
                 .putExtra(KEY_CONTENT, mContentEt.getText().toString())
                 .putExtra(KEY_TOPIC_SELECT_NODE, mSelectNode)
@@ -116,12 +120,12 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     mTitleTextInputLayout.setError("请输入标题");
                     return false;
                 }
-                if (mSelectNode == null || Check.isEmpty(mSelectNode.getId())) {
+                if (mSelectNode == null || Check.isEmpty(mSelectNode.id)) {
                     Toast.makeText(this, "请选择一个节点", Toast.LENGTH_SHORT).show();
                     return false;
                 }
                 String content = mContentEt.getText().toString();
-                mPresenter.sendPost(title, content, mSelectNode.getId());
+                mPresenter.sendPost(title, content, mSelectNode.id);
                 return true;
         }
         return false;
@@ -134,7 +138,8 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
             return;
         }
         view.setClickable(false);
-        NodeSelectFragment.newInstance(mTopicPageInfo).show(getFragmentManager(), null);
+        // TODO: 2019-12-28  NodesInfo
+        NodeSelectFragment.newInstance(mPresenter.getNodes()).show(getFragmentManager(), null);
         view.setClickable(true);
     }
 
@@ -171,9 +176,9 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @Override
-    public void onSelected(CreateTopicPageInfo.BaseNode node) {
+    public void onSelected(NodesInfo.Node node) {
         mSelectNode = node;
-        mNodeTv.setText(node.getTitle());
+        mNodeTv.setText(node.text);
     }
 
     @Override

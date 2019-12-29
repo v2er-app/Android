@@ -4,8 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -21,42 +24,13 @@ import me.ghui.toolbox.android.Check;
 public class CreateTopicPageInfo extends BaseInfo {
     @Pick(value = "input[name=once]", attr = "value")
     private String once;
-    @Pick("a.node")
-    private List<HotNode> hotNodes;
-    @Pick("select[id=nodes] option[value]")
-    private List<Node> nodes;
-    private List<BaseNode> allNodes;
+    @Pick(value = "a.node")
+    private List<HotTitle> hotNodesText;
     @Pick("div.problem")
     private Problem problem;
 
     public Problem getProblem() {
         return problem;
-    }
-
-    /**
-     * reutrn all nodes include hot nodes
-     *
-     * @return
-     */
-    public List<BaseNode> getNodes() {
-        if (Check.isEmpty(allNodes)) {
-            allNodes = new ArrayList<>();
-        } else {
-            allNodes.clear();
-        }
-        allNodes.addAll(hotNodes);
-        allNodes.addAll(nodes);
-        addAdditonalNode();
-        return allNodes;
-    }
-
-    private void addAdditonalNode() {
-        allNodes.add(new Node("沙盒 / sandbox"));
-        allNodes.add(new Node("二手交易 / all4all"));
-        allNodes.add(new Node("物物交换 / exchange"));
-        allNodes.add(new Node("免费赠送 / free"));
-        allNodes.add(new Node("团购 / tuan"));
-        // TODO: 15/10/2017
     }
 
     public Map<String, String> toPostMap(String title, String content, String nodeId) {
@@ -72,148 +46,31 @@ public class CreateTopicPageInfo extends BaseInfo {
     public String toString() {
         return "CreateTopicPageInfo{" +
                 "once='" + once + '\'' +
-                ", nodes=" + nodes +
-                ", hotNodes=" + hotNodes +
+                ", hotNodes=" + hotNodesText +
                 '}';
     }
 
     @Override
     public boolean isValid() {
-        return Check.notEmpty(once) && Check.notEmpty(nodes);
+        return Check.notEmpty(once);
     }
 
-    public interface BaseNode extends Parcelable, Serializable {
-        String getTitle();
+    private LinkedHashSet<String> hotIds;
 
-        String getId();
+    public LinkedHashSet<String> getHotNodeIds() {
+        if (hotIds != null) return hotIds;
+        hotIds = new LinkedHashSet<>();
+        for (HotTitle hotTitle : hotNodesText) {
+            String idText = hotTitle.href;
+            String id = idText.substring(idText.indexOf("'") + 1, idText.lastIndexOf("'"));
+            hotIds.add(id);
+        }
+        return hotIds;
     }
 
-    public static class HotNode implements BaseNode {
-        public static final Creator<HotNode> CREATOR = new Creator<HotNode>() {
-            @Override
-            public HotNode createFromParcel(Parcel in) {
-                return new HotNode(in);
-            }
-
-            @Override
-            public HotNode[] newArray(int size) {
-                return new HotNode[size];
-            }
-        };
-        @Pick
-        private String title;
+    public static class HotTitle implements Serializable {
         @Pick(attr = Attrs.HREF)
-        private String idText;
-
-        public HotNode() {
-
-        }
-
-        protected HotNode(Parcel in) {
-            title = in.readString();
-            idText = in.readString();
-        }
-
-        @Override
-        public String getTitle() {
-            return title;
-        }
-
-        @Override
-        public String getId() {
-            // "javascript:chooseNode('macos')"
-            try {
-                return idText.substring(idText.indexOf("'") + 1, idText.lastIndexOf("'"));
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(title);
-            dest.writeString(idText);
-        }
-
-        @Override
-        public String toString() {
-            return "HotNode{" +
-                    "title='" + title + '\'' +
-                    ", idText='" + idText + '\'' +
-                    '}';
-        }
-    }
-
-    //浏览器 / browsers
-    public static class Node implements BaseNode {
-        public static final Creator<Node> CREATOR = new Creator<Node>() {
-            @Override
-            public Node createFromParcel(Parcel in) {
-                return new Node(in);
-            }
-
-            @Override
-            public Node[] newArray(int size) {
-                return new Node[size];
-            }
-        };
-        @Pick("option")
-        private String titleAndId;
-
-        public Node() {
-        }
-
-        public Node(String titleAndId) {
-            this.titleAndId = titleAndId;
-        }
-
-        protected Node(Parcel in) {
-            titleAndId = in.readString();
-        }
-
-        @Override
-        public String getTitle() {
-            try {
-                return titleAndId.split("/")[0].trim();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        public String getId() {
-            try {
-                return titleAndId.split("/")[1].trim();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(titleAndId);
-        }
-
-        @Override
-        public String toString() {
-            return "Node{" +
-                    "titleAndId='" + titleAndId + '\'' +
-                    '}';
-        }
+        public String href;
     }
 
     public static class Problem implements Serializable {

@@ -16,6 +16,7 @@ import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeStarInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
+import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
@@ -113,6 +114,10 @@ public interface APIs {
     @FormUrlEncoded
     @POST("/new")
     Observable<TopicInfo> postTopic(@FieldMap Map<String, String> postParams);
+
+    @Json
+    @GET("/api/nodes/s2.json")
+    Observable<NodesInfo> nodes();
 
     @Html
     @POST("/thank/reply/{id}")

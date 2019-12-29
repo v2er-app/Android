@@ -30,6 +30,7 @@ import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
+import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
@@ -49,11 +50,11 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
     BaseRecyclerView mBaseRecyclerView;
 
     private FilterAdapter mAdapter;
-    private List<CreateTopicPageInfo.BaseNode> mNodes;
+    private List<NodesInfo.Node> mNodes;
 
-    public static NodeSelectFragment newInstance(CreateTopicPageInfo topicPageInfo) {
+    public static NodeSelectFragment newInstance(List<NodesInfo.Node> mNodes) {
         Bundle args = new Bundle();
-        args.putParcelableArrayList(NODE_ALL, (ArrayList<? extends Parcelable>) topicPageInfo.getNodes());
+        args.putParcelableArrayList(NODE_ALL, (ArrayList<? extends Parcelable>) mNodes);
         NodeSelectFragment fragment = new NodeSelectFragment();
         fragment.setArguments(args);
         return fragment;
@@ -131,10 +132,10 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
     }
 
     public interface OnSelectedListener {
-        void onSelected(CreateTopicPageInfo.BaseNode node);
+        void onSelected(NodesInfo.Node node);
     }
 
-    private class FilterAdapter extends CommonAdapter<CreateTopicPageInfo.BaseNode> implements Filterable {
+    private class FilterAdapter extends CommonAdapter<NodesInfo.Node> implements Filterable {
         private ValueFilter mValueFilter;
 
         public FilterAdapter(Context context, int layoutId) {
@@ -142,11 +143,11 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
         }
 
         @Override
-        protected void convert(ViewHolder holder, CreateTopicPageInfo.BaseNode node, int position) {
+        protected void convert(ViewHolder holder, NodesInfo.Node node, int position) {
             if (position == 0 ||
-                    (node instanceof CreateTopicPageInfo.Node && getItem(position - 1) instanceof CreateTopicPageInfo.HotNode)) {
+                    (node != null && getItem(position - 1).isHot) && !getItem(position).isHot) {
                 holder.getView(R.id.node_item_section_tv).setVisibility(View.VISIBLE);
-                if (node instanceof CreateTopicPageInfo.HotNode) {
+                if (node.isHot) {
                     holder.setText(R.id.node_item_section_tv, "热门节点");
                 } else {
                     holder.setText(R.id.node_item_section_tv, "全部节点");
@@ -154,7 +155,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
             } else {
                 holder.getView(R.id.node_item_section_tv).setVisibility(View.GONE);
             }
-            holder.setText(R.id.node_name_tv, node.getTitle() + " / " + node.getId());
+            holder.setText(R.id.node_name_tv, node.text);
         }
 
         @Override
@@ -175,9 +176,9 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
                     filterResults.count = Utils.listSize(mNodes);
                     return filterResults;
                 }
-                List<CreateTopicPageInfo.BaseNode> resultList = new ArrayList<>();
-                for (CreateTopicPageInfo.BaseNode node : mNodes) {
-                    if (node.getId().contains(constraint) || node.getTitle().contains(constraint)) {
+                List<NodesInfo.Node> resultList = new ArrayList<>();
+                for (NodesInfo.Node node : mNodes) {
+                    if (node.id.contains(constraint) || node.text.contains(constraint)) {
                         resultList.add(node);
                     }
                 }
@@ -188,7 +189,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                setData((List<CreateTopicPageInfo.BaseNode>) results.values);
+                setData((List<NodesInfo.Node>) results.values);
                 notifyDataSetChanged();
             }
         }

@@ -1,7 +1,10 @@
 package me.ghui.v2er.module.create;
 
+import java.util.List;
+
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
+import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 
 /**
@@ -19,6 +22,9 @@ public class CreateTopicContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
         void sendPost(String title, String content, String nodeId);
-        void restoreData(CreateTopicPageInfo createTopicPageInfo);
+
+        void restoreData(CreateTopicPageInfo createTopicPageInfo, NodesInfo nodesInfo);
+
+        List<NodesInfo.Node> getNodes();
     }
 }
