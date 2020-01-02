@@ -11,4 +11,7 @@
             <certificates src="user" />
         </trust-anchors>
     </debug-overrides>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="false">v2ex.com</domain>
+    </domain-config>
 </network-security-config>
