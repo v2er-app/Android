@@ -267,6 +267,7 @@ public class TopicInfo extends BaseInfo {
             return Check.notEmpty(userName, tag);
         }
 
+
         /**
          * new user can't send thanks
          *

@@ -7,6 +7,10 @@
         android:title="收藏"
         app:showAsAction="always" />
     <item
+        android:id="@id/action_append"
+        android:title="添加附言"
+        android:visible="false" />
+    <item
         android:id="@id/action_reply"
         android:title="回帖" />
     <item

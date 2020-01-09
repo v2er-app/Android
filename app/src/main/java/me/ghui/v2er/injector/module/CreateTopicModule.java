@@ -22,4 +22,5 @@ public class CreateTopicModule {
     public CreateTopicContract.IPresenter providePresenter() {
         return new CreateTopicPresenter(mTopicActivity);
     }
+
 }

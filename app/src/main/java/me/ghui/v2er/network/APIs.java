@@ -115,6 +115,11 @@ public interface APIs {
     @POST("/new")
     Observable<TopicInfo> postTopic(@FieldMap Map<String, String> postParams);
 
+    @Html
+    @FormUrlEncoded
+    @POST("/append/topic/{id}")
+    Observable<TopicInfo> appendTopic(@Path("id") String topicId, @FieldMap Map<String, String> postParams);
+
     @Json
     @GET("/api/nodes/s2.json")
     Observable<NodesInfo> nodes();

@@ -46,6 +46,7 @@ import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
+import me.ghui.v2er.module.append.AppendTopicActivity;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.settings.ProInfoActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
@@ -107,6 +108,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mLoveMenuItem;
     private MenuItem mThxMenuItem;
     private MenuItem mReportMenuItem;
+    private MenuItem mAppendItem;
     private BottomSheetDialog mMenuSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
@@ -209,6 +211,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         Menu menu = mToolbar.getMenu();
         mLoveMenuItem = menu.findItem(R.id.action_star);
         mThxMenuItem = menu.findItem(R.id.action_thx);
+        mAppendItem = menu.findItem(R.id.action_append);
         mReportMenuItem = menu.findItem(R.id.action_report);
         MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
@@ -234,9 +237,12 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                         mPresenter.starTopic(mTopicId, headerInfo.getT());
                     }
                     break;
+                case R.id.action_append:
+                    Navigator.from(this).to(AppendTopicActivity.class).start();
+                    break;
                 case R.id.action_thx:
                     if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    if (UserUtils.getUserName().equals(mTopicInfo.getHeaderInfo().getUserName())) {
+                    if (mTopicInfo.getHeaderInfo().isSelf()) {
                         toast("自己不能感谢自己哦");
                         return false;
                     }
@@ -592,6 +598,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
         updateReportMenuItem(mTopicInfo.hasReport());
+        boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
+        mAppendItem.setVisible(isSelf);
         if (!mIsHideReplyBtn && mIsLogin) {
             mReplyFabBtn.setVisibility(VISIBLE);
         }
@@ -759,6 +767,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mReportMenuItem.setTitle(hasReport ? "已举报" : "举报");
         mReportMenuItem.setEnabled(!hasReport);
     }
+
 
     @Override
     public void afterStarTopic(TopicInfo topicInfo) {

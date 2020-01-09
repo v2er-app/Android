@@ -129,6 +129,9 @@
         <activity
             android:name=".module.settings.UserManualActivity"
             android:label="常见问题" />
+        <activity
+            android:name=".module.append.AppendTopicActivity"
+            android:label="添加附言" />
         <activity android:name=".general.PageHost" />
     </application>
 

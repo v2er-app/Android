@@ -3,6 +3,7 @@
     <item name="action_search" type="id" />
     <item name="action_create" type="id" />
     <item name="action_star" type="id" />
+    <item name="action_append" type="id" />
     <item name="action_reply" type="id" />
     <item name="action_thx" type="id" />
     <item name="action_block" type="id" />
@@ -17,6 +18,7 @@
     <item name="frag_ptr_layout" type="id" />
     <item name="frag_root_view_framelayout" type="id" />
     <item name="action_create_topic" type="id" />
+    <item name="action_append_topic" type="id" />
     <item name="action_search_node" type="id" />
     <item name="action_register" type="id" />
     <item name="action_forgot_psw" type="id" />

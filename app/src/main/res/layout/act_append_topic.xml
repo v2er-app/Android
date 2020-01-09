@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/common_padding_size">
+
+    <EditText
+        android:id="@+id/append_topic_content_et"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.8"
+        android:background="@null"
+        android:gravity="top"
+        android:hint="附言内容"
+        android:paddingLeft="4dp"
+        android:paddingTop="8dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="8dp"
+        android:textColor="?attr/bodyTextColor"
+        android:textColorHint="?attr/hintTextColor"
+        android:textSize="@dimen/mediumTextSize" />
+</FrameLayout>
