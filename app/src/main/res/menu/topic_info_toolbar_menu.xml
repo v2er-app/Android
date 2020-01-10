@@ -11,6 +11,14 @@
         android:title="添加附言"
         android:visible="false" />
     <item
+        android:id="@id/action_fade"
+        android:title="下沉"
+        android:visible="false" />
+    <item
+        android:id="@id/action_sticky"
+        android:title="置顶"
+        android:visible="false" />
+    <item
         android:id="@id/action_reply"
         android:title="回帖" />
     <item

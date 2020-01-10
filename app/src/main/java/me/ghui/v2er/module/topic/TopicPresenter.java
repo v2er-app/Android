@@ -27,6 +27,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
     /**
      * 当前加载的页面
+     *
      * @return
      */
     public int getPage() {
@@ -152,12 +153,38 @@ public class TopicPresenter implements TopicContract.IPresenter {
     @Override
     public void reportTopic() {
         String reportUrl = mTopicInfo.reportUrl();
-        APIService.get().reportTopic(reportUrl)
+        APIService.get().requestByUrl(reportUrl)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<DailyInfo>() {
                     @Override
                     public void onConsume(DailyInfo dailyInfo) {
                         mView.afterReportTopic(dailyInfo.isValid());
+                    }
+                });
+    }
+
+    @Override
+    public void fadeTopic() {
+        String fadeUrl = mTopicInfo.fadeUrl();
+        APIService.get().fadeTopic(fadeUrl)
+                .compose(mView.rx())
+                .subscribe(new GeneralConsumer<TopicInfo>() {
+                    @Override
+                    public void onConsume(TopicInfo topicInfo) {
+                        mView.afterFadeTopic(topicInfo.isValid());
+                    }
+                });
+    }
+
+    @Override
+    public void stickyTopic() {
+        String stickyStr = mTopicInfo.stickyStr();
+        APIService.get().stickyTopic(stickyStr)
+                .compose(mView.rx())
+                .subscribe(new GeneralConsumer<TopicInfo>() {
+                    @Override
+                    public void onConsume(TopicInfo topicInfo) {
+                        mView.afterStickyTopic(topicInfo.isValid());
                     }
                 });
     }

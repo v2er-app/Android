@@ -39,10 +39,23 @@ public class TopicInfo extends BaseInfo {
     private String topicLink;
     @Pick(value = "a[onclick*=/report/topic/]", attr = "onclick")
     private String reportStr;
+    @Pick(value = "a[onclick*=/fade/topic/]", attr = "onclick")
+    private String fadeStr;
+    @Pick(value = "a[onclick*=/sticky/topic/]", attr = "onclick")
+    private String stickyStr;
+
     private List<Item> items;
 
     public String getTopicLink() {
         return topicLink;
+    }
+
+    public boolean canSticky() {
+        return Check.notEmpty(stickyStr());
+    }
+
+    public boolean canfade() {
+        return Check.notEmpty(fadeUrl());
     }
 
     public boolean hasReport() {
@@ -55,6 +68,20 @@ public class TopicInfo extends BaseInfo {
         int sIndex = reportStr.indexOf("/report/topic/");
         int eIndex = reportStr.lastIndexOf("'");
         return reportStr.substring(sIndex, eIndex);
+    }
+
+    public String fadeUrl() {
+        if (TextUtils.isEmpty(fadeStr)) return null;
+        int sIndex = fadeStr.indexOf("/fade/topic/");
+        int eIndex = fadeStr.lastIndexOf("'");
+        return fadeStr.substring(sIndex, eIndex);
+    }
+
+    public String stickyStr() {
+        if (TextUtils.isEmpty(stickyStr)) return null;
+        int sIndex = stickyStr.indexOf("/sticky/topic/");
+        int eIndex = stickyStr.lastIndexOf("'");
+        return stickyStr.substring(sIndex, eIndex);
     }
 
     public String getOnce() {
@@ -273,6 +300,7 @@ public class TopicInfo extends BaseInfo {
         public boolean canAppend() {
             return Check.notEmpty(appendTxt) && appendTxt.equals("APPEND");
         }
+
 
         /**
          * new user can't send thanks

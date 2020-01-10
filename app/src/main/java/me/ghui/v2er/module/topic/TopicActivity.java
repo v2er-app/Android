@@ -109,6 +109,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private MenuItem mThxMenuItem;
     private MenuItem mReportMenuItem;
     private MenuItem mAppendItem;
+    private MenuItem mFadeItem;
+    private MenuItem mStickyItem;
     private BottomSheetDialog mMenuSheetDialog;
     private OnBottomDialogItemClickListener mBottomSheetDialogItemClickListener;
     private List<TopicInfo.Item> repliersInfo;
@@ -212,6 +214,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mLoveMenuItem = menu.findItem(R.id.action_star);
         mThxMenuItem = menu.findItem(R.id.action_thx);
         mAppendItem = menu.findItem(R.id.action_append);
+        mFadeItem = menu.findItem(R.id.action_fade);
+        mStickyItem = menu.findItem(R.id.action_sticky);
         mReportMenuItem = menu.findItem(R.id.action_report);
         MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
@@ -233,7 +237,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             if (!UserUtils.isPro()) {
                 int currentId = item.getItemId();
                 if (currentId == R.id.action_scan_order
-                        || currentId == R.id.action_append) {
+                        || currentId == R.id.action_append
+                        || currentId == R.id.action_fade
+                        || currentId == R.id.action_sticky) {
                     new ConfirmDialog.Builder(getActivity())
                             .title("功能不可用")
                             .msg("此功能是Pro版特性，激活Pro版以开启")
@@ -286,6 +292,22 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     new ConfirmDialog.Builder(getActivity())
                             .msg("确定要举报这个主题吗？")
                             .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
+                            .negativeText(R.string.cancel)
+                            .build().show();
+                    break;
+                case R.id.action_sticky:
+                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                    new ConfirmDialog.Builder(getActivity())
+                            .msg("你确认要将此主题置顶 10 分钟？该操作价格为 200 铜币。")
+                            .positiveText(R.string.ok, dialog -> mPresenter.stickyTopic())
+                            .negativeText(R.string.cancel)
+                            .build().show();
+                    break;
+                case R.id.action_fade:
+                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                    new ConfirmDialog.Builder(getActivity())
+                            .msg("你确认要将此主题下沉 1 天？")
+                            .positiveText(R.string.ok, dialog -> mPresenter.fadeTopic())
                             .negativeText(R.string.cancel)
                             .build().show();
                     break;
@@ -361,16 +383,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
         }
     }
-
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        super.onNewIntent(intent);
-//        // from AppendTopicActivity currently
-//        ActivityReloader.target(this)
-//                .putExtra(TOPIC_ID_KEY, mTopicId)
-//                .putExtra(TOPIC_INTO_KEY, intent.getSerializableExtra(TOPIC_ID_KEY))
-//                .reload();
-//    }
 
     @Override
     protected void reloadMode(int mode) {
@@ -615,6 +627,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateReportMenuItem(mTopicInfo.hasReport());
         boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
         mAppendItem.setVisible(isSelf && mTopicInfo.getHeaderInfo().canAppend());
+        mFadeItem.setVisible(isSelf && mTopicInfo.canfade());
+        mStickyItem.setVisible(isSelf && mTopicInfo.canSticky());
         if (!mIsHideReplyBtn && mIsLogin) {
             mReplyFabBtn.setVisibility(VISIBLE);
         }
@@ -692,7 +706,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     public List<TopicInfo.Item> topicReplyInfo() {
         return repliersInfo;
     }
-
 
     @Override
     public void finishAfterTransition() {
@@ -851,6 +864,16 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         } else {
             toast("回复失败");
         }
+    }
+
+    @Override
+    public void afterFadeTopic(boolean isSuccess) {
+        toast(isSuccess ? "下沉成功" : "下沉失败");
+    }
+
+    @Override
+    public void afterStickyTopic(boolean isSuccess) {
+        toast(isSuccess ? "置顶10分钟成功" : "置顶失败");
     }
 
 

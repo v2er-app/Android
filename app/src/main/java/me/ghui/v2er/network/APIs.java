@@ -210,6 +210,16 @@ public interface APIs {
     @Html
     @Headers("Referer: " + RefererUtils.TINY_REFER)
     @GET
-    Observable<DailyInfo> reportTopic(@Url String url);
+    Observable<DailyInfo> requestByUrl(@Url String url);
+
+    @Html
+    @GET
+    Observable<TopicInfo> fadeTopic(@Url String url);
+
+    @Html
+    @GET
+    Observable<TopicInfo> stickyTopic(@Url String url);
+
+
 
 }

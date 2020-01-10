@@ -36,7 +36,7 @@ public class APIService {
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
     public static final String UA_KEY = "user-agent";
 
-    public static final long TIMEOUT_LENGTH = 30;
+    public static final long TIMEOUT_LENGTH = 10;
     private static APIs mAPI_SERVICE;
     private static Gson sGson;
     private static Fruit sFruit;
@@ -88,7 +88,7 @@ public class APIService {
                     .addInterceptor(new ConfigInterceptor());
             if (BuildConfig.DEBUG) {
                 builder.addInterceptor(new HttpLoggingInterceptor(L::v)
-                        .setLevel(HttpLoggingInterceptor.Level.HEADERS));
+                        .setLevel(HttpLoggingInterceptor.Level.BODY));
             }
             sHttpClient = builder.build();
         }

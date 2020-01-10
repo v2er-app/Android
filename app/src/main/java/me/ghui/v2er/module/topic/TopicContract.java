@@ -38,6 +38,10 @@ public class TopicContract {
         void afterReplyTopic(TopicInfo topicInfo);
 
         List<TopicInfo.Item> topicReplyInfo();
+
+        void afterFadeTopic(boolean isSuccess);
+
+        void afterStickyTopic(boolean isSuccess);
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -58,6 +62,10 @@ public class TopicContract {
         void replyTopic(String topicId, Map<String, String> replyMap);
 
         void reportTopic();
+
+        void fadeTopic();
+
+        void stickyTopic();
 
         int getPage();
 

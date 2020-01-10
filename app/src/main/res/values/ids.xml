@@ -4,6 +4,8 @@
     <item name="action_create" type="id" />
     <item name="action_star" type="id" />
     <item name="action_append" type="id" />
+    <item name="action_fade" type="id" />
+    <item name="action_sticky" type="id" />
     <item name="action_reply" type="id" />
     <item name="action_thx" type="id" />
     <item name="action_block" type="id" />
