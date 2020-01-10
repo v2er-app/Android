@@ -116,6 +116,11 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
     @Override
     public void fillView(AppendTopicPageInfo pageInfo) {
         mPageInfo = pageInfo;
+        StringBuilder hint = new StringBuilder("在此输入附言内容...\n\n");
+        for (int i = 0; i < mPageInfo.getTips().size(); i++) {
+            hint.append(i + 1 + ": " + mPageInfo.getTips().get(i).text + "\n");
+        }
+        mContentET.setHint(hint.toString());
     }
 
     @Override

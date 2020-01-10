@@ -6,17 +6,10 @@
 
     <EditText
         android:id="@+id/append_topic_content_et"
+        style="@style/topicEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.8"
-        android:background="@null"
         android:gravity="top"
-        android:hint="附言内容"
-        android:paddingLeft="4dp"
-        android:paddingTop="8dp"
-        android:paddingRight="4dp"
-        android:paddingBottom="8dp"
-        android:textColor="?attr/bodyTextColor"
-        android:textColorHint="?attr/hintTextColor"
-        android:textSize="@dimen/mediumTextSize" />
+        android:hint="在此输入附言内容" />
+
 </FrameLayout>

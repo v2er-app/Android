@@ -43,6 +43,17 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
+    <style name="topicEditText">
+        <item name="android:paddingHorizontal">4dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:lineSpacingExtra">5.0dp</item>
+        <item name="android:textColor">?attr/bodyTextColor</item>
+        <item name="android:textColorHint">?attr/hintTextColor</item>
+        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:alpha">0.9</item>
+        <item name="android:background">@null</item>
+    </style>
+
     <style name="TextInput" parent="@android:style/TextAppearance">
         <item name="android:textColorHint">?attr/icon_tint_color</item>
         <item name="android:textColor">?attr/bodyTextColor</item>
