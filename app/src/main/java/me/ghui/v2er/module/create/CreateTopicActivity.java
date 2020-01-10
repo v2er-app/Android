@@ -14,7 +14,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.injector.component.DaggerCreateTopicComponnet;
 import me.ghui.v2er.injector.module.CreateTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -85,7 +85,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(KEY_CREATE_TOPIC_INFO, mTopicPageInfo)
                 .putExtra(KEY_NODES_INFO, mNodesInfo)
                 .putExtra(KEY_TITLE, mTitleEt.getText().toString())

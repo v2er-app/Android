@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.ScaleUtils;
@@ -132,7 +132,7 @@ public class StarActivity extends BaseActivity {
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(TAB_INDEX, mSlidingTabLayout.getCurrentTab())
                 .putExtra(PAGE_ONE_DATA, mTopicStarFragment.getRestoreData())
                 .putExtra(PAGE_TWO_DATA, mNodeStarFragment.getRestoreData())

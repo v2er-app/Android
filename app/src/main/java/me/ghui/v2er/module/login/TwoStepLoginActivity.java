@@ -20,7 +20,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
@@ -91,7 +91,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this).reload();
+        ActivityReloader.target(this).reload();
     }
 
     @Override

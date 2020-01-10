@@ -246,6 +246,8 @@ public class TopicInfo extends BaseInfo {
         @Pick("div.box div.inner div#topic_thank")
         private String canSendThanksText;
         private String computedTime;
+        @Pick("div.box div.header a.op")
+        private String appendTxt;
 
         public HeaderInfo() {
         }
@@ -267,6 +269,10 @@ public class TopicInfo extends BaseInfo {
             return Check.notEmpty(userName, tag);
         }
 
+
+        public boolean canAppend() {
+            return Check.notEmpty(appendTxt) && appendTxt.equals("APPEND");
+        }
 
         /**
          * new user can't send thanks

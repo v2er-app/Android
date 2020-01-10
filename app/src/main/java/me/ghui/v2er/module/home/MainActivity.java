@@ -31,7 +31,7 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Page;
@@ -232,7 +232,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(TAB_INDEX, mSlidingTabLayout.getCurrentTab())
                 .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanted)
                 .putExtra(PAGE_ONE_DATA, mNewsFragment.getRestoreData())

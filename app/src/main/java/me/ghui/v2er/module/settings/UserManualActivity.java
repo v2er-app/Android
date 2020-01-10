@@ -3,7 +3,7 @@ package me.ghui.v2er.module.settings;
 import butterknife.BindView;
 import me.ghui.toolbox.android.Assets;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.HtmlView;
 import me.ghui.v2er.util.Utils;
@@ -36,7 +36,7 @@ public class UserManualActivity extends BaseActivity implements HtmlView.OnHtmlR
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(KEY_SCROLL_Y, mHtmlView.getScrollY())
                 .reload();
     }

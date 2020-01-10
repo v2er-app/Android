@@ -32,7 +32,7 @@ import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.ShareManager;
@@ -48,7 +48,6 @@ import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.HackRecyclerView;
@@ -287,7 +286,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         if (mNodeTopicInfo != null) {
             mNodeTopicInfo.setItems(mAdapter.getDatas());
         }
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(TAG_NODE_ID_KEY, intent.getStringExtra(TAG_NODE_ID_KEY))
                 .putExtra(TAG_INIT_PAGE_KEY, intent.getStringExtra(TAG_INIT_PAGE_KEY))
                 .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())

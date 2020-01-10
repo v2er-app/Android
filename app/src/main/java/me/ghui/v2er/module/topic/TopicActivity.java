@@ -38,7 +38,7 @@ import io.sentry.Sentry;
 import me.ghui.toolbox.android.Check;
 import me.ghui.toolbox.android.Theme;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.general.ShareElementTransitionCallBack;
@@ -75,10 +75,10 @@ import static android.view.View.VISIBLE;
 
 public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implements TopicContract.IView,
         LoadMoreRecyclerView.OnLoadMoreListener, KeyboardDetectorRelativeLayout.IKeyboardChanged, TopicReplyItemDelegate.OnMemberClickListener, HtmlView.OnHtmlRenderListener {
-    private static final String TOPIC_ID_KEY = KEY("topic_id_key");
+    public static final String TOPIC_ID_KEY = KEY("topic_id_key");
     private static final String TOPIC_BASIC_INFO = KEY("TOPIC_BASIC_INFO");
     private static final String TOPIC_AUTO_SCROLL_REPLY = KEY("TOPIC_AUTO_SCROLL_REPLY");
-    private static final String TOPIC_INTO_KEY = KEY("TOPIC_INTO_KEY");
+    public static final String TOPIC_INTO_KEY = KEY("TOPIC_INTO_KEY");
     private static final String TOPIC_CURRENT_PAGE = KEY("TOPIC_CURRENT_PAGE");
     private static final String TOPIC_PAGE_Y_POS_KEY = KEY("TOPIC_PAGE_Y_POS_KEY");
 
@@ -238,7 +238,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     }
                     break;
                 case R.id.action_append:
-                    Navigator.from(this).to(AppendTopicActivity.class).start();
+                    AppendTopicActivity.open(mTopicId, TopicActivity.this);
                     break;
                 case R.id.action_thx:
                     if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
@@ -357,11 +357,21 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
     }
 
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        // from AppendTopicActivity currently
+//        ActivityReloader.target(this)
+//                .putExtra(TOPIC_ID_KEY, mTopicId)
+//                .putExtra(TOPIC_INTO_KEY, intent.getSerializableExtra(TOPIC_ID_KEY))
+//                .reload();
+//    }
+
     @Override
     protected void reloadMode(int mode) {
         int pos = mLinearLayoutManager.findFirstCompletelyVisibleItemPosition();
         L.d("firstVisiablePos: " + pos);
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(TOPIC_ID_KEY, getIntent().getStringExtra(TOPIC_ID_KEY))
                 .putExtra(TOPIC_INTO_KEY, mTopicInfo)
                 .putExtra(TOPIC_CURRENT_PAGE, mPresenter.getPage())
@@ -599,7 +609,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
         updateReportMenuItem(mTopicInfo.hasReport());
         boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
-        mAppendItem.setVisible(isSelf);
+        mAppendItem.setVisible(isSelf && mTopicInfo.getHeaderInfo().canAppend());
         if (!mIsHideReplyBtn && mIsLogin) {
             mReplyFabBtn.setVisibility(VISIBLE);
         }

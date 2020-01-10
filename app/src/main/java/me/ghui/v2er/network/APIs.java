@@ -5,6 +5,7 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.retrofit.converter.annotations.Html;
 import me.ghui.retrofit.converter.annotations.Json;
+import me.ghui.v2er.network.bean.AppendTopicPageInfo;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.network.bean.CreateTopicPageInfo;
@@ -109,6 +110,10 @@ public interface APIs {
     @Html
     @GET("/new")
     Observable<CreateTopicPageInfo> topicCreatePageInfo();
+
+    @Html
+    @GET("/append/topic/{id}")
+    Observable<AppendTopicPageInfo> appendPageInfo(@Header("Referer") String referer, @Path("id") String topicID);
 
     @Html
     @FormUrlEncoded

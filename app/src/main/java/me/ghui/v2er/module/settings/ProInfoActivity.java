@@ -7,13 +7,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.BillingManager;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
-import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -43,7 +42,7 @@ public class ProInfoActivity extends BaseActivity {
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this).reload();
+        ActivityReloader.target(this).reload();
     }
 
     @Override

@@ -8,21 +8,21 @@ import java.lang.reflect.Type;
 
 import me.ghui.v2er.R;
 
-public class ColorModeReloader {
+public class ActivityReloader {
     private Intent mIntent;
     private Activity mActivity;
 
 
-    private ColorModeReloader(Activity mTarget) {
+    private ActivityReloader(Activity mTarget) {
         mActivity = mTarget;
         this.mIntent = new Intent(mTarget, mTarget.getClass());
     }
 
-    public static ColorModeReloader target(Activity target) {
-        return new ColorModeReloader(target);
+    public static ActivityReloader target(Activity target) {
+        return new ActivityReloader(target);
     }
 
-    public ColorModeReloader putExtra(String key, Object value) {
+    public ActivityReloader putExtra(String key, Object value) {
         if (value == null) return this;
         Type type = value.getClass();
         if (type == int.class || type == Integer.class) {

@@ -18,7 +18,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.ShareManager;
 import me.ghui.v2er.module.base.BaseActivity;
@@ -71,7 +71,7 @@ public class WapActivity extends BaseActivity {
 
     @Override
     protected void reloadMode(int mode) {
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(URL_KEY, mStartUrl)
                 .putExtra(FORCH_OPENED_WEBVIEW, mForchOpenedInWebView)
                 .reload();

@@ -30,7 +30,7 @@ import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
-import me.ghui.v2er.general.ColorModeReloader;
+import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.injector.component.DaggerUserHomeComponent;
@@ -233,7 +233,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     protected void reloadMode(int mode) {
         int pos = mLayoutManager.findFirstVisibleItemPosition();
         int offset = mRecyclerView.getChildAt(0).getTop();
-        ColorModeReloader.target(this)
+        ActivityReloader.target(this)
                 .putExtra(PAGE_DATA_KEY, mUserPageInfo)
                 .putExtra(TOPIC_PAGE_Y_POS_KEY, pos)
                 .putExtra(TOPIC_Y_POS_OFFSET_KEY, offset)
