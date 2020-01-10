@@ -31,6 +31,8 @@ public class TopicInfo extends BaseInfo {
     private HeaderInfo headerInfo;
     @Pick("div.box")
     private ContentInfo contentInfo;
+    @Pick("div.problem")
+    private Problem problem;
     @Pick("div[id^=r_]")
     private List<Reply> replies;
     @Pick(value = "input[name=once]", attr = "value")
@@ -45,6 +47,10 @@ public class TopicInfo extends BaseInfo {
     private String stickyStr;
 
     private List<Item> items;
+
+    public Problem getProblem() {
+        return problem;
+    }
 
     public String getTopicLink() {
         return topicLink;
@@ -176,6 +182,33 @@ public class TopicInfo extends BaseInfo {
     public boolean isValid() {
         if (headerInfo == null) return false;
         return headerInfo.isValid();
+    }
+
+    public static class Problem implements Serializable {
+        @Pick(attr = Attrs.OWN_TEXT)
+        private String title;
+        @Pick("ul li")
+        private List<String> tips;
+
+        public boolean isEmpty() {
+            return Check.isEmpty(tips) && Check.isEmpty(title);
+        }
+
+        public List<String> getTips() {
+            return tips;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public String toString() {
+            return "Problem{" +
+                    "title='" + title + '\'' +
+                    ", tips=" + tips +
+                    '}';
+        }
     }
 
     public interface Item extends Serializable {

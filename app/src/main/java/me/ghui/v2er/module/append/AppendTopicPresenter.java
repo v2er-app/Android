@@ -2,13 +2,9 @@ package me.ghui.v2er.module.append;
 
 import android.text.TextUtils;
 
-import java.util.HashMap;
-
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.AppendTopicPageInfo;
-import me.ghui.v2er.network.bean.CreateTopicPageInfo;
-import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RefererUtils;
@@ -30,21 +26,9 @@ public class AppendTopicPresenter implements AppendTopicContract.IPresenter {
     }
 
     @Override
-    public void sendAppend(String content) {
-        APIService.get()
-                .appendTopic(topicID, pageInfo.toPostMap(content))
-                .compose(mView.rx())
-                .subscribe(new GeneralConsumer<TopicInfo>() {
-                    @Override
-                    public void onConsume(TopicInfo topicInfo) {
-                        mView.onPostSuccess(topicInfo);
-                    }
-                });
-    }
-
-    @Override
-    public void restoreData(CreateTopicPageInfo createTopicPageInfo, NodesInfo nodesInfo) {
-
+    public void restoreData(AppendTopicPageInfo createTopicPageInfo, String topicID) {
+        pageInfo = createTopicPageInfo;
+        this.topicID = topicID;
     }
 
     @Override
@@ -60,11 +44,24 @@ public class AppendTopicPresenter implements AppendTopicContract.IPresenter {
                     @Override
                     public void onConsume(AppendTopicPageInfo appendTopicPageInfo) {
                         pageInfo = appendTopicPageInfo;
-                        L.d(appendTopicPageInfo.toString());
+//                        L.d(appendTopicPageInfo.toString());
                         mView.fillView(appendTopicPageInfo);
                     }
                 });
 
+    }
+
+    @Override
+    public void sendAppend(String content) {
+        APIService.get()
+                .appendTopic(topicID, pageInfo.toPostMap(content))
+                .compose(mView.rx())
+                .subscribe(new GeneralConsumer<TopicInfo>(mView) {
+                    @Override
+                    public void onConsume(TopicInfo topicInfo) {
+                        mView.onAfterAppendTopic(topicInfo);
+                    }
+                });
     }
 
 }

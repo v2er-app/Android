@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.widget.EditText;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
 import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
@@ -14,7 +15,11 @@ import me.ghui.v2er.injector.component.DaggerAppendTopicComponnet;
 import me.ghui.v2er.injector.module.AppendTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.AppendTopicPageInfo;
+import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -118,13 +123,39 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
         mPageInfo = pageInfo;
         StringBuilder hint = new StringBuilder("在此输入附言内容...\n\n");
         for (int i = 0; i < mPageInfo.getTips().size(); i++) {
-            hint.append(i + 1 + ": " + mPageInfo.getTips().get(i).text + "\n");
+            hint.append(i + 1 + ". " + mPageInfo.getTips().get(i).text + "\n");
         }
         mContentET.setHint(hint.toString());
     }
 
     @Override
-    public void onPostSuccess(TopicInfo topicInfo) {
+    public void handleError(GeneralError generalError) {
+        String response = generalError.getResponse();
+        if (Check.isEmpty(response)) return;
+        Observable.just(response)
+                .compose(rx(null))
+                .map(s -> APIService.fruit().fromHtml(s, AppendTopicPageInfo.class))
+                .subscribe(new GeneralConsumer<AppendTopicPageInfo>() {
+                    @Override
+                    public void onConsume(AppendTopicPageInfo pageInfo) {
+                        AppendTopicPageInfo.Problem problem = pageInfo.getProblem();
+                        if (problem != null) {
+                            StringBuilder msg = new StringBuilder();
+                            for (int i = 0; i < problem.getTips().size(); i++) {
+                                msg.append(i + 1).append(". ").append(problem.getTips().get(i)).append("\n");
+                            }
+                            new ConfirmDialog.Builder(getActivity())
+                                    .title(problem.getTitle())
+                                    .msg(msg.toString())
+                                    .positiveText(R.string.ok)
+                                    .build().show();
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void onAfterAppendTopic(TopicInfo topicInfo) {
         Utils.toggleKeyboard(false, mContentET);
         Navigator.from(this)
                 .to(TopicActivity.class)
@@ -133,11 +164,6 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
                 .putExtra(TopicActivity.TOPIC_ID_KEY, mTopicId)
                 .start();
         // TODO: 2020-01-10 你不能为一个创建30分钟内的主题添加附言
-    }
-
-    @Override
-    public void onPostFailure() {
-
     }
 
 }

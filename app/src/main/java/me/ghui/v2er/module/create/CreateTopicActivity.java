@@ -197,7 +197,7 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
 
     @Override
     public void handleError(GeneralError generalError) {
-        super.handleError(generalError);
+//        super.handleError(generalError);
         String response = generalError.getResponse();
         if (Check.notEmpty(response)) {
             Observable.just(response)

@@ -11,9 +11,7 @@ public class AppendTopicContract {
     public interface IView extends BaseContract.IView {
         void fillView(AppendTopicPageInfo pageInfo);
 
-        void onPostSuccess(TopicInfo topicInfo);
-
-        void onPostFailure();
+        void onAfterAppendTopic(TopicInfo topicInfo);
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
@@ -22,7 +20,7 @@ public class AppendTopicContract {
 
         void sendAppend(String content);
 
-        void restoreData(CreateTopicPageInfo createTopicPageInfo, NodesInfo nodesInfo);
+        void restoreData(AppendTopicPageInfo pageInfo, String topicId);
 
     }
 }

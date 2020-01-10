@@ -7,7 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.toolbox.android.Check;
 
 @Pick("div#Wrapper")
 public class AppendTopicPageInfo extends BaseInfo {
@@ -15,6 +17,12 @@ public class AppendTopicPageInfo extends BaseInfo {
     private String once;
     @Pick("div.inner ul li")
     private List<Tip> tips;
+    @Pick("div.problem")
+    private Problem problem;
+
+    public Problem getProblem() {
+        return problem;
+    }
 
     public List<Tip> getTips() {
         return tips;
@@ -43,9 +51,36 @@ public class AppendTopicPageInfo extends BaseInfo {
         }
     }
 
+    public static class Problem implements Serializable {
+        @Pick(attr = Attrs.OWN_TEXT)
+        private String title;
+        @Pick("ul li")
+        private List<String> tips;
+
+        public boolean isEmpty() {
+            return Check.isEmpty(tips) && Check.isEmpty(title);
+        }
+
+        public List<String> getTips() {
+            return tips;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public String toString() {
+            return "Problem{" +
+                    "title='" + title + '\'' +
+                    ", tips=" + tips +
+                    '}';
+        }
+    }
+
     @Override
     public boolean isValid() {
-        return !TextUtils.isEmpty(once);
+        return !TextUtils.isEmpty(once) && tips != null && tips.size() > 1;
     }
 
     @Override
