@@ -5,7 +5,7 @@
     <string name="official_website">https://ghui.me</string>
     <string name="official_v2ex_website">https://www.v2ex.com</string>
     <string name="official_v2ex_about_website">https://www.v2ex.com/about</string>
-    <string name="already_thx_cannot_return">感谢不能收回哦</string>
+    <string name="already_thx_cannot_return">感谢不能收回</string>
     <string name="thx_already_send">感谢已发送</string>
     <string name="thx_str">感谢</string>
     <string name="open_in_broser">在浏览器中打开</string>

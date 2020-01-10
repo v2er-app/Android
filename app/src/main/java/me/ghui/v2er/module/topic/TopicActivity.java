@@ -229,6 +229,22 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 return true;
             }
             TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
+
+            if (!UserUtils.isPro()) {
+                int currentId = item.getItemId();
+                if (currentId == R.id.action_scan_order
+                        || currentId == R.id.action_append) {
+                    new ConfirmDialog.Builder(getActivity())
+                            .title("功能不可用")
+                            .msg("此功能是Pro版特性，激活Pro版以开启")
+                            .positiveText("暂不")
+                            .negativeText("去激活", dialog -> {
+                                Navigator.from(TopicActivity.this).to(ProInfoActivity.class).start();
+                            }).build().show();
+                    return true;
+                }
+            }
+
             switch (item.getItemId()) {
                 case R.id.action_star:
                     if (headerInfo.hadStared()) {
@@ -243,7 +259,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 case R.id.action_thx:
                     if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
                     if (mTopicInfo.getHeaderInfo().isSelf()) {
-                        toast("自己不能感谢自己哦");
+                        toast("自己不能感谢自己");
                         return false;
                     }
                     if (!headerInfo.canSendThanks()) {
@@ -291,17 +307,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     animateEditInnerWrapper(true);
                     break;
                 case R.id.action_scan_order:
-                    // check first
-                    if (!UserUtils.isPro()) {
-                        new ConfirmDialog.Builder(getActivity())
-                                .title("功能不可用")
-                                .msg("此功能是Pro版特性，激活Pro版以开启")
-                                .positiveText("暂不")
-                                .negativeText("去激活", dialog -> {
-                                    Navigator.from(TopicActivity.this).to(ProInfoActivity.class).start();
-                                }).build().show();
-                        return true;
-                    }
                     // reload
                     mIsScanInOrder = !mIsScanInOrder;
                     scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
