@@ -60,7 +60,7 @@ public class ProInfoActivity extends BaseActivity {
 
         new ConfirmDialog.Builder(this)
                 .title("激活Pro版")
-                .msg("目前V2er仅支持在Google Play商店中激活，若你无法在Play商店付款可选择微信的方式付款")
+                .msg("目前V2er仅支持在Google Play商店中激活，若你无法在Play商店付款可选择微信的方式付款(享7折)")
                 .positiveText("GooglePlay", dialog -> BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
                     isPro = isSuccess;
                     String msg = isSuccess ? "激活成功!" : "激活失败";
