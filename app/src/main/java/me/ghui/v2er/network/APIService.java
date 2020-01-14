@@ -104,7 +104,6 @@ public class APIService {
     }
 
     private static class ConfigInterceptor implements Interceptor {
-
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
