@@ -2,7 +2,7 @@ package me.ghui.v2er.module.home;
 
 import android.net.Uri;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;

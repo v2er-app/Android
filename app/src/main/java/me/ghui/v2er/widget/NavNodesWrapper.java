@@ -10,7 +10,7 @@ import com.google.android.flexbox.FlexboxLayout;
 import java.util.List;
 import java.util.Stack;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.network.bean.NodesNavInfo;

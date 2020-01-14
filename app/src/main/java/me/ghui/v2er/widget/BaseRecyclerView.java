@@ -10,7 +10,7 @@ import android.util.AttributeSet;
 import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 import com.yqritc.recyclerviewflexibledivider.VerticalDividerItemDecoration;
 
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;

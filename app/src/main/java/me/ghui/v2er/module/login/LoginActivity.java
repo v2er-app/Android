@@ -18,8 +18,8 @@ import com.bumptech.glide.request.target.Target;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import me.ghui.toolbox.android.Check;
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.GlideApp;

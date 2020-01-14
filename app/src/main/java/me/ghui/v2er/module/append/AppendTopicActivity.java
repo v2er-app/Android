@@ -7,7 +7,6 @@ import android.widget.EditText;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import me.ghui.toolbox.android.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
@@ -21,6 +20,7 @@ import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.bean.AppendTopicPageInfo;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;

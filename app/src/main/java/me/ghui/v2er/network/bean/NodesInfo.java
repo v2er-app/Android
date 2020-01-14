@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 // https://v2ex.com/api/nodes/s2.json
 

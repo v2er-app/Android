@@ -2,7 +2,7 @@ package me.ghui.v2er;
 
 import org.junit.Test;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 16/05/2017.

@@ -34,8 +34,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import io.reactivex.ObservableTransformer;
-import me.ghui.toolbox.android.Check;
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.DayNightModeEvent;

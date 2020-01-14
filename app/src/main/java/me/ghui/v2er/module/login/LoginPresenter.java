@@ -3,7 +3,7 @@ package me.ghui.v2er.module.login;
 
 import com.flurry.android.FlurryAgent;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.network.APIService;

@@ -2,7 +2,7 @@ package me.ghui.v2er.util;
 
 import android.widget.Toast;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.general.App;
 

@@ -63,7 +63,6 @@ dependencies {
         exclude group: 'com.google.code.findbugs'
     })
     testImplementation 'junit:junit:4.12'
-    implementation project(':toolboxLib')
 
     implementation "com.android.support:appcompat-v7:$rootProject.ext.android.supportVersion"
     implementation "com.android.support:design:$rootProject.ext.android.supportVersion"

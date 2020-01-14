@@ -33,7 +33,7 @@ import com.flyco.tablayout.widget.MsgView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;

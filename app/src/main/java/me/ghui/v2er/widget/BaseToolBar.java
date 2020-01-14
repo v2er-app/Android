@@ -10,7 +10,7 @@ import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MotionEvent;
 
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 
 /**

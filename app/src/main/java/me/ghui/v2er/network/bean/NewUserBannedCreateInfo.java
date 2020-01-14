@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 31/07/2017.

@@ -29,8 +29,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import me.ghui.toolbox.android.Assets;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Assets;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;

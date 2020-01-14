@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import com.google.gson.annotations.SerializedName;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 03/05/2017.

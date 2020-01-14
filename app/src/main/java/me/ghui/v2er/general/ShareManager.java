@@ -23,7 +23,7 @@ import java.lang.annotation.RetentionPolicy;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;

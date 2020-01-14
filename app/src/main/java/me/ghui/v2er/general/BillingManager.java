@@ -15,7 +15,7 @@ import es.dmoral.prefs.Prefs;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;

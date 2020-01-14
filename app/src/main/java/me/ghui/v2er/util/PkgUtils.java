@@ -7,7 +7,7 @@ import android.net.Uri;
 import java.util.List;
 
 import io.reactivex.annotations.NonNull;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.general.App;
 
 import static android.content.pm.PackageManager.MATCH_DEFAULT_ONLY;

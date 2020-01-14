@@ -1,6 +1,6 @@
 package me.ghui.v2er.network;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 24/07/2017.

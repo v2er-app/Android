@@ -1,7 +1,7 @@
 package me.ghui.v2er.module.settings;
 
 import butterknife.BindView;
-import me.ghui.toolbox.android.Assets;
+import me.ghui.v2er.util.Assets;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.module.base.BaseActivity;

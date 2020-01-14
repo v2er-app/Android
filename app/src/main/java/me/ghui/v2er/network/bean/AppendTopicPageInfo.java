@@ -9,7 +9,7 @@ import java.util.Map;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 @Pick("div#Wrapper")
 public class AppendTopicPageInfo extends BaseInfo {

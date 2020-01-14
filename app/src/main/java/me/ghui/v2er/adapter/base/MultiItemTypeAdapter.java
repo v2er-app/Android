@@ -11,7 +11,7 @@ import android.view.animation.AnimationUtils;
 
 import java.util.List;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.util.Utils;

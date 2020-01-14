@@ -19,7 +19,7 @@ import java.io.File;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.general.GlideRequest;

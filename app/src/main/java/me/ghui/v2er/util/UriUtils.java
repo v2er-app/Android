@@ -4,7 +4,7 @@ import android.net.Uri;
 
 import java.net.URL;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.Constants;
 
 /**

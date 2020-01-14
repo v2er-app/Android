@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import es.dmoral.prefs.Prefs;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Pref;

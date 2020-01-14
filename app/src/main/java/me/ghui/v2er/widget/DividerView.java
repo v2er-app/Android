@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 
 /**

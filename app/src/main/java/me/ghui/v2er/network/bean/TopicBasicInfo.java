@@ -2,7 +2,7 @@ package me.ghui.v2er.network.bean;
 
 import java.io.Serializable;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 25/06/2017.

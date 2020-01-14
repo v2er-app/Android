@@ -3,7 +3,7 @@ package me.ghui.v2er.general;
 import android.text.Html;
 import android.text.SpannableStringBuilder;
 
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 
 /**
  * Created by ghui on 30/08/2017.

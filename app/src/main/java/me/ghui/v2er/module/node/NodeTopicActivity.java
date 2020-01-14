@@ -28,7 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import io.sentry.Sentry;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import me.ghui.toolbox.android.Theme;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;

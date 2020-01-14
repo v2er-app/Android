@@ -1,7 +1,7 @@
 package me.ghui.v2er.network;
 
 import me.ghui.fruit.annotations.Pick;
-import me.ghui.toolbox.android.Check;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.bean.BaseInfo;
 
 /**
