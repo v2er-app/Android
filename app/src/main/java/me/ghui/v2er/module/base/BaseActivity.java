@@ -524,7 +524,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
             TwoStepLoginActivity.open(once, getActivity());
         } else {
             hideLoading();
-            toast(generalError.getMessage());
+            toast(generalError.toast());
         }
     }
 

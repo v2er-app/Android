@@ -308,7 +308,7 @@ public abstract class BaseFragment<T extends BaseContract.IPresenter> extends Rx
             String once = APIService.fruit().fromHtml(generalError.getResponse(), TwoStepLoginInfo.class).getOnce();
             TwoStepLoginActivity.open(once, getActivity());
         } else {
-            toast(generalError.getMessage());
+            toast(generalError.toast());
         }
     }
 

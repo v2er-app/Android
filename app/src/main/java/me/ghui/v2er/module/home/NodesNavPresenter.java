@@ -20,7 +20,7 @@ public class NodesNavPresenter implements NodesNavConstract.IPresenter {
     public void start() {
         APIService.get().nodesNavInfo()
                 .compose(mView.rx())
-                .subscribe(new GeneralConsumer<NodesNavInfo>() {
+                .subscribe(new GeneralConsumer<NodesNavInfo>(mView) {
                     @Override
                     public void onConsume(NodesNavInfo items) {
                         mView.fillView(items);

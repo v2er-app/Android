@@ -43,4 +43,9 @@ public class GeneralError extends Throwable {
     public void setErrorCode(int errorCode) {
         this.errorCode = errorCode;
     }
+
+    public String toast() {
+        return getMessage() + "(" + getErrorCode() + ")";
+    }
+
 }

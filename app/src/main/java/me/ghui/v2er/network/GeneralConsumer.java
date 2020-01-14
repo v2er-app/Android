@@ -1,5 +1,7 @@
 package me.ghui.v2er.network;
 
+import java.io.IOException;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -13,6 +15,7 @@ import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
+import retrofit2.HttpException;
 
 /**
  * Created by ghui on 19/06/2017.
@@ -109,15 +112,21 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
 
     @Override
     public void onError(Throwable e) {
-        if (mGeneralErrorHandler == null) {
-            Voast.show(e.getMessage());
+        GeneralError generalError;
+        if (e instanceof GeneralError) {
+            generalError = (GeneralError) e;
         } else {
-            GeneralError generalError;
-            if (e instanceof GeneralError) {
-                generalError = (GeneralError) e;
+            if (e instanceof HttpException) {
+                HttpException he = (HttpException) e;
+                generalError = new GeneralError(he.code(), he.message());
             } else {
-                generalError = new GeneralError(ResultCode.NETWORK_ERROR, e.getMessage());
+                generalError = new GeneralError(ResultCode.NETWORK_ERROR, "Network Connection Error");
             }
+        }
+
+        if (mGeneralErrorHandler == null) {
+            Voast.show(generalError.toast());
+        } else {
             mGeneralErrorHandler.handleError(generalError);
         }
     }
