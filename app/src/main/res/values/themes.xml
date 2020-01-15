@@ -26,7 +26,7 @@
         <item name="tag_bg_color">@color/tag_bg_color</item>
         <item name="quote_block_bg_color">#FFFAFAFA</item>
         <item name="fab_bg_color">#ffffff</item>
-        <item name="banner_bg_color">#80FFFFFF</item>
+        <item name="banner_bg_color">#E9F5F5F5</item>
         <item name="searchbar_bg_color">@color/white</item>
         <item name="tablayout_selected_color">#474747</item>
         <item name="tablayout_unselected_color">#66000000</item>
@@ -56,7 +56,7 @@
         <item name="tag_bg_color">@color/tag_bg_color_night</item>
         <item name="quote_block_bg_color">#80000000</item>
         <item name="fab_bg_color">#000000</item>
-        <item name="banner_bg_color">#80000000</item>
+        <item name="banner_bg_color">#CC000000</item>
         <item name="searchbar_bg_color">#000000</item>
         <item name="tablayout_selected_color">#FFA4A5A7</item>
         <item name="tablayout_unselected_color">#555555</item>
