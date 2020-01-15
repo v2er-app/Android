@@ -28,11 +28,13 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
 
     @Override
     public void start() {
+        mView.showLoading();
         APIService.get().nodeInfo(mView.nodeName())
-                .compose(mView.rx())
-                .subscribe(new GeneralConsumer<NodeInfo>(mView) {
+                .compose(mView.rx(null))
+                .subscribe(new GeneralConsumer<NodeInfo>() {
                     @Override
                     public void onConsume(NodeInfo nodeInfo) {
+                        loadData(mView.initPage());
                         if (nodeInfo.isValid()) {
                             mView.fillHeaderView(nodeInfo);
                         } else {
@@ -40,7 +42,6 @@ public class NodeTopicPresenter implements NodeTopicContract.IPresenter {
                         }
                     }
                 });
-        loadData(mView.initPage());
     }
 
     @Override
