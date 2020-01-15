@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
-    style="@style/Widget.AppCompat.ProgressBar"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    style="@style/LoadingView"
+    android:layout_width="55dp"
+    android:layout_height="55dp"
+    android:minWidth="55dp"
+    android:minHeight="55dp"
     android:visibility="gone" />

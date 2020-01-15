@@ -184,4 +184,8 @@
         <item name="android:textSize">@dimen/mediumTextSize</item><!-- text size in menu-->
     </style>
 
+    <style name="LoadingView" parent="Widget.AppCompat.ProgressBar">
+    </style>
+
+    <dimen name="progress_bar_size_medium">76</dimen>
 </resources>
