@@ -2,16 +2,13 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="?attr/page_bg_color" />
-            <size
-                android:width="500dp"
-                android:height="1000dp" />
+            <solid android:color="#FF111214" />
         </shape>
     </item>
     <item>
         <bitmap
             android:gravity="center"
             android:src="@drawable/splash_logo"
-            android:tint="#000000" />
+            android:tint="#CAC8C8" />
     </item>
 </layer-list>
