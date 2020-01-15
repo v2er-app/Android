@@ -1,7 +1,9 @@
 package me.ghui.v2er.module.home;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.APIService;
@@ -17,7 +19,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
 
     private NewsContract.IView mView;
     //title index map for current items
-    private HashMap<String, Integer> mCurrentItemsIndexMap;
+    private Set<String> idSet;
     private int mPage = 1;
 
     @Override
@@ -38,10 +40,7 @@ public class NewsPresenter implements NewsContract.IPresenter {
                 .subscribe(new GeneralConsumer<NewsInfo>(mView) {
                     @Override
                     public void onConsume(NewsInfo newsInfo) {
-                        if (mCurrentItemsIndexMap != null) {
-                            mCurrentItemsIndexMap.clear();
-                            mCurrentItemsIndexMap = null;
-                        }
+                        idSet = null;
                         mView.fillView(newsInfo, false);
                     }
                 });
@@ -69,12 +68,11 @@ public class NewsPresenter implements NewsContract.IPresenter {
 
     private void checkDuplicateItem(NewsInfo newsInfo) {
         if (newsInfo == null || Check.isEmpty(newsInfo.getItems())) return;
-        if (mCurrentItemsIndexMap == null) {
+        if (idSet == null) {
+            idSet = new HashSet<>();
             List<NewsInfo.Item> currentItems = mView.getNewsInfo();
-            mCurrentItemsIndexMap = new HashMap<>();
             for (int i = 0; i < currentItems.size(); i++) {
-                NewsInfo.Item item = currentItems.get(i);
-                mCurrentItemsIndexMap.put(item.getTitle(), i);
+                idSet.add(currentItems.get(i).getId());
             }
         }
 
@@ -82,12 +80,11 @@ public class NewsPresenter implements NewsContract.IPresenter {
         List<NewsInfo.Item> newItems = newsInfo.getItems();
         for (int i = 0; i < newItems.size(); i++) {
             NewsInfo.Item item = newItems.get(i);
-            Integer index = mCurrentItemsIndexMap.get(item.getTitle());
-            if (index == null) {
-                mCurrentItemsIndexMap.put(item.getTitle(), mCurrentItemsIndexMap.size());
-            } else {
-                L.e("duplicate items: " + item.getTitle());
+            if (idSet.contains(item.getId())) {
+                L.e("duplicate item: " + item.getId());
                 newItems.remove(item);
+            } else {
+                idSet.add(item.getId());
             }
         }
 

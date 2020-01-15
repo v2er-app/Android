@@ -1,12 +1,15 @@
 package me.ghui.v2er.network.bean;
 
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.AvatarUtils;
+import me.ghui.v2er.util.UriUtils;
 
 
 /**
@@ -74,6 +77,16 @@ public class NewsInfo extends BaseInfo {
         private String tagLink;
         @Pick("a[class^=count_]")
         private int replies;
+
+        private String id;
+
+        public String getId() {
+            if (TextUtils.isEmpty(id)) {
+//                /t/638047#reply0
+                id = UriUtils.getLastSegment(linkPath);
+            }
+            return id;
+        }
 
         public int getReplies() {
             return replies;
