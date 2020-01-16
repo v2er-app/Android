@@ -8,8 +8,7 @@
     <string name="scheme_http" translatable="false">http</string>
     <string name="scheme_https" translatable="false">https</string>
 
-    <string name="master_host" translatable="false">v2ex.com</string>
-    <string name="www_host" translatable="false">www.v2ex.com</string>
+    <string name="master_host" translatable="false">*v2ex.com</string>
 
     <string name="topic_url_prefix" translatable="false">/t/</string>
     <string name="node_url_prefix" translatable="false">/go/</string>

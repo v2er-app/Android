@@ -42,17 +42,18 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="@string/www_host"
+                    android:host="@string/master_host"
                     android:pathPrefix="@string/node_url_prefix"
                     android:scheme="@string/scheme_https" />
                 <data
-                    android:host="@string/www_host"
+                    android:host="@string/master_host"
                     android:pathPrefix="@string/member_url_prefix"
                     android:scheme="@string/scheme_https" />
                 <data
-                    android:host="@string/www_host"
+                    android:host="@string/master_host"
                     android:pathPrefix="@string/topic_url_prefix"
                     android:scheme="@string/scheme_https" />
+
             </intent-filter>
         </activity>
         <activity
