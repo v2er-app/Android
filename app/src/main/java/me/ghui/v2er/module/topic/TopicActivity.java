@@ -732,19 +732,28 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         animateEditInnerWrapper(true);
     }
 
+    private int getRelativeY() {
+        int[] loc = new int[2];
+        mReplyInnerWrapper.getLocationOnScreen(loc);
+        int wrapperY = loc[1];
+        mReplyFabBtn.getLocationOnScreen(loc);
+        int btnY = loc[1];
+        int delta = btnY - wrapperY + mReplyFabBtn.getMeasuredHeight() / 2;
+        return delta;
+    }
+
     void animateEditInnerWrapper(boolean isShow) {
         if (mSlidrInterface != null) {
             if (isShow) mSlidrInterface.lock();
             else mSlidrInterface.unlock();
         }
 
-        int cX = ScaleUtils.getScreenW() - ScaleUtils.dp(56) - ScaleUtils.dp(16);
-        int cY = ScaleUtils.dp(48) / 2;
+        int cX = ScaleUtils.getScreenW() - mReplyFabBtn.getMeasuredWidth() / 2 - ScaleUtils.dp(16);
         int startRadius = ScaleUtils.dp(25);
         int endRadius = ScaleUtils.getScreenW();
         if (isShow) {//show edit wrapper
             mReplyFabBtn.hide();
-            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, startRadius, endRadius);
+            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, getRelativeY(), startRadius, endRadius);
             animator.setDuration(400);
             animator.setStartDelay(100);
             animator.addListener(new AnimatorListenerAdapter() {
@@ -756,7 +765,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             animator.start();
         } else {//hide wrapper
             if (mReplyWrapper.getVisibility() != View.VISIBLE) return;
-            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, cY, endRadius, startRadius);
+            Animator animator = ViewAnimationUtils.createCircularReveal(mReplyInnerWrapper, cX, getRelativeY(), endRadius, startRadius);
             animator.setDuration(300);
             animator.addListener(new AnimatorListenerAdapter() {
                 @Override
