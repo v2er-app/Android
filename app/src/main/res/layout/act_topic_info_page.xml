@@ -36,7 +36,6 @@
         app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
-
         <android.support.v7.widget.CardView
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
@@ -47,6 +46,7 @@
             app:cardElevation="10dp">
 
             <RelativeLayout
+                android:id="@+id/inner_reply_wrapper_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

@@ -105,18 +105,42 @@ public class Utils {
     }
 
     public static int getNavigationBarHeight() {
+        // TODO: 2020-01-18
+        // 1. 判断手机上是否有NavigationBar个别手机上会出错  -> 遮盖
+        // 2. 个别手机上返回的NavigationBar高度有误   -> 导致Padding设置有误
         if (!hasNavBar(App.get().getResources())) return 0;
         int navigationBarHeight;
         int resourceId = App.get().getResources().getIdentifier("navigation_bar_height", "dimen", "android");
         if (resourceId > 0) {
             navigationBarHeight = App.get().getResources().getDimensionPixelSize(resourceId);
         } else {
+            // 16dp, 48dp
             navigationBarHeight = ScaleUtils.dp(48);
         }
         return navigationBarHeight;
     }
 
+    public static boolean isEmulator() {
+        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.HARDWARE.contains("goldfish")
+                || Build.HARDWARE.contains("ranchu")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || Build.PRODUCT.contains("sdk_google")
+                || Build.PRODUCT.contains("google_sdk")
+                || Build.PRODUCT.contains("sdk")
+                || Build.PRODUCT.contains("sdk_x86")
+                || Build.PRODUCT.contains("vbox86p")
+                || Build.PRODUCT.contains("emulator")
+                || Build.PRODUCT.contains("simulator");
+    }
+
     public static boolean hasNavBar(Resources resources) {
+        if (isEmulator()) return true;
         int id = resources.getIdentifier("config_showNavigationBar", "bool", "android");
         return (id > 0 && resources.getBoolean(id) || Pref.readBool(R.string.pref_key_title_btn_overlay));
     }

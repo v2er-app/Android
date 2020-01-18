@@ -89,6 +89,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     KeyboardDetectorRelativeLayout mReplyWrapper;
     @BindView(R.id.topic_inner_reply_wrapper)
     ViewGroup mReplyInnerWrapper;
+    @BindView(R.id.inner_reply_wrapper_content)
+    ViewGroup mReplyLayout;
     @BindView(R.id.topic_reply_et)
     EditText mReplyEt;
     @BindView(R.id.reply_fab_btn)
@@ -399,7 +401,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
-        Utils.setPaddingForNavbar(mReplyWrapper);
+        Utils.setPaddingForNavbar(mReplyLayout);
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
@@ -908,13 +910,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void onKeyboardShown() {
         L.d("onKeyboardShown");
-        mReplyWrapper.setPadding(mReplyWrapper.getPaddingLeft(), mReplyWrapper.getPaddingTop(), mReplyWrapper.getPaddingRight(), 0);
+        mReplyLayout.setPadding(0, 0, 0, 0);
     }
 
     @Override
     public void onKeyboardHidden() {
         L.d("onKeyboardHidden");
-        Utils.setPaddingForNavbar(mReplyWrapper);
+        Utils.setPaddingForNavbar(mReplyLayout);
     }
 
     @Override
