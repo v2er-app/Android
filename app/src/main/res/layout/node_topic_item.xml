@@ -7,7 +7,7 @@
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
     android:orientation="horizontal"
-    android:paddingTop="12dp">
+    android:paddingTop="6dp">
 
     <LinearLayout
         android:id="@+id/user_wrapper"
@@ -46,7 +46,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="12dp"
         android:gravity="bottom"
-        android:paddingBottom="12dp"
+        android:paddingBottom="6dp"
         tools:text="评论38" />
 
     <TextView
@@ -55,7 +55,7 @@
         android:layout_alignBottom="@id/comment_num_tv"
         android:layout_marginEnd="8dp"
         android:layout_toStartOf="@id/comment_num_tv"
-        android:paddingBottom="12dp"
+        android:paddingBottom="6dp"
         tools:text="点击23" />
 
     <View
