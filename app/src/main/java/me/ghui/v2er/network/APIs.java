@@ -48,6 +48,16 @@ public interface APIs {
     @GET("/api/topics/hot.json")
     Observable<DailyHotInfo> dailyHot();
 
+    @Json
+    @GET("/api/nodes/show.json")
+    Observable<NodeInfo> nodeInfo(@Query("name") String name);
+
+    @Json
+    @GET("/api/nodes/s2.json")
+    Observable<NodesInfo> nodes();
+
+    // Below is html api
+
     @Html
     @GET("/")
     Observable<NewsInfo> homeNews(@Query("tab") String tab);
@@ -91,9 +101,6 @@ public interface APIs {
     @GET("/")
     Observable<NodesNavInfo> nodesNavInfo();
 
-    @Json
-    @GET("/api/nodes/show.json")
-    Observable<NodeInfo> nodeInfo(@Query("name") String name);
 
     @Html
     @GET("/go/{node}")
@@ -125,9 +132,6 @@ public interface APIs {
     @POST("/append/topic/{id}")
     Observable<TopicInfo> appendTopic(@Path("id") String topicId, @FieldMap Map<String, String> postParams);
 
-    @Json
-    @GET("/api/nodes/s2.json")
-    Observable<NodesInfo> nodes();
 
     @Html
     @POST("/thank/reply/{id}")
@@ -219,7 +223,6 @@ public interface APIs {
     @Html
     @GET
     Observable<TopicInfo> stickyTopic(@Url String url);
-
 
 
 }

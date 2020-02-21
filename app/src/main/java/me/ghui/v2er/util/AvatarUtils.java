@@ -12,7 +12,11 @@ public class AvatarUtils {
         if (Check.isEmpty(avatar)) return null;
         //1.
         if (!avatar.startsWith(Constants.HTTPS_SCHEME) && !avatar.startsWith(Constants.HTTP_SCHEME)) {
-            avatar = Constants.HTTPS_SCHEME + avatar;
+            if (avatar.startsWith("//")) {
+                avatar = Constants.HTTPS_SCHEME + avatar;
+            } else if (avatar.startsWith("/")) {
+                avatar = Constants.BASE_URL + avatar;
+            }
         }
 
         //2.

@@ -86,6 +86,4 @@ public class SignInWithGoogleActivity extends WapActivity {
                     }
                 });
     }
-
-
 }

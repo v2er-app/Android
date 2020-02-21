@@ -14,7 +14,7 @@ import me.ghui.v2er.util.Utils;
  * https://www.v2ex.com/my/nodes
  */
 
-@Pick("div#MyNodes")
+@Pick("div#my-nodes")
 public class NodeStarInfo extends BaseInfo {
 
     @Pick("a.grid_item")
