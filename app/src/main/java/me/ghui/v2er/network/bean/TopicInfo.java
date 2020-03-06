@@ -481,7 +481,7 @@ public class TopicInfo extends BaseInfo {
         private String avatar;
         @Pick("span.fade.small:not(:contains(♥))")
         private String time;
-        @Pick("span.fade.small:contains(♥)")
+        @Pick("span.small.fade:has(img)")
         private String love;
         @Pick("span.no")
         private int floor;
@@ -571,7 +571,7 @@ public class TopicInfo extends BaseInfo {
                 return loveCount;
             }
             try {
-                loveCount = Integer.parseInt(love.substring(2));
+                loveCount = Integer.parseInt(love);
             } catch (Exception e) {
                 e.printStackTrace();
                 loveCount = 0;
@@ -579,14 +579,10 @@ public class TopicInfo extends BaseInfo {
             return loveCount;
         }
 
-        public void setLove(int count) {
-            this.love = "♥ " + count;
-        }
-
         public void updateThanks(boolean isSuccess) {
             if (isSuccess) {
                 alreadyThanked = "感谢已发送";
-                this.love = "♥ " + (getLove() + 1);
+                this.love = getLove() + 1 + "";
             }
         }
 
