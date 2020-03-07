@@ -36,6 +36,7 @@ public class UriUtils {
                 url = schema + "://" + url;
             }
         }
+        if (!isValideUrl(url)) return "";
         return url;
     }
 

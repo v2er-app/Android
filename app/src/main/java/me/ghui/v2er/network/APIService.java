@@ -5,7 +5,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
+
+import javax.annotation.Nullable;
 
 import me.ghui.fruit.Fruit;
 import me.ghui.fruit.converter.retrofit.FruitConverterFactory;
@@ -16,10 +19,14 @@ import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.L;
 import okhttp3.Interceptor;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.Protocol;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -113,7 +120,33 @@ public class APIService {
                         .addHeader("user-agent", WAP_USER_AGENT)
                         .build();
             }
-            return chain.proceed(request);
+            try {
+                return chain.proceed(request);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new Response.Builder()
+                        .protocol(Protocol.HTTP_1_1)
+                        .code(404)
+                        .message("Exeception when execute chain.proceed request")
+                        .body(new ResponseBody() {
+                            @Nullable
+                            @Override
+                            public MediaType contentType() {
+                                return null;
+                            }
+
+                            @Override
+                            public long contentLength() {
+                                return 0;
+                            }
+
+                            @Override
+                            public BufferedSource source() {
+                                return null;
+                            }
+                        })
+                        .request(request).build();
+            }
         }
     }
 
