@@ -397,8 +397,8 @@ public class TopicInfo extends BaseInfo {
 
         public String getTime() {
             try {
-                if (Check.isEmpty(computedTime) && Check.notEmpty(time) && time.contains(",")) {
-                    computedTime = time.split(",")[0].trim().substring(6).replaceAll(" ", "").trim();
+                if (Check.isEmpty(computedTime) && Check.notEmpty(time) && time.contains("·")) {
+                    computedTime = time.split("·")[0].trim().substring(6).replaceAll(" ", "").trim();
                     if (computedTime.contains("-") && computedTime.contains("+")) {
                         computedTime = computedTime.substring(0, 10);
                     }
@@ -412,7 +412,7 @@ public class TopicInfo extends BaseInfo {
 
         public int getViewCount() {
             try {
-                String count = time.split(",")[1].trim();
+                String count = time.split("·")[1].trim();
                 return Integer.parseInt(count.substring(0, count.indexOf(" ")));
             } catch (Exception e) {
                 return 0;
