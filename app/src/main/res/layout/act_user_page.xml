@@ -69,7 +69,7 @@
                         android:gravity="center"
                         android:paddingTop="2dp"
                         android:paddingBottom="2dp"
-                        android:text="Online"
+                        android:text="ONLINE"
                         android:textColor="#4aba00"
                         android:textStyle="bold"
                         android:visibility="invisible"
