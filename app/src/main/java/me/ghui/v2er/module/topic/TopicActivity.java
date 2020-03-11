@@ -362,7 +362,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             @Override
             public void onTransitionStart(Transition transition) {
                 if (mIsReturning) {
-                    mReplyFabBtn.setVisibility(View.GONE);
+//                    mReplyFabBtn.setVisibility(View.GONE);
+                    mReplyFabBtn.hide();
                 }
             }
 
@@ -405,7 +406,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
-        mReplyFabBtn.setVisibility(!mIsLogin || mIsHideReplyBtn ? View.GONE : VISIBLE);
+//        mReplyFabBtn.setVisibility(!mIsLogin || mIsHideReplyBtn ? View.GONE : VISIBLE);
+        if (!mIsLogin || mIsHideReplyBtn) {
+            mReplyFabBtn.hide();
+        } else mReplyFabBtn.show();
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) mReplyFabBtn.getLayoutParams();
         layoutParams.bottomMargin = ScaleUtils.dp(20) + Utils.getNavigationBarHeight();
         mReplyWrapper.addKeyboardStateChangedListener(this);
@@ -632,7 +636,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mFadeItem.setVisible(isSelf && mTopicInfo.canfade());
         mStickyItem.setVisible(isSelf && mTopicInfo.canSticky());
         if (!mIsHideReplyBtn && mIsLogin) {
-            mReplyFabBtn.setVisibility(VISIBLE);
+//            mReplyFabBtn.setVisibility(VISIBLE);
+            mReplyFabBtn.show();
         }
         fillAtList();
         autoScroll();
@@ -867,11 +872,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void afterReplyTopic(TopicInfo topicInfo) {
         if (topicInfo.isValid()) {
-            fillView(topicInfo, topicInfo.getTotalPage());
-            mReplyEt.setText(null);
             toast("回复成功");
             Utils.toggleKeyboard(false, mReplyEt);
             animateEditInnerWrapper(false);
+            fillView(topicInfo, topicInfo.getTotalPage());
+            mReplyEt.setText(null);
         } else {
             toast("回复失败");
         }
