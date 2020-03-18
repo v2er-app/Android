@@ -8,7 +8,6 @@ import me.ghui.v2er.network.bean.BaseInfo;
  * Created by ghui on 16/08/2017.
  */
 
-@Pick("div#Top")
 public class LoginResultInfo extends BaseInfo {
     @Pick(value = "[href^=/member]", attr = "href")
     private String userLink;

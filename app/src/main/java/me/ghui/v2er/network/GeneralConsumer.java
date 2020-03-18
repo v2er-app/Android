@@ -81,7 +81,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                             if (resultInfo instanceof LoginParam) {
                                 if (UserUtils.isLogin()) {
                                     generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
-                                    generalError.setMessage("登录已过期，请重新登");
+                                    generalError.setMessage("登录已过期，请重新登录");
                                 } else {
                                     generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
                                     generalError.setMessage("需要您先去登录");
@@ -120,7 +120,8 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 HttpException he = (HttpException) e;
                 generalError = new GeneralError(he.code(), he.message());
             } else {
-                generalError = new GeneralError(ResultCode.NETWORK_ERROR, "Network Connection Error");
+                // 未知错误
+                generalError = new GeneralError(ResultCode.NETWORK_ERROR, "Unknown Error");
             }
         }
 
