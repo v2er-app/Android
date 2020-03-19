@@ -266,6 +266,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initTheme();
+        edge2edge();
         Bus.register(this);
         setContentView(onCreateRootView());
         if (supportSlideBack()) {
@@ -280,6 +281,11 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         configToolBar(mToolbar);
         init();
         autoLoad();
+    }
+
+    private void edge2edge() {
+        View view = getWindow().getDecorView();
+        view.setSystemUiVisibility(view.getSystemUiVisibility() | View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
     }
 
     @Override
