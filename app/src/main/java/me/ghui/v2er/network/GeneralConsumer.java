@@ -14,6 +14,7 @@ import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import retrofit2.HttpException;
 
@@ -121,7 +122,10 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 generalError = new GeneralError(he.code(), he.message());
             } else {
                 // 未知错误
-                generalError = new GeneralError(ResultCode.NETWORK_ERROR, "Unknown Error");
+                String msg = "Unknown Error";
+                if (!Utils.isNetworkAvailable()) msg = "Network Connection Error";
+                generalError = new GeneralError(ResultCode.NETWORK_ERROR, msg);
+                Sentry.capture("generalConsumer.onError: " + e);
             }
         }
 
