@@ -344,7 +344,7 @@ public class Utils {
         String versionName = "";
         try {
             packageInfo = packageManager.getPackageInfo(context.getPackageName(), 0);
-            versionName = packageInfo.versionName;
+            versionName = packageInfo.versionName + " (" + packageInfo.versionCode + ")";
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
