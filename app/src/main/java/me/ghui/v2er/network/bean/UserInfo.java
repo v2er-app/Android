@@ -139,7 +139,8 @@ public class UserInfo extends BaseInfo {
     }
 
     public String getAvatar() {
-        return "https:" + avatar;
+        if (!avatar.startsWith("http")) return "https:" + avatar;
+        return avatar;
     }
 
     public void setAvatar(String avatar) {
