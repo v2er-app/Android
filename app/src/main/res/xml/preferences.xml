@@ -98,12 +98,6 @@
         android:layout="@layout/preference_category_widget"
         android:title="联系">
         <Preference
-            android:key="@string/pref_key_contact_me_wechat"
-            android:layout="@layout/preference_item"
-            android:title="V2er Friends"
-            android:enabled="false"
-            android:summary="高级版用户群" />
-        <Preference
             android:key="@string/pref_key_contact_me_tg"
             android:layout="@layout/preference_item"
             android:summary="\v2er_app"
@@ -113,6 +107,12 @@
             android:layout="@layout/preference_item"
             android:summary="\@sethcreate"
             android:title="Twitter" />
+        <Preference
+            android:key="@string/pref_key_contact_me_wechat"
+            android:layout="@layout/preference_item"
+            android:title="V2er Friends"
+            android:enabled="false"
+            android:summary="高级版用户群" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
