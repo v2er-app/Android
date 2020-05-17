@@ -17,7 +17,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import me.ghui.v2er.util.Check;
-import me.ghui.v2er.util.AppCenter;
+import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -165,7 +165,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
             if (mSearchRootView.isAttachedToWindow()) {
                 mSearchRootView.animate().alpha(1f).start();
             } else {
-                AppCenter.capture("mSearchRootView is Detached");
+                V2er.capture("mSearchRootView is Detached");
             }
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,
@@ -187,7 +187,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                         getActivity().getSupportFragmentManager().popBackStack();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        AppCenter.logEvent("mCardView is null");
+                        V2er.logEvent("mCardView is null");
                     }
                 }
             });

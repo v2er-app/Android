@@ -18,7 +18,7 @@ import me.ghui.v2er.injector.module.NewsModule;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
-import me.ghui.v2er.util.AppCenter;
+import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -163,7 +163,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
         if (position < 0) {
-            AppCenter.capture("NewsFragment.onItemClick.postion < 0");
+            V2er.capture("NewsFragment.onItemClick.postion < 0");
             return;
         }
         View shareView = holder.getView(R.id.avatar_img);

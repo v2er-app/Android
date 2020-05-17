@@ -30,6 +30,7 @@ import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.widget.BaseToolBar;
 
 /**
@@ -180,7 +181,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                     public void onConsume(LoginResultInfo resultInfo) {
                                         toast("登录成功");
                                         UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-//                                        FlurryAgent.setUserId(resultInfo.getUserName());
+                                        V2er.setUserId(resultInfo.getUserName());
                                         finish();
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)

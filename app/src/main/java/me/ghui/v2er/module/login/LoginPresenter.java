@@ -2,9 +2,6 @@ package me.ghui.v2er.module.login;
 
 
 
-import com.microsoft.appcenter.analytics.Analytics;
-
-import me.ghui.v2er.util.AppCenter;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
@@ -16,6 +13,7 @@ import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.util.V2er;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -74,7 +72,7 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             DailyInfo resultInfo = (DailyInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
-//                            FlurryAgent.setUserId(resultInfo.getUserName());
+                            V2er.setUserId(resultInfo.getUserName());
 
                         } else if (info instanceof LoginParam) {
                             //login failure

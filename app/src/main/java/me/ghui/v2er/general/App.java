@@ -21,7 +21,7 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.util.AppCenter;
+import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.L;
 
 /**
@@ -59,7 +59,7 @@ public class App extends Application {
     private void rxjava() {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
-            AppCenter.capture("globalHandler: " + e.getMessage());
+            V2er.capture("globalHandler: " + e.getMessage());
         });
     }
 

@@ -1,12 +1,13 @@
 package me.ghui.v2er.util;
 
+import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 
 /**
- * Flurry to wrapper FlurryClient
+ * Analyse to wrapper V2er
  */
-public class AppCenter {
+public class V2er {
 
     public static void capture(Throwable e) {
         Crashes.trackError(e);
@@ -18,6 +19,10 @@ public class AppCenter {
 
     public static void logEvent(String msg) {
         Analytics.trackEvent(msg);
+    }
+
+    public static void setUserId (String userId) {
+        AppCenter.setUserId(userId);
     }
 
 }
