@@ -29,6 +29,7 @@
         android:title="忽略" />
     <item
         android:id="@id/action_report"
+        android:visible="false"
         android:title="举报" />
     <item
         android:id="@id/action_share"

@@ -40,7 +40,9 @@ public class TopicInfo extends BaseInfo {
     @Pick(value = "meta[property=og:url]", attr = "content")
     private String topicLink;
     @Pick(value = "a[onclick*=/report/topic/]", attr = "onclick")
-    private String reportStr;
+    private String reportLink;
+    @Pick(value = "div.content div.box div.inner span.fade")
+    private String hasRePortStr;
     @Pick(value = "a[onclick*=/fade/topic/]", attr = "onclick")
     private String fadeStr;
     @Pick(value = "a[onclick*=/sticky/topic/]", attr = "onclick")
@@ -64,16 +66,20 @@ public class TopicInfo extends BaseInfo {
         return Check.notEmpty(fadeUrl());
     }
 
-    public boolean hasReport() {
-        return UserUtils.isLogin() && Check.isEmpty(reportStr);
+    public boolean hasReported() {
+        return UserUtils.isLogin() && !TextUtils.isEmpty(hasRePortStr) && hasRePortStr.contains("已对本主题进行了报告");
+    }
+
+    public boolean hasReportPermission() {
+        return hasReported() || !TextUtils.isEmpty(reportLink);
     }
 
     public String reportUrl() {
-        if (hasReport()) return null;
+        if (hasReported()) return null;
         //if (confirm('你确认需要报告这个主题？')) { location.href = '/report/topic/390988?t=1456813618'; }
-        int sIndex = reportStr.indexOf("/report/topic/");
-        int eIndex = reportStr.lastIndexOf("'");
-        return reportStr.substring(sIndex, eIndex);
+        int sIndex = reportLink.indexOf("/report/topic/");
+        int eIndex = reportLink.lastIndexOf("'");
+        return reportLink.substring(sIndex, eIndex);
     }
 
     public String fadeUrl() {

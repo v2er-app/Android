@@ -630,7 +630,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
         updateStarStatus(headerInfo.hadStared(), false);
         updateThxCreatorStatus(headerInfo.hadThanked(), false);
-        updateReportMenuItem(mTopicInfo.hasReport());
+        updateReportMenuItem(mTopicInfo.hasReportPermission(), mTopicInfo.hasReported());
         boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
         mAppendItem.setVisible(isSelf && mTopicInfo.getHeaderInfo().canAppend());
         mFadeItem.setVisible(isSelf && mTopicInfo.canfade());
@@ -807,9 +807,10 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         }
     }
 
-    private void updateReportMenuItem(boolean hasReport) {
-        mReportMenuItem.setTitle(hasReport ? "已举报" : "举报");
-        mReportMenuItem.setEnabled(!hasReport);
+    private void updateReportMenuItem(boolean hasReportPermission, boolean hasReported) {
+        mReportMenuItem.setTitle(hasReported ? "已举报" : "举报");
+        mReportMenuItem.setEnabled(!hasReported);
+        mReportMenuItem.setVisible(hasReportPermission);
     }
 
 
