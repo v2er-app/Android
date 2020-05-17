@@ -4,7 +4,8 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 
-import com.flurry.android.FlurryAgent;
+import com.microsoft.appcenter.analytics.Analytics;
+import com.microsoft.appcenter.crashes.Crashes;
 import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -20,10 +21,8 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.util.Flurry;
+import me.ghui.v2er.util.AppCenter;
 import me.ghui.v2er.util.L;
-import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.util.Voast;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -60,7 +59,7 @@ public class App extends Application {
     private void rxjava() {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
-            Flurry.capture("globalHandler: " + e.getMessage());
+            AppCenter.capture("globalHandler: " + e.getMessage());
         });
     }
 
@@ -80,17 +79,14 @@ public class App extends Application {
     }
 
     private void initThirdPartySDK() {
-        if (BuildConfig.DEBUG) return;
-        initFlurry();
+//        if (BuildConfig.DEBUG) return;
+        initAppCenter();
         initWechat();
     }
 
-    private void initFlurry() {
-        new FlurryAgent.Builder()
-                .withLogEnabled(BuildConfig.DEBUG)
-                .withCaptureUncaughtExceptions(true)
-                .build(this, "4PZMS4HSZP3YNMBP8W4R");
-        FlurryAgent.setUserId(UserUtils.getUserName());
+    private void initAppCenter() {
+        com.microsoft.appcenter.AppCenter.start(this, "86417784-dfd2-4d2e-9ed9-fccb88bb2b1f",
+                Analytics.class, Crashes.class);
     }
 
     private void initWechat() {

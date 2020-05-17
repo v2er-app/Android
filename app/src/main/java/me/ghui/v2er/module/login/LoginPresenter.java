@@ -1,8 +1,10 @@
 package me.ghui.v2er.module.login;
 
 
-import com.flurry.android.FlurryAgent;
 
+import com.microsoft.appcenter.analytics.Analytics;
+
+import me.ghui.v2er.util.AppCenter;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.App;
@@ -72,7 +74,8 @@ public class LoginPresenter implements LoginContract.IPresenter {
                             DailyInfo resultInfo = (DailyInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
-                            FlurryAgent.setUserId(resultInfo.getUserName());
+//                            FlurryAgent.setUserId(resultInfo.getUserName());
+
                         } else if (info instanceof LoginParam) {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;

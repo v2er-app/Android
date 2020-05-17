@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: "com.flurry.android.symbols"
 
 android {
     compileSdkVersion 29
@@ -106,10 +105,8 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.android.billingclient:billing:1.0'
     implementation 'com.oasisfeng.condom:library:2.2.0'
-    implementation 'com.flurry.android:analytics:12.1.0'
     implementation 'org.slf4j:slf4j-nop:1.7.25'
-}
-
-flurryCrash {
-    configPath "flurry.config"
+    def appCenterSdkVersion = '3.2.1'
+    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
+    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 }

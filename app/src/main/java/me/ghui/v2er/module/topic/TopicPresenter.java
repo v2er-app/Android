@@ -10,7 +10,7 @@ import me.ghui.v2er.network.bean.IgnoreResultInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
-import me.ghui.v2er.util.Flurry;
+import me.ghui.v2er.util.AppCenter;
 import me.ghui.v2er.util.RefererUtils;
 import me.ghui.v2er.util.UserUtils;
 
@@ -90,7 +90,7 @@ public class TopicPresenter implements TopicContract.IPresenter {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         if (topicInfo == null) {
-                            Flurry.capture("afterStarTopic.mTopicID: " + topicId + ", t: " + t);
+                            AppCenter.capture("afterStarTopic.mTopicID: " + topicId + ", t: " + t);
                         }
                         mView.afterStarTopic(topicInfo);
                     }

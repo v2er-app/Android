@@ -1,7 +1,5 @@
 package me.ghui.v2er.network;
 
-import java.io.IOException;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
@@ -10,7 +8,7 @@ import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
-import me.ghui.v2er.util.Flurry;
+import me.ghui.v2er.util.AppCenter;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -42,7 +40,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
         if (t == null) {
             L.e("API RESPONSE: NULL");
             onError(new Throwable("Unknown Error"));
-            Flurry.capture("GeneralConsumer: t is null");
+            AppCenter.capture("GeneralConsumer: t is null");
             return;
         }
         L.v("API RESPONSE: \n" + t.toString() + "\n");
@@ -125,7 +123,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 String msg = "Unknown Error";
                 if (!Utils.isNetworkAvailable()) msg = "Network Connection Error";
                 generalError = new GeneralError(ResultCode.NETWORK_ERROR, msg);
-                Flurry.capture("generalConsumer.onError: " + e);
+                AppCenter.capture("generalConsumer.onError: " + e);
             }
         }
 
