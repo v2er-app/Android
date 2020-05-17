@@ -17,8 +17,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.sentry.Sentry;
 import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -166,7 +166,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
             if (mSearchRootView.isAttachedToWindow()) {
                 mSearchRootView.animate().alpha(1f).start();
             } else {
-                Sentry.capture("mSearchRootView is Detached");
+                Flurry.capture("mSearchRootView is Detached");
             }
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,

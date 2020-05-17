@@ -8,7 +8,6 @@ import android.support.customtabs.CustomTabsIntent;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import io.sentry.Sentry;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
@@ -16,6 +15,7 @@ import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -84,7 +84,7 @@ public class UrlInterceptor {
             try {
                 customTabsIntent.launchUrl(context, Uri.parse(url));
             } catch (ActivityNotFoundException e) {
-                Sentry.capture(e);
+                Flurry.capture(e);
                 WapActivity.open(url, context, true);
             }
             return true;

@@ -34,8 +34,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import io.sentry.Sentry;
 import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
@@ -817,7 +817,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void afterStarTopic(TopicInfo topicInfo) {
         if (mTopicInfo == null) {
-            Sentry.capture("afterStarTopic.mTopicID: " + mTopicId);
+            Flurry.capture("afterStarTopic.mTopicID: " + mTopicId);
             toast("收藏遇到问题");
             return;
         }

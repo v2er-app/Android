@@ -35,6 +35,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import io.reactivex.ObservableTransformer;
 import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;

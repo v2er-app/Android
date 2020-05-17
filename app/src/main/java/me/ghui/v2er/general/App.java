@@ -14,15 +14,13 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.reactivex.plugins.RxJavaPlugins;
-import io.sentry.Sentry;
-import io.sentry.android.AndroidSentryClientFactory;
-import io.sentry.event.User;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Voast;
@@ -62,7 +60,7 @@ public class App extends Application {
     private void rxjava() {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
-            Sentry.capture("rxGlobalHandler: " + e);
+            Flurry.capture("globalHandler: " + e.getMessage());
         });
     }
 
@@ -83,7 +81,6 @@ public class App extends Application {
 
     private void initThirdPartySDK() {
         if (BuildConfig.DEBUG) return;
-        initSentry();
         initFlurry();
         initWechat();
     }
@@ -91,16 +88,9 @@ public class App extends Application {
     private void initFlurry() {
         new FlurryAgent.Builder()
                 .withLogEnabled(BuildConfig.DEBUG)
-                .withCaptureUncaughtExceptions(false)
+                .withCaptureUncaughtExceptions(true)
                 .build(this, "4PZMS4HSZP3YNMBP8W4R");
         FlurryAgent.setUserId(UserUtils.getUserName());
-    }
-
-    private void initSentry() {
-        String sentryDsn = "https://09079965b3d74fdba7d4e5b867df5df3@sentry.io/1476360";
-        Sentry.init(sentryDsn, new AndroidSentryClientFactory(this));
-        User user = new User(null, UserUtils.getUserName(), null, null, null);
-        Sentry.getContext().setUser(user);
     }
 
     private void initWechat() {
