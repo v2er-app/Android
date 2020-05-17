@@ -40,7 +40,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     @Override
     protected void configWebView(WebSettings settings) {
         super.configWebView(settings);
-        settings.setUserAgentString(APIService.WEB_USER_AGENT);
+        settings.setUserAgentString(APIService.WAP_USER_AGENT);
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
