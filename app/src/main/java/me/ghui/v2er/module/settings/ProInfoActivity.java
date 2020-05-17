@@ -60,20 +60,15 @@ public class ProInfoActivity extends BaseActivity {
 
         new ConfirmDialog.Builder(this)
                 .title("激活Pro版")
-                .msg("目前V2er仅支持在Google Play商店中激活，若你无法在Play商店付款可选择微信的方式付款(享7折)")
+                .msg("目前V2er仅支持在Google Play商店中激活")
                 .positiveText("GooglePlay", dialog -> BillingManager.get().startPurchaseFlow(getActivity(), isSuccess -> {
                     isPro = isSuccess;
                     String msg = isSuccess ? "激活成功!" : "激活失败";
                     Voast.show(msg);
                     updateUI();
                 }, true))
-                .negativeText("微信", dialog -> {
-                    Utils.copy2Clipboard("ghuiii");
-                    Voast.show("V2er微信购买账号 ghuiii 已复制到剪切板");
-                })
+                .negativeText("取消")
                 .build().show();
-
-
     }
 
     public void onNoResponseClicked(View view) {

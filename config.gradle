@@ -1,7 +1,7 @@
 ext {
     app = [
-            versionCode: 98,
-            versionName: "1.6.6",
+            versionCode: 99,
+            versionName: "1.6.7",
             betaSuffix : ""
     ]
     android = [
