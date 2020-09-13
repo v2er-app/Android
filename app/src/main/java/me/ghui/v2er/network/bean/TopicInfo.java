@@ -29,7 +29,7 @@ import me.ghui.v2er.util.Utils;
 public class TopicInfo extends BaseInfo {
     @Pick("div#Wrapper")
     private HeaderInfo headerInfo;
-    @Pick("div.box")
+    @Pick("div.content div.box")
     private ContentInfo contentInfo;
     @Pick("div.problem")
     private Problem problem;
