@@ -16,7 +16,7 @@ import me.ghui.v2er.util.Voast;
 
 public class SearchPresenter implements SearchContract.IPresenter {
     //    http://cn.bing.com/search?q=android+site%3av2ex.com&first=21
-    private static final String BING_URL = "http://cn.bing.com/search";
+    private static final String BING_URL = "https://cn.bing.com/search";
 
     private SearchContract.IView mView;
     private Uri.Builder mUriBuilder;
