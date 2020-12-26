@@ -1,5 +1,7 @@
 package me.ghui.v2er.network.bean;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -18,11 +20,11 @@ import me.ghui.v2er.util.Utils;
 @Pick("div#Wrapper")
 public class NodeTopicInfo extends BaseInfo {
 
-    @Pick("div.fr.f12 > strong.gray")
+    @Pick("span.topic-count strong")
     private int total;
-    @Pick(value = "div.fr.f12 > a", attr = Attrs.HREF)
+    @Pick(value = "a[href*=favorite/] ", attr = Attrs.HREF)
     private String favoriteLink;
-    @Pick("div.cell")
+    @Pick("div.box div.cell:has(table)")
     private List<Item> items;
 
     public void setItems(List<Item> items) {
@@ -94,6 +96,9 @@ public class NodeTopicInfo extends BaseInfo {
         }
 
         public String getAvatar() {
+            if (!TextUtils.isEmpty(avatar) && avatar.startsWith("http")) {
+                return avatar;
+            }
             return Constants.HTTPS_SCHEME + avatar;
         }
 
