@@ -21,6 +21,7 @@ import me.ghui.v2er.network.bean.NodesInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.network.bean.SimpleInfo;
+import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
@@ -55,6 +56,10 @@ public interface APIs {
     @Json
     @GET("/api/nodes/s2.json")
     Observable<NodesInfo> nodes();
+
+    @Json
+    @GET("https://www.sov2ex.com/api/search")
+    Observable<SoV2EXSearchResultInfo> search(@Query("q") String keyword, @Query("from") int from);
 
     // Below is html api
 

@@ -16,6 +16,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.Theme;
@@ -56,7 +58,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     View mSearchRootView;
 
     @Inject
-    LoadMoreRecyclerView.Adapter<BingSearchResultInfo.Item> mResultAdapter;
+    LoadMoreRecyclerView.Adapter<SoV2EXSearchResultInfo.Hit> mResultAdapter;
 
     public static SearchFragment newInstance() {
         Bundle args = new Bundle();
@@ -207,21 +209,21 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     }
 
     @Override
-    public void fillView(BingSearchResultInfo resultInfo, boolean isLoadMore) {
+    public void fillView(SoV2EXSearchResultInfo resultInfo, boolean isLoadMore) {
         if (resultInfo == null) {
             mResultAdapter.setData(null);
             mResultRecyV.setVisibility(View.GONE);
             return;
         }
         mResultRecyV.setVisibility(View.VISIBLE);
-        mResultAdapter.setData(resultInfo.getItems(), isLoadMore);
-        mResultRecyV.setHasMore(resultInfo.hasMore());
+        mResultAdapter.setData(resultInfo.getHits(), isLoadMore);
+        mResultRecyV.setHasMore(resultInfo.getTotal());
     }
 
     @Override
     public void onItemClick(View view, ViewHolder holder, int position) {
-        String link = mResultAdapter.getDatas().get(position).getLink();
-        UrlInterceptor.openWapPage(link, getContext());
+        TopicActivity.openById(mResultAdapter.getItem(position).getSource().getId(),
+                getContext(), null, null);
     }
 
 

@@ -81,7 +81,9 @@ public class RichTextConfig {
         CharSequence content = Vtml.removePadding(spanned);
         textView.setText(content);
         ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
-        textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images, textView));
+        if (mUrlClickListener != null || mImageClickListener != null) {
+            textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images, textView));
+        }
     }
 
 }

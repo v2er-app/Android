@@ -74,6 +74,12 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         mWillLoadPage = willLoadPage;
     }
 
+    public void setHasMore(int total) {
+        Adapter loadMoreAdapter = (Adapter) getAdapter();
+        boolean hasMore = total > loadMoreAdapter.getContentItemCount();
+        setHasMore(hasMore);
+    }
+
     public void setHasMore(boolean hasMore) {
         mLoading = false;
         if (hasMore) {

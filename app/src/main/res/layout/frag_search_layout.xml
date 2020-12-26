@@ -40,8 +40,8 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:clickable="true"
                     android:contentDescription="back"
-                    android:padding="15dp"
-                    android:src="@drawable/ic_bing"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_sov2ex"
                     android:tint="?attr/icon_tint_color" />
 
                 <EditText
@@ -51,7 +51,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-                    android:hint="Search V2EX"
+
+                    android:hint="Powered by sov2ex"
                     android:imeOptions="actionSearch"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp"

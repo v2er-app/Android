@@ -63,6 +63,7 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
         <item name="android:background">@null</item>
         <item name="android:paddingBottom">-2dp</item>
+        <item name="android:inputType">textVisiblePassword</item>
     </style>
 
 

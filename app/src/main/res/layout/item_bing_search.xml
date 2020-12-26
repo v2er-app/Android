@@ -28,6 +28,7 @@
             android:id="@+id/search_result_content_tv"
             style="@style/BodyText"
             android:layout_width="match_parent"
+            android:maxLines="3"
             android:paddingTop="8dp"
             tools:text="Android - @yuyu5 - 当我们在 android 的 drawable 文件下加入图片的，常会因为图片命名不规范而引发一系列问题。今天，北京上课了的讲师为大家介绍一下 android 加入图片 ..." />
     </LinearLayout>

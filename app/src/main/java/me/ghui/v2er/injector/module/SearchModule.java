@@ -9,7 +9,9 @@ import me.ghui.v2er.module.home.SearchContract;
 import me.ghui.v2er.module.home.SearchFragment;
 import me.ghui.v2er.module.home.SearchPresenter;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
+import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.richtext.RichText;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -29,12 +31,13 @@ public class SearchModule {
     }
 
     @Provides
-    public LoadMoreRecyclerView.Adapter<BingSearchResultInfo.Item> provideAdapter() {
-        return new CommonLoadMoreAdapter<BingSearchResultInfo.Item>(mFragment.getContext(), R.layout.item_bing_search) {
+    public LoadMoreRecyclerView.Adapter<SoV2EXSearchResultInfo.Hit> provideAdapter() {
+        return new CommonLoadMoreAdapter<SoV2EXSearchResultInfo.Hit>(mFragment.getContext(), R.layout.item_bing_search) {
             @Override
-            protected void convert(ViewHolder holder, BingSearchResultInfo.Item item, int position) {
-                holder.setText(R.id.search_result_title_tv, item.getTitle());
-                holder.setText(R.id.search_result_content_tv, item.getContent());
+            protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
+                holder.setText(R.id.search_result_title_tv, hit.getSource().getTitle());
+                RichText.from(hit.getSource().getContent())
+                        .into(holder.getTextView(R.id.search_result_content_tv));
             }
         };
     }
