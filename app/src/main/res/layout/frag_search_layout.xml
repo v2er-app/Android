@@ -51,7 +51,6 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center_vertical"
-
                     android:hint="Powered by sov2ex"
                     android:imeOptions="actionSearch"
                     android:paddingLeft="4dp"
