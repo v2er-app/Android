@@ -3,6 +3,7 @@ package me.ghui.v2er.network.bean;
 import me.ghui.fruit.annotations.Pick;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.UriUtils;
+import me.ghui.v2er.util.Utils;
 
 /**
  * Created by ghui on 07/08/2017.
@@ -15,8 +16,8 @@ public class DailyInfo extends BaseInfo {
     private String avatar;
     @Pick("h1")
     private String title;
-    @Pick("div.cell:last-child")
-    private String continuousLoginDay;
+    @Pick("div.cell:contains(已连续)")
+    private String continuousLoginDayStr;
     @Pick(value = "div.cell input[type=button]", attr = "onclick")
     private String checkinUrl; //location.href = '/mission/daily/redeem?once=84830';
 
@@ -25,7 +26,7 @@ public class DailyInfo extends BaseInfo {
     }
 
     public String getCheckinDays() {
-        return continuousLoginDay;
+        return Utils.extractDigits(continuousLoginDayStr);
     }
 
 
@@ -58,7 +59,7 @@ public class DailyInfo extends BaseInfo {
     public String toString() {
         return "DailyInfo{" +
                 "title='" + title + '\'' +
-                ", continuousLoginDay='" + continuousLoginDay + '\'' +
+                ", continuousLoginDay='" + getCheckinDays() + '\'' +
                 ", checkinUrl='" + checkinUrl + '\'' +
                 ", once='" + once() + '\'' +
                 '}';

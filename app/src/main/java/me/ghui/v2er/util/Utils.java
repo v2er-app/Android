@@ -21,6 +21,7 @@ import android.os.Build;
 import android.support.customtabs.CustomTabsIntent;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.util.DisplayMetrics;
@@ -481,5 +482,11 @@ public class Utils {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    public static String extractDigits(String src) {
+        if (TextUtils.isEmpty(src)) return "";
+        return src.replaceAll("\\D+","");
+    }
+
 }
 
