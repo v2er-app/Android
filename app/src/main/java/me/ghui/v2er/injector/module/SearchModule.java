@@ -37,6 +37,7 @@ public class SearchModule {
             protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
                 holder.setText(R.id.search_result_title_tv, hit.getSource().getTitle());
                 RichText.from(hit.getSource().getContent())
+                        .supportUrlClick(false)
                         .into(holder.getTextView(R.id.search_result_content_tv));
             }
         };

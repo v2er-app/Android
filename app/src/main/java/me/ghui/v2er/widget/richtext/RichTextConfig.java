@@ -26,6 +26,7 @@ public class RichTextConfig {
     private int maxSize;
     private Drawable mLoadingDrawable;
     private Drawable mLoaderrorDrawable;
+    private boolean mSupportUrlClick = true;
 
     public RichTextConfig(String sourceText) {
         this.sourceText = sourceText;
@@ -71,6 +72,11 @@ public class RichTextConfig {
         return this;
     }
 
+    public RichTextConfig supportUrlClick(boolean supportUrlClick) {
+        this.mSupportUrlClick = supportUrlClick;
+        return this;
+    }
+
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
@@ -81,7 +87,7 @@ public class RichTextConfig {
         CharSequence content = Vtml.removePadding(spanned);
         textView.setText(content);
         ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
-        if (mUrlClickListener != null || mImageClickListener != null) {
+        if (mSupportUrlClick) {
             textView.setMovementMethod(new HtmlMovementMethod(mUrlClickListener, mImageClickListener, images, textView));
         }
     }
