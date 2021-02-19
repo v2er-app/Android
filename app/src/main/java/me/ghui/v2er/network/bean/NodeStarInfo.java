@@ -17,7 +17,7 @@ import me.ghui.v2er.util.Utils;
 @Pick("div#my-nodes")
 public class NodeStarInfo extends BaseInfo {
 
-    @Pick("a.grid_item")
+    @Pick("a.fav-node")
     private List<Item> items;
 
     public List<Item> getItems() {
@@ -33,7 +33,7 @@ public class NodeStarInfo extends BaseInfo {
     public static class Item implements Serializable {
         @Pick(value = "img", attr = Attrs.SRC)
         private String img;
-        @Pick(value = "div", attr = Attrs.OWN_TEXT)
+        @Pick(value = "span.fav-node-name", attr = Attrs.OWN_TEXT)
         private String name;
         @Pick(value = "span.fade.f12")
         private int topicNum;
