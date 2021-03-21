@@ -5,6 +5,8 @@ import java.util.Map;
 import io.reactivex.Observable;
 import me.ghui.retrofit.converter.annotations.Html;
 import me.ghui.retrofit.converter.annotations.Json;
+import me.ghui.v2er.module.pay.OrderStatusInfo;
+import me.ghui.v2er.module.pay.WechatH5PayResultInfo;
 import me.ghui.v2er.network.bean.AppendTopicPageInfo;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.CareInfo;
@@ -25,6 +27,7 @@ import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
+import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.RefererUtils;
 import okhttp3.ResponseBody;
@@ -58,11 +61,26 @@ public interface APIs {
     Observable<NodesInfo> nodes();
 
     @Json
+    @GET("/api/members/show.json")
+    Observable<UserInfo> userInfo(@Query("username") String username);
+
+    @Json
     @GET("https://www.sov2ex.com/api/search")
     Observable<SoV2EXSearchResultInfo> search(@Query("q") String keyword, @Query("from") int from);
 
-    // Below is html api
+    // Below is YunGou API
+    @Json
+    @FormUrlEncoded
+    @POST("https://api.pay.yungouos.com/api/pay/wxpay/wapPay")
+    Observable<WechatH5PayResultInfo> requestWeChatH5Pay(@FieldMap Map<String, Object> payParams);
 
+    @Json
+    @GET("https://api.pay.yungouos.com/api/system/order/getPayOrderInfo")
+    Observable<OrderStatusInfo> fetchOrderStatus(@Query("out_trade_no") String orderId,
+                                                 @Query("mch_id") String mchId,
+                                                 @Query("sign") String sign);
+
+    // Below is html API
     @Html
     @GET("/")
     Observable<NewsInfo> homeNews(@Query("tab") String tab);

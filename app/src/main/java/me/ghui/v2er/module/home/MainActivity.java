@@ -1,15 +1,10 @@
 package me.ghui.v2er.module.home;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.navigation.NavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SwitchCompat;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -20,14 +15,27 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.navigation.NavigationView;
+import com.parse.ParseObject;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import butterknife.BindView;
-import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
@@ -40,13 +48,20 @@ import me.ghui.v2er.module.create.CreateTopicActivity;
 import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.star.StarActivity;
+import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.module.pay.PayActivity;
+import me.ghui.v2er.module.pay.PayUtil;
+import me.ghui.v2er.module.pay.WechatH5PayResultInfo;
 import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.DayNightUtil;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
@@ -111,6 +126,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         return null;
     }
 
+    @SuppressLint({"CheckResult", "WrongConstant"})
     protected void configToolBar() {
         Utils.setPaddingForStatusBar(mAppBarLayout);
         mToolbar.setOnDoubleTapListener(this);
@@ -128,7 +144,37 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 // TODO: 2019-06-27
-                pushFragment(SearchFragment.newInstance());
+//                pushFragment(SearchFragment.newInstance());
+//                WxPay.H5Pay(订单号,支付金额,微信支付商户号,商品描述,附加数据，异步回调地址,同步回调地址,分账配置单号,是否自动分账,自动分账节点,商户密钥)
+                String orderId = PayUtil.generateOrderId();
+                String cost = "0.01";
+                String mchId = "1607347568";
+                String productDes = "This is a test product";
+                String appendData = UserUtils.getUserBasicInfo();
+                String notify_url = "https://lessmore.pro/v2er/order";
+                String syncUrl = "https://lessmore.io/pay/callback";
+                String subAccountId = null;
+                String subAccountMode = null;
+                String subAccountNode = null;
+
+                Map<String, Object> params = new HashMap<>();
+                params.put("out_trade_no", orderId);
+                params.put("total_fee", cost);
+                params.put("mch_id", mchId);
+                params.put("body", productDes);
+                params.put("sign", PayUtil.createSign(params));
+                params.put("attach", appendData);
+                params.put("return_url", syncUrl);
+                params.put("notify_url", notify_url);
+                APIService.get().requestWeChatH5Pay(params)
+                        .compose(rx())
+                        .subscribe(new GeneralConsumer<WechatH5PayResultInfo>() {
+                            @Override
+                            public void onConsume(WechatH5PayResultInfo wechatH5PayResultInfo) {
+                                Log.e("guanzha", "h5PayUrl: " + wechatH5PayResultInfo.getH5Url());
+                                PayActivity.startPay(wechatH5PayResultInfo.getH5Url(), orderId, MainActivity.this);
+                            }
+                        });
             }
             return true;
         });
@@ -136,16 +182,23 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public boolean onToolbarDoubleTaped() {
-        View rootView = getCurrentFragment().getView();
-        if (rootView == null) return false;
-        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
-        if (recyclerView != null) {
-            recyclerView.scrollToPosition(0);
-            return true;
-        }
-        return false;
-    }
+        // TODO: 5/6/21  
+        ParseObject gameScore = new ParseObject("GameScore");
+        gameScore.put("score", 1337);
+        gameScore.put("playerName", "Sean Plott");
+        gameScore.put("cheatMode", false);
+        gameScore.saveInBackground();
 
+        return false;
+//        View rootView = getCurrentFragment().getView();
+//        if (rootView == null) return false;
+//        RecyclerView recyclerView = rootView.findViewById(R.id.base_recyclerview);
+//        if (recyclerView != null) {
+//            recyclerView.scrollToPosition(0);
+//            return true;
+//        }
+//        return false;
+    }
 
 
     private void refreshDayNightItem() {

@@ -14,13 +14,21 @@ import me.ghui.v2er.util.AvatarUtils;
  */
 
 public class NodeInfo extends BaseInfo implements Serializable {
+    @SerializedName("id")
     private int id;
+    @SerializedName("name")
     private String name;
+    @SerializedName("url")
     private String url;
+    @SerializedName("title")
     private String title;
+    @SerializedName("topics")
     private int topics;
+    @SerializedName("stars")
     private int stars;
+    @SerializedName("header")
     private String header = "";
+    @SerializedName("created")
     private long created;
     @SerializedName("avatar_large")
     private String avatar;

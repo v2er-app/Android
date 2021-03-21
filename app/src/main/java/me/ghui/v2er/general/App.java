@@ -11,6 +11,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.parse.Parse;
+import com.parse.ParseObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
@@ -20,6 +22,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
+import me.ghui.v2er.module.pay.ParseOrder;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.L;
@@ -80,8 +83,18 @@ public class App extends Application {
 
     private void initThirdPartySDK() {
 //        if (BuildConfig.DEBUG) return;
+        initParseSDK();
         initAppCenter();
         initWechat();
+    }
+
+    private void initParseSDK() {
+        ParseObject.registerSubclass(ParseOrder.class);
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                .applicationId("v2er.app")
+                .clientKey("client.key")
+                .server("https://lessmore.pro/parse")
+                .build());
     }
 
     private void initAppCenter() {

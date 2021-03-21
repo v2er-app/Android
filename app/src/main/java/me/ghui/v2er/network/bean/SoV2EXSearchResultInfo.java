@@ -5,7 +5,9 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class SoV2EXSearchResultInfo extends BaseInfo{
+    @SerializedName("total")
     private int total;
+    @SerializedName("hits")
     private List<Hit> hits;
 
     public int getTotal() {
@@ -21,12 +23,17 @@ public class SoV2EXSearchResultInfo extends BaseInfo{
         private Source source;
 
         public static class Source {
+            @SerializedName("id")
             private String id;
+            @SerializedName("title")
             private String title;
+            @SerializedName("content")
             private String content;
             @SerializedName("node")
             private String nodeId;
+            @SerializedName("replies")
             private long replies;
+            @SerializedName("time")
             private String time;
             @SerializedName("member")
             private String creator;

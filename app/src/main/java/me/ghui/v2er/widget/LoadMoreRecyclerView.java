@@ -11,12 +11,12 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.Theme;
 
 /**
  * Created by ghui on 26/04/2017.

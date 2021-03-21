@@ -217,15 +217,7 @@ public class WapActivity extends BaseActivity {
         return false;
     }
 
-
     private class BaseWebViewClient extends WebViewClient {
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-            mCurrentUrl = url;
-            onWapPageStarted(view, url);
-        }
 
         @SuppressWarnings("deprecation")
         @Override
@@ -233,6 +225,12 @@ public class WapActivity extends BaseActivity {
             return super.shouldOverrideUrlLoading(view, url) || checkIntercept(url);
         }
 
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            mCurrentUrl = url;
+            onWapPageStarted(view, url);
+        }
 
         @Override
         public void onPageFinished(WebView view, String url) {

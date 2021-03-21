@@ -3,6 +3,9 @@
     <domain-config cleartextTrafficPermitted="false">
         <domain includeSubdomains="true">v2ex.com</domain>
     </domain-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">localhost</domain>
+    </domain-config>
     <base-config cleartextTrafficPermitted="true">
         <trust-anchors>
             <certificates src="system" />

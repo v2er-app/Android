@@ -1,6 +1,10 @@
 package me.ghui.v2er.network.bean;
 
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import me.ghui.v2er.util.Check;
 
@@ -28,19 +32,31 @@ public class UserInfo extends BaseInfo {
     "created" : 1456813618
      */
 
+    @SerializedName("status")
     private String status;
+    @SerializedName("id")
     private String id;
+    @SerializedName("username")
     private String userName;
+    @SerializedName("website")
     private String website;
+    @SerializedName("twitter")
     private String twitter;
+    @SerializedName("psn")
     private String psn;
+    @SerializedName("github")
     private String github;
+    @SerializedName("btc")
     private String btc;
+    @SerializedName("location")
     private String location;
+    @SerializedName("tagline")
     private String tagline;
+    @SerializedName("bio")
     private String bio;
     @SerializedName("avatar_large")
     private String avatar;
+    @SerializedName("created")
     private String created;
 
     public static UserInfo build(String userName, String avatar) {
@@ -159,4 +175,17 @@ public class UserInfo extends BaseInfo {
     public boolean isValid() {
         return Check.notEmpty(id);
     }
+
+    public String getUserBasicInfo() {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", id);
+            jsonObject.put("name", userName);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return jsonObject.toString();
+    }
+
 }

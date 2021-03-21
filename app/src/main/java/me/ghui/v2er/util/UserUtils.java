@@ -2,8 +2,10 @@ package me.ghui.v2er.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.text.TextUtils;
 
 import es.dmoral.prefs.Prefs;
+import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
@@ -31,10 +33,21 @@ public class UserUtils {
         return null;
     }
 
+    public static String getUserBasicInfo() {
+        UserInfo userInfo = getUserInfo();
+        return userInfo == null ? null : userInfo.getUserBasicInfo();
+    }
+
     public static String getUserName() {
         UserInfo userInfo = getUserInfo();
         if (userInfo == null) return "";
         else return userInfo.getUserName();
+    }
+
+    public static String getUserID() {
+        UserInfo userInfo = getUserInfo();
+        if (userInfo == null) return "";
+        return userInfo.getId();
     }
 
     public static boolean isLogin() {
@@ -45,6 +58,22 @@ public class UserUtils {
         if (userInfo == null || Check.isEmpty(userInfo.getUserName())) return;
         String json = APIService.gson().toJson(userInfo);
         Prefs.with(App.get()).write(USER_INFO_KEY, json);
+
+        if (TextUtils.isEmpty(userInfo.getId())) {
+            APIService.get().userInfo(userInfo.getUserName())
+                    .compose(RxUtils.io_main())
+                    .subscribe(new GeneralConsumer<UserInfo>() {
+                        @Override
+                        public void onConsume(UserInfo userInfo) {
+                            if (userInfo != null && !TextUtils.isEmpty(userInfo.getId())) {
+                                L.d("save rich userInfo, username: "
+                                        + userInfo.getUserName()
+                                        + ", userId: " + userInfo.getId());
+                                saveLogin(userInfo);
+                            }
+                        }
+                    });
+        }
     }
 
     public static void clearLogin() {
