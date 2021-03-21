@@ -1,7 +1,7 @@
 package me.ghui.v2er.util;
 
 import android.content.Context;
-import android.support.annotation.AttrRes;
+import androidx.annotation.AttrRes;
 import android.util.TypedValue;
 
 public class Theme {

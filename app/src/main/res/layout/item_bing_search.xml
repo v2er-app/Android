@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -32,4 +32,4 @@
             android:paddingTop="8dp"
             tools:text="Android - @yuyu5 - 当我们在 android 的 drawable 文件下加入图片的，常会因为图片命名不规范而引发一系列问题。今天，北京上课了的讲师为大家介绍一下 android 加入图片 ..." />
     </LinearLayout>
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

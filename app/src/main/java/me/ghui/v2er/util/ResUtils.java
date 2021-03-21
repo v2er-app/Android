@@ -1,8 +1,8 @@
 package me.ghui.v2er.util;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.v4.content.ContextCompat;
+import androidx.annotation.ColorRes;
+import androidx.core.content.ContextCompat;
 
 import me.ghui.v2er.general.App;
 

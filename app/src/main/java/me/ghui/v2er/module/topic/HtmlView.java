@@ -3,7 +3,7 @@ package me.ghui.v2er.module.topic;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;

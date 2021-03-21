@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_content"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
 
     <me.ghui.v2er.widget.LoadMoreRecyclerView style="@style/BaseRecyclerView" />
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/reply_fab_btn"
         android:layout_width="45dp"
         android:layout_height="45dp"
@@ -36,7 +36,7 @@
         app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end">
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:id="@+id/topic_inner_reply_wrapper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                     android:src="@drawable/ic_reply_send"
                     android:tint="?attr/icon_tint_color" />
             </RelativeLayout>
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
         <me.ghui.v2er.widget.MentionedRecyclerView
             android:id="@+id/repliers_recyclerview"
@@ -88,4 +88,4 @@
             android:visibility="gone"
             app:shouldPaddingNav="false" />
     </me.ghui.v2er.widget.KeyboardDetectorRelativeLayout>
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -15,7 +15,7 @@
         android:paddingTop="60dp"
         android:visibility="invisible" />
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/search_cardview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -77,5 +77,5 @@
                 android:divider="@color/white"
                 android:visibility="gone" />
         </RelativeLayout>
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 </FrameLayout>

@@ -1,8 +1,8 @@
 package me.ghui.v2er.module.drawer.star;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.View;
 
 import java.io.Serializable;

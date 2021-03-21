@@ -1,6 +1,6 @@
 package me.ghui.v2er.widget.richtext;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Layout;
 import android.text.NoCopySpan;
 import android.text.Selection;

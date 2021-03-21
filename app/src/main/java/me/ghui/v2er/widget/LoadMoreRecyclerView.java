@@ -1,10 +1,10 @@
 package me.ghui.v2er.widget;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,7 +17,6 @@ import me.ghui.v2er.adapter.base.ItemViewDelegateAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
-import me.ghui.v2er.util.Theme;
 
 /**
  * Created by ghui on 26/04/2017.
@@ -120,7 +119,7 @@ public class LoadMoreRecyclerView extends BaseRecyclerView {
         }
     }
 
-    public static class CommonLoadMoreFooter extends android.support.v7.widget.AppCompatTextView implements ILoadMoreFooter {
+    public static class CommonLoadMoreFooter extends androidx.appcompat.widget.AppCompatTextView implements ILoadMoreFooter {
 
         public CommonLoadMoreFooter(Context context) {
             super(context);

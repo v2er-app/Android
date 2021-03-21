@@ -1,7 +1,7 @@
 package me.ghui.v2er.util;
 
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import org.greenrobot.eventbus.EventBus;
 

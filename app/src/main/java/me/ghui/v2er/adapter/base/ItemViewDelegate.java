@@ -2,7 +2,7 @@ package me.ghui.v2er.adapter.base;
 
 
 import android.content.Context;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 
 /**

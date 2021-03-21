@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  * https://stackoverflow.com/questions/22810147/error-when-selecting-text-from-textview-java-lang-indexoutofboundsexception-se
  */
 
-public class HackyTextView extends android.support.v7.widget.AppCompatTextView {
+public class HackyTextView extends androidx.appcompat.widget.AppCompatTextView {
 
     public HackyTextView(Context context) {
         super(context);

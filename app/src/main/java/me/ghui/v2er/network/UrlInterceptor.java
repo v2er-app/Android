@@ -3,7 +3,7 @@ package me.ghui.v2er.network;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.net.Uri;
-import android.support.customtabs.CustomTabsIntent;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import java.net.URI;
 import java.net.URISyntaxException;

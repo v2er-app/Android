@@ -1,6 +1,6 @@
 package me.ghui.v2er.adapter.base;
 
-import android.support.v4.util.SparseArrayCompat;
+import androidx.collection.SparseArrayCompat;
 
 
 /**

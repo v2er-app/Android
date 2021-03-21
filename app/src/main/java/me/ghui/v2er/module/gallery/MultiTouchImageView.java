@@ -29,7 +29,7 @@ import android.view.ScaleGestureDetector;
 import android.view.ViewParent;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
-public class MultiTouchImageView extends android.support.v7.widget.AppCompatImageView
+public class MultiTouchImageView extends androidx.appcompat.widget.AppCompatImageView
         implements SwipeToDismissTouchListener.SwipeableViewProvider {
     private static final long SCALE_ANIMATION_DURATION = 300L;
     private static final float DOUBLE_TAP_SCALE_FACTOR = 2.0f;

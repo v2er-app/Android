@@ -8,7 +8,7 @@ android {
         targetSdkVersion 29
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
@@ -57,19 +57,19 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
     })
     testImplementation 'junit:junit:4.12'
 
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.android.supportVersion"
-    implementation "com.android.support:design:$rootProject.ext.android.supportVersion"
-    implementation "com.android.support:recyclerview-v7:$rootProject.ext.android.supportVersion"
-    implementation "com.android.support:cardview-v7:$rootProject.ext.android.supportVersion"
-    implementation "com.android.support:customtabs:$rootProject.ext.android.supportVersion"
-    implementation "com.android.support:palette-v7:$rootProject.ext.android.supportVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.browser:browser:1.0.0'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android:flexbox:0.2.6'
     // 3rd part Dependencies...
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
@@ -78,8 +78,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
-    implementation 'com.jakewharton:butterknife:8.6.0'
-    annotationProcessor "com.jakewharton:butterknife-compiler:8.6.0"
+    implementation 'com.jakewharton:butterknife:10.2.3'
+    annotationProcessor "com.jakewharton:butterknife-compiler:10.2.3"
     implementation 'com.google.dagger:dagger:2.11'
     annotationProcessor "com.google.dagger:dagger-compiler:2.11"
     implementation 'com.github.bumptech.glide:glide:4.1.1'

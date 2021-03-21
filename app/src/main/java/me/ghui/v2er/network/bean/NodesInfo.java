@@ -2,11 +2,10 @@ package me.ghui.v2er.network.bean;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Comparator;
 
 import me.ghui.v2er.util.Check;
 

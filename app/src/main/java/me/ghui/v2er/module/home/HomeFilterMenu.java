@@ -2,7 +2,7 @@ package me.ghui.v2er.module.home;
 
 import android.content.Context;
 import android.graphics.drawable.AnimatedVectorDrawable;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

@@ -1,6 +1,6 @@
 package me.ghui.v2er.general;
 
-import android.support.annotation.StringRes;
+import androidx.annotation.StringRes;
 
 import es.dmoral.prefs.Prefs;
 

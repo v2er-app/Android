@@ -3,7 +3,7 @@ package me.ghui.v2er.module.login;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.design.widget.TextInputLayout;
+import com.google.android.material.textfield.TextInputLayout;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
