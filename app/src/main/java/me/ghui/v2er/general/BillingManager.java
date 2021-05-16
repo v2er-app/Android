@@ -1,14 +1,23 @@
 package me.ghui.v2er.general;
 
 import android.app.Activity;
+import android.os.Handler;
+import android.os.Looper;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.billingclient.api.BillingClient;
 import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
+import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
+import com.android.billingclient.api.SkuDetails;
+import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.SkuDetailsResponseListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import es.dmoral.prefs.Prefs;
@@ -25,7 +34,6 @@ import me.ghui.v2er.util.Voast;
 /**
  * 捐赠版购买管理器，提供捐赠版的购买支持、检查是否购买过高级版功能.
  */
-
 public class BillingManager implements PurchasesUpdatedListener {
     private static final String SKU_TYPE = BillingClient.SkuType.INAPP;
     private static final String SKU_ID = "v2er.pro";
@@ -34,16 +42,59 @@ public class BillingManager implements PurchasesUpdatedListener {
     private PurchaseListener mPurchaseListener;
 
     private BillingManager() {
-        mBillingClient = BillingClient.newBuilder(App.get()).setListener(this).build();
+        mBillingClient = BillingClient.newBuilder(App.get())
+                .enablePendingPurchases()
+                .setListener(this).build();
     }
 
     public static BillingManager get() {
         return new BillingManager();
     }
 
+    /**
+     * 异步检查是否是付费用户
+     */
+    public void checkIsProAsyc(boolean forceCheck) {
+        L.e("checkIsProAsyc");
+        checkIsProAsyc(forceCheck, null);
+    }
+
+    /**
+     * 开始购买流程
+     *
+     * @param activity
+     * @param purchaseListener
+     */
+    public void startPurchaseFlow(Activity activity, PurchaseListener purchaseListener) {
+        // check first
+        checkIsProAsyc(true, isPro -> {
+            if (isPro) {
+                L.e("Already is Pro!");
+                if (purchaseListener != null) {
+                    purchaseListener.onPurchaseFinished(true);
+                }
+            } else {
+                mPurchaseListener = purchaseListener;
+                startFetchSkuDetails((billingResult, skuDetails) -> {
+                    if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                        Voast.show("拉取Google Play商品信息失败, 请重试");
+                        return;
+                    }
+                    SkuDetails skuDetail = skuDetails.get(0);
+                    L.e("SkuDetails: " + skuDetail.toString());
+                    BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                            .setSkuDetails(skuDetail)
+                            .build();
+                    L.e("start Buy flow");
+                    mBillingClient.launchBillingFlow(activity, billingFlowParams);
+                });
+            }
+        });
+    }
+
     @Override
-    public void onPurchasesUpdated(int responseCode, @Nullable List<Purchase> purchases) {
-        boolean isPro = responseCode == BillingClient.BillingResponse.OK
+    public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> purchases) {
+        boolean isPro = billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                 && Check.notEmpty(purchases)
                 && SKU_ID.equals(purchases.get(0).getSku());
         UserUtils.savePro(isPro);
@@ -53,39 +104,17 @@ public class BillingManager implements PurchasesUpdatedListener {
         }
     }
 
-    /**
-     * 异步检查是否是付费用户
-     */
-    public void checkIsProAsyc() {
-        L.e("checkIsProAsyc");
-        checkIsProAsyc(false, null);
-    }
-
-    /**
-     * 开始购买流程
-     *
-     * @param activity
-     * @param purchaseListener
-     */
-    public void startPurchaseFlow(Activity activity, PurchaseListener purchaseListener, boolean toastError) {
-        // check first
-        checkIsProAsyc(true, isPro -> {
-            if (isPro) {
-                L.e("Already is Pro!");
-                if (purchaseListener != null) {
-                    purchaseListener.onPurchaseFinished(true);
-                }
-            } else {
-                Runnable executeOnConnectedService = () -> {
-                    BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                            .setType(SKU_TYPE)
-                            .setSku(SKU_ID)
-                            .build();
-                    L.e("start Buy flow");
-                    mBillingClient.launchBillingFlow(activity, billingFlowParams);
-                };
-                mPurchaseListener = purchaseListener;
-                startServiceConnectionIfNeeded(toastError, executeOnConnectedService);
+    private void startFetchSkuDetails(SkuDetailsResponseListener skuDetailsResponseListener) {
+        startServiceConnectionIfNeeded(true, new Runnable() {
+            @Override
+            public void run() {
+                List<String> skuList = new ArrayList<>();
+                skuList.add(SKU_ID);
+                SkuDetailsParams skuDetailsParams = SkuDetailsParams.newBuilder()
+                        .setSkusList(skuList)
+                        .setType(BillingClient.SkuType.INAPP)
+                        .build();
+                mBillingClient.querySkuDetailsAsync(skuDetailsParams, skuDetailsResponseListener);
             }
         });
     }
@@ -102,10 +131,11 @@ public class BillingManager implements PurchasesUpdatedListener {
             L.e("BillClient doesn't ready, startConnection");
             mBillingClient.startConnection(new BillingClientStateListener() {
                 @Override
-                public void onBillingSetupFinished(@BillingClient.BillingResponse int billingResponse) {
-                    if (billingResponse == BillingClient.BillingResponse.OK) {
+                public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+                    if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                         L.e("onBillingSetupFinished");
-                        runable.run();
+                        new Handler(Looper.getMainLooper())
+                                .post(runable);
                     } else {
                         if (toastError) {
                             Voast.show("与Google Play通信失败，请检查你的网络连接", true);
@@ -116,6 +146,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 @Override
                 public void onBillingServiceDisconnected() {
                     L.e("onBillingServiceDisconnected");
+                    Voast.show("与Google Play断开连接, 请重试");
                 }
             });
         }
@@ -131,7 +162,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 .subscribe(new BaseConsumer<Purchase.PurchasesResult>() {
                     @Override
                     public void onConsume(Purchase.PurchasesResult result) {
-                        boolean isPro = result.getResponseCode() == BillingClient.BillingResponse.OK &&
+                        boolean isPro = result.getResponseCode() == BillingClient.BillingResponseCode.OK &&
                                 Check.notEmpty(result.getPurchasesList())
                                 && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
                         UserUtils.savePro(isPro);
@@ -142,12 +173,10 @@ public class BillingManager implements PurchasesUpdatedListener {
                         if (listener != null) {
                             listener.onResult(isPro);
                         }
-                        mBillingClient.endConnection();
                     }
                 });
         startServiceConnectionIfNeeded(false, checkTask);
     }
-
 
     public interface CheckResultListener {
         void onResult(boolean isPro);

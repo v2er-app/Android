@@ -33,6 +33,7 @@ public class ProInfoActivity extends BaseActivity {
     protected void init() {
         super.init();
         isPro = UserUtils.isPro();
+        isPro = false;
         updateUI();
     }
 
@@ -66,7 +67,7 @@ public class ProInfoActivity extends BaseActivity {
                     String msg = isSuccess ? "激活成功!" : "激活失败";
                     Voast.show(msg);
                     updateUI();
-                }, true))
+                }))
                 .negativeText("取消")
                 .build().show();
     }
