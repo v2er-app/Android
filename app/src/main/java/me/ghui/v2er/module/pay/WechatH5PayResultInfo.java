@@ -5,10 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import me.ghui.v2er.network.bean.BaseInfo;
 
 public class WechatH5PayResultInfo extends BaseInfo {
+    @SerializedName("code")
     private int code;
+    @SerializedName("msg")
     private String msg;
-    @SerializedName("data")
+    @SerializedName("payUrl")
     private String h5Url;
+    @SerializedName("orderId")
+    private String orderId;
 
     public int getCode() {
         return code;
@@ -18,16 +22,21 @@ public class WechatH5PayResultInfo extends BaseInfo {
         return msg;
     }
 
-    public String getH5Url() {
+    public String getPayUrl() {
         return h5Url;
+    }
+
+    public String getOrderId() {
+        return orderId;
     }
 
     @Override
     public String toString() {
-        return "WechatH5PayInfo{" +
+        return "WechatH5PayResultInfo{" +
                 "code=" + code +
                 ", msg='" + msg + '\'' +
                 ", h5Url='" + h5Url + '\'' +
+                ", orderId='" + orderId + '\'' +
                 '}';
     }
 

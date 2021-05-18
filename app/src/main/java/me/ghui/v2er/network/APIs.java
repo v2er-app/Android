@@ -47,6 +47,10 @@ import retrofit2.http.Url;
  */
 
 public interface APIs {
+    @Json
+    @FormUrlEncoded
+    @POST("https://lessmore.pro/v2er/pay")
+    Observable<WechatH5PayResultInfo> requestWeChatH5Pay(@FieldMap Map<String, Object> payParams);
 
     @Json
     @GET("/api/topics/hot.json")
@@ -69,10 +73,10 @@ public interface APIs {
     Observable<SoV2EXSearchResultInfo> search(@Query("q") String keyword, @Query("from") int from);
 
     // Below is YunGou API
-    @Json
-    @FormUrlEncoded
-    @POST("https://api.pay.yungouos.com/api/pay/wxpay/wapPay")
-    Observable<WechatH5PayResultInfo> requestWeChatH5Pay(@FieldMap Map<String, Object> payParams);
+//    @Json
+//    @FormUrlEncoded
+//    @POST("https://api.pay.yungouos.com/api/pay/wxpay/wapPay")
+//    Observable<WechatH5PayResultInfo> requestWeChatH5Pay(@FieldMap Map<String, Object> payParams);
 
     @Json
     @GET("https://api.pay.yungouos.com/api/system/order/getPayOrderInfo")

@@ -81,6 +81,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                                 if (UserUtils.isLogin()) {
                                     generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
                                     generalError.setMessage("登录已过期，请重新登录");
+                                    UserUtils.clearLogin();
                                 } else {
                                     generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
                                     generalError.setMessage("需要您先去登录");

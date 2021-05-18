@@ -68,12 +68,11 @@ public class LoginPresenter implements LoginContract.IPresenter {
                     @Override
                     public void onConsume(BaseInfo info) {
                         if (info instanceof DailyInfo) {
-                            //login success
+                            // login success
                             DailyInfo resultInfo = (DailyInfo) info;
                             UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
                             mView.onLoginSuccess();
                             V2er.setUserId(resultInfo.getUserName());
-
                         } else if (info instanceof LoginParam) {
                             //login failure
                             LoginParam loginParam = (LoginParam) info;

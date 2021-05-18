@@ -122,8 +122,9 @@
             android:name=".module.general.WapActivity"
             android:label="" />
         <activity
-            android:name=".module.pay.PayActivity"
-            android:label="" />
+            android:name=".module.pay.WXPayActivity"
+            android:label=""
+            android:theme="@style/TranslucentTheme" />
         <activity
             android:name=".module.settings.ProInfoActivity"
             android:label="V2er高级版" />

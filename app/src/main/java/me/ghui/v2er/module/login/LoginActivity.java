@@ -2,8 +2,11 @@ package me.ghui.v2er.module.login;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.textfield.TextInputLayout;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -43,7 +46,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implements LoginContract.IView {
-
     @BindView(R.id.login_user_name_text_input_layout)
     TextInputLayout mUserInputLayout;
     @BindView(R.id.login_psw_text_input_layout)
@@ -206,7 +208,10 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     @Override
     public void onLoginSuccess() {
         toast("登录成功");
-        Navigator.from(this).setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP).to(MainActivity.class).start();
+        Navigator.from(this)
+                .to(MainActivity.class)
+                .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                .start();
         finish();
     }
 

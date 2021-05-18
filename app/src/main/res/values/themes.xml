@@ -126,6 +126,15 @@
         <item name="divider_color">#202020</item>
     </style>
 
+    <style name="TranslucentTheme" parent="BaseApp.Theme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
     <style name="AppActAnimation">
         <!-- 新Activity进入 -->
         <item name="android:activityOpenEnterAnimation">@anim/open_enter_slide</item>

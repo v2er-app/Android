@@ -8,21 +8,19 @@ import android.text.TextUtils;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
-import com.parse.ParseException;
-import com.parse.SaveCallback;
-
 import java.util.HashMap;
 import java.util.Map;
 
+import me.ghui.v2er.R;
+import me.ghui.v2er.bus.Bus;
+import me.ghui.v2er.bus.event.PayResultEvent;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.general.WapActivity;
-import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.util.L;
+import me.ghui.v2er.util.Check;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.Voast;
 
-public class PayActivity extends WapActivity {
+public class WXPayActivity extends WapActivity {
     private static String ORDER_ID_KEY = KEY("order.id.key");
     private String mOrderId;
 
@@ -30,8 +28,20 @@ public class PayActivity extends WapActivity {
         Navigator.from(context)
                 .putExtra(URL_KEY, h5PayUrl)
                 .putExtra(ORDER_ID_KEY, orderId)
-                .to(PayActivity.class)
+                .to(WXPayActivity.class)
                 .start();
+    }
+
+    @Override
+    protected void initTheme() {
+        setTheme(R.style.TranslucentTheme);
+        getWindow().getDecorView().setAlpha(0);
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+        mRootView.setAlpha(0);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -71,35 +81,12 @@ public class PayActivity extends WapActivity {
         }
         // Case 2: intercept to check pay result
         if (url.startsWith("https://lessmore.io/pay/callback")) {
-            L.d("Pay result : " + url);
-            // TODO() Check from own server
-//            PayUtil.checkIsPro();
-            // TODO: check whether the pay is success.
-            Voast.debug("Check pay result...");
-            Map<String, Object> params = new HashMap<>(2);
-            params.put("out_trade_no", mOrderId);
-            params.put("mch_id", PayUtil.MCH_ID);
-            String sign = PayUtil.createSign(params);
-
-            delay(1000, () -> APIService.get().fetchOrderStatus(mOrderId, PayUtil.MCH_ID, sign)
-                    .compose(rx())
-                    .subscribe(new GeneralConsumer<OrderStatusInfo>() {
-                        @Override
-                        public void onConsume(OrderStatusInfo orderStatusInfo) {
-                            L.d("PayStatusInfo: " + orderStatusInfo);
-                            Voast.debug(orderStatusInfo.paid() ? "Pay successfully" : "Pay failed");
-//                            if (!orderStatusInfo.paid()) return;
-//                            ParseOrder parseOrder = orderStatusInfo.toParseOrder();
-//                            if (parseOrder == null) return;
-//                            parseOrder.saveInBackground(e -> {
-//                                if (e != null && e.getCode() != 0) {
-//                                    // TODO: 如果写入db失败怎么处理？？？
-//                                    // Failed, try again.
-//                                    parseOrder.saveEventually();
-//                                }
-//                            });
-                        }
-                    }));
+            PayUtil.checkIsWechatPro(isWechatPro -> {
+                PayResultEvent payResultEvent = new PayResultEvent(isWechatPro,
+                        PayResultEvent.PayWay.WECHAT_PAY, null);
+                Bus.post(payResultEvent);
+                finish();
+            });
             return true;
         }
         return false;
@@ -115,4 +102,8 @@ public class PayActivity extends WapActivity {
         super.onWapPageFinished(webview, url);
     }
 
+    @Override
+    protected void onWapReceivedTitle(String title) {
+//        super.onWapReceivedTitle(title);
+    }
 }

@@ -24,6 +24,8 @@ import es.dmoral.prefs.Prefs;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import me.ghui.v2er.bus.Bus;
+import me.ghui.v2er.bus.event.PayResultEvent;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.L;
@@ -39,7 +41,6 @@ public class BillingManager implements PurchasesUpdatedListener {
     private static final String SKU_ID = "v2er.pro";
     private static final String LAST_CHECK_TIME = Utils.KEY("last_check_time");
     private final BillingClient mBillingClient;
-    private PurchaseListener mPurchaseListener;
 
     private BillingManager() {
         mBillingClient = BillingClient.newBuilder(App.get())
@@ -54,41 +55,37 @@ public class BillingManager implements PurchasesUpdatedListener {
     /**
      * 异步检查是否是付费用户
      */
-    public void checkIsProAsyc(boolean forceCheck) {
+    public void checkIsGoogleProAsyc(boolean forceCheck) {
         L.e("checkIsProAsyc");
-        checkIsProAsyc(forceCheck, null);
+        checkIsGoogleProAsyc(forceCheck, null);
     }
 
     /**
      * 开始购买流程
      *
      * @param activity
-     * @param purchaseListener
      */
-    public void startPurchaseFlow(Activity activity, PurchaseListener purchaseListener) {
+    public void startPurchaseFlow(Activity activity) {
         // check first
-        checkIsProAsyc(true, isPro -> {
+        checkIsGoogleProAsyc(true, isPro -> {
             if (isPro) {
                 L.e("Already is Pro!");
-                if (purchaseListener != null) {
-                    purchaseListener.onPurchaseFinished(true);
-                }
-            } else {
-                mPurchaseListener = purchaseListener;
-                startFetchSkuDetails((billingResult, skuDetails) -> {
-                    if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
-                        Voast.show("拉取Google Play商品信息失败, 请重试");
-                        return;
-                    }
-                    SkuDetails skuDetail = skuDetails.get(0);
-                    L.e("SkuDetails: " + skuDetail.toString());
-                    BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
-                            .setSkuDetails(skuDetail)
-                            .build();
-                    L.e("start Buy flow");
-                    mBillingClient.launchBillingFlow(activity, billingFlowParams);
-                });
+                Voast.show("你已是高级用户");
+                return;
             }
+            startFetchSkuDetails((billingResult, skuDetails) -> {
+                if (billingResult.getResponseCode() != BillingClient.BillingResponseCode.OK) {
+                    Voast.show("拉取Google Play商品信息失败, 请重试");
+                    return;
+                }
+                SkuDetails skuDetail = skuDetails.get(0);
+                L.e("SkuDetails: " + skuDetail.toString());
+                BillingFlowParams billingFlowParams = BillingFlowParams.newBuilder()
+                        .setSkuDetails(skuDetail)
+                        .build();
+                L.e("start Buy flow");
+                mBillingClient.launchBillingFlow(activity, billingFlowParams);
+            });
         });
     }
 
@@ -97,11 +94,12 @@ public class BillingManager implements PurchasesUpdatedListener {
         boolean isPro = billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK
                 && Check.notEmpty(purchases)
                 && SKU_ID.equals(purchases.get(0).getSku());
-        UserUtils.savePro(isPro);
+        UserUtils.saveIsGooglePro(isPro);
         L.e("onPurchasesUpdated, isPro: " + isPro);
-        if (mPurchaseListener != null) {
-            mPurchaseListener.onPurchaseFinished(isPro);
-        }
+        PayResultEvent payResultEvent = new PayResultEvent(isPro,
+                PayResultEvent.PayWay.GOOGLE_PLAY_PAY,
+                null);
+        Bus.post(payResultEvent);
     }
 
     private void startFetchSkuDetails(SkuDetailsResponseListener skuDetailsResponseListener) {
@@ -153,7 +151,7 @@ public class BillingManager implements PurchasesUpdatedListener {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void checkIsProAsyc(boolean forch, CheckResultListener listener) {
+    private void checkIsGoogleProAsyc(boolean forch, CheckResultListener listener) {
         // 本地是Pro用户就跳过检查, 也就是只第一次做检查
         if (!forch && UserUtils.isPro()) return;
         Runnable checkTask = () -> Observable.just(mBillingClient.queryPurchases(SKU_TYPE))
@@ -165,7 +163,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                         boolean isPro = result.getResponseCode() == BillingClient.BillingResponseCode.OK &&
                                 Check.notEmpty(result.getPurchasesList())
                                 && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
-                        UserUtils.savePro(isPro);
+                        UserUtils.saveIsGooglePro(isPro);
                         L.e("checkIsProAsyc, isPro: " + isPro);
                         if (isPro) {
                             Prefs.with(App.get()).writeLong(LAST_CHECK_TIME, System.currentTimeMillis());
@@ -180,10 +178,6 @@ public class BillingManager implements PurchasesUpdatedListener {
 
     public interface CheckResultListener {
         void onResult(boolean isPro);
-    }
-
-    public interface PurchaseListener {
-        void onPurchaseFinished(boolean isSuccess);
     }
 
 }

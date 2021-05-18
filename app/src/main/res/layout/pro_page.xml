@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:paddingTop="10dp">
@@ -38,16 +38,23 @@
         android:foreground="?android:selectableItemBackgroundBorderless"
         android:gravity="center"
         android:padding="16dp"
-        tools:text="去激活"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        tools:text="去激活" />
 
-    <TextView
-        style="@style/BodyText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:onClick="onNoResponseClicked"
-        android:padding="16dp"
-        android:text="支付遇到问题? "
-        android:textStyle="bold" />
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/BodyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:onClick="onNoResponseClicked"
+            android:padding="16dp"
+            android:text="支付遇到问题? "
+            android:textStyle="bold" />
+    </LinearLayout>
 </LinearLayout>
