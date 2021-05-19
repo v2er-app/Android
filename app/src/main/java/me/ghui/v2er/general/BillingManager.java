@@ -151,7 +151,7 @@ public class BillingManager implements PurchasesUpdatedListener {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    private void checkIsGoogleProAsyc(boolean forch, CheckResultListener listener) {
+    public void checkIsGoogleProAsyc(boolean forch, CheckResultListener listener) {
         // 本地是Pro用户就跳过检查, 也就是只第一次做检查
         if (!forch && UserUtils.isPro()) return;
         Runnable checkTask = () -> Observable.just(mBillingClient.queryPurchases(SKU_TYPE))
@@ -164,7 +164,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                                 Check.notEmpty(result.getPurchasesList())
                                 && SKU_ID.equals(result.getPurchasesList().get(0).getSku());
                         UserUtils.saveIsGooglePro(isPro);
-                        L.e("checkIsProAsyc, isPro: " + isPro);
+                        L.e("checkIsGooglePro: " + isPro);
                         if (isPro) {
                             Prefs.with(App.get()).writeLong(LAST_CHECK_TIME, System.currentTimeMillis());
                         }

@@ -23,6 +23,7 @@ import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.module.pay.ParseOrder;
+import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.L;
@@ -52,7 +53,7 @@ public class App extends Application {
                 .build();
         rxjava();
         initLogger();
-        BillingManager.get().checkIsGoogleProAsyc(false);
+        PayUtil.checkIsGooglePro(false);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         PreferenceManager.setDefaultValues(this, R.xml.auto_switch_daynight, false);
         APIService.init();

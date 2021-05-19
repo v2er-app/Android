@@ -84,7 +84,7 @@ public class UserUtils {
                         }
                     });
         }
-        if (checkWechatPay) {
+        if (checkWechatPay && !UserUtils.isGooglePro()) {
             PayUtil.checkIsWechatPro();
         }
     }

@@ -44,7 +44,7 @@ public class PayUtil {
                 String msg = "failed...";
             }
 
-            L.e("userName: " + userName + " isPro: " + isPro);
+            L.e("userName: " + userName + " ,isWechatPro: " + isPro);
             UserUtils.saveIsWechatPro(isPro);
             if (callback != null) {
                 callback.onResult(isPro);
@@ -53,7 +53,11 @@ public class PayUtil {
     }
 
     public static void checkIsGooglePro(boolean forceCheck) {
-        BillingManager.get().checkIsGoogleProAsyc(forceCheck);
+        checkIsGooglePro(forceCheck, null);
+    }
+
+    public static void checkIsGooglePro(boolean forceCheck, BillingManager.CheckResultListener resultListener) {
+        BillingManager.get().checkIsGoogleProAsyc(forceCheck, resultListener);
     }
 
 }

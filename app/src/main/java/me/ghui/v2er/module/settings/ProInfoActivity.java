@@ -18,6 +18,7 @@ import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.module.pay.WXPayActivity;
 import me.ghui.v2er.module.pay.WechatH5PayResultInfo;
 import me.ghui.v2er.network.APIService;
@@ -45,6 +46,8 @@ public class ProInfoActivity extends BaseActivity {
     protected void init() {
         super.init();
         updateUI();
+        PayUtil.checkIsWechatPro(isWechatPro -> updateUI());
+        PayUtil.checkIsGooglePro(false, isPro -> updateUI());
     }
 
     private void updateUI() {
