@@ -1,5 +1,7 @@
 package me.ghui.v2er.util;
 
+import android.util.Log;
+
 import com.orhanobut.logger.Logger;
 
 /**

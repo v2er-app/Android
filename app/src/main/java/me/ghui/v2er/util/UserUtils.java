@@ -47,7 +47,6 @@ public class UserUtils {
     }
 
     public static String getUserID() {
-        // Fix it todo
         UserInfo userInfo = getUserInfo();
         if (userInfo == null) return "";
         return userInfo.getId();
@@ -69,7 +68,6 @@ public class UserUtils {
 
         String userName = userInfo.getUserName();
         if (TextUtils.isEmpty(userInfo.getId())) {
-            // TODO: 2021/5/19
             APIService.get().userInfo(userName)
                     .compose(RxUtils.io_main())
                     .subscribe(new GeneralConsumer<UserInfo>() {

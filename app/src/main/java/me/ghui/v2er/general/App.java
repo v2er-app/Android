@@ -93,7 +93,7 @@ public class App extends Application {
         ParseObject.registerSubclass(ParseOrder.class);
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId("v2er.app")
-                .clientKey("client.key")
+                .clientKey("BB74AA3BFAF64534A8B3A3FE15774FA4")
                 .server("https://lessmore.pro/parse")
                 .build());
     }

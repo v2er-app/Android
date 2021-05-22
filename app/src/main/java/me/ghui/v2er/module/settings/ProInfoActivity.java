@@ -65,7 +65,6 @@ public class ProInfoActivity extends BaseActivity {
         Utils.setPaddingForStatusBar(mRootView);
     }
 
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onPayResult(PayResultEvent payResultEvent) {
         String msg = payResultEvent.isSuccess ? "购买成功" : "购买失败";
@@ -79,17 +78,16 @@ public class ProInfoActivity extends BaseActivity {
             Voast.show("Pro已激活, 感谢支持");
             return;
         }
+
+        String msg = "微信支付购买, 将绑定购买信息到你的V2EX账号" + (UserUtils.isLogin() ? "." : ", 请先登录.") + "\n" +
+                "Google Play购买将绑定购买信息到你的Google账号.";
         new ConfirmDialog.Builder(this)
                 .title("激活Pro版")
-                .msg("微信支付购买, 将绑定购买信息到你的V2EX账号. \n" +
-                        "Google Play购买将绑定购买信息到你的Google账号.")
-                .positiveText(UserUtils.isLogin() ? "微信支付" : "去登录", dialog -> {
-                    startWXPayFlow();
-                }).negativeText("Google Play", dialog -> {
-                   BillingManager.get().startPurchaseFlow(getActivity());
-                })
-                .build()
-                .show();
+                .msg(msg)
+                .positiveText(UserUtils.isLogin() ? "微信支付" : "去登录", dialog -> startWXPayFlow())
+                .negativeText("Google Play", dialog -> {
+                    BillingManager.get().startPurchaseFlow(getActivity());
+                }).build().show();
     }
 
     private void startWXPayFlow() {
@@ -102,6 +100,10 @@ public class ProInfoActivity extends BaseActivity {
 
         Map<String, Object> payParams = new HashMap<>();
         payParams.put("userName", UserUtils.getUserName());
+        payParams.put("version", Utils.getVersionName());
+        payParams.put("os", "Android");
+        String sign = PayUtil.createSign(payParams);
+        payParams.put("random", sign);
         payParams.put("userId", UserUtils.getUserID());
         APIService.get().requestWeChatH5Pay(payParams)
                 .compose(rx())
