@@ -3,6 +3,7 @@ package me.ghui.v2er.network;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.network.bean.BaseInfo;
 import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
@@ -125,6 +126,9 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 if (!Utils.isNetworkAvailable()) msg = "Network Connection Error";
                 generalError = new GeneralError(ResultCode.NETWORK_ERROR, msg);
                 V2er.capture("generalConsumer.onError: " + e);
+                if (BuildConfig.DEBUG) {
+                    generalError.printStackTrace();
+                }
             }
         }
 

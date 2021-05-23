@@ -1,5 +1,6 @@
 package me.ghui.v2er.module.settings;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -17,12 +18,14 @@ import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.module.pay.WXPayActivity;
 import me.ghui.v2er.module.pay.WechatH5PayResultInfo;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
+import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
@@ -98,13 +101,36 @@ public class ProInfoActivity extends BaseActivity {
             return;
         }
 
+        String userName = UserUtils.getUserName();
+        if (Check.isEmpty(userName)) {
+            new ConfirmDialog.Builder(this)
+                    .title("提示")
+                    .msg("获取用户信息出错，请重新登录")
+                    .positiveText("重新登录", dialog -> {
+                        UserUtils.clearLogin();
+                        Navigator.from(getContext())
+                                .setFlag(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                                .to(LoginActivity.class)
+                                .start();
+                    })
+                    .negativeText("取消", dialog -> {
+                        UserUtils.clearLogin();
+                        finishToHome();
+                    }).build()
+                    .show();
+            return;
+        }
+
         Map<String, Object> payParams = new HashMap<>();
-        payParams.put("userName", UserUtils.getUserName());
+        payParams.put("userName", userName);
         payParams.put("version", Utils.getVersionName());
         payParams.put("os", "Android");
         String sign = PayUtil.createSign(payParams);
         payParams.put("random", sign);
-        payParams.put("userId", UserUtils.getUserID());
+        String userId = UserUtils.getUserID();
+        if (Check.notEmpty(userId)) {
+            payParams.put("userId", userId);
+        }
         APIService.get().requestWeChatH5Pay(payParams)
                 .compose(rx())
                 .subscribe(new GeneralConsumer<WechatH5PayResultInfo>() {
