@@ -144,7 +144,7 @@ public class BillingManager implements PurchasesUpdatedListener {
                 @Override
                 public void onBillingServiceDisconnected() {
                     L.e("onBillingServiceDisconnected");
-                    Voast.show("与Google Play断开连接, 请重试");
+//                    Voast.show("与Google Play断开连接, 请重试");
                 }
             });
         }

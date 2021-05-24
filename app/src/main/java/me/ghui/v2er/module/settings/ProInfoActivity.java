@@ -17,6 +17,7 @@ import me.ghui.v2er.bus.event.PayResultEvent;
 import me.ghui.v2er.general.BillingManager;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
@@ -49,8 +50,6 @@ public class ProInfoActivity extends BaseActivity {
     protected void init() {
         super.init();
         updateUI();
-        PayUtil.checkIsWechatPro(isWechatPro -> updateUI());
-        PayUtil.checkIsGooglePro(false, isPro -> updateUI());
     }
 
     private void updateUI() {
@@ -82,19 +81,22 @@ public class ProInfoActivity extends BaseActivity {
             return;
         }
 
-        String msg = "微信支付购买, 将绑定购买信息到你的V2EX账号" + (UserUtils.isLogin() ? "." : ", 请先登录.") + "\n" +
-                "Google Play购买将绑定购买信息到你的Google账号.";
+        final String msg = "1. 微信支付购买, 将绑定购买信息到你的V2EX账号当前售价为 <b>55人民币</b>.<br/>2. Google Play购买将绑定购买信息到你的Google账号当前售价为 <b>11美元</b>.<br/>3. 售价只升不降";
         new ConfirmDialog.Builder(this)
                 .title("激活Pro版")
-                .msg(msg)
-                .positiveText(UserUtils.isLogin() ? "微信支付" : "去登录", dialog -> startWXPayFlow())
+                .msg(Vtml.fromHtml(msg))
+                .positiveText("微信支付", dialog -> startWXPayFlow())
                 .negativeText("Google Play", dialog -> {
                     BillingManager.get().startPurchaseFlow(getActivity());
-                }).build().show();
+                })
+                .cancelable(true)
+                .build()
+                .show();
     }
 
     private void startWXPayFlow() {
         if (!UserUtils.isLogin()) {
+            Voast.show("微信支付需要您先登录v2ex账号");
             Navigator.from(getContext())
                     .to(LoginActivity.class)
                     .start();
@@ -131,11 +133,19 @@ public class ProInfoActivity extends BaseActivity {
         if (Check.notEmpty(userId)) {
             payParams.put("userId", userId);
         }
+
         APIService.get().requestWeChatH5Pay(payParams)
                 .compose(rx())
                 .subscribe(new GeneralConsumer<WechatH5PayResultInfo>() {
                     @Override
                     public void onConsume(WechatH5PayResultInfo payOrderInfo) {
+                        if (payOrderInfo.getCode() == 0 && Check.isEmpty(payOrderInfo.getPayUrl())) {
+                            // Alread paid
+                            Voast.show("你已是付费用户");
+                            UserUtils.saveIsWechatPro(true);
+                            updateUI();
+                            return;
+                        }
                         WXPayActivity.startPay(payOrderInfo.getPayUrl(), payOrderInfo.getOrderId(), getContext());
                     }
                 });

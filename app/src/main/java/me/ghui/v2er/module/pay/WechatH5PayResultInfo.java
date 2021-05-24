@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import me.ghui.v2er.network.bean.BaseInfo;
 
 public class WechatH5PayResultInfo extends BaseInfo {
+    // 0: success
     @SerializedName("code")
     private int code;
     @SerializedName("msg")
