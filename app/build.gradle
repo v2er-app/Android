@@ -108,7 +108,7 @@ dependencies {
     implementation 'com.android.billingclient:billing:3.0.3'
     implementation 'com.oasisfeng.condom:library:2.2.0'
     implementation 'org.slf4j:slf4j-nop:1.7.25'
-    def appCenterSdkVersion = '3.2.1'
+    def appCenterSdkVersion = '4.1.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
     implementation "com.github.parse-community.Parse-SDK-Android:parse:1.26.0"

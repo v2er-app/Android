@@ -22,6 +22,10 @@ public class V2er {
     }
 
     public static void setUserId (String userId) {
+        if (Check.isEmpty(userId)) {
+            capture("userId is empty, installedId: " + AppCenter.getInstallId());
+            userId = AppCenter.getInstallId().get().toString();
+        }
         AppCenter.setUserId(userId);
     }
 

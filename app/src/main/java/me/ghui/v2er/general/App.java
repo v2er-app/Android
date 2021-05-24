@@ -4,6 +4,7 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
+import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.oasisfeng.condom.CondomContext;
@@ -51,6 +52,7 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
+        initAppCenter();
         rxjava();
         initLogger();
         PayUtil.checkIsGooglePro(false);
@@ -85,7 +87,6 @@ public class App extends Application {
     private void initThirdPartySDK() {
 //        if (BuildConfig.DEBUG) return;
         initParseSDK();
-        initAppCenter();
         initWechat();
     }
 
@@ -99,7 +100,7 @@ public class App extends Application {
     }
 
     private void initAppCenter() {
-        com.microsoft.appcenter.AppCenter.start(this, "86417784-dfd2-4d2e-9ed9-fccb88bb2b1f",
+        AppCenter.start(this, "86417784-dfd2-4d2e-9ed9-fccb88bb2b1f",
                 Analytics.class, Crashes.class);
     }
 

@@ -127,7 +127,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 generalError = new GeneralError(ResultCode.NETWORK_ERROR, msg);
                 V2er.capture("generalConsumer.onError: " + e);
                 if (BuildConfig.DEBUG) {
-                    generalError.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }
