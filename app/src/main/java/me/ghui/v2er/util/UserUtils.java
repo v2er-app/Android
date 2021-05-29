@@ -35,15 +35,9 @@ public class UserUtils {
         return null;
     }
 
-    public static String getUserBasicInfo() {
-        UserInfo userInfo = getUserInfo();
-        return userInfo == null ? null : userInfo.getUserBasicInfo();
-    }
-
     public static String getUserName() {
-        UserInfo userInfo = getUserInfo();
-        if (userInfo == null) return "";
-        else return userInfo.getUserName();
+        if (!isLogin()) return null;
+        return getUserInfo().getUserName();
     }
 
     public static String getUserID() {
@@ -53,7 +47,7 @@ public class UserUtils {
     }
 
     public static boolean isLogin() {
-        return Check.notEmpty(Prefs.with(App.get()).read(USER_INFO_KEY));
+        return getUserInfo() != null;
     }
 
 

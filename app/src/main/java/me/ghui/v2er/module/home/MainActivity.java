@@ -288,6 +288,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     .load(userInfo.getAvatar())
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
+        } else {
+            mUserNameTv.setText("请先登录");
+            mAvatarImg.setImageResource(R.drawable.default_avatar_drawable);
         }
         refreshDayNightItem();
     }

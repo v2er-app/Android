@@ -38,8 +38,8 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
-                            mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
                             checkInDaysStr = checkInInfo.getCheckinDays();
+                            mView.checkInBtn().setStatus(FINISHED, "已签到/" + checkInDaysStr + "天", R.drawable.progress_button_done_icon);
                         } else {
                             if (needAutoCheckIn) {
                                 checkIn(checkInInfo.once());
@@ -72,9 +72,9 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
-                            mView.toast("签到成功!\n" + checkInInfo.getCheckinDays());
-                            mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
                             checkInDaysStr = checkInInfo.getCheckinDays();
+                            mView.toast("签到成功/" + checkInDaysStr + "天");
+                            mView.checkInBtn().setStatus(FINISHED, "已签到", R.drawable.progress_button_done_icon);
                         } else {
                             mView.toast("签到遇到问题!");
                             mView.checkInBtn().setStatus(NORMAL, "签到", R.drawable.progress_button_checkin_icon);

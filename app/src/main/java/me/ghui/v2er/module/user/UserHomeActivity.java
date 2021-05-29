@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.Nullable;
+
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -41,7 +45,9 @@ import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.HackRecyclerView;
@@ -141,6 +147,12 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
+        if (Check.isEmpty(mUserName)) {
+            Voast.show("要加载的页面用户名为空");
+            V2er.capture(new Throwable());
+            finish();
+            return;
+        }
         mAvatar = intent.getStringExtra(USER_AVATAR_KEY);
         mTransitionName = intent.getStringExtra(USER_SHARE_ELEMENT_AVATAR_KEY);
     }
@@ -225,7 +237,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
             if (!isAppbarExpanted) {
                 mToolbar.setTitle(mUserName);
             }
-            post(()-> mLayoutManager.scrollToPositionWithOffset(pos, offset));
+            post(() -> mLayoutManager.scrollToPositionWithOffset(pos, offset));
         }
     }
 
@@ -282,7 +294,8 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        if (!UserUtils.getUserName().equals(mUserName)) {
+        if (UserUtils.isLogin()
+                && !UserUtils.getUserName().equals(mUserName)) {
             mUserFollowbtn.setVisibility(View.VISIBLE);
             mUserBlockBtn.setVisibility(View.VISIBLE);
         }
