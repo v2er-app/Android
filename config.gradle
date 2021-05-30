@@ -1,7 +1,7 @@
 ext {
     app = [
-            versionCode: 115,
-            versionName: "1.7.5"
+            versionCode: 116,
+            versionName: "1.7.6"
     ]
     android = [
             supportVersion: '26.1.0'
