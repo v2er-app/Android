@@ -256,7 +256,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      * init theme here
      */
     protected void initTheme() {
-        Voast.debug("isSystemIn Night mode: " + DarkModelUtils.isSystemInDarkMode());
         int dayNightMode = DarkModelUtils.getMode();
         switch (dayNightMode) {
             case DarkModelUtils.DARK_MODE:
