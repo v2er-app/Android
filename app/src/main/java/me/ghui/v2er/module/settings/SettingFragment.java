@@ -174,7 +174,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_wechat))) {
             Utils.copy2Clipboard(getString(R.string.wechat_username));
-            Voast.show("已复制微信号(ghuiii)，请加我为好友后我加你入群", true);
+            Voast.show("已复制微信号(lessmoreio)，请加我为好友后我加你入群", true);
         }
         return false;
     }

@@ -62,7 +62,7 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_contact_me_wechat))) {
             // copy wechat to clipboard
             Utils.copy2Clipboard(getString(R.string.wechat_username));
-            Voast.show("已复制微信号(ghuiii)，请加我为好友后我拉你入群", true);
+            Voast.show("已复制微信号(lessmoreio)，请加我为好友后我拉你入群", true);
         } else if (key.equals(getString(R.string.pref_key_contact_me_twitter))) {
             Utils.jumpToTwitterProfilePage(getActivity());
         }
