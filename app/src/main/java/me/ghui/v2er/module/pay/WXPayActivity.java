@@ -81,11 +81,15 @@ public class WXPayActivity extends WapActivity {
         }
         // Case 2: intercept to check pay result
         if (url.startsWith("https://lessmore.io/pay/callback")) {
-            PayUtil.checkIsWechatPro(isWechatPro -> {
-                PayResultEvent payResultEvent = new PayResultEvent(isWechatPro,
-                        PayResultEvent.PayWay.WECHAT_PAY, null);
-                Bus.post(payResultEvent);
-                finish();
+            showLoading();
+            delay(2 * 1000, () -> {
+                PayUtil.checkIsWechatPro(isWechatPro -> {
+                    hideLoading();
+                    PayResultEvent payResultEvent = new PayResultEvent(isWechatPro,
+                            PayResultEvent.PayWay.WECHAT_PAY, null);
+                    Bus.post(payResultEvent);
+                    finish();
+                });
             });
             return true;
         }

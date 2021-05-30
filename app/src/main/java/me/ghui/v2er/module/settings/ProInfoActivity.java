@@ -31,6 +31,7 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.dialog.BaseDialog;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 
 /**
@@ -72,6 +73,7 @@ public class ProInfoActivity extends BaseActivity {
         String msg = payResultEvent.isSuccess ? "购买成功" : "购买失败";
         Voast.show(msg);
         updateUI();
+        hideLoading();
     }
 
     @OnClick(R.id.go_get_pro_btn)
@@ -134,8 +136,9 @@ public class ProInfoActivity extends BaseActivity {
             payParams.put("userId", userId);
         }
 
+        showLoading();
         APIService.get().requestWeChatH5Pay(payParams)
-                .compose(rx())
+                .compose(rx(null))
                 .subscribe(new GeneralConsumer<WechatH5PayResultInfo>() {
                     @Override
                     public void onConsume(WechatH5PayResultInfo payOrderInfo) {
@@ -159,6 +162,31 @@ public class ProInfoActivity extends BaseActivity {
                         "3. 其它问题请发邮件到v2er.app@outlook.com")
                 .positiveText(R.string.ok)
                 .build().show();
+    }
+
+    public void onRefreshProInfoClicked(View view) {
+        // force refresh ProInfo
+        if (!UserUtils.isLogin()) {
+            Voast.show("请先登录");
+            return;
+        }
+
+        if (UserUtils.isPro()) {
+            updateUI();
+            return;
+        }
+
+        new ConfirmDialog.Builder(this)
+                .title("刷新激活状态")
+                .msg("若你微信付费成功后, Pro状态未激活成功，可尝试刷新付费状态")
+                .positiveText("刷新", dialog -> {
+                    showLoading();
+                    PayUtil.checkIsWechatPro(isWechatPro -> {
+                        hideLoading();
+                        Voast.show(isWechatPro ? "激活成功" : "激活失败");
+                        updateUI();
+                    });
+                }).build().show();
     }
 
     private boolean isPro() {
