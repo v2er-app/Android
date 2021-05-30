@@ -294,8 +294,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     public void fillView(UserPageInfo userPageInfo) {
         mUserPageInfo = userPageInfo;
-        if (UserUtils.isLogin()
-                && !UserUtils.getUserName().equals(mUserName)) {
+        String currentUserName = UserUtils.getUserName();
+        if (!UserUtils.isLogin()
+                || Check.isEmpty(currentUserName)
+                || !mUserName.equals(currentUserName)) {
             mUserFollowbtn.setVisibility(View.VISIBLE);
             mUserBlockBtn.setVisibility(View.VISIBLE);
         }
