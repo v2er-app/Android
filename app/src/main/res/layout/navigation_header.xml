@@ -17,6 +17,7 @@
         android:src="@drawable/default_avatar_drawable"
         app:civ_border_color="#7a7a7a"
         app:civ_border_width="1dp"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

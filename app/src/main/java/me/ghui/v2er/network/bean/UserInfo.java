@@ -156,6 +156,13 @@ public class UserInfo extends BaseInfo {
 
     public String getAvatar() {
         if (!avatar.startsWith("http")) return "https:" + avatar;
+        if (!avatar.contains("large.png")) {
+            if (avatar.contains("mini.png")) {
+                avatar = avatar.replace("mini.png", "large.png");
+            } else if (avatar.contains("normal.png")) {
+                avatar = avatar.replace("normal.png", "large.png");
+            }
+        }
         return avatar;
     }
 

@@ -20,6 +20,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.request.target.Target;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.google.android.material.appbar.AppBarLayout;
@@ -169,6 +170,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mCheckInBtn.setOnClickListener(this);
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
 
+        mAvatarImg.setOnLongClickListener(v -> {
+            new ConfirmDialog.Builder(getActivity())
+                    .title("退出登录")
+                    .msg("确定退出吗？")
+                    .positiveText(R.string.ok, dialog -> {
+                        UserUtils.clearLogin();
+                        Navigator.from(getActivity())
+                                .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .to(MainActivity.class).start();
+                    })
+                    .negativeText(R.string.cancel)
+                    .build().show();
+            return false;
+        });
+
         mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
         updateDrawLayout();
         mNavigationView.setNavigationItemSelectedListener(item -> {
@@ -285,6 +301,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             mUserNameTv.setText(userInfo.getUserName());
             GlideApp.with(getContext())
                     .load(userInfo.getAvatar())
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .placeholder(R.drawable.avatar_placeholder_drawable)
                     .into(mAvatarImg);
         } else {

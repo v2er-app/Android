@@ -69,6 +69,10 @@ public class UserUtils {
                         @Override
                         public void onConsume(UserInfo userInfo) {
                             if (userInfo != null && !TextUtils.isEmpty(userInfo.getId())) {
+                                // update to use large avatar
+                                // https://cdn.v2ex.com/avatar/c6f7/ffa0/161290_mini.png?m=1506764621
+                                String largeAvatar = userInfo.getAvatar().replace("mini.png", "large.png");
+                                userInfo.setAvatar(largeAvatar);
                                 L.d("save rich userInfo, username: "
                                         + userInfo.getUserName()
                                         + ", userId: " + userInfo.getId());
