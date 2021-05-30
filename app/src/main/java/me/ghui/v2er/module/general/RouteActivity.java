@@ -14,7 +14,7 @@ import me.ghui.v2er.module.shortcuts.CreateTopicShortcut;
 import me.ghui.v2er.module.shortcuts.DailyHotShortcut;
 import me.ghui.v2er.module.shortcuts.StarTopicShortcut;
 import me.ghui.v2er.network.UrlInterceptor;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 
 /**
  * Created by ghui on 30/06/2017.
@@ -24,11 +24,11 @@ public class RouteActivity extends Activity {
 
 
     protected void initTheme() {
-        switch (DayNightUtil.getMode()) {
-            case DayNightUtil.NIGHT_MODE:
+        switch (DarkModelUtils.getMode()) {
+            case DarkModelUtils.DARK_MODE:
                 setTheme(R.style.NightTheme);
                 break;
-            case DayNightUtil.DAY_MODE:
+            case DarkModelUtils.DEFAULT_MODE:
             default:
                 setTheme(R.style.DayTheme);
                 break;

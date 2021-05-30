@@ -20,4 +20,17 @@
         <item>大</item>
         <item>特大</item>
     </string-array>
+
+    <string-array name="auto_daynight_modes">
+        <item>跟随系统</item>
+        <item>设置时间</item>
+    </string-array>
+
+    <string-array name="auto_daynight_mode_values">
+        <!-- follow system -->
+        <item>0</item>
+        <!-- auto switch via time-->
+        <item>1</item>
+    </string-array>
+
 </resources>

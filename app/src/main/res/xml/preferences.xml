@@ -37,10 +37,10 @@
             android:summary="优先浏览帖子最新回复"
             android:title="逆序浏览" />
         <Preference
-            android:key="@string/pref_key_auto_daynight"
+            android:key="@string/pref_key_auto_dark_mode_settings"
             android:layout="@layout/preference_item"
-            android:summary="自动切换日夜间模式"
-            android:title="自动日夜" />
+            android:summary="设置自动切换(跟随系统/指定切换时间)"
+            android:title="深色模式" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
@@ -108,11 +108,11 @@
             android:summary="\@sethcreate"
             android:title="Twitter" />
         <Preference
+            android:enabled="false"
             android:key="@string/pref_key_contact_me_wechat"
             android:layout="@layout/preference_item"
-            android:title="V2er Friends"
-            android:enabled="false"
-            android:summary="高级版用户群" />
+            android:summary="高级版用户群"
+            android:title="V2er Friends" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"

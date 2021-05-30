@@ -5,6 +5,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import es.dmoral.prefs.Prefs;
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.bus.event.PayResultEvent;
 import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.network.GeneralConsumer;
@@ -115,6 +116,9 @@ public class UserUtils {
     }
 
     public static boolean isGooglePro() {
+        if (BuildConfig.DEBUG) {
+            if (!isLogin() || isGhui()) return false;
+        }
         return Pref.readBool(IS_Google_PRO_KEY);
     }
 
@@ -125,6 +129,12 @@ public class UserUtils {
 
     private static void clearWechatProInfo() {
         Prefs.with(App.get()).writeBoolean(IS_Wechat_PRO_KEY, false);
+    }
+
+    public static boolean isGhui() {
+        String currentUser = getUserName();
+        if (Check.isEmpty(currentUser)) return false;
+        return "ghui".contentEquals(currentUser);
     }
 
 }

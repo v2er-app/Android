@@ -38,7 +38,7 @@ import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.BaseConsumer;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
@@ -81,7 +81,7 @@ public class HtmlView extends WebView {
         setWebViewClient(new V2exWebViewClient());
         setVerticalScrollBarEnabled(false);
         addJavascriptInterface(new ImgClickJSInterface(), "imagelistener");
-        setBackgroundColor(DayNightUtil.isNightMode() ?
+        setBackgroundColor(DarkModelUtils.isDarkMode() ?
                 getContext().getResources().getColor(R.color.night_default_page_bg) :
                 getContext().getResources().getColor(R.color.default_page_bg));
     }
@@ -96,7 +96,7 @@ public class HtmlView extends WebView {
     }
 
     private String injectParams(String html) {
-        boolean isDark = DayNightUtil.isNightMode();
+        boolean isDark = DarkModelUtils.isDarkMode();
         float fontSize = FontSizeUtil.getHtmlFontSize();
         String params = isDark + ", " + "'" + fontSize + "px" + "'";
         return html.replace("{INJECT_PARAMS}", params);

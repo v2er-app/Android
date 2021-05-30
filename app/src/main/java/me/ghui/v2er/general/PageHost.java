@@ -50,9 +50,9 @@ public class PageHost extends BaseActivity {
                 fragment = ContactFragment.newInstance();
                 title = "联系";
                 break;
-            case AUTO_SWITCH_DAYNIGHT:
+            case AUTO_SWITCH_DARK_MODE:
                 fragment = AutoSwitchDayNightSetting.newInstance();
-                title = "自动日夜";
+                title = "深色模式";
                 break;
             default:
                 throw new RuntimeException("wrong page id: " + pageID);

@@ -4,7 +4,7 @@ package me.ghui.v2er.bus.event;
  * Created by ghui on 24/11/2017.
  */
 
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 
 /**
  * preference 日夜间模式切换
@@ -12,11 +12,11 @@ import me.ghui.v2er.util.DayNightUtil;
 public class DayNightModeEvent implements Cloneable {
     private int mode;
 
-    public static DayNightModeEvent get(@DayNightUtil.DayNightMode int mode) {
+    public static DayNightModeEvent get(@DarkModelUtils.DayNightMode int mode) {
         return new DayNightModeEvent(mode);
     }
 
-    private DayNightModeEvent(@DayNightUtil.DayNightMode int mode) {
+    private DayNightModeEvent(@DarkModelUtils.DayNightMode int mode) {
         this.mode = mode;
     }
 
@@ -25,7 +25,7 @@ public class DayNightModeEvent implements Cloneable {
     }
 
     public String getModeName() {
-        return mode == DayNightUtil.DAY_MODE ? "DayMode" : "NightMode";
+        return mode == DarkModelUtils.DEFAULT_MODE ? "DayMode" : "NightMode";
     }
 
     public DayNightModeEvent copy() {

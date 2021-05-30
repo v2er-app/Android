@@ -28,7 +28,7 @@ import me.ghui.v2er.injector.component.DaggerSearchComponent;
 import me.ghui.v2er.injector.module.SearchModule;
 import me.ghui.v2er.module.base.BaseFragment;
 import me.ghui.v2er.module.base.IBackable;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -87,7 +87,7 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
     protected void init() {
         Utils.setPaddingForStatusBar(mSearchRootView);
         mCardView.setCardBackgroundColor(Theme.getColor(R.attr.dialog_bg_color, getContext()));
-        mResultRecyV.addDivider(DayNightUtil.isNightMode() ? 0XFF000000 : 0XFFF5F5F5, 6);
+        mResultRecyV.addDivider(DarkModelUtils.isDarkMode() ? 0XFF000000 : 0XFFF5F5F5, 6);
         mResultRecyV.setLayoutManager(new LinearLayoutManager(getContext()));
         mResultRecyV.setAdapter(mResultAdapter);
         mResultRecyV.setOnLoadMoreListener(this);

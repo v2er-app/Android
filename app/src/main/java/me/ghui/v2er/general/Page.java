@@ -6,5 +6,5 @@ package me.ghui.v2er.general;
 public enum Page {
     SETTING,
     CONTACT,
-    AUTO_SWITCH_DAYNIGHT
+    AUTO_SWITCH_DARK_MODE
 }

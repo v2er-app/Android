@@ -3,16 +3,20 @@ package me.ghui.v2er.module.base;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.LayoutRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
+
 import com.google.android.material.appbar.AppBarLayout;
+
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -51,7 +55,7 @@ import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.network.ResultCode;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -247,15 +251,18 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     }
 
+
     /**
      * init theme here
      */
     protected void initTheme() {
-        switch (DayNightUtil.getMode()) {
-            case DayNightUtil.NIGHT_MODE:
+        Voast.debug("isSystemIn Night mode: " + DarkModelUtils.isSystemInDarkMode());
+        int dayNightMode = DarkModelUtils.getMode();
+        switch (dayNightMode) {
+            case DarkModelUtils.DARK_MODE:
                 setTheme(R.style.NightTheme);
                 break;
-            case DayNightUtil.DAY_MODE:
+            case DarkModelUtils.DEFAULT_MODE:
             default:
                 setTheme(R.style.DayTheme);
                 break;
@@ -299,7 +306,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     /**
      * 刷新当前页面的日夜模式
      */
-    protected abstract void reloadMode(@DayNightUtil.DayNightMode int mode);
+    protected abstract void reloadMode(@DarkModelUtils.DayNightMode int mode);
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DayNightModeEvent event) {
@@ -307,7 +314,8 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mDayNightModeEvent = event.copy();
     }
 
-    @Override @CallSuper
+    @Override
+    @CallSuper
     protected void onResume() {
         super.onResume();
         if (mDayNightModeEvent != null) {

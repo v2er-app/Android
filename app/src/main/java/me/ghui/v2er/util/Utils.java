@@ -302,7 +302,7 @@ public class Utils {
     public static void openInBrowser(String url, Context context) {
         CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
                 .setToolbarColor(context.getColor(
-                        DayNightUtil.isNightMode() ? R.color.colorPrimary_night : R.color.colorPrimary))
+                        DarkModelUtils.isDarkMode() ? R.color.colorPrimary_night : R.color.colorPrimary))
                 .enableUrlBarHiding()
                 .setShowTitle(true)
                 .addDefaultShareMenuItem()

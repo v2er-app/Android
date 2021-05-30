@@ -54,6 +54,10 @@ public class Pref {
         Prefs.with(app()).writeBoolean(app().getString(key), value);
     }
 
+    public static void save(@StringRes int key, String value) {
+        Prefs.with(app()).write(app().getString(key), value);
+    }
+
     public static void save(String key, String value) {
         Prefs.with(app()).write(key, value);
     }

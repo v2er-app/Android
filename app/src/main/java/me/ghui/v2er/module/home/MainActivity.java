@@ -42,20 +42,16 @@ import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
 import me.ghui.v2er.module.drawer.dailyhot.DailyHotActivity;
 import me.ghui.v2er.module.drawer.star.StarActivity;
 import me.ghui.v2er.module.login.LoginActivity;
-import me.ghui.v2er.module.pay.ParseOrder;
-import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.module.settings.UserManualActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.UserInfo;
-import me.ghui.v2er.util.Check;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
-import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -154,8 +150,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
 
     private void refreshDayNightItem() {
-        mNightMenuItem.setTitle(DayNightUtil.isAutoModeEnabled() ? "夜间模式(自动)" : "夜间模式");
-        mNightSwitch.setChecked(DayNightUtil.isNightMode());
+        mNightMenuItem.setTitle(DarkModelUtils.isAutoModeEnabled() ? "深色模式(自动)" : "深色模式");
+        mNightSwitch.setChecked(DarkModelUtils.isDarkMode());
     }
 
     @Override
@@ -172,6 +168,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
+
         mNightSwitch = mNightMenuItem.getActionView().findViewById(R.id.drawer_switch);
         updateDrawLayout();
         mNavigationView.setNavigationItemSelectedListener(item -> {
@@ -196,12 +193,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.day_night_item:
-                    onNightMenuItemClicked(DayNightUtil.isNightMode());
+                    onNightMenuItemClicked(DarkModelUtils.isDarkMode());
                     break;
             }
             delay(50, () -> mDrawerLayout.closeDrawer(Gravity.START, false));
             return true;
         });
+
+
 
         Menu menu = mNavigationView.getMenu();
         for (int i = 0; i < menu.size(); i++) {
@@ -247,20 +246,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void onNightMenuItemClicked(boolean isNightMode) {
-        int wanttedMode = isNightMode ? DayNightUtil.DAY_MODE : DayNightUtil.NIGHT_MODE;
-        if (DayNightUtil.isAutoModeEnabled()) {
+        int wanttedMode = isNightMode ? DarkModelUtils.DEFAULT_MODE : DarkModelUtils.DARK_MODE;
+        if (DarkModelUtils.isAutoModeEnabled()) {
             new ConfirmDialog.Builder(MainActivity.this)
                     .title("要关闭自动切换模式吗？")
                     .msg("当前为自动切换模式，确定关闭自动切换吗")
                     .positiveText("关闭", dialog -> {
-                        DayNightUtil.saveAutoMode(false);
-                        DayNightUtil.saveMode(wanttedMode);
+                        DarkModelUtils.saveEnableAutoSwitch(false);
+                        DarkModelUtils.saveModeMannually(wanttedMode);
                         reloadMode(wanttedMode);
                     }).negativeText("暂时不用")
                     .build().show();
         } else {
             mNightSwitch.toggle();
-            DayNightUtil.saveMode(wanttedMode);
+            DarkModelUtils.saveModeMannually(wanttedMode);
             reloadMode(wanttedMode);
         }
     }

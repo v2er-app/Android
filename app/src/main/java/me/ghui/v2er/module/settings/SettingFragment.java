@@ -6,7 +6,9 @@ import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
+
 import androidx.annotation.StringRes;
+
 import android.view.View;
 import android.widget.ListView;
 
@@ -59,7 +61,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_v2er_app)).setOnPreferenceClickListener(this::onPreferenceClick);
-        findPreference(getString(R.string.pref_key_auto_daynight)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_auto_dark_mode_settings)).setOnPreferenceClickListener(this);
         Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
         proItem.setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact_me_twitter)).setOnPreferenceClickListener(this);
@@ -150,9 +152,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Navigator.from(getActivity()).to(ProInfoActivity.class).start();
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
-        } else if (key.equals(getString(R.string.pref_key_auto_daynight))) {
+        } else if (key.equals(getString(R.string.pref_key_auto_dark_mode_settings))) {
 //            Bus.post(new DayNightModeEvent(isItemChecked(preference)));
-            Navigator.from(getContext()).to(Page.AUTO_SWITCH_DAYNIGHT).start();
+            Navigator.from(getContext()).to(Page.AUTO_SWITCH_DARK_MODE).start();
         } else if (key.equals(getString(R.string.pref_key_email))) {
             Utils.sendOfficalV2erEmail(getActivity());
         } else if (key.equals(getString(R.string.pref_key_rate))) {
@@ -193,9 +195,11 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     }
 
     private boolean isFeatureUnavaliable(String key) {
-        return !UserUtils.isPro() && strEquals(key, R.string.pref_key_auto_checkin,
+        boolean isPro = UserUtils.isPro();
+        if (isPro) return false;
+        return strEquals(key, R.string.pref_key_auto_checkin,
                 R.string.pref_key_highlight_topic_owner_reply_item,
-                R.string.pref_key_is_scan_in_reverse, R.string.pref_key_auto_daynight);
+                R.string.pref_key_is_scan_in_reverse, R.string.pref_key_auto_dark_mode_settings);
     }
 
     private boolean strEquals(String str, @StringRes int... strId) {

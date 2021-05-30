@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 
 import me.ghui.v2er.R;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.ViewUtils;
 
@@ -38,7 +38,7 @@ public class ImageHolderDrawable extends Drawable {
         }
         mRect = new Rect(0, 0, width, height);
         setBounds(mRect);
-        if (DayNightUtil.isNightMode()) {
+        if (DarkModelUtils.isDarkMode()) {
             mBgColor = 0xFF222222;
             mTextColor = 0xFF707070;
         } else {

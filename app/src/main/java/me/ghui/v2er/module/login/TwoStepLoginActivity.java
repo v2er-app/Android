@@ -27,7 +27,7 @@ import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.LoginResultInfo;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.UserInfo;
-import me.ghui.v2er.util.DayNightUtil;
+import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.V2er;
@@ -77,11 +77,11 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
 
     @Override
     protected void initTheme() {
-        switch (DayNightUtil.getMode()) {
-            case DayNightUtil.NIGHT_MODE:
+        switch (DarkModelUtils.getMode()) {
+            case DarkModelUtils.DARK_MODE:
                 setTheme(R.style.NightDialogTheme);
                 break;
-            case DayNightUtil.DAY_MODE:
+            case DarkModelUtils.DEFAULT_MODE:
             default:
                 setTheme(R.style.DialogTheme);
                 break;

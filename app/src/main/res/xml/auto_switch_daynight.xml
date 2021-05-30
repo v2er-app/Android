@@ -5,17 +5,24 @@
     android:layout="@layout/preference_item">
     <SwitchPreference
         android:defaultValue="false"
-        android:key="@string/pref_key_auto_daynight_switch"
+        android:key="@string/pref_key_auto_dark_mode_switch"
         android:layout="@layout/preference_item"
-        android:title="开启" />
+        android:title="自动切换" />
+    <ListPreference
+        android:defaultValue="0"
+        android:entries="@array/auto_daynight_modes"
+        android:entryValues="@array/auto_daynight_mode_values"
+        android:key="@string/pref_key_auto_dark_mode_way"
+        android:layout="@layout/preference_item"
+        android:title="切换模式" />
     <me.ghui.v2er.module.settings.TimePreference
         android:defaultValue="07:00"
         android:key="@string/pref_key_day_mode_start_time"
         android:layout="@layout/preference_item"
-        android:title="日间模式开始时间" />
+        android:title="普通模式开始时间" />
     <me.ghui.v2er.module.settings.TimePreference
         android:defaultValue="19:00"
         android:key="@string/pref_key_night_mode_start_time"
         android:layout="@layout/preference_item"
-        android:title="夜间模式开始时间" />
+        android:title="深色模式开始时间" />
 </PreferenceScreen>
