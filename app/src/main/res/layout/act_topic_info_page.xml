@@ -22,6 +22,7 @@
         android:tint="?attr/icon_tint_color"
         android:visibility="invisible"
         app:borderWidth="0dp"
+        app:fabCustomSize="45dp"
         app:layout_anchor="@id/base_recyclerview"
         app:layout_anchorGravity="bottom|right|end"
         app:layout_behavior="@string/news_new_behavior" />
