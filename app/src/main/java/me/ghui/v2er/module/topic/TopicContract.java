@@ -51,9 +51,9 @@ public class TopicContract {
 
         void thxCreator(String id, String t);
 
-        void starTopic(String topicId, String t);
+        void starTopic(String topicId, String once);
 
-        void unStarTopic(String topicId, String t);
+        void unStarTopic(String topicId, String once);
 
         void ignoreTopic(String topicId, String once);
 

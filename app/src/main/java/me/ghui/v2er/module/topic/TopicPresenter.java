@@ -82,15 +82,15 @@ public class TopicPresenter implements TopicContract.IPresenter {
 
 
     @Override
-    public void starTopic(String topicId, String t) {
+    public void starTopic(String topicId, String once) {
         if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
-        APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, t)
+        APIService.get().starTopic(RefererUtils.topicReferer(topicId), topicId, once)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override
                     public void onConsume(TopicInfo topicInfo) {
                         if (topicInfo == null) {
-                            V2er.capture("afterStarTopic.mTopicID: " + topicId + ", t: " + t);
+                            V2er.capture("afterStarTopic.mTopicID: " + topicId + ", once: " + once);
                         }
                         mView.afterStarTopic(topicInfo);
                     }
@@ -98,9 +98,9 @@ public class TopicPresenter implements TopicContract.IPresenter {
     }
 
     @Override
-    public void unStarTopic(String topicId, String t) {
+    public void unStarTopic(String topicId, String once) {
         if (UserUtils.notLoginAndProcessToLogin(false, mView.getContext())) return;
-        APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, t)
+        APIService.get().unStarTopic(RefererUtils.topicReferer(topicId), topicId, once)
                 .compose(mView.rx())
                 .subscribe(new GeneralConsumer<TopicInfo>(mView) {
                     @Override

@@ -172,9 +172,10 @@ public interface APIs {
     @POST("/ajax/money")
     Observable<ThxResponseInfo> thxMoney();
 
+    // /favorite/topic/812518
     @Html
     @GET("/favorite/topic/{id}")
-    Observable<TopicInfo> starTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
+    Observable<TopicInfo> starTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
 
     @Html
     @GET("/ignore/topic/{id}")
@@ -194,7 +195,7 @@ public interface APIs {
 
     @Html
     @GET("/unfavorite/topic/{id}")
-    Observable<TopicInfo> unStarTopic(@Header("Referer") String referer, @Path("id") String id, @Query("t") String string);
+    Observable<TopicInfo> unStarTopic(@Header("Referer") String referer, @Path("id") String id, @Query("once") String once);
 
     @Html
     @POST("/up/topic/{id}")

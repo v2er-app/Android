@@ -256,9 +256,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             switch (item.getItemId()) {
                 case R.id.action_star:
                     if (headerInfo.hadStared()) {
-                        mPresenter.unStarTopic(mTopicId, headerInfo.getT());
+                        mPresenter.unStarTopic(mTopicId, mTopicInfo.getOnce());
                     } else {
-                        mPresenter.starTopic(mTopicId, headerInfo.getT());
+                        mPresenter.starTopic(mTopicId, mTopicInfo.getOnce());
                     }
                     break;
                 case R.id.action_append:
