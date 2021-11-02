@@ -5,6 +5,7 @@ import java.util.List;
 
 import me.ghui.fruit.Attrs;
 import me.ghui.fruit.annotations.Pick;
+import me.ghui.v2er.util.AvatarUtils;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.Utils;
@@ -90,7 +91,7 @@ public class CareInfo extends BaseInfo {
         }
 
         public String getAvatar() {
-            return Constants.HTTPS_SCHEME + avatar;
+            return AvatarUtils.adjustAvatar(avatar);
         }
 
         public String getUserName() {
