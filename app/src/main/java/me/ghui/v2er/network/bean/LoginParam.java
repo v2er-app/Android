@@ -13,7 +13,7 @@ import me.ghui.v2er.util.Check;
  */
 
 public class LoginParam extends BaseInfo {
-    @Pick(value = "input[type=text][autocorrect=off]", attr = "name")
+    @Pick(value = "input.sl[type=text]", attr = "name")
     private String nameParam;
     @Pick(value = "input[type=password]", attr = "name")
     private String pswParam;
