@@ -138,7 +138,8 @@ public class UserUtils {
     public static boolean isGhui() {
         String currentUser = getUserName();
         if (Check.isEmpty(currentUser)) return false;
-        return "ghui".contentEquals(currentUser);
+        return "ghui".contentEquals(currentUser)
+                || "ghuiii".contentEquals(currentUser);
     }
 
 }
