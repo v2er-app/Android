@@ -147,7 +147,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
-        mUserName = null;
         if (Check.isEmpty(mUserName)) {
             Voast.show("要加载的页面用户名为空");
             Flurry.capture(new Throwable("TEST"));
