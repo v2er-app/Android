@@ -36,6 +36,8 @@ public class SearchModule {
             @Override
             protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
                 holder.setText(R.id.search_result_title_tv, hit.getSource().getTitle());
+                String footnote = hit.getSource().getCreator() + " 于 " + hit.getSource().getTime() + " 发表, " + hit.getSource().getReplies() + " 回复";
+                holder.setText(R.id.search_result_footnote_tv, footnote);
                 RichText.from(hit.getSource().getContent())
                         .supportUrlClick(false)
                         .into(holder.getTextView(R.id.search_result_content_tv));

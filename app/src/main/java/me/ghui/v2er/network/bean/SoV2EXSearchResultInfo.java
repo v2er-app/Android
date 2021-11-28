@@ -33,7 +33,7 @@ public class SoV2EXSearchResultInfo extends BaseInfo{
             private String nodeId;
             @SerializedName("replies")
             private long replies;
-            @SerializedName("time")
+            @SerializedName("created")
             private String time;
             @SerializedName("member")
             private String creator;

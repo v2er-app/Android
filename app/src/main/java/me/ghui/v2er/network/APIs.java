@@ -70,7 +70,7 @@ public interface APIs {
 
     @Json
     @GET("https://www.sov2ex.com/api/search")
-    Observable<SoV2EXSearchResultInfo> search(@Query("q") String keyword, @Query("from") int from);
+    Observable<SoV2EXSearchResultInfo> search(@Query("q") String keyword, @Query("from") int from, @Query("sort") String sortWay);
 
     // Below is YunGou API
 //    @Json

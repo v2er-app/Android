@@ -30,7 +30,10 @@ public class SearchPresenter implements SearchContract.IPresenter {
     @Override
     public void search(String query, int page) {
         int from = (page - 1) * 10;
-        APIService.get().search(query, from)
+
+//        String sortWay = "sumup";
+        String sortWay = "created";
+        APIService.get().search(query, from, sortWay)
                 .compose(mView.rx(page))
                 .subscribe(new GeneralConsumer<SoV2EXSearchResultInfo>() {
                     @Override
