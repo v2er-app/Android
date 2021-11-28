@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.webkit.WebSettings;
 
+import com.flurry.android.FlurryAgent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +19,6 @@ import me.ghui.v2er.network.bean.DailyInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
-import me.ghui.v2er.util.V2er;
 
 /**
  * Created by ghui on 13/08/2017.
@@ -81,7 +81,7 @@ public class SignInWithGoogleActivity extends WapActivity {
                         Navigator.from(SignInWithGoogleActivity.this)
                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                                 .to(MainActivity.class).start();
-                        V2er.setUserId(checkInInfo.getUserName());
+                        FlurryAgent.setUserId(checkInInfo.getUserName());
                         finish();
                     }
                 });

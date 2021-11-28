@@ -9,7 +9,7 @@ import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.network.bean.LoginParam;
 import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TwoStepLoginInfo;
-import me.ghui.v2er.util.V2er;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -41,7 +41,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
         if (t == null) {
             L.e("API RESPONSE: NULL");
             onError(new Throwable("Unknown Error"));
-            V2er.capture("GeneralConsumer: t is null");
+            Flurry.capture("GeneralConsumer: t is null");
             return;
         }
         L.v("API RESPONSE: \n" + t.toString() + "\n");
@@ -125,7 +125,7 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 String msg = "Unknown Error";
                 if (!Utils.isNetworkAvailable()) msg = "Network Connection Error";
                 generalError = new GeneralError(ResultCode.NETWORK_ERROR, msg);
-                V2er.capture("generalConsumer.onError: " + e);
+                Flurry.capture("generalConsumer.onError: " + e);
                 if (BuildConfig.DEBUG) {
                     throw new RuntimeException(e);
                 }

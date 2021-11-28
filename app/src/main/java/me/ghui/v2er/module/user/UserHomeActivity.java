@@ -42,10 +42,10 @@ import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -147,9 +147,10 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void parseExtras(Intent intent) {
         mUserName = intent.getStringExtra(USER_NAME_KEY);
+        mUserName = null;
         if (Check.isEmpty(mUserName)) {
             Voast.show("要加载的页面用户名为空");
-            V2er.capture(new Throwable());
+            Flurry.capture(new Throwable("TEST"));
             finish();
             return;
         }

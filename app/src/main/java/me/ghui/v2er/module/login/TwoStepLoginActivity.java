@@ -8,6 +8,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 
+import com.flurry.android.FlurryAgent;
+
 import org.jsoup.helper.StringUtil;
 
 import java.util.HashMap;
@@ -30,7 +32,6 @@ import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
-import me.ghui.v2er.util.V2er;
 import me.ghui.v2er.widget.BaseToolBar;
 
 /**
@@ -181,7 +182,7 @@ public class TwoStepLoginActivity extends BaseActivity implements ClipboardManag
                                     public void onConsume(LoginResultInfo resultInfo) {
                                         toast("登录成功");
                                         UserUtils.saveLogin(UserInfo.build(resultInfo.getUserName(), resultInfo.getAvatar()));
-                                        V2er.setUserId(resultInfo.getUserName());
+                                        FlurryAgent.setUserId(resultInfo.getUserName());
                                         finish();
                                         Navigator.from(TwoStepLoginActivity.this)
                                                 .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)

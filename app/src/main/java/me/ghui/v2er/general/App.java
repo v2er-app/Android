@@ -4,9 +4,7 @@ import android.app.Application;
 import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
+import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -26,8 +24,9 @@ import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.module.pay.ParseOrder;
 import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.util.V2er;
+import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
+import me.ghui.v2er.util.UserUtils;
 
 /**
  * Created by ghui on 05/03/2017.
@@ -52,7 +51,6 @@ public class App extends Application {
         sInstance = this;
         mAppComponent = DaggerAppComponent.builder().appModule(new AppModule(sInstance))
                 .build();
-        initAppCenter();
         rxjava();
         initLogger();
         PayUtil.checkIsGooglePro(false);
@@ -65,7 +63,8 @@ public class App extends Application {
     private void rxjava() {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
-            V2er.capture("globalHandler: " + e.getMessage());
+//            V2er.capture("globalHandler: " + e.getMessage());
+            Flurry.capture("globalHandler: " + e.getMessage());
         });
     }
 
@@ -85,7 +84,7 @@ public class App extends Application {
     }
 
     private void initThirdPartySDK() {
-//        if (BuildConfig.DEBUG) return;
+        initFlurry();
         initParseSDK();
         initWechat();
     }
@@ -99,9 +98,12 @@ public class App extends Application {
                 .build());
     }
 
-    private void initAppCenter() {
-        AppCenter.start(this, "86417784-dfd2-4d2e-9ed9-fccb88bb2b1f",
-                Analytics.class, Crashes.class);
+    private void initFlurry() {
+        new FlurryAgent.Builder()
+                .withLogEnabled(BuildConfig.DEBUG)
+                .withCaptureUncaughtExceptions(true)
+                .build(this, "4PZMS4HSZP3YNMBP8W4R");
+        FlurryAgent.setUserId(UserUtils.getUserName());
     }
 
     private void initWechat() {
