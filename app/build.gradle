@@ -106,11 +106,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
     implementation 'pub.devrel:easypermissions:1.0.1'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.android.billingclient:billing:3.0.3'
     implementation 'com.oasisfeng.condom:library:2.2.0'
     implementation 'com.flurry.android:analytics:13.1.0'
     implementation 'org.slf4j:slf4j-nop:1.7.25'
-    implementation "com.github.parse-community.Parse-SDK-Android:parse:1.26.0"
 }
 
 //flurryCrash {
