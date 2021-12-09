@@ -15,9 +15,6 @@
     <string name="twitter_username">\@ghuizh</string>
     <string name="feedback_email">ghuiii.zhang@gmail.com</string>
     <string name="pref_send_email">pref_key_send_email</string>
-    <string name="pref_weibo_personal_page">pref_key_weibo_personal_page</string>
-    <string name="pref_twitter_personal_page">pref_key_twitter_page</string>
-    <string name="pref_key_v2er_pro">pref_key_v2er_pro</string>
     <string name="pref_key_v2er_app">pref_key_v2er_app</string>
     <string name="cache_summary">包括图片及其它数据</string>
     <string name="login_occur_unknown_error">登录过程中遇到未知问题</string>

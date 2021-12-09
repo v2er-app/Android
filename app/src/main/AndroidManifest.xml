@@ -127,9 +127,6 @@
             android:label=""
             android:theme="@style/TranslucentTheme" />
         <activity
-            android:name=".module.settings.ProInfoActivity"
-            android:label="V2er高级版" />
-        <activity
             android:name=".module.gallery.GalleryActivity"
             android:theme="@style/GalleryTheme" />
         <activity

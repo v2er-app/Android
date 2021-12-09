@@ -5,14 +5,9 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import es.dmoral.prefs.Prefs;
-import me.ghui.v2er.BuildConfig;
-import me.ghui.v2er.bus.event.PayResultEvent;
-import me.ghui.v2er.module.pay.PayUtil;
 import me.ghui.v2er.network.GeneralConsumer;
-import me.ghui.v2er.util.Check;
 import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Navigator;
-import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.Constants;
@@ -25,8 +20,6 @@ import me.ghui.v2er.network.bean.UserInfo;
 public class UserUtils {
 
     private static final String USER_INFO_KEY = Constants.PACKAGE_NAME + "user_info_key";
-    private static final String IS_Google_PRO_KEY = Constants.PACKAGE_NAME + ".is_pro_google";
-    private static final String IS_Wechat_PRO_KEY = Constants.PACKAGE_NAME + ".is_pro_wechat";
 
     public static UserInfo getUserInfo() {
         String json = Prefs.with(App.get()).read(USER_INFO_KEY);
@@ -81,9 +74,6 @@ public class UserUtils {
                         }
                     });
         }
-        if (checkWechatPay && !UserUtils.isGooglePro()) {
-            PayUtil.checkIsWechatPro();
-        }
     }
 
     public static void clearLogin() {
@@ -91,8 +81,6 @@ public class UserUtils {
         APIService.cookieJar().clearCookie();
         //2. crear userInfo
         Prefs.with(App.get()).remove(USER_INFO_KEY);
-        // 3. clear wechat pro info
-        clearWechatProInfo();
     }
 
     public static boolean notLoginAndProcessToLogin(boolean finishCurrentPage, Context context) {
@@ -107,32 +95,8 @@ public class UserUtils {
         return false;
     }
 
-    public static void saveIsGooglePro(boolean isGooglePro) {
-        Pref.save(IS_Google_PRO_KEY, isGooglePro);
-    }
-
-    public static void saveIsWechatPro(boolean isWechatPro) {
-        Pref.save(IS_Wechat_PRO_KEY, isWechatPro);
-    }
-
     public static boolean isPro() {
-        return isGooglePro() || isWechatPro();
-    }
-
-    public static boolean isGooglePro() {
-        if (BuildConfig.DEBUG) {
-            if (!isLogin() || isGhui()) return false;
-        }
-        return Pref.readBool(IS_Google_PRO_KEY);
-    }
-
-    public static boolean isWechatPro() {
-        if (!UserUtils.isLogin()) return false;
-        return Pref.readBool(IS_Wechat_PRO_KEY);
-    }
-
-    private static void clearWechatProInfo() {
-        Prefs.with(App.get()).writeBoolean(IS_Wechat_PRO_KEY, false);
+        return true;
     }
 
     public static boolean isGhui() {

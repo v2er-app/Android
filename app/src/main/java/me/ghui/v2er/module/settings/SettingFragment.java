@@ -34,7 +34,6 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
     private Preference cachePref;
     private Preference loginPreference;
-    private Preference wechatPref;
 
     public static SettingFragment newInstance() {
         Bundle args = new Bundle();
@@ -62,13 +61,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_v2er_app)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_auto_dark_mode_settings)).setOnPreferenceClickListener(this);
-        Preference proItem = findPreference(getString(R.string.pref_key_v2er_pro));
-        proItem.setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_contact_me_twitter)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact_me_tg)).setOnPreferenceClickListener(this);
-        wechatPref = findPreference(getString(R.string.pref_key_contact_me_wechat));
-        wechatPref.setOnPreferenceClickListener(this);
-
+        findPreference(getString(R.string.pref_key_open_source)).setOnPreferenceClickListener(this);
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
         fontItem.setSummary(fontItem.getValue());
         fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -81,7 +75,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     @Override
     public void onStart() {
         super.onStart();
-        wechatPref.setEnabled(UserUtils.isPro());
     }
 
     @Override
@@ -100,14 +93,6 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     @Override
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
-        if (isFeatureUnavaliable(key)) {
-            if (preference instanceof CheckBoxPreference) {
-                CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
-                switchPreference.setChecked(false);
-            }
-            showFeatureUnavaliableDialog();
-            return true;
-        }
 
         if (key.equals(getString(R.string.pref_key_clear_cache))) {
             String size = GlideCatchUtil.getCacheSize();
@@ -140,16 +125,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_send_email))) {
             Utils.sendOfficalV2erEmail(getActivity());
             return true;
-        } else if (key.equals(getString(R.string.pref_weibo_personal_page))) {
-            Utils.jumpToWeiboProfileInfo(getActivity());
-            return true;
-        } else if (key.equals(getString(R.string.pref_twitter_personal_page))) {
-            Utils.jumpToTwitterProfilePage(getActivity());
-            return true;
-        } else if (key.equals(getString(R.string.pref_key_v2ex))) {
+        }  else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
-        } else if (key.equals(getString(R.string.pref_key_v2er_pro))) {
-            Navigator.from(getActivity()).to(ProInfoActivity.class).start();
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_dark_mode_settings))) {
@@ -172,34 +149,15 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.jumpToTwitterProfilePage(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
             Utils.openWap("https://t.me/v2er_app", getActivity());
-        } else if (key.equals(getString(R.string.pref_key_contact_me_wechat))) {
-            Utils.copy2Clipboard(getString(R.string.wechat_username));
-            Voast.show("已复制微信号(lessmoreio)，请加我为好友后我加你入群", true);
+        }  else if (key.equals(getString(R.string.pref_key_open_source))) {
+            Utils.openWap("https://github.com/v2er-app", getActivity());
         }
         return false;
-    }
-
-    private void showFeatureUnavaliableDialog() {
-        new ConfirmDialog.Builder(getActivity())
-                .title("功能不可用")
-                .msg("此功能是Pro版特性，激活Pro版以开启")
-                .positiveText("去激活",
-                        dialog -> Navigator.from(getContext()).to(ProInfoActivity.class).start())
-                .negativeText("暂不")
-                .build().show();
     }
 
     private boolean isItemChecked(Preference preference) {
         CheckBoxPreference switchPreference = (CheckBoxPreference) preference;
         return switchPreference.isChecked();
-    }
-
-    private boolean isFeatureUnavaliable(String key) {
-        boolean isPro = UserUtils.isPro();
-        if (isPro) return false;
-        return strEquals(key, R.string.pref_key_auto_checkin,
-                R.string.pref_key_highlight_topic_owner_reply_item,
-                R.string.pref_key_is_scan_in_reverse, R.string.pref_key_auto_dark_mode_settings);
     }
 
     private boolean strEquals(String str, @StringRes int... strId) {

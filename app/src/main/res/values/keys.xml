@@ -33,6 +33,7 @@
     <string name="pref_key_email">pref_key_email</string>
     <string name="pref_key_fontsize">pref_key_fontsize</string>
     <string name="pref_key_contact_me">pref_value_contact_me</string>
+    <string name="pref_key_open_source">pref_key_open_source</string>
     <string name="pref_key_contact_me_tg">pref_key_contact_me_tg</string>
     <string name="pref_key_contact_me_jike">pref_key_contact_me_jike</string>
     <string name="pref_key_contact_me_twitter">pref_key_contact_me_twitter</string>

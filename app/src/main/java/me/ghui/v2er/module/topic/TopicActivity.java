@@ -48,7 +48,6 @@ import me.ghui.v2er.injector.component.DaggerTopicComponent;
 import me.ghui.v2er.injector.module.TopicModule;
 import me.ghui.v2er.module.append.AppendTopicActivity;
 import me.ghui.v2er.module.base.BaseActivity;
-import me.ghui.v2er.module.settings.ProInfoActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
@@ -235,23 +234,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 return true;
             }
             TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
-
-            if (!UserUtils.isPro()) {
-                int currentId = item.getItemId();
-                if (currentId == R.id.action_scan_order
-                        || currentId == R.id.action_append
-                        || currentId == R.id.action_fade
-                        || currentId == R.id.action_sticky) {
-                    new ConfirmDialog.Builder(getActivity())
-                            .title("功能不可用")
-                            .msg("此功能是Pro版特性，激活Pro版以开启")
-                            .positiveText("暂不")
-                            .negativeText("去激活", dialog -> {
-                                Navigator.from(TopicActivity.this).to(ProInfoActivity.class).start();
-                            }).build().show();
-                    return true;
-                }
-            }
 
             switch (item.getItemId()) {
                 case R.id.action_star:

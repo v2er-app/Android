@@ -94,39 +94,25 @@
             android:summary="开启后首页列表在滚动时将不播放缩放动画"
             android:title="关闭列表动画" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:layout="@layout/preference_category_widget"
-        android:title="联系">
-        <Preference
-            android:key="@string/pref_key_contact_me_tg"
-            android:layout="@layout/preference_item"
-            android:summary="\v2er_app"
-            android:title="Telegram Group" />
-        <Preference
-            android:key="@string/pref_key_contact_me_twitter"
-            android:layout="@layout/preference_item"
-            android:summary="\@sethcreate"
-            android:title="Twitter" />
-        <Preference
-            android:enabled="false"
-            android:key="@string/pref_key_contact_me_wechat"
-            android:layout="@layout/preference_item"
-            android:summary="高级版用户群"
-            android:title="V2er Friends" />
-    </PreferenceCategory>
+
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="其它">
         <Preference
-            android:key="@string/pref_key_v2er_pro"
+            android:key="@string/pref_key_open_source"
             android:layout="@layout/preference_item"
-            android:summary="V2er因为你的支持而在变好"
-            android:title="V2er Pro" />
+            android:summary="https://github.com/v2er-app"
+            android:title="开放源码" />
         <Preference
             android:key="@string/pref_key_v2er_app"
             android:layout="@layout/preference_item"
             android:summary="https://v2er.app"
             android:title="v2er.app" />
+        <Preference
+            android:key="@string/pref_key_contact_me_tg"
+            android:layout="@layout/preference_item"
+            android:summary="\v2er_app"
+            android:title="Telegram Group" />
         <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
