@@ -422,7 +422,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+                R.drawable.ic_bookmarked : R.drawable.ic_bookmark);
         mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (isStared) {
             mStarBtn.setStatus(FollowProgressBtn.FINISHED, "已收藏", R.drawable.progress_button_done_icon);

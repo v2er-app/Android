@@ -775,7 +775,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     private void updateStarStatus(boolean isStared, boolean needUpdateData) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+                R.drawable.ic_bookmarked : R.drawable.ic_bookmark);
         mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (needUpdateData) {
             mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
