@@ -173,8 +173,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ActivityReloader.target(this)
                 .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanded)
                 .putExtra(PAGE_ONE_DATA, mNewsFragment.getRestoreData())
-                .putExtra(PAGE_TWO_DATA, mMsgFragment.getRestoreData())
-                .putExtra(PAGE_THREE_DATA, mNavFragment.getRestoreData())
+                .putExtra(PAGE_TWO_DATA, mNavFragment.getRestoreData())
+                .putExtra(PAGE_THREE_DATA, mMsgFragment.getRestoreData())
                 .reload();
     }
 
@@ -269,11 +269,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     fragment = newsFragment;
                     break;
                 case 1:
-                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_THREE_DATA);
+                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_TWO_DATA);
                     fragment = NodesNavFragment.newInstance(restoreData);
                     break;
                 case 2:
-                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_TWO_DATA);
+                    restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_THREE_DATA);
                     MsgFragment msgFragment = MsgFragment.newInstance(restoreData);
                     msgFragment.setUpdateUnReadMsgDelegate(MainActivity.this);
                     fragment = msgFragment;
