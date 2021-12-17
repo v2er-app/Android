@@ -2,6 +2,7 @@ package me.ghui.v2er.module.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.CallSuper;
@@ -12,6 +13,7 @@ import androidx.annotation.StringRes;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,7 +26,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -32,6 +36,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Field;
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -87,7 +92,6 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Nullable
     protected SlidrInterface mSlidrInterface;
     protected DayNightModeEvent mDayNightModeEvent;
-
 
     protected static String KEY(String key) {
         return Utils.KEY(key);

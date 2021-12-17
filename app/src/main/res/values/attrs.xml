@@ -15,6 +15,11 @@
         <attr name="initIcon" format="reference" />
         <attr name="tintColor" format="color|reference" />
     </declare-styleable>
+    <declare-styleable name="SectionItemView">
+        <attr name="icon" format="reference"/>
+        <attr name="title" format="string|reference"/>
+        <attr name="show_divider" format="boolean"/>
+    </declare-styleable>
     <attr name="bodyTextColor" format="color|reference" />
     <attr name="hintTextColor" format="color|reference" />
     <attr name="page_bg_color" format="color|reference" />

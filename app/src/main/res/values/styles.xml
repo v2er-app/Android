@@ -18,6 +18,15 @@
         <item name="android:textColor">?attr/hintTextColor</item>
     </style>
 
+    <style name="BodyTextButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">?attr/bodyTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:lineSpacingMultiplier">1.20</item>
+    </style>
+
     <style name="BodyText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>

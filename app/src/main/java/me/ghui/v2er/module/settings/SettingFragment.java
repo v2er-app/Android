@@ -56,6 +56,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
+        findPreference(getString(R.string.pref_key_help_and_feedback)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_auto_checkin)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_highlight_topic_owner_reply_item)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_is_scan_in_reverse)).setOnPreferenceClickListener(this::onPreferenceClick);
@@ -101,6 +102,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                 cachePref.setSummary(getString(R.string.cache_summary));
                 Voast.show("成功清理" + size + "缓存");
             }
+            return true;
+        } else if (key.equals(getString(R.string.pref_key_help_and_feedback))) {
+            startActivity(new Intent(getContext(), UserManualActivity.class));
             return true;
         } else if (key.equals(getString(R.string.pref_key_check_update))) {
             Utils.openStorePage();

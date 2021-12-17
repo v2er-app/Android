@@ -2,65 +2,207 @@ package me.ghui.v2er.module.home;
 
 import android.os.Bundle;
 
-import androidx.fragment.app.Fragment;
-
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+
+import com.bumptech.glide.request.target.Target;
+
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import de.hdodenhof.circleimageview.CircleImageView;
 import me.ghui.v2er.R;
+import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.adapter.base.ViewHolder;
+import me.ghui.v2er.general.GlideApp;
+import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Page;
+import me.ghui.v2er.injector.component.DaggerMineComponent;
+import me.ghui.v2er.injector.module.MineModule;
+import me.ghui.v2er.module.create.CreateTopicActivity;
+import me.ghui.v2er.module.drawer.care.SpecialCareActivity;
+import me.ghui.v2er.module.drawer.star.StarActivity;
+import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.module.user.UserHomeActivity;
+import me.ghui.v2er.network.bean.NewsInfo;
+import me.ghui.v2er.network.bean.NotificationInfo;
+import me.ghui.v2er.network.bean.UserInfo;
+import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.widget.BaseRecyclerView;
+import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import me.ghui.v2er.widget.SectionItemView;
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link MineFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 首页我的页面
  */
-public class MineFragment extends Fragment {
+public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> implements MineContract.IView,
+        View.OnClickListener, SectionItemView.OnSectionClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    @BindView(R.id.mine_root_layout)
+    ConstraintLayout mRootLayout;
+    @BindView(R.id.mine_avatar_img)
+    CircleImageView mAvatarImage;
+    @BindView(R.id.mine_username_button)
+    Button mUserNameButton;
+    @BindView(R.id.mine_user_info_page_button)
+    Button mUserInfoPageButton;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    @BindView(R.id.mine_sec_post)
+    SectionItemView mSecPost;
+    @BindView(R.id.mine_sec_themes)
+    SectionItemView mSecThemes;
+    @BindView(R.id.mine_sec_bookmark)
+    SectionItemView mSecBookmark;
+    @BindView(R.id.mine_sec_focus)
+    SectionItemView mSecFocus;
+    @BindView(R.id.mine_sec_settings)
+    SectionItemView mSecSettings;
 
-    public MineFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MineFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static MineFragment newInstance(String param1, String param2) {
-        MineFragment fragment = new MineFragment();
+    public static MineFragment newInstance(BaseHomeFragment.RestoreData restoreData) {
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        if (restoreData != null) {
+            args.putSerializable(KEY_DATA, restoreData);
+        }
+        MineFragment fragment = new MineFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    protected int attachLayoutRes() {
+        return R.layout.fragment_mine;
+    }
+
+    @Override
+    protected void startInject() {
+        DaggerMineComponent.builder()
+                .appComponent(getAppComponent())
+                .mineModule(new MineModule(this))
+                .build()
+                .inject(this);
+    }
+
+    private UserInfo userInfo;
+    private void initDisplayUserName() {
+        userInfo = UserUtils.getUserInfo();
+        if (userInfo == null) {
+            mUserNameButton.setText(R.string.please_login_first);
+            mAvatarImage.setImageResource(R.drawable.default_avatar_drawable);
+        } else {
+            mUserNameButton.setText(userInfo.getUserName());
+            if (getContext() != null) {
+                GlideApp.with(getContext())
+                        .load(userInfo.getAvatar())
+                        .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .placeholder(R.drawable.avatar_placeholder_drawable)
+                        .into(mAvatarImage);
+            }
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mine, container, false);
+    protected void init() {
+        hideLoading();
+        mRootLayout.setOnClickListener(this);
+        mAvatarImage.setOnClickListener(this);
+        mUserNameButton.setOnClickListener(this);
+        mUserInfoPageButton.setOnClickListener(this);
+        mSecPost.setOnSectionClickListener(this);
+        mSecThemes.setOnSectionClickListener(this);
+        mSecBookmark.setOnSectionClickListener(this);
+        mSecFocus.setOnSectionClickListener(this);
+        mSecSettings.setOnSectionClickListener(this);
+        initDisplayUserName();
+    }
+
+    private void goToUserInfoPage() {
+        if (UserUtils.isLogin()) {
+            if (getContext() != null) {
+                UserHomeActivity.open(userInfo.getUserName(), getContext(),
+                        null, userInfo.getAvatar());
+            }
+        } else {
+            if (getContext() != null) {
+                Navigator.from(getContext()).to(LoginActivity.class).start();
+            }
+        }
+    }
+
+    /**
+     * 发帖
+     */
+    private void goToPost() {
+        if (UserUtils.notLoginAndProcessToLogin(false, getContext())) {
+            return;
+        }
+        if (UserUtils.isLogin()) {
+            Navigator.from(getContext()).to(CreateTopicActivity.class).start();
+        }
+    }
+
+    /**
+     * 收藏
+     */
+    private void goToBookmark() {
+        if (UserUtils.notLoginAndProcessToLogin(false, getContext())) {
+            return;
+        }
+        if (UserUtils.isLogin()) {
+            Navigator.from(getContext()).to(StarActivity.class).start();
+        }
+    }
+
+    /**
+     * 关注
+     */
+    private void goToFocus() {
+        if (UserUtils.notLoginAndProcessToLogin(false, getContext())) {
+            return;
+        }
+        if (UserUtils.isLogin()) {
+            Navigator.from(getContext()).to(SpecialCareActivity.class).start();
+        }
+    }
+
+    /**
+     * 设置
+     */
+    private void goToSetting() {
+        Navigator.from(getContext()).to(Page.SETTING).start();
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.mine_root_layout:
+                goToUserInfoPage();
+                break;
+            case R.id.mine_avatar_img:
+                goToUserInfoPage();
+                break;
+            case R.id.mine_username_button:
+                goToUserInfoPage();
+                break;
+            case R.id.mine_user_info_page_button:
+                goToUserInfoPage();
+                break;
+            case R.id.mine_sec_post:
+                goToPost();
+                break;
+            case R.id.mine_sec_bookmark:
+                goToBookmark();
+                break;
+            case R.id.mine_sec_focus:
+                goToFocus();
+                break;
+            case R.id.mine_sec_settings:
+                goToSetting();
+                break;
+        }
     }
 }

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
-    <shortcut
-        android:enabled="true"
-        android:icon="@drawable/ic_shortcuts_hot"
-        android:shortcutId="dailyHot"
-        android:shortcutShortLabel="@string/shortcuts_daily_hot">
-        <intent
-            android:action="shortcuts_daily_hot"
-            android:data="v2er://me.ghui.v2er/daily_hot"
-            android:targetClass="me.ghui.v2er.module.general.RouteActivity"
-            android:targetPackage="me.ghui.v2er" />
-    </shortcut>
+<!--    <shortcut-->
+<!--        android:enabled="true"-->
+<!--        android:icon="@drawable/ic_shortcuts_hot"-->
+<!--        android:shortcutId="dailyHot"-->
+<!--        android:shortcutShortLabel="@string/shortcuts_daily_hot">-->
+<!--        <intent-->
+<!--            android:action="shortcuts_daily_hot"-->
+<!--            android:data="v2er://me.ghui.v2er/daily_hot"-->
+<!--            android:targetClass="me.ghui.v2er.module.general.RouteActivity"-->
+<!--            android:targetPackage="me.ghui.v2er" />-->
+<!--    </shortcut>-->
     <shortcut
         android:enabled="true"
         android:icon="@drawable/ic_shortcuts_star"
