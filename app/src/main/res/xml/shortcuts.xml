@@ -13,7 +13,7 @@
 <!--    </shortcut>-->
     <shortcut
         android:enabled="true"
-        android:icon="@drawable/ic_shortcuts_star"
+        android:icon="@drawable/ic_shortcuts_bookmark"
         android:shortcutId="myStar"
         android:shortcutShortLabel="@string/shortcuts_star">
         <intent
