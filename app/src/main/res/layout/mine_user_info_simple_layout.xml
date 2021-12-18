@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/mine_root_layout"
-    android:background="?attr/page_bg_color"
+    android:background="?attr/colorPrimary"
     android:paddingTop="24dp"
     android:paddingBottom="24dp"
     android:paddingStart="8dp"

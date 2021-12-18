@@ -9,7 +9,7 @@
         android:id="@+id/mine_sec_post"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/page_bg_color"
+        android:background="?attr/colorPrimary"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:icon="@drawable/ic_pencil"
@@ -21,7 +21,7 @@
         android:id="@+id/mine_sec_themes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/page_bg_color"
+        android:background="?attr/colorPrimary"
         android:visibility="gone"
         app:icon="@drawable/ic_paper_plane"
         app:title="@string/themes"
@@ -32,7 +32,7 @@
         android:id="@+id/mine_sec_bookmark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/page_bg_color"
+        android:background="?attr/colorPrimary"
         app:icon="@drawable/ic_bookmark"
         app:title="@string/favorites"
         app:show_divider="true"
@@ -42,7 +42,7 @@
         android:id="@+id/mine_sec_focus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/page_bg_color"
+        android:background="?attr/colorPrimary"
         app:icon="@drawable/ic_favorites"
         app:title="@string/focus"
         app:show_divider="false"
@@ -50,7 +50,7 @@
 <!--    <me.ghui.v2er.widget.SectionItemView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:background="?attr/page_bg_color"-->
+<!--        android:background="?attr/colorPrimary"-->
 <!--        app:icon="@mipmap/ic_mine"-->
 <!--        app:title="@string/feed"-->
 <!--        app:show_divider="false"-->
@@ -60,7 +60,7 @@
         android:id="@+id/mine_sec_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/page_bg_color"
+        android:background="?attr/colorPrimary"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         app:icon="@drawable/ic_sets"
