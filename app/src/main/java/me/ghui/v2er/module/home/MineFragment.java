@@ -124,7 +124,7 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
         if (UserUtils.isLogin()) {
             if (getContext() != null) {
                 UserHomeActivity.open(userInfo.getUserName(), getContext(),
-                        null, userInfo.getAvatar());
+                        userInfo.getAvatar(), mAvatarImage, mUserNameButton);
             }
         } else {
             if (getContext() != null) {
@@ -180,14 +180,8 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_root_layout:
-                goToUserInfoPage();
-                break;
             case R.id.mine_avatar_img:
-                goToUserInfoPage();
-                break;
             case R.id.mine_username_button:
-                goToUserInfoPage();
-                break;
             case R.id.mine_user_info_page_button:
                 goToUserInfoPage();
                 break;

@@ -39,6 +39,7 @@
         android:textAllCaps="false"
         android:textColor="?attr/icon_tint_color"
         android:textSize="@dimen/mediumTextSize"
+        android:transitionName="@string/share_element_username"
         app:layout_constraintStart_toEndOf="@+id/mine_avatar_img"
         app:layout_constraintTop_toTopOf="@id/mine_avatar_img" />
 
