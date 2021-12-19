@@ -162,6 +162,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected BaseToolBar attachToolbar() {
+        displayStatusBarArea(false);
         return null;
     }
 
