@@ -73,7 +73,6 @@ public class StarActivity extends BaseActivity {
             if (isTaskRoot()) finishToHome();
             else onBackPressed();
         });
-        Utils.setPaddingForStatusBar(mToolbar);
     }
 
     @Override

@@ -174,7 +174,13 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected BaseToolBar attachToolbar() {
+        displayStatusBarArea(false);
         return null;
+    }
+
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
     }
 
     @Override
@@ -214,7 +220,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     protected void init() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         mAvatarImg.setTransitionName(mTransitionName);
-        Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());

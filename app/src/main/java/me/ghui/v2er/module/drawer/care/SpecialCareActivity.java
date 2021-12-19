@@ -55,7 +55,6 @@ public class SpecialCareActivity extends BaseActivity<SpecialCareContract.IPrese
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
     }
 
     @Override

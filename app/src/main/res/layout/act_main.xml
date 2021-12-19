@@ -7,7 +7,8 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/main_appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?actionBarSize"
+        android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/main_container"
         app:elevation="0dp">
@@ -15,7 +16,6 @@
         <me.ghui.v2er.widget.BaseToolBar
             android:id="@+id/main_toolbar"
             style="@style/BaseToolBar"
-            android:layout_height="?actionBarSize"
             app:contentInsetStart="0dp"
             app:contentInsetEnd="0dp">
 

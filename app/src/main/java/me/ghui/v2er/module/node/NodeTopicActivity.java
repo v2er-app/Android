@@ -188,7 +188,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     protected void init() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);

@@ -77,7 +77,6 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     @Override
     protected void init() {
         super.init();
-        Utils.setPaddingForNavbar(mRootView);
     }
 
     @Override
@@ -88,7 +87,6 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
         toolBar.setElevation(0);
         toolBar.inflateMenu(R.menu.login_toolbar_menu);
         toolBar.setOnMenuItemClickListener(item -> {

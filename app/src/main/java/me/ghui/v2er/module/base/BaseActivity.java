@@ -29,6 +29,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -92,6 +93,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Nullable
     protected SlidrInterface mSlidrInterface;
     protected DayNightModeEvent mDayNightModeEvent;
+    private boolean displayStatusBarArea = true;
 
     protected static String KEY(String key) {
         return Utils.KEY(key);
@@ -108,6 +110,16 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
      */
     @LayoutRes
     protected abstract int attachLayoutRes();
+
+
+    /**
+     * 显示状态栏区域
+     * 在attachToolbar调用，或者之前
+     * @param displayStatusBarArea
+     */
+    public void displayStatusBarArea(boolean displayStatusBarArea) {
+        this.displayStatusBarArea = displayStatusBarArea;
+    }
 
     /**
      * Set a default Toolbar, if you don't want certain page to have a toolbar,
@@ -347,6 +359,26 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
     }
 
+    /**
+     * 查找Appbar
+     * @param viewGroup
+     */
+    private void findAppbar(ViewGroup viewGroup) {
+        if (viewGroup instanceof BaseToolBar) {
+            mToolbar = (BaseToolBar) viewGroup;
+        } else {
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childView = viewGroup.getChildAt(i);
+                if (childView instanceof ViewGroup) {
+                    findAppbar((ViewGroup) childView);
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
+
     protected ViewGroup onCreateRootView() {
         if ((mToolbar = attachToolbar()) != null) {
             LinearLayout rootView = new LinearLayout(this);
@@ -381,6 +413,15 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (displayStatusBarArea) {
+            mRootView.setFitsSystemWindows(true);
+        } else {
+            mRootView.setFitsSystemWindows(false);
+            findAppbar(mRootView);
+            if (mToolbar != null) {
+                Utils.setPaddingForStatusBar(mToolbar);
+            }
+        }
         mRootView.setBackgroundColor(pageColor());
         return mRootView;
     }

@@ -21,7 +21,6 @@ public class PageHost extends BaseActivity {
     @Override
     protected void init() {
         super.init();
-        Utils.setPaddingForStatusBar(mRootView);
         mPage = (Page) getIntent().getSerializableExtra(PAGE_ID);
         if (mPage == null) {
             throw new RuntimeException("wrong page id");

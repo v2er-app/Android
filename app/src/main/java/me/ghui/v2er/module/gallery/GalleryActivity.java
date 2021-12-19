@@ -86,7 +86,6 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void init() {
-        Utils.setPaddingForStatusBar(mToolBar);
         mToolBar.inflateMenu(R.menu.gallery_toolbar_menu);
         mToolBar.setOverflowIcon(getDrawable(R.drawable.ic_more_vert_white));
         mToolBar.setOnMenuItemClickListener(this);

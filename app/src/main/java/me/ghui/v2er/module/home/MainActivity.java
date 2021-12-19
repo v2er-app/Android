@@ -78,7 +78,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @SuppressLint({"CheckResult", "WrongConstant"})
     protected void configToolBar() {
-        Utils.setPaddingForStatusBar(mAppBarLayout);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
         mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单

@@ -209,7 +209,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
         Menu menu = mToolbar.getMenu();
         mLoveMenuItem = menu.findItem(R.id.action_star);
@@ -384,7 +383,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
-        Utils.setPaddingForNavbar(mReplyLayout);
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
@@ -913,7 +911,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void onKeyboardHidden() {
         L.d("onKeyboardHidden");
-        Utils.setPaddingForNavbar(mReplyLayout);
     }
 
     @Override
