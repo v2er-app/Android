@@ -36,4 +36,6 @@
     <attr name="button_color" format="color" />
     <attr name="divider_color" format="color" />
     <attr name="dialog_bg_color" format="color" />
+    <attr name="selected_color" format="color"/>
+    <attr name="unselected_color" format="color"/>
 </resources>
