@@ -9,6 +9,12 @@
     android:orientation="horizontal"
     android:padding="16dp">
 
+    <me.ghui.v2er.widget.CommonTitleTextView
+        android:id="@+id/title_tv"
+        style="@style/TopicTitle"
+        android:layout_below="@id/avatar_img"
+        tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
         style="@style/AvatarImg"
@@ -45,10 +51,4 @@
         style="@style/TagView"
         android:layout_alignParentEnd="true"
         tools:text="abcf" />
-
-    <me.ghui.v2er.widget.CommonTitleTextView
-        android:id="@+id/title_tv"
-        style="@style/TopicTitle"
-        android:layout_below="@id/avatar_img"
-        tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 </RelativeLayout>

@@ -37,4 +37,18 @@
     <string name="pro_tip1">1. 支持V2er项目的长期开发、激励开发者做的更好.
         V2er目前依然存在大量需要完善的功能与待优化的体验, 你的支持能让V2er保持更新, 不断进步.</string>
     <string name="pro_tip2">2. 作为答谢你将解锁所有高级版特性包括：自动签到、自动切换日夜主题、逆序浏览、添加附言、下沉/置顶帖子，以及后续不断到来的新功能.</string>
+
+    <!-- Accessibility strings -->
+    <string name="acc_back">返回键</string>
+    <string name="acc_thanks">发送感谢</string>
+    <string name="acc_more_in_reply_item">回复列表中更多</string>
+    <string name="acc_reply_button">回复</string>
+    <string name="acc_send_reply">发送回复</string>
+    <string name="acc_search_button">搜索</string>
+    <string name="acc_nav_menu">首页侧滑菜单</string>
+    <string name="acc_search_edittext">搜索输入框</string>
+    <string name="acc_search_clear">清除搜索输入框</string>
+
+
+
 </resources>

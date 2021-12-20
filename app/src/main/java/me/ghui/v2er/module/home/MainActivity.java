@@ -120,6 +120,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
         mToolbar.setNavigationIcon(R.drawable.nav);
+        mToolbar.setNavigationContentDescription(R.string.acc_nav_menu);
         mToolbar.getNavigationIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
         mToolbar.setNavigationOnClickListener(v -> {

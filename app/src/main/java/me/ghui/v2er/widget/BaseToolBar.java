@@ -37,6 +37,7 @@ public class BaseToolBar extends Toolbar {
         setContentInsetEndWithActions(0);
         setNavigationIcon(R.drawable.ic_arrow_back_black);
         getNavigationIcon().setTint(Theme.getColor(R.attr.icon_tint_color, getContext()));
+        setNavigationContentDescription("返回");
     }
 
     @Override
