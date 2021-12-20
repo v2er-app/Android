@@ -22,7 +22,9 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.ActivityReloader;
+import me.ghui.v2er.helper.BottomNavigationViewHelper;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
@@ -125,6 +127,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     protected void init() {
         isAlive = true;
         configToolBar();
+        BottomNavigationViewHelper.setImageSize(mBottomNavigationView,
+                getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size),
+                getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size));
         mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

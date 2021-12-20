@@ -20,4 +20,6 @@
     <dimen name="common_padding_size">16dp</dimen>
     <dimen name="toolbar_small_height">73dp</dimen>
     <dimen name="tablayout_height">35dp</dimen>
+    <dimen name="bottom_navigation_view_icon_size">24dp</dimen>
+    <dimen name="bottom_navigation_view_icon_small_size">20dp</dimen>
 </resources>
