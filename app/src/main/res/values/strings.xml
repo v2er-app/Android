@@ -59,7 +59,7 @@
     <string name="acc_reply_button">回复</string>
     <string name="acc_send_reply">发送回复</string>
     <string name="acc_search_button">搜索</string>
-    <string name="acc_nav_menu">首页侧滑菜单</string>
+    <string name="acc_bottom_nav_menu">首页底部菜单</string>
     <string name="acc_search_edittext">搜索输入框</string>
     <string name="acc_search_clear">清除搜索输入框</string>
     <string name="acc_avatar">头像</string>

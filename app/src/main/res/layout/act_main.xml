@@ -51,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
+        android:contentDescription="@string/acc_bottom_nav_menu"
         app:layout_constraintTop_toBottomOf="@+id/main_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:labelVisibilityMode="labeled"

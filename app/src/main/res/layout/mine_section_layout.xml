@@ -13,6 +13,7 @@
         android:visibility="visible"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/new_post"
         app:layout_constraintTop_toBottomOf="@+id/mine_sec_post"
         app:layout_constraintBottom_toTopOf="@+id/mine_sec_bookmark"
         app:icon="@drawable/ic_pencil"
@@ -26,6 +27,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
         android:visibility="gone"
+        android:contentDescription="@string/themes"
         app:layout_constraintTop_toBottomOf="@+id/mine_sec_post"
         app:layout_constraintBottom_toTopOf="@+id/mine_sec_bookmark"
         app:icon="@drawable/ic_paper_plane"
@@ -39,6 +41,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
         android:visibility="visible"
+        android:contentDescription="@string/favorites"
         app:icon="@drawable/ic_bookmark"
         app:title="@string/favorites"
         app:show_divider="true"
@@ -49,6 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
+        android:contentDescription="@string/focus"
         app:icon="@drawable/ic_favorites"
         app:title="@string/focus"
         app:show_divider="false"
@@ -61,9 +65,9 @@
         android:background="?attr/page_bg_color"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:contentDescription="@string/sets"
         app:icon="@drawable/ic_sets"
         app:title="@string/sets"
-        app:show_divider="false"
-        />
+        app:show_divider="false" />
 
 </LinearLayout>

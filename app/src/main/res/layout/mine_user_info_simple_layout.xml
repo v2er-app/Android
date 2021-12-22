@@ -58,6 +58,7 @@
         android:drawableEnd="@drawable/ic_arrow_right"
         android:drawableTint="?attr/icon_tint_color"
         android:drawablePadding="10dp"
+        android:contentDescription="@string/user_info_page"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

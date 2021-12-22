@@ -91,9 +91,11 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     private void initDisplayUserName() {
         userInfo = UserUtils.getUserInfo();
         if (userInfo == null) {
+            mUserNameButton.setContentDescription(getText(R.string.please_login_first));
             mUserNameButton.setText(R.string.please_login_first);
             mAvatarImage.setImageResource(R.drawable.default_avatar_drawable);
         } else {
+            mUserNameButton.setContentDescription(userInfo.getUserName());
             mUserNameButton.setText(userInfo.getUserName());
             if (getContext() != null) {
                 GlideApp.with(getContext())
