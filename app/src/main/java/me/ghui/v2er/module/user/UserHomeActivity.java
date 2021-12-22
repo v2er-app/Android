@@ -181,6 +181,7 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
+        mToolbar.displayHomeAsUpButton(this);
     }
 
     @Override
