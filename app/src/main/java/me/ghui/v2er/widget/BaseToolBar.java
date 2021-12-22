@@ -1,9 +1,12 @@
 package me.ghui.v2er.widget;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.TintTypedArray;
 import androidx.appcompat.widget.Toolbar;
 import android.util.AttributeSet;
@@ -133,6 +136,31 @@ public class BaseToolBar extends Toolbar {
             }
     }
 
+    @Override
+    public void setElevation(float elevation) {
+        super.setElevation(elevation);
+        ViewGroup barParentViewGroup = (ViewGroup) this.getParent();
+        if (barParentViewGroup != null) {
+            if (barParentViewGroup instanceof AppBarLayout) {
+                barParentViewGroup.setElevation(elevation);
+            }
+        }
+    }
+
+    /**
+     * 设置默认返回按键, 并默认可用
+     */
+    public void displayHomeAsUpButton(AppCompatActivity activity) {
+        activity.setSupportActionBar(this);
+        if (activity.getSupportActionBar() != null) {
+            activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            activity.getSupportActionBar().setHomeButtonEnabled(true);
+        }
+        if (getNavigationIcon() != null) {
+            this.getNavigationIcon().setTint(Theme.getColor(R.attr.icon_tint_color, getContext()));
+        }
+        setNavigationOnClickListener(v -> activity.onBackPressed());
+    }
 
     @Override
     public void inflateMenu(int resId) {

@@ -10,8 +10,7 @@
         android:layout_height="?actionBarSize"
         android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/main_container"
-        app:elevation="0dp">
+        app:layout_constraintBottom_toTopOf="@+id/main_container">
 
         <me.ghui.v2er.widget.BaseToolBar
             android:id="@+id/main_toolbar"
