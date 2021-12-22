@@ -27,7 +27,6 @@ public class SectionItemView extends RelativeLayout implements View.OnClickListe
     private Drawable icon;
     private String title;
     private boolean showDivider;
-    private Button sectionButton;
     private TextView sectionTitle;
     private ImageView sectionIcon;
     private DividerView sectionDivider;
@@ -72,17 +71,18 @@ public class SectionItemView extends RelativeLayout implements View.OnClickListe
             styledAttrs.recycle();
         }
     }
+
     private ViewGroup rootView;
-    private ConstraintLayout sectionLayout;
+    private RelativeLayout sectionLayout;
 
     private void initView(Context context, AttributeSet attrs) {
         initAttrs(context, attrs);
         rootView = (ViewGroup) LayoutInflater.from(context).inflate(R.layout.section_item_view_layout, this, true);
         sectionLayout = rootView.findViewById(R.id.section_layout);
-        sectionButton = rootView.findViewById(R.id.section_button);
         sectionTitle = rootView.findViewById(R.id.section_title);
         sectionIcon = rootView.findViewById(R.id.section_icon);
         sectionDivider = rootView.findViewById(R.id.section_divider);
+        sectionLayout.setOnClickListener(this);
         if (icon != null) {
             sectionIcon.setImageDrawable(icon);
         }
@@ -92,72 +92,71 @@ public class SectionItemView extends RelativeLayout implements View.OnClickListe
         if (!showDivider) {
             sectionDivider.setVisibility(View.INVISIBLE);
         }
-        sectionButton.setOnClickListener(this);
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        int childCount = sectionLayout.getChildCount();
-        int desiredWidth = 0;
-        int desiredHeight = 0;
-        int childViewWidth = 0;
-        int childViewHeight = 0;
-        for (int i = 0; i < childCount; i++) {
-            View childView = sectionLayout.getChildAt(i);
-            Log.d(SectionItemView.this.getClass().getSimpleName(), "childView " +
-                    childView.getClass().getSimpleName());
-            if (childView instanceof ImageView) {
-                childViewWidth = childView.getMeasuredWidth();
-                childViewHeight = childView.getMeasuredHeight();
-                if (childViewWidth > desiredWidth) {
-                    desiredWidth = childViewWidth;
-                }
-                if (childViewHeight > desiredHeight) {
-                    desiredHeight = childViewHeight;
-                }
-            }
-            if (childView instanceof TextView) {
-                childViewWidth = (int) (((TextView)childView).getTextSize() * ((TextView)childView).getText().length()
-                                        + ((TextView)childView).getPaddingStart()
-                                        + ((TextView)childView).getPaddingEnd());
-                childViewHeight = ((TextView)childView).getLineHeight() * ((TextView)childView)
-                        .getLineCount() + ((TextView)childView).getPaddingTop()
-                                        + ((TextView)childView).getPaddingBottom();
-                if (childViewWidth > desiredWidth) {
-                    desiredWidth = childViewWidth;
-                }
-                if (childViewHeight > desiredHeight) {
-                    desiredHeight = childViewHeight;
-                }
-            }
-        }
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
-
-        int width;
-        int height;
-
-        if (widthMode == MeasureSpec.EXACTLY) {
-            width = widthSize;
-        } else if (widthMode == MeasureSpec.AT_MOST) {
-            width = Math.min(desiredWidth, widthSize);
-        } else {
-            width = desiredWidth;
-        }
-
-        if (heightMode == MeasureSpec.EXACTLY) {
-            height = heightSize;
-        } else if (heightMode == MeasureSpec.AT_MOST) {
-            height = Math.min(desiredHeight, heightSize);
+//    @Override
+//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+//        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+//        int childCount = sectionLayout.getChildCount();
+//        int desiredWidth = 0;
+//        int desiredHeight = 0;
+//        int childViewWidth = 0;
+//        int childViewHeight = 0;
+//        for (int i = 0; i < childCount; i++) {
+//            View childView = sectionLayout.getChildAt(i);
+//            Log.d(SectionItemView.this.getClass().getSimpleName(), "childView " +
+//                    childView.getClass().getSimpleName());
+//            if (childView instanceof ImageView) {
+//                childViewWidth = childView.getMeasuredWidth();
+//                childViewHeight = childView.getMeasuredHeight();
+//                if (childViewWidth > desiredWidth) {
+//                    desiredWidth = childViewWidth;
+//                }
+//                if (childViewHeight > desiredHeight) {
+//                    desiredHeight = childViewHeight;
+//                }
+//            }
+//            if (childView instanceof TextView) {
+//                childViewWidth = (int) (((TextView)childView).getTextSize() * ((TextView)childView).getText().length()
+//                                        + ((TextView)childView).getPaddingStart()
+//                                        + ((TextView)childView).getPaddingEnd());
+//                childViewHeight = ((TextView)childView).getLineHeight() * ((TextView)childView)
+//                        .getLineCount() + ((TextView)childView).getPaddingTop()
+//                                        + ((TextView)childView).getPaddingBottom();
+//                if (childViewWidth > desiredWidth) {
+//                    desiredWidth = childViewWidth;
+//                }
+//                if (childViewHeight > desiredHeight) {
+//                    desiredHeight = childViewHeight;
+//                }
+//            }
+//        }
+//        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
+//        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
+//        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+//        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+//
+//        int width;
+//        int height;
+//
+//        if (widthMode == MeasureSpec.EXACTLY) {
+//            width = widthSize;
+//        } else if (widthMode == MeasureSpec.AT_MOST) {
+//            width = Math.min(desiredWidth, widthSize);
+//        } else {
+//            width = desiredWidth;
+//        }
+//
+//        if (heightMode == MeasureSpec.EXACTLY) {
 //            height = heightSize;
-        } else {
-            height = desiredHeight;
-        }
-        setMeasuredDimension(width, height);
-    }
+//        } else if (heightMode == MeasureSpec.AT_MOST) {
+//            height = Math.min(desiredHeight, heightSize);
+////            height = heightSize;
+//        } else {
+//            height = desiredHeight;
+//        }
+//        setMeasuredDimension(width, height);
+//    }
 
     @Override
     public void onClick(View v) {
