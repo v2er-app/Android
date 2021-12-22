@@ -187,9 +187,18 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        if (mToolbar != null) {
+
+        }
+    }
+
+    @Override
     protected void init() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         setEnterSharedElementCallback(mCallback);
+        mToolbar.displayHomeAsUpButton(this);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);

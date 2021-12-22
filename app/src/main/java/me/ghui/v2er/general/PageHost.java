@@ -8,6 +8,7 @@ import me.ghui.v2er.module.settings.AutoSwitchDayNightSetting;
 import me.ghui.v2er.module.settings.ContactFragment;
 import me.ghui.v2er.module.settings.SettingFragment;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.widget.BaseToolBar;
 
 public class PageHost extends BaseActivity {
     public static final String PAGE_ID = "PageHost.pageId";
@@ -35,6 +36,14 @@ public class PageHost extends BaseActivity {
         ActivityReloader.target(this)
                 .putExtra(PAGE_ID, mPage)
                 .reload();
+    }
+
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        if (toolBar != null) {
+            toolBar.displayHomeAsUpButton(this);
+        }
     }
 
     private Fragment getFragment(Page pageID) {
