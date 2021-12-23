@@ -5,11 +5,17 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+
 import android.view.View;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 
 /**
@@ -72,6 +78,23 @@ public class Navigator {
 
     public Navigator addFlag(int flag) {
         mIntent.addFlags(flag);
+        return this;
+    }
+
+    public Navigator shareElement(View... sourceViews) {
+        Pair<View, String>[] sharedElements;
+        List<View> sourceViewList = new ArrayList<>(sourceViews.length);
+        Collections.addAll(sourceViewList, sourceViews);
+        sourceViewList.removeIf(sourceView -> sourceView.getTransitionName() == null || sourceView.getTransitionName().isEmpty());
+        sharedElements = new Pair[sourceViewList.size()];
+        for (int i = 0; i < sourceViewList.size(); i++) {
+            sharedElements[i] = new Pair<>(sourceViewList.get(i),
+                    sourceViewList.get(i).getTransitionName());
+        }
+        if (sharedElements.length > 0) {
+            mOptionsCompat = ActivityOptionsCompat.
+                    makeSceneTransitionAnimation((Activity) mFrom.get(), sharedElements);
+        }
         return this;
     }
 

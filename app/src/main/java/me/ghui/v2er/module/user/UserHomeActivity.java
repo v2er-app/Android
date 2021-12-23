@@ -2,6 +2,7 @@ package me.ghui.v2er.module.user;
 
 import android.app.SharedElementCallback;
 import android.content.Context;
+import android.content.Entity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,9 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +122,35 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     private int mAppBarMaxOffset;
     private LinearLayoutManager mLayoutManager;
 
+    public static void open(String userName, Context context, String avatar, View... sourceViews) {
+        Navigator navigator = Navigator.from(context)
+                .to(UserHomeActivity.class)
+                .putExtra(UserHomeActivity.USER_NAME_KEY, userName)
+                .putExtra(UserHomeActivity.USER_AVATAR_KEY, avatar);
+        List<View> sourceViewList = new ArrayList<>(sourceViews.length);
+        Collections.addAll(sourceViewList, sourceViews);
+        if (sourceViews.length > 0) {
+            Iterator<View> sourceViewIterator = sourceViewList.iterator();
+            while (sourceViewIterator.hasNext()) {
+                View sourceView = sourceViewIterator.next();
+                if (sourceView instanceof ImageView) {
+                    ImageView imgView = (ImageView) sourceView;
+                    if (ViewUtils.isSameImgRes(imgView, R.drawable.avatar_placeholder_drawable) || imgView.getDrawable() == null) {
+                        sourceViewIterator.remove();
+                    }
+                }
+                navigator.putExtra(KEY(sourceView.getTransitionName()+"_key"),
+                        sourceView.getTransitionName());
+            }
+        }
+        if (sourceViewList.size() > 0) {
+            View[] shareViews = new View[sourceViewList.size()];
+            sourceViewList.toArray(shareViews);
+            navigator.shareElement(shareViews);
+        }
+        navigator.start();
+    }
+
     public static void open(String userName, Context context, View sourceView, String avatar) {
         if (sourceView != null && sourceView instanceof ImageView) {
             ImageView imgview = (ImageView) sourceView;
@@ -141,7 +174,13 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
 
     @Override
     protected BaseToolBar attachToolbar() {
+        displayStatusBarArea(false);
         return null;
+    }
+
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
     }
 
     @Override
@@ -181,7 +220,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
     protected void init() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         mAvatarImg.setTransitionName(mTransitionName);
-        Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> onBackPressed());

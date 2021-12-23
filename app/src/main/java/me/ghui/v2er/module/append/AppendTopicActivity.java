@@ -67,8 +67,6 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
         super.configToolBar(toolBar);
         //设置右上角的填充菜单
         toolBar.inflateMenu(R.menu.append_topic_menu);
-        Utils.setPaddingForStatusBar(toolBar);
-        Utils.setPaddingForNavbar(mRootView);
         toolBar.setOnMenuItemClickListener(item -> {
             String content = mContentET.getText().toString();
             if (Check.isEmpty(content)) {

@@ -86,7 +86,6 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
 
     @Override
     protected void init() {
-        Utils.setPaddingForStatusBar(mSearchRootView);
         mCardView.setCardBackgroundColor(Theme.getColor(R.attr.dialog_bg_color, getContext()));
         mResultRecyV.addDivider(DarkModelUtils.isDarkMode() ? 0XFF000000 : 0XFFF5F5F5, 6);
         mResultRecyV.setLayoutManager(new LinearLayoutManager(getContext()));

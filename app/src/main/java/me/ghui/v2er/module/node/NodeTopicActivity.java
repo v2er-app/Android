@@ -162,6 +162,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected BaseToolBar attachToolbar() {
+        displayStatusBarArea(false);
         return null;
     }
 
@@ -186,10 +187,18 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     }
 
     @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        if (mToolbar != null) {
+
+        }
+    }
+
+    @Override
     protected void init() {
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
+        mToolbar.displayHomeAsUpButton(this);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
         mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
@@ -422,7 +431,7 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     private void toggleStar(boolean isStared) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+                R.drawable.ic_bookmarked : R.drawable.ic_bookmark);
         mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (isStared) {
             mStarBtn.setStatus(FollowProgressBtn.FINISHED, "已收藏", R.drawable.progress_button_done_icon);

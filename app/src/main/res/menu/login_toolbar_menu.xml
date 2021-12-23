@@ -11,7 +11,7 @@
         app:showAsAction="never" />
     <item
         android:id="@id/action_faq"
-        android:title="FAQ"
+        android:title="@string/help_and_feedback"
         app:showAsAction="never" />
     <item
         android:id="@id/action_about"

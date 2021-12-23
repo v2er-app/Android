@@ -44,7 +44,6 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         ListView list = rootView.findViewById(android.R.id.list);
         if (list != null) {
 //            list.setDivider(getActivity().getDrawable(R.drawable.common_divider));
-            Utils.setPaddingForNavbar(list);
         }
     }
 

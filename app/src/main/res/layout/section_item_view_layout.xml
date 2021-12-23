@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/section_layout"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless">
+
+    <ImageView
+        android:id="@+id/section_icon"
+        android:layout_width="@dimen/extralargeTextSize"
+        android:layout_height="@dimen/extralargeTextSize"
+        android:visibility="visible"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp" />
+
+    <TextView
+        android:id="@+id/section_title"
+        style="@style/BodyText"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:singleLine="true"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textSize="@dimen/mediumTextSize"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="8dp"
+        android:layout_toRightOf="@+id/section_icon" />
+
+    <ImageView
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:src="@drawable/ic_arrow_right"
+        android:foregroundTint="?attr/icon_tint_color"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        app:tint="?attr/icon_tint_color" />
+
+    <me.ghui.v2er.widget.DividerView
+        android:id="@+id/section_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:visibility="visible"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

@@ -67,13 +67,12 @@ public class StarActivity extends BaseActivity {
 
     protected void configToolBar() {
         mToolbar.setTitle(getTitle());
-        mToolbar.setElevation(0);
+        mToolbar.displayHomeAsUpButton(this);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setNavigationOnClickListener(view -> {
             if (isTaskRoot()) finishToHome();
             else onBackPressed();
         });
-        Utils.setPaddingForStatusBar(mToolbar);
     }
 
     @Override

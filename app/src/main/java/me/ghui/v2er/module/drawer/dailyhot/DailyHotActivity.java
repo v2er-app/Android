@@ -62,7 +62,6 @@ public class DailyHotActivity extends BaseActivity<DailyHotContract.IPresenter> 
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
     }
 
     @Override

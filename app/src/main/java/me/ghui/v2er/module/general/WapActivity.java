@@ -88,7 +88,6 @@ public class WapActivity extends BaseActivity {
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
         mToolbar.inflateMenu(R.menu.wapview_menu);
         mToolbar.setOnMenuItemClickListener(menuItem -> {
             switch (menuItem.getItemId()) {
