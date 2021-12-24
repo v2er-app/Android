@@ -1,10 +1,12 @@
 package me.ghui.v2er.module.home;
 
 import android.annotation.SuppressLint;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -81,17 +83,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @SuppressLint({"CheckResult", "WrongConstant"})
     protected void configToolBar() {
         mToolbar.setOnDoubleTapListener(this);
-        mToolbar.setElevation(0);
-        mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
         mToolbar.setTitle("");
         mLogoView.setVisibility(View.VISIBLE);
         mToolbar.setViewTileCenter(mLogoView);
-        mToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                pushFragment(SearchFragment.newInstance());
-            }
-            return true;
-        });
+    }
+
+    @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.main_toolbar_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            pushFragment(SearchFragment.newInstance());
+        }
+        return true;
     }
 
     @Override

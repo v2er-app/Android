@@ -162,6 +162,12 @@ public class BaseToolBar extends Toolbar {
         setNavigationOnClickListener(v -> activity.onBackPressed());
     }
 
+    /**
+     * 设置右边菜单
+     * 如果调用 displayHomeAsUpButton 会导致此方法失效，可以在onCreateOptionsMenu方法中创建菜单，或
+     * 在BaseActivity的attachOptionsMenuRes 方法返回菜单资源
+     * @param resId
+     */
     @Override
     public void inflateMenu(int resId) {
         super.inflateMenu(resId);

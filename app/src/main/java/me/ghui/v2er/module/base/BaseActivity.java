@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -166,13 +168,33 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void setTitle(String title, String subTitle) {
         if (mToolbar != null) {
-            mToolbar.setTitle(title);
-            mToolbar.setSubtitle(subTitle);
+            mToolbar.setTitle(title, subTitle);
         }
     }
 
     protected void setTitle(String title) {
         setTitle(title, null);
+    }
+
+    public @MenuRes int attachOptionsMenuRes() {
+        return 0;
+    }
+
+    /**
+     * 配置右侧可选菜单
+     * @param menu
+     */
+    public void configOptionsMenu(Menu menu) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (attachOptionsMenuRes() != 0) {
+            getMenuInflater().inflate(attachOptionsMenuRes(), menu);
+            configOptionsMenu(menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
