@@ -5,10 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
+
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -189,48 +193,18 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        if (mToolbar != null) {
+    }
 
-        }
+
+    @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.node_info_toolbar_menu;
     }
 
     @Override
-    protected void init() {
-        getWindow().setStatusBarColor(Color.TRANSPARENT);
-        setEnterSharedElementCallback(mCallback);
-        mToolbar.displayHomeAsUpButton(this);
-        mToolbar.setOnDoubleTapListener(this);
-        mToolbar.inflateMenu(R.menu.node_info_toolbar_menu);
-        mLoveMenuItem = mToolbar.getMenu().findItem(R.id.action_star);
-        mToolbar.setNavigationOnClickListener(view -> onBackPressed());
-        mToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_star) {
-                onStarBtnClicked();
-            } else if (item.getItemId() == R.id.action_share) {
-                if (mNodeInfo == null) return false;
-                String desc = mNodeInfo.getHeader();
-                String title = mNodeInfo.getTitle();
-//                ShareManager.shareText(title, mNodeInfo.getUrl(), this);
-                ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(title)
-                        .content(Vtml.fromHtml(desc).toString())
-                        .link(mNodeInfo.getUrl())
-                        .img(mNodeInfo.getAvatar())
-                        .build();
-                ShareManager shareManager = new ShareManager(shareData, this);
-                shareManager.showShareDialog();
-            } else if (item.getItemId() == R.id.action_block) {
-
-            }
-            return true;
-        });
-
-        mRecyclerView.setAppBarTracking(this);
-        mRecyclerView.setOnLoadMoreListener(this);
-//        mRecyclerView.addDivider();
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(this);
+    public void configOptionsMenu(Menu menu) {
+        super.configOptionsMenu(menu);
+        mLoveMenuItem = menu.findItem(R.id.action_star);
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, State state) {
@@ -260,9 +234,43 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 mAppBarIdle = (mAppBarOffset >= 0) || (mAppBarOffset <= mAppBarMaxOffset);
             }
         });
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_star) {
+            onStarBtnClicked();
+        } else if (item.getItemId() == R.id.action_share) {
+            if (mNodeInfo == null) return false;
+            String desc = mNodeInfo.getHeader();
+            String title = mNodeInfo.getTitle();
+//                ShareManager.shareText(title, mNodeInfo.getUrl(), this);
+            ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(title)
+                    .content(Vtml.fromHtml(desc).toString())
+                    .link(mNodeInfo.getUrl())
+                    .img(mNodeInfo.getAvatar())
+                    .build();
+            ShareManager shareManager = new ShareManager(shareData, this);
+            shareManager.showShareDialog();
+        } else if (item.getItemId() == R.id.action_block) {
+
+        }
+        return true;
+    }
+
+    @Override
+    protected void init() {
+        getWindow().setStatusBarColor(Color.TRANSPARENT);
+        setEnterSharedElementCallback(mCallback);
+        mToolbar.displayHomeAsUpButton(this);
+        mToolbar.setOnDoubleTapListener(this);
+        mRecyclerView.setAppBarTracking(this);
+        mRecyclerView.setOnLoadMoreListener(this);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(this);
         mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
-
         if (mNodeInfo != null) {
             fillHeaderView(mNodeInfo);
         }

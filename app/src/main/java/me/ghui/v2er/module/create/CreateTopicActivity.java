@@ -2,6 +2,8 @@ package me.ghui.v2er.module.create;
 
 import android.content.Intent;
 import com.google.android.material.textfield.TextInputLayout;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,7 +38,7 @@ import me.ghui.v2er.widget.dialog.ConfirmDialog;
  */
 
 public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPresenter> implements CreateTopicContract.IView,
-        Toolbar.OnMenuItemClickListener, NodeSelectFragment.OnSelectedListener {
+        NodeSelectFragment.OnSelectedListener {
     @BindView(R.id.create_topic_title_layout)
     TextInputLayout mTitleTextInputLayout;
     @BindView(R.id.create_topic_title_et)
@@ -103,15 +105,18 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     }
 
     @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.post_topic_menu;
+    }
+
+    @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        toolBar.inflateMenu(R.menu.post_topic_menu);//设置右上角的填充菜单
-        toolBar.setOnMenuItemClickListener(this);
         toolBar.displayHomeAsUpButton(this);
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()) {
             case R.id.action_create_topic:
                 String title = mTitleEt.getText().toString();
