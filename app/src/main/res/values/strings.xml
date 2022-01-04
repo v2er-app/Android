@@ -64,4 +64,6 @@
     <string name="acc_search_clear">清除搜索输入框</string>
     <string name="acc_avatar">头像</string>
 
+    <string name="copy_text_success">复制文本成功</string>
+
 </resources>

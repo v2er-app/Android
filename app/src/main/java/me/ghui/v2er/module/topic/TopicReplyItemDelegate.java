@@ -1,12 +1,21 @@
 package me.ghui.v2er.module.topic;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.graphics.Color;
 import androidx.annotation.Nullable;
+
+import android.text.Selection;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
@@ -72,6 +81,20 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
         TextView contentView = holder.getView(R.id.content_tv);
+        if (holder.getConvertView().getContext() != null) {
+            Context context = holder.getConvertView().getContext();
+            ClipboardManager clipboardManager = (ClipboardManager) context
+                    .getSystemService(Context.CLIPBOARD_SERVICE);
+            TextView finalContentView = contentView;
+            contentView.setOnLongClickListener(v -> {
+                if (clipboardManager != null) {
+                    ClipData clip = ClipData.newPlainText(context.getString(R.string.app_name), finalContentView.getText());
+                    clipboardManager.setPrimaryClip(clip);
+                    Toast.makeText(context, R.string.copy_text_success, Toast.LENGTH_LONG).show();
+                }
+                return true;
+            });
+        }
         contentView.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         if (Check.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
