@@ -37,7 +37,7 @@ import me.ghui.v2er.widget.BaseToolBar;
  * Created by ghui on 22/10/2017.
  */
 
-public class GalleryActivity extends BaseActivity implements SwipeToDismissTouchListener.Callback, Toolbar.OnMenuItemClickListener {
+public class GalleryActivity extends BaseActivity implements SwipeToDismissTouchListener.Callback {
     public static final String EXTRA_IMG_DATA = Utils.KEY("extra_img_data");
     @BindView(R.id.gallery_viewpager)
     ViewPager mViewPager;
@@ -164,7 +164,12 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public int attachOptionsMenuRes() {
+        return R.menu.gallery_toolbar_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_in_browser:
                 Utils.openInBrowser(getCurrentImage(), this);
