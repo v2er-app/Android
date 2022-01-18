@@ -1,10 +1,13 @@
 package me.ghui.v2er.module.home;
 
 import android.annotation.SuppressLint;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -78,20 +81,32 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         return null;
     }
 
-    @SuppressLint({"CheckResult", "WrongConstant"})
-    protected void configToolBar() {
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        setSupportActionBar(mToolbar);
+    }
+
+    @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.main_toolbar_menu;
+    }
+
+    @Override
+    public void configOptionsMenu(Menu menu) {
+        super.configOptionsMenu(menu);
         mToolbar.setOnDoubleTapListener(this);
-        mToolbar.setElevation(0);
-        mToolbar.inflateMenu(R.menu.main_toolbar_menu);//设置右上角的填充菜单
         mToolbar.setTitle("");
         mLogoView.setVisibility(View.VISIBLE);
         mToolbar.setViewTileCenter(mLogoView);
-        mToolbar.setOnMenuItemClickListener(item -> {
-            if (item.getItemId() == R.id.action_search) {
-                pushFragment(SearchFragment.newInstance());
-            }
-            return true;
-        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_search) {
+            pushFragment(SearchFragment.newInstance());
+        }
+        return true;
     }
 
     @Override
@@ -126,7 +141,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     protected void init() {
         isAlive = true;
-        configToolBar();
         BottomNavigationViewHelper.setImageSize(mBottomNavigationView,
                 getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size),
                 getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size));

@@ -20,7 +20,7 @@ public class DayNightModeEvent implements Cloneable {
         this.mode = mode;
     }
 
-    public int getMode() {
+    public @DarkModelUtils.DayNightMode int getMode() {
         return mode;
     }
 
