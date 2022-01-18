@@ -86,9 +86,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void init() {
-        mToolBar.inflateMenu(R.menu.gallery_toolbar_menu);
         mToolBar.displayHomeAsUpButton(this);
-        mToolBar.setOnMenuItemClickListener(this);
         mToolBar.setNavigationOnClickListener(v -> GalleryActivity.this.onBackPressed());
 
         mData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
