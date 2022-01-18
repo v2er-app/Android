@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     private NewsFragment mNewsFragment;
     private MsgFragment mMsgFragment;
-    private NodesNavFragment mNavFragment;
+    private ExploreFragment mExploreFragment;
     private MineFragment mMineFragment;
     private boolean isAppbarExpanded = true;
 
@@ -177,7 +177,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         ActivityReloader.target(this)
                 .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanded)
                 .putExtra(PAGE_ONE_DATA, mNewsFragment.getRestoreData())
-                .putExtra(PAGE_TWO_DATA, mNavFragment.getRestoreData())
+                .putExtra(PAGE_TWO_DATA, mExploreFragment.getRestoreData())
                 .putExtra(PAGE_THREE_DATA, mMsgFragment.getRestoreData())
                 .reload();
     }
@@ -230,7 +230,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             case 0:
                 return mNewsFragment;
             case 1:
-                return mNavFragment;
+                return mExploreFragment;
             case 2:
                 return mMsgFragment;
             case 3:
@@ -274,7 +274,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     break;
                 case 1:
                     restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_TWO_DATA);
-                    fragment = NodesNavFragment.newInstance(restoreData);
+                    fragment = ExploreFragment.newInstance(restoreData);
                     break;
                 case 2:
                     restoreData = (BaseHomeFragment.RestoreData) getIntent().getSerializableExtra(PAGE_THREE_DATA);
@@ -297,7 +297,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                     mNewsFragment = (NewsFragment) fragment;
                     break;
                 case 1:
-                    mNavFragment = (NodesNavFragment) fragment;
+                    mExploreFragment = (ExploreFragment) fragment;
                     break;
                 case 2:
                     mMsgFragment = (MsgFragment) fragment;

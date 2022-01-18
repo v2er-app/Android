@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">V2er</string>
     <string name="daily_hot">今日热议</string>
+    <string name="node_navigation">节点导航</string>
     <string name="news_new_behavior">me.ghui.v2er.widget.behavior.NewsNewFabBehavior</string>
     <string name="official_website">https://ghui.me</string>
     <string name="official_v2ex_website">https://www.v2ex.com</string>
@@ -63,5 +64,6 @@
     <string name="acc_search_edittext">搜索输入框</string>
     <string name="acc_search_clear">清除搜索输入框</string>
     <string name="acc_avatar">头像</string>
+    <string name="title">标题</string>
 
 </resources>
