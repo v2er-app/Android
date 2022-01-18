@@ -81,8 +81,8 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         img.setImageResource(replyInfo.hadThanked() ? R.drawable.love_checked_icon : R.drawable.love_normal_icon);
         holder.setText(R.id.time_tv, replyInfo.getTime());
         TextView contentView = holder.getView(R.id.content_tv);
-        if (holder.getConvertView().getContext() != null) {
-            Context context = holder.getConvertView().getContext();
+        Context context = holder.getConvertView().getContext();
+        if (context != null) {
             ClipboardManager clipboardManager = (ClipboardManager) context
                     .getSystemService(Context.CLIPBOARD_SERVICE);
             TextView finalContentView = contentView;
