@@ -113,7 +113,7 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
         mRootLayout.setOnClickListener(this);
         mAvatarImage.setOnClickListener(this);
         mUserNameButton.setOnClickListener(this);
-        mUserInfoPageButton.setOnClickListener(this);
+//        mUserInfoPageButton.setOnClickListener(this);
         mSecPost.setOnSectionClickListener(this);
         mSecThemes.setOnSectionClickListener(this);
         mSecBookmark.setOnSectionClickListener(this);
@@ -184,7 +184,7 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
             case R.id.mine_root_layout:
             case R.id.mine_avatar_img:
             case R.id.mine_username_button:
-            case R.id.mine_user_info_page_button:
+//            case R.id.mine_user_info_page_button:
                 goToUserInfoPage();
                 break;
             case R.id.mine_sec_post:
