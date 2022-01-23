@@ -42,7 +42,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     @BindView(R.id.gallery_viewpager)
     ViewPager mViewPager;
     @BindView(R.id.gallery_toolbar)
-    Toolbar mToolBar;
+    BaseToolBar mToolBar;
     @BindView(R.id.indicator_tv)
     TextView mIndicatorTv;
     private ImagesInfo mData;
@@ -86,7 +86,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void init() {
-        mToolBar.setOverflowIcon(getDrawable(R.drawable.ic_more_vert_white));
+        mToolBar.displayHomeAsUpButton(this);
         mToolBar.setNavigationOnClickListener(v -> GalleryActivity.this.onBackPressed());
 
         mData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
