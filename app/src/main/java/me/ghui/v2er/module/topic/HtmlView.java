@@ -151,13 +151,12 @@ public class HtmlView extends WebView {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
-            String clearAdvertisementJs = AdvertisementFilterUtil.clearAdvertisementDivJs(getContext());
-            if (v2exWebView != null) {
-                v2exWebView.loadUrl(clearAdvertisementJs);
-            }
-            if (v2exWebViewClientHandler != null && v2exWebViewClientMsg != null) {
-                v2exWebViewClientHandler.sendMessageDelayed(v2exWebViewClientMsg, 1000);
-            }
+            try {
+                String clearAdvertisementJs = AdvertisementFilterUtil.clearAdvertisementDivJs(getContext());
+                if (v2exWebView != null) {
+                    v2exWebView.loadUrl(clearAdvertisementJs);
+                }
+            }catch (Exception ignored) {}
         }
 
     }
@@ -196,13 +195,14 @@ public class HtmlView extends WebView {
             super.onPageStarted(view, url, favicon);
             v2exWebView = view;
             v2exWebViewClientMsg.what = advertisementFilterMsg;
-            v2exWebViewClientHandler.sendMessageDelayed(v2exWebViewClientMsg, 1000);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            v2exWebViewClientHandler.removeMessages(advertisementFilterMsg);
+            if (v2exWebViewClientHandler != null && v2exWebViewClientMsg != null) {
+                v2exWebViewClientHandler.sendMessage(v2exWebViewClientMsg);
+            }
             // download the imgs in mImgs list
             downloadImgs();
             if (onHtmlRenderListener != null) {

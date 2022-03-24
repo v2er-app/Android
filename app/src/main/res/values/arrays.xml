@@ -34,11 +34,12 @@
     </string-array>
 
     <string-array name="advertisementBlockDiv">
-        <item>google-center-div</item>
-        <item>wwads-cn-98</item>
+        <item>adsbygoogle</item>
+        <item>adsbygoogle-noablate</item>
+        <item>sidebar_compliance</item>
+<!--        <item>google-center-div</item>-->
+<!--        <item>wwads-cn-98</item>-->
         <item>wwads-cn</item>
-        <item>ca-pub-5060390720525238</item>
-        <item>adsbygoogle adsbygoogle-noablate</item>
     </string-array>
 
 </resources>
