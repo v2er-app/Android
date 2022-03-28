@@ -34,6 +34,7 @@ import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.widget.BaseRecyclerView;
+import me.ghui.v2er.widget.FollowProgressBtn;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.SectionItemView;
 
@@ -51,6 +52,8 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     Button mUserNameButton;
     @BindView(R.id.mine_user_info_page_button)
     Button mUserInfoPageButton;
+    @BindView(R.id.mine_check_in_progress_btn)
+    FollowProgressBtn mCheckInButton;
 
     @BindView(R.id.mine_sec_post)
     SectionItemView mSecPost;
@@ -62,6 +65,38 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     SectionItemView mSecFocus;
     @BindView(R.id.mine_sec_settings)
     SectionItemView mSecSettings;
+
+    private CheckInPresenter mCheckInPresenter;
+
+    private void initCheckIn() {
+        if (UserUtils.isLogin()) {
+            mCheckInButton.setVisibility(View.VISIBLE);
+            mCheckInPresenter = new CheckInPresenter(new CheckInContract.ICheckInCallBack() {
+
+                @Override
+                public void onHasChekIn(String checkInDays) {
+                    mCheckInButton.setStatus(FollowProgressBtn.FINISHED,
+                            getString(R.string.number_of_days_checked_in, checkInDays), R.drawable.progress_button_done_icon);
+                }
+
+                @Override
+                public void onCheckInSuccess(String checkInDays) {
+                    toast(getString(R.string.number_of_days_check_in_succeed, checkInDays));
+                    mCheckInButton.setStatus(FollowProgressBtn.FINISHED,
+                            getString(R.string.number_of_days_checked_in, checkInDays), R.drawable.progress_button_done_icon);
+                }
+
+                @Override
+                public void onCheckInFail() {
+                    toast(getString(R.string.problems_with_check_in));
+                    mCheckInButton.setStatus(FollowProgressBtn.NORMAL, getString(R.string.check_in),
+                            R.drawable.progress_button_checkin_icon);
+                }
+
+            });
+            mCheckInPresenter.start();
+        }
+    }
 
     public static MineFragment newInstance(BaseHomeFragment.RestoreData restoreData) {
         Bundle args = new Bundle();
@@ -114,12 +149,14 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
         mAvatarImage.setOnClickListener(this);
         mUserNameButton.setOnClickListener(this);
         mUserInfoPageButton.setOnClickListener(this);
+        mCheckInButton.setOnClickListener(this);
         mSecPost.setOnSectionClickListener(this);
         mSecThemes.setOnSectionClickListener(this);
         mSecBookmark.setOnSectionClickListener(this);
         mSecFocus.setOnSectionClickListener(this);
         mSecSettings.setOnSectionClickListener(this);
         initDisplayUserName();
+        initCheckIn();
     }
 
     private void goToUserInfoPage() {
@@ -181,6 +218,10 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.mine_check_in_progress_btn:
+                mCheckInButton.startUpdate();
+                mCheckInPresenter.start();
+                break;
             case R.id.mine_root_layout:
             case R.id.mine_avatar_img:
             case R.id.mine_username_button:

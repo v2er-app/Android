@@ -5,6 +5,7 @@ import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.DailyInfo;
+import me.ghui.v2er.util.RxUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 
@@ -16,11 +17,11 @@ import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
  */
 
 public class CheckInPresenter implements CheckInContract.IPresenter {
-    private CheckInContract.IView mView;
+    private CheckInContract.ICheckInCallBack callBack;
     private String checkInDaysStr;
 
-    public CheckInPresenter(CheckInContract.IView view) {
-        mView = view;
+    public CheckInPresenter(CheckInContract.ICheckInCallBack callBack) {
+        this.callBack = callBack;
     }
 
     @Override
@@ -30,21 +31,19 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
 
     @Override
     public void checkIn(boolean needAutoCheckIn) {
-        if (!UserUtils.isLogin()) return;
-        mView.checkInBtn().startUpdate();
         APIService.get().dailyInfo()
-                .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
+                .compose(RxUtils.io_main())
+                .subscribe(new GeneralConsumer<DailyInfo>(callBack) {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
                             checkInDaysStr = checkInInfo.getCheckinDays();
-                            mView.checkInBtn().setStatus(FINISHED, "已签到/" + checkInDaysStr + "天", R.drawable.progress_button_done_icon);
+                            if (callBack != null) {
+                                callBack.onHasChekIn(checkInDaysStr);
+                            }
                         } else {
                             if (needAutoCheckIn) {
                                 checkIn(checkInInfo.once());
-                            } else {
-                                mView.checkInBtn().setStatus(NORMAL, "签到", R.drawable.progress_button_checkin_icon);
                             }
                         }
                     }
@@ -52,7 +51,6 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                     @Override
                     public void onError(Throwable e) {
                         super.onError(e);
-                        mView.checkInBtn().setStatus(NORMAL, "签到", R.drawable.progress_button_checkin_icon);
                     }
                 });
     }
@@ -62,22 +60,22 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
         return Utils.getIntFromString(checkInDaysStr);
     }
 
-
     private void checkIn(String once) {
-        mView.checkInBtn().startUpdate();
         APIService.get()
                 .checkIn(once)
-                .compose(mView.rx(null))
-                .subscribe(new GeneralConsumer<DailyInfo>(mView) {
+                .compose(RxUtils.io_main())
+                .subscribe(new GeneralConsumer<DailyInfo>(callBack) {
                     @Override
                     public void onConsume(DailyInfo checkInInfo) {
                         if (checkInInfo.hadCheckedIn()) {
                             checkInDaysStr = checkInInfo.getCheckinDays();
-                            mView.toast("签到成功/" + checkInDaysStr + "天");
-                            mView.checkInBtn().setStatus(FINISHED, "已签到/" + checkInDaysStr + "天", R.drawable.progress_button_done_icon);
+                            if (callBack != null) {
+                                callBack.onCheckInSuccess(checkInDaysStr);
+                            }
                         } else {
-                            mView.toast("签到遇到问题!");
-                            mView.checkInBtn().setStatus(NORMAL, "签到", R.drawable.progress_button_checkin_icon);
+                            if (callBack != null) {
+                                callBack.onCheckInFail();
+                            }
                         }
                     }
                 });

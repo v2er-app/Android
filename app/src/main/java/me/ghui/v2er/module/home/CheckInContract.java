@@ -1,6 +1,9 @@
 package me.ghui.v2er.module.home;
 
 import me.ghui.v2er.module.base.BaseContract;
+import me.ghui.v2er.network.GeneralError;
+import me.ghui.v2er.network.IGeneralErrorHandler;
+import me.ghui.v2er.network.bean.IBase;
 import me.ghui.v2er.widget.FollowProgressBtn;
 
 /**
@@ -8,15 +11,28 @@ import me.ghui.v2er.widget.FollowProgressBtn;
  */
 
 public class CheckInContract {
-    public interface IView extends BaseContract.IView {
-        //        void onGetCheckInInfo(DailyInfo dailyInfo);
-        FollowProgressBtn checkInBtn();
+
+    public abstract static class ICheckInCallBack implements IGeneralErrorHandler {
+
+        void onHasChekIn(String checkInDays) {}
+
+        void onCheckInSuccess(String checkInDays) {}
+
+        void onCheckInFail() {}
+
+        @Override
+        public void handleError(GeneralError generalError) {
+
+        }
+
     }
 
     public interface IPresenter extends BaseContract.IPresenter {
+
         void checkIn(boolean needAutoCheckIn);
 
         int checkInDays();
+
     }
 
 

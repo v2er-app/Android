@@ -27,10 +27,13 @@ import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.helper.BottomNavigationViewHelper;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.FollowProgressBtn;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate,
         HomeFilterMenu.OnMenuItemClickListener {
@@ -63,7 +66,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MsgFragment mMsgFragment;
     private ExploreFragment mExploreFragment;
     private MineFragment mMineFragment;
+    private CheckInPresenter mCheckInPresenter;
     private boolean isAppbarExpanded = true;
+
 
 
     @Override
@@ -138,6 +143,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    private void initCheckIn() {
+        if (UserUtils.isLogin()) {
+            mCheckInPresenter = new CheckInPresenter(new CheckInContract.ICheckInCallBack() {
+
+                @Override
+                public void onHasChekIn(String checkInDays) {
+
+                }
+
+                @Override
+                public void onCheckInSuccess(String checkInDays) {
+                    toast("签到成功/" + checkInDays + "天");
+                }
+
+                @Override
+                public void onCheckInFail() {
+                    toast("签到遇到问题!");
+                }
+
+            });
+            mCheckInPresenter.start();
+        }
+    }
+
     @Override
     protected void init() {
         isAlive = true;
@@ -184,6 +213,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             return true;
         });
         isAppbarExpanded = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
+        initCheckIn();
     }
 
     @Override
@@ -263,7 +293,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onTextSizeChanged(TextSizeChangeEvent event) {
         recreate();
     }
-
 
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);
