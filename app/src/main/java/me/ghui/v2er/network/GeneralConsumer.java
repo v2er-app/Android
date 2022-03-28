@@ -55,53 +55,55 @@ public abstract class GeneralConsumer<T extends IBase> implements Observer<T> {
                 3. no premission to open the page
             */
             GeneralError generalError = new GeneralError(ResultCode.NETWORK_ERROR, "Unknown Error");
-            String response = t.getResponse();
-            generalError.setResponse(response);
-            Observable.just(response)
-                    .compose(RxUtils.io_main())
-                    .map(s -> {
-                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, LoginParam.class);
-                        if (resultInfo == null) return null;
-                        if (!resultInfo.isValid()) {
-                            resultInfo = APIService.fruit().fromHtml(s, NewsInfo.class);
-                        }
-                        if (!resultInfo.isValid()) {
-                            resultInfo = APIService.fruit().fromHtml(s, TwoStepLoginInfo.class);
-                        }
-                        // 31/07/2017 More tries...
-                        return resultInfo;
-                    })
-                    .subscribe(new BaseConsumer<BaseInfo>() {
-                        @Override
-                        public void onConsume(BaseInfo resultInfo) {
-                            if (resultInfo == null || !resultInfo.isValid()) {
-                                onGeneralError(generalError);
-                                return;
+            if (t.getResponse() != null) {
+                String response = t.getResponse();
+                generalError.setResponse(response);
+                Observable.just(response)
+                        .compose(RxUtils.io_main())
+                        .map(s -> {
+                            BaseInfo resultInfo = APIService.fruit().fromHtml(s, LoginParam.class);
+                            if (resultInfo == null) return null;
+                            if (!resultInfo.isValid()) {
+                                resultInfo = APIService.fruit().fromHtml(s, NewsInfo.class);
                             }
-                            if (resultInfo instanceof LoginParam) {
-                                if (UserUtils.isLogin()) {
-                                    generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
-                                    generalError.setMessage("登录已过期，请重新登录");
-                                    UserUtils.clearLogin();
-                                } else {
-                                    generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
-                                    generalError.setMessage("需要您先去登录");
+                            if (!resultInfo.isValid()) {
+                                resultInfo = APIService.fruit().fromHtml(s, TwoStepLoginInfo.class);
+                            }
+                            // 31/07/2017 More tries...
+                            return resultInfo;
+                        })
+                        .subscribe(new BaseConsumer<BaseInfo>() {
+                            @Override
+                            public void onConsume(BaseInfo resultInfo) {
+                                if (resultInfo == null || !resultInfo.isValid()) {
+                                    onGeneralError(generalError);
+                                    return;
                                 }
-                            } else if (resultInfo instanceof NewsInfo) {
-                                generalError.setErrorCode(ResultCode.REDIRECT_TO_HOME);
-                                generalError.setMessage("Redirecting to home");
-                            } else if (resultInfo instanceof TwoStepLoginInfo) {
-                                generalError.setErrorCode(ResultCode.LOGIN_TWO_STEP);
-                                generalError.setMessage("Two Step Login");
+                                if (resultInfo instanceof LoginParam) {
+                                    if (UserUtils.isLogin()) {
+                                        generalError.setErrorCode(ResultCode.LOGIN_EXPIRED);
+                                        generalError.setMessage("登录已过期，请重新登录");
+                                        UserUtils.clearLogin();
+                                    } else {
+                                        generalError.setErrorCode(ResultCode.LOGIN_NEEDED);
+                                        generalError.setMessage("需要您先去登录");
+                                    }
+                                } else if (resultInfo instanceof NewsInfo) {
+                                    generalError.setErrorCode(ResultCode.REDIRECT_TO_HOME);
+                                    generalError.setMessage("Redirecting to home");
+                                } else if (resultInfo instanceof TwoStepLoginInfo) {
+                                    generalError.setErrorCode(ResultCode.LOGIN_TWO_STEP);
+                                    generalError.setMessage("Two Step Login");
+                                }
+                                onGeneralError(generalError);
                             }
-                            onGeneralError(generalError);
-                        }
 
-                        @Override
-                        public void onError(Throwable e) {
-                            onGeneralError(e);
-                        }
-                    });
+                            @Override
+                            public void onError(Throwable e) {
+                                onGeneralError(e);
+                            }
+                        });
+            }
         }
     }
 

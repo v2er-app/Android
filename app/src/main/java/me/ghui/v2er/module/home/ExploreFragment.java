@@ -5,55 +5,60 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.View;
 
+import java.io.Serializable;
+
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
-import me.ghui.v2er.injector.component.DaggerNodesNavComponent;
-import me.ghui.v2er.injector.module.NodesNavModule;
+import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.injector.component.DaggerExploreComponent;
+import me.ghui.v2er.injector.module.ExploreModule;
+import me.ghui.v2er.network.bean.ExplorePageInfo;
+import me.ghui.v2er.network.bean.ExplorePageInfoWrapper;
 import me.ghui.v2er.network.bean.NodesNavInfo;
-import me.ghui.v2er.network.bean.NodesNavInfoWrapper;
 import me.ghui.v2er.widget.BaseRecyclerView;
 
 /**
  * Created by ghui on 22/03/2017.
  */
 
-public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresenter> implements NodesNavConstract.IView {
+public class ExploreFragment extends BaseHomeFragment<ExploreContract.IPresenter> implements ExploreContract.IView {
 
     @Inject
-    CommonAdapter<NodesNavInfo.Item> mAdapter;
+    MultiItemTypeAdapter<Serializable> mAdapter;
     @BindView(R.id.base_recyclerview)
     BaseRecyclerView mRecyclerView;
-    private NodesNavInfoWrapper mNodesNavInfoWrapper;
+
+    private ExplorePageInfoWrapper mExplorePageInfoWrapper;
     private LinearLayoutManager mLayoutManager;
 
-    public static NodesNavFragment newInstance(RestoreData restoreData) {
+    public static ExploreFragment newInstance(RestoreData restoreData) {
         Bundle args = new Bundle();
         if (restoreData != null) {
             args.putSerializable(KEY_DATA, restoreData);
         }
-        NodesNavFragment fragment = new NodesNavFragment();
+        ExploreFragment fragment = new ExploreFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static NodesNavFragment newInstance() {
+    public static ExploreFragment newInstance() {
         return newInstance(null);
     }
 
-    public RestoreData<NodesNavInfoWrapper> getRestoreData() {
+    public RestoreData<ExplorePageInfoWrapper> getRestoreData() {
         int pos = mLayoutManager.findFirstVisibleItemPosition();
         int offset = 0;
         View firstChild = mRecyclerView.getChildAt(0);
         if (firstChild != null) {
             offset = firstChild.getTop();
         }
-        if (mNodesNavInfoWrapper == null) {
+        if (mExplorePageInfoWrapper == null) {
             return null;
         }
-        return new RestoreData<>(1, pos, offset, mNodesNavInfoWrapper);
+        return new RestoreData<>(1, pos, offset, mExplorePageInfoWrapper);
     }
 
     @Override
@@ -63,9 +68,9 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
 
     @Override
     protected void startInject() {
-        DaggerNodesNavComponent.builder()
+        DaggerExploreComponent.builder()
                 .appComponent(getAppComponent())
-                .nodesNavModule(new NodesNavModule(this))
+                .exploreModule(new ExploreModule(this))
                 .build().inject(this);
     }
 
@@ -73,10 +78,10 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
     protected void init() {
         mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
-        RestoreData<NodesNavInfoWrapper> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
+        RestoreData<ExplorePageInfoWrapper> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);
         if (restoreData != null) {
-            mNodesNavInfoWrapper = restoreData.info;
-            fillView(restoreData.info.nodesNavInfo);
+            mExplorePageInfoWrapper = restoreData.info;
+            fillView(mExplorePageInfoWrapper.explorePageInfo);
             post(()-> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
             hideLoading();
         }
@@ -89,14 +94,17 @@ public class NodesNavFragment extends BaseHomeFragment<NodesNavConstract.IPresen
 
     @Override
     protected void lazyLoad() {
-        if (mNodesNavInfoWrapper == null || mNodesNavInfoWrapper.nodesNavInfo == null) {
+        if (mExplorePageInfoWrapper == null || mExplorePageInfoWrapper.explorePageInfo == null) {
             super.lazyLoad();
         }
     }
 
     @Override
-    public void fillView(NodesNavInfo navInfo) {
-        mNodesNavInfoWrapper = NodesNavInfoWrapper.wrapper(navInfo);
-        mAdapter.setData(navInfo);
+    public void fillView(ExplorePageInfo pageInfo) {
+        mExplorePageInfoWrapper = ExplorePageInfoWrapper.wrapper(pageInfo);
+        pageInfo.setDailyHotInfoTitle(getString(R.string.daily_hot));
+        pageInfo.setNodesNavInfoTitle(getString(R.string.node_navigation));
+        mAdapter.setData(pageInfo.getItems());
     }
+
 }

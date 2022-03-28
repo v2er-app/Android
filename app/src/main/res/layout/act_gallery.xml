@@ -26,14 +26,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <androidx.appcompat.widget.Toolbar
+    <me.ghui.v2er.widget.BaseToolBar
         android:id="@+id/gallery_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/transparent"
         app:contentInsetEndWithActions="0dp"
-        app:contentInsetStart="0dp"
-        app:navigationIcon="@drawable/ic_arrow_back_white">
+        app:contentInsetStart="0dp">
 
         <TextView
             android:id="@+id/indicator_tv"
@@ -41,5 +40,5 @@
             android:maxLines="1"
             android:textColor="@color/white"
             tools:text="1/6" />
-    </androidx.appcompat.widget.Toolbar>
+    </me.ghui.v2er.widget.BaseToolBar>
 </RelativeLayout>

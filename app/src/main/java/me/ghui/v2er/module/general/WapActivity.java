@@ -4,7 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+
+import androidx.annotation.NonNull;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -88,32 +92,37 @@ public class WapActivity extends BaseActivity {
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
-        mToolbar.inflateMenu(R.menu.wapview_menu);
-        mToolbar.setOnMenuItemClickListener(menuItem -> {
-            switch (menuItem.getItemId()) {
-                case R.id.action_refresh:
-                    showLoading();
-                    refresh();
-                    break;
-                case R.id.action_share:
-                    ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(toolBar.getTitle().toString())
-                            .link(mCurrentUrl)
-                            .content("链接分享")
-                            .build();
-                    ShareManager shareManager = new ShareManager(shareData, this);
-                    shareManager.showShareDialog();
-                    break;
-                case R.id.action_copy_url:
-                    Utils.copyToClipboard(this, mCurrentUrl);
-                    toast("链接已拷贝成功");
-                    break;
-                case R.id.action_open_in_browser:
-                    Utils.openInBrowser(mCurrentUrl, this);
-                    break;
-            }
-            return false;
-        });
+    }
+
+    @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.wapview_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                showLoading();
+                refresh();
+                break;
+            case R.id.action_share:
+                ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(mToolbar.getTitle().toString())
+                        .link(mCurrentUrl)
+                        .content("链接分享")
+                        .build();
+                ShareManager shareManager = new ShareManager(shareData, this);
+                shareManager.showShareDialog();
+                break;
+            case R.id.action_copy_url:
+                Utils.copyToClipboard(this, mCurrentUrl);
+                toast("链接已拷贝成功");
+                break;
+            case R.id.action_open_in_browser:
+                Utils.openInBrowser(mCurrentUrl, this);
+                break;
+        }
+        return false;
     }
 
     @Override

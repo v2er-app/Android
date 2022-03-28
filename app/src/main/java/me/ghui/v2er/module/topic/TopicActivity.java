@@ -6,6 +6,8 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.browser.customtabs.CustomTabsClient;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -18,6 +20,7 @@ import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
 import android.transition.Transition;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -207,11 +210,14 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     }
 
     @Override
-    protected void configToolBar(BaseToolBar toolBar) {
-        super.configToolBar(toolBar);
-        Utils.setPaddingForStatusBar(toolBar);
-        mToolbar.inflateMenu(R.menu.topic_info_toolbar_menu);
-        Menu menu = mToolbar.getMenu();
+    public int attachOptionsMenuRes() {
+        return R.menu.topic_info_toolbar_menu;
+    }
+
+
+    @Override
+    public void configOptionsMenu(Menu menu) {
+        super.configOptionsMenu(menu);
         mLoveMenuItem = menu.findItem(R.id.action_star);
         mThxMenuItem = menu.findItem(R.id.action_thx);
         mAppendItem = menu.findItem(R.id.action_append);
@@ -221,110 +227,123 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
         mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
         replyMenuItem.setVisible(mIsHideReplyBtn);
-        MenuItem scanOrderMenuItem = menu.findItem(R.id.action_scan_order);
+        scanOrderMenuItem = menu.findItem(R.id.action_scan_order);
         scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
-        mToolbar.setOnMenuItemClickListener(item -> {
-            if (mTopicInfo == null) {
-                if (item.getItemId() == R.id.action_open_in_browser) {
-                    String topicLink = Utils.generateTopicLinkById(mTopicId);
-                    Utils.openInBrowser(topicLink, this);
-                } else {
-                    toast("请等到加载完成");
-                }
-                return true;
-            }
-            TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
+    }
 
-            switch (item.getItemId()) {
-                case R.id.action_star:
-                    if (headerInfo.hadStared()) {
-                        mPresenter.unStarTopic(mTopicId, mTopicInfo.getOnce());
-                    } else {
-                        mPresenter.starTopic(mTopicId, mTopicInfo.getOnce());
-                    }
-                    break;
-                case R.id.action_append:
-                    AppendTopicActivity.open(mTopicId, TopicActivity.this);
-                    break;
-                case R.id.action_thx:
-                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    if (mTopicInfo.getHeaderInfo().isSelf()) {
-                        toast("自己不能感谢自己");
-                        return false;
-                    }
-                    if (!headerInfo.canSendThanks()) {
-                        toast("感谢发送失败，可能因为您刚注册不久");
-                        return true;
-                    }
-                    if (!headerInfo.hadThanked()) {
-                        mPresenter.thxCreator(mTopicId, getOnce());
-                    } else {
-                        toast(R.string.already_thx_cannot_return);
-                        return true;
-                    }
-                    break;
-                case R.id.action_block:
-                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    new ConfirmDialog.Builder(getActivity())
-                            .msg("确定忽略此主题吗？")
-                            .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
-                            .negativeText(R.string.cancel)
-                            .build().show();
-                    break;
-                case R.id.action_report:
-                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    new ConfirmDialog.Builder(getActivity())
-                            .msg("确定要举报这个主题吗？")
-                            .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
-                            .negativeText(R.string.cancel)
-                            .build().show();
-                    break;
-                case R.id.action_sticky:
-                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    new ConfirmDialog.Builder(getActivity())
-                            .msg("你确认要将此主题置顶 10 分钟？该操作价格为 200 铜币。")
-                            .positiveText(R.string.ok, dialog -> mPresenter.stickyTopic())
-                            .negativeText(R.string.cancel)
-                            .build().show();
-                    break;
-                case R.id.action_fade:
-                    if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
-                    new ConfirmDialog.Builder(getActivity())
-                            .msg("你确认要将此主题下沉 1 天？")
-                            .positiveText(R.string.ok, dialog -> mPresenter.fadeTopic())
-                            .negativeText(R.string.cancel)
-                            .build().show();
-                    break;
-                case R.id.action_share:
-                    ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
-                            .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getFormattedHtml()).toString())
-                            .link(UriUtils.topicLink(mTopicId))
-                            .img(headerInfo.getAvatar())
-                            .build();
-                    ShareManager shareManager = new ShareManager(shareData, this);
-                    shareManager.showShareDialog();
-                    break;
-                case R.id.action_open_in_browser:
-//                    Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
-//                    toast("链接已拷贝成功");
-                    Utils.openInBrowser(mTopicInfo.getTopicLink(), this);
-                    break;
-                case R.id.action_reply:
-                    animateEditInnerWrapper(true);
-                    break;
-                case R.id.action_scan_order:
-                    // reload
-                    mIsScanInOrder = !mIsScanInOrder;
-                    scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
-                    Pref.saveBool(R.string.pref_key_is_scan_in_reverse, !mIsScanInOrder);
-                    mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
-                    // 重新加载
-                    loadFromStart();
-                    showLoading();
-                    break;
+    private MenuItem scanOrderMenuItem;
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (mTopicInfo == null) {
+            if (item.getItemId() == R.id.action_open_in_browser) {
+                String topicLink = Utils.generateTopicLinkById(mTopicId);
+                Utils.openInBrowser(topicLink, this);
+            } else {
+                toast("请等到加载完成");
             }
             return true;
-        });
+        }
+        TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
+
+        switch (item.getItemId()) {
+            case R.id.action_star:
+                if (headerInfo.hadStared()) {
+                    mPresenter.unStarTopic(mTopicId, mTopicInfo.getOnce());
+                } else {
+                    mPresenter.starTopic(mTopicId, mTopicInfo.getOnce());
+                }
+                break;
+            case R.id.action_append:
+                AppendTopicActivity.open(mTopicId, TopicActivity.this);
+                break;
+            case R.id.action_thx:
+                if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                if (mTopicInfo.getHeaderInfo().isSelf()) {
+                    toast("自己不能感谢自己");
+                    return false;
+                }
+                if (!headerInfo.canSendThanks()) {
+                    toast("感谢发送失败，可能因为您刚注册不久");
+                    return true;
+                }
+                if (!headerInfo.hadThanked()) {
+                    mPresenter.thxCreator(mTopicId, getOnce());
+                } else {
+                    toast(R.string.already_thx_cannot_return);
+                    return true;
+                }
+                break;
+            case R.id.action_block:
+                if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                new ConfirmDialog.Builder(getActivity())
+                        .msg("确定忽略此主题吗？")
+                        .positiveText(R.string.ok, dialog -> mPresenter.ignoreTopic(mTopicId, mTopicInfo.getOnce()))
+                        .negativeText(R.string.cancel)
+                        .build().show();
+                break;
+            case R.id.action_report:
+                if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                new ConfirmDialog.Builder(getActivity())
+                        .msg("确定要举报这个主题吗？")
+                        .positiveText(R.string.ok, dialog -> mPresenter.reportTopic())
+                        .negativeText(R.string.cancel)
+                        .build().show();
+                break;
+            case R.id.action_sticky:
+                if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                new ConfirmDialog.Builder(getActivity())
+                        .msg("你确认要将此主题置顶 10 分钟？该操作价格为 200 铜币。")
+                        .positiveText(R.string.ok, dialog -> mPresenter.stickyTopic())
+                        .negativeText(R.string.cancel)
+                        .build().show();
+                break;
+            case R.id.action_fade:
+                if (UserUtils.notLoginAndProcessToLogin(false, this)) return false;
+                new ConfirmDialog.Builder(getActivity())
+                        .msg("你确认要将此主题下沉 1 天？")
+                        .positiveText(R.string.ok, dialog -> mPresenter.fadeTopic())
+                        .negativeText(R.string.cancel)
+                        .build().show();
+                break;
+            case R.id.action_share:
+                ShareManager.ShareData shareData = new ShareManager.ShareData.Builder(headerInfo.getTitle())
+                        .content(Vtml.fromHtml(mTopicInfo.getContentInfo().getFormattedHtml()).toString())
+                        .link(UriUtils.topicLink(mTopicId))
+                        .img(headerInfo.getAvatar())
+                        .build();
+                ShareManager shareManager = new ShareManager(shareData, this);
+                shareManager.showShareDialog();
+                break;
+            case R.id.action_open_in_browser:
+//                    Utils.copyToClipboard(this, mTopicInfo.getTopicLink());
+//                    toast("链接已拷贝成功");
+                Utils.openInBrowser(mTopicInfo.getTopicLink(), this);
+                break;
+            case R.id.action_reply:
+                animateEditInnerWrapper(true);
+                break;
+            case R.id.action_scan_order:
+                // reload
+                mIsScanInOrder = !mIsScanInOrder;
+                scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
+                Pref.saveBool(R.string.pref_key_is_scan_in_reverse, !mIsScanInOrder);
+                mLoadMoreRecyclerView.setLoadOrder(mIsScanInOrder);
+                // 重新加载
+                loadFromStart();
+                showLoading();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void configToolBar(BaseToolBar toolBar) {
+        super.configToolBar(toolBar);
+        Log.d(this.getClass().getSimpleName(), "configToolBar");
+        if (mToolbar != null) {
+            mToolbar.displayHomeAsUpButton(this);
+        }
     }
 
 
@@ -384,7 +403,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     protected void init() {
         AndroidBug5497Workaround.assistActivity(this);
-        Utils.setPaddingForNavbar(mReplyLayout);
         setEnterSharedElementCallback(mCallback);
         setFirstLoadingDelay(300);
         shareElementAnimation();
@@ -580,6 +598,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     @Override
     public void fillView(TopicInfo topicInfo, int page) {
+        Log.d(this.getClass().getSimpleName(), "fillView");
         mTopicInfo = topicInfo;
         if (mNeedWaitForTransitionEnd) return;
         if (topicInfo == null) {
@@ -610,13 +629,13 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
             onRenderCompleted();
         }
         TopicInfo.HeaderInfo headerInfo = mTopicInfo.getHeaderInfo();
-        updateStarStatus(headerInfo.hadStared(), false);
-        updateThxCreatorStatus(headerInfo.hadThanked(), false);
-        updateReportMenuItem(mTopicInfo.hasReportPermission(), mTopicInfo.hasReported());
-        boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
-        mAppendItem.setVisible(isSelf && mTopicInfo.getHeaderInfo().canAppend());
-        mFadeItem.setVisible(isSelf && mTopicInfo.canfade());
-        mStickyItem.setVisible(isSelf && mTopicInfo.canSticky());
+            updateStarStatus(headerInfo.hadStared(), false);
+            updateThxCreatorStatus(headerInfo.hadThanked(), false);
+            updateReportMenuItem(mTopicInfo.hasReportPermission(), mTopicInfo.hasReported());
+            boolean isSelf = mTopicInfo.getHeaderInfo().isSelf();
+            mAppendItem.setVisible(isSelf && mTopicInfo.getHeaderInfo().canAppend());
+            mFadeItem.setVisible(isSelf && mTopicInfo.canfade());
+            mStickyItem.setVisible(isSelf && mTopicInfo.canSticky());
         if (!mIsHideReplyBtn && mIsLogin) {
 //            mReplyFabBtn.setVisibility(VISIBLE);
             mReplyFabBtn.show();
@@ -775,7 +794,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
     private void updateStarStatus(boolean isStared, boolean needUpdateData) {
         mLoveMenuItem.setIcon(isStared ?
-                R.drawable.ic_star_selected : R.drawable.ic_star_normal);
+                R.drawable.ic_bookmarked : R.drawable.ic_bookmark);
         mLoveMenuItem.getIcon().setTint(Theme.getColor(R.attr.icon_tint_color, this));
         if (needUpdateData) {
             mTopicInfo.getHeaderInfo().updateStarStatus(isStared);
@@ -913,7 +932,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     @Override
     public void onKeyboardHidden() {
         L.d("onKeyboardHidden");
-        Utils.setPaddingForNavbar(mReplyLayout);
     }
 
     @Override

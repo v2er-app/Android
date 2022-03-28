@@ -3,7 +3,10 @@ package me.ghui.v2er.module.append;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -65,19 +68,22 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
     @Override
     protected void configToolBar(BaseToolBar toolBar) {
         super.configToolBar(toolBar);
-        //设置右上角的填充菜单
-        toolBar.inflateMenu(R.menu.append_topic_menu);
-        Utils.setPaddingForStatusBar(toolBar);
-        Utils.setPaddingForNavbar(mRootView);
-        toolBar.setOnMenuItemClickListener(item -> {
-            String content = mContentET.getText().toString();
-            if (Check.isEmpty(content)) {
-                Voast.show("请输入附言内容");
-                return false;
-            }
-            mPresenter.sendAppend(content);
-            return true;
-        });
+    }
+
+    @Override
+    public int attachOptionsMenuRes() {
+        return R.menu.append_topic_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        String content = mContentET.getText().toString();
+        if (Check.isEmpty(content)) {
+            Voast.show("请输入附言内容");
+            return false;
+        }
+        mPresenter.sendAppend(content);
+        return true;
     }
 
     @Override

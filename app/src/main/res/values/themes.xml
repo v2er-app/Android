@@ -38,6 +38,8 @@
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#FFFAFAFA</item>
         <item name="android:autofilledHighlight">@color/autofill_color</item>
+        <item name="selected_color">@color/black</item>
+        <item name="unselected_color">#3B3A3A</item>
     </style>
 
     <style name="NightTheme" parent="BaseApp.Theme">
@@ -68,6 +70,8 @@
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#1d1d1b</item>
         <item name="android:autofilledHighlight">@color/autofill_color_night</item>
+        <item name="selected_color">#F6F6F6</item>
+        <item name="unselected_color">#A4A5A7</item>
     </style>
 
     <style name="GalleryTheme" parent="NightTheme">

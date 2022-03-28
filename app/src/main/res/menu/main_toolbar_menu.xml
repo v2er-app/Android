@@ -4,6 +4,7 @@
     <item
         android:id="@id/action_search"
         android:icon="@drawable/search"
+        app:iconTint="?attr/icon_tint_color"
         android:title="Search"
         android:contentDescription="@string/acc_search_button"
         app:showAsAction="always" />

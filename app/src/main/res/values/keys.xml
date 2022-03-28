@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="pref_key_clear_cache">pref_key_clear_cache</string>
+    <string name="pref_key_help_and_feedback">pref_key_help_and_feedback</string>
     <string name="pref_key_check_update">pref_key_check_update</string>
     <string name="pref_key_rate">pref_key_rate</string>
     <string name="pref_key_os">pref_key_os</string>

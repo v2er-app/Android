@@ -11,6 +11,7 @@
     <color name="bodyTextColor">#555555</color>
     <color name="hintTextColor">#a3a1a1</color>
     <color name="white">@android:color/white</color>
+    <color name="black">@android:color/black</color>
     <color name="ripple_color">#d4d4d4</color>
     <color name="button_background_color">#3A3636</color>
     <color name="transparent_navbar_color">#66000000</color>

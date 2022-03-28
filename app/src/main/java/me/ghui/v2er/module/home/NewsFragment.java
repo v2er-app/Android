@@ -124,6 +124,19 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
     protected void lazyLoad() {
         if (mNewsInfo == null) {
             super.lazyLoad();
+        } else {
+            RestoreData<NewsInfo> restoreData = getRestoreData();
+            if (restoreData != null) {
+                mNewsInfo = restoreData.info;
+                mRecyclerView.setWillLoadPage(restoreData.page);
+                if (mNewsInfo.getItems() != null) {
+                    fillView(mNewsInfo, false);
+                    post(() -> mLayoutManager.scrollToPositionWithOffset(restoreData.scrollPos, restoreData.scrollOffset));
+                    hideLoading();
+                } else {
+                    mPresenter.start();
+                }
+            }
         }
     }
 
