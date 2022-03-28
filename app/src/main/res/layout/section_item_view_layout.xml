@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/section_layout"
     android:layout_width="match_parent"
-    android:layout_height="64dp"
+    android:layout_height="50dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless">
@@ -22,8 +22,6 @@
         android:ellipsize="marquee"
         android:fadingEdge="horizontal"
         android:singleLine="true"
-        android:paddingTop="16dp"
-        android:paddingBottom="16dp"
         android:textSize="@dimen/mediumTextSize"
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp"

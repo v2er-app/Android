@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
         android:visibility="visible"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginVertical="8dp"
         android:contentDescription="@string/new_post"
         app:layout_constraintTop_toBottomOf="@+id/mine_sec_post"
         app:layout_constraintBottom_toTopOf="@+id/mine_sec_bookmark"
@@ -26,7 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/page_bg_color"
-        android:visibility="gone"
+        android:visibility="visible"
         android:contentDescription="@string/themes"
         app:layout_constraintTop_toBottomOf="@+id/mine_sec_post"
         app:layout_constraintBottom_toTopOf="@+id/mine_sec_bookmark"

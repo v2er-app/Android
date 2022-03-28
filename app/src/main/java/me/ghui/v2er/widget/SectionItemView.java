@@ -23,7 +23,6 @@ import me.ghui.v2er.util.ScaleUtils;
 import me.ghui.v2er.util.Utils;
 
 public class SectionItemView extends RelativeLayout implements View.OnClickListener {
-
     private Drawable icon;
     private String title;
     private boolean showDivider;
