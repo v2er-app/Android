@@ -3,5 +3,6 @@
     android:id="@+id/base_recyclerview"
     style="@style/BaseRecyclerView"
     android:clipToPadding="false"
-    android:paddingTop="16dp" />
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp"/>
 
