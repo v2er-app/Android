@@ -19,6 +19,8 @@ import static me.ghui.v2er.widget.FollowProgressBtn.NORMAL;
 public class CheckInPresenter implements CheckInContract.IPresenter {
     private CheckInContract.ICheckInCallBack callBack;
     private String checkInDaysStr;
+    boolean needAutoCheckIn = false;
+    boolean checkToDay = false;
 
     public CheckInPresenter(CheckInContract.ICheckInCallBack callBack) {
         this.callBack = callBack;
@@ -26,11 +28,12 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
 
     @Override
     public void start() {
-        checkIn(Pref.readBool(R.string.pref_key_auto_checkin));
+        needAutoCheckIn = Pref.readBool(R.string.pref_key_auto_checkin);
+        checkIn();
     }
 
     @Override
-    public void checkIn(boolean needAutoCheckIn) {
+    public void checkIn() {
         APIService.get().dailyInfo()
                 .compose(RxUtils.io_main())
                 .subscribe(new GeneralConsumer<DailyInfo>(callBack) {
@@ -45,6 +48,10 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                             if (needAutoCheckIn) {
                                 checkIn(checkInInfo.once());
                             }
+                            if (checkToDay) {
+                                checkToDay = false;
+                                checkIn(checkInInfo.once());
+                            }
                         }
                     }
 
@@ -53,6 +60,12 @@ public class CheckInPresenter implements CheckInContract.IPresenter {
                         super.onError(e);
                     }
                 });
+    }
+
+    @Override
+    public void checkInToDay() {
+        checkToDay = true;
+        checkIn();
     }
 
     @Override

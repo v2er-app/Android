@@ -220,7 +220,7 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
         switch (v.getId()) {
             case R.id.mine_check_in_progress_btn:
                 mCheckInButton.startUpdate();
-                mCheckInPresenter.start();
+                mCheckInPresenter.checkInToDay();
                 break;
             case R.id.mine_root_layout:
             case R.id.mine_avatar_img:

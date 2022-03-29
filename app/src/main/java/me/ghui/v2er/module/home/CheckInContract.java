@@ -29,7 +29,9 @@ public class CheckInContract {
 
     public interface IPresenter extends BaseContract.IPresenter {
 
-        void checkIn(boolean needAutoCheckIn);
+        void checkIn();
+
+        void checkInToDay();
 
         int checkInDays();
 
