@@ -1,33 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/feed_page"
         android:icon="@mipmap/ic_feed"
+        android:iconTint="@drawable/main_bottom_navigation_selector"
         android:orderInCategory="100"
         android:contentDescription="@string/feed"
         android:title="@string/feed" />
-
     <item
         android:id="@+id/explore_page"
         android:icon="@mipmap/ic_explore"
+        android:iconTint="@drawable/main_bottom_navigation_selector"
         android:orderInCategory="100"
         android:contentDescription="@string/explore"
         android:title="@string/explore" />
-
     <item
         android:id="@+id/message_page"
         android:icon="@mipmap/ic_message"
+        android:iconTint="@drawable/main_bottom_navigation_selector"
         android:orderInCategory="100"
         android:contentDescription="@string/message"
         android:title="@string/message" />
-
     <item
         android:id="@+id/mine_page"
         android:icon="@mipmap/ic_mine"
+        android:iconTint="@drawable/main_bottom_navigation_selector"
         android:orderInCategory="100"
         android:contentDescription="@string/mine"
         android:title="@string/mine" />
-
 </menu>
