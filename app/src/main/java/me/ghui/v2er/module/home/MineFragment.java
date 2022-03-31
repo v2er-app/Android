@@ -145,7 +145,6 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
     @Override
     protected void init() {
         hideLoading();
-        mRootLayout.setOnClickListener(this);
         mAvatarImage.setOnClickListener(this);
         mUserNameButton.setOnClickListener(this);
         mUserInfoPageButton.setOnClickListener(this);
@@ -222,10 +221,9 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
                 mCheckInButton.startUpdate();
                 mCheckInPresenter.checkInToDay();
                 break;
-            case R.id.mine_root_layout:
             case R.id.mine_avatar_img:
             case R.id.mine_username_button:
-//            case R.id.mine_user_info_page_button:
+            case R.id.mine_user_info_page_button:
                 goToUserInfoPage();
                 break;
             case R.id.mine_sec_post:
@@ -239,6 +237,8 @@ public class MineFragment extends BaseHomeFragment<MineContract.IPresenter> impl
                 break;
             case R.id.mine_sec_settings:
                 goToSetting();
+                break;
+            default:
                 break;
         }
     }
