@@ -67,4 +67,9 @@
     <string name="copy_text_success">复制文本成功</string>
     <string name="title">标题</string>
 
+    <string name="check_in">签到</string>
+    <string name="number_of_days_checked_in">已签到%1$s天</string>
+    <string name="number_of_days_check_in_succeed">签到成功%1$s天</string>
+    <string name="problems_with_check_in">签到遇到问题！</string>
+
 </resources>

@@ -30,17 +30,33 @@
         android:gravity="center"
         android:maxLines="1"
         android:minWidth="@dimen/medium_avatar_size"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
         android:layout_marginTop="8dp"
         android:layout_marginStart="8dp"
         android:text="@string/please_login_first"
         android:textAllCaps="false"
         android:textColor="?attr/icon_tint_color"
-        android:textSize="@dimen/mediumTextSize"
+        android:textSize="@dimen/extralargeTextSize"
         android:transitionName="@string/share_element_username"
         app:layout_constraintStart_toEndOf="@+id/mine_avatar_img"
-        app:layout_constraintTop_toTopOf="@id/mine_avatar_img" />
+        app:layout_constraintTop_toTopOf="@id/mine_avatar_img"
+        app:layout_constraintBottom_toTopOf="@+id/mine_check_in_progress_btn"/>
+
+    <me.ghui.v2er.widget.FollowProgressBtn
+        android:id="@+id/mine_check_in_progress_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/accent_capsula_drawable"
+        android:visibility="invisible"
+        app:initIcon="@drawable/progress_button_checkin_icon"
+        app:initText="@string/check_in"
+        app:tintColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/mine_username_button"
+        app:layout_constraintBottom_toBottomOf="@+id/mine_avatar_img"
+        app:layout_constraintStart_toStartOf="@+id/mine_username_button"
+        app:layout_constraintEnd_toEndOf="@+id/mine_username_button"
+        />
 
     <Button
         android:id="@+id/mine_user_info_page_button"

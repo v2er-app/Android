@@ -1,10 +1,14 @@
 package me.ghui.v2er.module.home;
 
 import android.annotation.SuppressLint;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +18,10 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import com.flyco.tablayout.widget.MsgView;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -27,10 +34,14 @@ import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.ActivityReloader;
 import me.ghui.v2er.helper.BottomNavigationViewHelper;
 import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.UnreadMsgUtils;
+import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.BaseToolBar;
+import me.ghui.v2er.widget.FollowProgressBtn;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener, UpdateUnReadMsgDelegate,
         HomeFilterMenu.OnMenuItemClickListener {
@@ -63,7 +74,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     private MsgFragment mMsgFragment;
     private ExploreFragment mExploreFragment;
     private MineFragment mMineFragment;
+    private CheckInPresenter mCheckInPresenter;
     private boolean isAppbarExpanded = true;
+
 
 
     @Override
@@ -138,6 +151,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
+    private void initCheckIn() {
+        if (UserUtils.isLogin()) {
+            mCheckInPresenter = new CheckInPresenter(new CheckInContract.ICheckInCallBack() {
+
+                @Override
+                public void onHasChekIn(String checkInDays) {
+
+                }
+
+                @Override
+                public void onCheckInSuccess(String checkInDays) {
+                    toast("签到成功/" + checkInDays + "天");
+                }
+
+                @Override
+                public void onCheckInFail() {
+                    toast("签到遇到问题!");
+                }
+
+            });
+            mCheckInPresenter.start();
+        }
+    }
+
     @Override
     protected void init() {
         isAlive = true;
@@ -183,7 +220,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
             return true;
         });
+
         isAppbarExpanded = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
+        initCheckIn();
     }
 
     @Override
@@ -208,21 +247,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void updateUnReadMsg(int position, int count) {
-//        if (count <= 0) {//hide
-//            mSlidingTabLayout.hideMsg(position);
-//        } else {
-//            mSlidingTabLayout.showMsg(position, count);
-//            //config sliding msgview
-//            float padding = getResources().getDimension(R.dimen.mediumTextSize) / 2f;
-//            mSlidingTabLayout.setMsgMargin(1, padding * 0.92f, padding * 0.28f);
-//            MsgView msgView = mSlidingTabLayout.getMsgView(1);
-//            float textSize = getResources().getDimension(R.dimen.tinyTextSize);
-//            msgView.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-//            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) msgView.getLayoutParams();
-//            lp.width = Math.round(textSize * (count + "").length() * 1.5f);
-//            lp.height = Math.round(textSize * 1.5f);
-//            msgView.setLayoutParams(lp);
-//        }
+        if (count <= 0) {//hide
+            BottomNavigationViewHelper.hideMsg(this, mBottomNavigationView, 2);
+        } else {
+            BottomNavigationViewHelper.showBadgeView(this, mBottomNavigationView,
+                    2, count);
+        }
     }
 
     @Override
@@ -263,7 +293,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     public void onTextSizeChanged(TextSizeChangeEvent event) {
         recreate();
     }
-
 
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);

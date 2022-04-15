@@ -21,4 +21,5 @@
     <color name="night_hintTextColor">#A2A2A2</color>
     <color name="autofill_color">#1A000000</color>
     <color name="autofill_color_night">#1AFFFFFF</color>
+    <color name="message_color">#FF5252</color>
 </resources>

@@ -17,8 +17,8 @@
             android:name="android.max_aspect"
             android:value="2.1" />
         <provider
-            android:name="me.ghui.v2er.general.ImgFileProvider"
-            android:authorities="@string/glide_img_provider"
+            android:name=".general.ImgFileProvider"
+            android:authorities="${APPLICATION_ID}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

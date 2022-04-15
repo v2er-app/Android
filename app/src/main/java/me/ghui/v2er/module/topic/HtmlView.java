@@ -3,7 +3,13 @@ package me.ghui.v2er.module.topic;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
 import android.webkit.JavascriptInterface;
@@ -29,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
+import me.ghui.v2er.util.AdvertisementFilterUtil;
 import me.ghui.v2er.util.Assets;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.BuildConfig;
@@ -53,19 +60,19 @@ public class HtmlView extends WebView {
 
     public HtmlView(Context context) {
         super(context);
-        init();
+        init(context);
     }
 
     public HtmlView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        init();
+        init(context);
     }
 
     public void setOnHtmlRenderListener(OnHtmlRenderListener onHtmlRenderListener) {
         this.onHtmlRenderListener = onHtmlRenderListener;
     }
 
-    private void init() {
+    private void init(Context context) {
         WebView.setWebContentsDebuggingEnabled(BuildConfig.DEBUG);
         WebSettings settings = getSettings();
         settings.setJavaScriptEnabled(true);
@@ -79,7 +86,7 @@ public class HtmlView extends WebView {
         settings.setTextZoom(100);
         settings.setAllowUniversalAccessFromFileURLs(true);
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        setWebViewClient(new V2exWebViewClient());
+        setWebViewClient(new V2exWebViewClient(context));
         setVerticalScrollBarEnabled(false);
         addJavascriptInterface(new ImgClickJSInterface(), "imagelistener");
         setBackgroundColor(DarkModelUtils.isDarkMode() ?
@@ -130,7 +137,37 @@ public class HtmlView extends WebView {
         void onRenderCompleted();
     }
 
+    private Message v2exWebViewClientMsg;
+    private V2exWebViewClientHandler v2exWebViewClientHandler;
+    private int advertisementFilterMsg = 0x11;
+    private WebView v2exWebView;
+
+    private class V2exWebViewClientHandler extends Handler {
+
+        V2exWebViewClientHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            try {
+                String clearAdvertisementJs = AdvertisementFilterUtil.clearAdvertisementDivJs(getContext());
+                if (v2exWebView != null) {
+                    v2exWebView.loadUrl(clearAdvertisementJs);
+                }
+            }catch (Exception ignored) {}
+        }
+
+    }
+
+
     private class V2exWebViewClient extends WebViewClient {
+
+        V2exWebViewClient(Context context) {
+            v2exWebViewClientHandler = new V2exWebViewClientHandler(context.getMainLooper());
+            v2exWebViewClientMsg = new Message();
+        }
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
@@ -156,11 +193,16 @@ public class HtmlView extends WebView {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
+            v2exWebView = view;
+            v2exWebViewClientMsg.what = advertisementFilterMsg;
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            if (v2exWebViewClientHandler != null && v2exWebViewClientMsg != null) {
+                v2exWebViewClientHandler.sendMessage(v2exWebViewClientMsg);
+            }
             // download the imgs in mImgs list
             downloadImgs();
             if (onHtmlRenderListener != null) {
