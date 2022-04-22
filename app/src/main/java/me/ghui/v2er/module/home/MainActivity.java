@@ -323,7 +323,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     @Override
     public void updateUnReadMsg(int position, int count) {
         App.get().unReadMsgCount = count;
-        App.get().unReadMsgCount = 2;
         showUnReadMsg();
     }
 
