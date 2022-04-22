@@ -135,7 +135,7 @@ public class NodeSelectFragment extends DialogFragment implements MultiItemTypeA
             if (mSearchHintIcon != null) {
                 mSearchHintIcon.setTint(Theme.getColor(R.attr.icon_tint_color, getContext()));
             }
-        }catch (Exception e) {}
+        }catch (Exception ignore) {}
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

@@ -52,6 +52,13 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
+    <style name="ThemeOverlay.AppTheme.TextInputEditText.FilledBox" parent="">
+        <item name="android:textColorHint">?attr/bodyTextColor</item>
+        <item name="android:textColor">?attr/bodyTextColor</item>
+        <item name="background">?attr/page_bg_color</item>
+        <item name="elevation">0dp</item>
+    </style>
+
     <style name="topicEditText">
         <item name="android:paddingHorizontal">4dp</item>
         <item name="android:paddingVertical">8dp</item>
@@ -109,7 +116,7 @@
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat">
+    <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/page_bg_color</item>
         <item name="android:textColorPrimary">?attr/bodyTextColor</item>
     </style>

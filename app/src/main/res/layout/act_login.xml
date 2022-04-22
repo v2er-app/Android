@@ -2,12 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_user_name_text_input_layout"
-        style="@style/TextInput"
+        style="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+        app:hintTextColor="?attr/hintTextColor"
+        app:boxBackgroundColor="?attr/page_bg_color"
+        app:boxStrokeColor="?attr/hintTextColor"
+        app:colorControlActivated="?attr/bodyTextColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="用户名">
@@ -23,7 +29,12 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/login_psw_text_input_layout"
-        style="@style/TextInput"
+        style="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+        app:hintTextColor="?attr/hintTextColor"
+        app:boxBackgroundColor="?attr/page_bg_color"
+        app:boxStrokeColor="?attr/hintTextColor"
+        app:colorControlActivated="?attr/bodyTextColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="密码"
@@ -48,7 +59,12 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_captcha_text_input_layout"
-            style="@style/TextInput"
+            style="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+            android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
+            app:hintTextColor="?attr/hintTextColor"
+            app:boxBackgroundColor="?attr/page_bg_color"
+            app:boxStrokeColor="?attr/hintTextColor"
+            app:colorControlActivated="?attr/bodyTextColor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"

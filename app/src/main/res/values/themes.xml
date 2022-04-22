@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseApp.Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
-<!--        <item name="android:windowAnimationStyle">@style/AppActAnimation</item>-->
-<!--        <item name="android:windowContentTransitions">true</item>-->
-<!--        <item name="android:windowReturnTransition">@android:transition/fade</item>-->
+    <style name="BaseApp.Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:navigationBarColor">?attr/page_bg_color</item>
     </style>
 
     <style name="DayTheme" parent="BaseApp.Theme">

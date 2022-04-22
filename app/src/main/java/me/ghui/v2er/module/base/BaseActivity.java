@@ -133,7 +133,14 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected BaseToolBar attachToolbar() {
         int layoutId = attachToolBar() == 0 ? R.layout.appbar_wrapper_toolbar : attachToolBar();
         mToolbarWrapper = (AppBarLayout) getLayoutInflater().inflate(layoutId, null);
-        return (BaseToolBar) mToolbarWrapper.findViewById(R.id.inner_toolbar);
+        BaseToolBar baseToolBar = mToolbarWrapper.findViewById(R.id.inner_toolbar);
+        if (baseToolBar != null) {
+            baseToolBar.setTitleTextColor(Theme.getColor(R.attr.icon_tint_color, this));
+            baseToolBar.setSubtitleTextColor(Theme.getColor(R.attr.icon_tint_color, this));
+            return baseToolBar;
+        } else  {
+            return null;
+        }
     }
 
     @LayoutRes
