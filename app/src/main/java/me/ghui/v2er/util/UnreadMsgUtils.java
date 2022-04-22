@@ -14,7 +14,7 @@ import me.ghui.v2er.R;
 public class UnreadMsgUtils {
 
     public interface Callback {
-        void onShow(int width);
+        void onShow(int width, int height);
     }
 
     public static void show(Context context, MsgView msgView, int num, Callback callback) {
@@ -42,7 +42,7 @@ public class UnreadMsgUtils {
         msgView.setHeight(height);
         msgView.setText(showNumberStr);
         if (callback != null) {
-            callback.onShow(width);
+            callback.onShow(width, height);
         }
     }
 

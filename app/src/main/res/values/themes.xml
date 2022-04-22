@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseApp.Theme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="BaseApp.Theme" parent="Theme.MaterialComponents.Light.NoActionBar">
 <!--        <item name="android:windowAnimationStyle">@style/AppActAnimation</item>-->
 <!--        <item name="android:windowContentTransitions">true</item>-->
 <!--        <item name="android:windowReturnTransition">@android:transition/fade</item>-->

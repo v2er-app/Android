@@ -2,6 +2,8 @@ package me.ghui.v2er.general;
 
 import android.app.Application;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import androidx.annotation.Nullable;
 
 import com.flurry.android.FlurryAgent;
@@ -12,6 +14,8 @@ import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+
+import java.util.Calendar;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import me.ghui.v2er.BuildConfig;
@@ -32,6 +36,7 @@ public class App extends Application {
     private static App sInstance;
     private AppComponent mAppComponent;
     private IWXAPI mWechat;
+    public int unReadMsgCount = 0;
 
     public static App get() {
         return sInstance;
