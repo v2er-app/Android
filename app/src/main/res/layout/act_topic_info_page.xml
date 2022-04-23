@@ -20,8 +20,8 @@
         android:contentDescription="@string/acc_reply_button"
         android:scaleType="center"
         android:src="@drawable/ic_reply_topic"
-        android:tint="?attr/icon_tint_color"
         android:visibility="invisible"
+        app:tint="?attr/icon_tint_color"
         app:borderWidth="0dp"
         app:fabCustomSize="45dp"
         app:layout_anchor="@id/base_recyclerview"
@@ -77,7 +77,8 @@
                     android:layout_alignParentEnd="true"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_reply_send"
-                    android:tint="?attr/icon_tint_color" />
+                    app:tint="?attr/icon_tint_color" />
+
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
 

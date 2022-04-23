@@ -114,6 +114,8 @@
                 android:id="@+id/user_info_toobar"
                 style="@style/BaseToolBar"
                 android:background="@android:color/transparent"
+                app:titleTextColor="?attr/icon_tint_color"
+                app:subtitleTextColor="?attr/icon_tint_color"
                 app:layout_collapseMode="pin" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

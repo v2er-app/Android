@@ -1,6 +1,8 @@
 package me.ghui.v2er.module.home;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,8 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
@@ -23,19 +27,25 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationItemView;
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigationrail.NavigationRailView;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.ActivityReloader;
+import me.ghui.v2er.general.App;
 import me.ghui.v2er.helper.BottomNavigationViewHelper;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.network.GeneralError;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.util.UnreadMsgUtils;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -59,7 +69,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             R.id.message_page, R.id.mine_page};
     @BindView(R.id.main_logo)
     ImageView mLogoView;
-    @BindView(R.id.main_bottom_navigation_view)
     BottomNavigationView mBottomNavigationView;
     @BindView(R.id.viewpager_main)
     ViewPager mViewPager;
@@ -69,6 +78,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
     ViewGroup mMainContainer;
     @BindView(R.id.main_appbar)
     AppBarLayout mAppBarLayout;
+    DrawerLayout mainDrawerLayout;
+    NavigationRailView mainNavigationRailView;
 
     private NewsFragment mNewsFragment;
     private MsgFragment mMsgFragment;
@@ -147,6 +158,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
                 mLogoView.setVisibility(View.GONE);
                 mToolbar.setTitle(titles[position]);
                 mToolbar.setTileCenter(true);
+                mToolbar.setTitleTextColor(Theme.getColor(R.attr.icon_tint_color, getContext()));
                 break;
         }
     }
@@ -175,32 +187,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
         }
     }
 
-    @Override
-    protected void init() {
-        isAlive = true;
+    private void initBottomNavigationView() {
+        mBottomNavigationView = findViewById(R.id.main_bottom_navigation_view);
         BottomNavigationViewHelper.setImageSize(mBottomNavigationView,
                 getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size),
                 getResources().getDimensionPixelSize(R.dimen.bottom_navigation_view_icon_small_size));
-        mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                mBottomNavigationView.setSelectedItemId(bottomNavigationViewItemIds[position]);
-                changeTitle(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
         mBottomNavigationView.setOnNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
                 case R.id.feed_page:
@@ -220,7 +211,91 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
             }
             return true;
         });
+    }
 
+    private void initLeftNavigationView() {
+        mainNavigationRailView = findViewById(R.id.mainNavigationRailView);
+        mainNavigationRailView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.feed_page:
+                    mViewPager.setCurrentItem(0);
+                    break;
+                case R.id.explore_page:
+                    mViewPager.setCurrentItem(1);
+                    break;
+                case R.id.message_page:
+                    mViewPager.setCurrentItem(2);
+                    break;
+                case R.id.mine_page:
+                    mViewPager.setCurrentItem(3);
+                    break;
+                default:
+                    return false;
+            }
+            return true;
+        });
+    }
+
+    private void initNavigationView() {
+        int screenOrientation = getResources().getConfiguration().orientation;
+        switch (screenOrientation) {
+            case Configuration.ORIENTATION_LANDSCAPE: {
+                initLeftNavigationView();
+                break;
+            }
+            case Configuration.ORIENTATION_PORTRAIT: {
+                initBottomNavigationView();
+                break;
+            }
+            case Configuration.ORIENTATION_SQUARE:
+            case Configuration.ORIENTATION_UNDEFINED:
+                break;
+        }
+    }
+
+    private void showUnReadMsg() {
+        int screenOrientation = getResources().getConfiguration().orientation;
+        if (App.get().unReadMsgCount > 0) {
+            if (screenOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                BottomNavigationViewHelper.showBadgeView(this, mBottomNavigationView,
+                        2, App.get().unReadMsgCount);
+            } else {
+                BottomNavigationViewHelper.showBadgeView(this, mainNavigationRailView,
+                        2, App.get().unReadMsgCount);
+            }
+        }
+    }
+
+    @Override
+    protected void init() {
+        isAlive = true;
+        mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int screenOrientation = getResources().getConfiguration().orientation;
+                if (screenOrientation == Configuration.ORIENTATION_PORTRAIT) {
+                    mBottomNavigationView.setSelectedItemId(bottomNavigationViewItemIds[position]);
+                } else {
+                    mainNavigationRailView.setSelectedItemId(bottomNavigationViewItemIds[position]);
+                }
+                changeTitle(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        initNavigationView();
+        showUnReadMsg();
         isAppbarExpanded = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
         initCheckIn();
     }
@@ -247,12 +322,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void updateUnReadMsg(int position, int count) {
-        if (count <= 0) {//hide
-            BottomNavigationViewHelper.hideMsg(this, mBottomNavigationView, 2);
-        } else {
-            BottomNavigationViewHelper.showBadgeView(this, mBottomNavigationView,
-                    2, count);
-        }
+        App.get().unReadMsgCount = count;
+        showUnReadMsg();
     }
 
     @Override
