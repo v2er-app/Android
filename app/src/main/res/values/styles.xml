@@ -52,11 +52,10 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
-    <style name="ThemeOverlay.AppTheme.TextInputEditText.FilledBox" parent="">
+    <style name="MaterialComponents.TextInputLayout.FilledBox" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="boxBackgroundMode">none</item>
+        <item name="hintTextColor">?attr/bodyTextColor</item>
         <item name="android:textColorHint">?attr/bodyTextColor</item>
-        <item name="android:textColor">?attr/bodyTextColor</item>
-        <item name="background">?attr/page_bg_color</item>
-        <item name="elevation">0dp</item>
     </style>
 
     <style name="topicEditText">
@@ -81,7 +80,6 @@
         <item name="android:paddingBottom">-2dp</item>
         <item name="android:inputType">textNoSuggestions</item>
     </style>
-
 
     <style name="NormalBtn">
         <item name="android:background">@drawable/default_submit_btn_selector</item>

@@ -10,12 +10,7 @@
         android:id="@+id/create_topic_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
-        android:theme="@style/ThemeOverlay.AppTheme.TextInputEditText.FilledBox"
-        app:hintTextColor="?attr/hintTextColor"
-        app:boxBackgroundColor="?attr/page_bg_color"
-        app:boxStrokeColor="?attr/hintTextColor"
-        app:colorControlActivated="?attr/bodyTextColor"
+        style="@style/MaterialComponents.TextInputLayout.FilledBox"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -27,8 +22,7 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:maxLines="1"
-            android:textColor="?attr/bodyTextColor"
-            android:textColorHint="?attr/bodyTextColor"/>
+            android:textColor="?attr/bodyTextColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
