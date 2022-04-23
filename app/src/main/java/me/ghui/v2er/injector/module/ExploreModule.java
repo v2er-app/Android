@@ -2,6 +2,7 @@ package me.ghui.v2er.injector.module;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,10 +23,13 @@ import me.ghui.v2er.module.home.ExploreContract;
 import me.ghui.v2er.module.home.ExploreFragment;
 import me.ghui.v2er.module.home.ExplorePresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
+import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.network.bean.ExplorePageInfo;
+import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.NodesNavInfo;
+import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.NavNodesWrapper;
 
@@ -79,7 +83,19 @@ public class ExploreModule {
                                 DailyHotInfo.Item.Member member = item.getMember();
                                 UserHomeActivity.open(member.getUserName(), mContext, holder.getImgView(R.id.avatar_img), member.getAvatar());
                             },
-                            R.id.avatar_img, R.id.user_name_tv, R.id.common_list_item_root_layout);
+                            R.id.avatar_img, R.id.user_name_tv);
+
+                    holder.setOnClickListener(v -> {
+                        View shareView = holder.getView(R.id.avatar_img);
+                        TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getMember().getAvatar())
+                                .author(item.getMember().getUserName())
+                                .tag(item.getNode().getTitle())
+                                .tagLink(item.getNode().getUrl().substring(item.getNode().getUrl().indexOf("/go")))
+                                .commentNum(item.getReplies())
+                                .build();
+                        TopicActivity.open(item.getUrl(),
+                                weakContext.get(), shareView, basicInfo);
+                            }, R.id.common_list_item_root_layout);
 
                     holder.setOnClickListener(v ->
                                     NodeTopicActivity.open(item.getNode().getUrl(), mContext),
