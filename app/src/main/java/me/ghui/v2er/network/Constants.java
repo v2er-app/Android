@@ -9,5 +9,6 @@ public interface Constants {
     String HTTP_SCHEME = "http:";
     String BASE_URL = HTTPS_SCHEME + "//www.v2ex.com";
     String HOST_NAME = "v2ex.com";
+    String WWW_HOST_NAME = "www.v2ex.com";
     String PACKAGE_NAME = "me.ghui.v2ex";
 }
