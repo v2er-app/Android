@@ -1,11 +1,14 @@
 package me.ghui.v2er.network;
 
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -18,6 +21,7 @@ import me.ghui.retrofit.converter.annotations.Json;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.L;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -120,6 +124,26 @@ public class APIService {
                         .build();
             }
             try {
+                if (request.url().host().startsWith(".")) {
+                    try {
+                        HttpUrl.Builder httpUrlBuilder = request.url().newBuilder()
+                                .host(Constants.WWW_HOST_NAME)
+                                .setEncodedPathSegment(0, "t");
+                        List<String> encodedPathSegments = request.url().encodedPathSegments();
+                        for (int i = 0; i < request.url().encodedPathSegments().size(); i++) {
+                            if (i < encodedPathSegments.size() - 1) {
+                                httpUrlBuilder.setEncodedPathSegment(i + 1, encodedPathSegments.get(i));
+                            } else {
+                                httpUrlBuilder.addEncodedPathSegment(encodedPathSegments.get(i));
+                            }
+                        }
+                        request = request.newBuilder()
+                                .url(httpUrlBuilder.build())
+                                .build();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 return chain.proceed(request);
             } catch (Exception e) {
                 e.printStackTrace();
