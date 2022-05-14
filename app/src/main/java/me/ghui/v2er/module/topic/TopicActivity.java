@@ -224,9 +224,6 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         mFadeItem = menu.findItem(R.id.action_fade);
         mStickyItem = menu.findItem(R.id.action_sticky);
         mReportMenuItem = menu.findItem(R.id.action_report);
-        MenuItem replyMenuItem = menu.findItem(R.id.action_reply);
-        mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
-        replyMenuItem.setVisible(mIsHideReplyBtn);
         scanOrderMenuItem = menu.findItem(R.id.action_scan_order);
         scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
     }
@@ -407,6 +404,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         setFirstLoadingDelay(300);
         shareElementAnimation();
 //        mReplyFabBtn.setVisibility(!mIsLogin || mIsHideReplyBtn ? View.GONE : VISIBLE);
+        mIsHideReplyBtn = Pref.readBool(R.string.pref_key_hide_reply_btn);
         if (!mIsLogin || mIsHideReplyBtn) {
             mReplyFabBtn.hide();
         } else mReplyFabBtn.show();
