@@ -41,7 +41,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIService {
-    public static final String WAP_USER_AGENT = "Mozilla/5.0 (Linux; Android 9.0; V2er Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36";
+
+    public static final String WAP_Android_USER_AGENT = "Mozilla/5.0 (Linux; Android 9.0; V2er Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36";
+
+    public static final String WAP_IOS_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1";
     public static final String WEB_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4; V2er) " +
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
     public static final String UA_KEY = "user-agent";
@@ -120,7 +123,7 @@ public class APIService {
             String ua = request.header(UA_KEY);
             if (Check.isEmpty(ua)) {
                 request = request.newBuilder()
-                        .addHeader("user-agent", WAP_USER_AGENT)
+                        .addHeader("user-agent", WAP_Android_USER_AGENT)
                         .build();
             }
             try {
