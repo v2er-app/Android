@@ -126,6 +126,12 @@ public class APIService {
                         .addHeader("user-agent", WAP_Android_USER_AGENT)
                         .build();
             }
+            if (request.url().toString().endsWith("png")) {
+                request = request.newBuilder()
+                        .removeHeader("user-agent")
+                        .addHeader("user-agent", WAP_Android_USER_AGENT)
+                        .build();
+            }
             try {
                 if (request.url().host().startsWith(".")) {
                     try {
