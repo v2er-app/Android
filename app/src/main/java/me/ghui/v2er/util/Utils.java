@@ -487,5 +487,15 @@ public class Utils {
         return src.replaceAll("\\D+","");
     }
 
+    public static String cfDecodeEmail(final String encodedString) {
+        final StringBuilder email = new StringBuilder(50);
+        final int r = Integer.parseInt(encodedString.substring(0, 2), 16);
+        for (int n = 2; n < encodedString.length(); n += 2) {
+            final int i = Integer.parseInt(encodedString.substring(n, n + 2), 16) ^ r;
+            email.append((char) i);
+        }
+        return email.toString();
+    }
+
 }
 

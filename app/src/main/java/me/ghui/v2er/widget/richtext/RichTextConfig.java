@@ -5,10 +5,16 @@ import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.widget.TextView;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
 import me.ghui.v2er.general.Vtml;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
 import me.ghui.v2er.network.APIService;
 import me.ghui.v2er.util.ScaleUtils;
+import me.ghui.v2er.util.Utils;
 
 
 /**
@@ -77,13 +83,31 @@ public class RichTextConfig {
         return this;
     }
 
+    private Document parseCfEmail(String sourceText) {
+        Document sourceDocument = Jsoup.parseBodyFragment(sourceText);
+        Elements cfElements = sourceDocument.select("a");
+        for (Element cfElement : cfElements) {
+            String cfEmail = cfElement.attr("data-cfemail");
+            String cfHref = cfElement.attr("href");
+            System.out.println(cfEmail);
+            if (!cfEmail.isEmpty()) {
+                String email = Utils.cfDecodeEmail(cfEmail.replaceAll("\"", ""));
+                cfElement.text(email);
+                cfElement.removeAttr("data-cfemail");
+                cfElement.attr("href", "mailto:"+email);
+            }
+//            System.out.println(cfElement);
+        }
+        return sourceDocument;
+    }
+
     public void into(TextView textView) {
         if (!noImg && mImageGetter == null) {
             mImageHolder = new ImageHolder(textView, maxSize, mLoadingDrawable, mLoaderrorDrawable);
             mImageGetter = new GlideImageGetter(textView, mImageHolder);
         }
         if (sourceText == null) sourceText = "";
-        SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(sourceText, mImageGetter, mTagHandler);
+        SpannableStringBuilder spanned = (SpannableStringBuilder) Html.fromHtml(parseCfEmail(sourceText).toString(), mImageGetter, mTagHandler);
         CharSequence content = Vtml.removePadding(spanned);
         textView.setText(content);
         ImagesInfo.Images images = APIService.fruit().fromHtml(sourceText, ImagesInfo.Images.class);
