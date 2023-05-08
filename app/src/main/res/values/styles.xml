@@ -18,6 +18,15 @@
         <item name="android:textColor">?attr/hintTextColor</item>
     </style>
 
+    <style name="BodyTextButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">?attr/bodyTextColor</item>
+        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:lineSpacingMultiplier">1.20</item>
+    </style>
+
     <style name="BodyText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -43,6 +52,12 @@
         <item name="android:textColorHint">?attr/hintTextColor</item>
     </style>
 
+    <style name="MaterialComponents.TextInputLayout.FilledBox" parent="Base.Widget.MaterialComponents.TextInputLayout">
+        <item name="boxBackgroundMode">none</item>
+        <item name="hintTextColor">?attr/bodyTextColor</item>
+        <item name="android:textColorHint">?attr/bodyTextColor</item>
+    </style>
+
     <style name="topicEditText">
         <item name="android:paddingHorizontal">4dp</item>
         <item name="android:paddingVertical">8dp</item>
@@ -65,7 +80,6 @@
         <item name="android:paddingBottom">-2dp</item>
         <item name="android:inputType">textNoSuggestions</item>
     </style>
-
 
     <style name="NormalBtn">
         <item name="android:background">@drawable/default_submit_btn_selector</item>
@@ -100,7 +114,7 @@
         <item name="android:tint">@color/white</item>
     </style>
 
-    <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat">
+    <style name="ToolBar.ThemeOverlay" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:colorBackground">?attr/page_bg_color</item>
         <item name="android:textColorPrimary">?attr/bodyTextColor</item>
     </style>

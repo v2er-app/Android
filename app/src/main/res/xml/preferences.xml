@@ -114,6 +114,10 @@
             android:summary="\v2er_app"
             android:title="Telegram Group" />
         <Preference
+            android:key="@string/pref_key_help_and_feedback"
+            android:layout="@layout/preference_item"
+            android:title="@string/help_and_feedback" />
+        <Preference
             android:key="@string/pref_key_check_update"
             android:layout="@layout/preference_item"
             android:title="检查更新" />

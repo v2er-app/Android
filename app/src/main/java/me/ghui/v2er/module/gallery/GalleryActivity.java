@@ -37,12 +37,12 @@ import me.ghui.v2er.widget.BaseToolBar;
  * Created by ghui on 22/10/2017.
  */
 
-public class GalleryActivity extends BaseActivity implements SwipeToDismissTouchListener.Callback, Toolbar.OnMenuItemClickListener {
+public class GalleryActivity extends BaseActivity implements SwipeToDismissTouchListener.Callback {
     public static final String EXTRA_IMG_DATA = Utils.KEY("extra_img_data");
     @BindView(R.id.gallery_viewpager)
     ViewPager mViewPager;
     @BindView(R.id.gallery_toolbar)
-    Toolbar mToolBar;
+    BaseToolBar mToolBar;
     @BindView(R.id.indicator_tv)
     TextView mIndicatorTv;
     private ImagesInfo mData;
@@ -86,10 +86,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     protected void init() {
-        Utils.setPaddingForStatusBar(mToolBar);
-        mToolBar.inflateMenu(R.menu.gallery_toolbar_menu);
-        mToolBar.setOverflowIcon(getDrawable(R.drawable.ic_more_vert_white));
-        mToolBar.setOnMenuItemClickListener(this);
+        mToolBar.displayHomeAsUpButton(this);
         mToolBar.setNavigationOnClickListener(v -> GalleryActivity.this.onBackPressed());
 
         mData = (ImagesInfo) getIntent().getSerializableExtra(EXTRA_IMG_DATA);
@@ -165,7 +162,12 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     }
 
     @Override
-    public boolean onMenuItemClick(MenuItem item) {
+    public int attachOptionsMenuRes() {
+        return R.menu.gallery_toolbar_menu;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_in_browser:
                 Utils.openInBrowser(getCurrentImage(), this);

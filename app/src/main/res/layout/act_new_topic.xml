@@ -10,8 +10,11 @@
         android:id="@+id/create_topic_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="标题"
-        android:textColorHint="?attr/icon_tint_color">
+        style="@style/MaterialComponents.TextInputLayout.FilledBox"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:hint="标题">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/create_topic_title_et"
@@ -43,7 +46,7 @@
             android:alpha="0.6"
             android:paddingRight="2dp"
             android:src="@drawable/ic_node"
-            android:tint="?attr/icon_tint_color" />
+            app:tint="?attr/icon_tint_color" />
 
         <TextView
             android:id="@+id/create_topic_node_tv"

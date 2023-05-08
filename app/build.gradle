@@ -2,16 +2,19 @@ apply plugin: 'com.android.application'
 //apply plugin: "com.flurry.android.symbols"
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 30
+        targetSdkVersion 33
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [
+                APPLICATION_ID: applicationId
+        ]
     }
     signingConfigs {
         release {
@@ -58,6 +61,7 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
@@ -72,6 +76,7 @@ dependencies {
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'com.google.android:flexbox:0.2.6'
+    implementation "com.google.android.material:material:1.4.0"
     implementation "androidx.annotation:annotation:1.2.0"
     // 3rd part Dependencies...
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'

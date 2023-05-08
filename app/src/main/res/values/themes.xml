@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Base application theme. -->
-    <style name="BaseApp.Theme" parent="Theme.AppCompat.Light.NoActionBar">
-<!--        <item name="android:windowAnimationStyle">@style/AppActAnimation</item>-->
-<!--        <item name="android:windowContentTransitions">true</item>-->
-<!--        <item name="android:windowReturnTransition">@android:transition/fade</item>-->
+    <style name="BaseApp.Theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@color/transparent</item>
         <item name="android:windowTranslucentNavigation">true</item>
+        <item name="android:navigationBarColor">?attr/page_bg_color</item>
     </style>
 
     <style name="DayTheme" parent="BaseApp.Theme">
@@ -38,6 +36,8 @@
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#FFFAFAFA</item>
         <item name="android:autofilledHighlight">@color/autofill_color</item>
+        <item name="selected_color">@color/black</item>
+        <item name="unselected_color">#3B3A3A</item>
     </style>
 
     <style name="NightTheme" parent="BaseApp.Theme">
@@ -68,6 +68,8 @@
         <item name="android:listDivider">?attr/divider_color</item>
         <item name="dialog_bg_color">#1d1d1b</item>
         <item name="android:autofilledHighlight">@color/autofill_color_night</item>
+        <item name="selected_color">#F6F6F6</item>
+        <item name="unselected_color">#A4A5A7</item>
     </style>
 
     <style name="GalleryTheme" parent="NightTheme">

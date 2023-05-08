@@ -96,10 +96,12 @@ public interface APIs {
 
     @Html
     @GET("/my/following")
+    @Headers("user-agent: " + APIService.WAP_IOS_USER_AGENT)
     Observable<CareInfo> specialCareInfo(@Query("p") int page);
 
     @Html
     @GET("/my/topics")
+    @Headers("user-agent: " + APIService.WAP_IOS_USER_AGENT)
     Observable<TopicStarInfo> topicStarInfo(@Query("p") int page);
 
     @Html

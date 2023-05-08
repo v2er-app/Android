@@ -10,6 +10,8 @@
         style="@style/BaseToolBar"
         android:layout_height="@dimen/toolbar_size"
         android:background="@android:color/transparent"
+        app:titleTextColor="?attr/icon_tint_color"
+        app:subtitleTextColor="?attr/icon_tint_color"
         app:elevation="2dp"
         app:navigationIcon="@null"
         app:title="选择节点" />

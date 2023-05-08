@@ -2,16 +2,19 @@ package me.ghui.v2er.module.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.CallSuper;
 import androidx.annotation.ColorInt;
 import androidx.annotation.LayoutRes;
+import androidx.annotation.MenuRes;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.google.android.material.appbar.AppBarLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +23,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.r0adkll.slidr.model.SlidrInterface;
 import com.trello.rxlifecycle2.LifecycleTransformer;
@@ -32,6 +39,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Field;
 import java.util.Stack;
 
 import javax.inject.Inject;
@@ -87,7 +95,7 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @Nullable
     protected SlidrInterface mSlidrInterface;
     protected DayNightModeEvent mDayNightModeEvent;
-
+    private boolean displayStatusBarArea = true;
 
     protected static String KEY(String key) {
         return Utils.KEY(key);
@@ -105,6 +113,16 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     @LayoutRes
     protected abstract int attachLayoutRes();
 
+
+    /**
+     * 显示状态栏区域
+     * 在attachToolbar调用，或者之前
+     * @param displayStatusBarArea
+     */
+    public void displayStatusBarArea(boolean displayStatusBarArea) {
+        this.displayStatusBarArea = displayStatusBarArea;
+    }
+
     /**
      * Set a default Toolbar, if you don't want certain page to have a toolbar,
      * just return null;
@@ -115,7 +133,14 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
     protected BaseToolBar attachToolbar() {
         int layoutId = attachToolBar() == 0 ? R.layout.appbar_wrapper_toolbar : attachToolBar();
         mToolbarWrapper = (AppBarLayout) getLayoutInflater().inflate(layoutId, null);
-        return (BaseToolBar) mToolbarWrapper.findViewById(R.id.inner_toolbar);
+        BaseToolBar baseToolBar = mToolbarWrapper.findViewById(R.id.inner_toolbar);
+        if (baseToolBar != null) {
+            baseToolBar.setTitleTextColor(Theme.getColor(R.attr.icon_tint_color, this));
+            baseToolBar.setSubtitleTextColor(Theme.getColor(R.attr.icon_tint_color, this));
+            return baseToolBar;
+        } else  {
+            return null;
+        }
     }
 
     @LayoutRes
@@ -150,13 +175,33 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
 
     protected void setTitle(String title, String subTitle) {
         if (mToolbar != null) {
-            mToolbar.setTitle(title);
-            mToolbar.setSubtitle(subTitle);
+            mToolbar.setTitle(title, subTitle);
         }
     }
 
     protected void setTitle(String title) {
         setTitle(title, null);
+    }
+
+    public @MenuRes int attachOptionsMenuRes() {
+        return 0;
+    }
+
+    /**
+     * 配置右侧可选菜单
+     * @param menu
+     */
+    public void configOptionsMenu(Menu menu) {
+
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (attachOptionsMenuRes() != 0) {
+            getMenuInflater().inflate(attachOptionsMenuRes(), menu);
+            configOptionsMenu(menu);
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     /**
@@ -343,6 +388,26 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         }
     }
 
+    /**
+     * 查找Appbar
+     * @param viewGroup
+     */
+    private void findAppbar(ViewGroup viewGroup) {
+        if (viewGroup instanceof BaseToolBar) {
+            mToolbar = (BaseToolBar) viewGroup;
+        } else {
+            int childCount = viewGroup.getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                View childView = viewGroup.getChildAt(i);
+                if (childView instanceof ViewGroup) {
+                    findAppbar((ViewGroup) childView);
+                } else {
+                    continue;
+                }
+            }
+        }
+    }
+
     protected ViewGroup onCreateRootView() {
         if ((mToolbar = attachToolbar()) != null) {
             LinearLayout rootView = new LinearLayout(this);
@@ -377,6 +442,15 @@ public abstract class BaseActivity<T extends BaseContract.IPresenter> extends Rx
         mRootView.setId(R.id.act_root_view_framelayout);
         mRootView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         mRootView.addView(mContentView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        if (displayStatusBarArea) {
+            mRootView.setFitsSystemWindows(true);
+        } else {
+            mRootView.setFitsSystemWindows(false);
+            findAppbar(mRootView);
+            if (mToolbar != null) {
+                Utils.setPaddingForStatusBar(mToolbar);
+            }
+        }
         mRootView.setBackgroundColor(pageColor());
         return mRootView;
     }

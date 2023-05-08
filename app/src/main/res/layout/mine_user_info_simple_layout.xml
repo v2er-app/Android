@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mine_root_layout"
+    android:background="?attr/page_bg_color"
+    android:paddingVertical="16dp"
+    android:foreground="?android:attr/selectableItemBackgroundBorderless"
+    android:paddingHorizontal="8dp">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/mine_avatar_img"
+        style="@style/AvatarImg"
+        android:layout_width="@dimen/medium_avatar_size"
+        android:layout_height="@dimen/medium_avatar_size"
+        android:src="@drawable/default_avatar_drawable"
+        android:layout_centerVertical="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:civ_border_color="#507a7a7a"
+        app:civ_border_width="0.6dp" />
+
+    <Button
+        android:id="@+id/mine_username_button"
+        style="@style/BodyTextButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:maxLines="1"
+        android:minWidth="@dimen/medium_avatar_size"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:text="@string/please_login_first"
+        android:textAllCaps="false"
+        android:textColor="?attr/icon_tint_color"
+        android:textSize="@dimen/extralargeTextSize"
+        android:transitionName="@string/share_element_username"
+        app:layout_constraintStart_toEndOf="@+id/mine_avatar_img"
+        app:layout_constraintTop_toTopOf="@id/mine_avatar_img"
+        app:layout_constraintBottom_toTopOf="@+id/mine_check_in_progress_btn"/>
+
+    <me.ghui.v2er.widget.FollowProgressBtn
+        android:id="@+id/mine_check_in_progress_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/accent_capsula_drawable"
+        android:visibility="invisible"
+        app:initIcon="@drawable/progress_button_checkin_icon"
+        app:initText="@string/check_in"
+        app:tintColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/mine_username_button"
+        app:layout_constraintBottom_toBottomOf="@+id/mine_avatar_img"
+        app:layout_constraintStart_toStartOf="@+id/mine_username_button"
+        app:layout_constraintEnd_toEndOf="@+id/mine_username_button"
+        />
+
+    <Button
+        android:id="@+id/mine_user_info_page_button"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:gravity="center"
+        android:maxLines="1"
+        android:minWidth="@dimen/medium_avatar_size"
+        android:text="@string/user_info_page"
+        android:textSize="14sp"
+        android:textColor="?attr/icon_tint_color"
+        android:drawableEnd="@drawable/ic_arrow_right"
+        android:drawableTint="?attr/icon_tint_color"
+        android:drawablePadding="10dp"
+        android:contentDescription="@string/user_info_page"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,11 +7,13 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?android:attr/selectableItemBackgroundBorderless"
-    android:padding="12dp">
+    android:padding="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar_img"
         style="@style/AvatarImg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="@dimen/common_avatar_size"
         android:layout_height="@dimen/common_avatar_size" />
 
@@ -23,6 +25,8 @@
         android:lines="2"
         android:maxLines="2"
         android:paddingLeft="8dp"
+        app:layout_constraintTop_toTopOf="@+id/avatar_img"
+        app:layout_constraintBottom_toBottomOf="@+id/avatar_img"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/avatar_img"
         tools:text="aliuwr 感谢了你在主题 › 推荐个 V2EX 的非官方安卓客户端呗！！！ 里的回复" />

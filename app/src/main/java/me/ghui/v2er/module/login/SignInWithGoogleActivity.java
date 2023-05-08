@@ -40,7 +40,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     @Override
     protected void configWebView(WebSettings settings) {
         super.configWebView(settings);
-        settings.setUserAgentString(APIService.WAP_USER_AGENT);
+        settings.setUserAgentString(APIService.WAP_Android_USER_AGENT);
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
@@ -63,7 +63,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     protected boolean checkIntercept(String currentUrl) {
         L.d("url: " + currentUrl);
         if (currentUrl.startsWith(Constants.BASE_URL + "/mission/daily")) {
-            mWebView.getSettings().setUserAgentString(APIService.WAP_USER_AGENT);
+            mWebView.getSettings().setUserAgentString(APIService.WAP_Android_USER_AGENT);
             doGetUserInfo();
             return true;
         }

@@ -1,11 +1,14 @@
 package me.ghui.v2er.network;
 
+import android.util.Log;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -18,6 +21,7 @@ import me.ghui.retrofit.converter.annotations.Json;
 import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.util.L;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -37,7 +41,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class APIService {
-    public static final String WAP_USER_AGENT = "Mozilla/5.0 (Linux; Android 9.0; V2er Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36";
+
+    public static final String WAP_Android_USER_AGENT = "Mozilla/5.0 (Linux; Android 9.0; V2er Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/81.0.4044.138 Mobile Safari/537.36";
+
+    public static final String WAP_IOS_USER_AGENT = "Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1";
     public static final String WEB_USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4; V2er) " +
             "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36";
     public static final String UA_KEY = "user-agent";
@@ -116,10 +123,36 @@ public class APIService {
             String ua = request.header(UA_KEY);
             if (Check.isEmpty(ua)) {
                 request = request.newBuilder()
-                        .addHeader("user-agent", WAP_USER_AGENT)
+                        .addHeader("user-agent", WAP_Android_USER_AGENT)
+                        .build();
+            }
+            if (request.url().toString().endsWith("png")) {
+                request = request.newBuilder()
+                        .removeHeader("user-agent")
+                        .addHeader("user-agent", WAP_Android_USER_AGENT)
                         .build();
             }
             try {
+                if (request.url().host().startsWith(".")) {
+                    try {
+                        HttpUrl.Builder httpUrlBuilder = request.url().newBuilder()
+                                .host(Constants.WWW_HOST_NAME)
+                                .setEncodedPathSegment(0, "t");
+                        List<String> encodedPathSegments = request.url().encodedPathSegments();
+                        for (int i = 0; i < request.url().encodedPathSegments().size(); i++) {
+                            if (i < encodedPathSegments.size() - 1) {
+                                httpUrlBuilder.setEncodedPathSegment(i + 1, encodedPathSegments.get(i));
+                            } else {
+                                httpUrlBuilder.addEncodedPathSegment(encodedPathSegments.get(i));
+                            }
+                        }
+                        request = request.newBuilder()
+                                .url(httpUrlBuilder.build())
+                                .build();
+                    }catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
                 return chain.proceed(request);
             } catch (Exception e) {
                 e.printStackTrace();
