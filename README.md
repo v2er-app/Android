@@ -36,5 +36,7 @@ You could download it from [Google Play](https://play.google.com/store/apps/deta
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
+For details please visit [insights](https://github.com/v2er-app/Android/graphs/contributors)
+
 # Licensing
 The source code is licensed under GPL. License is available [here](./LICENSE).
