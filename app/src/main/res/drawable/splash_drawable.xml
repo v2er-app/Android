@@ -2,13 +2,9 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="rectangle">
-            <solid android:color="#FF111214" />
+            <solid android:color="@color/splash_bg" />
         </shape>
     </item>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash_logo"
-            android:tint="#CAC8C8" />
-    </item>
+    <item android:gravity="center"
+        android:drawable="@drawable/logo_svg"/>
 </layer-list>
