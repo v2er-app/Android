@@ -18,6 +18,7 @@
             <me.ghui.v2er.widget.BaseToolBar
                 android:id="@+id/main_toolbar"
                 style="@style/BaseToolBar"
+                android:paddingTop="12dp"
                 android:layout_height="wrap_content"
                 app:layout_scrollFlags="scroll|enterAlways">
 
