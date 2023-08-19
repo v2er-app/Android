@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 //apply plugin: "com.flurry.android.symbols"
 
 android {
-    compileSdkVersion 33
+    compileSdk 34
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -43,16 +43,17 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
     packagingOptions {
-        exclude 'META-INF/rxjava.properties'
+        resources {
+            excludes += ['META-INF/rxjava.properties']
+        }
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
+
+    namespace 'me.ghui.v2er'
+    lint {
         abortOnError false
+        checkReleaseBuilds false
     }
 }
 
