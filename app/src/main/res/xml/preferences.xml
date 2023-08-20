@@ -99,24 +99,20 @@
         android:layout="@layout/preference_category_widget"
         android:title="其它">
         <Preference
-            android:key="@string/pref_key_open_source"
-            android:layout="@layout/preference_item"
-            android:summary="https://github.com/v2er-app"
-            android:title="开放源码" />
-        <Preference
             android:key="@string/pref_key_v2er_app"
             android:layout="@layout/preference_item"
             android:summary="https://v2er.app"
             android:title="v2er.app" />
         <Preference
+            android:key="@string/pref_key_contact_me_twitter"
+            android:layout="@layout/preference_item"
+            android:summary="\@gray_create"
+            android:title="Twitter" />
+        <Preference
             android:key="@string/pref_key_contact_me_tg"
             android:layout="@layout/preference_item"
             android:summary="\v2er_app"
             android:title="Telegram Group" />
-        <Preference
-            android:key="@string/pref_key_check_update"
-            android:layout="@layout/preference_item"
-            android:title="检查更新" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"

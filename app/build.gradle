@@ -2,11 +2,11 @@ apply plugin: 'com.android.application'
 //apply plugin: "com.flurry.android.symbols"
 
 android {
-    compileSdk 34
+    compileSdk 33
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 34
+        targetSdkVersion 33
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'

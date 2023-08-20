@@ -116,3 +116,5 @@
     <init>(java.lang.Throwable);
 }
 ## END
+
+-dontwarn android.content.IContentProvider

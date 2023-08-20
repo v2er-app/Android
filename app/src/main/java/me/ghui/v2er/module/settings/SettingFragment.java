@@ -50,9 +50,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         cachePref = findPreference(getString(R.string.pref_key_clear_cache));
         cachePref.setOnPreferenceClickListener(this);
         cachePref.setSummary(String.format(getString(R.string.cache_summary) + "（共%s）", GlideCatchUtil.getCacheSize()));
-        Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
-        updatePrefItem.setOnPreferenceClickListener(this);
-        updatePrefItem.setSummary("Version " + Utils.getVersionName());
+//        Preference updatePrefItem = findPreference(getString(R.string.pref_key_check_update));
+//        updatePrefItem.setOnPreferenceClickListener(this);
+//        updatePrefItem.setSummary("Version " + Utils.getVersionName());
         loginPreference = findPreference(getString(R.string.pref_key_value_toggle_log));
         loginPreference.setOnPreferenceClickListener(this);
         loginPreference.setTitle(UserUtils.isLogin() ? R.string.logout_str : R.string.login_str);
@@ -62,7 +62,8 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_v2er_app)).setOnPreferenceClickListener(this::onPreferenceClick);
         findPreference(getString(R.string.pref_key_auto_dark_mode_settings)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact_me_tg)).setOnPreferenceClickListener(this);
-        findPreference(getString(R.string.pref_key_open_source)).setOnPreferenceClickListener(this);
+        findPreference(getString(R.string.pref_key_contact_me_twitter)).setOnPreferenceClickListener(this);
+//        findPreference(getString(R.string.pref_key_open_source)).setOnPreferenceClickListener(this);
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
         fontItem.setSummary(fontItem.getValue());
         fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
