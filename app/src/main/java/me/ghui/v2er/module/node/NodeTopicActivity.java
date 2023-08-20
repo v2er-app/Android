@@ -27,7 +27,6 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.BlurTransformation;
-import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -435,9 +434,6 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     public void onItemClick(View view, ViewHolder holder, int position) {
         NodeTopicInfo.Item item = mAdapter.getItem(position);
         if (item == null) {
-            Flurry.capture("NodeTopicInfo.Item is null: postion: " + position
-                    + ", mAdapter.size: " + mAdapter.getItemCount()
-                    + ", nodeName: " + mTagName);
             return;
         }
         TopicBasicInfo basicInfo = new TopicBasicInfo.Builder(item.getTitle(), item.getAvatar())

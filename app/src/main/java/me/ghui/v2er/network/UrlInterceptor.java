@@ -15,7 +15,6 @@ import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
-import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.UserUtils;
@@ -84,7 +83,6 @@ public class UrlInterceptor {
             try {
                 customTabsIntent.launchUrl(context, Uri.parse(url));
             } catch (ActivityNotFoundException e) {
-                Flurry.capture(e);
                 WapActivity.open(url, context, true);
             }
             return true;

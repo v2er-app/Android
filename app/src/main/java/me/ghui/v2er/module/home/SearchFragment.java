@@ -11,7 +11,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.flurry.android.FlurryAgent;
 
 import javax.inject.Inject;
 
@@ -20,7 +19,6 @@ import butterknife.OnClick;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.util.Check;
-import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -165,8 +163,6 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
             });
             if (mSearchRootView.isAttachedToWindow()) {
                 mSearchRootView.animate().alpha(1f).start();
-            } else {
-                Flurry.capture("mSearchRootView is Detached");
             }
         } else {
             animator = ViewAnimationUtils.createCircularReveal(mCardView,
@@ -188,7 +184,6 @@ public class SearchFragment extends BaseFragment<SearchContract.IPresenter> impl
                         getActivity().getSupportFragmentManager().popBackStack();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        FlurryAgent.logEvent("mCardView is null");
                     }
                 }
             });

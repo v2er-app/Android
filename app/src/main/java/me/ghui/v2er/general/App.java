@@ -1,10 +1,9 @@
 package me.ghui.v2er.general;
 
 import android.app.Application;
-import android.preference.PreferenceManager;
+
 import androidx.annotation.Nullable;
 
-import com.flurry.android.FlurryAgent;
 import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
@@ -15,12 +14,10 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import me.ghui.v2er.BuildConfig;
-import me.ghui.v2er.R;
 import me.ghui.v2er.injector.component.AppComponent;
 import me.ghui.v2er.injector.component.DaggerAppComponent;
 import me.ghui.v2er.injector.module.AppModule;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 
@@ -57,7 +54,6 @@ public class App extends Application {
         RxJavaPlugins.setErrorHandler(e -> {
             L.e("globalHandler: " + e.getMessage());
 //            V2er.capture("globalHandler: " + e.getMessage());
-            Flurry.capture("globalHandler: " + e.getMessage());
         });
     }
 
@@ -77,16 +73,7 @@ public class App extends Application {
     }
 
     private void initThirdPartySDK() {
-        initFlurry();
         initWechat();
-    }
-
-    private void initFlurry() {
-        new FlurryAgent.Builder()
-                .withLogEnabled(BuildConfig.DEBUG)
-                .withCaptureUncaughtExceptions(true)
-                .build(this, "4PZMS4HSZP3YNMBP8W4R");
-        FlurryAgent.setUserId(UserUtils.getUserName());
     }
 
     private void initWechat() {

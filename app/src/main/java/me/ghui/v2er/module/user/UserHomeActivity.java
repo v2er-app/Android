@@ -42,7 +42,6 @@ import me.ghui.v2er.injector.module.UserHomeModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.UserPageInfo;
-import me.ghui.v2er.util.Flurry;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
@@ -149,7 +148,6 @@ public class UserHomeActivity extends BaseActivity<UserHomeContract.IPresenter> 
         mUserName = intent.getStringExtra(USER_NAME_KEY);
         if (Check.isEmpty(mUserName)) {
             Voast.show("要加载的页面用户名为空");
-            Flurry.capture(new Throwable("TEST"));
             finish();
             return;
         }
