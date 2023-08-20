@@ -9,8 +9,6 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import io.reactivex.plugins.RxJavaPlugins;
 import me.ghui.v2er.BuildConfig;
@@ -28,7 +26,6 @@ import me.ghui.v2er.util.UserUtils;
 public class App extends Application {
     private static App sInstance;
     private AppComponent mAppComponent;
-    private IWXAPI mWechat;
 
     public static App get() {
         return sInstance;
@@ -47,7 +44,6 @@ public class App extends Application {
         rxjava();
         initLogger();
         APIService.init();
-        initThirdPartySDK();
     }
 
     private void rxjava() {
@@ -70,19 +66,6 @@ public class App extends Application {
                 return BuildConfig.DEBUG;
             }
         });
-    }
-
-    private void initThirdPartySDK() {
-        initWechat();
-    }
-
-    private void initWechat() {
-        mWechat = WXAPIFactory.createWXAPI(CondomContext.wrap(this, "wechat"), null);
-        mWechat.registerApp("wxdb7f82c706f4516c");
-    }
-
-    public IWXAPI wechat() {
-        return mWechat;
     }
 
     public AppComponent getAppComponent() {

@@ -16,52 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TableRow android:orientation="vertical">
-
+        <TableRow>
             <TextView
                 android:id="@+id/share_item_3"
                 style="@style/ShareItem"
                 android:drawableTop="@drawable/ic_share_telegram"
                 android:text="Telegram" />
-
-            <TextView
-                android:id="@+id/share_item_1"
-                style="@style/ShareItem"
-                android:drawableTop="@drawable/ic_share_wechat_timeline"
-                android:text="朋友圈" />
-
-            <TextView
-                android:id="@+id/share_item_2"
-                style="@style/ShareItem"
-                android:drawableTop="@drawable/ic_share_wechat"
-                android:text="微信好友" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <TextView
-                android:id="@+id/share_item_4"
-                style="@style/ShareItem"
-                android:drawableTop="@drawable/ic_share_weibo"
-                android:text="微博" />
-
-            <TextView
-                android:id="@+id/share_item_5"
-                style="@style/ShareItem"
-                android:drawableTop="@drawable/ic_share_qq"
-                android:text="QQ" />
-
-            <TextView
-                android:id="@+id/share_item_6"
-                style="@style/ShareItem"
-                android:drawableTop="@drawable/ic_share_wx_favorite"
-                android:text="微信收藏" />
-
-
-        </TableRow>
-
-        <TableRow>
 
             <TextView
                 android:id="@+id/share_item_7"
@@ -74,7 +34,8 @@
                 style="@style/ShareItem"
                 android:drawableTop="@drawable/ic_share_copylink"
                 android:text="复制" />
-
+        </TableRow>
+        <TableRow>
             <TextView
                 android:id="@+id/share_item_9"
                 style="@style/ShareItem"
