@@ -60,79 +60,69 @@
         <activity
             android:name=".module.home.MainActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme" />
         <activity
             android:name=".module.drawer.dailyhot.DailyHotActivity"
             android:label="@string/page_daily_hot"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
         <activity
             android:name=".module.shortcuts.DailyHotShortcut"
             android:label="@string/page_daily_hot"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.create.CreateTopicActivity"
             android:label="@string/page_create_topic"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.shortcuts.CreateTopicShortcut"
             android:label="@string/page_create_topic"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme" />
         <activity
             android:name=".module.topic.TopicActivity"
             android:label="话题"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".module.login.LoginActivity"
             android:exported="true"
-            android:label="登录V2EX"
-            android:screenOrientation="portrait" />
+            android:label="登录V2EX" />
         <activity
             android:name=".module.login.TwoStepLoginActivity"
             android:exported="true"
-            android:label="两步验证"
-            android:screenOrientation="portrait" />
+            android:label="两步验证" />
         <activity
             android:name=".module.login.SignInWithGoogleActivity"
             android:label="Sign in With Google"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+            android:exported="true" />
         <activity
             android:name=".module.user.UserHomeActivity"
             android:exported="true"
             android:label="主页"
-            android:screenOrientation="portrait" />
+             />
         <activity
             android:name=".module.drawer.care.SpecialCareActivity"
             android:label="特别关注"
             android:exported="true"
-            android:screenOrientation="portrait" />
+             />
         <activity
             android:name=".module.drawer.star.StarActivity"
             android:label="收藏"
             android:exported="true"
-            android:screenOrientation="portrait" />
+             />
         <activity
             android:name=".module.shortcuts.StarTopicShortcut"
             android:label="收藏"
             android:exported="true"
-            android:screenOrientation="portrait"
             android:theme="@style/NoneSlideBackableTheme" />
         <activity
             android:name=".module.node.NodeTopicActivity"
             android:label="节点"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            />
         <activity
             android:name=".module.general.WapActivity"
             android:exported="true"

@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="rectangle">
-            <solid android:color="#FF111214" />
-        </shape>
-    </item>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/splash_logo"
-            android:tint="#CAC8C8" />
-    </item>
+    <item android:drawable="@color/splash_bg_color" />
+    <item android:drawable="@drawable/logo_svg"
+        android:gravity="center"
+        />
 </layer-list>

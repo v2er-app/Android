@@ -2,6 +2,7 @@ package me.ghui.v2er.util;
 
 
 import android.content.res.Configuration;
+import android.text.TextUtils;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.StringDef;
@@ -83,7 +84,7 @@ public class DarkModelUtils {
 
     public static boolean isAutoModeEnabled() {
         if (!UserUtils.isPro()) return false;
-        return Pref.readBool(R.string.pref_key_auto_dark_mode_switch, false);
+        return Pref.readBool(R.string.pref_key_auto_dark_mode_switch, true);
     }
 
     public static boolean isAutoChangeByTimeEnabled() {
@@ -95,6 +96,7 @@ public class DarkModelUtils {
     public static boolean isAutoChangeBySystemEnabled() {
         if (!isAutoModeEnabled()) return false;
         String currentAutoMode = Pref.read(App.get().getString(R.string.pref_key_auto_dark_mode_way));
+        if (TextUtils.isEmpty(currentAutoMode)) currentAutoMode = FOLLOW_SYSTEM;
         return FOLLOW_SYSTEM.equals(currentAutoMode);
     }
 

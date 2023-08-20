@@ -21,10 +21,17 @@ import me.ghui.v2er.util.DarkModelUtils;
  */
 
 public class RouteActivity extends Activity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initTheme();
+        route();
+        finish();
+    }
 
-
-    protected void initTheme() {
-        switch (DarkModelUtils.getMode()) {
+    private void initTheme() {
+        int dayNightMode = DarkModelUtils.getMode();
+        switch (dayNightMode) {
             case DarkModelUtils.DARK_MODE:
                 setTheme(R.style.NightTheme);
                 break;
@@ -33,24 +40,6 @@ public class RouteActivity extends Activity {
                 setTheme(R.style.DayTheme);
                 break;
         }
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-//        if (DayNightUtil.isNightMode()) {
-//            changeBrightness();
-//        }
-        initTheme();
-        super.onCreate(savedInstanceState);
-        route();
-        finish();
-    }
-
-    private void changeBrightness() {
-        Window window = getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.screenBrightness = 0.3f;
-        window.setAttributes(lp);
     }
 
     private void route() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="splash_bg_color">#FFFFFFFF</color>
-    <color name="splash_logo_color">#FF111214</color>
+    <color name="splash_bg_color">#FF111214</color>
+    <color name="splash_logo_color">#FFFFFFFF</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="colorPrimary">#fff4f4f4</color>
     <color name="colorPrimaryDark">#fff4f4f4</color>
