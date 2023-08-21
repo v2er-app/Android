@@ -30,8 +30,8 @@ android {
 //            signingConfig signingConfigs.release
 //        }
         release {
-            minifyEnabled true
-            shrinkResources true
+            minifyEnabled false // False for fix of a lot crash in release
+//            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             versionNameSuffix rootProject.ext.app.betaSuffix

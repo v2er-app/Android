@@ -118,3 +118,19 @@
 ## END
 
 -dontwarn android.content.IContentProvider
+
+# Retain generic signatures of TypeToken and its subclasses with R8 version 3.0 and higher.
+-keep,allowobfuscation,allowshrinking class me.ghui.fruit.reflect.TypeToken
+-keep,allowobfuscation,allowshrinking class * extends me.ghui.fruit.reflect.TypeToken
+
+-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+-keep,allowobfuscation,allowshrinking class arrow.retrofit.**
+
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+
+# Keep generic signature of RxJava3 (R8 full mode strips signatures from non-kept items).
+ -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Flowable
+ -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Maybe
+ -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Observable
+ -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Single
