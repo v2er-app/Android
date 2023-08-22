@@ -13,6 +13,17 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
+        github {
+            try {
+                storeFile file("../v2er.jks")
+                storePassword "v2er.app"
+                keyAlias "v2er"
+                keyPassword "v2er.app"
+            } catch (ex) {
+                throw ex.printStackTrace()
+            }
+        }
+
         release {
             try {
                 storeFile file("../ghui.jks")
@@ -26,9 +37,10 @@ android {
     }
 
     buildTypes {
-//        debug {
-//            signingConfig signingConfigs.release
-//        }
+        github {
+            signingConfig signingConfigs.github
+        }
+
         release {
             minifyEnabled false // False for fix of a lot crash in release
 //            shrinkResources true
