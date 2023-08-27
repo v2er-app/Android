@@ -55,10 +55,10 @@
         <item name="fab_bg_color">#000000</item>
         <item name="banner_bg_color">#CC000000</item>
         <item name="searchbar_bg_color">#000000</item>
-        <item name="tablayout_selected_color">#FFA4A5A7</item>
-        <item name="tablayout_unselected_color">#555555</item>
+        <item name="tablayout_selected_color">#FFFFFFFF</item>
+        <item name="tablayout_unselected_color">#99FFFFFF</item>
         <item name="tab_menu_bg_color">#151618</item>
-        <item name="icon_tint_color">#A4A5A7</item>
+        <item name="icon_tint_color">#E6FFFFFF</item>
         <item name="android:actionOverflowButtonStyle">@style/ToolbarOverflowStyle</item>
         <item name="android:colorControlNormal">#FFA4A5A7</item>
         <item name="actionMenuTextColor">?attr/icon_tint_color</item>

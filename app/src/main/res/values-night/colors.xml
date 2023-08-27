@@ -10,7 +10,7 @@
     <color name="tag_bg_color">#F5F5F5</color>
     <color name="tag_bg_color_night">#80000000</color>
     <color name="colorAccent">#555555</color>
-    <color name="bodyTextColor">#555555</color>
+    <color name="bodyTextColor">#E6FFFFFF</color>
     <color name="hintTextColor">#a3a1a1</color>
     <color name="white">@android:color/white</color>
     <color name="ripple_color">#d4d4d4</color>
@@ -18,8 +18,8 @@
     <color name="transparent_navbar_color">#66000000</color>
     <color name="default_page_bg">#ffffff</color>
     <color name="night_default_page_bg">#111214</color>
-    <color name="night_bodyTextColor">#7F8082</color>
-    <color name="night_hintTextColor">#A2A2A2</color>
+    <color name="night_bodyTextColor">#E6FFFFFF</color>
+    <color name="night_hintTextColor">#B3B3B3</color>
     <color name="autofill_color">#1A000000</color>
     <color name="autofill_color_night">#1AFFFFFF</color>
 </resources>
