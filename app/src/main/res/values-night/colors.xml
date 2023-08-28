@@ -10,7 +10,6 @@
     <color name="tag_bg_color">#F5F5F5</color>
     <color name="tag_bg_color_night">#80000000</color>
     <color name="colorAccent">#555555</color>
-    <color name="bodyTextColor">#E6FFFFFF</color>
     <color name="hintTextColor">#a3a1a1</color>
     <color name="white">@android:color/white</color>
     <color name="ripple_color">#d4d4d4</color>
