@@ -7,3 +7,6 @@
 /captures
 .externalNativeBuild
 *.icloud
+*.jks
+*.keystore
+*.base64.txt

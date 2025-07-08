@@ -1,0 +1,215 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+permissions:
+  contents: read
+  checks: write
+  pull-requests: write
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Run unit tests
+      run: ./gradlew test --stacktrace
+      
+    - name: Generate test report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: Unit Test Results
+        path: app/build/test-results/test*/TEST-*.xml
+        reporter: java-junit
+        
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: app/build/test-results/
+        retention-days: 7
+        
+    - name: Test Summary
+      if: always()
+      run: |
+        echo "## Test Results Summary :test_tube:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        # Count test results
+        if [ -d "app/build/test-results/" ]; then
+          TOTAL=$(find app/build/test-results/ -name "TEST-*.xml" -exec grep -h "tests=" {} \; | sed 's/.*tests="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
+          FAILURES=$(find app/build/test-results/ -name "TEST-*.xml" -exec grep -h "failures=" {} \; | sed 's/.*failures="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
+          ERRORS=$(find app/build/test-results/ -name "TEST-*.xml" -exec grep -h "errors=" {} \; | sed 's/.*errors="\([0-9]*\)".*/\1/' | awk '{sum+=$1} END {print sum}')
+          
+          echo "- Total tests: ${TOTAL:-0}" >> $GITHUB_STEP_SUMMARY
+          echo "- Failures: ${FAILURES:-0}" >> $GITHUB_STEP_SUMMARY
+          echo "- Errors: ${ERRORS:-0}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No test results found" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  lint:
+    name: Run Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Run Android Lint
+      run: ./gradlew lint --stacktrace
+      
+    - name: Upload lint results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: lint-results
+        path: app/build/reports/lint-results-*.html
+        retention-days: 7
+        
+    - name: Lint Summary
+      if: always()
+      run: |
+        echo "## Lint Results :mag:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        if [ -f "app/build/reports/lint-results-debug.html" ]; then
+          echo "Lint report generated. Check artifacts for details." >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No lint report found" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  build:
+    name: Build APK
+    needs: [test, lint]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build debug APK
+      run: ./gradlew assembleDebug --stacktrace
+      
+    - name: Upload debug APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: debug-apk
+        path: app/build/outputs/apk/debug/*.apk
+        retention-days: 7
+        
+    - name: Build Summary
+      run: |
+        echo "## Build Results :hammer:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        APK_PATH=$(find app/build/outputs/apk/debug -name "*.apk" | head -1)
+        if [ -f "$APK_PATH" ]; then
+          APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+          echo "- APK Size: $APK_SIZE" >> $GITHUB_STEP_SUMMARY
+          echo "- APK Path: \`${APK_PATH#app/build/outputs/}\`" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No APK found" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  instrumentation-test:
+    name: Instrumentation Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        api-level: [29, 33]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: AVD cache
+      uses: actions/cache@v4
+      id: avd-cache
+      with:
+        path: |
+          ~/.android/avd/*
+          ~/.android/adb*
+        key: avd-${{ matrix.api-level }}
+        
+    - name: Create AVD and generate snapshot for caching
+      if: steps.avd-cache.outputs.cache-hit != 'true'
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ matrix.api-level }}
+        force-avd-creation: false
+        emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: false
+        script: echo "Generated AVD snapshot for caching."
+        
+    - name: Run instrumentation tests
+      uses: reactivecircus/android-emulator-runner@v2
+      with:
+        api-level: ${{ matrix.api-level }}
+        force-avd-creation: false
+        emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+        disable-animations: true
+        script: |
+          # Check if there are any instrumentation tests
+          if ./gradlew tasks --all | grep -q "connectedAndroidTest"; then
+            ./gradlew connectedAndroidTest --stacktrace
+          else
+            echo "No instrumentation tests found"
+          fi
+          
+    - name: Upload instrumentation test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: instrumentation-test-results-${{ matrix.api-level }}
+        path: app/build/reports/androidTests/connected/
+        retention-days: 7

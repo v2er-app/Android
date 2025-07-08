@@ -1,0 +1,53 @@
+version: 2
+updates:
+  # Enable version updates for Gradle dependencies
+  - package-ecosystem: "gradle"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 10
+    groups:
+      # Group Kotlin-related dependencies
+      kotlin:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "org.jetbrains.kotlinx*"
+      # Group AndroidX dependencies (excluding Compose)
+      androidx:
+        patterns:
+          - "androidx.*"
+        exclude-patterns:
+          - "androidx.compose.*"
+      # Group testing dependencies
+      testing:
+        patterns:
+          - "*junit*"
+          - "*espresso*"
+          - "*mockito*"
+          - "*robolectric*"
+      # Group networking dependencies
+      networking:
+        patterns:
+          - "com.squareup.retrofit2*"
+          - "com.squareup.okhttp3*"
+          - "com.google.code.gson*"
+      # Group RxJava dependencies
+      rxjava:
+        patterns:
+          - "io.reactivex.rxjava2*"
+          - "com.jakewharton.rxbinding2*"
+      # Group Dagger dependencies
+      dagger:
+        patterns:
+          - "com.google.dagger*"
+          
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 5
