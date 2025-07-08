@@ -135,8 +135,11 @@ The project uses GitHub Actions for continuous integration:
 
 ### Release Signing
 Release builds require environment variables:
-- `GHUI_KEYSTORE_PASSWORD`: Keystore password
-- `GHUI_KEY_PASSWORD`: Key password
+- `GHUI_KEYSTORE_PASSWORD`: Keystore password (mapped from GitHub secret `KEYSTORE_PASSWORD`)
+- `GHUI_KEY_PASSWORD`: Key password (mapped from GitHub secret `KEY_PASSWORD`)
+- GitHub secrets also include:
+  - `KEYSTORE_BASE64`: Base64-encoded keystore file
+  - `KEY_ALIAS`: Key alias for signing
 - GitHub variant has embedded signing config for CI/CD
 
 ## Project Configuration
