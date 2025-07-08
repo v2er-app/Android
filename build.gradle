@@ -3,22 +3,23 @@ apply from: "config.gradle"
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.0'
+        classpath 'com.android.tools.build:gradle:8.1.1'
     }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
-        jcenter()
         google()
+        mavenCentral()
         maven { url "https://jitpack.io" }
-//        maven { url "https://dl.bintray.com/ghui/Java" }
+        // Add repository for dependencies that were on JCenter
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+        // For FlycoTabLayout
+        maven { url 'https://maven.aliyun.com/repository/public' }
     }
 }
 

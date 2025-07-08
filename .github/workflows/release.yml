@@ -1,0 +1,257 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to release (e.g., v1.0.0)'
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  prepare:
+    name: Prepare Release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      
+    steps:
+    - name: Determine version
+      id: version
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          VERSION="${{ github.event.inputs.version }}"
+        else
+          VERSION="${{ github.ref_name }}"
+        fi
+        echo "version=$VERSION" >> $GITHUB_OUTPUT
+        echo "Version: $VERSION"
+
+  build-apk:
+    name: Build Release APK
+    needs: prepare
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Decode Keystore
+      if: ${{ vars.ENABLE_SIGNING == 'true' && env.KEYSTORE_BASE64 != '' }}
+      env:
+        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      run: |
+        echo "$KEYSTORE_BASE64" | base64 --decode > app/keystore.jks
+        
+    - name: Build release APK
+      env:
+        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        GHUI_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
+      run: |
+        if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
+          echo "Building signed release APK"
+          ./gradlew assembleRelease --stacktrace
+        else
+          echo "Building unsigned release APK"
+          ./gradlew assembleRelease --stacktrace || ./gradlew assembleDebug --stacktrace
+        fi
+        
+    - name: Clean up keystore
+      if: always()
+      run: |
+        rm -f app/keystore.jks
+        
+    - name: Upload release APK
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-apk
+        path: app/build/outputs/apk/**/*.apk
+        retention-days: 30
+        
+    - name: APK Summary
+      run: |
+        echo "## APK Build Results :package:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        APK_PATH=$(find app/build/outputs/apk -name "*.apk" | grep -E "release" | head -1)
+        if [ -f "$APK_PATH" ]; then
+          APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
+          echo "- APK Size: $APK_SIZE" >> $GITHUB_STEP_SUMMARY
+          echo "- APK Name: \`$(basename "$APK_PATH")\`" >> $GITHUB_STEP_SUMMARY
+          echo "- Signed: ${{ vars.ENABLE_SIGNING == 'true' && 'Yes' || 'No' }}" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "No APK found" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  build-aab:
+    name: Build Release Bundle
+    needs: prepare
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: gradle
+        
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Decode Keystore
+      if: ${{ vars.ENABLE_SIGNING == 'true' && env.KEYSTORE_BASE64 != '' }}
+      env:
+        KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+      run: |
+        echo "$KEYSTORE_BASE64" | base64 --decode > app/keystore.jks
+        
+    - name: Build release bundle
+      env:
+        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        GHUI_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
+      run: |
+        if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
+          echo "Building signed release bundle"
+          ./gradlew bundleRelease --stacktrace
+        else
+          echo "Skipping bundle build - signing not configured"
+        fi
+        
+    - name: Clean up keystore
+      if: always()
+      run: |
+        rm -f app/keystore.jks
+        
+    - name: Upload release bundle
+      if: ${{ vars.ENABLE_SIGNING == 'true' }}
+      uses: actions/upload-artifact@v4
+      with:
+        name: release-bundle
+        path: app/build/outputs/bundle/**/*.aab
+        retention-days: 30
+
+  release:
+    name: Create GitHub Release
+    needs: [prepare, build-apk, build-aab]
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Download APK artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: release-apk
+        path: release-artifacts/
+        
+    - name: Download AAB artifact
+      if: ${{ vars.ENABLE_SIGNING == 'true' }}
+      uses: actions/download-artifact@v4
+      with:
+        name: release-bundle
+        path: release-artifacts/
+      continue-on-error: true
+      
+    - name: Prepare release assets
+      id: assets
+      run: |
+        # Find APK
+        APK_PATH=$(find release-artifacts -name "*.apk" | grep -E "release" | head -1)
+        if [ -f "$APK_PATH" ]; then
+          APK_NAME="v2er-${{ needs.prepare.outputs.version }}.apk"
+          mv "$APK_PATH" "$APK_NAME"
+          echo "apk_path=$APK_NAME" >> $GITHUB_OUTPUT
+        fi
+        
+        # Find AAB
+        AAB_PATH=$(find release-artifacts -name "*.aab" 2>/dev/null | head -1)
+        if [ -f "$AAB_PATH" ]; then
+          AAB_NAME="v2er-${{ needs.prepare.outputs.version }}.aab"
+          mv "$AAB_PATH" "$AAB_NAME"
+          echo "aab_path=$AAB_NAME" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Generate changelog
+      id: changelog
+      run: |
+        echo "## What's Changed" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        
+        # Get commits since last tag
+        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        if [ -n "$LAST_TAG" ]; then
+          git log --pretty=format:"* %s by @%an" "$LAST_TAG"..HEAD >> CHANGELOG.md
+        else
+          git log --pretty=format:"* %s by @%an" -10 >> CHANGELOG.md
+        fi
+        
+        echo "" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${LAST_TAG}...${{ needs.prepare.outputs.version }}" >> CHANGELOG.md
+        
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ needs.prepare.outputs.version }}
+        name: Release ${{ needs.prepare.outputs.version }}
+        body_path: CHANGELOG.md
+        draft: false
+        prerelease: false
+        files: |
+          ${{ steps.assets.outputs.apk_path }}
+          ${{ steps.assets.outputs.aab_path }}
+        fail_on_unmatched_files: false
+
+  play-store-upload:
+    name: Upload to Play Store
+    needs: [prepare, build-aab]
+    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Download AAB artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: release-bundle
+        path: release-artifacts/
+        
+    - name: Find AAB file
+      id: find-aab
+      run: |
+        AAB_PATH=$(find release-artifacts -name "*.aab" | head -1)
+        echo "aab_path=$AAB_PATH" >> $GITHUB_OUTPUT
+        
+    - name: Upload to Play Store
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        packageName: me.ghui.v2er
+        releaseFiles: ${{ steps.find-aab.outputs.aab_path }}
+        track: internal
+        status: completed
+        whatsNewDirectory: whatsnew/
