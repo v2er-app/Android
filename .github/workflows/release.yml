@@ -91,7 +91,7 @@ jobs:
         echo "## APK Build Results :package:" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         
-        APK_PATH=$(find app/build/outputs/apk -name "*.apk" | grep -E "(release|github)" | head -1)
+        APK_PATH=$(find app/build/outputs/apk -name "*.apk" | grep -E "release" | head -1)
         if [ -f "$APK_PATH" ]; then
           APK_SIZE=$(du -h "$APK_PATH" | cut -f1)
           echo "- APK Size: $APK_SIZE" >> $GITHUB_STEP_SUMMARY
@@ -181,7 +181,7 @@ jobs:
       id: assets
       run: |
         # Find APK
-        APK_PATH=$(find release-artifacts -name "*.apk" | grep -E "(release|github)" | head -1)
+        APK_PATH=$(find release-artifacts -name "*.apk" | grep -E "release" | head -1)
         if [ -f "$APK_PATH" ]; then
           APK_NAME="v2er-${{ needs.prepare.outputs.version }}.apk"
           mv "$APK_PATH" "$APK_NAME"

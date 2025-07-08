@@ -12,9 +12,6 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 # Build release APK (requires GHUI_KEYSTORE_PASSWORD and GHUI_KEY_PASSWORD env vars)
 ./gradlew assembleRelease
 
-# Build GitHub variant (for CI/CD)
-./gradlew assembleGithub
-
 # Clean and rebuild
 ./gradlew clean assembleDebug
 ```
@@ -112,7 +109,6 @@ The app follows MVP (Model-View-Presenter) architecture with dependency injectio
 3. **Build Variants**:
    - `debug`: Standard development build
    - `release`: Production build (requires keystore passwords)
-   - `github`: CI/CD variant with embedded signing config
 
 4. **Permissions**:
    - Internet access
@@ -128,10 +124,12 @@ The app follows MVP (Model-View-Presenter) architecture with dependency injectio
 
 ### GitHub Actions
 The project uses GitHub Actions for continuous integration:
-- **Workflow**: `.github/workflows/android.yml`
+- **CI Workflow**: `.github/workflows/ci.yml` - Runs tests, lint, and builds
+- **Release Workflow**: `.github/workflows/release.yml` - Creates signed releases
+- **Dependency Updates**: `.github/workflows/dependency-update.yml` - Weekly checks
 - **Trigger**: Push and pull requests to main branch
-- **JDK Version**: 11
-- **Build Command**: `./gradlew build`
+- **JDK Version**: 17
+- **Build Commands**: Various gradle tasks for test, lint, and build
 
 ### Release Signing
 Release builds require environment variables:
@@ -140,7 +138,6 @@ Release builds require environment variables:
 - GitHub secrets also include:
   - `KEYSTORE_BASE64`: Base64-encoded keystore file
   - `KEY_ALIAS`: Key alias for signing
-- GitHub variant has embedded signing config for CI/CD
 
 ## Project Configuration
 

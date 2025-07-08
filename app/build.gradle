@@ -37,8 +37,8 @@ android {
     }
 
     buildTypes {
-        github {
-            signingConfig signingConfigs.debug
+        debug {
+            // Debug build type uses default debug signing
         }
 
         release {
