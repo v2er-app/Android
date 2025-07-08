@@ -13,41 +13,32 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     signingConfigs {
-        github {
-            if (file("../v2er.jks").exists()) {
-                storeFile file("../v2er.jks")
-                storePassword "v2er.app"
-                keyAlias "v2er"
-                keyPassword "v2er.app"
-            } else {
-                // Fallback to debug signing if keystore is missing
-                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
-            }
+        debug {
+            // Use default debug keystore
         }
 
         release {
-            if (file("../ghui.jks").exists() && project.hasProperty("GHUI_KEYSTORE_PASSWORD") && project.hasProperty("GHUI_KEY_PASSWORD")) {
-                storeFile file("../ghui.jks")
+            // Release signing is only configured when keystore is provided via CI/CD
+            // The keystore will be decoded from KEYSTORE_BASE64 and placed temporarily
+            if (file("keystore.jks").exists() && project.hasProperty("GHUI_KEYSTORE_PASSWORD") && project.hasProperty("GHUI_KEY_PASSWORD")) {
+                storeFile file("keystore.jks")
                 storePassword GHUI_KEYSTORE_PASSWORD
-                keyAlias "ghui"
+                keyAlias project.hasProperty("GHUI_KEY_ALIAS") ? GHUI_KEY_ALIAS : "ghui"
                 keyPassword GHUI_KEY_PASSWORD
             } else {
-                // Use debug signing as fallback for local builds
-                // CI/CD will provide the actual keystore
-                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
-                storePassword "android"
-                keyAlias "androiddebugkey"
-                keyPassword "android"
+                // For local builds without proper signing setup, use debug signing
+                def debugSigningConfig = android.signingConfigs.debug
+                storeFile debugSigningConfig.storeFile
+                storePassword debugSigningConfig.storePassword
+                keyAlias debugSigningConfig.keyAlias
+                keyPassword debugSigningConfig.keyPassword
             }
         }
     }
 
     buildTypes {
         github {
-            signingConfig signingConfigs.github
+            signingConfig signingConfigs.debug
         }
 
         release {

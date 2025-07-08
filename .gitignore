@@ -10,3 +10,5 @@
 *.jks
 *.keystore
 *.base64.txt
+keystore.jks
+app/keystore.jks
