@@ -101,8 +101,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'de.hdodenhof:circleimageview:2.1.0'
-    // Temporarily commented - library not available on current repositories
-    // implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    // Using JitPack version of FlycoTabLayout
+    implementation 'com.github.H07000223:FlycoTabLayout:3.0.0'
     implementation 'com.orhanobut:logger:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
@@ -111,8 +111,8 @@ dependencies {
     implementation 'me.ghui:Fruit:1.0.4'
     implementation 'me.ghui:fruit-converter-retrofit:1.0.5'
     implementation 'me.ghui:global-retrofit-converter:1.0.2'
-    // Temporarily commented - library not available on current repositories
-    // implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    // Using JitPack version of RecyclerView-FlexibleDivider
+    implementation 'com.github.yqritc:RecyclerView-FlexibleDivider:1.4.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     //noinspection GradleDynamicVersion
     implementation 'com.r0adkll:slidableactivity:2.0.5'
