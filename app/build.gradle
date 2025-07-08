@@ -14,24 +14,33 @@ android {
     }
     signingConfigs {
         github {
-            try {
+            if (file("../v2er.jks").exists()) {
                 storeFile file("../v2er.jks")
                 storePassword "v2er.app"
                 keyAlias "v2er"
                 keyPassword "v2er.app"
-            } catch (ex) {
-                throw ex.printStackTrace()
+            } else {
+                // Fallback to debug signing if keystore is missing
+                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
             }
         }
 
         release {
-            try {
+            if (file("../ghui.jks").exists() && project.hasProperty("GHUI_KEYSTORE_PASSWORD") && project.hasProperty("GHUI_KEY_PASSWORD")) {
                 storeFile file("../ghui.jks")
                 storePassword GHUI_KEYSTORE_PASSWORD
                 keyAlias "ghui"
                 keyPassword GHUI_KEY_PASSWORD
-            } catch (ex) {
-                throw ex.printStackTrace()
+            } else {
+                // Use debug signing as fallback for local builds
+                // CI/CD will provide the actual keystore
+                storeFile file("${System.getProperty('user.home')}/.android/debug.keystore")
+                storePassword "android"
+                keyAlias "androiddebugkey"
+                keyPassword "android"
             }
         }
     }
