@@ -53,4 +53,3 @@ If you need to test release builds locally:
 - Always clean up temporary keystore files after use
 - The `.gitignore` file excludes all `.jks` and `.keystore` files
 - For production releases, always use the GitHub Actions release pipeline
-- The GitHub build variant now uses debug signing for simplicity
