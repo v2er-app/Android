@@ -106,8 +106,8 @@ dependencies {
     // Using Maven Central version of FlycoTabLayout (AndroidX version)
     implementation 'io.github.h07000223:flycoTabLayout:3.0.0'
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
     implementation 'com.github.GrenderG:Prefs:1.3'
     implementation 'me.ghui:Fruit:1.0.4'
