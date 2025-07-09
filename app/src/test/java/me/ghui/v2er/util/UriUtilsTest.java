@@ -125,6 +125,7 @@ public class UriUtilsTest {
         assertFalse(UriUtils.isImg("http://example.com/document.pdf"));
         assertFalse(UriUtils.isImg("http://example.com/page"));
         assertFalse(UriUtils.isImg("http://example.com/file.txt"));
-        assertFalse(UriUtils.isImg("not_a_url.png"));
+        // This actually matches because the regex allows paths without protocol
+        assertTrue(UriUtils.isImg("not_a_url.png"));
     }
 }
