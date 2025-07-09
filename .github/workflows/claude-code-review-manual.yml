@@ -1,0 +1,50 @@
+name: Claude Code Review (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: 'Pull Request number to review'
+        required: true
+        type: number
+      review_type:
+        description: 'Type of review to perform'
+        required: false
+        default: 'standard'
+        type: choice
+        options:
+          - standard
+          - security-focused
+          - performance-focused
+          - quick-check
+
+jobs:
+  claude-review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: read
+      id-token: write
+    
+    steps:
+      - name: Checkout PR
+        uses: actions/checkout@v4
+        with:
+          ref: refs/pull/${{ inputs.pr_number }}/merge
+          fetch-depth: 0
+
+      - name: Run Claude Code Review
+        uses: anthropics/claude-code-action@beta
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          
+          # Customize prompt based on review type
+          direct_prompt: |
+            Please review PR #${{ inputs.pr_number }} with focus on:
+            ${{ inputs.review_type == 'security-focused' && '- Security vulnerabilities and best practices' || 
+                inputs.review_type == 'performance-focused' && '- Performance optimizations and bottlenecks' ||
+                inputs.review_type == 'quick-check' && '- Critical issues and bugs only (brief review)' ||
+                '- Code quality, bugs, performance, security, and test coverage' }}
+            
+            Be constructive and helpful in your feedback.
