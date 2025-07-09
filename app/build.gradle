@@ -29,13 +29,13 @@ android {
                 storePassword GHUI_KEYSTORE_PASSWORD
                 keyAlias project.hasProperty("GHUI_KEY_ALIAS") ? GHUI_KEY_ALIAS : "ghui"
                 keyPassword GHUI_KEY_PASSWORD
-            } else if (project.hasProperty("GHUI_KEYSTORE_PASSWORD") && project.hasProperty("GHUI_KEY_PASSWORD")) {
+            } else if (System.getenv("GHUI_KEYSTORE_PASSWORD") != null && System.getenv("GHUI_KEY_PASSWORD") != null) {
                 // CI/CD environment but keystore file might not exist yet
                 // This prevents the build from failing during configuration phase
                 storeFile file("keystore.jks")
-                storePassword GHUI_KEYSTORE_PASSWORD
-                keyAlias project.hasProperty("GHUI_KEY_ALIAS") ? GHUI_KEY_ALIAS : "ghui"
-                keyPassword GHUI_KEY_PASSWORD
+                storePassword System.getenv("GHUI_KEYSTORE_PASSWORD")
+                keyAlias System.getenv("GHUI_KEY_ALIAS") ?: "ghui"
+                keyPassword System.getenv("GHUI_KEY_PASSWORD")
             } else {
                 // For local builds without proper signing setup, throw an error
                 throw new GradleException("Release builds require signing configuration. Please provide GHUI_KEYSTORE_PASSWORD and GHUI_KEY_PASSWORD.")
