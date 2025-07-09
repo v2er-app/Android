@@ -53,7 +53,7 @@ public class CheckTest {
 
     @Test
     public void testIsEmpty_withNullList() {
-        assertTrue(Check.isEmpty((List) null));
+        assertTrue(Check.isEmpty((List<?>) null));
     }
 
     @Test
@@ -68,7 +68,7 @@ public class CheckTest {
 
     @Test
     public void testNotEmpty_withNullList() {
-        assertFalse(Check.notEmpty((List) null));
+        assertFalse(Check.notEmpty((List<?>) null));
     }
 
     @Test
