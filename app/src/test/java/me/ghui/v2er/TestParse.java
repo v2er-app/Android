@@ -17,7 +17,7 @@ public class TestParse {
         if (!Check.isEmpty(time)) {
             time = time.trim().split("•")[1].trim();
         }
-        assert time.equals("36 天前 ");
+        assert time.equals("36 天前");
         System.out.println(System.currentTimeMillis());
     }
 }

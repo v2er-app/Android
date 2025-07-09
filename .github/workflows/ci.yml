@@ -186,6 +186,7 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: ${{ matrix.api-level }}
+        arch: x86_64
         force-avd-creation: false
         emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: false
@@ -195,16 +196,11 @@ jobs:
       uses: reactivecircus/android-emulator-runner@v2
       with:
         api-level: ${{ matrix.api-level }}
+        arch: x86_64
         force-avd-creation: false
         emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
         disable-animations: true
-        script: |
-          # Check if there are any instrumentation tests
-          if ./gradlew tasks --all | grep -q "connectedAndroidTest"; then
-            ./gradlew connectedAndroidTest --stacktrace
-          else
-            echo "No instrumentation tests found"
-          fi
+        script: ./gradlew connectedAndroidTest --stacktrace || echo "No instrumentation tests found"
           
     - name: Upload instrumentation test results
       uses: actions/upload-artifact@v4
