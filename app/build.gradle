@@ -34,7 +34,7 @@ android {
                 // This prevents the build from failing during configuration phase
                 storeFile file("keystore.jks")
                 storePassword System.getenv("GHUI_KEYSTORE_PASSWORD")
-                keyAlias System.getenv("GHUI_KEY_ALIAS") ?: "ghui"
+                keyAlias (System.getenv("GHUI_KEY_ALIAS") ?: "").trim().isEmpty() ? "ghui" : System.getenv("GHUI_KEY_ALIAS")
                 keyPassword System.getenv("GHUI_KEY_PASSWORD")
             } else {
                 // For local builds without proper signing setup, throw an error
