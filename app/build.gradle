@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
+    compileSdk 33
     buildFeatures {
         buildConfig true
     }
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 34
+        targetSdkVersion 33
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -79,15 +79,15 @@ dependencies {
     })
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.recyclerview:recyclerview:1.4.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.browser:browser:1.8.0'
+    implementation 'androidx.browser:browser:1.7.0'
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    implementation "androidx.annotation:annotation:1.9.1"
+    implementation "androidx.annotation:annotation:1.7.1"
     // JSR305 annotations for javax.annotation
     implementation 'com.google.code.findbugs:jsr305:3.0.2'
     // 3rd part Dependencies...
