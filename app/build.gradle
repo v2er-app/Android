@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.github.mazenrashed:RecyclerView-FlexibleDivider:1.5.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     //noinspection GradleDynamicVersion
-    implementation 'com.r0adkll:slidableactivity:2.0.5'
+    implementation 'com.r0adkll:slidableactivity:2.1.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
