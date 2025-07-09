@@ -1,11 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 33
+    compileSdk 34
+    buildToolsVersion "34.0.0"
+    buildFeatures {
+        buildConfig true
+    }
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 33
+        targetSdkVersion 34
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -70,52 +74,54 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
+    androidTestImplementation('androidx.test.espresso:espresso-core:3.5.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs'
     })
     testImplementation 'junit:junit:4.13.2'
 
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.browser:browser:1.3.0'
+    implementation 'androidx.browser:browser:1.5.0'
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.flexbox:flexbox:3.0.0'
-    implementation "androidx.annotation:annotation:1.2.0"
+    implementation "androidx.annotation:annotation:1.5.0"
+    // JSR305 annotations for javax.annotation
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
     // 3rd part Dependencies...
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
-    implementation 'com.squareup.retrofit2:retrofit:2.6.1'
-    implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
-    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.1'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.21'
+    implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:3.0.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.1.0'
     def butterknifeVersion = '10.2.3'
     implementation "com.jakewharton:butterknife:10.2.3"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.2.3"
-    implementation 'com.google.dagger:dagger:2.28.3'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.28.3"
+    implementation 'com.google.dagger:dagger:2.56.2'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.56.2"
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
-    implementation 'de.hdodenhof:circleimageview:2.1.0'
-    // Temporarily commented - library not available on current repositories
-    // implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+    // Using Maven Central version of FlycoTabLayout (AndroidX version)
+    implementation 'io.github.h07000223:flycoTabLayout:3.0.0'
     implementation 'com.orhanobut:logger:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.0'
-    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.0'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle:2.2.2'
+    implementation 'com.trello.rxlifecycle2:rxlifecycle-android:2.2.2'
     implementation 'com.trello.rxlifecycle2:rxlifecycle-components:2.0.1'
     implementation 'com.github.GrenderG:Prefs:1.3'
     implementation 'me.ghui:Fruit:1.0.4'
     implementation 'me.ghui:fruit-converter-retrofit:1.0.5'
     implementation 'me.ghui:global-retrofit-converter:1.0.2'
-    // Temporarily commented - library not available on current repositories
-    // implementation 'com.yqritc:recyclerview-flexibledivider:1.4.0'
+    // Using JitPack version of RecyclerView-FlexibleDivider (maintained fork)
+    implementation 'com.github.mazenrashed:RecyclerView-FlexibleDivider:1.5.0'
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
     //noinspection GradleDynamicVersion
-    implementation 'com.r0adkll:slidableactivity:2.0.5'
+    implementation 'com.r0adkll:slidableactivity:2.1.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'org.greenrobot:eventbus:3.3.1'

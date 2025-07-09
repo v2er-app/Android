@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.graphics.drawable.DrawableWrapper;
+import androidx.appcompat.graphics.drawable.DrawableWrapperCompat;
 import android.text.Html;
 import android.widget.TextView;
 
@@ -77,19 +77,19 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     private class WrapperTarget extends SimpleTarget<Drawable> {
         private int mMaxWidth;
-        private DrawableWrapper wrapperDrawable;
+        private DrawableWrapperCompat wrapperDrawable;
 
         @SuppressLint("RestrictedApi")
         public WrapperTarget(int maxWidth) {
             //这里只缩小不放大
             super(maxWidth, TexureUtil.fitMaxHeight());
             this.mMaxWidth = maxWidth;
-            wrapperDrawable = new DrawableWrapper(null);
+            wrapperDrawable = new DrawableWrapperCompat(null);
             wrapperDrawable.setCallback(GlideImageGetter.this);
             updateWrapperedDrawable(mLoadingDrawable);
         }
 
-        public DrawableWrapper getWrapperDrawable() {
+        public DrawableWrapperCompat getWrapperDrawable() {
             return wrapperDrawable;
         }
 
