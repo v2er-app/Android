@@ -23,7 +23,11 @@ public class ExampleUnitTest {
         String text = "你有100元红包";
         Pattern pattern = Pattern.compile("\\d[\\d.,]*(?=元)");
         Matcher matcher = pattern.matcher(text);
-        String result = matcher.group();
-        assertEquals("100", result);
+        if (matcher.find()) {
+            String result = matcher.group();
+            assertEquals("100", result);
+        } else {
+            throw new AssertionError("Pattern not found in text");
+        }
     }
 }
