@@ -24,14 +24,14 @@ android {
         release {
             // Release signing requires environment variables to be set
             // The keystore will be decoded from KEYSTORE_BASE64 in CI/CD
-            if (System.getenv("GHUI_KEYSTORE_PASSWORD") != null && System.getenv("GHUI_KEY_PASSWORD") != null) {
+            if (System.getenv("KEYSTORE_PASSWORD") != null && System.getenv("KEY_PASSWORD") != null) {
                 storeFile file("keystore.jks")
-                storePassword System.getenv("GHUI_KEYSTORE_PASSWORD")
-                keyAlias (System.getenv("GHUI_KEY_ALIAS") ?: "").trim().isEmpty() ? "ghui" : System.getenv("GHUI_KEY_ALIAS")
-                keyPassword System.getenv("GHUI_KEY_PASSWORD")
+                storePassword System.getenv("KEYSTORE_PASSWORD")
+                keyAlias System.getenv("KEY_ALIAS")?.trim() ?: "ghui"
+                keyPassword System.getenv("KEY_PASSWORD")
             } else {
                 // Release builds require proper environment variables
-                throw new GradleException("Release builds require signing configuration. Please set GHUI_KEYSTORE_PASSWORD and GHUI_KEY_PASSWORD environment variables.")
+                throw new GradleException("Release builds require signing configuration. Please set KEYSTORE_PASSWORD and KEY_PASSWORD environment variables.")
             }
         }
     }
