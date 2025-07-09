@@ -59,15 +59,23 @@ jobs:
       run: |
         echo "$KEYSTORE_BASE64" | base64 --decode > app/keystore.jks
         
+    - name: Debug keystore info
+      if: ${{ vars.ENABLE_SIGNING == 'true' }}
+      run: |
+        echo "Keystore file exists: $([ -f app/keystore.jks ] && echo 'Yes' || echo 'No')"
+        echo "Keystore size: $([ -f app/keystore.jks ] && ls -la app/keystore.jks | awk '{print $5}' || echo 'N/A')"
+        echo "Key alias configured: ${{ secrets.KEY_ALIAS != '' && 'Yes' || 'No' }}"
+        
     - name: Build release APK
       env:
-        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        GHUI_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
           echo "Building signed release APK"
+          echo "Using key alias: ${KEY_ALIAS:-ghui}"
           ./gradlew assembleRelease --stacktrace
         else
           echo "Building unsigned release APK"
@@ -129,9 +137,9 @@ jobs:
         
     - name: Build release bundle
       env:
-        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        GHUI_KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
         KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
