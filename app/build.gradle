@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdk 34
-    buildToolsVersion "34.0.0"
+    compileSdk 36
+    buildToolsVersion "36.0.0"
     buildFeatures {
         buildConfig true
     }
     defaultConfig {
         applicationId "me.ghui.v2er"
         minSdkVersion 27
-        targetSdkVersion 34
+        targetSdkVersion 36
         versionCode rootProject.ext.app.versionCode
         versionName rootProject.ext.app.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
