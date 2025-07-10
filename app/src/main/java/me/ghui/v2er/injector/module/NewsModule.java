@@ -1,5 +1,6 @@
 package me.ghui.v2er.injector.module;
 
+import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,6 +17,7 @@ import me.ghui.v2er.module.home.NewsPresenter;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NewsInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
@@ -52,11 +54,26 @@ public class NewsModule {
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into(holder.getImgView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUserName());
-                holder.setText(R.id.time_tv, item.getTime());
-                holder.setText(R.id.tagview, item.getTagName());
-                holder.setText(R.id.title_tv, item.getTitle());
+                
+                // Apply font size scaling to text elements
+                TextView userNameTv = holder.getTextView(R.id.user_name_tv);
+                userNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                userNameTv.setText(item.getUserName());
+                
+                TextView timeTv = holder.getTextView(R.id.time_tv);
+                timeTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                timeTv.setText(item.getTime());
+                
+                TextView tagTv = holder.getTextView(R.id.tagview);
+                tagTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                tagTv.setText(item.getTagName());
+                
+                TextView titleTv = holder.getTextView(R.id.title_tv);
+                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                titleTv.setText(item.getTitle());
+                
                 TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+                commentTV.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
                 commentTV.setText("评论" + item.getReplies());
                 ViewUtils.highlightCommentNum(commentTV);
             }

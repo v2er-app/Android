@@ -4,6 +4,7 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,6 +18,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
@@ -57,6 +59,8 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
 
 
     public void setData(List<TopicInfo.Reply> replies, String owner) {
+        // Apply font size scaling to title
+        mTitleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         mTitleTv.setText(owner + " 之前的回复");
         MentionAdapter mentionAdapter = (MentionAdapter) mRecyclerView.getAdapter();
         mentionAdapter.setData(replies);
@@ -82,8 +86,14 @@ public class MentionedReplySheetDialog extends BottomSheetDialog {
 
         @Override
         protected void convert(ViewHolder holder, TopicInfo.Reply replyInfo, int position) {
-            RichText.from(replyInfo.getReplyContent()).into(holder.getTextView(R.id.reply_content_tv));
-            holder.setText(R.id.time_tv, replyInfo.getTime());
+            // Apply font size scaling to text elements
+            TextView replyContentTv = holder.getTextView(R.id.reply_content_tv);
+            replyContentTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+            RichText.from(replyInfo.getReplyContent()).into(replyContentTv);
+            
+            TextView timeTv = holder.getTextView(R.id.time_tv);
+            timeTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+            timeTv.setText(replyInfo.getTime());
         }
     }
 

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
+import android.util.TypedValue;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +44,7 @@ import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
@@ -330,10 +332,14 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
         mNodeInfo = nodeInfo;
         mStarBtn.setVisibility(View.VISIBLE);
         mCollapsingToolbarLayout.setTitle(nodeInfo.getTitle());
+        mNodeText.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         mNodeText.setText(nodeInfo.getTitle());
         String desc = nodeInfo.getHeader();
+        mNodeDesTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         RichText.from(desc).into(mNodeDesTv);
+        mNodeTopicNumTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         mNodeTopicNumTv.setText(mNodeInfo.getTopics() + " 个主题");
+        mNodeStarNumTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         mNodeStarNumTv.setText(mNodeInfo.getStars() + " 个收藏");
         if (mNodeImg.getDrawable() == null || ViewUtils.isSameImgRes(mNodeImg, R.drawable.avatar_placeholder_drawable)) {
             GlideApp.with(this)

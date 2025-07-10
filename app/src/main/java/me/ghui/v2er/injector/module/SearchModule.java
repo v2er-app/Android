@@ -1,5 +1,8 @@
 package me.ghui.v2er.injector.module;
 
+import android.util.TypedValue;
+import android.widget.TextView;
+
 import dagger.Module;
 import dagger.Provides;
 import me.ghui.v2er.R;
@@ -10,6 +13,7 @@ import me.ghui.v2er.module.home.SearchFragment;
 import me.ghui.v2er.module.home.SearchPresenter;
 import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.richtext.RichText;
 
@@ -35,12 +39,21 @@ public class SearchModule {
         return new CommonLoadMoreAdapter<SoV2EXSearchResultInfo.Hit>(mFragment.getContext(), R.layout.item_bing_search) {
             @Override
             protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
-                holder.setText(R.id.search_result_title_tv, hit.getSource().getTitle());
+                // Apply font size scaling to text elements
+                TextView titleTv = holder.getTextView(R.id.search_result_title_tv);
+                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                titleTv.setText(hit.getSource().getTitle());
+                
                 String footnote = hit.getSource().getCreator() + " 于 " + hit.getSource().getTime() + " 发表, " + hit.getSource().getReplies() + " 回复";
-                holder.setText(R.id.search_result_footnote_tv, footnote);
+                TextView footnoteTv = holder.getTextView(R.id.search_result_footnote_tv);
+                footnoteTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                footnoteTv.setText(footnote);
+                
+                TextView contentTv = holder.getTextView(R.id.search_result_content_tv);
+                contentTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
                 RichText.from(hit.getSource().getContent())
                         .supportUrlClick(false)
-                        .into(holder.getTextView(R.id.search_result_content_tv));
+                        .into(contentTv);
             }
         };
     }

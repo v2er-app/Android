@@ -1,6 +1,8 @@
 package me.ghui.v2er.injector.module;
 
+import android.util.TypedValue;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -13,6 +15,7 @@ import me.ghui.v2er.module.drawer.star.NodeStarContract;
 import me.ghui.v2er.module.drawer.star.NodeStarFragment;
 import me.ghui.v2er.module.drawer.star.NodeStarPresenter;
 import me.ghui.v2er.network.bean.NodeStarInfo;
+import me.ghui.v2er.util.FontSizeUtil;
 
 /**
  * Created by ghui on 18/05/2017.
@@ -37,8 +40,15 @@ public class NodeStarModule {
                         .load(item.getImg())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.node_img));
-                holder.setText(R.id.node_name, item.getName());
-                holder.setText(R.id.node_topic_num, item.getTopicNum() + "");
+                
+                // Apply font size scaling to text elements
+                TextView nodeNameTv = holder.getTextView(R.id.node_name);
+                nodeNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                nodeNameTv.setText(item.getName());
+                
+                TextView nodeTopicNumTv = holder.getTextView(R.id.node_topic_num);
+                nodeTopicNumTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                nodeTopicNumTv.setText(item.getTopicNum() + "");
             }
         };
     }
