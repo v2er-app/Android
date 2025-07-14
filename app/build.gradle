@@ -119,7 +119,7 @@ dependencies {
     implementation 'me.ghui:global-retrofit-converter:1.0.2'
     // Using JitPack version of RecyclerView-FlexibleDivider (maintained fork)
     implementation 'com.github.mazenrashed:RecyclerView-FlexibleDivider:1.5.0'
-    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.6.0'
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     //noinspection GradleDynamicVersion
     implementation 'com.r0adkll:slidableactivity:2.1.0'
     implementation 'com.github.bumptech.glide:okhttp3-integration:4.1.1'
