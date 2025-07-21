@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.graphics.drawable.DrawableWrapper;
+import androidx.core.graphics.drawable.DrawableCompat;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.PixelFormat;
 import android.text.Html;
 import android.widget.TextView;
 
@@ -77,19 +80,19 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
 
     private class WrapperTarget extends SimpleTarget<Drawable> {
         private int mMaxWidth;
-        private DrawableWrapper wrapperDrawable;
+        private SimpleDrawableWrapper wrapperDrawable;
 
         @SuppressLint("RestrictedApi")
         public WrapperTarget(int maxWidth) {
             //这里只缩小不放大
             super(maxWidth, TexureUtil.fitMaxHeight());
             this.mMaxWidth = maxWidth;
-            wrapperDrawable = new DrawableWrapper(null);
+            wrapperDrawable = new SimpleDrawableWrapper();
             wrapperDrawable.setCallback(GlideImageGetter.this);
             updateWrapperedDrawable(mLoadingDrawable);
         }
 
-        public DrawableWrapper getWrapperDrawable() {
+        public SimpleDrawableWrapper getWrapperDrawable() {
             return wrapperDrawable;
         }
 
@@ -125,6 +128,65 @@ public class GlideImageGetter implements Html.ImageGetter, Drawable.Callback {
             wrapperDrawable.setWrappedDrawable(drawable);
             wrapperDrawable.setBounds(drawable.getBounds());
             wrapperDrawable.invalidateSelf();
+        }
+    }
+
+    // Simple replacement for DrawableWrapper which was removed in newer Material library
+    private static class SimpleDrawableWrapper extends Drawable {
+        private Drawable wrappedDrawable;
+
+        public void setWrappedDrawable(Drawable drawable) {
+            if (this.wrappedDrawable != null) {
+                this.wrappedDrawable.setCallback(null);
+            }
+            this.wrappedDrawable = drawable;
+            if (drawable != null) {
+                drawable.setCallback(getCallback());
+            }
+        }
+
+        @Override
+        public void draw(@NonNull Canvas canvas) {
+            if (wrappedDrawable != null) {
+                wrappedDrawable.draw(canvas);
+            }
+        }
+
+        @Override
+        public void setAlpha(int alpha) {
+            if (wrappedDrawable != null) {
+                wrappedDrawable.setAlpha(alpha);
+            }
+        }
+
+        @Override
+        public void setColorFilter(@Nullable ColorFilter colorFilter) {
+            if (wrappedDrawable != null) {
+                wrappedDrawable.setColorFilter(colorFilter);
+            }
+        }
+
+        @Override
+        public int getOpacity() {
+            return wrappedDrawable != null ? wrappedDrawable.getOpacity() : PixelFormat.TRANSPARENT;
+        }
+
+        @Override
+        public void setBounds(int left, int top, int right, int bottom) {
+            super.setBounds(left, top, right, bottom);
+            if (wrappedDrawable != null) {
+                wrappedDrawable.setBounds(left, top, right, bottom);
+            }
+        }
+
+        @Override
+        public int getIntrinsicWidth() {
+            return wrappedDrawable != null ? wrappedDrawable.getIntrinsicWidth() : -1;
+        }
+
+        @Override
+        public int getIntrinsicHeight() {
+            return wrappedDrawable != null ? wrappedDrawable.getIntrinsicHeight() : -1;
         }
     }
 
