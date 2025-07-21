@@ -121,6 +121,6 @@ dependencies {
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation 'com.github.oasisfeng:condom:2.5.0'
-    implementation 'org.slf4j:slf4j-nop:1.7.25'
+    implementation 'org.slf4j:slf4j-nop:2.0.17'
     implementation 'androidx.core:core-splashscreen:1.0.1'
 }
