@@ -96,8 +96,8 @@ dependencies {
     def butterknifeVersion = '10.2.3'
     implementation "com.jakewharton:butterknife:10.2.3"
     annotationProcessor "com.jakewharton:butterknife-compiler:10.2.3"
-    implementation 'com.google.dagger:dagger:2.56.2'
-    annotationProcessor "com.google.dagger:dagger-compiler:2.56.2"
+    implementation 'com.google.dagger:dagger:2.57'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.57"
     implementation 'com.github.bumptech.glide:glide:4.16.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
