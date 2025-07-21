@@ -4,8 +4,8 @@ updates:
   - package-ecosystem: "gradle"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "monthly"
+      day: 1
       time: "09:00"
     open-pull-requests-limit: 10
     groups:
@@ -47,7 +47,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: "monthly"
+      day: 1
       time: "09:00"
     open-pull-requests-limit: 5
