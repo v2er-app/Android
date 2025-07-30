@@ -9,10 +9,8 @@ import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.Registry;
 import com.bumptech.glide.annotation.GlideModule;
 import com.bumptech.glide.integration.okhttp3.OkHttpUrlLoader;
-import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.module.AppGlideModule;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.io.InputStream;
 
@@ -28,7 +26,7 @@ public class MyAppGllideModule extends AppGlideModule {
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(APIService.httpClient());
-        glide.getRegistry().replace(GlideUrl.class, InputStream.class, factory);
+        registry.replace(GlideUrl.class, InputStream.class, factory);
     }
 
     @Override
