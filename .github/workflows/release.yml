@@ -442,8 +442,8 @@ jobs:
                 
                 print(f"Attempting to download signed APK for {package_name} version {version_code}")
                 
-                # Get the signed universal APK download URL
-                # Note: This requires the app to be released and processed by Google Play
+                # Step 1: Get the generated APKs list to find downloadId
+                print("Getting generated APKs list...")
                 result = service.generatedapks().list(
                     packageName=package_name,
                     versionCode=version_code
@@ -453,32 +453,53 @@ jobs:
                     print("No generated APKs found. App may not be processed yet by Google Play.")
                     return False
                 
-                # Find universal APK
+                print(f"Found {len(result['generatedApks'])} generated APKs")
+                
+                # Find universal APK and get downloadId
                 universal_apk = None
                 for apk in result['generatedApks']:
-                    if apk.get('targetingInfo', {}).get('abiTargeting') is None:
-                        # This should be the universal APK
+                    targeting_info = apk.get('targetingInfo', {})
+                    # Universal APK typically has no targeting info or minimal targeting
+                    if (not targeting_info.get('abiTargeting') and 
+                        not targeting_info.get('screenDensityTargeting') and
+                        not targeting_info.get('languageTargeting')):
                         universal_apk = apk
                         break
                 
                 if not universal_apk:
+                    # Fallback: try to find any APK that looks universal
+                    for apk in result['generatedApks']:
+                        if not apk.get('targetingInfo', {}).get('abiTargeting'):
+                            universal_apk = apk
+                            break
+                
+                if not universal_apk:
                     print("Universal APK not found in generated APKs")
+                    print("Available APKs:")
+                    for i, apk in enumerate(result['generatedApks']):
+                        print(f"  APK {i}: {apk.get('targetingInfo', 'No targeting info')}")
                     return False
                 
-                # Download the APK
-                download_url = universal_apk.get('downloadUrl')
-                if not download_url:
-                    print("Download URL not available for universal APK")
+                download_id = universal_apk.get('downloadId')
+                if not download_id:
+                    print("Download ID not available for universal APK")
                     return False
                 
-                print(f"Downloading APK from: {download_url}")
-                response = requests.get(download_url, stream=True)
-                response.raise_for_status()
+                print(f"Found universal APK with downloadId: {download_id}")
+                
+                # Step 2: Download the APK using the downloadId
+                print("Downloading APK binary...")
+                download_request = service.generatedapks().download(
+                    packageName=package_name,
+                    versionCode=version_code,
+                    downloadId=download_id
+                )
                 
                 output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
+                
+                # Execute the download request and save to file
                 with open(output_filename, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
+                    download_request.execute(f)
                 
                 print(f"Successfully downloaded: {output_filename}")
                 print(f"apk_path={output_filename}")
