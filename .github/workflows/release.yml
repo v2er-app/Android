@@ -263,8 +263,7 @@ jobs:
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
-        # TESTING: Use hardcoded tag
-        tag_name: v2.3.3-test
+        tag_name: ${{ needs.prepare.outputs.version }}
         name: Release ${{ needs.prepare.outputs.version }}
         body_path: CHANGELOG.md
         draft: false
@@ -386,9 +385,8 @@ jobs:
 
   download-signed-apk:
     name: Download Google Play Signed APK
-    # TESTING: Temporarily remove dependencies for testing
-    # needs: [prepare, play-store-upload]
-    # if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    needs: [prepare, play-store-upload]
+    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -408,8 +406,7 @@ jobs:
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        # Temporarily test with known existing version 2.3.3 (version code 233)
-        VERSION_CODE="233"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
         PACKAGE_NAME="me.ghui.v2er"
         
         # Create Python script to check if APK exists
@@ -522,9 +519,8 @@ jobs:
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        # TESTING: Use hardcoded version 2.3.3 which exists in Google Play
-        VERSION_NAME="v2.3.3"
-        VERSION_CODE="233"
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
         PACKAGE_NAME="me.ghui.v2er"
         
         # Create Python script to download signed universal APK
@@ -713,9 +709,8 @@ jobs:
       if: steps.download-apk.outputs.found == 'true'
       id: play-link
       run: |
-        # TESTING: Use hardcoded version 2.3.3
-        VERSION_NAME="v2.3.3"
-        VERSION_CODE="233"
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
         
         # Create info file about Google Play signing
         cat > "v2er-${VERSION_NAME}_google_play_signed_info.txt" << EOF
@@ -743,8 +738,7 @@ jobs:
       if: steps.download-apk.outputs.found == 'true'
       uses: softprops/action-gh-release@v2
       with:
-        # TESTING: Use hardcoded tag
-        tag_name: v2.3.3-test
+        tag_name: ${{ needs.prepare.outputs.version }}
         files: |
           ${{ steps.download-apk.outputs.apk_path }}
           ${{ steps.play-link.outputs.info_path }}
@@ -759,9 +753,9 @@ jobs:
         if [ "${{ steps.download-apk.outputs.found }}" = "true" ]; then
           echo "✅ **Universal APK generated successfully**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: v2.3.3" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version Code**: 233" >> $GITHUB_STEP_SUMMARY
-          echo "- **File**: v2er-v2.3.3_google_play_signed.apk" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version Code**: ${{ needs.prepare.outputs.version_code }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **File**: v2er-${{ needs.prepare.outputs.version }}_google_play_signed.apk" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Notes" >> $GITHUB_STEP_SUMMARY
           echo "- This APK is generated from the AAB uploaded to Google Play" >> $GITHUB_STEP_SUMMARY
