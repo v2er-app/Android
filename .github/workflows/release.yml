@@ -529,7 +529,11 @@ jobs:
                     versionCode=version_code,
                     downloadId=download_id
                 )
-                download_request.uri += '?alt=media'
+                # Add alt=media parameter correctly (URL already has query params, so use &)
+                if '?' in download_request.uri:
+                    download_request.uri += '&alt=media'
+                else:
+                    download_request.uri += '?alt=media'
                 
                 output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
                 
