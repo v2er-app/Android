@@ -24,11 +24,16 @@ import me.ghui.v2er.network.APIService;
 
 @GlideModule
 public class MyAppGllideModule extends AppGlideModule {
+    
+    @Override
+    public boolean isManifestParsingEnabled() {
+        return false;
+    }
 
     @Override
     public void registerComponents(Context context, Glide glide, Registry registry) {
         OkHttpUrlLoader.Factory factory = new OkHttpUrlLoader.Factory(APIService.httpClient());
-        glide.getRegistry().replace(GlideUrl.class, InputStream.class, factory);
+        registry.replace(GlideUrl.class, InputStream.class, factory);
     }
 
     @Override
