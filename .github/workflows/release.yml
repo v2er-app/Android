@@ -471,12 +471,11 @@ jobs:
                         split_apks = apk['generatedSplitApks']
                         print(f"Found {len(split_apks)} split APKs")
                         
-                        # Look for the base/universal APK - typically variantId=1, moduleName='base'
+                        # Look for the base/universal APK - try different variant IDs
+                        # Universal APK is the base module without splitId - could be any variantId
                         for split_apk in split_apks:
-                            print(f"Split APK: variantId={split_apk.get('variantId')}, moduleName={split_apk.get('moduleName')}")
-                            # Universal APK is typically the base module without splitId
+                            print(f"Split APK: variantId={split_apk.get('variantId')}, moduleName={split_apk.get('moduleName')}, splitId={split_apk.get('splitId', 'None')}")
                             if (split_apk.get('moduleName') == 'base' and 
-                                split_apk.get('variantId') == 1 and
                                 'splitId' not in split_apk):
                                 download_id = split_apk.get('downloadId')
                                 universal_apk = split_apk
