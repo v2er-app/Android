@@ -134,3 +134,108 @@
  -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Maybe
  -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Observable
  -keep,allowobfuscation,allowshrinking class io.reactivex.rxjava3.core.Single
+
+#----------------- Additional Rules for V2er App ------------------------
+
+# Keep RxJava2 (current version used in app)
+-keep class io.reactivex.** { *; }
+-keep interface io.reactivex.** { *; }
+-dontwarn io.reactivex.**
+
+# Dagger 2 rules
+-dontwarn com.google.errorprone.annotations.**
+-keep class dagger.** { *; }
+-keep class javax.inject.** { *; }
+-keep class * extends dagger.Module
+-keep class * extends dagger.Component
+-keep @dagger.Component class *
+-keep @dagger.Module class * { *; }
+-keep @dagger.Provides class * { *; }
+-keep @javax.inject.Inject class * { *; }
+
+# ButterKnife rules  
+-keep class butterknife.** { *; }
+-dontwarn butterknife.internal.**
+-keep class **$$ViewBinder { *; }
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+
+# Custom Fruit HTML parsing library
+-keep class me.ghui.fruit.** { *; }
+-dontwarn me.ghui.fruit.**
+-keep @me.ghui.fruit.annotations.* class * { *; }
+-keepclasseswithmembernames class * {
+    @me.ghui.fruit.annotations.* <methods>;
+}
+-keepclasseswithmembernames class * {
+    @me.ghui.fruit.annotations.* <fields>;
+}
+
+# RxLifecycle
+-keep class com.trello.rxlifecycle2.** { *; }
+-dontwarn com.trello.rxlifecycle2.**
+
+# Logger library
+-keep class com.orhanobut.logger.** { *; }
+-dontwarn com.orhanobut.logger.**
+
+# Flurry Analytics (referenced in CLAUDE.md)
+-keep class com.flurry.** { *; }
+-dontwarn com.flurry.**
+
+# Sentry (referenced in CLAUDE.md) 
+-keep class io.sentry.** { *; }
+-dontwarn io.sentry.**
+
+# Keep only essential application classes (allow most classes to be obfuscated)
+-keep class me.ghui.v2er.BuildConfig { *; }
+-keep class me.ghui.v2er.R { *; }
+-keep class me.ghui.v2er.R$* { *; }
+
+# Keep Application class and Activities (required by Android)  
+-keep class me.ghui.v2er.Application { *; }
+-keep class * extends android.app.Application { *; }
+
+# Keep data models used for JSON parsing (Gson/Fruit)
+-keep class me.ghui.v2er.network.bean.** { *; }
+
+# Keep classes with native methods
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Keep all Activities, Services, BroadcastReceivers
+-keep public class * extends android.app.Activity
+-keep public class * extends android.app.Service
+-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.ContentProvider
+
+# Keep view constructors (for layout inflation)
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet);
+}
+-keepclasseswithmembers class * {
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# Keep custom views and their constructors
+-keep public class * extends android.view.View {
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
+}
+
+# Keep Parcelable implementations
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final android.os.Parcelable$Creator CREATOR;
+}
+
+# Keep enums
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
