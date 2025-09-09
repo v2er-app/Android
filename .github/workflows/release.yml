@@ -406,7 +406,8 @@ jobs:
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
+        # Temporarily test with known existing version 2.3.3 (version code 233)
+        VERSION_CODE="233"
         PACKAGE_NAME="me.ghui.v2er"
         
         # Create Python script to check if APK exists
