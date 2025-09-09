@@ -522,11 +522,14 @@ jobs:
                 
                 # Step 2: Download the APK using the downloadId
                 print("Downloading APK binary...")
+                
+                # Use alt=media to get the actual binary content instead of metadata
                 download_request = service.generatedapks().download(
                     packageName=package_name,
                     versionCode=version_code,
                     downloadId=download_id
                 )
+                download_request.uri += '?alt=media'
                 
                 output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
                 
