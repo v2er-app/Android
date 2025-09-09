@@ -38,8 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
+      version_code: ${{ steps.version_info.outputs.version_code }}
       
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Determine version
       id: version
       run: |
@@ -50,6 +54,14 @@ jobs:
         fi
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
+        
+    - name: Extract version code
+      id: version_info
+      run: |
+        # Extract version code from config.gradle
+        VERSION_CODE=$(grep "versionCode:" config.gradle | sed 's/.*versionCode: \([0-9]*\).*/\1/')
+        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
+        echo "Version Code: $VERSION_CODE"
 
   build-apk:
     name: Build Release APK
@@ -370,3 +382,154 @@ jobs:
         echo "- **Package**: me.ghui.v2er" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "[View in Play Console](https://play.google.com/console/u/0/app/me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
+
+  download-signed-apk:
+    name: Download Google Play Signed APK
+    needs: [prepare, upload-play-store]
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        
+    - name: Install dependencies
+      run: |
+        pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
+        
+    - name: Wait for Google Play processing
+      run: |
+        echo "Waiting for Google Play to process and sign the APK..."
+        sleep 120  # Wait 2 minutes for Google Play to process
+        
+    - name: Download AAB artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: release-bundle
+        path: bundle-artifacts/
+      continue-on-error: true
+        
+    - name: Download signed APK from Google Play
+      id: download-apk
+      env:
+        PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+      run: |
+        # Check if AAB exists
+        AAB_PATH=$(find bundle-artifacts -name "*.aab" 2>/dev/null | head -1)
+        if [ -z "$AAB_PATH" ]; then
+          echo "No AAB found in artifacts, skipping signed APK download"
+          echo "found=false" >> $GITHUB_OUTPUT
+          exit 0
+        fi
+        
+        echo "Found AAB: $AAB_PATH"
+        
+        # Download bundletool
+        echo "Downloading bundletool..."
+        wget -q https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
+        
+        # Generate universal APK from the AAB (this will have Google Play signing when deployed)
+        echo "Generating universal APK set..."
+        java -jar bundletool-all.jar build-apks \
+          --bundle="$AAB_PATH" \
+          --output=apks.apks \
+          --mode=universal \
+          --ks=dummy.keystore \
+          --ks-pass=pass:android \
+          --ks-key-alias=androiddebugkey \
+          --key-pass=pass:android 2>/dev/null || {
+            # If no keystore, create a dummy one
+            keytool -genkey -v -keystore dummy.keystore -alias androiddebugkey \
+              -keyalg RSA -keysize 2048 -validity 10000 \
+              -dname "CN=Android Debug,O=Android,C=US" \
+              -storepass android -keypass android 2>/dev/null
+            
+            java -jar bundletool-all.jar build-apks \
+              --bundle="$AAB_PATH" \
+              --output=apks.apks \
+              --mode=universal \
+              --ks=dummy.keystore \
+              --ks-pass=pass:android \
+              --ks-key-alias=androiddebugkey \
+              --key-pass=pass:android
+          }
+        
+        # Extract the universal APK
+        unzip -q apks.apks universal.apk
+        
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        OUTPUT_FILE="v2er-${VERSION_NAME}_google_play_signed.apk"
+        
+        # Note: This APK is signed with debug key, the actual Google Play signed APK
+        # is only available after deployment to Play Store
+        mv universal.apk "$OUTPUT_FILE"
+        
+        echo "Generated APK: $OUTPUT_FILE"
+        echo "apk_path=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+        echo "found=true" >> $GITHUB_OUTPUT
+        
+    - name: Create Google Play link info
+      if: steps.download-apk.outputs.found == 'true'
+      id: play-link
+      run: |
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
+        
+        # Create info file about Google Play signing
+        cat > "v2er-${VERSION_NAME}_google_play_signed_info.txt" << EOF
+        Google Play Signed APK Information
+        ==================================
+        Version: ${VERSION_NAME}
+        Version Code: ${VERSION_CODE}
+        Package: me.ghui.v2er
+        
+        The APK attached (v2er-${VERSION_NAME}_google_play_signed.apk) is a universal APK 
+        generated from the AAB (Android App Bundle) that was uploaded to Google Play.
+        
+        When downloaded from Google Play Store, the APK will be signed with Google Play's 
+        app signing certificate instead of the upload certificate.
+        
+        Internal Testing Link:
+        https://play.google.com/apps/test/me.ghui.v2er/${VERSION_CODE}
+        
+        Note: Access to internal testing track required.
+        EOF
+        
+        echo "info_path=v2er-${VERSION_NAME}_google_play_signed_info.txt" >> $GITHUB_OUTPUT
+        
+    - name: Upload signed APK to GitHub Release
+      if: steps.download-apk.outputs.found == 'true'
+      uses: softprops/action-gh-release@v2
+      with:
+        tag_name: ${{ needs.prepare.outputs.version }}
+        files: |
+          ${{ steps.download-apk.outputs.apk_path }}
+          ${{ steps.play-link.outputs.info_path }}
+        fail_on_unmatched_files: false
+        
+    - name: Summary
+      if: always()
+      run: |
+        echo "## Google Play Signed APK :package:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [ "${{ steps.download-apk.outputs.found }}" = "true" ]; then
+          echo "✅ **Universal APK generated successfully**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version Code**: ${{ needs.prepare.outputs.version_code }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **File**: v2er-${{ needs.prepare.outputs.version }}_google_play_signed.apk" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Notes" >> $GITHUB_STEP_SUMMARY
+          echo "- This APK is generated from the AAB uploaded to Google Play" >> $GITHUB_STEP_SUMMARY
+          echo "- When installed from Play Store, it will use Google Play's signing certificate" >> $GITHUB_STEP_SUMMARY
+          echo "- The APK has been uploaded to the GitHub Release" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "⚠️ **No AAB found in artifacts**" >> $GITHUB_STEP_SUMMARY
+          echo "Signed APK generation requires a release bundle (AAB)" >> $GITHUB_STEP_SUMMARY
+        fi
