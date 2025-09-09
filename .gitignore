@@ -25,4 +25,4 @@ fastlane/*.json
 # Bundle
 vendor/bundle/
 .bundle/
-Gemfile.lock
+Gemfile.lockfastlane/node_modules/
