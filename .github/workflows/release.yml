@@ -455,19 +455,8 @@ jobs:
                         if download_id:
                             print(f"✅ Universal APK found with downloadId: {download_id}")
                             return True
-                    
-                    # Fallback: check split APKs for base module
-                    if 'generatedSplitApks' in apk:
-                        split_apks = apk['generatedSplitApks']
-                        for split_apk in split_apks:
-                            if (split_apk.get('moduleName') == 'base' and 
-                                'splitId' not in split_apk):
-                                download_id = split_apk.get('downloadId')
-                                if download_id:
-                                    print(f"✅ Base APK found with downloadId: {download_id}")
-                                    return True
                 
-                print("❌ No suitable APK found")
+                print("❌ No universal APK found")
                 return False
                 
             except Exception as e:
@@ -581,46 +570,8 @@ jobs:
                         print(f"Found universal APK: {universal_apk}")
                         break
                 
-                # Fallback: Look for base module in split APKs if no universal APK found
                 if not download_id:
-                    print("No generatedUniversalApk found, trying split APKs...")
-                    for apk in result['generatedApks']:
-                        if 'generatedSplitApks' in apk:
-                            split_apks = apk['generatedSplitApks']
-                            print(f"Found {len(split_apks)} split APKs")
-                            
-                            # Print all base modules for debugging
-                            base_candidates = []
-                            for split_apk in split_apks:
-                                if split_apk.get('moduleName') == 'base':
-                                    base_candidates.append(split_apk)
-                                    print(f"Base APK: variantId={split_apk.get('variantId')}, splitId={split_apk.get('splitId', 'None')}")
-                            
-                            # Try variantId=2 first (based on previous observations)
-                            for split_apk in split_apks:
-                                if (split_apk.get('moduleName') == 'base' and 
-                                    split_apk.get('variantId') == 2 and
-                                    'splitId' not in split_apk):
-                                    download_id = split_apk.get('downloadId')
-                                    universal_apk = split_apk
-                                    print(f"Found base APK (variantId=2): {universal_apk}")
-                                    break
-                            
-                            # Try other variants if variantId=2 not found
-                            if not download_id:
-                                for split_apk in split_apks:
-                                    if (split_apk.get('moduleName') == 'base' and 
-                                        'splitId' not in split_apk):
-                                        download_id = split_apk.get('downloadId')
-                                        universal_apk = split_apk
-                                        print(f"Found base APK (variantId={split_apk.get('variantId')}): {universal_apk}")
-                                        break
-                            
-                            if download_id:
-                                break
-                
-                if not download_id:
-                    print("No universal or base APK found")
+                    print("No universal APK found")
                     print("Available APK structure:")
                     print(json.dumps(result['generatedApks'], indent=2))
                     return False
