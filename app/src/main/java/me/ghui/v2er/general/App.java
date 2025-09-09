@@ -4,7 +4,6 @@ import android.app.Application;
 
 import androidx.annotation.Nullable;
 
-import com.oasisfeng.condom.CondomContext;
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
