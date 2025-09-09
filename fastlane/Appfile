@@ -1,0 +1,8 @@
+# For more information about the Appfile, see:
+#     https://docs.fastlane.tools/advanced/Appfile
+
+# Package name
+package_name("me.ghui.v2er")
+
+# Path to the json key file for Google Play Console API
+json_key_file(ENV["PLAY_STORE_JSON_KEY_PATH"] || "fastlane/play-store-key.json")
