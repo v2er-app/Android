@@ -10,6 +10,24 @@ on:
         description: 'Version to release (e.g., v1.0.0)'
         required: true
         type: string
+      track:
+        description: 'Play Store release track'
+        required: false
+        type: choice
+        default: 'internal'
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      status:
+        description: 'Play Store release status'
+        required: false
+        type: choice
+        default: 'draft'
+        options:
+          - draft
+          - completed
 
 permissions:
   contents: write
@@ -67,19 +85,18 @@ jobs:
         echo "Key alias configured: ${{ secrets.KEY_ALIAS != '' && 'Yes' || 'No' }}"
         
     - name: Build release APK
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
           echo "Building signed release APK"
-          echo "Using key alias: ${KEY_ALIAS:-ghui}"
-          ./gradlew assembleRelease --stacktrace
+          echo "Using key alias: ${{ secrets.KEY_ALIAS }}"
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=${{ github.workspace }}/app/keystore.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
         else
           echo "Building unsigned release APK"
-          ./gradlew assembleRelease --stacktrace || ./gradlew assembleDebug --stacktrace
+          ./gradlew assembleRelease --stacktrace
         fi
         
     - name: Clean up keystore
@@ -136,18 +153,25 @@ jobs:
         echo "$KEYSTORE_BASE64" | base64 --decode > app/keystore.jks
         
     - name: Build release bundle
-      env:
-        KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-        KEYSTORE_PATH: ${{ vars.ENABLE_SIGNING == 'true' && 'keystore.jks' || '' }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
           echo "Building signed release bundle"
-          ./gradlew bundleRelease --stacktrace
+          ./gradlew bundleRelease \
+            -Pandroid.injected.signing.store.file=${{ github.workspace }}/app/keystore.jks \
+            -Pandroid.injected.signing.store.password=${{ secrets.KEYSTORE_PASSWORD }} \
+            -Pandroid.injected.signing.key.alias=${{ secrets.KEY_ALIAS }} \
+            -Pandroid.injected.signing.key.password=${{ secrets.KEY_PASSWORD }}
         else
           echo "Skipping bundle build - signing not configured"
         fi
+        
+    - name: Generate debug symbols
+      if: ${{ vars.ENABLE_SIGNING == 'true' }}
+      run: |
+        echo "Checking for debug symbols..."
+        find app/build/outputs -name "*.zip" -type f | grep -i debug || echo "No debug symbol zips found"
+        find app/build/outputs -name "*symbols*" -type f || echo "No symbol files found"
+        ls -la app/build/outputs/bundle/release/ || true
         
     - name: Clean up keystore
       if: always()
@@ -242,24 +266,96 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
     - name: Download AAB artifact
       uses: actions/download-artifact@v4
       with:
         name: release-bundle
         path: release-artifacts/
         
-    - name: Find AAB file
-      id: find-aab
+    - name: Find bundle and symbols
+      id: find-files
       run: |
         AAB_PATH=$(find release-artifacts -name "*.aab" | head -1)
         echo "aab_path=$AAB_PATH" >> $GITHUB_OUTPUT
         
-    - name: Upload to Play Store
+        # Look for debug symbols
+        SYMBOLS_PATH=$(find release-artifacts -name "native-debug-symbols.zip" 2>/dev/null | head -1)
+        if [ -n "$SYMBOLS_PATH" ]; then
+          echo "symbols_path=$SYMBOLS_PATH" >> $GITHUB_OUTPUT
+          echo "Found debug symbols at: $SYMBOLS_PATH"
+        else
+          echo "No debug symbols found"
+        fi
+        
+    - name: Determine release track and status
+      id: release-config
+      run: |
+        if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+          TRACK="${{ github.event.inputs.track }}"
+          STATUS="${{ github.event.inputs.status }}"
+        else
+          # Default for tag pushes
+          TRACK="internal"
+          STATUS="draft"
+        fi
+        echo "track=$TRACK" >> $GITHUB_OUTPUT
+        echo "status=$STATUS" >> $GITHUB_OUTPUT
+        echo "Deploying to track: $TRACK with status: $STATUS"
+        
+    - name: Create whatsnew directory
+      run: |
+        mkdir -p whatsnew
+        
+        # Generate release notes
+        echo "Release ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
+        echo "" >> whatsnew/whatsnew-en-US
+        
+        # Get recent commits
+        git log --pretty=format:"• %s" -5 >> whatsnew/whatsnew-en-US
+        
+        # Chinese version
+        echo "版本 ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
+        echo "" >> whatsnew/whatsnew-zh-CN
+        git log --pretty=format:"• %s" -5 >> whatsnew/whatsnew-zh-CN
+        
+    - name: Upload to Play Store (with debug symbols)
+      if: steps.find-files.outputs.symbols_path != ''
       uses: r0adkll/upload-google-play@v1
       with:
-        serviceAccountJsonPlainText: ${{ secrets.SERVICE_ACCOUNT_JSON }}
+        serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
         packageName: me.ghui.v2er
-        releaseFiles: ${{ steps.find-aab.outputs.aab_path }}
-        track: internal
-        status: completed
+        releaseFiles: ${{ steps.find-files.outputs.aab_path }}
+        track: ${{ steps.release-config.outputs.track }}
+        status: ${{ steps.release-config.outputs.status }}
+        debugSymbols: ${{ steps.find-files.outputs.symbols_path }}
         whatsNewDirectory: whatsnew/
+        changesNotSentForReview: true
+      continue-on-error: true
+      id: upload-with-symbols
+        
+    - name: Upload to Play Store (without debug symbols)
+      if: steps.find-files.outputs.symbols_path == '' || steps.upload-with-symbols.outcome == 'failure'
+      uses: r0adkll/upload-google-play@v1
+      with:
+        serviceAccountJsonPlainText: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+        packageName: me.ghui.v2er
+        releaseFiles: ${{ steps.find-files.outputs.aab_path }}
+        track: ${{ steps.release-config.outputs.track }}
+        status: ${{ steps.release-config.outputs.status }}
+        whatsNewDirectory: whatsnew/
+        changesNotSentForReview: true
+        
+    - name: Play Store Upload Summary
+      if: success()
+      run: |
+        echo "## Play Store Upload Complete :rocket:" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "- **Version**: ${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Track**: ${{ steps.release-config.outputs.track }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Status**: ${{ steps.release-config.outputs.status }}" >> $GITHUB_STEP_SUMMARY
+        echo "- **Package**: me.ghui.v2er" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "[View in Play Console](https://play.google.com/console/u/0/app/me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
