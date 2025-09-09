@@ -38,11 +38,15 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       version: ${{ steps.version.outputs.version }}
-      version_code: ${{ steps.version_info.outputs.version_code }}
+      version_code: ${{ steps.auto_update.outputs.version_code }}
       
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: main
+        fetch-depth: 0
       
     - name: Determine version
       id: version
@@ -55,13 +59,45 @@ jobs:
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
         
-    - name: Extract version code
-      id: version_info
+    - name: Auto update version in config.gradle
+      id: auto_update
       run: |
-        # Extract version code from config.gradle
-        VERSION_CODE=$(grep "versionCode:" config.gradle | sed 's/.*versionCode: \([0-9]*\).*/\1/')
-        echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
-        echo "Version Code: $VERSION_CODE"
+        VERSION="${{ steps.version.outputs.version }}"
+        VERSION_NAME="${VERSION#v}"  # Remove 'v' prefix if present
+        
+        # Get current version info from config.gradle
+        CURRENT_VERSION=$(grep versionName config.gradle | cut -d'"' -f2)
+        CURRENT_CODE=$(grep versionCode config.gradle | grep -o '[0-9]*')
+        
+        echo "Current version: $CURRENT_VERSION (code: $CURRENT_CODE)"
+        echo "Target version: $VERSION_NAME"
+        
+        # Check if version needs updating
+        if [ "$CURRENT_VERSION" = "$VERSION_NAME" ]; then
+          echo "✅ Version already matches $VERSION_NAME"
+          echo "version_code=$CURRENT_CODE" >> $GITHUB_OUTPUT
+          echo "updated=false" >> $GITHUB_OUTPUT
+        else
+          # Auto-increment version code
+          NEW_CODE=$((CURRENT_CODE + 1))
+          echo "📝 Updating version to $VERSION_NAME (code: $NEW_CODE)"
+          
+          # Update config.gradle
+          sed -i "s/versionCode: [0-9]*/versionCode: $NEW_CODE/" config.gradle
+          sed -i "s/versionName: \"[^\"]*\"/versionName: \"$VERSION_NAME\"/" config.gradle
+          
+          # Commit and push the changes
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          git add config.gradle
+          git commit -m "chore: auto-update version to $VERSION_NAME (code: $NEW_CODE) [skip ci]"
+          git push origin main
+          
+          echo "✅ Version updated and pushed to main"
+          echo "version_code=$NEW_CODE" >> $GITHUB_OUTPUT
+          echo "updated=true" >> $GITHUB_OUTPUT
+        fi
 
   build-apk:
     name: Build Release APK
@@ -71,6 +107,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        ref: main  # Always use main branch with updated version
       
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -146,6 +184,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        ref: main  # Always use main branch with updated version
       
     - name: Set up JDK 17
       uses: actions/setup-java@v4
