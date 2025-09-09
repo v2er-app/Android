@@ -332,7 +332,6 @@ jobs:
         status: ${{ steps.release-config.outputs.status }}
         debugSymbols: ${{ steps.find-files.outputs.symbols_path }}
         whatsNewDirectory: whatsnew/
-        changesNotSentForReview: true
       continue-on-error: true
       id: upload-with-symbols
         
@@ -346,7 +345,6 @@ jobs:
         track: ${{ steps.release-config.outputs.track }}
         status: ${{ steps.release-config.outputs.status }}
         whatsNewDirectory: whatsnew/
-        changesNotSentForReview: true
         
     - name: Play Store Upload Summary
       if: success()
