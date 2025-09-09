@@ -414,62 +414,159 @@ jobs:
         path: bundle-artifacts/
       continue-on-error: true
         
-    - name: Download signed APK from Google Play
+    - name: Download Google Play Signed APK
       id: download-apk
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        # Check if AAB exists
-        AAB_PATH=$(find bundle-artifacts -name "*.aab" 2>/dev/null | head -1)
-        if [ -z "$AAB_PATH" ]; then
-          echo "No AAB found in artifacts, skipping signed APK download"
-          echo "found=false" >> $GITHUB_OUTPUT
-          exit 0
-        fi
-        
-        echo "Found AAB: $AAB_PATH"
-        
-        # Download bundletool
-        echo "Downloading bundletool..."
-        curl -L -o bundletool-all.jar https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
-        
-        # Verify download
-        if [ ! -f bundletool-all.jar ]; then
-          echo "Failed to download bundletool"
-          exit 1
-        fi
-        
-        # Create a dummy debug keystore for bundletool (required for APK generation)
-        echo "Creating dummy keystore..."
-        keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
-          -keyalg RSA -keysize 2048 -validity 10000 \
-          -dname "CN=Android Debug,O=Android,C=US" \
-          -storepass android -keypass android
-        
-        # Generate universal APK from the AAB 
-        echo "Generating universal APK set..."
-        java -jar bundletool-all.jar build-apks \
-          --bundle="$AAB_PATH" \
-          --output=apks.apks \
-          --mode=universal \
-          --ks=debug.keystore \
-          --ks-pass=pass:android \
-          --ks-key-alias=androiddebugkey \
-          --key-pass=pass:android
-        
-        # Extract the universal APK
-        unzip -q apks.apks universal.apk
-        
         VERSION_NAME="${{ needs.prepare.outputs.version }}"
-        OUTPUT_FILE="v2er-${VERSION_NAME}_google_play_signed.apk"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
+        PACKAGE_NAME="me.ghui.v2er"
         
-        # Note: This APK is signed with debug key, the actual Google Play signed APK
-        # is only available after deployment to Play Store
-        mv universal.apk "$OUTPUT_FILE"
+        # Create Python script to download signed universal APK
+        cat > download_signed_apk.py << 'EOF'
+        import json
+        import os
+        import sys
+        import requests
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
         
-        echo "Generated APK: $OUTPUT_FILE"
-        echo "apk_path=$OUTPUT_FILE" >> $GITHUB_OUTPUT
-        echo "found=true" >> $GITHUB_OUTPUT
+        def download_signed_apk():
+            try:
+                # Load service account credentials
+                service_account_info = json.loads(os.environ['PLAY_STORE_SERVICE_ACCOUNT_JSON'])
+                credentials = service_account.Credentials.from_service_account_info(
+                    service_account_info,
+                    scopes=['https://www.googleapis.com/auth/androidpublisher']
+                )
+                
+                # Build the service
+                service = build('androidpublisher', 'v3', credentials=credentials)
+                
+                package_name = os.environ['PACKAGE_NAME']
+                version_code = int(os.environ['VERSION_CODE'])
+                
+                print(f"Attempting to download signed APK for {package_name} version {version_code}")
+                
+                # Get the signed universal APK download URL
+                # Note: This requires the app to be released and processed by Google Play
+                result = service.generatedapks().list(
+                    packageName=package_name,
+                    versionCode=version_code
+                ).execute()
+                
+                if 'generatedApks' not in result or not result['generatedApks']:
+                    print("No generated APKs found. App may not be processed yet by Google Play.")
+                    return False
+                
+                # Find universal APK
+                universal_apk = None
+                for apk in result['generatedApks']:
+                    if apk.get('targetingInfo', {}).get('abiTargeting') is None:
+                        # This should be the universal APK
+                        universal_apk = apk
+                        break
+                
+                if not universal_apk:
+                    print("Universal APK not found in generated APKs")
+                    return False
+                
+                # Download the APK
+                download_url = universal_apk.get('downloadUrl')
+                if not download_url:
+                    print("Download URL not available for universal APK")
+                    return False
+                
+                print(f"Downloading APK from: {download_url}")
+                response = requests.get(download_url, stream=True)
+                response.raise_for_status()
+                
+                output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
+                with open(output_filename, 'wb') as f:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        f.write(chunk)
+                
+                print(f"Successfully downloaded: {output_filename}")
+                print(f"apk_path={output_filename}")
+                
+                return True
+                
+            except Exception as e:
+                print(f"Error downloading signed APK: {str(e)}")
+                print("This may be because:")
+                print("1. The app hasn't been processed by Google Play yet")
+                print("2. The version hasn't been released to any track")
+                print("3. API permissions are insufficient")
+                return False
+        
+        if __name__ == "__main__":
+            success = download_signed_apk()
+            sys.exit(0 if success else 1)
+        EOF
+        
+        # Set environment variables for the script
+        export PACKAGE_NAME="$PACKAGE_NAME"
+        export VERSION_CODE="$VERSION_CODE"
+        export VERSION_NAME="$VERSION_NAME"
+        
+        # Run the download script
+        echo "Attempting to download Google Play signed APK..."
+        if python3 download_signed_apk.py > download_output.txt 2>&1; then
+          echo "Successfully downloaded Google Play signed APK"
+          cat download_output.txt
+          
+          # Extract the APK path from output
+          APK_PATH=$(grep "apk_path=" download_output.txt | cut -d'=' -f2)
+          if [ -f "$APK_PATH" ]; then
+            echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
+            echo "found=true" >> $GITHUB_OUTPUT
+          else
+            echo "APK file not found after download"
+            echo "found=false" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "Failed to download Google Play signed APK, falling back to universal APK generation"
+          cat download_output.txt
+          
+          # Fallback: Generate universal APK from AAB as before
+          AAB_PATH=$(find bundle-artifacts -name "*.aab" 2>/dev/null | head -1)
+          if [ -z "$AAB_PATH" ]; then
+            echo "No AAB found for fallback, skipping"
+            echo "found=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "Generating universal APK from AAB as fallback..."
+          
+          # Download bundletool
+          curl -L -o bundletool-all.jar https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
+          
+          # Create dummy keystore
+          keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -storepass android -keypass android
+          
+          # Generate universal APK
+          java -jar bundletool-all.jar build-apks \
+            --bundle="$AAB_PATH" \
+            --output=apks.apks \
+            --mode=universal \
+            --ks=debug.keystore \
+            --ks-pass=pass:android \
+            --ks-key-alias=androiddebugkey \
+            --key-pass=pass:android
+          
+          # Extract APK
+          unzip -q apks.apks universal.apk
+          OUTPUT_FILE="v2er-${VERSION_NAME}_google_play_signed.apk"
+          mv universal.apk "$OUTPUT_FILE"
+          
+          echo "Generated fallback APK: $OUTPUT_FILE"
+          echo "apk_path=$OUTPUT_FILE" >> $GITHUB_OUTPUT
+          echo "found=true" >> $GITHUB_OUTPUT
+        fi
         
     - name: Create Google Play link info
       if: steps.download-apk.outputs.found == 'true'
