@@ -433,31 +433,23 @@ jobs:
         echo "Downloading bundletool..."
         wget -q https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
         
-        # Generate universal APK from the AAB (this will have Google Play signing when deployed)
+        # Create a dummy debug keystore for bundletool (required for APK generation)
+        echo "Creating dummy keystore..."
+        keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
+          -keyalg RSA -keysize 2048 -validity 10000 \
+          -dname "CN=Android Debug,O=Android,C=US" \
+          -storepass android -keypass android
+        
+        # Generate universal APK from the AAB 
         echo "Generating universal APK set..."
         java -jar bundletool-all.jar build-apks \
           --bundle="$AAB_PATH" \
           --output=apks.apks \
           --mode=universal \
-          --ks=dummy.keystore \
+          --ks=debug.keystore \
           --ks-pass=pass:android \
           --ks-key-alias=androiddebugkey \
-          --key-pass=pass:android 2>/dev/null || {
-            # If no keystore, create a dummy one
-            keytool -genkey -v -keystore dummy.keystore -alias androiddebugkey \
-              -keyalg RSA -keysize 2048 -validity 10000 \
-              -dname "CN=Android Debug,O=Android,C=US" \
-              -storepass android -keypass android 2>/dev/null
-            
-            java -jar bundletool-all.jar build-apks \
-              --bundle="$AAB_PATH" \
-              --output=apks.apks \
-              --mode=universal \
-              --ks=dummy.keystore \
-              --ks-pass=pass:android \
-              --ks-key-alias=androiddebugkey \
-              --key-pass=pass:android
-          }
+          --key-pass=pass:android
         
         # Extract the universal APK
         unzip -q apks.apks universal.apk
