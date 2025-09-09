@@ -462,34 +462,34 @@ jobs:
                         print(f"  {key}: {value}")
                     print()
                 
-                # Find universal APK and get downloadId
+                # Find universal APK in generatedSplitApks (based on API debug output)
+                download_id = None
                 universal_apk = None
-                for apk in result['generatedApks']:
-                    targeting_info = apk.get('targetingInfo', {})
-                    # Universal APK typically has no targeting info or minimal targeting
-                    if (not targeting_info.get('abiTargeting') and 
-                        not targeting_info.get('screenDensityTargeting') and
-                        not targeting_info.get('languageTargeting')):
-                        universal_apk = apk
-                        break
                 
-                if not universal_apk:
-                    # Fallback: try to find any APK that looks universal
-                    for apk in result['generatedApks']:
-                        if not apk.get('targetingInfo', {}).get('abiTargeting'):
-                            universal_apk = apk
+                for apk in result['generatedApks']:
+                    if 'generatedSplitApks' in apk:
+                        split_apks = apk['generatedSplitApks']
+                        print(f"Found {len(split_apks)} split APKs")
+                        
+                        # Look for the base/universal APK - typically variantId=1, moduleName='base'
+                        for split_apk in split_apks:
+                            print(f"Split APK: variantId={split_apk.get('variantId')}, moduleName={split_apk.get('moduleName')}")
+                            # Universal APK is typically the base module without splitId
+                            if (split_apk.get('moduleName') == 'base' and 
+                                split_apk.get('variantId') == 1 and
+                                'splitId' not in split_apk):
+                                download_id = split_apk.get('downloadId')
+                                universal_apk = split_apk
+                                print(f"Found universal APK: {universal_apk}")
+                                break
+                        
+                        if download_id:
                             break
                 
-                if not universal_apk:
-                    print("Universal APK not found in generated APKs")
-                    print("Available APKs:")
-                    for i, apk in enumerate(result['generatedApks']):
-                        print(f"  APK {i}: {apk.get('targetingInfo', 'No targeting info')}")
-                    return False
-                
-                download_id = universal_apk.get('downloadId')
                 if not download_id:
-                    print("Download ID not available for universal APK")
+                    print("Universal APK not found in generatedSplitApks")
+                    print("Available APK structure:")
+                    print(json.dumps(result['generatedApks'], indent=2))
                     return False
                 
                 print(f"Found universal APK with downloadId: {download_id}")
