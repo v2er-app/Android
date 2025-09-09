@@ -385,6 +385,8 @@ jobs:
 
   download-signed-apk:
     name: Download Google Play Signed APK
+    needs: [prepare, play-store-upload]
+    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -403,7 +405,7 @@ jobs:
     - name: Wait for Google Play processing
       run: |
         echo "Waiting for Google Play to process and sign the APK..."
-        sleep 120  # Wait 2 minutes for Google Play to process
+        sleep 300  # Wait 5 minutes for Google Play to process and sign
         
     # AAB artifact not needed for Google Play signed APK download
         
@@ -412,8 +414,8 @@ jobs:
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        VERSION_NAME="v2.3.3"
-        VERSION_CODE="233"
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
         PACKAGE_NAME="me.ghui.v2er"
         
         # Create Python script to download signed universal APK
@@ -602,8 +604,8 @@ jobs:
       if: steps.download-apk.outputs.found == 'true'
       id: play-link
       run: |
-        VERSION_NAME="v2.3.3"
-        VERSION_CODE="233"
+        VERSION_NAME="${{ needs.prepare.outputs.version }}"
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
         
         # Create info file about Google Play signing
         cat > "v2er-${VERSION_NAME}_google_play_signed_info.txt" << EOF
@@ -631,7 +633,7 @@ jobs:
       if: steps.download-apk.outputs.found == 'true'
       uses: softprops/action-gh-release@v2
       with:
-        tag_name: v2.3.3
+        tag_name: ${{ needs.prepare.outputs.version }}
         files: |
           ${{ steps.download-apk.outputs.apk_path }}
           ${{ steps.play-link.outputs.info_path }}
@@ -646,15 +648,19 @@ jobs:
         if [ "${{ steps.download-apk.outputs.found }}" = "true" ]; then
           echo "✅ **Universal APK generated successfully**" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version**: v2.3.3" >> $GITHUB_STEP_SUMMARY
-          echo "- **Version Code**: 233" >> $GITHUB_STEP_SUMMARY
-          echo "- **File**: v2er-v2.3.3_google_play_signed.apk" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: ${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version Code**: ${{ needs.prepare.outputs.version_code }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **File**: v2er-${{ needs.prepare.outputs.version }}_google_play_signed.apk" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "### Notes" >> $GITHUB_STEP_SUMMARY
           echo "- This APK is generated from the AAB uploaded to Google Play" >> $GITHUB_STEP_SUMMARY
           echo "- When installed from Play Store, it will use Google Play's signing certificate" >> $GITHUB_STEP_SUMMARY
           echo "- The APK has been uploaded to the GitHub Release" >> $GITHUB_STEP_SUMMARY
         else
-          echo "⚠️ **No AAB found in artifacts**" >> $GITHUB_STEP_SUMMARY
-          echo "Signed APK generation requires a release bundle (AAB)" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Google Play signed APK download failed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This may be because:" >> $GITHUB_STEP_SUMMARY
+          echo "- Google Play is still processing the upload" >> $GITHUB_STEP_SUMMARY
+          echo "- The version hasn't been released to any track yet" >> $GITHUB_STEP_SUMMARY
+          echo "- API permissions are insufficient" >> $GITHUB_STEP_SUMMARY
         fi
