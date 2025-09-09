@@ -431,7 +431,13 @@ jobs:
         
         # Download bundletool
         echo "Downloading bundletool..."
-        wget -q https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
+        curl -L -o bundletool-all.jar https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
+        
+        # Verify download
+        if [ ! -f bundletool-all.jar ]; then
+          echo "Failed to download bundletool"
+          exit 1
+        fi
         
         # Create a dummy debug keystore for bundletool (required for APK generation)
         echo "Creating dummy keystore..."
