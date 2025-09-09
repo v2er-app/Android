@@ -129,7 +129,7 @@ platform :android do
     upload_to_play_store(
       track: "beta",
       track_promote_to: "production",
-      rollout: "0.1",  # Start with 10% rollout
+      rollout: "0.1",  # Start with 10% rollout (0.1 = 10%)
       skip_upload_apk: true,
       skip_upload_aab: true,
       skip_upload_metadata: true,

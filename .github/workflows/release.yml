@@ -85,9 +85,6 @@ jobs:
         echo "Key alias configured: ${{ secrets.KEY_ALIAS != '' && 'Yes' || 'No' }}"
         
     - name: Build release APK
-      env:
-        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
           echo "Building signed release APK"
@@ -156,9 +153,6 @@ jobs:
         echo "$KEYSTORE_BASE64" | base64 --decode > app/keystore.jks
         
     - name: Build release bundle
-      env:
-        GHUI_KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-        GHUI_KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
       run: |
         if [ "${{ vars.ENABLE_SIGNING }}" = "true" ] && [ -f "app/keystore.jks" ]; then
           echo "Building signed release bundle"
@@ -364,4 +358,4 @@ jobs:
         echo "- **Status**: ${{ steps.release-config.outputs.status }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Package**: me.ghui.v2er" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
-        echo "[View in Play Console](https://play.google.com/console/u/0/developers/your-developer-id/app/me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
+        echo "[View in Play Console](https://play.google.com/console/u/0/app/me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
