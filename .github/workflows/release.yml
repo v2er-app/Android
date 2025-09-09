@@ -183,7 +183,9 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: release-bundle
-        path: app/build/outputs/bundle/**/*.aab
+        path: |
+          app/build/outputs/bundle/**/*.aab
+          app/build/outputs/mapping/release/mapping.txt
         retention-days: 30
 
   release:
@@ -290,6 +292,15 @@ jobs:
           echo "No debug symbols found"
         fi
         
+        # Look for ProGuard/R8 mapping file
+        MAPPING_PATH=$(find release-artifacts -name "mapping.txt" 2>/dev/null | head -1)
+        if [ -n "$MAPPING_PATH" ]; then
+          echo "mapping_path=$MAPPING_PATH" >> $GITHUB_OUTPUT
+          echo "Found ReTrace mapping file at: $MAPPING_PATH"
+        else
+          echo "No ReTrace mapping file found"
+        fi
+        
     - name: Determine release track and status
       id: release-config
       run: |
@@ -331,6 +342,7 @@ jobs:
         track: ${{ steps.release-config.outputs.track }}
         status: ${{ steps.release-config.outputs.status }}
         debugSymbols: ${{ steps.find-files.outputs.symbols_path }}
+        mappingFile: ${{ steps.find-files.outputs.mapping_path }}
         whatsNewDirectory: whatsnew/
       continue-on-error: true
       id: upload-with-symbols
@@ -344,6 +356,7 @@ jobs:
         releaseFiles: ${{ steps.find-files.outputs.aab_path }}
         track: ${{ steps.release-config.outputs.track }}
         status: ${{ steps.release-config.outputs.status }}
+        mappingFile: ${{ steps.find-files.outputs.mapping_path }}
         whatsNewDirectory: whatsnew/
         
     - name: Play Store Upload Summary
