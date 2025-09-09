@@ -385,7 +385,7 @@ jobs:
 
   download-signed-apk:
     name: Download Google Play Signed APK
-    needs: [prepare, upload-play-store]
+    needs: [prepare, play-store-upload]
     runs-on: ubuntu-latest
     if: success()
     
