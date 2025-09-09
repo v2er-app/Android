@@ -402,10 +402,115 @@ jobs:
       run: |
         pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
         
-    - name: Wait for Google Play processing
+    - name: Check and wait for Google Play processing
+      env:
+        PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        echo "Waiting for Google Play to process and sign the APK..."
-        sleep 300  # Wait 5 minutes for Google Play to process and sign
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
+        PACKAGE_NAME="me.ghui.v2er"
+        
+        # Create Python script to check if APK exists
+        cat > check_apk_exists.py << 'EOF'
+        import json
+        import os
+        import sys
+        import time
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+        
+        def check_apk_exists():
+            try:
+                # Load service account credentials
+                service_account_info = json.loads(os.environ['PLAY_STORE_SERVICE_ACCOUNT_JSON'])
+                credentials = service_account.Credentials.from_service_account_info(
+                    service_account_info,
+                    scopes=['https://www.googleapis.com/auth/androidpublisher']
+                )
+                
+                # Build the service
+                service = build('androidpublisher', 'v3', credentials=credentials)
+                
+                package_name = os.environ['PACKAGE_NAME']
+                version_code = int(os.environ['VERSION_CODE'])
+                
+                print(f"Checking if signed APK exists for {package_name} version {version_code}")
+                
+                # Try to get the generated APKs list
+                result = service.generatedapks().list(
+                    packageName=package_name,
+                    versionCode=version_code
+                ).execute()
+                
+                if 'generatedApks' not in result or not result['generatedApks']:
+                    print(f"No generated APKs found for version {version_code}")
+                    return False
+                
+                print(f"Found {len(result['generatedApks'])} generated APK groups")
+                
+                # Check if we can find a universal APK
+                for apk in result['generatedApks']:
+                    if 'generatedUniversalApk' in apk:
+                        universal_apk = apk['generatedUniversalApk']
+                        download_id = universal_apk.get('downloadId')
+                        if download_id:
+                            print(f"✅ Universal APK found with downloadId: {download_id}")
+                            return True
+                    
+                    # Fallback: check split APKs for base module
+                    if 'generatedSplitApks' in apk:
+                        split_apks = apk['generatedSplitApks']
+                        for split_apk in split_apks:
+                            if (split_apk.get('moduleName') == 'base' and 
+                                'splitId' not in split_apk):
+                                download_id = split_apk.get('downloadId')
+                                if download_id:
+                                    print(f"✅ Base APK found with downloadId: {download_id}")
+                                    return True
+                
+                print("❌ No suitable APK found")
+                return False
+                
+            except Exception as e:
+                print(f"Error checking APK: {str(e)}")
+                return False
+        
+        if __name__ == "__main__":
+            exists = check_apk_exists()
+            sys.exit(0 if exists else 1)
+        EOF
+        
+        # Set environment variables for the script
+        export PACKAGE_NAME="$PACKAGE_NAME"
+        export VERSION_CODE="$VERSION_CODE"
+        
+        # Check if APK already exists
+        echo "Checking if Google Play signed APK is ready..."
+        if python3 check_apk_exists.py; then
+          echo "✅ APK is already available, skipping wait"
+        else
+          echo "⏳ APK not ready yet, waiting for Google Play to process..."
+          
+          # Smart waiting with periodic checks
+          MAX_WAIT=600  # Maximum 10 minutes
+          CHECK_INTERVAL=30  # Check every 30 seconds
+          elapsed=0
+          
+          while [ $elapsed -lt $MAX_WAIT ]; do
+            sleep $CHECK_INTERVAL
+            elapsed=$((elapsed + CHECK_INTERVAL))
+            
+            echo "⏱️  Waited ${elapsed}s, checking again..."
+            if python3 check_apk_exists.py; then
+              echo "✅ APK is now available after ${elapsed}s"
+              break
+            fi
+            
+            if [ $elapsed -ge $MAX_WAIT ]; then
+              echo "⚠️  Maximum wait time (${MAX_WAIT}s) reached"
+              echo "APK may still be processing, will attempt download anyway"
+            fi
+          done
+        fi
         
     # AAB artifact not needed for Google Play signed APK download
         
