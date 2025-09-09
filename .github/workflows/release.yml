@@ -455,6 +455,13 @@ jobs:
                 
                 print(f"Found {len(result['generatedApks'])} generated APKs")
                 
+                # Debug: Print all APK structures
+                for i, apk in enumerate(result['generatedApks']):
+                    print(f"APK {i} structure:")
+                    for key, value in apk.items():
+                        print(f"  {key}: {value}")
+                    print()
+                
                 # Find universal APK and get downloadId
                 universal_apk = None
                 for apk in result['generatedApks']:
