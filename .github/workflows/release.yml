@@ -386,8 +386,8 @@ jobs:
   download-signed-apk:
     name: Download Google Play Signed APK
     needs: [prepare, play-store-upload]
+    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
-    if: success()
     
     steps:
     - name: Checkout code
@@ -402,17 +402,106 @@ jobs:
       run: |
         pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib requests
         
-    - name: Wait for Google Play processing
+    - name: Check and wait for Google Play processing
+      env:
+        PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
       run: |
-        echo "Waiting for Google Play to process and sign the APK..."
-        sleep 120  # Wait 2 minutes for Google Play to process
+        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
+        PACKAGE_NAME="me.ghui.v2er"
         
-    - name: Download AAB artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: release-bundle
-        path: bundle-artifacts/
-      continue-on-error: true
+        # Create Python script to check if APK exists
+        cat > check_apk_exists.py << 'EOF'
+        import json
+        import os
+        import sys
+        import time
+        from google.oauth2 import service_account
+        from googleapiclient.discovery import build
+        
+        def check_apk_exists():
+            try:
+                # Load service account credentials
+                service_account_info = json.loads(os.environ['PLAY_STORE_SERVICE_ACCOUNT_JSON'])
+                credentials = service_account.Credentials.from_service_account_info(
+                    service_account_info,
+                    scopes=['https://www.googleapis.com/auth/androidpublisher']
+                )
+                
+                # Build the service
+                service = build('androidpublisher', 'v3', credentials=credentials)
+                
+                package_name = os.environ['PACKAGE_NAME']
+                version_code = int(os.environ['VERSION_CODE'])
+                
+                print(f"Checking if signed APK exists for {package_name} version {version_code}")
+                
+                # Try to get the generated APKs list
+                result = service.generatedapks().list(
+                    packageName=package_name,
+                    versionCode=version_code
+                ).execute()
+                
+                if 'generatedApks' not in result or not result['generatedApks']:
+                    print(f"No generated APKs found for version {version_code}")
+                    return False
+                
+                print(f"Found {len(result['generatedApks'])} generated APK groups")
+                
+                # Check if we can find a universal APK
+                for apk in result['generatedApks']:
+                    if 'generatedUniversalApk' in apk:
+                        universal_apk = apk['generatedUniversalApk']
+                        download_id = universal_apk.get('downloadId')
+                        if download_id:
+                            print(f"✅ Universal APK found with downloadId: {download_id}")
+                            return True
+                
+                print("❌ No universal APK found")
+                return False
+                
+            except Exception as e:
+                print(f"Error checking APK: {str(e)}")
+                return False
+        
+        if __name__ == "__main__":
+            exists = check_apk_exists()
+            sys.exit(0 if exists else 1)
+        EOF
+        
+        # Set environment variables for the script
+        export PACKAGE_NAME="$PACKAGE_NAME"
+        export VERSION_CODE="$VERSION_CODE"
+        
+        # Check if APK already exists
+        echo "Checking if Google Play signed APK is ready..."
+        if python3 check_apk_exists.py; then
+          echo "✅ APK is already available, skipping wait"
+        else
+          echo "⏳ APK not ready yet, waiting for Google Play to process..."
+          
+          # Smart waiting with periodic checks
+          MAX_WAIT=600  # Maximum 10 minutes
+          CHECK_INTERVAL=30  # Check every 30 seconds
+          elapsed=0
+          
+          while [ $elapsed -lt $MAX_WAIT ]; do
+            sleep $CHECK_INTERVAL
+            elapsed=$((elapsed + CHECK_INTERVAL))
+            
+            echo "⏱️  Waited ${elapsed}s, checking again..."
+            if python3 check_apk_exists.py; then
+              echo "✅ APK is now available after ${elapsed}s"
+              break
+            fi
+            
+            if [ $elapsed -ge $MAX_WAIT ]; then
+              echo "⚠️  Maximum wait time (${MAX_WAIT}s) reached"
+              echo "APK may still be processing, will attempt download anyway"
+            fi
+          done
+        fi
+        
+    # AAB artifact not needed for Google Play signed APK download
         
     - name: Download Google Play Signed APK
       id: download-apk
@@ -449,8 +538,8 @@ jobs:
                 
                 print(f"Attempting to download signed APK for {package_name} version {version_code}")
                 
-                # Get the signed universal APK download URL
-                # Note: This requires the app to be released and processed by Google Play
+                # Step 1: Get the generated APKs list to find downloadId
+                print("Getting generated APKs list...")
                 result = service.generatedapks().list(
                     packageName=package_name,
                     versionCode=version_code
@@ -460,32 +549,68 @@ jobs:
                     print("No generated APKs found. App may not be processed yet by Google Play.")
                     return False
                 
-                # Find universal APK
+                print(f"Found {len(result['generatedApks'])} generated APKs")
+                
+                # Debug: Print all APK structures
+                for i, apk in enumerate(result['generatedApks']):
+                    print(f"APK {i} structure:")
+                    for key, value in apk.items():
+                        print(f"  {key}: {value}")
+                    print()
+                
+                # Find universal APK using the correct API structure
+                download_id = None
                 universal_apk = None
+                
+                # First, try to find a universal APK in generatedUniversalApk
                 for apk in result['generatedApks']:
-                    if apk.get('targetingInfo', {}).get('abiTargeting') is None:
-                        # This should be the universal APK
-                        universal_apk = apk
+                    if 'generatedUniversalApk' in apk:
+                        universal_apk = apk['generatedUniversalApk']
+                        download_id = universal_apk.get('downloadId')
+                        print(f"Found universal APK: {universal_apk}")
                         break
                 
-                if not universal_apk:
-                    print("Universal APK not found in generated APKs")
+                if not download_id:
+                    print("No universal APK found")
+                    print("Available APK structure:")
+                    print(json.dumps(result['generatedApks'], indent=2))
                     return False
                 
-                # Download the APK
-                download_url = universal_apk.get('downloadUrl')
-                if not download_url:
-                    print("Download URL not available for universal APK")
-                    return False
+                print(f"Found universal APK with downloadId: {download_id}")
                 
-                print(f"Downloading APK from: {download_url}")
-                response = requests.get(download_url, stream=True)
-                response.raise_for_status()
+                # Step 2: Download the APK using the downloadId
+                print("Downloading APK binary...")
+                
+                # Use alt=media to get the actual binary content instead of metadata
+                download_request = service.generatedapks().download(
+                    packageName=package_name,
+                    versionCode=version_code,
+                    downloadId=download_id
+                )
+                # Add alt=media parameter correctly (URL already has query params, so use &)
+                if '?' in download_request.uri:
+                    download_request.uri += '&alt=media'
+                else:
+                    download_request.uri += '?alt=media'
                 
                 output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
+                
+                # Use media download with googleapiclient.http to handle binary content
+                import io
+                from googleapiclient.http import MediaIoBaseDownload
+                
+                file_io = io.BytesIO()
+                downloader = MediaIoBaseDownload(file_io, download_request)
+                
+                done = False
+                while done is False:
+                    status, done = downloader.next_chunk()
+                    if status:
+                        print(f"Download progress: {int(status.progress() * 100)}%")
+                
+                # Write to file
                 with open(output_filename, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        f.write(chunk)
+                    f.write(file_io.getvalue())
                 
                 print(f"Successfully downloaded: {output_filename}")
                 print(f"apk_path={output_filename}")
@@ -526,46 +651,9 @@ jobs:
             echo "found=false" >> $GITHUB_OUTPUT
           fi
         else
-          echo "Failed to download Google Play signed APK, falling back to universal APK generation"
+          echo "Failed to download Google Play signed APK"
           cat download_output.txt
-          
-          # Fallback: Generate universal APK from AAB as before
-          AAB_PATH=$(find bundle-artifacts -name "*.aab" 2>/dev/null | head -1)
-          if [ -z "$AAB_PATH" ]; then
-            echo "No AAB found for fallback, skipping"
-            echo "found=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          
-          echo "Generating universal APK from AAB as fallback..."
-          
-          # Download bundletool
-          curl -L -o bundletool-all.jar https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
-          
-          # Create dummy keystore
-          keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US" \
-            -storepass android -keypass android
-          
-          # Generate universal APK
-          java -jar bundletool-all.jar build-apks \
-            --bundle="$AAB_PATH" \
-            --output=apks.apks \
-            --mode=universal \
-            --ks=debug.keystore \
-            --ks-pass=pass:android \
-            --ks-key-alias=androiddebugkey \
-            --key-pass=pass:android
-          
-          # Extract APK
-          unzip -q apks.apks universal.apk
-          OUTPUT_FILE="v2er-${VERSION_NAME}_google_play_signed.apk"
-          mv universal.apk "$OUTPUT_FILE"
-          
-          echo "Generated fallback APK: $OUTPUT_FILE"
-          echo "apk_path=$OUTPUT_FILE" >> $GITHUB_OUTPUT
-          echo "found=true" >> $GITHUB_OUTPUT
+          echo "found=false" >> $GITHUB_OUTPUT
         fi
         
     - name: Create Google Play link info
@@ -625,6 +713,10 @@ jobs:
           echo "- When installed from Play Store, it will use Google Play's signing certificate" >> $GITHUB_STEP_SUMMARY
           echo "- The APK has been uploaded to the GitHub Release" >> $GITHUB_STEP_SUMMARY
         else
-          echo "⚠️ **No AAB found in artifacts**" >> $GITHUB_STEP_SUMMARY
-          echo "Signed APK generation requires a release bundle (AAB)" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Google Play signed APK download failed**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "This may be because:" >> $GITHUB_STEP_SUMMARY
+          echo "- Google Play is still processing the upload" >> $GITHUB_STEP_SUMMARY
+          echo "- The version hasn't been released to any track yet" >> $GITHUB_STEP_SUMMARY
+          echo "- API permissions are insufficient" >> $GITHUB_STEP_SUMMARY
         fi
