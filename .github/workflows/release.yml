@@ -405,12 +405,7 @@ jobs:
         echo "Waiting for Google Play to process and sign the APK..."
         sleep 120  # Wait 2 minutes for Google Play to process
         
-    - name: Download AAB artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: release-bundle
-        path: bundle-artifacts/
-      continue-on-error: true
+    # AAB artifact not needed for Google Play signed APK download
         
     - name: Download Google Play Signed APK
       id: download-apk
@@ -524,46 +519,9 @@ jobs:
             echo "found=false" >> $GITHUB_OUTPUT
           fi
         else
-          echo "Failed to download Google Play signed APK, falling back to universal APK generation"
+          echo "Failed to download Google Play signed APK"
           cat download_output.txt
-          
-          # Fallback: Generate universal APK from AAB as before
-          AAB_PATH=$(find bundle-artifacts -name "*.aab" 2>/dev/null | head -1)
-          if [ -z "$AAB_PATH" ]; then
-            echo "No AAB found for fallback, skipping"
-            echo "found=false" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          
-          echo "Generating universal APK from AAB as fallback..."
-          
-          # Download bundletool
-          curl -L -o bundletool-all.jar https://github.com/google/bundletool/releases/latest/download/bundletool-all.jar
-          
-          # Create dummy keystore
-          keytool -genkey -v -keystore debug.keystore -alias androiddebugkey \
-            -keyalg RSA -keysize 2048 -validity 10000 \
-            -dname "CN=Android Debug,O=Android,C=US" \
-            -storepass android -keypass android
-          
-          # Generate universal APK
-          java -jar bundletool-all.jar build-apks \
-            --bundle="$AAB_PATH" \
-            --output=apks.apks \
-            --mode=universal \
-            --ks=debug.keystore \
-            --ks-pass=pass:android \
-            --ks-key-alias=androiddebugkey \
-            --key-pass=pass:android
-          
-          # Extract APK
-          unzip -q apks.apks universal.apk
-          OUTPUT_FILE="v2er-${VERSION_NAME}_google_play_signed.apk"
-          mv universal.apk "$OUTPUT_FILE"
-          
-          echo "Generated fallback APK: $OUTPUT_FILE"
-          echo "apk_path=$OUTPUT_FILE" >> $GITHUB_OUTPUT
-          echo "found=true" >> $GITHUB_OUTPUT
+          echo "found=false" >> $GITHUB_OUTPUT
         fi
         
     - name: Create Google Play link info
