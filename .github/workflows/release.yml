@@ -530,7 +530,9 @@ jobs:
                 
                 # Step 2: Download the APK using the downloadId
                 print("Downloading APK binary...")
-                download_request = service.generatedapks().download(
+                
+                # Execute the download request to get the media content
+                download_request = service.generatedapks().download_media(
                     packageName=package_name,
                     versionCode=version_code,
                     downloadId=download_id
@@ -538,7 +540,6 @@ jobs:
                 
                 output_filename = f"v2er-{os.environ['VERSION_NAME']}_google_play_signed.apk"
                 
-                # Execute the download request and save to file
                 # Use media download with googleapiclient.http to handle binary content
                 import io
                 from googleapiclient.http import MediaIoBaseDownload
