@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'
+    branches:
+      - main
+    paths:
+      - 'config.gradle'
   workflow_dispatch:
     inputs:
       version:
@@ -39,18 +43,72 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.version }}
       version_code: ${{ steps.version_info.outputs.version_code }}
+      should_release: ${{ steps.check_version.outputs.should_release }}
       
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # Need history for version comparison
       
+    - name: Check if version changed (for config.gradle trigger)
+      id: check_version
+      if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'config.gradle')
+      run: |
+        # Get current version from config.gradle
+        CURRENT_VERSION=$(grep versionName config.gradle | sed -E 's/.*versionName:\s*"([^"]+)".*/\1/')
+        CURRENT_CODE=$(grep versionCode config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/')
+        
+        # Get previous version - handle first commit case
+        if git rev-parse HEAD~1 >/dev/null 2>&1; then
+          git show HEAD~1:config.gradle > prev_config.gradle 2>/dev/null || echo "No previous config.gradle"
+          if [ -f prev_config.gradle ]; then
+            PREV_VERSION=$(grep versionName prev_config.gradle | sed -E 's/.*versionName:\s*"([^"]+)".*/\1/' || echo "")
+            PREV_CODE=$(grep versionCode prev_config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/' || echo "0")
+            rm prev_config.gradle
+          else
+            PREV_VERSION=""
+            PREV_CODE="0"
+          fi
+        else
+          # First commit in repo
+          PREV_VERSION=""
+          PREV_CODE="0"
+        fi
+        
+        echo "Previous: v$PREV_VERSION (code: $PREV_CODE)"
+        echo "Current: v$CURRENT_VERSION (code: $CURRENT_CODE)"
+        
+        # Check if version increased
+        if [ -n "$CURRENT_VERSION" ] && [ "$CURRENT_CODE" -gt "$PREV_CODE" ]; then
+          echo "✅ Version increased from $PREV_VERSION to $CURRENT_VERSION"
+          echo "should_release=true" >> $GITHUB_OUTPUT
+          echo "version=v$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          
+          # Check if tag already exists
+          if git ls-remote --tags origin | grep -q "refs/tags/v${CURRENT_VERSION}$"; then
+            echo "⚠️ Tag v$CURRENT_VERSION already exists, skipping release"
+            echo "should_release=false" >> $GITHUB_OUTPUT
+          fi
+        else
+          echo "ℹ️ No version increase detected or invalid version"
+          echo "should_release=false" >> $GITHUB_OUTPUT
+        fi
+        
     - name: Determine version
       id: version
       run: |
         if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
           VERSION="${{ github.event.inputs.version }}"
-        else
+          echo "should_release=true" >> $GITHUB_OUTPUT
+        elif [ "${{ steps.check_version.outputs.should_release }}" = "true" ]; then
+          VERSION="${{ steps.check_version.outputs.version }}"
+        elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
           VERSION="${{ github.ref_name }}"
+          echo "should_release=true" >> $GITHUB_OUTPUT
+        else
+          VERSION="v0.0.0"
+          echo "should_release=false" >> $GITHUB_OUTPUT
         fi
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
@@ -58,14 +116,29 @@ jobs:
     - name: Extract version code
       id: version_info
       run: |
-        # Extract version code from config.gradle
-        VERSION_CODE=$(grep "versionCode:" config.gradle | sed 's/.*versionCode: \([0-9]*\).*/\1/')
+        # Extract version code from config.gradle - handle both formats
+        VERSION_CODE=$(grep "versionCode:" config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/')
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
         echo "Version Code: $VERSION_CODE"
+        
+    - name: Create tag if version changed
+      if: steps.check_version.outputs.should_release == 'true' && github.event_name == 'push' && contains(github.event.head_commit.modified, 'config.gradle')
+      run: |
+        TAG_NAME="${{ steps.version.outputs.version }}"
+        
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        
+        # Create annotated tag
+        git tag -a "${TAG_NAME}" -m "Release ${TAG_NAME} (version code: ${{ steps.version_info.outputs.version_code }})"
+        git push origin "${TAG_NAME}"
+        
+        echo "🏷️ Created and pushed tag: ${TAG_NAME}"
 
   build-apk:
     name: Build Release APK
     needs: prepare
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     
     steps:
@@ -141,6 +214,7 @@ jobs:
   build-aab:
     name: Build Release Bundle
     needs: prepare
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     
     steps:
@@ -203,6 +277,7 @@ jobs:
   release:
     name: Create GitHub Release
     needs: [prepare, build-apk, build-aab]
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     
     steps:
@@ -276,7 +351,7 @@ jobs:
   play-store-upload:
     name: Upload to Play Store
     needs: [prepare, build-aab]
-    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -386,7 +461,7 @@ jobs:
   download-signed-apk:
     name: Download Google Play Signed APK
     needs: [prepare, play-store-upload]
-    if: ${{ vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
