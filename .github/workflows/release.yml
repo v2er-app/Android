@@ -357,12 +357,12 @@ jobs:
         get_github_username() {
           local commit_sha="$1"
           # Try to get the GitHub username from the commit using gh api
-          local username=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.author.login // .commit.author.name' 2>/dev/null || echo "")
+          local username=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
           if [ -n "$username" ]; then
             echo "@$username"
           else
             # Fallback to git author name if API fails
-            echo "$(git show -s --format='%an' $commit_sha)"
+            echo "@$(git show -s --format='%an' $commit_sha)"
           fi
         }
         
