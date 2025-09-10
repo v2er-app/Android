@@ -2,8 +2,6 @@ name: Release
 
 on:
   push:
-    tags:
-      - 'v*'
     branches:
       - main
     paths:
@@ -50,10 +48,11 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 2  # Need history for version comparison
+        token: ${{ secrets.GITHUB_TOKEN }}
       
-    - name: Check if version changed (for config.gradle trigger)
+    - name: Check version change
       id: check_version
-      if: github.event_name == 'push' && contains(github.event.head_commit.modified, 'config.gradle')
+      if: github.event_name == 'push'
       run: |
         # Get current version from config.gradle
         CURRENT_VERSION=$(grep versionName config.gradle | sed -E 's/.*versionName:\s*"([^"]+)".*/\1/')
@@ -84,15 +83,11 @@ jobs:
           echo "✅ Version increased from $PREV_VERSION to $CURRENT_VERSION"
           echo "should_release=true" >> $GITHUB_OUTPUT
           echo "version=v$CURRENT_VERSION" >> $GITHUB_OUTPUT
-          
-          # Check if tag already exists
-          if git ls-remote --tags origin | grep -q "refs/tags/v${CURRENT_VERSION}$"; then
-            echo "⚠️ Tag v$CURRENT_VERSION already exists, skipping release"
-            echo "should_release=false" >> $GITHUB_OUTPUT
-          fi
+          echo "version_code=$CURRENT_CODE" >> $GITHUB_OUTPUT
         else
-          echo "ℹ️ No version increase detected or invalid version"
+          echo "ℹ️ No version increase detected"
           echo "should_release=false" >> $GITHUB_OUTPUT
+          exit 0
         fi
         
     - name: Determine version
@@ -103,12 +98,9 @@ jobs:
           echo "should_release=true" >> $GITHUB_OUTPUT
         elif [ "${{ steps.check_version.outputs.should_release }}" = "true" ]; then
           VERSION="${{ steps.check_version.outputs.version }}"
-        elif [[ "${{ github.ref }}" == refs/tags/* ]]; then
-          VERSION="${{ github.ref_name }}"
-          echo "should_release=true" >> $GITHUB_OUTPUT
         else
-          VERSION="v0.0.0"
-          echo "should_release=false" >> $GITHUB_OUTPUT
+          echo "No release needed"
+          exit 0
         fi
         echo "version=$VERSION" >> $GITHUB_OUTPUT
         echo "Version: $VERSION"
@@ -116,15 +108,21 @@ jobs:
     - name: Extract version code
       id: version_info
       run: |
-        # Extract version code from config.gradle - handle both formats
+        # Extract version code from config.gradle
         VERSION_CODE=$(grep "versionCode:" config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/')
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
         echo "Version Code: $VERSION_CODE"
         
-    - name: Create tag if version changed
-      if: steps.check_version.outputs.should_release == 'true' && github.event_name == 'push' && contains(github.event.head_commit.modified, 'config.gradle')
+    - name: Create and push tag
+      if: steps.check_version.outputs.should_release == 'true' && github.event_name == 'push'
       run: |
         TAG_NAME="${{ steps.version.outputs.version }}"
+        
+        # Check if tag already exists
+        if git ls-remote --tags origin | grep -q "refs/tags/${TAG_NAME}$"; then
+          echo "⚠️ Tag $TAG_NAME already exists"
+          exit 0
+        fi
         
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -138,7 +136,7 @@ jobs:
   build-apk:
     name: Build Release APK
     needs: prepare
-    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
@@ -214,7 +212,7 @@ jobs:
   build-aab:
     name: Build Release Bundle
     needs: prepare
-    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
@@ -277,7 +275,7 @@ jobs:
   release:
     name: Create GitHub Release
     needs: [prepare, build-apk, build-aab]
-    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')
+    if: needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     
     steps:
@@ -351,7 +349,7 @@ jobs:
   play-store-upload:
     name: Upload to Play Store
     needs: [prepare, build-aab]
-    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch') && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
@@ -461,7 +459,7 @@ jobs:
   download-signed-apk:
     name: Download Google Play Signed APK
     needs: [prepare, play-store-upload]
-    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch' || startsWith(github.ref, 'refs/tags/')) && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
+    if: ${{ (needs.prepare.outputs.should_release == 'true' || github.event_name == 'workflow_dispatch') && vars.ENABLE_PLAY_STORE_UPLOAD == 'true' && vars.ENABLE_SIGNING == 'true' }}
     runs-on: ubuntu-latest
     
     steps:
