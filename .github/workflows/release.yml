@@ -352,10 +352,33 @@ jobs:
         
         # Get commits since last tag
         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        
+        # Function to get GitHub username from commit
+        get_github_username() {
+          local commit_sha="$1"
+          # Try to get the GitHub username from the commit using gh api
+          local username=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
+          if [ -n "$username" ]; then
+            echo "@$username"
+          else
+            # Fallback to git author name if API fails
+            echo "@$(git show -s --format='%an' $commit_sha)"
+          fi
+        }
+        
+        # Generate changelog with GitHub usernames
         if [ -n "$LAST_TAG" ]; then
-          git log --pretty=format:"* %s by @%an" "$LAST_TAG"..HEAD >> CHANGELOG.md
+          while IFS= read -r commit_sha; do
+            commit_msg=$(git show -s --format='%s' $commit_sha)
+            author=$(get_github_username $commit_sha)
+            echo "* $commit_msg by $author" >> CHANGELOG.md
+          done < <(git rev-list "$LAST_TAG"..HEAD)
         else
-          git log --pretty=format:"* %s by @%an" -10 >> CHANGELOG.md
+          while IFS= read -r commit_sha; do
+            commit_msg=$(git show -s --format='%s' $commit_sha)
+            author=$(get_github_username $commit_sha)
+            echo "* $commit_msg by $author" >> CHANGELOG.md
+          done < <(git rev-list HEAD -10)
         fi
         
         echo "" >> CHANGELOG.md
@@ -758,35 +781,6 @@ jobs:
           echo "found=false" >> $GITHUB_OUTPUT
         fi
         
-    - name: Create Google Play link info
-      if: steps.download-apk.outputs.found == 'true'
-      id: play-link
-      run: |
-        VERSION_NAME="${{ needs.prepare.outputs.version }}"
-        VERSION_CODE="${{ needs.prepare.outputs.version_code }}"
-        
-        # Create info file about Google Play signing
-        cat > "v2er-${VERSION_NAME}_google_play_signed_info.txt" << EOF
-        Google Play Signed APK Information
-        ==================================
-        Version: ${VERSION_NAME}
-        Version Code: ${VERSION_CODE}
-        Package: me.ghui.v2er
-        
-        The APK attached (v2er-${VERSION_NAME}_google_play_signed.apk) is a universal APK 
-        generated from the AAB (Android App Bundle) that was uploaded to Google Play.
-        
-        When downloaded from Google Play Store, the APK will be signed with Google Play's 
-        app signing certificate instead of the upload certificate.
-        
-        Internal Testing Link:
-        https://play.google.com/apps/test/me.ghui.v2er/${VERSION_CODE}
-        
-        Note: Access to internal testing track required.
-        EOF
-        
-        echo "info_path=v2er-${VERSION_NAME}_google_play_signed_info.txt" >> $GITHUB_OUTPUT
-        
     - name: Upload signed APK to GitHub Release
       if: steps.download-apk.outputs.found == 'true'
       uses: softprops/action-gh-release@v2
@@ -794,7 +788,6 @@ jobs:
         tag_name: ${{ needs.prepare.outputs.version }}
         files: |
           ${{ steps.download-apk.outputs.apk_path }}
-          ${{ steps.play-link.outputs.info_path }}
         fail_on_unmatched_files: false
         
     - name: Summary
