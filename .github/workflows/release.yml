@@ -352,10 +352,33 @@ jobs:
         
         # Get commits since last tag
         LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        
+        # Function to get GitHub username from commit
+        get_github_username() {
+          local commit_sha="$1"
+          # Try to get the GitHub username from the commit using gh api
+          local username=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.author.login // .commit.author.name' 2>/dev/null || echo "")
+          if [ -n "$username" ]; then
+            echo "@$username"
+          else
+            # Fallback to git author name if API fails
+            echo "$(git show -s --format='%an' $commit_sha)"
+          fi
+        }
+        
+        # Generate changelog with GitHub usernames
         if [ -n "$LAST_TAG" ]; then
-          git log --pretty=format:"* %s by @%an" "$LAST_TAG"..HEAD >> CHANGELOG.md
+          while IFS= read -r commit_sha; do
+            commit_msg=$(git show -s --format='%s' $commit_sha)
+            author=$(get_github_username $commit_sha)
+            echo "* $commit_msg by $author" >> CHANGELOG.md
+          done < <(git rev-list "$LAST_TAG"..HEAD)
         else
-          git log --pretty=format:"* %s by @%an" -10 >> CHANGELOG.md
+          while IFS= read -r commit_sha; do
+            commit_msg=$(git show -s --format='%s' $commit_sha)
+            author=$(get_github_username $commit_sha)
+            echo "* $commit_msg by $author" >> CHANGELOG.md
+          done < <(git rev-list HEAD -10)
         fi
         
         echo "" >> CHANGELOG.md
