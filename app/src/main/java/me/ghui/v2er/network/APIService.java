@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Nullable;
@@ -26,6 +25,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
 import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -126,7 +126,7 @@ public class APIService {
                 return new Response.Builder()
                         .protocol(Protocol.HTTP_1_1)
                         .code(404)
-                        .message("Exeception when execute chain.proceed request")
+                        .message("Exception when execute chain.proceed request")
                         .body(new ResponseBody() {
                             @Nullable
                             @Override
@@ -141,7 +141,7 @@ public class APIService {
 
                             @Override
                             public BufferedSource source() {
-                                return null;
+                                return new Buffer();
                             }
                         })
                         .request(request).build();
