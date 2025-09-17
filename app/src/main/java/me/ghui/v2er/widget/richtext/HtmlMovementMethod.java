@@ -211,10 +211,14 @@ public class HtmlMovementMethod extends ScrollingMovementMethod {
         } else if (span instanceof ImageSpan) {
             String currentImg = ((ImageSpan) span).getSource();
             int index = 0;
-            for (int i = 0; i < imgs.size(); i++) {
-                if (currentImg.equals(imgs.get(i).getUrl())) {
-                    index = i;
-                    break;
+            // Add null checks to prevent NullPointerException
+            if (imgs != null && currentImg != null) {
+                for (int i = 0; i < imgs.size(); i++) {
+                    String imgUrl = imgs.get(i) != null ? imgs.get(i).getUrl() : null;
+                    if (currentImg.equals(imgUrl)) {
+                        index = i;
+                        break;
+                    }
                 }
             }
             ImagesInfo imagesInfo = new ImagesInfo(index, imgs);
