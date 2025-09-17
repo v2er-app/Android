@@ -202,6 +202,10 @@
 
 # Keep data models used for JSON parsing (Gson/Fruit)
 -keep class me.ghui.v2er.network.bean.** { *; }
+# Keep ImagesInfo and related classes for Fruit HTML parsing
+-keep class me.ghui.v2er.module.imgviewer.ImagesInfo { *; }
+-keep class me.ghui.v2er.module.imgviewer.ImagesInfo$* { *; }
+-keep class me.ghui.v2er.module.imgviewer.ImagesInfo$*$* { *; }
 
 # Keep classes with native methods
 -keepclasseswithmembernames class * {

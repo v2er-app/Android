@@ -48,6 +48,26 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
     private ImagesInfo mData;
 
     public static void open(ImagesInfo imgsData, Context context) {
+        // Validate images data before opening gallery
+        if (imgsData == null || imgsData.getImages() == null || imgsData.getImages().isEmpty()) {
+            Voast.show("图片不存在");
+            return;
+        }
+
+        // Check if at least one valid image exists
+        boolean hasValidImage = false;
+        for (ImagesInfo.Images.Image img : imgsData.getImages()) {
+            if (img != null && img.getUrl() != null) {
+                hasValidImage = true;
+                break;
+            }
+        }
+
+        if (!hasValidImage) {
+            Voast.show("图片不存在");
+            return;
+        }
+
         Navigator.from(context)
                 .putExtra(EXTRA_IMG_DATA, imgsData)
                 .to(GalleryActivity.class)
@@ -134,12 +154,22 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     private String getCurrentImage() {
         int index = mViewPager.getCurrentItem();
+        if (mData == null || mData.getImages() == null ||
+            index < 0 || index >= mData.getImages().size() ||
+            mData.getImages().get(index) == null) {
+            return null;
+        }
         return mData.getImages().get(index).getUrl();
     }
 
     private void saveImage() {
+        String currentImage = getCurrentImage();
+        if (currentImage == null) {
+            Voast.show("图片不存在");
+            return;
+        }
         // Already have permission, do the thing
-        glideRequest(getCurrentImage()).into(new SimpleTarget<File>() {
+        glideRequest(currentImage).into(new SimpleTarget<File>() {
             @Override
             public void onResourceReady(File file, Transition<? super File> transition) {
                 if (!FileUtils.isExternalStorageWritable()) {
@@ -148,7 +178,7 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
                 }
                 Observable.just(file)
                         .compose(RxUtils.io_main())
-                        .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(getCurrentImage())))
+                        .map(f -> FileUtils.saveImg(f, Utils.getTypeFromImgUrl(currentImage)))
                         .subscribe(new BaseConsumer<String>() {
                             @Override
                             public void onConsume(String path) {
@@ -166,19 +196,25 @@ public class GalleryActivity extends BaseActivity implements SwipeToDismissTouch
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
+        String currentImage = getCurrentImage();
+        if (currentImage == null) {
+            Voast.show("图片不存在");
+            return false;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_open_in_browser:
-                Utils.openInBrowser(getCurrentImage(), this);
+                Utils.openInBrowser(currentImage, this);
                 break;
             case R.id.action_save:
                 //check write external permission then do save stuff
                 saveImage();
                 break;
             case R.id.action_share:
-                glideRequest(getCurrentImage()).into(new SimpleTarget<File>() {
+                glideRequest(currentImage).into(new SimpleTarget<File>() {
                     @Override
                     public void onResourceReady(File file, Transition<? super File> transition) {
-                        Utils.shareImg(file, Utils.getTypeFromImgUrl(getCurrentImage()), GalleryActivity.this);
+                        Utils.shareImg(file, Utils.getTypeFromImgUrl(currentImage), GalleryActivity.this);
                     }
                 });
                 break;
