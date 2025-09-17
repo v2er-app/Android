@@ -49,6 +49,10 @@ public class GalleryAdapter extends PagerAdapter {
     }
 
     private ImagesInfo.Images.Image getItem(int postion) {
+        if (mImagesInfo == null || mImagesInfo.getImages() == null ||
+            postion < 0 || postion >= mImagesInfo.getImages().size()) {
+            return null;
+        }
         return mImagesInfo.getImages().get(postion);
     }
 
@@ -59,7 +63,13 @@ public class GalleryAdapter extends PagerAdapter {
         root.setOnImageClicked(mOnImageClickedListener);
         container.addView(root);
         // TODO: 2019/1/4 support svg
-        String url = getItem(position).getUrl();
+        ImagesInfo.Images.Image image = getItem(position);
+        if (image == null || image.getUrl() == null) {
+            // This shouldn't happen now that we validate before opening gallery
+            // But keep it as a safety net
+            return root;
+        }
+        String url = image.getUrl();
         if (!Utils.isSVG(url)) {
             GlideApp.with(mContext)
                     .load(url)
