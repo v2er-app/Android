@@ -127,23 +127,7 @@ public class APIService {
                         .protocol(Protocol.HTTP_1_1)
                         .code(404)
                         .message("Exeception when execute chain.proceed request")
-                        .body(new ResponseBody() {
-                            @Nullable
-                            @Override
-                            public MediaType contentType() {
-                                return null;
-                            }
-
-                            @Override
-                            public long contentLength() {
-                                return 0;
-                            }
-
-                            @Override
-                            public BufferedSource source() {
-                                return null;
-                            }
-                        })
+                        .body(ResponseBody.create("Network error occurred", MediaType.parse("text/plain")))
                         .request(request).build();
             }
         }
