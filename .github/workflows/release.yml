@@ -346,6 +346,8 @@ jobs:
         
     - name: Generate changelog
       id: changelog
+      env:
+        GH_TOKEN: ${{ github.token }}
       run: |
         echo "## What's Changed" > CHANGELOG.md
         echo "" >> CHANGELOG.md
@@ -361,8 +363,26 @@ jobs:
           if [ -n "$username" ]; then
             echo "@$username"
           else
-            # Fallback to git author name if API fails
-            echo "@$(git show -s --format='%an' $commit_sha)"
+            # Fallback: try to get committer login if author login is not available
+            local committer=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
+            if [ -n "$committer" ]; then
+              echo "@$committer"
+            else
+              # Last resort: use hardcoded mapping for known authors
+              local git_author=$(git show -s --format='%an' $commit_sha)
+              case "$git_author" in
+                "Gray Zhang" | "gray" | "Gray")
+                  echo "@graycreate"
+                  ;;
+                "github-actions[bot]")
+                  echo "@github-actions[bot]"
+                  ;;
+                *)
+                  # If no mapping found, use git author name without @
+                  echo "$git_author"
+                  ;;
+              esac
+            fi
           fi
         }
         
