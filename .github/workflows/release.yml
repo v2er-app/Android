@@ -16,7 +16,7 @@ on:
         description: 'Play Store release track'
         required: false
         type: choice
-        default: 'internal'
+        default: 'beta'
         options:
           - internal
           - alpha
@@ -465,9 +465,9 @@ jobs:
           TRACK="${{ github.event.inputs.track }}"
           STATUS="${{ github.event.inputs.status }}"
         else
-          # Default for tag pushes
-          TRACK="internal"
-          STATUS="draft"
+          # Default for tag pushes - use beta (public test track)
+          TRACK="beta"
+          STATUS="completed"
         fi
         echo "track=$TRACK" >> $GITHUB_OUTPUT
         echo "status=$STATUS" >> $GITHUB_OUTPUT
@@ -476,18 +476,28 @@ jobs:
     - name: Create whatsnew directory
       run: |
         mkdir -p whatsnew
-        
-        # Generate release notes
-        echo "Release ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
+
+        # Generate release notes for public test track
+        echo "V2er Beta Release ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
         echo "" >> whatsnew/whatsnew-en-US
-        
-        # Get recent commits
-        git log --pretty=format:"• %s" -5 >> whatsnew/whatsnew-en-US
-        
+        echo "What's new in this beta:" >> whatsnew/whatsnew-en-US
+        echo "" >> whatsnew/whatsnew-en-US
+
+        # Get recent commits formatted for users
+        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• Fixed:/g' | sed 's/^• feat:/• New:/g' | sed 's/^• chore:/• Updated:/g' >> whatsnew/whatsnew-en-US
+        echo "" >> whatsnew/whatsnew-en-US
+        echo "" >> whatsnew/whatsnew-en-US
+        echo "Thank you for testing! Please report any issues on GitHub." >> whatsnew/whatsnew-en-US
+
         # Chinese version
-        echo "版本 ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
+        echo "V2er 测试版 ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
         echo "" >> whatsnew/whatsnew-zh-CN
-        git log --pretty=format:"• %s" -5 >> whatsnew/whatsnew-zh-CN
+        echo "此测试版的新内容：" >> whatsnew/whatsnew-zh-CN
+        echo "" >> whatsnew/whatsnew-zh-CN
+        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• 修复：/g' | sed 's/^• feat:/• 新增：/g' | sed 's/^• chore:/• 更新：/g' >> whatsnew/whatsnew-zh-CN
+        echo "" >> whatsnew/whatsnew-zh-CN
+        echo "" >> whatsnew/whatsnew-zh-CN
+        echo "感谢您的测试！如遇问题请在GitHub上反馈。" >> whatsnew/whatsnew-zh-CN
         
     - name: Upload to Play Store (with debug symbols)
       if: steps.find-files.outputs.symbols_path != ''
@@ -525,6 +535,14 @@ jobs:
         echo "- **Track**: ${{ steps.release-config.outputs.track }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Status**: ${{ steps.release-config.outputs.status }}" >> $GITHUB_STEP_SUMMARY
         echo "- **Package**: me.ghui.v2er" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+
+        if [ "${{ steps.release-config.outputs.track }}" = "beta" ]; then
+          echo "### Beta Testing" >> $GITHUB_STEP_SUMMARY
+          echo "This release is now available for beta testing on Google Play." >> $GITHUB_STEP_SUMMARY
+          echo "Beta testers can install it from: [Google Play Beta](https://play.google.com/store/apps/details?id=me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
+        fi
+
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "[View in Play Console](https://play.google.com/console/u/0/app/me.ghui.v2er)" >> $GITHUB_STEP_SUMMARY
 
