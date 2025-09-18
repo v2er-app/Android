@@ -21,7 +21,7 @@ import me.ghui.v2er.network.APIService;
  */
 
 @GlideModule
-public class MyAppGllideModule extends AppGlideModule {
+public class MyAppGlideModule extends AppGlideModule {
     
     @Override
     public boolean isManifestParsingEnabled() {
