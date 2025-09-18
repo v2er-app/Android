@@ -11,6 +11,7 @@ import me.ghui.v2er.util.Check;
 import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.L;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -21,7 +22,7 @@ import me.ghui.v2er.util.Utils;
 public class NodeTopicInfo extends BaseInfo {
 
     @Pick("span.topic-count strong")
-    public String totalStr;
+    private String totalCountRaw; // Raw topic count string from HTML (may contain thousand separators)
     @Pick(value = "a[href*=favorite/] ", attr = Attrs.HREF)
     private String favoriteLink;
     @Pick("div.box div.cell:has(table)")
@@ -32,9 +33,16 @@ public class NodeTopicInfo extends BaseInfo {
     }
 
     public int getTotal() {
+        if (totalCountRaw == null || totalCountRaw.isEmpty()) {
+            return 0;
+        }
+
         try {
-            return Integer.parseInt(totalStr.replaceAll("[^0-9]", ""));
-        } catch (Exception e) {
+            // Remove thousand separators (commas) and any other non-numeric characters
+            String cleanedNumber = totalCountRaw.replaceAll("[^0-9]", "");
+            return Integer.parseInt(cleanedNumber);
+        } catch (NumberFormatException e) {
+            L.e("Failed to parse topic count: " + totalCountRaw + ", error: " + e.getMessage());
             return 0;
         }
     }
@@ -70,7 +78,7 @@ public class NodeTopicInfo extends BaseInfo {
     public String toString() {
         return "NodeTopicInfo{" +
                 "favoriteLink=" + favoriteLink +
-                ",total=" + totalStr +
+                ",total=" + totalCountRaw +
                 ", items=" + items +
                 '}';
     }
