@@ -484,7 +484,7 @@ jobs:
         echo "" >> whatsnew/whatsnew-en-US
 
         # Get recent commits formatted for users
-        git log --pretty=format:"• %s" -5 | sed 's/^fix:/• Fixed:/g' | sed 's/^feat:/• New:/g' | sed 's/^chore:/• Updated:/g' >> whatsnew/whatsnew-en-US
+        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• Fixed:/g' | sed 's/^• feat:/• New:/g' | sed 's/^• chore:/• Updated:/g' >> whatsnew/whatsnew-en-US
         echo "" >> whatsnew/whatsnew-en-US
         echo "" >> whatsnew/whatsnew-en-US
         echo "Thank you for testing! Please report any issues on GitHub." >> whatsnew/whatsnew-en-US
@@ -494,7 +494,7 @@ jobs:
         echo "" >> whatsnew/whatsnew-zh-CN
         echo "此测试版的新内容：" >> whatsnew/whatsnew-zh-CN
         echo "" >> whatsnew/whatsnew-zh-CN
-        git log --pretty=format:"• %s" -5 | sed 's/^fix:/• 修复：/g' | sed 's/^feat:/• 新增：/g' | sed 's/^chore:/• 更新：/g' >> whatsnew/whatsnew-zh-CN
+        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• 修复：/g' | sed 's/^• feat:/• 新增：/g' | sed 's/^• chore:/• 更新：/g' >> whatsnew/whatsnew-zh-CN
         echo "" >> whatsnew/whatsnew-zh-CN
         echo "" >> whatsnew/whatsnew-zh-CN
         echo "感谢您的测试！如遇问题请在GitHub上反馈。" >> whatsnew/whatsnew-zh-CN
