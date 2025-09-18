@@ -54,13 +54,14 @@ public class DailyInfoTest {
 
         @Override
         public String getCheckinDays() {
-            // Use reflection or make the field package-private in actual implementation
+            // Use reflection to set the field for testing purposes
             try {
                 java.lang.reflect.Field field = me.ghui.v2er.network.bean.DailyInfo.class.getDeclaredField("continuousLoginDayStr");
                 field.setAccessible(true);
                 field.set(this, continuousLoginDayStr);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (NoSuchFieldException | IllegalAccessException e) {
+                // Fail the test explicitly if reflection fails
+                throw new RuntimeException("Failed to access continuousLoginDayStr via reflection: " + e.getMessage(), e);
             }
             return super.getCheckinDays();
         }
