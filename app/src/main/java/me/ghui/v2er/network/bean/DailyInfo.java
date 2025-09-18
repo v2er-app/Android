@@ -26,6 +26,22 @@ public class DailyInfo extends BaseInfo {
     }
 
     public String getCheckinDays() {
+        if (Check.isEmpty(continuousLoginDayStr)) return "";
+
+        // Extract consecutive days from strings like:
+        // "您已连续登录 123 天"
+        // "ghui 已连续签到 12 天 2024/12/25"
+        // "用户161290已连续签到 5 天"
+
+        // Use regex to find number followed by "天" (days)
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile("(\\d+)\\s*天");
+        java.util.regex.Matcher matcher = pattern.matcher(continuousLoginDayStr);
+
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+
+        // Fallback to extracting all digits if pattern not found
         return Utils.extractDigits(continuousLoginDayStr);
     }
 
