@@ -348,23 +348,59 @@ jobs:
       id: changelog
       env:
         GH_TOKEN: ${{ github.token }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
-        echo "## What's Changed" > CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        
-        # Get commits since last tag
-        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-        
+        # Define shared functions that will be used in both changelog generation steps
+        cat > /tmp/release_functions.sh << 'FUNCTIONS_EOF'
+        # Function to categorize commit message
+        categorize_commit() {
+          local msg="$1"
+          local category=""
+          local cleaned_msg=""
+
+          if [[ "$msg" =~ ^fix(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^fix\ (.*)$ ]]; then
+            category="bug"
+            cleaned_msg="${BASH_REMATCH[-1]}"
+          elif [[ "$msg" =~ ^feat(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^feat\ (.*)$ ]]; then
+            category="feature"
+            cleaned_msg="${BASH_REMATCH[-1]}"
+          elif [[ "$msg" =~ ^perf(\(.*\))?:\ (.*)$ ]]; then
+            category="performance"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^refactor(\(.*\))?:\ (.*)$ ]]; then
+            category="improvement"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^chore(\(.*\))?:\ (.*)$ ]]; then
+            category="maintenance"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^docs(\(.*\))?:\ (.*)$ ]]; then
+            category="documentation"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          else
+            category="other"
+            cleaned_msg="$msg"
+          fi
+
+          # Remove PR numbers from the end
+          cleaned_msg=$(echo "$cleaned_msg" | sed 's/ (#[0-9]*)//')
+
+          # Capitalize first letter
+          cleaned_msg="$(echo "${cleaned_msg:0:1}" | tr '[:lower:]' '[:upper:]')${cleaned_msg:1}"
+
+          echo "$category:$cleaned_msg"
+        }
+
         # Function to get GitHub username from commit
         get_github_username() {
           local commit_sha="$1"
+          local github_repo="${GITHUB_REPOSITORY}"
           # Try to get the GitHub username from the commit using gh api
-          local username=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
+          local username=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
           if [ -n "$username" ]; then
             echo "@$username"
           else
             # Fallback: try to get committer login if author login is not available
-            local committer=$(gh api "repos/${{ github.repository }}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
+            local committer=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
             if [ -n "$committer" ]; then
               echo "@$committer"
             else
@@ -385,23 +421,119 @@ jobs:
             fi
           fi
         }
-        
-        # Generate changelog with GitHub usernames
+        FUNCTIONS_EOF
+
+        # Source the functions
+        source /tmp/release_functions.sh
+
+        # Get commits since last tag
+        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        CURRENT_TAG="${{ needs.prepare.outputs.version }}"
+
+        # Collect commits and categorize them
+        declare -A features
+        declare -A bugs
+        declare -A improvements
+        declare -A performance
+        declare -A maintenance
+
         if [ -n "$LAST_TAG" ]; then
-          while IFS= read -r commit_sha; do
-            commit_msg=$(git show -s --format='%s' $commit_sha)
-            author=$(get_github_username $commit_sha)
-            echo "* $commit_msg by $author" >> CHANGELOG.md
-          done < <(git rev-list "$LAST_TAG"..HEAD)
+          RANGE="$LAST_TAG..HEAD"
         else
-          while IFS= read -r commit_sha; do
-            commit_msg=$(git show -s --format='%s' $commit_sha)
-            author=$(get_github_username $commit_sha)
-            echo "* $commit_msg by $author" >> CHANGELOG.md
-          done < <(git rev-list HEAD -10)
+          RANGE="HEAD"
         fi
-        
+
+        # Process commits
+        while IFS= read -r line; do
+          sha=$(echo "$line" | cut -d' ' -f1)
+          msg=$(echo "$line" | cut -d' ' -f2-)
+
+          # Skip version bump and merge commits
+          if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
+            continue
+          fi
+
+          categorized=$(categorize_commit "$msg")
+          category=$(echo "$categorized" | cut -d':' -f1)
+          clean_msg=$(echo "$categorized" | cut -d':' -f2-)
+          author=$(get_github_username "$sha")
+
+          # Store in associative arrays
+          case "$category" in
+            feature)
+              features["$clean_msg"]="$author"
+              ;;
+            bug)
+              bugs["$clean_msg"]="$author"
+              ;;
+            improvement)
+              improvements["$clean_msg"]="$author"
+              ;;
+            performance)
+              performance["$clean_msg"]="$author"
+              ;;
+            maintenance)
+              maintenance["$clean_msg"]="$author"
+              ;;
+          esac
+        done < <(git log --oneline --no-merges $RANGE)
+
+        # Generate GitHub Release Notes
+        echo "## What's Changed" > CHANGELOG.md
         echo "" >> CHANGELOG.md
+
+        if [ ${#features[@]} -gt 0 ]; then
+          echo "### 🚀 New Features" >> CHANGELOG.md
+          for msg in "${!features[@]}"; do
+            author="${features[$msg]}"
+            if [ -n "$author" ]; then
+              echo "* $msg by $author" >> CHANGELOG.md
+            else
+              echo "* $msg" >> CHANGELOG.md
+            fi
+          done
+          echo "" >> CHANGELOG.md
+        fi
+
+        if [ ${#bugs[@]} -gt 0 ]; then
+          echo "### 🐛 Bug Fixes" >> CHANGELOG.md
+          for msg in "${!bugs[@]}"; do
+            author="${bugs[$msg]}"
+            if [ -n "$author" ]; then
+              echo "* $msg by $author" >> CHANGELOG.md
+            else
+              echo "* $msg" >> CHANGELOG.md
+            fi
+          done
+          echo "" >> CHANGELOG.md
+        fi
+
+        if [ ${#improvements[@]} -gt 0 ]; then
+          echo "### 💪 Improvements" >> CHANGELOG.md
+          for msg in "${!improvements[@]}"; do
+            author="${improvements[$msg]}"
+            if [ -n "$author" ]; then
+              echo "* $msg by $author" >> CHANGELOG.md
+            else
+              echo "* $msg" >> CHANGELOG.md
+            fi
+          done
+          echo "" >> CHANGELOG.md
+        fi
+
+        if [ ${#performance[@]} -gt 0 ]; then
+          echo "### ⚡ Performance" >> CHANGELOG.md
+          for msg in "${!performance[@]}"; do
+            author="${performance[$msg]}"
+            if [ -n "$author" ]; then
+              echo "* $msg by $author" >> CHANGELOG.md
+            else
+              echo "* $msg" >> CHANGELOG.md
+            fi
+          done
+          echo "" >> CHANGELOG.md
+        fi
+
         echo "" >> CHANGELOG.md
         echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${LAST_TAG}...${{ needs.prepare.outputs.version }}" >> CHANGELOG.md
         
@@ -474,30 +606,194 @@ jobs:
         echo "Deploying to track: $TRACK with status: $STATUS"
         
     - name: Create whatsnew directory
+      env:
+        GH_TOKEN: ${{ github.token }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
         mkdir -p whatsnew
 
-        # Generate release notes for public test track
-        echo "V2er Beta Release ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
-        echo "" >> whatsnew/whatsnew-en-US
-        echo "What's new in this beta:" >> whatsnew/whatsnew-en-US
+        # Source the shared functions defined earlier
+        source /tmp/release_functions.sh
+
+        # Get commits since last tag for categorization
+        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+
+        # Collect and categorize commits
+        declare -A features
+        declare -A bugs
+        declare -A improvements
+        declare -A performance
+        declare -A contributors
+
+        if [ -n "$LAST_TAG" ]; then
+          RANGE="$LAST_TAG..HEAD"
+        else
+          RANGE="HEAD~5..HEAD"
+        fi
+
+        # Process commits
+        while IFS= read -r line; do
+          sha=$(echo "$line" | cut -d' ' -f1)
+          msg=$(echo "$line" | cut -d' ' -f2-)
+
+          # Skip version bump and merge commits
+          if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
+            continue
+          fi
+
+          categorized=$(categorize_commit "$msg")
+          category=$(echo "$categorized" | cut -d':' -f1)
+          clean_msg=$(echo "$categorized" | cut -d':' -f2-)
+
+          # Get author for this commit
+          author=$(get_github_username "$sha")
+          if [ -n "$author" ]; then
+            contributors["$author"]="1"
+          fi
+
+          case "$category" in
+            feature)
+              features["$clean_msg"]="$author"
+              ;;
+            bug)
+              bugs["$clean_msg"]="$author"
+              ;;
+            improvement)
+              improvements["$clean_msg"]="$author"
+              ;;
+            performance)
+              performance["$clean_msg"]="$author"
+              ;;
+          esac
+        done < <(git log --oneline --no-merges $RANGE)
+
+        # Generate English release notes
+        echo "V2er ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
         echo "" >> whatsnew/whatsnew-en-US
 
-        # Get recent commits formatted for users
-        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• Fixed:/g' | sed 's/^• feat:/• New:/g' | sed 's/^• chore:/• Updated:/g' >> whatsnew/whatsnew-en-US
-        echo "" >> whatsnew/whatsnew-en-US
-        echo "" >> whatsnew/whatsnew-en-US
-        echo "Thank you for testing! Please report any issues on GitHub." >> whatsnew/whatsnew-en-US
+        if [ ${#features[@]} -gt 0 ]; then
+          echo "🚀 New Features:" >> whatsnew/whatsnew-en-US
+          for msg in "${!features[@]}"; do
+            author="${features[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
+            else
+              echo "• $msg" >> whatsnew/whatsnew-en-US
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-en-US
+        fi
 
-        # Chinese version
-        echo "V2er 测试版 ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
+        if [ ${#bugs[@]} -gt 0 ]; then
+          echo "🐛 Bug Fixes:" >> whatsnew/whatsnew-en-US
+          for msg in "${!bugs[@]}"; do
+            author="${bugs[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
+            else
+              echo "• $msg" >> whatsnew/whatsnew-en-US
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-en-US
+        fi
+
+        if [ ${#improvements[@]} -gt 0 ]; then
+          echo "💪 Improvements:" >> whatsnew/whatsnew-en-US
+          for msg in "${!improvements[@]}"; do
+            author="${improvements[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
+            else
+              echo "• $msg" >> whatsnew/whatsnew-en-US
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-en-US
+        fi
+
+        if [ ${#performance[@]} -gt 0 ]; then
+          echo "⚡ Performance:" >> whatsnew/whatsnew-en-US
+          for msg in "${!performance[@]}"; do
+            author="${performance[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
+            else
+              echo "• $msg" >> whatsnew/whatsnew-en-US
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-en-US
+        fi
+
+        # Add contributors section if there are any
+        if [ ${#contributors[@]} -gt 0 ]; then
+          echo "👥 Contributors: ${!contributors[@]}" >> whatsnew/whatsnew-en-US
+          echo "" >> whatsnew/whatsnew-en-US
+        fi
+
+        echo "Thank you for using V2er! Please report any issues on GitHub." >> whatsnew/whatsnew-en-US
+
+        # Generate Chinese release notes
+        echo "V2er ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
         echo "" >> whatsnew/whatsnew-zh-CN
-        echo "此测试版的新内容：" >> whatsnew/whatsnew-zh-CN
-        echo "" >> whatsnew/whatsnew-zh-CN
-        git log --pretty=format:"• %s" -5 | sed 's/^• fix:/• 修复：/g' | sed 's/^• feat:/• 新增：/g' | sed 's/^• chore:/• 更新：/g' >> whatsnew/whatsnew-zh-CN
-        echo "" >> whatsnew/whatsnew-zh-CN
-        echo "" >> whatsnew/whatsnew-zh-CN
-        echo "感谢您的测试！如遇问题请在GitHub上反馈。" >> whatsnew/whatsnew-zh-CN
+
+        if [ ${#features[@]} -gt 0 ]; then
+          echo "🚀 新功能：" >> whatsnew/whatsnew-zh-CN
+          for msg in "${!features[@]}"; do
+            author="${features[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
+            else
+              echo "• $msg" >> whatsnew/whatsnew-zh-CN
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-zh-CN
+        fi
+
+        if [ ${#bugs[@]} -gt 0 ]; then
+          echo "🐛 问题修复：" >> whatsnew/whatsnew-zh-CN
+          for msg in "${!bugs[@]}"; do
+            author="${bugs[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
+            else
+              echo "• $msg" >> whatsnew/whatsnew-zh-CN
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-zh-CN
+        fi
+
+        if [ ${#improvements[@]} -gt 0 ]; then
+          echo "💪 改进优化：" >> whatsnew/whatsnew-zh-CN
+          for msg in "${!improvements[@]}"; do
+            author="${improvements[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
+            else
+              echo "• $msg" >> whatsnew/whatsnew-zh-CN
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-zh-CN
+        fi
+
+        if [ ${#performance[@]} -gt 0 ]; then
+          echo "⚡ 性能优化：" >> whatsnew/whatsnew-zh-CN
+          for msg in "${!performance[@]}"; do
+            author="${performance[$msg]}"
+            if [ -n "$author" ]; then
+              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
+            else
+              echo "• $msg" >> whatsnew/whatsnew-zh-CN
+            fi
+          done
+          echo "" >> whatsnew/whatsnew-zh-CN
+        fi
+
+        # Add contributors section if there are any
+        if [ ${#contributors[@]} -gt 0 ]; then
+          echo "👥 贡献者：${!contributors[@]}" >> whatsnew/whatsnew-zh-CN
+          echo "" >> whatsnew/whatsnew-zh-CN
+        fi
+
+        echo "感谢您使用 V2er！如遇问题请在 GitHub 上反馈。" >> whatsnew/whatsnew-zh-CN
         
     - name: Upload to Play Store (with debug symbols)
       if: steps.find-files.outputs.symbols_path != ''
