@@ -19,6 +19,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -43,19 +44,21 @@ public class SpecialCareModule {
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUserName());
-                // TODO: 2018/6/9 time is null
-                if (Check.isEmpty(item.getTime())) {
+
+                // Use centralized font helper - handle null time
+                String timeText = Check.isEmpty(item.getTime()) ? null : item.getTime();
+                if (timeText == null) {
                     holder.getView(R.id.time_tv).setVisibility(View.INVISIBLE);
                 } else {
                     holder.getView(R.id.time_tv).setVisibility(View.VISIBLE);
-                    holder.setText(R.id.time_tv, item.getTime());
                 }
-                holder.setText(R.id.tagview, item.getTagName());
-                holder.setText(R.id.title_tv, item.getTitle());
-                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setText("评论" + item.getComentNum());
-                ViewUtils.highlightCommentNum(commentTV);
+
+                ViewHolderFontHelper.applyCommonListItemFonts(holder,
+                        item.getTitle(),
+                        item.getUserName(),
+                        timeText,
+                        item.getTagName(),
+                        "评论" + item.getComentNum());
             }
 
             @Override

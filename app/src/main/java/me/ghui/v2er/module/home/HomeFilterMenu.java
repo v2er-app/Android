@@ -9,8 +9,10 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
+import android.util.TypedValue;
 
 import me.ghui.v2er.util.Theme;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
@@ -80,7 +82,10 @@ public class HomeFilterMenu implements MultiItemTypeAdapter.OnItemClickListener 
         CommonAdapter<TabInfo> adapter = new CommonAdapter<TabInfo>(mContext, R.layout.tab_info_item) {
             @Override
             protected void convert(ViewHolder holder, TabInfo tabInfo, int position) {
-                holder.setText(R.id.tab_title_tv, tabInfo.title);
+                TextView titleTv = holder.getTextView(R.id.tab_title_tv);
+                // Apply font size scaling
+                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
+                titleTv.setText(tabInfo.title);
             }
         };
         adapter.setData(TabInfo.getDefault());

@@ -15,6 +15,8 @@ import me.ghui.v2er.module.user.UserHomeContract;
 import me.ghui.v2er.module.user.UserHomePresenter;
 import me.ghui.v2er.network.bean.UserPageInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.richtext.RichText;
 
 /**
@@ -60,13 +62,14 @@ public class UserHomeModule {
             @Override
             public void convert(ViewHolder holder, UserPageInfo.Item item, int position) {
                 UserPageInfo.TopicItem topicItem = (UserPageInfo.TopicItem) item;
-                holder.setText(R.id.user_name_tv, topicItem.getUserName());
-                holder.setText(R.id.time_tv, topicItem.getTime());
-                holder.setText(R.id.tagview, topicItem.getTag());
-                holder.setText(R.id.title_tv, topicItem.getTitle());
-                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setText("评论" + topicItem.getReplyNum());
-                ViewUtils.highlightCommentNum(commentTV);
+
+                // Use centralized font helper
+                ViewHolderFontHelper.applyCommonListItemFonts(holder,
+                        topicItem.getTitle(),
+                        topicItem.getUserName(),
+                        topicItem.getTime(),
+                        topicItem.getTag(),
+                        "评论" + topicItem.getReplyNum());
             }
         });
 
@@ -84,11 +87,19 @@ public class UserHomeModule {
             @Override
             public void convert(ViewHolder holder, UserPageInfo.Item item, int position) {
                 UserPageInfo.ReplyItem replyItem = (UserPageInfo.ReplyItem) item;
-                holder.setText(R.id.reply_title_tv, replyItem.getTitle());
+
+                // Use helper for cleaner code
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.reply_title_tv,
+                        replyItem.getTitle(), FontSizeUtil.getTitleSize());
+
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.reply_content_tv,
+                        "", FontSizeUtil.getContentSize());
                 RichText.from(replyItem.getContent())
                         .widthDelta(43)
                         .into(holder.getTextView(R.id.reply_content_tv));
-                holder.setText(R.id.reply_time_tv, replyItem.getTime());
+
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.reply_time_tv,
+                        replyItem.getTime(), FontSizeUtil.getSubTextSize());
             }
         });
 

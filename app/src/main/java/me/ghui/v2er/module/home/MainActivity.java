@@ -53,6 +53,7 @@ import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -169,6 +170,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
+
+        // Apply font size to navigation header
+        mUserNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
+
+        // Apply font size scaling to navigation menu items
+        applyFontSizeToNavigationMenu();
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
 
         mAvatarImg.setOnLongClickListener(v -> {
@@ -296,6 +303,66 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void initCheckIn() {
         mCheckInPresenter = new CheckInPresenter(this);
         mCheckInPresenter.start();
+    }
+
+    private void applyFontSizeToNavigationMenu() {
+        // Apply font size based on preference
+        // This is better handled by setting text appearance in styles
+        // We'll use a post delay to ensure the menu is fully initialized
+        mNavigationView.postDelayed(() -> {
+            applyFontScalingToMenuItems();
+        }, 100);
+    }
+
+    private void applyFontScalingToMenuItems() {
+        // Apply scaling only once to avoid repeated scaling
+        View menuView = mNavigationView.getChildAt(0);
+        if (menuView instanceof RecyclerView) {
+            RecyclerView recyclerView = (RecyclerView) menuView;
+            // Apply to currently visible items
+            for (int i = 0; i < recyclerView.getChildCount(); i++) {
+                View child = recyclerView.getChildAt(i);
+                if (child != null && child.getTag(R.id.font_scaled_tag) == null) {
+                    applyScalingToView(child);
+                    child.setTag(R.id.font_scaled_tag, true);
+                }
+            }
+
+            // Set up listener for future items but check if already scaled
+            recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    if (view.getTag(R.id.font_scaled_tag) == null) {
+                        applyScalingToView(view);
+                        view.setTag(R.id.font_scaled_tag, true);
+                    }
+                }
+
+                @Override
+                public void onChildViewDetachedFromWindow(View view) {
+                    // No action needed
+                }
+            });
+        }
+    }
+
+    private void applyScalingToView(View view) {
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            // Save original size if not already saved
+            Object originalSize = textView.getTag(R.id.original_text_size_tag);
+            if (originalSize == null) {
+                textView.setTag(R.id.original_text_size_tag, textView.getTextSize());
+                float baseSize = textView.getTextSize();
+                float scaledSize = FontSizeUtil.getScaledSize(baseSize);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, scaledSize);
+            }
+        } else if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                applyScalingToView(viewGroup.getChildAt(i));
+            }
+        }
     }
 
     private void updateDrawLayout() {

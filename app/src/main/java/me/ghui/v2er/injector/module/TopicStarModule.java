@@ -17,6 +17,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -40,13 +41,14 @@ public class TopicStarModule {
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUserName());
-                holder.setText(R.id.time_tv, item.getTime());
-                holder.setText(R.id.tagview, item.getTag());
-                holder.setText(R.id.title_tv, item.getTitle());
-                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setText("评论" + item.getCommentNum());
-                ViewUtils.highlightCommentNum(commentTV);
+
+                // Use centralized font helper
+                ViewHolderFontHelper.applyCommonListItemFonts(holder,
+                        item.getTitle(),
+                        item.getUserName(),
+                        item.getTime(),
+                        item.getTag(),
+                        "评论" + item.getCommentNum());
             }
 
             @Override

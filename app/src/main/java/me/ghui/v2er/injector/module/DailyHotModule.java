@@ -17,6 +17,7 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.DailyHotInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 
 /**
  * Created by ghui on 27/03/2017.
@@ -41,13 +42,14 @@ public class DailyHotModule {
                         .load(item.getMember().getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getMember().getUserName());
-                holder.setText(R.id.time_tv, item.getTime());
-                holder.setText(R.id.tagview, item.getNode().getTitle());
-                holder.setText(R.id.title_tv, item.getTitle());
-                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setText("评论" + item.getReplies());
-                ViewUtils.highlightCommentNum(commentTV);
+
+                // Use centralized font helper
+                ViewHolderFontHelper.applyCommonListItemFonts(holder,
+                        item.getTitle(),
+                        item.getMember().getUserName(),
+                        item.getTime(),
+                        item.getNode().getTitle(),
+                        "评论" + item.getReplies());
             }
 
             @Override

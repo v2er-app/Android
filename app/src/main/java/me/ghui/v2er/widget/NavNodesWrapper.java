@@ -16,6 +16,8 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.network.bean.NodesNavInfo;
 import me.ghui.v2er.util.UriUtils;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.FontSizeUtil;
+import android.util.TypedValue;
 
 /**
  * Created by ghui on 22/05/2017.
@@ -44,6 +46,8 @@ public class NavNodesWrapper extends FlexboxLayout implements View.OnClickListen
             view.setText(item.getName());
             view.setTag(item.getLink());
             view.setOnClickListener(this);
+            // Apply font size scaling for node tags
+            view.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
         }
         int childCount = getChildCount();
         int start = Utils.listSize(nodes);

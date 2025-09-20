@@ -10,7 +10,11 @@ import android.preference.PreferenceFragment;
 import androidx.annotation.StringRes;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Adapter;
+import android.widget.ListAdapter;
 
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
@@ -23,15 +27,21 @@ import me.ghui.v2er.module.login.LoginActivity;
 import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
+import android.util.TypedValue;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.Voast;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 /**
  * Created by ghui on 10/06/2017.
  */
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    private static final float SCALING_THRESHOLD = 0.01f;
+    private ListView mListView;
+    private android.widget.AbsListView.OnScrollListener mScrollListener;
     private Preference cachePref;
     private Preference loginPreference;
 
@@ -68,6 +78,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         fontItem.setSummary(fontItem.getValue());
         fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
             fontItem.setSummary(newValue + "");
+            // Clear all scaling tags before applying new scaling
+            clearFontScalingTags();
+            // Post event will trigger onTextSizeChange to reapply scaling
             Bus.post(new TextSizeChangeEvent(FontSizeUtil.getContentSize()));
             return true;
         });
@@ -76,6 +89,13 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     @Override
     public void onStart() {
         super.onStart();
+        Bus.register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        Bus.unRegister(this);
     }
 
     @Override
@@ -83,11 +103,126 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         super.onActivityCreated(savedInstanceState);
         View rootView = getView();
         rootView.setBackgroundColor(Theme.getColor(R.attr.page_bg_color, getActivity()));
-        ListView list = rootView.findViewById(android.R.id.list);
-        if (list != null) {
-            list.setDivider(null);
-//            list.setDivider(getActivity().getDrawable(R.drawable.common_divider));
-            Utils.setPaddingForNavbar(list);
+        mListView = rootView.findViewById(android.R.id.list);
+        if (mListView != null) {
+            mListView.setDivider(null);
+//            mListView.setDivider(getActivity().getDrawable(R.drawable.common_divider));
+            Utils.setPaddingForNavbar(mListView);
+
+            // Apply font scaling to preference items
+            applyFontScalingToPreferences(mListView);
+        }
+    }
+
+    private void applyFontScalingToPreferences(ListView listView) {
+        // Apply font scaling after a short delay to ensure views are created
+        listView.postDelayed(() -> {
+            float scalingRatio = FontSizeUtil.getScalingRatio();
+            if (Math.abs(scalingRatio - 1.0f) < SCALING_THRESHOLD) {
+                // No scaling needed for default size
+                return;
+            }
+
+            // Apply to all visible items
+            for (int i = 0; i < listView.getChildCount(); i++) {
+                View child = listView.getChildAt(i);
+                applyFontScalingToView(child);
+            }
+
+            // Add scroll listener to apply scaling to new items (only if not already set)
+            if (mScrollListener == null) {
+                mScrollListener = new android.widget.AbsListView.OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(android.widget.AbsListView view, int scrollState) {
+                    // Not needed
+                }
+
+                @Override
+                public void onScroll(android.widget.AbsListView view, int firstVisibleItem,
+                                       int visibleItemCount, int totalItemCount) {
+                    // Apply scaling to newly visible items
+                    for (int i = 0; i < visibleItemCount; i++) {
+                        View child = view.getChildAt(i);
+                        if (child != null && child.getTag(R.id.font_scaled_tag) == null) {
+                            applyFontScalingToView(child);
+                            child.setTag(R.id.font_scaled_tag, true);
+                        }
+                    }
+                }
+                };
+                listView.setOnScrollListener(mScrollListener);
+            }
+        }, 100);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onTextSizeChange(TextSizeChangeEvent event) {
+        // Clear all existing scaling and reapply with new size
+        if (mListView != null) {
+            // Clear tags and restore original sizes
+            clearFontScalingTags();
+            // Small delay to ensure views are restored before reapplying
+            mListView.postDelayed(() -> {
+                applyFontScalingToPreferences(mListView);
+            }, 50);
+        }
+    }
+
+    private void clearFontScalingTags() {
+        if (mListView == null) return;
+
+        // Clear tags from all visible items
+        for (int i = 0; i < mListView.getChildCount(); i++) {
+            View child = mListView.getChildAt(i);
+            clearTagsRecursively(child);
+        }
+    }
+
+    private void clearTagsRecursively(View view) {
+        if (view == null) return;
+
+        // Reset text size to original if it's a TextView (BEFORE clearing tags)
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            Object originalSize = textView.getTag(R.id.original_text_size_tag);
+            if (originalSize instanceof Float) {
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (Float) originalSize);
+            }
+        }
+
+        // Clear the scaling tags AFTER restoring original size
+        view.setTag(R.id.font_scaled_tag, null);
+        view.setTag(R.id.original_text_size_tag, null);
+
+        // Recursively clear children
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                clearTagsRecursively(viewGroup.getChildAt(i));
+            }
+        }
+    }
+
+    private void applyFontScalingToView(View view) {
+        if (view == null) return;
+
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            // Check if already scaled
+            if (textView.getTag(R.id.original_text_size_tag) == null) {
+                float originalSize = textView.getTextSize();
+                textView.setTag(R.id.original_text_size_tag, originalSize);
+                float scaledSize = FontSizeUtil.getScaledSize(originalSize);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, scaledSize);
+            }
+        }
+
+        if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                View child = viewGroup.getChildAt(i);
+                applyFontScalingToView(child);
+            }
         }
     }
 

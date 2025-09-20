@@ -30,4 +30,8 @@
     <item name="inner_toolbar" type="id" />
     <item name="base_recyclerview" type="id" />
 
+    <!-- Font size scaling tags -->
+    <item name="font_scaled_tag" type="id" />
+    <item name="original_text_size_tag" type="id" />
+
 </resources>

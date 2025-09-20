@@ -17,8 +17,11 @@ import me.ghui.v2er.module.home.MsgPresenter;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.util.Utils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.richtext.RichText;
+import android.widget.TextView;
 
 /**
  * Created by ghui on 10/05/2017.
@@ -41,19 +44,25 @@ public class MsgModule {
                 GlideApp.with(mView.getContext()).load(reply.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
+
+                // Apply font sizing
                 CharSequence titleWithUserName = Utils.highlight(reply.getName() + " " + reply.getTitle(),
                         true, new int[]{0, reply.getName().length()});
-                holder.setText(R.id.msg_title_tv, titleWithUserName);
-                holder.getView(R.id.msg_content_tv);
+                TextView titleTv = holder.getTextView(R.id.msg_title_tv);
+                titleTv.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
+                titleTv.setText(titleWithUserName);
+
+                TextView contentTv = holder.getTextView(R.id.msg_content_tv);
                 if (!Check.isEmpty(reply.getContent())) {
-                    holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
-//                    holder.setText(R.id.msg_content_tv, reply.getContent());
-                    RichText.from(reply.getContent())
-                            .into(holder.getTextView(R.id.msg_content_tv));
+                    contentTv.setVisibility(View.VISIBLE);
+                    contentTv.setTextSize(android.util.TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                    RichText.from(reply.getContent()).into(contentTv);
                 } else {
-                    holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
+                    contentTv.setVisibility(View.GONE);
                 }
-                holder.setText(R.id.time_tv, reply.getTime());
+
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.time_tv,
+                        reply.getTime(), FontSizeUtil.getSubTextSize());
             }
 
             @Override

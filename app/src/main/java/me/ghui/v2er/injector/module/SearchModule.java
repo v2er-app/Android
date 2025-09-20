@@ -12,6 +12,8 @@ import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.richtext.RichText;
+import me.ghui.v2er.util.ViewHolderFontHelper;
+import me.ghui.v2er.util.FontSizeUtil;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -35,9 +37,16 @@ public class SearchModule {
         return new CommonLoadMoreAdapter<SoV2EXSearchResultInfo.Hit>(mFragment.getContext(), R.layout.item_bing_search) {
             @Override
             protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
-                holder.setText(R.id.search_result_title_tv, hit.getSource().getTitle());
+                // Use helper for cleaner code
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_title_tv,
+                        hit.getSource().getTitle(), FontSizeUtil.getTitleSize());
+
                 String footnote = hit.getSource().getCreator() + " 于 " + hit.getSource().getTime() + " 发表, " + hit.getSource().getReplies() + " 回复";
-                holder.setText(R.id.search_result_footnote_tv, footnote);
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_footnote_tv,
+                        footnote, FontSizeUtil.getSubTextSize());
+
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_content_tv,
+                        "", FontSizeUtil.getContentSize());
                 RichText.from(hit.getSource().getContent())
                         .supportUrlClick(false)
                         .into(holder.getTextView(R.id.search_result_content_tv));

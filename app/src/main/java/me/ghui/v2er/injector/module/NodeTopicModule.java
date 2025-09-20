@@ -15,6 +15,8 @@ import me.ghui.v2er.module.node.NodeTopicPresenter;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -40,11 +42,18 @@ public class NodeTopicModule {
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUserName());
-                holder.setText(R.id.title_tv, item.getTitle());
-                holder.setText(R.id.click_count_tv, "点击" + item.getClickNum());
+
+                // Use helper methods for cleaner code
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.title_tv,
+                        item.getTitle(), FontSizeUtil.getTitleSize());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.user_name_tv,
+                        item.getUserName(), FontSizeUtil.getSubTextSize());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.click_count_tv,
+                        "点击" + item.getClickNum(), FontSizeUtil.getSubTextSize());
+
                 TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setText("评论" + item.getCommentNum());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.comment_num_tv,
+                        "评论" + item.getCommentNum(), FontSizeUtil.getSubTextSize());
                 ViewUtils.highlightCommentNum(commentTV);
             }
 
