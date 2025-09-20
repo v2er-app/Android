@@ -6,7 +6,7 @@
     </style>
 
     <style name="SubTitleText" parent="TitleText">
-        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textSize">@dimen/largeTextSize</item>
         <item name="android:textStyle">normal</item>
     </style>
 
@@ -23,7 +23,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:minWidth">0dp</item>
         <item name="android:textColor">?attr/bodyTextColor</item>
-        <item name="android:textSize">@dimen/smallTextSize</item>
+        <item name="android:textSize">@dimen/mediumTextSize</item>
         <item name="android:lineSpacingMultiplier">1.20</item>
     </style>
 
@@ -131,7 +131,7 @@
 
     <style name="TopicTitle" parent="TitleText">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:textSize">@dimen/mediumTextSize</item>
+        <item name="android:textSize">@dimen/largeTextSize</item>
         <item name="android:textStyle">normal</item>
         <item name="android:paddingTop">6dp</item>
         <!--<item name="android:transitionName">@string/share_element_topic_title</item>-->
