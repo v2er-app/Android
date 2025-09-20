@@ -53,6 +53,7 @@ import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -169,6 +170,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mAvatarImg.setOnClickListener(this);
         mUserNameTv.setOnClickListener(this);
         mCheckInBtn.setOnClickListener(this);
+
+        // Apply font size to navigation header
+        mUserNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
+
+        // Apply font size scaling to navigation menu items
+        applyFontSizeToNavigationMenu();
         mNightMenuItem = mNavigationView.getMenu().findItem(R.id.day_night_item);
 
         mAvatarImg.setOnLongClickListener(v -> {
@@ -296,6 +303,43 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void initCheckIn() {
         mCheckInPresenter = new CheckInPresenter(this);
         mCheckInPresenter.start();
+    }
+
+    private void applyFontSizeToNavigationMenu() {
+        Menu menu = mNavigationView.getMenu();
+        float scalingRatio = FontSizeUtil.getScalingRatio();
+
+        // Apply text scaling to NavigationView items
+        // NavigationView uses internal text views that we need to scale
+        ViewGroup menuView = (ViewGroup) mNavigationView.getChildAt(0);
+        if (menuView != null && menuView instanceof RecyclerView) {
+            RecyclerView recyclerView = (RecyclerView) menuView;
+            recyclerView.addOnChildAttachStateChangeListener(new RecyclerView.OnChildAttachStateChangeListener() {
+                @Override
+                public void onChildViewAttachedToWindow(View view) {
+                    applyScalingToView(view);
+                }
+
+                @Override
+                public void onChildViewDetachedFromWindow(View view) {
+                    // No action needed
+                }
+            });
+        }
+    }
+
+    private void applyScalingToView(View view) {
+        if (view instanceof TextView) {
+            TextView textView = (TextView) view;
+            float currentSize = textView.getTextSize();
+            float scaledSize = FontSizeUtil.getScaledSize(currentSize);
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, scaledSize);
+        } else if (view instanceof ViewGroup) {
+            ViewGroup viewGroup = (ViewGroup) view;
+            for (int i = 0; i < viewGroup.getChildCount(); i++) {
+                applyScalingToView(viewGroup.getChildAt(i));
+            }
+        }
     }
 
     private void updateDrawLayout() {

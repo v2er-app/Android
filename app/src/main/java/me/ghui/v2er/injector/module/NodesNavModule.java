@@ -9,6 +9,8 @@ import me.ghui.v2er.module.home.NodesNavConstract;
 import me.ghui.v2er.module.home.NodesNavFragment;
 import me.ghui.v2er.module.home.NodesNavPresenter;
 import me.ghui.v2er.network.bean.NodesNavInfo;
+import me.ghui.v2er.util.ViewHolderFontHelper;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.NavNodesWrapper;
 
 /**
@@ -28,9 +30,13 @@ public class NodesNavModule {
         return new CommonAdapter<NodesNavInfo.Item>(mNavFragment.getContext(), R.layout.nodes_nav_item) {
             @Override
             protected void convert(ViewHolder holder, NodesNavInfo.Item item, int position) {
-                holder.setText(R.id.node_nav_category_tv, item.getCategory());
+                // Apply font sizing for category title
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.node_nav_category_tv,
+                        item.getCategory(), FontSizeUtil.getTitleSize());
+
                 NavNodesWrapper nodesWrapper = holder.getView(R.id.nodes_nav_node_wrapper);
                 nodesWrapper.setData(item.getNodes());
+                // The NavNodesWrapper should handle its own font sizing internally
             }
         };
     }
