@@ -1,8 +1,8 @@
 <resources>
-    <dimen name="extralargeTextSize">20dp</dimen>
-    <dimen name="largeTextSize">18dp</dimen>
-    <dimen name="mediumTextSize">16dp</dimen>
-    <dimen name="smallTextSize">14dp</dimen>
+    <dimen name="extralargeTextSize">24dp</dimen>
+    <dimen name="largeTextSize">20dp</dimen>
+    <dimen name="mediumTextSize">17dp</dimen>
+    <dimen name="smallTextSize">15dp</dimen>
 
     <dimen name="microTextSize">12dp</dimen>
     <dimen name="tinyTextSize">10dp</dimen>

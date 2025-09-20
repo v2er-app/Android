@@ -26,6 +26,46 @@ public class FontSizeUtil {
         return App.get().getResources().getDimension(id);
     }
 
+    public static float getTitleSize() {
+        String size = Pref.read(R.string.pref_key_fontsize);
+        int id;
+        switch (size) {
+            case "小":
+                id = R.dimen.smallTextSize;
+                break;
+            case "大":
+                id = R.dimen.largeTextSize;
+                break;
+            case "特大":
+                id = R.dimen.extralargeTextSize;
+                break;
+            case "中":
+            default:
+                id = R.dimen.mediumTextSize;
+        }
+        return App.get().getResources().getDimension(id);
+    }
+
+    public static float getSubTextSize() {
+        String size = Pref.read(R.string.pref_key_fontsize);
+        int id;
+        switch (size) {
+            case "小":
+                id = R.dimen.microTextSize;
+                break;
+            case "大":
+                id = R.dimen.mediumTextSize;
+                break;
+            case "特大":
+                id = R.dimen.largeTextSize;
+                break;
+            case "中":
+            default:
+                id = R.dimen.smallTextSize;
+        }
+        return App.get().getResources().getDimension(id);
+    }
+
     public static float getHtmlFontSize() {
         return ScaleUtils.px2Dp(getContentSize());
     }

@@ -19,7 +19,9 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.CareInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
+import android.util.TypedValue;
 
 /**
  * Created by ghui on 16/05/2017.
@@ -43,17 +45,32 @@ public class SpecialCareModule {
                         .load(item.getAvatar())
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
-                holder.setText(R.id.user_name_tv, item.getUserName());
+
+                // Apply dynamic font sizing
+                TextView titleTv = holder.getTextView(R.id.title_tv);
+                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
+                titleTv.setText(item.getTitle());
+
+                TextView userNameTv = holder.getTextView(R.id.user_name_tv);
+                userNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
+                userNameTv.setText(item.getUserName());
+
                 // TODO: 2018/6/9 time is null
+                TextView timeTv = holder.getTextView(R.id.time_tv);
                 if (Check.isEmpty(item.getTime())) {
-                    holder.getView(R.id.time_tv).setVisibility(View.INVISIBLE);
+                    timeTv.setVisibility(View.INVISIBLE);
                 } else {
-                    holder.getView(R.id.time_tv).setVisibility(View.VISIBLE);
-                    holder.setText(R.id.time_tv, item.getTime());
+                    timeTv.setVisibility(View.VISIBLE);
+                    timeTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
+                    timeTv.setText(item.getTime());
                 }
-                holder.setText(R.id.tagview, item.getTagName());
-                holder.setText(R.id.title_tv, item.getTitle());
+
+                TextView tagTv = holder.getTextView(R.id.tagview);
+                tagTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
+                tagTv.setText(item.getTagName());
+
                 TextView commentTV = holder.getTextView(R.id.comment_num_tv);
+                commentTV.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
                 commentTV.setText("评论" + item.getComentNum());
                 ViewUtils.highlightCommentNum(commentTV);
             }
