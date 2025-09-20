@@ -75,7 +75,9 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         contentView.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
         if (Check.notEmpty(replyInfo.getReplyContent())) {
             contentView.setVisibility(View.VISIBLE);
-            contentView = holder.getView(R.id.content_tv);
+            // Clear previous text and spans to avoid style persistence
+            contentView.setText("");
+            contentView.setMovementMethod(null);
             String replyContent = replyInfo.getReplyContent();
             OnMemberLinkClickListener clickListener = null;
             if (replyContent.contains("/member/")) {
@@ -87,6 +89,9 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                     .into(contentView);
         } else {
             contentView.setVisibility(View.GONE);
+            // Clear text when hiding to avoid recycling issues
+            contentView.setText("");
+            contentView.setMovementMethod(null);
         }
         holder.setText(R.id.floor_tv, replyInfo.getFloor());
     }

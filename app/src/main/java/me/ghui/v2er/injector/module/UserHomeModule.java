@@ -85,6 +85,9 @@ public class UserHomeModule {
             public void convert(ViewHolder holder, UserPageInfo.Item item, int position) {
                 UserPageInfo.ReplyItem replyItem = (UserPageInfo.ReplyItem) item;
                 holder.setText(R.id.reply_title_tv, replyItem.getTitle());
+                // Clear previous text to avoid recycling issues
+                holder.getTextView(R.id.reply_content_tv).setText("");
+                holder.getTextView(R.id.reply_content_tv).setMovementMethod(null);
                 RichText.from(replyItem.getContent())
                         .widthDelta(43)
                         .into(holder.getTextView(R.id.reply_content_tv));

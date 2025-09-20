@@ -47,11 +47,16 @@ public class MsgModule {
                 holder.getView(R.id.msg_content_tv);
                 if (!Check.isEmpty(reply.getContent())) {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.VISIBLE);
-//                    holder.setText(R.id.msg_content_tv, reply.getContent());
+                    // Clear previous text to avoid recycling issues
+                    holder.getTextView(R.id.msg_content_tv).setText("");
+                    holder.getTextView(R.id.msg_content_tv).setMovementMethod(null);
                     RichText.from(reply.getContent())
                             .into(holder.getTextView(R.id.msg_content_tv));
                 } else {
                     holder.getView(R.id.msg_content_tv).setVisibility(View.GONE);
+                    // Clear text when hiding to avoid recycling issues
+                    holder.getTextView(R.id.msg_content_tv).setText("");
+                    holder.getTextView(R.id.msg_content_tv).setMovementMethod(null);
                 }
                 holder.setText(R.id.time_tv, reply.getTime());
             }
