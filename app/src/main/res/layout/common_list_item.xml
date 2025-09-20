@@ -13,7 +13,7 @@
         android:id="@+id/title_tv"
         style="@style/TopicTitle"
         android:layout_below="@id/time_tv"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
         tools:text="[macOS]有人用 magnet 分屏的吗？好像有会导致系统卡顿的奇怪是的呵呵，里" />
 
     <de.hdodenhof.circleimageview.CircleImageView

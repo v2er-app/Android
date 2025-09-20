@@ -6,64 +6,60 @@ import me.ghui.v2er.general.Pref;
 
 public class FontSizeUtil {
 
-    public static float getContentSize() {
+    /**
+     * Common helper method to get font dimension based on size preference
+     * @param smallDimen dimension resource for "小" size
+     * @param mediumDimen dimension resource for "中" size (default)
+     * @param largeDimen dimension resource for "大" size
+     * @param extraLargeDimen dimension resource for "特大" size
+     * @return font size in pixels
+     */
+    private static float getFontSizeForPreference(int smallDimen, int mediumDimen,
+                                                   int largeDimen, int extraLargeDimen) {
         String size = Pref.read(R.string.pref_key_fontsize);
         int id;
         switch (size) {
             case "小":
-                id = R.dimen.smallTextSize;
+                id = smallDimen;
                 break;
             case "大":
-                id = R.dimen.largeTextSize;
+                id = largeDimen;
                 break;
             case "特大":
-                id = R.dimen.extralargeTextSize;
+                id = extraLargeDimen;
                 break;
             case "中":
             default:
-                id = R.dimen.mediumTextSize;
+                id = mediumDimen;
         }
         return App.get().getResources().getDimension(id);
+    }
+
+    public static float getContentSize() {
+        return getFontSizeForPreference(
+            R.dimen.smallTextSize,
+            R.dimen.mediumTextSize,
+            R.dimen.largeTextSize,
+            R.dimen.extralargeTextSize
+        );
     }
 
     public static float getTitleSize() {
-        String size = Pref.read(R.string.pref_key_fontsize);
-        int id;
-        switch (size) {
-            case "小":
-                id = R.dimen.smallTextSize;
-                break;
-            case "大":
-                id = R.dimen.largeTextSize;
-                break;
-            case "特大":
-                id = R.dimen.extralargeTextSize;
-                break;
-            case "中":
-            default:
-                id = R.dimen.mediumTextSize;
-        }
-        return App.get().getResources().getDimension(id);
+        return getFontSizeForPreference(
+            R.dimen.smallTextSize,
+            R.dimen.mediumTextSize,
+            R.dimen.largeTextSize,
+            R.dimen.extralargeTextSize
+        );
     }
 
     public static float getSubTextSize() {
-        String size = Pref.read(R.string.pref_key_fontsize);
-        int id;
-        switch (size) {
-            case "小":
-                id = R.dimen.microTextSize;
-                break;
-            case "大":
-                id = R.dimen.mediumTextSize;
-                break;
-            case "特大":
-                id = R.dimen.largeTextSize;
-                break;
-            case "中":
-            default:
-                id = R.dimen.smallTextSize;
-        }
-        return App.get().getResources().getDimension(id);
+        return getFontSizeForPreference(
+            R.dimen.microTextSize,
+            R.dimen.smallTextSize,
+            R.dimen.mediumTextSize,
+            R.dimen.largeTextSize
+        );
     }
 
     public static float getHtmlFontSize() {
