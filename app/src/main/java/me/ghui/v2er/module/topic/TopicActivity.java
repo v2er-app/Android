@@ -417,15 +417,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    if (recyclerView.getLayerType() != View.LAYER_TYPE_SOFTWARE) {
-                        recyclerView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-                    }
-                } else {
-                    if (recyclerView.getLayerType() != View.LAYER_TYPE_HARDWARE) {
-                        recyclerView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-                    }
-                }
+                // Layer type switching removed to prevent font style changes during scrolling
+                // The constant switching between LAYER_TYPE_HARDWARE and LAYER_TYPE_SOFTWARE
+                // was causing font rendering inconsistencies in WebView content
             }
         });
 
