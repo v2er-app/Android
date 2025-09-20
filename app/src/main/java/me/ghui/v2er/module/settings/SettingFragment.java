@@ -39,7 +39,9 @@ import org.greenrobot.eventbus.ThreadMode;
  */
 
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    private static final float SCALING_THRESHOLD = 0.01f;
     private ListView mListView;
+    private android.widget.AbsListView.OnScrollListener mScrollListener;
     private Preference cachePref;
     private Preference loginPreference;
 
@@ -116,7 +118,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         // Apply font scaling after a short delay to ensure views are created
         listView.postDelayed(() -> {
             float scalingRatio = FontSizeUtil.getScalingRatio();
-            if (Math.abs(scalingRatio - 1.0f) < 0.01f) {
+            if (Math.abs(scalingRatio - 1.0f) < SCALING_THRESHOLD) {
                 // No scaling needed for default size
                 return;
             }
@@ -127,8 +129,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                 applyFontScalingToView(child);
             }
 
-            // Add scroll listener to apply scaling to new items
-            listView.setOnScrollListener(new android.widget.AbsListView.OnScrollListener() {
+            // Add scroll listener to apply scaling to new items (only if not already set)
+            if (mScrollListener == null) {
+                mScrollListener = new android.widget.AbsListView.OnScrollListener() {
                 @Override
                 public void onScrollStateChanged(android.widget.AbsListView view, int scrollState) {
                     // Not needed
@@ -146,7 +149,9 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                         }
                     }
                 }
-            });
+                };
+                listView.setOnScrollListener(mScrollListener);
+            }
         }, 100);
     }
 

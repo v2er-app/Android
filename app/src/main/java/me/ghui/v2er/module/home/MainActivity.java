@@ -316,8 +316,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     private void applyFontScalingToMenuItems() {
         // Apply scaling only once to avoid repeated scaling
-        ViewGroup menuView = (ViewGroup) mNavigationView.getChildAt(0);
-        if (menuView != null && menuView instanceof RecyclerView) {
+        View menuView = mNavigationView.getChildAt(0);
+        if (menuView instanceof RecyclerView) {
             RecyclerView recyclerView = (RecyclerView) menuView;
             // Apply to currently visible items
             for (int i = 0; i < recyclerView.getChildCount(); i++) {

@@ -5,6 +5,11 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.Pref;
 
 public class FontSizeUtil {
+    // Scaling ratio constants
+    private static final float SMALL_SCALE = 0.875f;   // 87.5% of default
+    private static final float MEDIUM_SCALE = 1.0f;    // 100% default
+    private static final float LARGE_SCALE = 1.25f;    // 125% of default
+    private static final float EXTRA_LARGE_SCALE = 1.5f; // 150% of default
 
     /**
      * Common helper method to get font dimension based on size preference
@@ -75,14 +80,14 @@ public class FontSizeUtil {
         String size = Pref.read(R.string.pref_key_fontsize);
         switch (size) {
             case "小":
-                return 0.875f;  // 87.5% of default
+                return SMALL_SCALE;
             case "大":
-                return 1.25f;   // 125% of default
+                return LARGE_SCALE;
             case "特大":
-                return 1.5f;    // 150% of default
+                return EXTRA_LARGE_SCALE;
             case "中":
             default:
-                return 1.0f;    // 100% default
+                return MEDIUM_SCALE;
         }
     }
 
