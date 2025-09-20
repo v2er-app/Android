@@ -241,7 +241,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
                 isAppbarExpanted = state == State.EXPANDED;
-                int paddingTop = isAppbarExpanted ? 0 : 36;
+                int paddingTop = isAppbarExpanted ? 0 : Utils.getStatusBarHeight();
                 mSlidingTabLayout.setPadding(0, paddingTop, 0, 0);
             }
         });
