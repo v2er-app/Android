@@ -612,7 +612,80 @@ jobs:
       run: |
         mkdir -p whatsnew
 
-        # Source the shared functions defined earlier
+        # Define shared functions (duplicated from release job since jobs run in isolation)
+        cat > /tmp/release_functions.sh << 'FUNCTIONS_EOF'
+        # Function to categorize commit message
+        categorize_commit() {
+          local msg="$1"
+          local category=""
+          local cleaned_msg=""
+
+          if [[ "$msg" =~ ^fix(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^fix\ (.*)$ ]]; then
+            category="bug"
+            cleaned_msg="${BASH_REMATCH[-1]}"
+          elif [[ "$msg" =~ ^feat(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^feat\ (.*)$ ]]; then
+            category="feature"
+            cleaned_msg="${BASH_REMATCH[-1]}"
+          elif [[ "$msg" =~ ^perf(\(.*\))?:\ (.*)$ ]]; then
+            category="performance"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^refactor(\(.*\))?:\ (.*)$ ]]; then
+            category="improvement"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^chore(\(.*\))?:\ (.*)$ ]]; then
+            category="maintenance"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          elif [[ "$msg" =~ ^docs(\(.*\))?:\ (.*)$ ]]; then
+            category="documentation"
+            cleaned_msg="${BASH_REMATCH[2]}"
+          else
+            category="other"
+            cleaned_msg="$msg"
+          fi
+
+          # Remove PR numbers from the end
+          cleaned_msg=$(echo "$cleaned_msg" | sed 's/ (#[0-9]*)//')
+
+          # Capitalize first letter
+          cleaned_msg="$(echo "${cleaned_msg:0:1}" | tr '[:lower:]' '[:upper:]')${cleaned_msg:1}"
+
+          echo "$category:$cleaned_msg"
+        }
+
+        # Function to get GitHub username from commit
+        get_github_username() {
+          local commit_sha="$1"
+          local github_repo="${GITHUB_REPOSITORY}"
+          # Try to get the GitHub username from the commit using gh api
+          local username=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
+          if [ -n "$username" ]; then
+            echo "@$username"
+          else
+            # Fallback: try to get committer login if author login is not available
+            local committer=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
+            if [ -n "$committer" ]; then
+              echo "@$committer"
+            else
+              # Last resort: use hardcoded mapping for known authors
+              local git_author=$(git show -s --format='%an' $commit_sha)
+              case "$git_author" in
+                "Gray Zhang" | "gray" | "Gray")
+                  echo "@graycreate"
+                  ;;
+                "github-actions[bot]")
+                  echo "@github-actions[bot]"
+                  ;;
+                *)
+                  # If no mapping found, use git author name without @
+                  echo "$git_author"
+                  ;;
+              esac
+            fi
+          fi
+        }
+        FUNCTIONS_EOF
+
+        # Source the shared functions
         source /tmp/release_functions.sh
 
         # Get commits since last tag for categorization
