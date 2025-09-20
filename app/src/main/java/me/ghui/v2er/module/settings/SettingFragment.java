@@ -154,8 +154,12 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     public void onTextSizeChange(TextSizeChangeEvent event) {
         // Clear all existing scaling and reapply with new size
         if (mListView != null) {
+            // Clear tags and restore original sizes
             clearFontScalingTags();
-            applyFontScalingToPreferences(mListView);
+            // Small delay to ensure views are restored before reapplying
+            mListView.postDelayed(() -> {
+                applyFontScalingToPreferences(mListView);
+            }, 50);
         }
     }
 
@@ -172,11 +176,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private void clearTagsRecursively(View view) {
         if (view == null) return;
 
-        // Clear the scaling tags
-        view.setTag(R.id.font_scaled_tag, null);
-        view.setTag(R.id.original_text_size_tag, null);
-
-        // Reset text size to original if it's a TextView
+        // Reset text size to original if it's a TextView (BEFORE clearing tags)
         if (view instanceof TextView) {
             TextView textView = (TextView) view;
             Object originalSize = textView.getTag(R.id.original_text_size_tag);
@@ -184,6 +184,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, (Float) originalSize);
             }
         }
+
+        // Clear the scaling tags AFTER restoring original size
+        view.setTag(R.id.font_scaled_tag, null);
+        view.setTag(R.id.original_text_size_tag, null);
 
         // Recursively clear children
         if (view instanceof ViewGroup) {
