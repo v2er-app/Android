@@ -12,9 +12,8 @@ import me.ghui.v2er.network.bean.BingSearchResultInfo;
 import me.ghui.v2er.network.bean.SoV2EXSearchResultInfo;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 import me.ghui.v2er.widget.richtext.RichText;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 import me.ghui.v2er.util.FontSizeUtil;
-import android.util.TypedValue;
-import android.widget.TextView;
 
 /**
  * Created by ghui on 02/06/2017.
@@ -38,21 +37,19 @@ public class SearchModule {
         return new CommonLoadMoreAdapter<SoV2EXSearchResultInfo.Hit>(mFragment.getContext(), R.layout.item_bing_search) {
             @Override
             protected void convert(ViewHolder holder, SoV2EXSearchResultInfo.Hit hit, int position) {
-                // Apply dynamic font sizing
-                TextView titleTv = holder.getTextView(R.id.search_result_title_tv);
-                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
-                titleTv.setText(hit.getSource().getTitle());
+                // Use helper for cleaner code
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_title_tv,
+                        hit.getSource().getTitle(), FontSizeUtil.getTitleSize());
 
                 String footnote = hit.getSource().getCreator() + " 于 " + hit.getSource().getTime() + " 发表, " + hit.getSource().getReplies() + " 回复";
-                TextView footnoteTv = holder.getTextView(R.id.search_result_footnote_tv);
-                footnoteTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                footnoteTv.setText(footnote);
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_footnote_tv,
+                        footnote, FontSizeUtil.getSubTextSize());
 
-                TextView contentTv = holder.getTextView(R.id.search_result_content_tv);
-                contentTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getContentSize());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.search_result_content_tv,
+                        "", FontSizeUtil.getContentSize());
                 RichText.from(hit.getSource().getContent())
                         .supportUrlClick(false)
-                        .into(contentTv);
+                        .into(holder.getTextView(R.id.search_result_content_tv));
             }
         };
     }

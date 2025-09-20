@@ -17,9 +17,8 @@ import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.util.ViewUtils;
-import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import android.util.TypedValue;
 
 /**
  * Created by ghui on 17/05/2017.
@@ -43,27 +42,13 @@ public class TopicStarModule {
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
 
-                // Apply dynamic font sizing
-                TextView titleTv = holder.getTextView(R.id.title_tv);
-                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
-                titleTv.setText(item.getTitle());
-
-                TextView userNameTv = holder.getTextView(R.id.user_name_tv);
-                userNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                userNameTv.setText(item.getUserName());
-
-                TextView timeTv = holder.getTextView(R.id.time_tv);
-                timeTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                timeTv.setText(item.getTime());
-
-                TextView tagTv = holder.getTextView(R.id.tagview);
-                tagTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                tagTv.setText(item.getTag());
-
-                TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                commentTV.setText("评论" + item.getCommentNum());
-                ViewUtils.highlightCommentNum(commentTV);
+                // Use centralized font helper
+                ViewHolderFontHelper.applyCommonListItemFonts(holder,
+                        item.getTitle(),
+                        item.getUserName(),
+                        item.getTime(),
+                        item.getTag(),
+                        "评论" + item.getCommentNum());
             }
 
             @Override

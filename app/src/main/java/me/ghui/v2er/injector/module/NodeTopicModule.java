@@ -15,9 +15,9 @@ import me.ghui.v2er.module.node.NodeTopicPresenter;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.util.ViewUtils;
+import me.ghui.v2er.util.ViewHolderFontHelper;
 import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
-import android.util.TypedValue;
 
 /**
  * Created by ghui on 27/05/2017.
@@ -43,22 +43,17 @@ public class NodeTopicModule {
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into((ImageView) holder.getView(R.id.avatar_img));
 
-                // Apply dynamic font sizing
-                TextView titleTv = holder.getTextView(R.id.title_tv);
-                titleTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getTitleSize());
-                titleTv.setText(item.getTitle());
-
-                TextView userNameTv = holder.getTextView(R.id.user_name_tv);
-                userNameTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                userNameTv.setText(item.getUserName());
-
-                TextView clickCountTv = holder.getTextView(R.id.click_count_tv);
-                clickCountTv.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                clickCountTv.setText("点击" + item.getClickNum());
+                // Use helper methods for cleaner code
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.title_tv,
+                        item.getTitle(), FontSizeUtil.getTitleSize());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.user_name_tv,
+                        item.getUserName(), FontSizeUtil.getSubTextSize());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.click_count_tv,
+                        "点击" + item.getClickNum(), FontSizeUtil.getSubTextSize());
 
                 TextView commentTV = holder.getTextView(R.id.comment_num_tv);
-                commentTV.setTextSize(TypedValue.COMPLEX_UNIT_PX, FontSizeUtil.getSubTextSize());
-                commentTV.setText("评论" + item.getCommentNum());
+                ViewHolderFontHelper.setTextWithSize(holder, R.id.comment_num_tv,
+                        "评论" + item.getCommentNum(), FontSizeUtil.getSubTextSize());
                 ViewUtils.highlightCommentNum(commentTV);
             }
 
