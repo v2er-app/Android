@@ -20,6 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.MultiItemTypeAdapter;
+import me.ghui.v2er.adapter.base.ViewHolder;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.util.L;
@@ -79,7 +80,17 @@ public class TopicContentFragment extends Fragment
     }
 
     private void createAdapter() {
-        mAdapter = new LoadMoreRecyclerView.Adapter<>(this);
+        if (getContext() == null) return;
+        
+        // Create a simplified adapter for displaying topic content
+        mAdapter = new LoadMoreRecyclerView.Adapter<TopicInfo.Item>(getContext()) {
+            @Override
+            protected void bindListener(ViewHolder holder, int viewType) {
+                // No special listeners needed for now - just display content
+            }
+        };
+        
+        // Add the item delegates
         mAdapter.addItemViewDelegate(new TopicHeaderItemDelegate(getContext()));
         mAdapter.addItemViewDelegate(new TopicContentItemDelegate(getContext()));
         mAdapter.addItemViewDelegate(new TopicReplyItemDelegate(getContext()));
@@ -129,7 +140,27 @@ public class TopicContentFragment extends Fragment
         mTopicBasicInfo = basicInfo;
         
         if (isAdded() && getView() != null) {
-            init();
+            if (mTopicId != null) {
+                mEmptyView.setVisibility(View.GONE);
+                mRecyclerView.setVisibility(View.VISIBLE);
+                
+                if (mAdapter == null) {
+                    createAdapter();
+                    setupRecyclerView();
+                }
+                
+                if (mTopicBasicInfo != null) {
+                    // Show basic info first
+                    List<TopicInfo.Item> data = new ArrayList<>();
+                    data.add(TopicInfo.HeaderInfo.build(mTopicBasicInfo));
+                    mAdapter.setData(data);
+                }
+                
+                // Load full topic data
+                loadTopicData();
+            } else {
+                showEmptyState();
+            }
         }
     }
 
