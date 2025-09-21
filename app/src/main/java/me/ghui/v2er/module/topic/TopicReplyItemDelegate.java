@@ -91,7 +91,13 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         } else {
             contentView.setVisibility(View.GONE);
         }
-        holder.setText(R.id.floor_tv, replyInfo.getFloor());
+        
+        // Update floor text with threading indicator
+        String floorText = replyInfo.getFloor();
+        if (replyInfo.hasMentions() && replyInfo.getIndentLevel() > 0) {
+            floorText += " 💬"; // Add emoji to indicate threaded reply
+        }
+        holder.setText(R.id.floor_tv, floorText);
     }
 
     public interface OnMemberClickListener {

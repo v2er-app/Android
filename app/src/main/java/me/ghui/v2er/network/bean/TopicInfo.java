@@ -50,6 +50,10 @@ public class TopicInfo extends BaseInfo {
 
     private List<Item> items;
 
+    public TopicInfo() {
+        // Default constructor for testing and general use
+    }
+
     public Problem getProblem() {
         return problem;
     }
@@ -203,7 +207,7 @@ public class TopicInfo extends BaseInfo {
     private void processMentionsAndThreading(List<Reply> replies) {
         if (replies == null || replies.isEmpty()) return;
         
-        // Create a map of username to reply for quick lookup
+        // Create a map of username to their latest reply for threading calculation
         Map<String, Reply> userToLatestReply = new HashMap<>();
         
         for (Reply reply : replies) {
@@ -232,7 +236,7 @@ public class TopicInfo extends BaseInfo {
      * @param content HTML content of the reply
      * @return List of mentioned usernames
      */
-    private List<String> extractMentions(String content) {
+    List<String> extractMentions(String content) {
         List<String> mentions = new ArrayList<>();
         if (Check.isEmpty(content)) return mentions;
         
@@ -591,6 +595,10 @@ public class TopicInfo extends BaseInfo {
         // Threading support for 楼中楼 functionality
         private List<String> mentionedUsers = new ArrayList<>();
         private int indentLevel = 0;
+
+        public Reply() {
+            // Default constructor for testing and general use
+        }
 
         public boolean isOwner() {
             return isOwner;
