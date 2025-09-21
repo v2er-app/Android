@@ -3,6 +3,7 @@ package me.ghui.v2er.module.node;
 import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,6 +42,7 @@ import me.ghui.v2er.injector.component.DaggerNodeTopicComponnet;
 import me.ghui.v2er.injector.module.NodeTopicModule;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
+import me.ghui.v2er.module.topic.TopicContentFragment;
 import me.ghui.v2er.network.bean.NodeInfo;
 import me.ghui.v2er.network.bean.NodeTopicInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
@@ -93,11 +96,16 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
     TextView mNodeStarNumTv;
     @BindView(R.id.node_info_star_ct)
     FollowProgressBtn mStarBtn;
+    // Only exists in landscape layout
+    FrameLayout mTopicContentContainer;
     @Inject
     LoadMoreRecyclerView.Adapter<NodeTopicInfo.Item> mAdapter;
     private String mTagName;
     //page value when enter
     private int mInitPage;
+    // Split view fields
+    private boolean mIsLandscapeMode;
+    private TopicContentFragment mTopicContentFragment;
     private NodeInfo mNodeInfo;
 
     private MenuItem mLoveMenuItem;
@@ -186,6 +194,9 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
 
     @Override
     protected void init() {
+        // Check if we're in landscape mode
+        mIsLandscapeMode = getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+        
         getWindow().setStatusBarColor(Color.TRANSPARENT);
         Utils.setPaddingForStatusBar(mToolbar);
         setEnterSharedElementCallback(mCallback);
@@ -213,6 +224,14 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
             }
             return true;
         });
+
+        // Setup landscape split view if needed
+        if (mIsLandscapeMode) {
+            mTopicContentContainer = findViewById(R.id.topic_content_container);
+            if (mTopicContentContainer != null) {
+                setupSplitView();
+            }
+        }
 
         mRecyclerView.setAppBarTracking(this);
         mRecyclerView.setOnLoadMoreListener(this);
@@ -442,7 +461,24 @@ public class NodeTopicActivity extends BaseActivity<NodeTopicContract.IPresenter
                 .tag(mNodeInfo == null ? "" : mNodeInfo.getTitle())
                 .tagLink(mNodeInfo == null ? "" : mNodeInfo.getUrl())
                 .build();
-        TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.avatar_img), basicInfo);
+        
+        if (mIsLandscapeMode && mTopicContentFragment != null) {
+            // In landscape mode, load topic content in the right pane
+            String topicId = UriUtils.getLastSegment(item.getTopicLink());
+            mTopicContentFragment.loadTopic(topicId, basicInfo);
+        } else {
+            // In portrait mode, open TopicActivity as usual
+            TopicActivity.open(mAdapter.getDatas().get(position).getTopicLink(), this, holder.getView(R.id.avatar_img), basicInfo);
+        }
+    }
+
+    private void setupSplitView() {
+        // Initialize empty topic content fragment
+        mTopicContentFragment = TopicContentFragment.newInstance(null, null);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.topic_content_container, mTopicContentFragment)
+                .commit();
     }
 
     @Override
