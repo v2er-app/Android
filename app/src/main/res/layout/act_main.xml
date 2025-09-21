@@ -7,6 +7,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:fitsSystemWindows="false"
         android:orientation="vertical">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -18,9 +19,8 @@
             <me.ghui.v2er.widget.BaseToolBar
                 android:id="@+id/main_toolbar"
                 style="@style/BaseToolBar"
-                android:paddingTop="12dp"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <ImageView
                     android:layout_width="match_parent"
