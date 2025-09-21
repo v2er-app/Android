@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/page_bg_color">
+
+    <!-- Topic content RecyclerView -->
+    <me.ghui.v2er.widget.LoadMoreRecyclerView
+        android:id="@+id/topic_content_recyclerview"
+        style="@style/BaseRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <!-- Empty state -->
+    <LinearLayout
+        android:id="@+id/empty_topic_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="32dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择一个话题查看内容"
+            android:textColor="?attr/text_color_secondary"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+</FrameLayout>
