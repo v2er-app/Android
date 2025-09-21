@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private MenuItem mNightMenuItem;
     private SwitchCompat mNightSwitch;
     private HomeFilterMenu mFilterMenu;
-    private boolean isAppbarExpanted = true;
+    private boolean isAppbarExpanded = true;
 
     @Override
     protected int attachLayoutRes() {
@@ -117,6 +117,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     @SuppressLint({"CheckResult", "WrongConstant"})
     protected void configToolBar() {
+        // Apply padding to AppBarLayout for status bar
         Utils.setPaddingForStatusBar(mAppBarLayout);
         mToolbar.setOnDoubleTapListener(this);
         mToolbar.setElevation(0);
@@ -238,11 +239,33 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         });
 
         mAppBarLayout.addOnOffsetChangedListener(new AppBarStateChangeListener() {
+
+            @Override
+            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+                super.onOffsetChanged(appBarLayout, verticalOffset);
+                // Calculate toolbar's visibility based on its position
+                int toolbarHeight = mToolbar.getHeight();
+                int statusBarHeight = Utils.getStatusBarHeight();
+
+                // When toolbar is scrolled up and would be under status bar, hide it
+                if (Math.abs(verticalOffset) >= toolbarHeight - statusBarHeight) {
+                    mToolbar.setVisibility(View.INVISIBLE);
+                } else {
+                    mToolbar.setVisibility(View.VISIBLE);
+                }
+            }
+
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, AppBarStateChangeListener.State state) {
-                isAppbarExpanted = state == State.EXPANDED;
-                int paddingTop = isAppbarExpanted ? 0 : 36;
-                mSlidingTabLayout.setPadding(0, paddingTop, 0, 0);
+                // Only update when fully expanded or collapsed, ignore IDLE state
+                if (state == State.EXPANDED) {
+                    isAppbarExpanded = true;
+                    mToolbar.setVisibility(View.VISIBLE);
+                } else if (state == State.COLLAPSED) {
+                    isAppbarExpanded = false;
+                    mToolbar.setVisibility(View.INVISIBLE);
+                }
+                // IDLE state doesn't change the expanded status
             }
         });
 
@@ -256,15 +279,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
         int index = getIntent().getIntExtra(TAB_INDEX, 0);
         mSlidingTabLayout.setCurrentTab(index);
-        isAppbarExpanted = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
-        mAppBarLayout.setExpanded(isAppbarExpanted);
+        isAppbarExpanded = getIntent().getBooleanExtra(TOPIC_IS_APPBAR_EXPANDED, true);
+        mAppBarLayout.setExpanded(isAppbarExpanded);
     }
 
     @Override
     protected void reloadMode(int mode) {
         ActivityReloader.target(this)
                 .putExtra(TAB_INDEX, mSlidingTabLayout.getCurrentTab())
-                .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanted)
+                .putExtra(TOPIC_IS_APPBAR_EXPANDED, isAppbarExpanded)
                 .putExtra(PAGE_ONE_DATA, mNewsFragment.getRestoreData())
                 .putExtra(PAGE_TWO_DATA, mMsgFragment.getRestoreData())
                 .putExtra(PAGE_THREE_DATA, mNavFragment.getRestoreData())
