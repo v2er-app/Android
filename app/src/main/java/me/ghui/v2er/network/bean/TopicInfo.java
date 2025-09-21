@@ -123,6 +123,18 @@ public class TopicInfo extends BaseInfo {
      * @return
      */
     public List<Item> getItems(boolean isLoadMore, boolean isInOrder) {
+        return getItems(isLoadMore, isInOrder, me.ghui.v2er.general.ReplySortMode.BY_TIME);
+    }
+
+    /**
+     * 加载分页后的数据
+     *
+     * @param isLoadMore
+     * @param isInOrder   是否是正序加载
+     * @param sortMode    回复排序模式
+     * @return
+     */
+    public List<Item> getItems(boolean isLoadMore, boolean isInOrder, me.ghui.v2er.general.ReplySortMode sortMode) {
         if (items == null) {
             items = new ArrayList<>(Utils.listSize(replies) + 2);
         } else {
@@ -145,7 +157,25 @@ public class TopicInfo extends BaseInfo {
             for (Reply reply : replies) {
                 reply.setOwner(owner);
             }
-            items.addAll(replies);
+            
+            // Parse mentions and calculate threading levels
+            processMentionsAndThreading(replies);
+            
+            // Apply sorting based on mode
+            List<Reply> sortedReplies = new ArrayList<>(replies);
+            if (sortMode == me.ghui.v2er.general.ReplySortMode.BY_POPULARITY) {
+                // Sort by love count (popularity) in descending order, then by floor for stable sort
+                Collections.sort(sortedReplies, (r1, r2) -> {
+                    int loveCompare = Integer.compare(r2.getLove(), r1.getLove());
+                    if (loveCompare != 0) {
+                        return loveCompare;
+                    }
+                    // If love count is equal, sort by floor for stable ordering
+                    return Integer.compare(r1.floor, r2.floor);
+                });
+            }
+            
+            items.addAll(sortedReplies);
         }
         return items;
     }
@@ -163,6 +193,68 @@ public class TopicInfo extends BaseInfo {
     }
 
     public HeaderInfo getHeaderInfo() {
+        return headerInfo;
+    }
+
+    /**
+     * Process @mentions in replies and calculate threading levels
+     * @param replies List of replies to process
+     */
+    private void processMentionsAndThreading(List<Reply> replies) {
+        if (replies == null || replies.isEmpty()) return;
+        
+        // Create a map of username to reply for quick lookup
+        Map<String, Reply> userToLatestReply = new HashMap<>();
+        
+        for (Reply reply : replies) {
+            // Parse @mentions from reply content
+            List<String> mentions = extractMentions(reply.getReplyContent());
+            reply.setMentionedUsers(mentions);
+            
+            // Calculate indent level based on mentions
+            int maxIndentLevel = 0;
+            for (String mentionedUser : mentions) {
+                Reply mentionedReply = userToLatestReply.get(mentionedUser);
+                if (mentionedReply != null) {
+                    // This reply is responding to another reply, increase indent
+                    maxIndentLevel = Math.max(maxIndentLevel, mentionedReply.getIndentLevel() + 1);
+                }
+            }
+            reply.setIndentLevel(maxIndentLevel);
+            
+            // Update the latest reply for this user
+            userToLatestReply.put(reply.getUserName(), reply);
+        }
+    }
+
+    /**
+     * Extract @username mentions from reply content
+     * @param content HTML content of the reply
+     * @return List of mentioned usernames
+     */
+    private List<String> extractMentions(String content) {
+        List<String> mentions = new ArrayList<>();
+        if (Check.isEmpty(content)) return mentions;
+        
+        // Use regex to find @username patterns
+        // V2EX format: @username or @<a href="/member/username">username</a>
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(
+            "@(?:<a[^>]*href=\"/member/([^\"]+)\"[^>]*>([^<]+)</a>|([a-zA-Z0-9_\\-]+))"
+        );
+        java.util.regex.Matcher matcher = pattern.matcher(content);
+        
+        while (matcher.find()) {
+            String username = matcher.group(1); // From href
+            if (username == null) {
+                username = matcher.group(3); // Direct @username
+            }
+            if (username != null && !mentions.contains(username)) {
+                mentions.add(username);
+            }
+        }
+        
+        return mentions;
+    }
         return headerInfo;
     }
 
@@ -496,6 +588,9 @@ public class TopicInfo extends BaseInfo {
         @Pick(attr = "id")
         private String replyId;
         private boolean isOwner = false;
+        // Threading support for 楼中楼 functionality
+        private List<String> mentionedUsers = new ArrayList<>();
+        private int indentLevel = 0;
 
         public boolean isOwner() {
             return isOwner;
@@ -609,6 +704,27 @@ public class TopicInfo extends BaseInfo {
             } catch (NullPointerException e) {
                 return false;
             }
+        }
+
+        // Threading support methods
+        public List<String> getMentionedUsers() {
+            return mentionedUsers;
+        }
+
+        public void setMentionedUsers(List<String> mentionedUsers) {
+            this.mentionedUsers = mentionedUsers != null ? mentionedUsers : new ArrayList<>();
+        }
+
+        public int getIndentLevel() {
+            return indentLevel;
+        }
+
+        public void setIndentLevel(int indentLevel) {
+            this.indentLevel = Math.max(0, Math.min(indentLevel, 3)); // Max 3 levels
+        }
+
+        public boolean hasMentions() {
+            return mentionedUsers != null && !mentionedUsers.isEmpty();
         }
     }
 

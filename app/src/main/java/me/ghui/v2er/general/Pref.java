@@ -30,6 +30,10 @@ public class Pref {
         return Prefs.with(app()).readInt(key, defaultValue);
     }
 
+    public static int readInt(@StringRes int key, int defaultValue) {
+        return readInt(app().getString(key), defaultValue);
+    }
+
     public static boolean readBool(@StringRes int key) {
         return readBool(app().getString(key));
     }
@@ -64,6 +68,10 @@ public class Pref {
 
     public static void save(String key, int value) {
         Prefs.with(app()).writeInt(key, value);
+    }
+
+    public static void save(@StringRes int key, int value) {
+        Prefs.with(app()).writeInt(app().getString(key), value);
     }
 
     public static void save(String key, boolean value) {

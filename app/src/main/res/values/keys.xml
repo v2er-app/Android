@@ -19,6 +19,7 @@
     <string name="pref_key_shortcuts_back_to_home">pref_key_shortcuts_back_to_home</string>
     <string name="pref_key_auto_checkin">pref_key_auto_checkin</string>
     <string name="pref_key_is_scan_in_reverse">is_scan_in_reverse</string>
+    <string name="pref_key_reply_sort_mode">pref_key_reply_sort_mode</string>
 
     <string name="pref_key_auto_dark_mode_settings">pref_key_auto_dark_mode_settings</string>
     <string name="pref_key_auto_dark_mode_switch">pref_key_auto_daynight_switch</string>

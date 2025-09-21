@@ -49,6 +49,9 @@
     <string name="acc_search_edittext">搜索输入框</string>
     <string name="acc_search_clear">清除搜索输入框</string>
 
-
+    <!-- Reply sorting options -->
+    <string name="reply_sort_by_time">按时间排序</string>
+    <string name="reply_sort_by_popularity">按热门排序</string>
+    <string name="threaded_replies">楼中楼回复</string>
 
 </resources>

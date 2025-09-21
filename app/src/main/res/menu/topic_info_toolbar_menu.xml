@@ -40,6 +40,10 @@
         android:icon="@drawable/love_normal_icon"
         android:title="逆序浏览" />
     <item
+        android:id="@+id/action_reply_sort"
+        android:icon="@drawable/love_normal_icon"
+        android:title="@string/reply_sort_by_time" />
+    <item
         android:id="@id/action_open_in_browser"
         android:title="在浏览器中打开" />
 </menu>

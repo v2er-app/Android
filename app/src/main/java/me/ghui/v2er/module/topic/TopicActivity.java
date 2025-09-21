@@ -130,6 +130,9 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     private boolean mIsHideReplyBtn;
     private boolean mIsLogin = UserUtils.isLogin();
     private boolean mIsScanInOrder = !Pref.readBool(R.string.pref_key_is_scan_in_reverse, false);
+    private me.ghui.v2er.general.ReplySortMode mReplySortMode = me.ghui.v2er.general.ReplySortMode.fromValue(
+            Pref.readInt(R.string.pref_key_reply_sort_mode, me.ghui.v2er.general.ReplySortMode.BY_TIME.getValue()));
+    private MenuItem mReplySortMenuItem;
 
     /**
      * @param topicId
@@ -222,6 +225,8 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
         replyMenuItem.setVisible(mIsHideReplyBtn);
         MenuItem scanOrderMenuItem = menu.findItem(R.id.action_scan_order);
         scanOrderMenuItem.setTitle(mIsScanInOrder ? "顺序浏览" : "逆序浏览");
+        mReplySortMenuItem = menu.findItem(R.id.action_reply_sort);
+        mReplySortMenuItem.setTitle(mReplySortMode.getDescription());
         mToolbar.setOnMenuItemClickListener(item -> {
             if (mTopicInfo == null) {
                 if (item.getItemId() == R.id.action_open_in_browser) {
@@ -320,6 +325,18 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                     // 重新加载
                     loadFromStart();
                     showLoading();
+                    break;
+                case R.id.action_reply_sort:
+                    // Toggle reply sorting mode
+                    mReplySortMode = (mReplySortMode == me.ghui.v2er.general.ReplySortMode.BY_TIME) 
+                            ? me.ghui.v2er.general.ReplySortMode.BY_POPULARITY 
+                            : me.ghui.v2er.general.ReplySortMode.BY_TIME;
+                    mReplySortMenuItem.setTitle(mReplySortMode.getDescription());
+                    Pref.save(R.string.pref_key_reply_sort_mode, mReplySortMode.getValue());
+                    // Re-apply sorting to current data without reloading from network
+                    if (mTopicInfo != null) {
+                        refreshReplySorting();
+                    }
                     break;
             }
             return true;
@@ -598,7 +615,7 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
 
         }
         // TODO: 2019-06-23 save info from adapter
-        mAdapter.setData(topicInfo.getItems(isLoadMore, mIsScanInOrder), isLoadMore);
+        mAdapter.setData(topicInfo.getItems(isLoadMore, mIsScanInOrder, mReplySortMode), isLoadMore);
         if (!topicInfo.getContentInfo().isValid()) {
             onRenderCompleted();
         }
@@ -654,6 +671,20 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 });
             });
         }
+    }
+
+    private void refreshReplySorting() {
+        if (mTopicInfo == null) return;
+        
+        // Get current page info to maintain state
+        int currentPage = mPresenter.getPage();
+        boolean isLoadMore = mIsScanInOrder ? currentPage > 1 : currentPage != mTopicInfo.getTotalPage();
+        
+        // Re-sort and update adapter with current sorting mode
+        mAdapter.setData(mTopicInfo.getItems(isLoadMore, mIsScanInOrder, mReplySortMode), isLoadMore);
+        
+        // Update the @mention list as well
+        fillAtList();
     }
 
     private void fillAtList() {
