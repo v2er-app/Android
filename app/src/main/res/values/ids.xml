@@ -12,6 +12,7 @@
     <item name="action_report" type="id" />
     <item name="action_share" type="id" />
     <item name="action_scan_order" type="id" />
+    <item name="action_reply_sort" type="id" />
     <item name="action_save" type="id" />
     <item name="action_copy_url" type="id" />
     <item name="action_refresh" type="id" />

@@ -60,6 +60,9 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         } else {
             holder.getConvertView().setBackgroundColor(Color.TRANSPARENT);
         }
+        
+        // Apply indentation for threaded replies
+        applyThreadIndentation(holder, replyInfo);
         holder.setText(R.id.reply_user_name_tv, replyInfo.getUserName());
         if (replyInfo.getLove() == 0) {
             holder.getView(R.id.reply_thx_tv).setVisibility(View.GONE);
@@ -88,7 +91,13 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
         } else {
             contentView.setVisibility(View.GONE);
         }
-        holder.setText(R.id.floor_tv, replyInfo.getFloor());
+        
+        // Update floor text with threading indicator
+        String floorText = replyInfo.getFloor();
+        if (replyInfo.hasMentions() && replyInfo.getIndentLevel() > 0) {
+            floorText += " 💬"; // Add emoji to indicate threaded reply
+        }
+        holder.setText(R.id.floor_tv, floorText);
     }
 
     public interface OnMemberClickListener {
@@ -114,6 +123,35 @@ public class TopicReplyItemDelegate extends ItemViewDelegate<TopicInfo.Item> {
                 Utils.openWap(url, mContext);
             }
             return false;
+        }
+    }
+
+    /**
+     * Apply indentation for threaded replies based on mention depth
+     */
+    private void applyThreadIndentation(ViewHolder holder, TopicInfo.Reply replyInfo) {
+        View convertView = holder.getConvertView();
+        
+        // Calculate indentation based on thread level
+        int indentLevel = replyInfo.getIndentLevel();
+        int baseIndent = (int) mContext.getResources().getDimension(R.dimen.common_padding_size);
+        int indentPixels = baseIndent + (indentLevel * baseIndent / 2); // 12dp base + 6dp per level
+        
+        // Apply left margin to indicate thread level
+        if (convertView.getLayoutParams() instanceof android.view.ViewGroup.MarginLayoutParams) {
+            android.view.ViewGroup.MarginLayoutParams params = 
+                (android.view.ViewGroup.MarginLayoutParams) convertView.getLayoutParams();
+            params.leftMargin = indentPixels;
+            convertView.setLayoutParams(params);
+        }
+        
+        // Visual indicator for threaded replies
+        if (indentLevel > 0 && replyInfo.hasMentions()) {
+            // Add a subtle visual indicator for threaded replies
+            convertView.setBackgroundResource(R.drawable.threaded_reply_background);
+        } else if (!replyInfo.isOwner() || !Pref.readBool(R.string.pref_key_highlight_topic_owner_reply_item)) {
+            // Reset background for non-threaded replies
+            convertView.setBackgroundColor(Color.TRANSPARENT);
         }
     }
 
