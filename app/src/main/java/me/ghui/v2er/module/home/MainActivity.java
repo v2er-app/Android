@@ -163,6 +163,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         isAlive = true;
         configToolBar();
 
+        Utils.setPaddingForStatusBar(mNavigationView);
         mNavigationView.setItemIconTintList(null);
         mNavHeaderView = mNavigationView.getHeaderView(0);
         mAvatarImg = mNavHeaderView.findViewById(R.id.avatar_img);
@@ -248,7 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 int statusBarHeight = Utils.getStatusBarHeight();
 
                 // When toolbar is scrolled up and would be under status bar, hide it
-                if (Math.abs(verticalOffset) >= toolbarHeight - statusBarHeight) {
+                if (verticalOffset < 0 && Math.abs(verticalOffset) >= toolbarHeight - statusBarHeight) {
                     mToolbar.setVisibility(View.INVISIBLE);
                 } else {
                     mToolbar.setVisibility(View.VISIBLE);
