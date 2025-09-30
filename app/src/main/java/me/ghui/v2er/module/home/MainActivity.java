@@ -249,7 +249,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 int statusBarHeight = Utils.getStatusBarHeight();
 
                 // When toolbar is scrolled up and would be under status bar, hide it
-                if (verticalOffset > 0 && Math.abs(verticalOffset) >= toolbarHeight - statusBarHeight) {
+                if (verticalOffset < 0 && Math.abs(verticalOffset) >= toolbarHeight - statusBarHeight) {
                     mToolbar.setVisibility(View.INVISIBLE);
                 } else {
                     mToolbar.setVisibility(View.VISIBLE);
