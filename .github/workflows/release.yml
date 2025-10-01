@@ -45,7 +45,7 @@ jobs:
       
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       with:
         fetch-depth: 2  # Need history for version comparison
         token: ${{ secrets.GITHUB_TOKEN }}
@@ -170,7 +170,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -246,7 +246,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Set up JDK 17
       uses: actions/setup-java@v4
@@ -309,7 +309,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Download APK artifact
       uses: actions/download-artifact@v4
@@ -558,7 +558,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Download AAB artifact
       uses: actions/download-artifact@v4
@@ -923,7 +923,7 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Set up Python
       uses: actions/setup-python@v5
