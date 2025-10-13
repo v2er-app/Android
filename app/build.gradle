@@ -98,8 +98,8 @@ dependencies {
     annotationProcessor "com.jakewharton:butterknife-compiler:10.2.3"
     implementation 'com.google.dagger:dagger:2.57.2'
     annotationProcessor "com.google.dagger:dagger-compiler:2.57.2"
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:5.0.5'
+    annotationProcessor 'com.github.bumptech.glide:compiler:5.0.5'
     implementation 'jp.wasabeef:glide-transformations:4.3.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     // Using Maven Central version of FlycoTabLayout (AndroidX version)
@@ -117,7 +117,7 @@ dependencies {
     implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
     //noinspection GradleDynamicVersion
     implementation 'com.r0adkll:slidableactivity:2.1.0'
-    implementation 'com.github.bumptech.glide:okhttp3-integration:4.16.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:5.0.5'
     implementation 'pub.devrel:easypermissions:3.0.0'
     implementation 'org.greenrobot:eventbus:3.3.1'
     // Temporarily disabled due to JitPack issues
