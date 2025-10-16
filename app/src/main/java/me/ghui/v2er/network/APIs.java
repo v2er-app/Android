@@ -27,6 +27,7 @@ import me.ghui.v2er.network.bean.TopicInfo;
 import me.ghui.v2er.network.bean.TopicStarInfo;
 import me.ghui.v2er.network.bean.UserInfo;
 import me.ghui.v2er.network.bean.UserPageInfo;
+import me.ghui.v2er.network.bean.VshareVersionInfo;
 import me.ghui.v2er.util.RefererUtils;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -61,6 +62,10 @@ public interface APIs {
     @Json
     @GET("/api/members/show.json")
     Observable<UserInfo> userInfo(@Query("username") String username);
+
+    @Json
+    @GET("https://v2er.app/api/vshare-version.json")
+    Observable<VshareVersionInfo> getVshareVersion();
 
     @Json
     @GET("https://www.sov2ex.com/api/search")

@@ -54,6 +54,7 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.util.VshareVersionChecker;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -99,6 +100,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private SwitchCompat mNightSwitch;
     private HomeFilterMenu mFilterMenu;
     private boolean isAppbarExpanded = true;
+    private View mVshareBadge;
+    private VshareVersionChecker mVshareVersionChecker;
+    private android.graphics.drawable.Drawable mOriginalNavIcon;
+    private android.graphics.drawable.LayerDrawable mNavIconWithBadge;
 
     @Override
     protected int attachLayoutRes() {
@@ -132,12 +137,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 mDrawerLayout.openDrawer(Gravity.START);
             }
         });
+
+        // Initialize toolbar badge support for hamburger icon
+        setupNavigationIconBadge();
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 pushFragment(SearchFragment.newInstance());
             }
             return true;
         });
+    }
+
+    private void setupNavigationIconBadge() {
+        // Save the original navigation icon
+        mOriginalNavIcon = getDrawable(R.drawable.nav).mutate();
+        mOriginalNavIcon.setTint(Theme.getColor(R.attr.icon_tint_color, this));
+
+        // Create a red dot drawable for the badge
+        android.graphics.drawable.ShapeDrawable badge = new android.graphics.drawable.ShapeDrawable(
+                new android.graphics.drawable.shapes.OvalShape());
+        badge.getPaint().setColor(0xFFF44336); // Red color
+        badge.setIntrinsicHeight(ScaleUtils.dp(8));
+        badge.setIntrinsicWidth(ScaleUtils.dp(8));
+
+        // Create a LayerDrawable with the navigation icon and badge
+        android.graphics.drawable.Drawable[] layers = new android.graphics.drawable.Drawable[2];
+        layers[0] = mOriginalNavIcon;
+        layers[1] = badge;
+
+        mNavIconWithBadge = new android.graphics.drawable.LayerDrawable(layers);
+
+        // Position the badge at the top-right corner of the icon
+        // Navigation icon is 24dp, badge is 8dp
+        mNavIconWithBadge.setLayerSize(1, ScaleUtils.dp(8), ScaleUtils.dp(8));
+        mNavIconWithBadge.setLayerGravity(1, Gravity.TOP | Gravity.END);
+        mNavIconWithBadge.setLayerInsetEnd(1, -ScaleUtils.dp(4)); // Overlap with icon edge
+        mNavIconWithBadge.setLayerInsetTop(1, -ScaleUtils.dp(4));  // Overlap with icon edge
     }
 
     @Override
@@ -218,6 +253,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
+                case R.id.vshare_nav_item:
+                    Utils.openInBrowser("https://v2er.app/vshare", getContext());
+                    mVshareVersionChecker.markAsViewed();
+                    updateVshareBadge();
+                    break;
                 case R.id.day_night_item:
                     onNightMenuItemClicked(DarkModelUtils.isDarkMode());
                     break;
@@ -277,6 +317,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
+        initVshareVersionChecker();
 
         int index = getIntent().getIntExtra(TAB_INDEX, 0);
         mSlidingTabLayout.setCurrentTab(index);
@@ -327,6 +368,54 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void initCheckIn() {
         mCheckInPresenter = new CheckInPresenter(this);
         mCheckInPresenter.start();
+    }
+
+    private void initVshareVersionChecker() {
+        // Initialize the version checker
+        mVshareVersionChecker = new VshareVersionChecker(getContext());
+
+        // Delay to ensure menu is fully initialized
+        mNavigationView.post(() -> {
+            // Find vshare menu item and get the badge view
+            MenuItem vshareItem = mNavigationView.getMenu().findItem(R.id.vshare_nav_item);
+            if (vshareItem != null && vshareItem.getActionView() != null) {
+                mVshareBadge = vshareItem.getActionView().findViewById(R.id.vshare_badge_dot);
+                L.d("Vshare badge view found: " + (mVshareBadge != null));
+            } else {
+                L.e("Vshare menu item or action view is null");
+            }
+
+            // Check for version updates
+            mVshareVersionChecker.checkForUpdate()
+                    .subscribe(hasUpdate -> {
+                        L.d("Vshare version check result: hasUpdate=" + hasUpdate);
+                        updateVshareBadge(hasUpdate);
+                    }, throwable -> {
+                        // Log errors for debugging
+                        L.e("VshareVersionChecker error: " + throwable.getMessage());
+                        throwable.printStackTrace();
+                    });
+        });
+    }
+
+    private void updateVshareBadge() {
+        updateVshareBadge(false);
+    }
+
+    private void updateVshareBadge(boolean show) {
+        L.d("Setting vshare badge visibility: " + (show ? "VISIBLE" : "GONE"));
+
+        // Update menu badge
+        if (mVshareBadge != null) {
+            mVshareBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+        } else {
+            L.e("Cannot update menu badge: mVshareBadge is null");
+        }
+
+        // Update toolbar navigation icon with badge
+        if (mNavIconWithBadge != null && mOriginalNavIcon != null) {
+            mToolbar.setNavigationIcon(show ? mNavIconWithBadge : mOriginalNavIcon);
+        }
     }
 
     private void applyFontSizeToNavigationMenu() {

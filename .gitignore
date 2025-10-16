@@ -26,3 +26,6 @@ fastlane/*.json
 vendor/bundle/
 .bundle/
 Gemfile.lockfastlane/node_modules/
+
+# Documentation
+.doc/
