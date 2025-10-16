@@ -28,7 +28,6 @@ import me.ghui.v2er.util.DarkModelUtils;
  */
 public class VshareWebActivity extends AppCompatActivity {
 
-    private static final String KEY_URL = "url";
     private static final String VSHARE_BASE_URL = "https://v2er.app/vshare";
 
     @BindView(R.id.webview)
@@ -39,14 +38,6 @@ public class VshareWebActivity extends AppCompatActivity {
 
     public static void open(Context context) {
         Intent intent = new Intent(context, VshareWebActivity.class);
-        // Append theme parameter based on current app theme
-        String url = VSHARE_BASE_URL;
-        if (DarkModelUtils.isDarkMode()) {
-            url += "?theme=dark";
-        } else {
-            url += "?theme=light";
-        }
-        intent.putExtra(KEY_URL, url);
         context.startActivity(intent);
     }
 
@@ -69,11 +60,14 @@ public class VshareWebActivity extends AppCompatActivity {
 
         setupWebView();
 
-        // Load the URL
-        String url = getIntent().getStringExtra(KEY_URL);
-        if (url != null) {
-            mWebView.loadUrl(url);
+        // Compute URL with theme parameter based on current app theme
+        String url = VSHARE_BASE_URL;
+        if (DarkModelUtils.isDarkMode()) {
+            url += "?theme=dark";
+        } else {
+            url += "?theme=light";
         }
+        mWebView.loadUrl(url);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -85,6 +79,15 @@ public class VshareWebActivity extends AppCompatActivity {
 
         // Enable DOM storage
         settings.setDomStorageEnabled(true);
+
+        // Disable file and content access for security
+        settings.setAllowFileAccess(false);
+        settings.setAllowContentAccess(false);
+
+        // Enable Safe Browsing if API >= 26
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            settings.setSafeBrowsingEnabled(true);
+        }
 
         // Enable responsive layout
         settings.setUseWideViewPort(true);
@@ -102,9 +105,8 @@ public class VshareWebActivity extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // Keep navigation within the WebView
-                view.loadUrl(request.getUrl().toString());
-                return true;
+                // Let the WebView handle the navigation
+                return false;
             }
 
             @Override
@@ -116,7 +118,6 @@ public class VshareWebActivity extends AppCompatActivity {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                mProgressBar.setVisibility(View.GONE);
 
                 // Inject CSS to ensure proper theme is applied
                 String theme = DarkModelUtils.isDarkMode() ? "dark" : "light";
@@ -153,7 +154,7 @@ public class VshareWebActivity extends AppCompatActivity {
     protected void onDestroy() {
         if (mWebView != null) {
             mWebView.clearHistory();
-            mWebView.clearCache(true);
+            mWebView.clearCache(false);
             mWebView.loadUrl("about:blank");
             mWebView.pauseTimers();
             mWebView.destroy();
