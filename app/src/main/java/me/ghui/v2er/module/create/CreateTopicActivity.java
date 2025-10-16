@@ -203,7 +203,14 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
             Observable.just(response)
                     .compose(rx(null))
                     .map(s -> {
-                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
+                        // First, check if this is actually a successful topic creation
+                        // (V2EX may return the topic page on success, which triggers error handler due to redirects)
+                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
+                        if (resultInfo.isValid()) {
+                            return resultInfo;
+                        }
+                        // If not a valid topic, try parsing as error pages
+                        resultInfo = APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
                         if (!resultInfo.isValid()) {
                             resultInfo = APIService.fruit().fromHtml(s, NewUserBannedCreateInfo.class);
                         }
@@ -212,7 +219,10 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     .subscribe(new GeneralConsumer<BaseInfo>(this) {
                         @Override
                         public void onConsume(BaseInfo baseInfo) {
-                            if (baseInfo instanceof CreateTopicPageInfo) {
+                            if (baseInfo instanceof TopicInfo) {
+                                // Actually a success! Treat it as such
+                                onPostSuccess((TopicInfo) baseInfo);
+                            } else if (baseInfo instanceof CreateTopicPageInfo) {
                                 onPostFailure((CreateTopicPageInfo) baseInfo);
                             } else {
                                 onBannedCreateTopic((NewUserBannedCreateInfo) baseInfo);
