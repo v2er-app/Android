@@ -134,21 +134,36 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
         if (Check.isEmpty(response)) return;
         Observable.just(response)
                 .compose(rx(null))
-                .map(s -> APIService.fruit().fromHtml(s, AppendTopicPageInfo.class))
-                .subscribe(new GeneralConsumer<AppendTopicPageInfo>() {
+                .map(s -> {
+                    // First, check if this is actually a successful append
+                    // (V2EX may return the topic page on success, which triggers error handler due to redirects)
+                    BaseInfo resultInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
+                    if (resultInfo.isValid()) {
+                        return resultInfo;
+                    }
+                    // If not a valid topic, try parsing as error page
+                    return APIService.fruit().fromHtml(s, AppendTopicPageInfo.class);
+                })
+                .subscribe(new GeneralConsumer<BaseInfo>() {
                     @Override
-                    public void onConsume(AppendTopicPageInfo pageInfo) {
-                        AppendTopicPageInfo.Problem problem = pageInfo.getProblem();
-                        if (problem != null) {
-                            StringBuilder msg = new StringBuilder();
-                            for (int i = 0; i < problem.getTips().size(); i++) {
-                                msg.append(i + 1).append(". ").append(problem.getTips().get(i)).append("\n");
+                    public void onConsume(BaseInfo baseInfo) {
+                        if (baseInfo instanceof TopicInfo) {
+                            // Actually a success! Treat it as such
+                            onAfterAppendTopic((TopicInfo) baseInfo);
+                        } else if (baseInfo instanceof AppendTopicPageInfo) {
+                            AppendTopicPageInfo pageInfo = (AppendTopicPageInfo) baseInfo;
+                            AppendTopicPageInfo.Problem problem = pageInfo.getProblem();
+                            if (problem != null) {
+                                StringBuilder msg = new StringBuilder();
+                                for (int i = 0; i < problem.getTips().size(); i++) {
+                                    msg.append(i + 1).append(". ").append(problem.getTips().get(i)).append("\n");
+                                }
+                                new ConfirmDialog.Builder(getActivity())
+                                        .title(problem.getTitle())
+                                        .msg(msg.toString())
+                                        .positiveText(R.string.ok)
+                                        .build().show();
                             }
-                            new ConfirmDialog.Builder(getActivity())
-                                    .title(problem.getTitle())
-                                    .msg(msg.toString())
-                                    .positiveText(R.string.ok)
-                                    .build().show();
                         }
                     }
                 });
