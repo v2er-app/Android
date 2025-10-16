@@ -102,6 +102,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private boolean isAppbarExpanded = true;
     private View mVshareBadge;
     private VshareVersionChecker mVshareVersionChecker;
+    private android.graphics.drawable.Drawable mOriginalNavIcon;
+    private android.graphics.drawable.LayerDrawable mNavIconWithBadge;
 
     @Override
     protected int attachLayoutRes() {
@@ -135,12 +137,42 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 mDrawerLayout.openDrawer(Gravity.START);
             }
         });
+
+        // Initialize toolbar badge support for hamburger icon
+        setupNavigationIconBadge();
         mToolbar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_search) {
                 pushFragment(SearchFragment.newInstance());
             }
             return true;
         });
+    }
+
+    private void setupNavigationIconBadge() {
+        // Save the original navigation icon
+        mOriginalNavIcon = getDrawable(R.drawable.nav).mutate();
+        mOriginalNavIcon.setTint(Theme.getColor(R.attr.icon_tint_color, this));
+
+        // Create a red dot drawable for the badge
+        android.graphics.drawable.ShapeDrawable badge = new android.graphics.drawable.ShapeDrawable(
+                new android.graphics.drawable.shapes.OvalShape());
+        badge.getPaint().setColor(0xFFF44336); // Red color
+        badge.setIntrinsicHeight(ScaleUtils.dp(8));
+        badge.setIntrinsicWidth(ScaleUtils.dp(8));
+
+        // Create a LayerDrawable with the navigation icon and badge
+        android.graphics.drawable.Drawable[] layers = new android.graphics.drawable.Drawable[2];
+        layers[0] = mOriginalNavIcon;
+        layers[1] = badge;
+
+        mNavIconWithBadge = new android.graphics.drawable.LayerDrawable(layers);
+
+        // Position the badge at the top-right corner of the icon
+        // Navigation icon is 24dp, badge is 8dp
+        mNavIconWithBadge.setLayerSize(1, ScaleUtils.dp(8), ScaleUtils.dp(8));
+        mNavIconWithBadge.setLayerGravity(1, Gravity.TOP | Gravity.END);
+        mNavIconWithBadge.setLayerInsetEnd(1, -ScaleUtils.dp(4)); // Overlap with icon edge
+        mNavIconWithBadge.setLayerInsetTop(1, -ScaleUtils.dp(4));  // Overlap with icon edge
     }
 
     @Override
@@ -380,11 +412,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             L.e("Cannot update menu badge: mVshareBadge is null");
         }
 
-        // Update toolbar navigation badge using BaseToolBar's built-in support
-        if (show) {
-            mToolbar.showNavigationBadge();
-        } else {
-            mToolbar.hideNavigationBadge();
+        // Update toolbar navigation icon with badge
+        if (mNavIconWithBadge != null && mOriginalNavIcon != null) {
+            mToolbar.setNavigationIcon(show ? mNavIconWithBadge : mOriginalNavIcon);
         }
     }
 

@@ -55,24 +55,29 @@ public class BaseToolBar extends Toolbar {
             return; // Already initialized
         }
 
-        // Create badge view
-        mNavigationBadge = new View(getContext());
-        int badgeSize = ScaleUtils.dp(8);
-        LayoutParams badgeParams = new LayoutParams(badgeSize, badgeSize);
-        badgeParams.gravity = Gravity.TOP | Gravity.START;
+        // Delay initialization to ensure layout is ready
+        post(() -> {
+            // Create badge view
+            mNavigationBadge = new View(getContext());
+            int badgeSize = ScaleUtils.dp(8);
 
-        // Position badge at top-right corner of navigation icon
-        // Navigation icon is typically 24dp with 16dp padding from left
-        // Badge should be at: left padding (16dp) + icon size (24dp) - overlap (4dp)
-        badgeParams.leftMargin = ScaleUtils.dp(36);
-        badgeParams.topMargin = ScaleUtils.dp(12); // Centered vertically minus offset
+            // Use FrameLayout.LayoutParams instead of Toolbar.LayoutParams for better control
+            FrameLayout.LayoutParams badgeParams = new FrameLayout.LayoutParams(badgeSize, badgeSize);
 
-        mNavigationBadge.setLayoutParams(badgeParams);
-        mNavigationBadge.setBackgroundResource(R.drawable.shape_badge_dot);
-        mNavigationBadge.setVisibility(GONE);
+            // For MainActivity's hamburger menu (navigation icon is on the left side)
+            // Navigation icon: typically 56dp height toolbar, 24dp icon, 16dp from left
+            // Position badge at top-right corner of the icon
+            badgeParams.gravity = Gravity.NO_GRAVITY;  // Use absolute positioning
+            badgeParams.leftMargin = ScaleUtils.dp(36);  // 16dp padding + 24dp icon - 4dp overlap
+            badgeParams.topMargin = ScaleUtils.dp(12);   // Position at top of icon
 
-        // Add badge to toolbar
-        addView(mNavigationBadge);
+            mNavigationBadge.setLayoutParams(badgeParams);
+            mNavigationBadge.setBackgroundResource(R.drawable.shape_badge_dot);
+            mNavigationBadge.setVisibility(GONE);
+
+            // Add badge to toolbar
+            addView(mNavigationBadge);
+        });
     }
 
     /**
