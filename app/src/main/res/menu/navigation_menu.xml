@@ -26,6 +26,11 @@
             android:id="@+id/faq_nav_item"
             android:icon="@drawable/faq_nav_item"
             android:title="FAQ" />
+        <item
+            android:id="@+id/vshare_nav_item"
+            android:icon="@drawable/vshare_nav_item"
+            android:title="@string/vshare"
+            app:actionLayout="@layout/layout_vshare_badge" />
     </group>
     <group
         android:id="@+id/day_night_menu"

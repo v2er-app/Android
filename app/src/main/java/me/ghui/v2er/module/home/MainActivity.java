@@ -54,6 +54,7 @@ import me.ghui.v2er.util.UserUtils;
 import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.util.ViewUtils;
 import me.ghui.v2er.util.FontSizeUtil;
+import me.ghui.v2er.util.VshareVersionChecker;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
@@ -99,6 +100,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private SwitchCompat mNightSwitch;
     private HomeFilterMenu mFilterMenu;
     private boolean isAppbarExpanded = true;
+    private View mVshareBadge;
+    private VshareVersionChecker mVshareVersionChecker;
 
     @Override
     protected int attachLayoutRes() {
@@ -218,6 +221,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     if (UserUtils.notLoginAndProcessToLogin(false, getContext())) return true;
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
+                case R.id.vshare_nav_item:
+                    Utils.openInBrowser("https://v2er.app/vshare", getContext());
+                    mVshareVersionChecker.markAsViewed();
+                    updateVshareBadge();
+                    break;
                 case R.id.day_night_item:
                     onNightMenuItemClicked(DarkModelUtils.isDarkMode());
                     break;
@@ -277,6 +285,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
         mSlidingTabLayout.setOnTabSelectListener(this);
         configNewsTabTitle();
         initCheckIn();
+        initVshareVersionChecker();
 
         int index = getIntent().getIntExtra(TAB_INDEX, 0);
         mSlidingTabLayout.setCurrentTab(index);
@@ -327,6 +336,56 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private void initCheckIn() {
         mCheckInPresenter = new CheckInPresenter(this);
         mCheckInPresenter.start();
+    }
+
+    private void initVshareVersionChecker() {
+        // Initialize the version checker
+        mVshareVersionChecker = new VshareVersionChecker(getContext());
+
+        // Delay to ensure menu is fully initialized
+        mNavigationView.post(() -> {
+            // Find vshare menu item and get the badge view
+            MenuItem vshareItem = mNavigationView.getMenu().findItem(R.id.vshare_nav_item);
+            if (vshareItem != null && vshareItem.getActionView() != null) {
+                mVshareBadge = vshareItem.getActionView().findViewById(R.id.vshare_badge_dot);
+                L.d("Vshare badge view found: " + (mVshareBadge != null));
+            } else {
+                L.e("Vshare menu item or action view is null");
+            }
+
+            // Check for version updates
+            mVshareVersionChecker.checkForUpdate()
+                    .subscribe(hasUpdate -> {
+                        L.d("Vshare version check result: hasUpdate=" + hasUpdate);
+                        updateVshareBadge(hasUpdate);
+                    }, throwable -> {
+                        // Log errors for debugging
+                        L.e("VshareVersionChecker error: " + throwable.getMessage());
+                        throwable.printStackTrace();
+                    });
+        });
+    }
+
+    private void updateVshareBadge() {
+        updateVshareBadge(false);
+    }
+
+    private void updateVshareBadge(boolean show) {
+        L.d("Setting vshare badge visibility: " + (show ? "VISIBLE" : "GONE"));
+
+        // Update menu badge
+        if (mVshareBadge != null) {
+            mVshareBadge.setVisibility(show ? View.VISIBLE : View.GONE);
+        } else {
+            L.e("Cannot update menu badge: mVshareBadge is null");
+        }
+
+        // Update toolbar navigation badge using BaseToolBar's built-in support
+        if (show) {
+            mToolbar.showNavigationBadge();
+        } else {
+            mToolbar.hideNavigationBadge();
+        }
     }
 
     private void applyFontSizeToNavigationMenu() {
