@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -88,6 +90,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         }
 
         decorView.setSystemUiVisibility(systemUiVisibility);
+
+        // Set WebView top margin to status bar height
+        applyStatusBarMargin();
 
         setupWebView();
 
@@ -173,6 +178,32 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                 }
             }
         });
+    }
+
+    /**
+     * Apply status bar height as top margin to WebView
+     */
+    private void applyStatusBarMargin() {
+        int statusBarHeight = getStatusBarHeight();
+        if (statusBarHeight > 0) {
+            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
+            if (params instanceof FrameLayout.LayoutParams) {
+                params.topMargin = statusBarHeight;
+                mWebView.setLayoutParams(params);
+            }
+        }
+    }
+
+    /**
+     * Get status bar height dynamically
+     */
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     /**
