@@ -54,7 +54,7 @@ public class ContactFragment extends PreferenceFragment implements Preference.On
         if (key.equals(getString(R.string.pref_key_contact_me_jike))) {
             Utils.jumpToJikeProfileInfo(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
-            Utils.openWap("https://t.me/v2er_app", getActivity());
+            Utils.openWap("https://t.me/+Qb5d1yMWKdZ9P7Zj", getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_weibo))) {
             Utils.jumpToWeiboProfileInfo(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_mail))) {
