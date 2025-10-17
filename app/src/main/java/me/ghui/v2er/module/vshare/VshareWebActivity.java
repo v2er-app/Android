@@ -40,6 +40,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     @BindView(R.id.webview)
     WebView mWebView;
 
+    @BindView(R.id.theme_overlay)
+    View mThemeOverlay;
+
     public static void open(Context context) {
         Intent intent = new Intent(context, VshareWebActivity.class);
         context.startActivity(intent);
@@ -73,6 +76,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     protected void init() {
         super.init();
 
+        // Set loading delay to 0 to show loading indicator immediately
+        setFirstLoadingDelay(0);
+
         // Apply fullscreen flags for edge-to-edge WebView
         View decorView = getWindow().getDecorView();
         int systemUiVisibility = decorView.getSystemUiVisibility()
@@ -91,6 +97,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         // Set WebView top margin to status bar height
         applyStatusBarMargin();
 
+        // Set overlay background color to match theme
+        setupThemeOverlay();
+
         setupWebView();
 
         // Compute URL with theme parameter based on current app theme
@@ -103,15 +112,28 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         mWebView.loadUrl(url);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
-    private void setupWebView() {
-        // Hide WebView until page is fully loaded with correct theme
-        mWebView.setVisibility(View.INVISIBLE);
-
-        // Set WebView background color to match theme before loading
+    /**
+     * Setup theme overlay to prevent white flash during page load
+     */
+    private void setupThemeOverlay() {
         boolean isDarkMode = DarkModelUtils.isDarkMode();
         if (isDarkMode) {
-            // Dark mode: set dark background to prevent white flash
+            // Dark mode: use dark overlay
+            mThemeOverlay.setBackgroundColor(Color.parseColor("#1a1a1a"));
+        } else {
+            // Light mode: use white overlay
+            mThemeOverlay.setBackgroundColor(Color.WHITE);
+        }
+        // Overlay is visible by default, will be hidden after theme is applied
+        mThemeOverlay.setVisibility(View.VISIBLE);
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    private void setupWebView() {
+        // Set WebView background color to match theme
+        boolean isDarkMode = DarkModelUtils.isDarkMode();
+        if (isDarkMode) {
+            // Dark mode: set dark background
             mWebView.setBackgroundColor(Color.parseColor("#1a1a1a"));
         } else {
             // Light mode: set white background
@@ -181,14 +203,40 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                         "})()";
                 mWebView.loadUrl(js);
 
-                // Show WebView after theme is applied (small delay to ensure JS executes)
+                // Hide overlay after theme is applied (small delay to ensure JS executes)
                 mWebView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        mWebView.setVisibility(View.VISIBLE);
+                        // Fade out the overlay
+                        mThemeOverlay.animate()
+                                .alpha(0f)
+                                .setDuration(200)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mThemeOverlay.setVisibility(View.GONE);
+                                    }
+                                });
                         hideLoading();
                     }
-                }, 300);
+                }, 100);
+            }
+
+            @Override
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                // Hide loading indicator on error to prevent persistent spinner
+                hideLoading();
+                mThemeOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, android.webkit.WebResourceRequest request,
+                                           android.webkit.WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                // Hide loading indicator on HTTP error to prevent persistent spinner
+                hideLoading();
+                mThemeOverlay.setVisibility(View.GONE);
             }
         });
     }
