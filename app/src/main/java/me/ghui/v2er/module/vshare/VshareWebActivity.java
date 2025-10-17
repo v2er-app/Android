@@ -17,11 +17,14 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import butterknife.BindView;
 import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.util.DarkModelUtils;
+import me.ghui.v2er.widget.BaseToolBar;
 
 /**
  * Fullscreen WebView Activity for displaying vshare page
@@ -46,6 +49,13 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     @Override
     protected int attachLayoutRes() {
         return R.layout.activity_vshare_web;
+    }
+
+    @Nullable
+    @Override
+    protected BaseToolBar attachToolbar() {
+        // Return null to hide the toolbar for fullscreen WebView experience
+        return null;
     }
 
     @Override
