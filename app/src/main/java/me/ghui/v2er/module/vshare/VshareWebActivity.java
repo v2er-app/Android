@@ -1,10 +1,13 @@
 package me.ghui.v2er.module.vshare;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
@@ -12,6 +15,7 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -26,6 +30,7 @@ import me.ghui.v2er.util.DarkModelUtils;
  */
 public class VshareWebActivity extends AppCompatActivity {
 
+    private static final String TAG = "VshareWebActivity";
     private static final String VSHARE_BASE_URL = "https://v2er.app/vshare";
 
     @BindView(R.id.webview)
@@ -114,8 +119,12 @@ public class VshareWebActivity extends AppCompatActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                // Let the WebView handle the navigation
-                return false;
+                return handleUrlLoading(request.getUrl().toString());
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return handleUrlLoading(url);
             }
 
             @Override
@@ -147,6 +156,88 @@ public class VshareWebActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    /**
+     * Handle URL loading for WebView
+     * Returns true if the URL was handled externally, false if WebView should load it
+     */
+    private boolean handleUrlLoading(String url) {
+        if (url == null) {
+            return false;
+        }
+
+        Uri uri = Uri.parse(url);
+        String scheme = uri.getScheme();
+
+        // Handle intent:// URLs (e.g., Google Play Store links)
+        if ("intent".equals(scheme)) {
+            try {
+                Intent intent = Intent.parseUri(url, Intent.URI_INTENT_SCHEME);
+
+                // Check if there's an app that can handle this intent
+                if (getPackageManager().resolveActivity(intent, 0) != null) {
+                    startActivity(intent);
+                    return true;
+                }
+
+                // Fallback: Try to open the browser_fallback_url if available
+                String fallbackUrl = intent.getStringExtra("browser_fallback_url");
+                if (fallbackUrl != null) {
+                    mWebView.loadUrl(fallbackUrl);
+                    return true;
+                }
+
+                // Last resort: Try to open in Google Play if it's a Play Store intent
+                String packageName = intent.getPackage();
+                if (packageName != null) {
+                    Intent marketIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + packageName));
+                    marketIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    if (getPackageManager().resolveActivity(marketIntent, 0) != null) {
+                        startActivity(marketIntent);
+                        return true;
+                    }
+                }
+            } catch (Exception e) {
+                Log.e(TAG, "Error handling intent URL: " + url, e);
+                Toast.makeText(this, "Unable to open app", Toast.LENGTH_SHORT).show();
+            }
+            return true;
+        }
+
+        // Handle market:// URLs (Google Play Store)
+        if ("market".equals(scheme)) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, "Google Play Store not found", e);
+                // Fallback to web version
+                String webUrl = url.replace("market://", "https://play.google.com/store/apps/");
+                mWebView.loadUrl(webUrl);
+                return true;
+            }
+        }
+
+        // Handle other app-specific schemes (e.g., mailto:, tel:, etc.)
+        if (!"http".equals(scheme) && !"https".equals(scheme)) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                return true;
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, "No app found to handle scheme: " + scheme, e);
+                Toast.makeText(this, "No app found to open this link", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+
+        // Let WebView handle normal http/https URLs
+        return false;
     }
 
     @Override
