@@ -149,7 +149,7 @@
         <activity
             android:name=".module.vshare.VshareWebActivity"
             android:exported="false"
-            android:theme="@style/GalleryTheme"
+            android:theme="@style/NoneSlideBackableTheme"
             android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 

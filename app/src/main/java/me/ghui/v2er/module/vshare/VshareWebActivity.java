@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -45,15 +43,26 @@ public class VshareWebActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Request fullscreen mode
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         // Hide action bar if present
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
+
+        // Set SystemUI flags to match MainActivity's edge-to-edge behavior
+        View decorView = getWindow().getDecorView();
+        int systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+
+        // Set status bar icon color based on theme
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            if (!DarkModelUtils.isDarkMode()) {
+                // Light mode: use dark status bar icons
+                systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            }
+        }
+
+        decorView.setSystemUiVisibility(systemUiVisibility);
 
         setContentView(R.layout.activity_vshare_web);
         ButterKnife.bind(this);
