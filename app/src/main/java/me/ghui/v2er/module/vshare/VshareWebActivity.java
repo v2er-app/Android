@@ -105,6 +105,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView() {
+        // Hide WebView until page is fully loaded with correct theme
+        mWebView.setVisibility(View.INVISIBLE);
+
         // Set WebView background color to match theme before loading
         boolean isDarkMode = DarkModelUtils.isDarkMode();
         if (isDarkMode) {
@@ -170,7 +173,6 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                hideLoading();
 
                 // Inject CSS to ensure proper theme is applied
                 String theme = DarkModelUtils.isDarkMode() ? "dark" : "light";
@@ -178,6 +180,15 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                         "document.documentElement.setAttribute('data-theme', '" + theme + "'); " +
                         "})()";
                 mWebView.loadUrl(js);
+
+                // Show WebView after theme is applied (small delay to ensure JS executes)
+                mWebView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mWebView.setVisibility(View.VISIBLE);
+                        hideLoading();
+                    }
+                }, 100);
             }
         });
     }
