@@ -137,9 +137,9 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
                 .map(s -> {
                     // First, check if this is actually a successful append
                     // (V2EX may return the topic page on success, which triggers error handler due to redirects)
-                    BaseInfo resultInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
-                    if (resultInfo.isValid()) {
-                        return resultInfo;
+                    TopicInfo topicInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
+                    if (isSuccessfulTopicResponse(topicInfo)) {
+                        return topicInfo;
                     }
                     // If not a valid topic, try parsing as error page
                     return APIService.fruit().fromHtml(s, AppendTopicPageInfo.class);
@@ -167,6 +167,14 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
                         }
                     }
                 });
+    }
+
+    private boolean isSuccessfulTopicResponse(TopicInfo topicInfo) {
+        if (topicInfo == null || !topicInfo.isValid()) {
+            return false;
+        }
+        TopicInfo.Problem problem = topicInfo.getProblem();
+        return (problem == null || problem.isEmpty()) && Check.notEmpty(topicInfo.getTopicLink());
     }
 
     @Override

@@ -205,12 +205,12 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     .map(s -> {
                         // First, check if this is actually a successful topic creation
                         // (V2EX may return the topic page on success, which triggers error handler due to redirects)
-                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
-                        if (resultInfo.isValid()) {
-                            return resultInfo;
+                        TopicInfo topicInfo = APIService.fruit().fromHtml(s, TopicInfo.class);
+                        if (isSuccessfulTopicResponse(topicInfo)) {
+                            return topicInfo;
                         }
                         // If not a valid topic, try parsing as error pages
-                        resultInfo = APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
+                        BaseInfo resultInfo = APIService.fruit().fromHtml(s, CreateTopicPageInfo.class);
                         if (!resultInfo.isValid()) {
                             resultInfo = APIService.fruit().fromHtml(s, NewUserBannedCreateInfo.class);
                         }
@@ -242,6 +242,14 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
                     Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
                     CreateTopicActivity.this.finish();
                 }).build().show();
+    }
+
+    private boolean isSuccessfulTopicResponse(TopicInfo topicInfo) {
+        if (topicInfo == null || !topicInfo.isValid()) {
+            return false;
+        }
+        TopicInfo.Problem problem = topicInfo.getProblem();
+        return (problem == null || problem.isEmpty()) && Check.notEmpty(topicInfo.getTopicLink());
     }
 
 }
