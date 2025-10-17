@@ -26,6 +26,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.util.DarkModelUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 
 /**
@@ -242,16 +243,21 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     }
 
     /**
-     * Apply status bar height as top margin to WebView
+     * Apply status bar height as top margin and navigation bar height as bottom margin to WebView
      */
     private void applyStatusBarMargin() {
         int statusBarHeight = getStatusBarHeight();
-        if (statusBarHeight > 0) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
-            if (params instanceof FrameLayout.LayoutParams) {
+        int navigationBarHeight = Utils.getNavigationBarHeight();
+
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
+        if (params instanceof FrameLayout.LayoutParams) {
+            if (statusBarHeight > 0) {
                 params.topMargin = statusBarHeight;
-                mWebView.setLayoutParams(params);
             }
+            if (navigationBarHeight > 0) {
+                params.bottomMargin = navigationBarHeight;
+            }
+            mWebView.setLayoutParams(params);
         }
     }
 
