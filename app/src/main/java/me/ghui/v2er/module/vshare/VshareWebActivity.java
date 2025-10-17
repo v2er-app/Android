@@ -188,7 +188,7 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                         mWebView.setVisibility(View.VISIBLE);
                         hideLoading();
                     }
-                }, 100);
+                }, 300);
             }
         });
     }
