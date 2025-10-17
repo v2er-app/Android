@@ -146,6 +146,11 @@
             android:exported="true"
             android:label="添加附言" />
         <activity android:name=".general.PageHost" />
+        <activity
+            android:name=".module.vshare.VshareWebActivity"
+            android:exported="false"
+            android:theme="@style/NoneSlideBackableTheme"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
     </application>
 
 </manifest>
