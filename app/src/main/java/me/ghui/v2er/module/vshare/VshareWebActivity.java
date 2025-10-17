@@ -11,12 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -39,9 +37,6 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
     @BindView(R.id.webview)
     WebView mWebView;
-
-    @BindView(R.id.progress_bar)
-    ProgressBar mProgressBar;
 
     public static void open(Context context) {
         Intent intent = new Intent(context, VshareWebActivity.class);
@@ -152,12 +147,13 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                mProgressBar.setVisibility(View.VISIBLE);
+                showLoading();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                hideLoading();
 
                 // Inject CSS to ensure proper theme is applied
                 String theme = DarkModelUtils.isDarkMode() ? "dark" : "light";
@@ -165,17 +161,6 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                         "document.documentElement.setAttribute('data-theme', '" + theme + "'); " +
                         "})()";
                 mWebView.loadUrl(js);
-            }
-        });
-
-        // Set WebChromeClient for progress updates
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                mProgressBar.setProgress(newProgress);
-                if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                }
             }
         });
     }
