@@ -5,7 +5,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -103,6 +105,16 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView() {
+        // Set WebView background color to match theme before loading
+        boolean isDarkMode = DarkModelUtils.isDarkMode();
+        if (isDarkMode) {
+            // Dark mode: set dark background to prevent white flash
+            mWebView.setBackgroundColor(Color.parseColor("#1a1a1a"));
+        } else {
+            // Light mode: set white background
+            mWebView.setBackgroundColor(Color.WHITE);
+        }
+
         WebSettings settings = mWebView.getSettings();
 
         // Enable JavaScript
@@ -110,6 +122,11 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
         // Enable DOM storage
         settings.setDomStorageEnabled(true);
+
+        // Force dark mode for WebView content on Android Q+ if app is in dark mode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isDarkMode) {
+            settings.setForceDark(WebSettings.FORCE_DARK_ON);
+        }
 
         // Disable file and content access for security
         settings.setAllowFileAccess(false);
