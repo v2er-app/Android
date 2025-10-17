@@ -72,6 +72,23 @@ public class VshareWebActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vshare_web);
         ButterKnife.bind(this);
 
+        // Apply window insets to WebView for proper status bar padding
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT_WATCH) {
+            mWebView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+                @Override
+                public android.view.WindowInsets onApplyWindowInsets(View v, android.view.WindowInsets insets) {
+                    // Apply top inset (status bar height) as padding
+                    int topInset = insets.getSystemWindowInsetTop();
+                    mWebView.setPadding(0, topInset, 0, 0);
+                    return insets.consumeSystemWindowInsets();
+                }
+            });
+        } else {
+            // Fallback for older API levels - estimate status bar height
+            int statusBarHeight = getStatusBarHeight();
+            mWebView.setPadding(0, statusBarHeight, 0, 0);
+        }
+
         setupWebView();
 
         // Compute URL with theme parameter based on current app theme
@@ -238,6 +255,18 @@ public class VshareWebActivity extends AppCompatActivity {
 
         // Let WebView handle normal http/https URLs
         return false;
+    }
+
+    /**
+     * Get status bar height for older API levels
+     */
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
