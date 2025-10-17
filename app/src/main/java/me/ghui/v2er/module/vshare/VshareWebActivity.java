@@ -17,18 +17,17 @@ import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import me.ghui.v2er.R;
+import me.ghui.v2er.module.base.BaseActivity;
+import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.util.DarkModelUtils;
 
 /**
  * Fullscreen WebView Activity for displaying vshare page
  * with automatic theme adaptation
  */
-public class VshareWebActivity extends AppCompatActivity {
+public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
     private static final String TAG = "VshareWebActivity";
     private static final String VSHARE_BASE_URL = "https://v2er.app/vshare";
@@ -45,18 +44,29 @@ public class VshareWebActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected int attachLayoutRes() {
+        return R.layout.activity_vshare_web;
+    }
 
-        // Hide action bar if present
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+    @Override
+    protected void reloadMode(int mode) {
+        // Recreate activity to apply new theme
+        recreate();
+    }
 
-        // Set SystemUI flags to match MainActivity's edge-to-edge behavior
+    @Override
+    protected boolean supportSlideBack() {
+        // Disable slide back for fullscreen WebView
+        return false;
+    }
+
+    @Override
+    protected void init() {
+        super.init();
+
+        // Apply fullscreen flags for edge-to-edge WebView
         View decorView = getWindow().getDecorView();
-        int systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+        int systemUiVisibility = decorView.getSystemUiVisibility()
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 
         // Set status bar icon color based on theme
@@ -68,9 +78,6 @@ public class VshareWebActivity extends AppCompatActivity {
         }
 
         decorView.setSystemUiVisibility(systemUiVisibility);
-
-        setContentView(R.layout.activity_vshare_web);
-        ButterKnife.bind(this);
 
         // Apply window insets to WebView for proper status bar padding
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT_WATCH) {
