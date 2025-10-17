@@ -5,18 +5,18 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -26,6 +26,7 @@ import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.base.BaseContract;
 import me.ghui.v2er.util.DarkModelUtils;
+import me.ghui.v2er.util.Utils;
 import me.ghui.v2er.widget.BaseToolBar;
 
 /**
@@ -40,8 +41,8 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     @BindView(R.id.webview)
     WebView mWebView;
 
-    @BindView(R.id.progress_bar)
-    ProgressBar mProgressBar;
+    @BindView(R.id.theme_overlay)
+    View mThemeOverlay;
 
     public static void open(Context context) {
         Intent intent = new Intent(context, VshareWebActivity.class);
@@ -76,6 +77,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
     protected void init() {
         super.init();
 
+        // Set loading delay to 0 to show loading indicator immediately
+        setFirstLoadingDelay(0);
+
         // Apply fullscreen flags for edge-to-edge WebView
         View decorView = getWindow().getDecorView();
         int systemUiVisibility = decorView.getSystemUiVisibility()
@@ -94,6 +98,9 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         // Set WebView top margin to status bar height
         applyStatusBarMargin();
 
+        // Set overlay background color to match theme
+        setupThemeOverlay();
+
         setupWebView();
 
         // Compute URL with theme parameter based on current app theme
@@ -106,8 +113,34 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         mWebView.loadUrl(url);
     }
 
+    /**
+     * Setup theme overlay to prevent white flash during page load
+     */
+    private void setupThemeOverlay() {
+        boolean isDarkMode = DarkModelUtils.isDarkMode();
+        if (isDarkMode) {
+            // Dark mode: use dark overlay
+            mThemeOverlay.setBackgroundColor(Color.parseColor("#1a1a1a"));
+        } else {
+            // Light mode: use white overlay
+            mThemeOverlay.setBackgroundColor(Color.WHITE);
+        }
+        // Overlay is visible by default, will be hidden after theme is applied
+        mThemeOverlay.setVisibility(View.VISIBLE);
+    }
+
     @SuppressLint("SetJavaScriptEnabled")
     private void setupWebView() {
+        // Set WebView background color to match theme
+        boolean isDarkMode = DarkModelUtils.isDarkMode();
+        if (isDarkMode) {
+            // Dark mode: set dark background
+            mWebView.setBackgroundColor(Color.parseColor("#1a1a1a"));
+        } else {
+            // Light mode: set white background
+            mWebView.setBackgroundColor(Color.WHITE);
+        }
+
         WebSettings settings = mWebView.getSettings();
 
         // Enable JavaScript
@@ -115,6 +148,11 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
         // Enable DOM storage
         settings.setDomStorageEnabled(true);
+
+        // Force dark mode for WebView content on Android Q+ if app is in dark mode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && isDarkMode) {
+            settings.setForceDark(WebSettings.FORCE_DARK_ON);
+        }
 
         // Disable file and content access for security
         settings.setAllowFileAccess(false);
@@ -152,7 +190,7 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                mProgressBar.setVisibility(View.VISIBLE);
+                showLoading();
             }
 
             @Override
@@ -165,32 +203,61 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
                         "document.documentElement.setAttribute('data-theme', '" + theme + "'); " +
                         "})()";
                 mWebView.loadUrl(js);
-            }
-        });
 
-        // Set WebChromeClient for progress updates
-        mWebView.setWebChromeClient(new WebChromeClient() {
+                // Hide overlay after theme is applied (small delay to ensure JS executes)
+                mWebView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // Fade out the overlay
+                        mThemeOverlay.animate()
+                                .alpha(0f)
+                                .setDuration(200)
+                                .withEndAction(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        mThemeOverlay.setVisibility(View.GONE);
+                                    }
+                                });
+                        hideLoading();
+                    }
+                }, 100);
+            }
+
             @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                mProgressBar.setProgress(newProgress);
-                if (newProgress == 100) {
-                    mProgressBar.setVisibility(View.GONE);
-                }
+            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+                super.onReceivedError(view, errorCode, description, failingUrl);
+                // Hide loading indicator on error to prevent persistent spinner
+                hideLoading();
+                mThemeOverlay.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onReceivedHttpError(WebView view, android.webkit.WebResourceRequest request,
+                                           android.webkit.WebResourceResponse errorResponse) {
+                super.onReceivedHttpError(view, request, errorResponse);
+                // Hide loading indicator on HTTP error to prevent persistent spinner
+                hideLoading();
+                mThemeOverlay.setVisibility(View.GONE);
             }
         });
     }
 
     /**
-     * Apply status bar height as top margin to WebView
+     * Apply status bar height as top margin and navigation bar height as bottom margin to WebView
      */
     private void applyStatusBarMargin() {
         int statusBarHeight = getStatusBarHeight();
-        if (statusBarHeight > 0) {
-            ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
-            if (params instanceof FrameLayout.LayoutParams) {
+        int navigationBarHeight = Utils.getNavigationBarHeight();
+
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) mWebView.getLayoutParams();
+        if (params instanceof FrameLayout.LayoutParams) {
+            if (statusBarHeight > 0) {
                 params.topMargin = statusBarHeight;
-                mWebView.setLayoutParams(params);
             }
+            if (navigationBarHeight > 0) {
+                params.bottomMargin = navigationBarHeight;
+            }
+            mWebView.setLayoutParams(params);
         }
     }
 
