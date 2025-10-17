@@ -264,7 +264,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         }  else if (key.equals(getString(R.string.pref_key_v2ex))) {
             Utils.openWap(getString(R.string.official_v2ex_about_website), getActivity());
         } else if (key.equals(getString(R.string.pref_key_user_group))) {
-            Utils.openWap("https://t.me/v2er_app", getActivity());
+            Utils.openWap("https://t.me/+Qb5d1yMWKdZ9P7Zj", getActivity());
         } else if (key.equals(getString(R.string.pref_key_auto_dark_mode_settings))) {
 //            Bus.post(new DayNightModeEvent(isItemChecked(preference)));
             Navigator.from(getContext()).to(Page.AUTO_SWITCH_DARK_MODE).start();
@@ -284,7 +284,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_contact_me_twitter))) {
             Utils.jumpToTwitterProfilePage(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
-            Utils.openWap("https://t.me/v2er_app", getActivity());
+            Utils.openWap("https://t.me/+Qb5d1yMWKdZ9P7Zj", getActivity());
         }  else if (key.equals(getString(R.string.pref_key_open_source))) {
             Utils.openWap("https://github.com/v2er-app", getActivity());
         }
