@@ -103,13 +103,10 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
 
         setupWebView();
 
-        // Compute URL with theme parameter based on current app theme
+        // Compute URL with theme and source parameters for analytics tracking
         String url = VSHARE_BASE_URL;
-        if (DarkModelUtils.isDarkMode()) {
-            url += "?theme=dark";
-        } else {
-            url += "?theme=light";
-        }
+        String themeParam = DarkModelUtils.isDarkMode() ? "dark" : "light";
+        url += "?theme=" + themeParam + "&source=v2er-android";
         mWebView.loadUrl(url);
     }
 
@@ -142,6 +139,12 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         }
 
         WebSettings settings = mWebView.getSettings();
+
+        // Set custom User-Agent for analytics tracking
+        String defaultUserAgent = settings.getUserAgentString();
+        String appVersion = getAppVersion();
+        String customUserAgent = defaultUserAgent + " V2er-Android/" + appVersion;
+        settings.setUserAgentString(customUserAgent);
 
         // Enable JavaScript
         settings.setJavaScriptEnabled(true);
@@ -271,6 +274,18 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
+    }
+
+    /**
+     * Get app version name for User-Agent tracking
+     */
+    private String getAppVersion() {
+        try {
+            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to get app version", e);
+            return "unknown";
+        }
     }
 
     /**
