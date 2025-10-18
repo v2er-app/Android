@@ -22,6 +22,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import butterknife.BindView;
+import me.ghui.v2er.BuildConfig;
 import me.ghui.v2er.R;
 import me.ghui.v2er.module.base.BaseActivity;
 import me.ghui.v2er.module.base.BaseContract;
@@ -104,9 +105,13 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
         setupWebView();
 
         // Compute URL with theme and source parameters for analytics tracking
-        String url = VSHARE_BASE_URL;
         String themeParam = DarkModelUtils.isDarkMode() ? "dark" : "light";
-        url += "?theme=" + themeParam + "&source=v2er-android";
+        String url = Uri.parse(VSHARE_BASE_URL)
+                .buildUpon()
+                .appendQueryParameter("theme", themeParam)
+                .appendQueryParameter("source", "v2er-android")
+                .build()
+                .toString();
         mWebView.loadUrl(url);
     }
 
@@ -280,12 +285,7 @@ public class VshareWebActivity extends BaseActivity<BaseContract.IPresenter> {
      * Get app version name for User-Agent tracking
      */
     private String getAppVersion() {
-        try {
-            return getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (Exception e) {
-            Log.e(TAG, "Failed to get app version", e);
-            return "unknown";
-        }
+        return BuildConfig.VERSION_NAME != null ? BuildConfig.VERSION_NAME : "unknown";
     }
 
     /**
