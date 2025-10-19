@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Dark background for adaptive icon in night mode to ensure white logo is visible -->
+    <color name="ic_launcher_background">#111214</color>
+</resources>
