@@ -3,6 +3,10 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+  <!-- Adaptive icon canvas: 108x108dp with 66x66dp safe zone
+       Original logo viewport: 1024x1024
+       Scale: 0.061 = (66dp safe zone / 1024 viewport) ≈ 0.0644, adjusted to fit
+       Translation: 21.06 = (108dp - 66dp) / 2 to center logo in safe zone -->
   <group android:scaleX="0.061"
       android:scaleY="0.061"
       android:translateX="21.06"
