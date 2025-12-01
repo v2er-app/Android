@@ -16,6 +16,7 @@ import me.ghui.v2er.injector.module.MsgModule;
 import me.ghui.v2er.module.topic.TopicActivity;
 import me.ghui.v2er.network.bean.NotificationInfo;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.widget.HackRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -26,7 +27,7 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
         implements MsgContract.IView, MultiItemTypeAdapter.OnItemClickListener {
 
     @BindView(R.id.base_recyclerview)
-    LoadMoreRecyclerView mRecyclerView;
+    HackRecyclerView mRecyclerView;
 
     @Inject
     LoadMoreRecyclerView.Adapter<NotificationInfo.Reply> mAdapter;
@@ -86,6 +87,10 @@ public class MsgFragment extends BaseHomeFragment<MsgContract.IPresenter>
         mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.addDivider();
         mRecyclerView.setAdapter(mAdapter);
+        // Set AppBarTracking to fix scroll behavior on some devices
+        if (getActivity() instanceof HackRecyclerView.AppBarTracking) {
+            mRecyclerView.setAppBarTracking((HackRecyclerView.AppBarTracking) getActivity());
+        }
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> mPresenter.loadMore(willLoadPage));
 
         RestoreData<NotificationInfo> restoreData = (RestoreData) getArguments().getSerializable(KEY_DATA);

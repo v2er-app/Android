@@ -58,12 +58,13 @@ import me.ghui.v2er.util.VshareVersionChecker;
 import me.ghui.v2er.widget.BaseToolBar;
 import me.ghui.v2er.widget.CSlidingTabLayout;
 import me.ghui.v2er.widget.FollowProgressBtn;
+import me.ghui.v2er.widget.HackRecyclerView;
 import me.ghui.v2er.widget.dialog.ConfirmDialog;
 import me.ghui.v2er.widget.listener.AppBarStateChangeListener;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener,
         UpdateUnReadMsgDelegate, CheckInContract.IView, OnTabSelectListener,
-        HomeFilterMenu.OnMenuItemClickListener {
+        HomeFilterMenu.OnMenuItemClickListener, HackRecyclerView.AppBarTracking {
 
     private static final String TAB_INDEX = KEY("tab_index");
     private static final String PAGE_ONE_DATA = KEY("page_one_data");
@@ -104,6 +105,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
     private VshareVersionChecker mVshareVersionChecker;
     private android.graphics.drawable.Drawable mOriginalNavIcon;
     private android.graphics.drawable.LayerDrawable mNavIconWithBadge;
+    // For AppBarTracking - fix scroll behavior on some devices
+    private int mAppBarOffset;
+    private boolean mAppBarIdle = false;
+    private int mAppBarMaxOffset;
 
     @Override
     protected int attachLayoutRes() {
@@ -284,6 +289,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
                 super.onOffsetChanged(appBarLayout, verticalOffset);
+                // Track AppBar offset for AppBarTracking interface
+                mAppBarOffset = verticalOffset;
+                mAppBarIdle = (mAppBarOffset >= 0) || (mAppBarOffset <= mAppBarMaxOffset);
+
                 // Calculate toolbar's visibility based on its position
                 int toolbarHeight = mToolbar.getHeight();
                 int statusBarHeight = Utils.getStatusBarHeight();
@@ -309,6 +318,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                 // IDLE state doesn't change the expanded status
             }
         });
+        mAppBarLayout.post(() -> mAppBarMaxOffset = -mAppBarLayout.getTotalScrollRange());
 
         TAB_TITLES[0] = TabInfo.getSelectTab().title;
         mViewPager.setAdapter(new SlidePagerAdapter(getSupportFragmentManager()));
@@ -640,6 +650,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
 
     public interface ChangeTabTypeDelegate {
         void changeTabType(TabInfo tabInfo);
+    }
+
+    @Override
+    public boolean isAppBarExpanded() {
+        return mAppBarOffset == 0;
+    }
+
+    @Override
+    public boolean isAppBarIdle() {
+        return mAppBarIdle;
     }
 
     private class SlidePagerAdapter extends FragmentPagerAdapter {

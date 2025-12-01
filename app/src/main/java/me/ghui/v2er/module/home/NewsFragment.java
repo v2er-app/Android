@@ -20,6 +20,7 @@ import me.ghui.v2er.network.bean.NewsInfo;
 import me.ghui.v2er.network.bean.TopicBasicInfo;
 import me.ghui.v2er.util.L;
 import me.ghui.v2er.util.UserUtils;
+import me.ghui.v2er.widget.HackRecyclerView;
 import me.ghui.v2er.widget.LoadMoreRecyclerView;
 
 /**
@@ -30,7 +31,7 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         MultiItemTypeAdapter.OnItemClickListener, MainActivity.ChangeTabTypeDelegate {
 
     @BindView(R.id.base_recyclerview)
-    LoadMoreRecyclerView mRecyclerView;
+    HackRecyclerView mRecyclerView;
     @Inject
     LoadMoreRecyclerView.Adapter<NewsInfo.Item> mAdapter;
     private TabInfo mCurrentTab;
@@ -91,6 +92,10 @@ public class NewsFragment extends BaseHomeFragment<NewsContract.IPresenter> impl
         mRecyclerView.addDivider();
         mRecyclerView.setLayoutManager(mLayoutManager = new LinearLayoutManager(getContext()));
         mRecyclerView.setAdapter(mAdapter);
+        // Set AppBarTracking to fix scroll behavior on some devices
+        if (getActivity() instanceof HackRecyclerView.AppBarTracking) {
+            mRecyclerView.setAppBarTracking((HackRecyclerView.AppBarTracking) getActivity());
+        }
         mRecyclerView.setOnLoadMoreListener(willLoadPage -> {
             L.d("onLoadMore.willLoadPage: " + willLoadPage);
 
