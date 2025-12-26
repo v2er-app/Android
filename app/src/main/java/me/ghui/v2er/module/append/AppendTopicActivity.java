@@ -4,8 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+import me.ghui.v2er.module.imgur.ImageUploadHelper;
 import io.reactivex.Observable;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.ActivityReloader;
@@ -35,6 +38,9 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
 
     @BindView(R.id.append_topic_content_et)
     EditText mContentET;
+    @BindView(R.id.append_upload_image_btn)
+    ImageButton mUploadImageBtn;
+    private ImageUploadHelper mImageUploadHelper;
 
 
     public static void open(String topicId, Context context) {
@@ -100,6 +106,28 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
         mContentET.setText(intent.getStringExtra(KEY_CONTENT));
         mPageInfo = (AppendTopicPageInfo) intent.getSerializableExtra(KEY_PAGE_INFO);
         mTopicId = intent.getStringExtra(KEY_TOPIC_ID);
+
+        // Initialize image upload helper
+        mImageUploadHelper = new ImageUploadHelper(this, new ImageUploadHelper.OnUploadListener() {
+            @Override
+            public void onUploadStart() {
+                showLoading();
+                toast(R.string.uploading);
+            }
+
+            @Override
+            public void onUploadSuccess(String imageLink) {
+                hideLoading();
+                insertImageLink(imageLink);
+                toast(R.string.upload_success);
+            }
+
+            @Override
+            public void onUploadFailed(String errorMsg) {
+                hideLoading();
+                toast(getString(R.string.upload_failed) + ": " + errorMsg);
+            }
+        });
     }
 
     @Override
@@ -107,6 +135,37 @@ public class AppendTopicActivity extends BaseActivity<AppendTopicContract.IPrese
         if (mPageInfo == null) {
             super.autoLoad();
         }
+    }
+
+    @OnClick(R.id.append_upload_image_btn)
+    void onUploadImageClicked() {
+        mImageUploadHelper.pickImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.handleActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.onDestroy();
+        }
+    }
+
+    private void insertImageLink(String imageLink) {
+        int cursorPos = mContentET.getSelectionStart();
+        String currentText = mContentET.getText().toString();
+        String prefix = (cursorPos == 0 || currentText.charAt(cursorPos - 1) == '\n') ? "" : "\n";
+        String suffix = "\n";
+        String newText = currentText.substring(0, cursorPos) + prefix + imageLink + suffix + currentText.substring(cursorPos);
+        mContentET.setText(newText);
+        mContentET.setSelection(cursorPos + prefix.length() + imageLink.length() + suffix.length());
     }
 
     @Override

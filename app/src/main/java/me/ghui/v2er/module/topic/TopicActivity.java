@@ -6,7 +6,9 @@ import android.app.SharedElementCallback;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageButton;
 import androidx.annotation.Nullable;
+import me.ghui.v2er.module.imgur.ImageUploadHelper;
 import androidx.browser.customtabs.CustomTabsClient;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -95,8 +97,11 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
     FloatingActionButton mReplyFabBtn;
     @BindView(R.id.repliers_recyclerview)
     BaseRecyclerView mReplierRecyView;
+    @BindView(R.id.reply_upload_image_btn)
+    ImageButton mReplyUploadImageBtn;
     @Inject
     LoadMoreRecyclerView.Adapter<TopicInfo.Item> mAdapter;
+    private ImageUploadHelper mImageUploadHelper;
     @Inject
     TopicModule.TopicAtAdapter mReplierAdapter;
     private LinearLayoutManager mLinearLayoutManager;
@@ -517,6 +522,56 @@ public class TopicActivity extends BaseActivity<TopicContract.IPresenter> implem
                 onInputQueryTextChanged(text);
             }
         });
+
+        // Initialize image upload helper
+        mImageUploadHelper = new ImageUploadHelper(this, new ImageUploadHelper.OnUploadListener() {
+            @Override
+            public void onUploadStart() {
+                toast(R.string.uploading);
+            }
+
+            @Override
+            public void onUploadSuccess(String imageLink) {
+                insertImageLinkToReply(imageLink);
+                toast(R.string.upload_success);
+            }
+
+            @Override
+            public void onUploadFailed(String errorMsg) {
+                toast(getString(R.string.upload_failed) + ": " + errorMsg);
+            }
+        });
+    }
+
+    @OnClick(R.id.reply_upload_image_btn)
+    void onReplyUploadImageClicked() {
+        mImageUploadHelper.pickImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.handleActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.onDestroy();
+        }
+    }
+
+    private void insertImageLinkToReply(String imageLink) {
+        int cursorPos = mReplyEt.getSelectionStart();
+        String currentText = mReplyEt.getText().toString();
+        String prefix = (cursorPos == 0 || currentText.length() == 0 || currentText.charAt(cursorPos - 1) == '\n') ? "" : "\n";
+        String suffix = "\n";
+        String newText = currentText.substring(0, cursorPos) + prefix + imageLink + suffix + currentText.substring(cursorPos);
+        mReplyEt.setText(newText);
+        mReplyEt.setSelection(cursorPos + prefix.length() + imageLink.length() + suffix.length());
     }
 
     private void onInputQueryTextChanged(String query) {

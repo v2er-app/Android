@@ -6,11 +6,13 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import me.ghui.v2er.module.imgur.ImageUploadHelper;
 import io.reactivex.Observable;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
@@ -47,9 +49,12 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
     View mNodeWrappter;
     @BindView(R.id.create_topic_node_tv)
     TextView mNodeTv;
+    @BindView(R.id.btn_upload_image)
+    ImageButton mUploadImageBtn;
     private CreateTopicPageInfo mTopicPageInfo;
     private NodesInfo mNodesInfo;
     private NodesInfo.Node mSelectNode;
+    private ImageUploadHelper mImageUploadHelper;
 
     private static final String KEY_TITLE = KEY("topic_title");
     private static final String KEY_CONTENT = KEY("topic_content");
@@ -81,6 +86,59 @@ public class CreateTopicActivity extends BaseActivity<CreateTopicContract.IPrese
         mTopicPageInfo = (CreateTopicPageInfo) intent.getSerializableExtra(KEY_CREATE_TOPIC_INFO);
         mNodesInfo = (NodesInfo) intent.getSerializableExtra(KEY_NODES_INFO);
         mPresenter.restoreData(mTopicPageInfo, mNodesInfo);
+
+        // Initialize image upload helper
+        mImageUploadHelper = new ImageUploadHelper(this, new ImageUploadHelper.OnUploadListener() {
+            @Override
+            public void onUploadStart() {
+                showLoading();
+                toast(R.string.uploading);
+            }
+
+            @Override
+            public void onUploadSuccess(String imageLink) {
+                hideLoading();
+                insertImageLink(imageLink);
+                toast(R.string.upload_success);
+            }
+
+            @Override
+            public void onUploadFailed(String errorMsg) {
+                hideLoading();
+                toast(getString(R.string.upload_failed) + ": " + errorMsg);
+            }
+        });
+    }
+
+    @OnClick(R.id.btn_upload_image)
+    void onUploadImageClicked() {
+        mImageUploadHelper.pickImage();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.handleActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mImageUploadHelper != null) {
+            mImageUploadHelper.onDestroy();
+        }
+    }
+
+    private void insertImageLink(String imageLink) {
+        int cursorPos = mContentEt.getSelectionStart();
+        String currentText = mContentEt.getText().toString();
+        String prefix = (cursorPos == 0 || currentText.charAt(cursorPos - 1) == '\n') ? "" : "\n";
+        String suffix = "\n";
+        String newText = currentText.substring(0, cursorPos) + prefix + imageLink + suffix + currentText.substring(cursorPos);
+        mContentEt.setText(newText);
+        mContentEt.setSelection(cursorPos + prefix.length() + imageLink.length() + suffix.length());
     }
 
     @Override

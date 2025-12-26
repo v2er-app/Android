@@ -9,7 +9,18 @@
         style="@style/topicEditText"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="48dp"
         android:gravity="top"
         android:hint="在此输入附言内容" />
+
+    <ImageButton
+        android:id="@+id/append_upload_image_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|start"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="@string/upload_image"
+        android:src="@drawable/ic_add_photo"
+        android:tint="?attr/icon_tint_color" />
 
 </FrameLayout>

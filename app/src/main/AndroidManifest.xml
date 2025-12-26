@@ -145,6 +145,10 @@
             android:name=".module.append.AppendTopicActivity"
             android:exported="true"
             android:label="添加附言" />
+        <activity
+            android:name=".module.imgur.MyUploadsActivity"
+            android:exported="false"
+            android:label="@string/my_uploads" />
         <activity android:name=".general.PageHost" />
         <activity
             android:name=".module.vshare.VshareWebActivity"

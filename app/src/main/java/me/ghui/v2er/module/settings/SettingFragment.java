@@ -19,6 +19,13 @@ import android.widget.ListAdapter;
 import me.ghui.v2er.util.Theme;
 import me.ghui.v2er.R;
 import me.ghui.v2er.bus.Bus;
+import me.ghui.v2er.general.Pref;
+import me.ghui.v2er.module.imgur.MyUploadsActivity;
+import me.ghui.v2er.network.imgur.ImgurConstants;
+import me.ghui.v2er.util.Check;
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import me.ghui.v2er.bus.event.TextSizeChangeEvent;
 import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Page;
@@ -44,6 +51,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
     private android.widget.AbsListView.OnScrollListener mScrollListener;
     private Preference cachePref;
     private Preference loginPreference;
+    private Preference imgurClientIdPref;
 
     public static SettingFragment newInstance() {
         Bundle args = new Bundle();
@@ -74,6 +82,11 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         findPreference(getString(R.string.pref_key_contact_me_tg)).setOnPreferenceClickListener(this);
         findPreference(getString(R.string.pref_key_contact_me_twitter)).setOnPreferenceClickListener(this);
 //        findPreference(getString(R.string.pref_key_open_source)).setOnPreferenceClickListener(this);
+        // Imgur settings
+        imgurClientIdPref = findPreference(getString(R.string.pref_key_imgur_client_id));
+        imgurClientIdPref.setOnPreferenceClickListener(this);
+        updateImgurClientIdSummary();
+        findPreference(getString(R.string.pref_key_my_uploads)).setOnPreferenceClickListener(this);
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
         fontItem.setSummary(fontItem.getValue());
         fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -287,8 +300,54 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             Utils.openWap("https://t.me/+Qb5d1yMWKdZ9P7Zj", getActivity());
         }  else if (key.equals(getString(R.string.pref_key_open_source))) {
             Utils.openWap("https://github.com/v2er-app", getActivity());
+        } else if (key.equals(getString(R.string.pref_key_imgur_client_id))) {
+            showImgurClientIdDialog();
+            return true;
+        } else if (key.equals(getString(R.string.pref_key_my_uploads))) {
+            MyUploadsActivity.open(getActivity());
+            return true;
         }
         return false;
+    }
+
+    private void updateImgurClientIdSummary() {
+        String clientId = Pref.read(ImgurConstants.PREF_KEY_IMGUR_CLIENT_ID);
+        if (Check.notEmpty(clientId)) {
+            String maskedId = clientId.length() > 8
+                    ? clientId.substring(0, 8) + "..."
+                    : clientId;
+            imgurClientIdPref.setSummary(getString(R.string.imgur_client_id_summary_custom, maskedId));
+        } else {
+            imgurClientIdPref.setSummary(R.string.imgur_client_id_summary_default);
+        }
+    }
+
+    private void showImgurClientIdDialog() {
+        String currentClientId = Pref.read(ImgurConstants.PREF_KEY_IMGUR_CLIENT_ID);
+
+        EditText editText = new EditText(getActivity());
+        editText.setHint(R.string.imgur_client_id_dialog_hint);
+        if (Check.notEmpty(currentClientId)) {
+            editText.setText(currentClientId);
+            editText.setSelection(currentClientId.length());
+        }
+
+        FrameLayout container = new FrameLayout(getActivity());
+        int padding = (int) (16 * getResources().getDisplayMetrics().density);
+        container.setPadding(padding, padding / 2, padding, 0);
+        container.addView(editText);
+
+        new AlertDialog.Builder(getActivity())
+                .setTitle(R.string.imgur_client_id_dialog_title)
+                .setView(container)
+                .setPositiveButton(R.string.ok, (dialog, which) -> {
+                    String newClientId = editText.getText().toString().trim();
+                    Pref.save(ImgurConstants.PREF_KEY_IMGUR_CLIENT_ID, newClientId);
+                    updateImgurClientIdSummary();
+                    Voast.show(getString(R.string.imgur_client_id_saved));
+                })
+                .setNegativeButton(R.string.cancel, null)
+                .show();
     }
 
     private boolean isItemChecked(Preference preference) {

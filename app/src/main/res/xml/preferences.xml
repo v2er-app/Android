@@ -44,6 +44,20 @@
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
+        android:title="图床设置">
+        <Preference
+            android:key="@string/pref_key_imgur_client_id"
+            android:layout="@layout/preference_item"
+            android:summary="@string/imgur_client_id_summary_default"
+            android:title="Imgur Client ID" />
+        <Preference
+            android:key="@string/pref_key_my_uploads"
+            android:layout="@layout/preference_item"
+            android:summary="@string/my_uploads_summary"
+            android:title="@string/my_uploads" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="外观设置">
         <ListPreference
             android:defaultValue="中"
