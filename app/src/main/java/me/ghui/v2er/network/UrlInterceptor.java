@@ -11,6 +11,7 @@ import java.net.URISyntaxException;
 import me.ghui.v2er.util.Check;
 import me.ghui.v2er.R;
 import me.ghui.v2er.general.Navigator;
+import me.ghui.v2er.general.Pref;
 import me.ghui.v2er.module.general.WapActivity;
 import me.ghui.v2er.module.node.NodeTopicActivity;
 import me.ghui.v2er.module.topic.TopicActivity;
@@ -72,18 +73,25 @@ public class UrlInterceptor {
         if (Check.isEmpty(host)) return false;
         if (!forchOpenedInWebview && !host.contains(Constants.HOST_NAME)) {
             // 1. 外站
-            CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                    .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
-                    .enableUrlBarHiding()
-                    .setShowTitle(true)
-                    .addDefaultShareMenuItem()
-                    .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
-                    .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
-                    .build();
-            try {
-                customTabsIntent.launchUrl(context, Uri.parse(url));
-            } catch (ActivityNotFoundException e) {
+            boolean useBuiltinBrowser = Pref.readBool(R.string.pref_key_use_builtin_browser);
+            if (useBuiltinBrowser) {
+                // 使用内置浏览器打开外站链接
                 WapActivity.open(url, context, true);
+            } else {
+                // 使用 Chrome Custom Tab 打开外站链接
+                CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                        .setToolbarColor(context.getResources().getColor(R.color.colorPrimary))
+                        .enableUrlBarHiding()
+                        .setShowTitle(true)
+                        .addDefaultShareMenuItem()
+                        .setStartAnimations(context, R.anim.open_enter_slide, R.anim.open_exit_slide)
+                        .setExitAnimations(context, R.anim.close_enter_slide, R.anim.close_exit_slide)
+                        .build();
+                try {
+                    customTabsIntent.launchUrl(context, Uri.parse(url));
+                } catch (ActivityNotFoundException e) {
+                    WapActivity.open(url, context, true);
+                }
             }
             return true;
         }

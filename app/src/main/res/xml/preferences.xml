@@ -36,6 +36,12 @@
             android:layout="@layout/preference_item"
             android:summary="优先浏览帖子最新回复"
             android:title="逆序浏览" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/pref_key_use_builtin_browser"
+            android:layout="@layout/preference_item"
+            android:summary="开启后站外链接将在内置浏览器中打开"
+            android:title="内置浏览器" />
         <Preference
             android:key="@string/pref_key_auto_dark_mode_settings"
             android:layout="@layout/preference_item"
