@@ -137,7 +137,40 @@ jobs:
         fi
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
         echo "Version Code: $VERSION_CODE"
-        
+
+    - name: Validate CHANGELOG.md
+      id: validate_changelog
+      run: |
+        # Get version without 'v' prefix for matching
+        VERSION="${{ steps.version.outputs.version }}"
+        VERSION_NUMBER="${VERSION#v}"
+
+        echo "Checking for changelog entry for version: $VERSION_NUMBER"
+
+        # Check if CHANGELOG.md exists
+        if [ ! -f "CHANGELOG.md" ]; then
+          echo "❌ Error: CHANGELOG.md not found!"
+          echo "Please create CHANGELOG.md with an entry for version $VERSION_NUMBER"
+          exit 1
+        fi
+
+        # Check if changelog has entry for this version (with optional build number)
+        if grep -qE "^##\s+v?${VERSION_NUMBER}(\s+\(Build\s+[0-9]+\))?\s*$" CHANGELOG.md; then
+          echo "✅ Changelog entry found for version $VERSION_NUMBER"
+          echo "changelog_valid=true" >> $GITHUB_OUTPUT
+        else
+          echo "❌ Error: No changelog entry found for version $VERSION_NUMBER"
+          echo ""
+          echo "Please add an entry to CHANGELOG.md:"
+          echo ""
+          echo "## v$VERSION_NUMBER (Build ${{ steps.version_info.outputs.version_code }})"
+          echo "1. Feature/Fix: Description of changes"
+          echo ""
+          echo "Available versions in CHANGELOG.md:"
+          grep -E "^##\s+v?\d+\.\d+\.\d+" CHANGELOG.md || echo "  (none found)"
+          exit 1
+        fi
+
     - name: Create and push tag
       if: steps.check_version.outputs.should_release == 'true' && github.event_name == 'push'
       id: create_tag
@@ -346,203 +379,90 @@ jobs:
         
     - name: Generate changelog
       id: changelog
-      env:
-        GH_TOKEN: ${{ github.token }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
-        # Define shared functions that will be used in both changelog generation steps
-        cat > /tmp/release_functions.sh << 'FUNCTIONS_EOF'
-        # Function to categorize commit message
-        categorize_commit() {
-          local msg="$1"
-          local category=""
-          local cleaned_msg=""
+        # Extract changelog from CHANGELOG.md for current version
+        VERSION="${{ needs.prepare.outputs.version }}"
+        VERSION_NUMBER="${VERSION#v}"
 
-          if [[ "$msg" =~ ^fix(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^fix\ (.*)$ ]]; then
-            category="bug"
-            cleaned_msg="${BASH_REMATCH[-1]}"
-          elif [[ "$msg" =~ ^feat(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^feat\ (.*)$ ]]; then
-            category="feature"
-            cleaned_msg="${BASH_REMATCH[-1]}"
-          elif [[ "$msg" =~ ^perf(\(.*\))?:\ (.*)$ ]]; then
-            category="performance"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^refactor(\(.*\))?:\ (.*)$ ]]; then
-            category="improvement"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^chore(\(.*\))?:\ (.*)$ ]]; then
-            category="maintenance"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^docs(\(.*\))?:\ (.*)$ ]]; then
-            category="documentation"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          else
-            category="other"
-            cleaned_msg="$msg"
-          fi
+        echo "Extracting changelog for version: $VERSION_NUMBER"
 
-          # Remove PR numbers from the end
-          cleaned_msg=$(echo "$cleaned_msg" | sed 's/ (#[0-9]*)//')
+        # Create a temporary file for release notes
+        # NOTE: We use a separate RELEASE_NOTES.md file so we don't overwrite CHANGELOG.md,
+        #       which remains the canonical changelog used as the source input above.
+        RELEASE_NOTES_FILE="RELEASE_NOTES.md"
 
-          # Capitalize first letter
-          cleaned_msg="$(echo "${cleaned_msg:0:1}" | tr '[:lower:]' '[:upper:]')${cleaned_msg:1}"
+        # Extract content between current version header and next version header (or ---)
+        awk -v ver="$VERSION_NUMBER" '
+          BEGIN { found=0; printing=0 }
+          /^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+/ {
+            if (found && printing) { exit }
+            if (match($0, "^##[[:space:]]+v?" ver "([[:space:]]|\\(|$)")) { found=1; printing=1; next }
+          }
+          /^---/ { if (printing) exit }
+          printing { print }
+        ' CHANGELOG.md > /tmp/raw_changelog.txt
 
-          echo "$category:$cleaned_msg"
-        }
+        # Format for GitHub Release
+        echo "## What's Changed" > "$RELEASE_NOTES_FILE"
+        echo "" >> "$RELEASE_NOTES_FILE"
 
-        # Function to get GitHub username from commit
-        get_github_username() {
-          local commit_sha="$1"
-          local github_repo="${GITHUB_REPOSITORY}"
-          # Try to get the GitHub username from the commit using gh api
-          local username=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
-          if [ -n "$username" ]; then
-            echo "@$username"
-          else
-            # Fallback: try to get committer login if author login is not available
-            local committer=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
-            if [ -n "$committer" ]; then
-              echo "@$committer"
-            else
-              # Last resort: use hardcoded mapping for known authors
-              local git_author=$(git show -s --format='%an' $commit_sha)
-              case "$git_author" in
-                "Gray Zhang" | "gray" | "Gray")
-                  echo "@graycreate"
-                  ;;
-                "github-actions[bot]")
-                  echo "@github-actions[bot]"
-                  ;;
-                *)
-                  # If no mapping found, use git author name without @
-                  echo "$git_author"
-                  ;;
-              esac
-            fi
-          fi
-        }
-        FUNCTIONS_EOF
+        # Process each line and categorize
+        features=""
+        fixes=""
+        improvements=""
 
-        # Source the functions
-        source /tmp/release_functions.sh
-
-        # Get commits since last tag
-        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-        CURRENT_TAG="${{ needs.prepare.outputs.version }}"
-
-        # Collect commits and categorize them
-        declare -A features
-        declare -A bugs
-        declare -A improvements
-        declare -A performance
-        declare -A maintenance
-
-        if [ -n "$LAST_TAG" ]; then
-          RANGE="$LAST_TAG..HEAD"
-        else
-          RANGE="HEAD"
-        fi
-
-        # Process commits
         while IFS= read -r line; do
-          sha=$(echo "$line" | cut -d' ' -f1)
-          msg=$(echo "$line" | cut -d' ' -f2-)
+          # Skip empty lines
+          [ -z "$line" ] && continue
 
-          # Skip version bump and merge commits
-          if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
-            continue
+          # Extract type and description
+          if echo "$line" | grep -qE "^[0-9]+\.\s+Feature:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Feature:\s*//')
+            features="${features}* ${desc}\n"
+          elif echo "$line" | grep -qE "^[0-9]+\.\s+Fix:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Fix:\s*//')
+            fixes="${fixes}* ${desc}\n"
+          elif echo "$line" | grep -qE "^[0-9]+\.\s+Improvement:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Improvement:\s*//')
+            improvements="${improvements}* ${desc}\n"
+          elif echo "$line" | grep -qE "^[0-9]+\.\s+Breaking:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Breaking:\s*//')
+            features="${features}* **BREAKING**: ${desc}\n"
           fi
+        done < /tmp/raw_changelog.txt
 
-          categorized=$(categorize_commit "$msg")
-          category=$(echo "$categorized" | cut -d':' -f1)
-          clean_msg=$(echo "$categorized" | cut -d':' -f2-)
-          author=$(get_github_username "$sha")
-
-          # Store in associative arrays
-          case "$category" in
-            feature)
-              features["$clean_msg"]="$author"
-              ;;
-            bug)
-              bugs["$clean_msg"]="$author"
-              ;;
-            improvement)
-              improvements["$clean_msg"]="$author"
-              ;;
-            performance)
-              performance["$clean_msg"]="$author"
-              ;;
-            maintenance)
-              maintenance["$clean_msg"]="$author"
-              ;;
-          esac
-        done < <(git log --oneline --no-merges $RANGE)
-
-        # Generate GitHub Release Notes
-        echo "## What's Changed" > CHANGELOG.md
-        echo "" >> CHANGELOG.md
-
-        if [ ${#features[@]} -gt 0 ]; then
-          echo "### 🚀 New Features" >> CHANGELOG.md
-          for msg in "${!features[@]}"; do
-            author="${features[$msg]}"
-            if [ -n "$author" ]; then
-              echo "* $msg by $author" >> CHANGELOG.md
-            else
-              echo "* $msg" >> CHANGELOG.md
-            fi
-          done
-          echo "" >> CHANGELOG.md
+        # Write categorized sections
+        if [ -n "$features" ]; then
+          echo "### New Features" >> "$RELEASE_NOTES_FILE"
+          echo -e "$features" >> "$RELEASE_NOTES_FILE"
         fi
 
-        if [ ${#bugs[@]} -gt 0 ]; then
-          echo "### 🐛 Bug Fixes" >> CHANGELOG.md
-          for msg in "${!bugs[@]}"; do
-            author="${bugs[$msg]}"
-            if [ -n "$author" ]; then
-              echo "* $msg by $author" >> CHANGELOG.md
-            else
-              echo "* $msg" >> CHANGELOG.md
-            fi
-          done
-          echo "" >> CHANGELOG.md
+        if [ -n "$fixes" ]; then
+          echo "### Bug Fixes" >> "$RELEASE_NOTES_FILE"
+          echo -e "$fixes" >> "$RELEASE_NOTES_FILE"
         fi
 
-        if [ ${#improvements[@]} -gt 0 ]; then
-          echo "### 💪 Improvements" >> CHANGELOG.md
-          for msg in "${!improvements[@]}"; do
-            author="${improvements[$msg]}"
-            if [ -n "$author" ]; then
-              echo "* $msg by $author" >> CHANGELOG.md
-            else
-              echo "* $msg" >> CHANGELOG.md
-            fi
-          done
-          echo "" >> CHANGELOG.md
+        if [ -n "$improvements" ]; then
+          echo "### Improvements" >> "$RELEASE_NOTES_FILE"
+          echo -e "$improvements" >> "$RELEASE_NOTES_FILE"
         fi
 
-        if [ ${#performance[@]} -gt 0 ]; then
-          echo "### ⚡ Performance" >> CHANGELOG.md
-          for msg in "${!performance[@]}"; do
-            author="${performance[$msg]}"
-            if [ -n "$author" ]; then
-              echo "* $msg by $author" >> CHANGELOG.md
-            else
-              echo "* $msg" >> CHANGELOG.md
-            fi
-          done
-          echo "" >> CHANGELOG.md
+        # Add full changelog link
+        LAST_TAG=$(git describe --tags --abbrev=0 HEAD^ 2>/dev/null || echo "")
+        if [ -n "$LAST_TAG" ]; then
+          echo "" >> "$RELEASE_NOTES_FILE"
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${LAST_TAG}...${{ needs.prepare.outputs.version }}" >> "$RELEASE_NOTES_FILE"
         fi
 
-        echo "" >> CHANGELOG.md
-        echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${LAST_TAG}...${{ needs.prepare.outputs.version }}" >> CHANGELOG.md
+        echo "Generated release notes:"
+        cat "$RELEASE_NOTES_FILE"
         
     - name: Create Release
       uses: softprops/action-gh-release@v2
       with:
         tag_name: ${{ needs.prepare.outputs.version }}
         name: Release ${{ needs.prepare.outputs.version }}
-        body_path: CHANGELOG.md
+        body_path: RELEASE_NOTES.md
         draft: false
         prerelease: false
         files: |
@@ -606,211 +526,99 @@ jobs:
         echo "Deploying to track: $TRACK with status: $STATUS"
         
     - name: Create whatsnew directory
-      env:
-        GH_TOKEN: ${{ github.token }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
       run: |
         mkdir -p whatsnew
 
         # Google Play whatsnew character limit
         MAX_CHARS=500
 
-        # Define shared functions
-        cat > /tmp/release_functions.sh << 'FUNCTIONS_EOF'
-        # Function to categorize commit message
-        categorize_commit() {
-          local msg="$1"
-          local category=""
-          local cleaned_msg=""
-
-          if [[ "$msg" =~ ^fix(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^fix\ (.*)$ ]]; then
-            category="bug"
-            cleaned_msg="${BASH_REMATCH[-1]}"
-          elif [[ "$msg" =~ ^feat(\(.*\))?:\ (.*)$ ]] || [[ "$msg" =~ ^feat\ (.*)$ ]]; then
-            category="feature"
-            cleaned_msg="${BASH_REMATCH[-1]}"
-          elif [[ "$msg" =~ ^perf(\(.*\))?:\ (.*)$ ]]; then
-            category="performance"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^refactor(\(.*\))?:\ (.*)$ ]]; then
-            category="improvement"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^chore(\(.*\))?:\ (.*)$ ]]; then
-            category="maintenance"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          elif [[ "$msg" =~ ^docs(\(.*\))?:\ (.*)$ ]]; then
-            category="documentation"
-            cleaned_msg="${BASH_REMATCH[2]}"
-          else
-            category="other"
-            cleaned_msg="$msg"
-          fi
-
-          # Remove PR numbers from the end
-          cleaned_msg=$(echo "$cleaned_msg" | sed 's/ (#[0-9]*)//')
-
-          # Capitalize first letter
-          cleaned_msg="$(echo "${cleaned_msg:0:1}" | tr '[:lower:]' '[:upper:]')${cleaned_msg:1}"
-
-          echo "$category:$cleaned_msg"
-        }
-
-        # Function to collect commits for a version range
-        collect_version_commits() {
-          local range="$1"
-          local -n feat_ref=$2
-          local -n bug_ref=$3
-          local -n improve_ref=$4
-          local -n perf_ref=$5
-
-          while IFS= read -r line; do
-            [ -z "$line" ] && continue
-            sha=$(echo "$line" | cut -d' ' -f1)
-            msg=$(echo "$line" | cut -d' ' -f2-)
-
-            # Skip version bump and merge commits
-            if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
-              continue
-            fi
-
-            categorized=$(categorize_commit "$msg")
-            category=$(echo "$categorized" | cut -d':' -f1)
-            clean_msg=$(echo "$categorized" | cut -d':' -f2-)
-
-            case "$category" in
-              feature) feat_ref["$clean_msg"]=1 ;;
-              bug) bug_ref["$clean_msg"]=1 ;;
-              improvement) improve_ref["$clean_msg"]=1 ;;
-              performance) perf_ref["$clean_msg"]=1 ;;
-            esac
-          done < <(git log --oneline --no-merges $range 2>/dev/null)
-        }
-
-        # Function to generate version notes (compact format for Google Play)
-        generate_version_notes() {
-          local -n feat=$1
-          local -n bugs=$2
-          local -n improve=$3
-          local -n perf=$4
-          local output=""
-
-          if [ ${#feat[@]} -gt 0 ]; then
-            for msg in "${!feat[@]}"; do
-              output+="• $msg"$'\n'
-            done
-          fi
-          if [ ${#bugs[@]} -gt 0 ]; then
-            for msg in "${!bugs[@]}"; do
-              output+="• $msg"$'\n'
-            done
-          fi
-          if [ ${#improve[@]} -gt 0 ]; then
-            for msg in "${!improve[@]}"; do
-              output+="• $msg"$'\n'
-            done
-          fi
-          if [ ${#perf[@]} -gt 0 ]; then
-            for msg in "${!perf[@]}"; do
-              output+="• $msg"$'\n'
-            done
-          fi
-          echo "$output"
-        }
-        FUNCTIONS_EOF
-
-        # Source the shared functions
-        source /tmp/release_functions.sh
-
-        # Get last 3 tags for multi-version release notes
-        TAGS=($(git tag --sort=-v:refname | head -3))
         CURRENT_VERSION="${{ needs.prepare.outputs.version }}"
+        VERSION_NUMBER="${CURRENT_VERSION#v}"
 
-        echo "Found tags: ${TAGS[*]}"
-        echo "Current version: $CURRENT_VERSION"
-
-        # Feedback header
+        # Feedback headers
         FEEDBACK_HEADER_EN="Feedback: https://v2er.app/help"
         FEEDBACK_HEADER_ZH="唯一问题反馈渠道:https://v2er.app/help"
 
-        # Build release notes for each version
-        declare -a version_notes_en
-        declare -a version_notes_zh
+        # Function to extract changelog for a version from CHANGELOG.md
+        extract_version_changelog() {
+          local version="$1"
+          awk -v ver="$version" '
+            BEGIN { found=0; printing=0 }
+            /^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+/ {
+              if (found && printing) { exit }
+              if (match($0, "^##[[:space:]]+v?" ver "([[:space:]]|\\(|$)")) { found=1; printing=1; next }
+            }
+            /^---/ { if (printing) exit }
+            printing { print }
+          ' CHANGELOG.md
+        }
 
-        # Current version (HEAD to last tag or all commits if no tags)
-        declare -A curr_features curr_bugs curr_improvements curr_performance
-        if [ ${#TAGS[@]} -gt 0 ]; then
-          collect_version_commits "${TAGS[0]}..HEAD" curr_features curr_bugs curr_improvements curr_performance
-        else
-          collect_version_commits "HEAD~10..HEAD" curr_features curr_bugs curr_improvements curr_performance
-        fi
-
-        CURR_NOTES=$(generate_version_notes curr_features curr_bugs curr_improvements curr_performance)
-        if [ -n "$CURR_NOTES" ]; then
-          version_notes_en+=("$CURR_NOTES")
-          version_notes_zh+=("$CURR_NOTES")
-        fi
-
-        # Previous versions (from tags)
-        for i in 0 1; do
-          if [ $i -lt ${#TAGS[@]} ] && [ $((i+1)) -lt ${#TAGS[@]} ]; then
-            declare -A prev_features prev_bugs prev_improvements prev_performance
-            collect_version_commits "${TAGS[$((i+1))]}..${TAGS[$i]}" prev_features prev_bugs prev_improvements prev_performance
-            PREV_NOTES=$(generate_version_notes prev_features prev_bugs prev_improvements prev_performance)
-            if [ -n "$PREV_NOTES" ]; then
-              version_notes_en+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
-              version_notes_zh+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+        # Function to format changelog for Google Play (bullet points)
+        format_for_google_play() {
+          local content="$1"
+          echo "$content" | while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            # Convert "1. Feature: xxx" to "• xxx"
+            if echo "$line" | grep -qE "^[0-9]+\.\s+(Feature|Fix|Improvement|Breaking):"; then
+              desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+(Feature|Fix|Improvement|Breaking):\s*//')
+              echo "• $desc"
             fi
-            unset prev_features prev_bugs prev_improvements prev_performance
-          elif [ $i -lt ${#TAGS[@]} ] && [ $((i+1)) -ge ${#TAGS[@]} ]; then
-            # Last tag - get commits before it
-            declare -A prev_features prev_bugs prev_improvements prev_performance
-            collect_version_commits "${TAGS[$i]}~5..${TAGS[$i]}" prev_features prev_bugs prev_improvements prev_performance
-            PREV_NOTES=$(generate_version_notes prev_features prev_bugs prev_improvements prev_performance)
-            if [ -n "$PREV_NOTES" ]; then
-              version_notes_en+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
-              version_notes_zh+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+          done
+        }
+
+        # Get all versions from CHANGELOG.md (up to 3)
+        VERSIONS=($(grep -E "^##\s+v?[0-9]+\.[0-9]+\.[0-9]+" CHANGELOG.md | sed -E 's/^##\s+v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/' | head -3))
+        echo "Found versions in CHANGELOG.md: ${VERSIONS[*]}"
+
+        # Build whatsnew content
+        build_whatsnew() {
+          local header="$1"
+          local max_chars="$2"
+          local content=""
+
+          # Start with header and version
+          content="${header}
+
+V2er ${CURRENT_VERSION}
+
+"
+          current_len=${#content}
+
+          # Add changelog for each version
+          for i in "${!VERSIONS[@]}"; do
+            version="${VERSIONS[$i]}"
+            raw_changelog=$(extract_version_changelog "$version")
+            formatted=$(format_for_google_play "$raw_changelog")
+
+            if [ -z "$formatted" ]; then
+              continue
             fi
-            unset prev_features prev_bugs prev_improvements prev_performance
-          fi
-        done
 
-        # Generate English release notes with character limit
-        {
-          echo "$FEEDBACK_HEADER_EN"
-          echo ""
-          echo "V2er $CURRENT_VERSION"
-          echo ""
-        } > whatsnew/whatsnew-en-US
+            if [ "$i" -eq 0 ]; then
+              version_section="$formatted"
+            else
+              version_section="
+--- v${version} ---
+${formatted}"
+            fi
 
-        CURRENT_LEN=$(wc -c < whatsnew/whatsnew-en-US)
-        for notes in "${version_notes_en[@]}"; do
-          NOTES_LEN=${#notes}
-          if [ $((CURRENT_LEN + NOTES_LEN + 2)) -lt $MAX_CHARS ]; then
-            echo "$notes" >> whatsnew/whatsnew-en-US
-            CURRENT_LEN=$((CURRENT_LEN + NOTES_LEN + 2))
-          else
-            break
-          fi
-        done
+            section_len=${#version_section}
+            if [ $((current_len + section_len)) -le "$max_chars" ]; then
+              content="${content}${version_section}"
+              current_len=$((current_len + section_len))
+            else
+              break
+            fi
+          done
 
-        # Generate Chinese release notes with character limit
-        {
-          echo "$FEEDBACK_HEADER_ZH"
-          echo ""
-          echo "V2er $CURRENT_VERSION"
-          echo ""
-        } > whatsnew/whatsnew-zh-CN
+          echo "$content"
+        }
 
-        CURRENT_LEN=$(wc -c < whatsnew/whatsnew-zh-CN)
-        for notes in "${version_notes_zh[@]}"; do
-          NOTES_LEN=${#notes}
-          if [ $((CURRENT_LEN + NOTES_LEN + 2)) -lt $MAX_CHARS ]; then
-            echo "$notes" >> whatsnew/whatsnew-zh-CN
-            CURRENT_LEN=$((CURRENT_LEN + NOTES_LEN + 2))
-          else
-            break
-          fi
-        done
+        # Generate English whatsnew
+        build_whatsnew "$FEEDBACK_HEADER_EN" "$MAX_CHARS" > whatsnew/whatsnew-en-US
+
+        # Generate Chinese whatsnew (same content, different header)
+        build_whatsnew "$FEEDBACK_HEADER_ZH" "$MAX_CHARS" > whatsnew/whatsnew-zh-CN
 
         # Show generated content
         echo "=== English whatsnew ($(wc -c < whatsnew/whatsnew-en-US) chars) ==="

@@ -7,6 +7,9 @@
 # For a list of all available plugins, check out
 #     https://docs.fastlane.tools/plugins/available-plugins
 
+# Import changelog helper
+require_relative 'changelog_helper'
+
 default_platform(:android)
 
 platform :android do
@@ -74,6 +77,11 @@ platform :android do
 
   desc "Deploy to Google Play Store (Beta Track)"
   lane :deploy_beta do
+    # Validate changelog exists for current version
+    unless ChangelogHelper.validate_changelog_exists
+      UI.user_error!("Please add an entry to CHANGELOG.md for the current version before releasing!")
+    end
+
     build_bundle
     upload_to_play_store(
       track: "beta",
@@ -87,6 +95,11 @@ platform :android do
 
   desc "Deploy to Google Play Store (Production)"
   lane :deploy_production do
+    # Validate changelog exists for current version
+    unless ChangelogHelper.validate_changelog_exists
+      UI.user_error!("Please add an entry to CHANGELOG.md for the current version before releasing!")
+    end
+
     build_bundle
     upload_to_play_store(
       track: "production",
@@ -149,6 +162,41 @@ platform :android do
       skip_upload_images: true,
       skip_upload_screenshots: true
     )
+  end
+
+  desc "Validate changelog exists for current version"
+  lane :validate_changelog do
+    version = ChangelogHelper.get_current_version
+    version_code = ChangelogHelper.get_current_version_code
+
+    UI.message("Current version: #{version} (code: #{version_code})")
+
+    if ChangelogHelper.validate_changelog_exists
+      UI.success("✅ Ready for release!")
+      changelog = ChangelogHelper.get_current_changelog_for_github
+      UI.message("Changelog preview:\n#{changelog}")
+    else
+      UI.user_error!("❌ Cannot release without changelog entry!")
+    end
+  end
+
+  desc "Show current version info and changelog"
+  lane :version_info do
+    version = ChangelogHelper.get_current_version
+    version_code = ChangelogHelper.get_current_version_code
+
+    UI.message("=== Version Info ===")
+    UI.message("Version: #{version}")
+    UI.message("Version Code: #{version_code}")
+    UI.message("")
+
+    if ChangelogHelper.validate_changelog_exists
+      UI.message("=== GitHub Release Changelog ===")
+      UI.message(ChangelogHelper.get_current_changelog_for_github)
+      UI.message("")
+      UI.message("=== Google Play Changelog ===")
+      UI.message(ChangelogHelper.get_current_changelog_for_google_play)
+    end
   end
 
   desc "Run tests"
