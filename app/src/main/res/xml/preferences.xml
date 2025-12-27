@@ -121,8 +121,8 @@
         <Preference
             android:key="@string/pref_key_v2er_app"
             android:layout="@layout/preference_item"
-            android:summary="https://v2er.app"
-            android:title="v2er.app" />
+            android:summary="https://v2er.app/help"
+            android:title="唯一问题反馈渠道" />
         <Preference
             android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"
