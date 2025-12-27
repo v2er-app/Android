@@ -57,6 +57,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="0.6dp" />
 
+                <ImageButton
+                    android:id="@+id/reply_upload_image_btn"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_below="@id/divider"
+                    android:layout_alignParentStart="true"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:contentDescription="@string/upload_image"
+                    android:src="@drawable/ic_add_photo"
+                    android:tint="?attr/icon_tint_color" />
+
                 <EditText
                     android:id="@+id/topic_reply_et"
                     style="@style/EditText"
@@ -64,9 +75,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/divider"
                     android:layout_toStartOf="@id/reply_send_btn"
+                    android:layout_toEndOf="@id/reply_upload_image_btn"
                     android:background="@null"
                     android:hint="回复"
-                    android:padding="16dp" />
+                    android:paddingTop="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp" />
 
                 <ImageButton
                     android:id="@+id/reply_send_btn"

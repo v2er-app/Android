@@ -23,36 +23,59 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:id="@+id/create_topic_node_wrapper"
-        android:layout_width="wrap_content"
+        android:id="@+id/create_topic_bottom_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/capsule_gray_drawable"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingLeft="12dp"
-        android:paddingTop="6dp"
-        android:paddingRight="12dp"
-        android:paddingBottom="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:alpha="0.6"
-            android:paddingRight="2dp"
-            android:src="@drawable/ic_node"
+        <ImageButton
+            android:id="@+id/btn_upload_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/upload_image"
+            android:src="@drawable/ic_add_photo"
             android:tint="?attr/icon_tint_color" />
 
-        <TextView
-            android:id="@+id/create_topic_node_tv"
-            style="@style/BodyText"
-            android:alpha="0.8"
-            android:gravity="center"
-            android:text="选择节点"
-            android:textColor="?attr/icon_tint_color"
-            android:textSize="@dimen/microTextSize" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:id="@+id/create_topic_node_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/capsule_gray_drawable"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="12dp"
+            android:paddingTop="6dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="6dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:alpha="0.6"
+                android:paddingRight="2dp"
+                android:src="@drawable/ic_node"
+                android:tint="?attr/icon_tint_color" />
+
+            <TextView
+                android:id="@+id/create_topic_node_tv"
+                style="@style/BodyText"
+                android:alpha="0.8"
+                android:gravity="center"
+                android:text="选择节点"
+                android:textColor="?attr/icon_tint_color"
+                android:textSize="@dimen/microTextSize" />
+        </LinearLayout>
     </LinearLayout>
 
     <EditText
@@ -62,7 +85,7 @@
         style="@style/topicEditText"
         android:gravity="top"
         android:hint="如果标题能够表达完整内容，此处可为空。"
-        app:layout_constraintBottom_toTopOf="@id/create_topic_node_wrapper"
+        app:layout_constraintBottom_toTopOf="@id/create_topic_bottom_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/create_topic_title_layout" />

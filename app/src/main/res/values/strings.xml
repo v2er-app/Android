@@ -50,6 +50,27 @@
     <string name="acc_search_edittext">搜索输入框</string>
     <string name="acc_search_clear">清除搜索输入框</string>
 
+    <!-- Imgur upload strings -->
+    <string name="pref_key_imgur_client_id">pref_key_imgur_client_id</string>
+    <string name="pref_key_my_uploads">pref_key_my_uploads</string>
+    <string name="my_uploads">我的图片</string>
+    <string name="my_uploads_summary">查看上传历史</string>
+    <string name="imgur_client_id_summary_default">使用默认 Client ID</string>
+    <string name="imgur_client_id_summary_custom">使用自定义 Client ID</string>
+    <string name="imgur_client_id_dialog_title">设置 Imgur Client ID</string>
+    <string name="imgur_client_id_dialog_hint">留空则使用默认值</string>
+    <string name="imgur_client_id_saved">已保存</string>
+    <string name="upload_image">上传图片</string>
+    <string name="uploading">正在上传…</string>
+    <string name="upload_success">上传成功</string>
+    <string name="upload_failed">上传失败</string>
+    <string name="no_uploads_yet">暂无上传记录</string>
+    <string name="no_uploads_hint">上传的图片将显示在这里</string>
+    <string name="clear_upload_history">清除历史</string>
+    <string name="clear_upload_history_confirm">确定要清除所有上传历史吗？</string>
+    <string name="history_cleared">历史已清除</string>
+    <string name="link_copied">链接已复制</string>
+    <string name="copy_link">复制链接</string>
 
 
 </resources>
