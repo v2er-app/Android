@@ -293,7 +293,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         } else if (key.equals(getString(R.string.pref_key_contact))) {
             Navigator.from(getContext()).to(Page.CONTACT).start();
         } else if (key.equals(getString(R.string.pref_key_v2er_app))) {
-            Utils.openInBrowser("https://v2er.app", getActivity());
+            Utils.openInBrowser("https://v2er.app/help", getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_twitter))) {
             Utils.jumpToTwitterProfilePage(getActivity());
         } else if (key.equals(getString(R.string.pref_key_contact_me_tg))) {
