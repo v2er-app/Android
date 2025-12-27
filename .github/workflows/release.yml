@@ -154,8 +154,8 @@ jobs:
           exit 1
         fi
 
-        # Check if changelog has entry for this version
-        if grep -qE "^##\s+v?${VERSION_NUMBER}(\s|$)" CHANGELOG.md; then
+        # Check if changelog has entry for this version (with optional build number)
+        if grep -qE "^##\s+v?${VERSION_NUMBER}(\s+\(Build\s+[0-9]+\))?\s*$" CHANGELOG.md; then
           echo "✅ Changelog entry found for version $VERSION_NUMBER"
           echo "changelog_valid=true" >> $GITHUB_OUTPUT
         else
@@ -387,6 +387,8 @@ jobs:
         echo "Extracting changelog for version: $VERSION_NUMBER"
 
         # Create a temporary file for release notes
+        # NOTE: We use a separate RELEASE_NOTES.md file so we don't overwrite CHANGELOG.md,
+        #       which remains the canonical changelog used as the source input above.
         RELEASE_NOTES_FILE="RELEASE_NOTES.md"
 
         # Extract content between current version header and next version header (or ---)
@@ -394,7 +396,7 @@ jobs:
           BEGIN { found=0; printing=0 }
           /^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+/ {
             if (found && printing) { exit }
-            if ($0 ~ "v?" ver) { found=1; printing=1; next }
+            if (match($0, "^##[[:space:]]+v?" ver "([[:space:]]|\\(|$)")) { found=1; printing=1; next }
           }
           /^---/ { if (printing) exit }
           printing { print }
@@ -544,7 +546,7 @@ jobs:
             BEGIN { found=0; printing=0 }
             /^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+/ {
               if (found && printing) { exit }
-              if ($0 ~ "v?" ver) { found=1; printing=1; next }
+              if (match($0, "^##[[:space:]]+v?" ver "([[:space:]]|\\(|$)")) { found=1; printing=1; next }
             }
             /^---/ { if (printing) exit }
             printing { print }
@@ -601,7 +603,7 @@ ${formatted}"
             fi
 
             section_len=${#version_section}
-            if [ $((current_len + section_len)) -lt "$max_chars" ]; then
+            if [ $((current_len + section_len)) -le "$max_chars" ]; then
               content="${content}${version_section}"
               current_len=$((current_len + section_len))
             else

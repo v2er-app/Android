@@ -79,7 +79,7 @@ platform :android do
   lane :deploy_beta do
     # Validate changelog exists for current version
     unless ChangelogHelper.validate_changelog_exists
-      UI.user_error!("Please update CHANGELOG.md with an entry for the current version before releasing!")
+      UI.user_error!("Please add an entry to CHANGELOG.md for the current version before releasing!")
     end
 
     build_bundle
@@ -97,7 +97,7 @@ platform :android do
   lane :deploy_production do
     # Validate changelog exists for current version
     unless ChangelogHelper.validate_changelog_exists
-      UI.user_error!("Please update CHANGELOG.md with an entry for the current version before releasing!")
+      UI.user_error!("Please add an entry to CHANGELOG.md for the current version before releasing!")
     end
 
     build_bundle

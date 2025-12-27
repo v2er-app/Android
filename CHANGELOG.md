@@ -52,7 +52,7 @@ When updating the version in `config.gradle`:
 
 Example format:
 ```
-## vX.Y.Z (Build N)
+## v2.4.0 (Build 245)
 1. Feature: Description of new feature
 2. Fix: Description of bug fix
 3. Improvement: Description of enhancement

@@ -26,7 +26,7 @@ module ChangelogHelper
     version_match = content.match(/versionName:\s*"([^"]+)"/)
 
     if version_match
-      version = version_match[1].strip
+      version = version_match[1]
       UI.message("Current version from config.gradle: #{version}")
       version
     else
@@ -157,7 +157,7 @@ module ChangelogHelper
     formatted
   end
 
-  # Get changelog for current version and up to 2 previous versions
+  # Get changelog for current version and up to 2 previous versions (3 versions total)
   # Combined length respects Google Play's 500 character limit
   # @return [String] Combined changelog for Google Play
   def self.get_current_changelog_for_google_play
@@ -177,10 +177,10 @@ module ChangelogHelper
 
     # Build combined changelog
     combined_parts = []
+    # Use actual newline characters so length calculation is accurate
     feedback_header = "Feedback: https://v2er.app/help\n\n"
-    feedback_header_zh = "唯一问题反馈渠道:https://v2er.app/help\n\n"
 
-    # Reserve space for feedback header
+    # Reserve space for feedback header (using actual string length)
     available_space = GOOGLE_PLAY_LIMIT - feedback_header.length
 
     versions_to_include.each_with_index do |version, index|
@@ -197,7 +197,7 @@ module ChangelogHelper
         version_section = "\n--- v#{version} ---\n#{formatted_content}"
       end
 
-      # Check if adding this section would exceed the limit
+      # Check if adding this section would exceed the limit (use <= to include content at exactly the limit)
       current_length = combined_parts.join.length
       if current_length + version_section.length <= available_space
         combined_parts << version_section
