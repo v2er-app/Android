@@ -100,7 +100,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
         // App version
         Preference versionPref = findPreference(getString(R.string.pref_key_app_version));
-        versionPref.setSummary(Utils.getVersionName() + " (" + Utils.getVersionCode() + ")");
+        versionPref.setSummary(Utils.getVersionName());
     }
 
     @Override
