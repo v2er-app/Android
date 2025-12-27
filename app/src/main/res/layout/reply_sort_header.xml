@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/page_bg_color"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="12dp"
+    android:paddingTop="10dp"
+    android:paddingRight="12dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:id="@+id/reply_section_title"
+        style="@style/BodyText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/reply_section_title"
+        android:textStyle="bold"
+        tools:text="回复" />
+
+    <LinearLayout
+        android:id="@+id/sort_toggle_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/sort_toggle_bg"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/sort_by_time_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/sort_toggle_item_bg_selected"
+            android:drawableStart="@drawable/ic_sort_time"
+            android:drawablePadding="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="@string/sort_by_time"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            tools:text="时间" />
+
+        <TextView
+            android:id="@+id/sort_by_popularity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/ic_sort_hot"
+            android:drawablePadding="3dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:text="@string/sort_by_popularity"
+            android:textColor="?attr/hintTextColor"
+            android:textSize="12sp"
+            tools:text="热门" />
+
+    </LinearLayout>
+
+</LinearLayout>
