@@ -137,6 +137,11 @@
             android:layout="@layout/preference_item"
             android:summary="\v2er_app"
             android:title="Telegram Group" />
+        <Preference
+            android:key="@string/pref_key_app_version"
+            android:layout="@layout/preference_item"
+            android:selectable="false"
+            android:title="版本" />
     </PreferenceCategory>
     <Preference
         android:key="@string/pref_key_value_toggle_log"
