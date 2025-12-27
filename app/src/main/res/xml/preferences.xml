@@ -6,6 +6,15 @@
     android:title="设置">
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
+        android:title="问题反馈">
+        <Preference
+            android:key="@string/pref_key_v2er_app"
+            android:layout="@layout/preference_item"
+            android:summary="https://v2er.app/help"
+            android:title="唯一问题反馈渠道" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_widget"
         android:title="常规设置">
         <Preference
             android:key="@string/pref_key_clear_cache"
@@ -118,11 +127,6 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="其它">
-        <Preference
-            android:key="@string/pref_key_v2er_app"
-            android:layout="@layout/preference_item"
-            android:summary="https://v2er.app/help"
-            android:title="唯一问题反馈渠道" />
         <Preference
             android:key="@string/pref_key_contact_me_twitter"
             android:layout="@layout/preference_item"
