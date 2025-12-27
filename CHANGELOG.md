@@ -2,6 +2,9 @@
 
 All notable changes to V2er Android app will be documented in this file.
 
+## v2.3.15 (Build 245)
+1. Improvement: General stability and maintenance updates
+
 ## v2.3.14 (Build 244)
 1. Feature: Add reply sorting by popularity
 2. Feature: Add built-in browser option for external links
