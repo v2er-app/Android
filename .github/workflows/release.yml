@@ -575,33 +575,20 @@ jobs:
           local header="$1"
           local max_chars="$2"
           local content=""
-
-          # Start with header and version
-          content="${header}
-
-V2er ${CURRENT_VERSION}
-
-"
+          content=$(printf '%s\n\nV2er %s\n\n' "$header" "$CURRENT_VERSION")
           current_len=${#content}
-
-          # Add changelog for each version
           for i in "${!VERSIONS[@]}"; do
             version="${VERSIONS[$i]}"
             raw_changelog=$(extract_version_changelog "$version")
             formatted=$(format_for_google_play "$raw_changelog")
-
             if [ -z "$formatted" ]; then
               continue
             fi
-
             if [ "$i" -eq 0 ]; then
               version_section="$formatted"
             else
-              version_section="
---- v${version} ---
-${formatted}"
+              version_section=$(printf '\n--- v%s ---\n%s' "$version" "$formatted")
             fi
-
             section_len=${#version_section}
             if [ $((current_len + section_len)) -le "$max_chars" ]; then
               content="${content}${version_section}"
@@ -610,7 +597,6 @@ ${formatted}"
               break
             fi
           done
-
           echo "$content"
         }
 
