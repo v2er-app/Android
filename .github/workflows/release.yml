@@ -612,7 +612,10 @@ jobs:
       run: |
         mkdir -p whatsnew
 
-        # Define shared functions (duplicated from release job since jobs run in isolation)
+        # Google Play whatsnew character limit
+        MAX_CHARS=500
+
+        # Define shared functions
         cat > /tmp/release_functions.sh << 'FUNCTIONS_EOF'
         # Function to categorize commit message
         categorize_commit() {
@@ -652,221 +655,169 @@ jobs:
           echo "$category:$cleaned_msg"
         }
 
-        # Function to get GitHub username from commit
-        get_github_username() {
-          local commit_sha="$1"
-          local github_repo="${GITHUB_REPOSITORY}"
-          # Try to get the GitHub username from the commit using gh api
-          local username=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.author.login // empty' 2>/dev/null || echo "")
-          if [ -n "$username" ]; then
-            echo "@$username"
-          else
-            # Fallback: try to get committer login if author login is not available
-            local committer=$(gh api "repos/${github_repo}/commits/${commit_sha}" --jq '.committer.login // empty' 2>/dev/null || echo "")
-            if [ -n "$committer" ]; then
-              echo "@$committer"
-            else
-              # Last resort: use hardcoded mapping for known authors
-              local git_author=$(git show -s --format='%an' $commit_sha)
-              case "$git_author" in
-                "Gray Zhang" | "gray" | "Gray")
-                  echo "@graycreate"
-                  ;;
-                "github-actions[bot]")
-                  echo "@github-actions[bot]"
-                  ;;
-                *)
-                  # If no mapping found, use git author name without @
-                  echo "$git_author"
-                  ;;
-              esac
+        # Function to collect commits for a version range
+        collect_version_commits() {
+          local range="$1"
+          local -n feat_ref=$2
+          local -n bug_ref=$3
+          local -n improve_ref=$4
+          local -n perf_ref=$5
+
+          while IFS= read -r line; do
+            [ -z "$line" ] && continue
+            sha=$(echo "$line" | cut -d' ' -f1)
+            msg=$(echo "$line" | cut -d' ' -f2-)
+
+            # Skip version bump and merge commits
+            if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
+              continue
             fi
+
+            categorized=$(categorize_commit "$msg")
+            category=$(echo "$categorized" | cut -d':' -f1)
+            clean_msg=$(echo "$categorized" | cut -d':' -f2-)
+
+            case "$category" in
+              feature) feat_ref["$clean_msg"]=1 ;;
+              bug) bug_ref["$clean_msg"]=1 ;;
+              improvement) improve_ref["$clean_msg"]=1 ;;
+              performance) perf_ref["$clean_msg"]=1 ;;
+            esac
+          done < <(git log --oneline --no-merges $range 2>/dev/null)
+        }
+
+        # Function to generate version notes (compact format for Google Play)
+        generate_version_notes() {
+          local -n feat=$1
+          local -n bugs=$2
+          local -n improve=$3
+          local -n perf=$4
+          local output=""
+
+          if [ ${#feat[@]} -gt 0 ]; then
+            for msg in "${!feat[@]}"; do
+              output+="• $msg"$'\n'
+            done
           fi
+          if [ ${#bugs[@]} -gt 0 ]; then
+            for msg in "${!bugs[@]}"; do
+              output+="• $msg"$'\n'
+            done
+          fi
+          if [ ${#improve[@]} -gt 0 ]; then
+            for msg in "${!improve[@]}"; do
+              output+="• $msg"$'\n'
+            done
+          fi
+          if [ ${#perf[@]} -gt 0 ]; then
+            for msg in "${!perf[@]}"; do
+              output+="• $msg"$'\n'
+            done
+          fi
+          echo "$output"
         }
         FUNCTIONS_EOF
 
         # Source the shared functions
         source /tmp/release_functions.sh
 
-        # Get commits since last tag for categorization
-        LAST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+        # Get last 3 tags for multi-version release notes
+        TAGS=($(git tag --sort=-v:refname | head -3))
+        CURRENT_VERSION="${{ needs.prepare.outputs.version }}"
 
-        # Collect and categorize commits
-        declare -A features
-        declare -A bugs
-        declare -A improvements
-        declare -A performance
-        declare -A contributors
+        echo "Found tags: ${TAGS[*]}"
+        echo "Current version: $CURRENT_VERSION"
 
-        if [ -n "$LAST_TAG" ]; then
-          RANGE="$LAST_TAG..HEAD"
+        # Feedback header
+        FEEDBACK_HEADER_EN="Feedback: https://v2er.app/help"
+        FEEDBACK_HEADER_ZH="唯一问题反馈渠道:https://v2er.app/help"
+
+        # Build release notes for each version
+        declare -a version_notes_en
+        declare -a version_notes_zh
+
+        # Current version (HEAD to last tag or all commits if no tags)
+        declare -A curr_features curr_bugs curr_improvements curr_performance
+        if [ ${#TAGS[@]} -gt 0 ]; then
+          collect_version_commits "${TAGS[0]}..HEAD" curr_features curr_bugs curr_improvements curr_performance
         else
-          RANGE="HEAD~5..HEAD"
+          collect_version_commits "HEAD~10..HEAD" curr_features curr_bugs curr_improvements curr_performance
         fi
 
-        # Process commits
-        while IFS= read -r line; do
-          sha=$(echo "$line" | cut -d' ' -f1)
-          msg=$(echo "$line" | cut -d' ' -f2-)
+        CURR_NOTES=$(generate_version_notes curr_features curr_bugs curr_improvements curr_performance)
+        if [ -n "$CURR_NOTES" ]; then
+          version_notes_en+=("$CURR_NOTES")
+          version_notes_zh+=("$CURR_NOTES")
+        fi
 
-          # Skip version bump and merge commits
-          if [[ "$msg" =~ "bump version" ]] || [[ "$msg" =~ "Merge pull request" ]] || [[ "$msg" =~ "Merge branch" ]]; then
-            continue
+        # Previous versions (from tags)
+        for i in 0 1; do
+          if [ $i -lt ${#TAGS[@]} ] && [ $((i+1)) -lt ${#TAGS[@]} ]; then
+            declare -A prev_features prev_bugs prev_improvements prev_performance
+            collect_version_commits "${TAGS[$((i+1))]}..${TAGS[$i]}" prev_features prev_bugs prev_improvements prev_performance
+            PREV_NOTES=$(generate_version_notes prev_features prev_bugs prev_improvements prev_performance)
+            if [ -n "$PREV_NOTES" ]; then
+              version_notes_en+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+              version_notes_zh+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+            fi
+            unset prev_features prev_bugs prev_improvements prev_performance
+          elif [ $i -lt ${#TAGS[@]} ] && [ $((i+1)) -ge ${#TAGS[@]} ]; then
+            # Last tag - get commits before it
+            declare -A prev_features prev_bugs prev_improvements prev_performance
+            collect_version_commits "${TAGS[$i]}~5..${TAGS[$i]}" prev_features prev_bugs prev_improvements prev_performance
+            PREV_NOTES=$(generate_version_notes prev_features prev_bugs prev_improvements prev_performance)
+            if [ -n "$PREV_NOTES" ]; then
+              version_notes_en+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+              version_notes_zh+=("--- ${TAGS[$i]} ---"$'\n'"$PREV_NOTES")
+            fi
+            unset prev_features prev_bugs prev_improvements prev_performance
           fi
+        done
 
-          categorized=$(categorize_commit "$msg")
-          category=$(echo "$categorized" | cut -d':' -f1)
-          clean_msg=$(echo "$categorized" | cut -d':' -f2-)
+        # Generate English release notes with character limit
+        {
+          echo "$FEEDBACK_HEADER_EN"
+          echo ""
+          echo "V2er $CURRENT_VERSION"
+          echo ""
+        } > whatsnew/whatsnew-en-US
 
-          # Get author for this commit
-          author=$(get_github_username "$sha")
-          if [ -n "$author" ]; then
-            contributors["$author"]="1"
+        CURRENT_LEN=$(wc -c < whatsnew/whatsnew-en-US)
+        for notes in "${version_notes_en[@]}"; do
+          NOTES_LEN=${#notes}
+          if [ $((CURRENT_LEN + NOTES_LEN + 2)) -lt $MAX_CHARS ]; then
+            echo "$notes" >> whatsnew/whatsnew-en-US
+            CURRENT_LEN=$((CURRENT_LEN + NOTES_LEN + 2))
+          else
+            break
           fi
+        done
 
-          case "$category" in
-            feature)
-              features["$clean_msg"]="$author"
-              ;;
-            bug)
-              bugs["$clean_msg"]="$author"
-              ;;
-            improvement)
-              improvements["$clean_msg"]="$author"
-              ;;
-            performance)
-              performance["$clean_msg"]="$author"
-              ;;
-          esac
-        done < <(git log --oneline --no-merges $RANGE)
+        # Generate Chinese release notes with character limit
+        {
+          echo "$FEEDBACK_HEADER_ZH"
+          echo ""
+          echo "V2er $CURRENT_VERSION"
+          echo ""
+        } > whatsnew/whatsnew-zh-CN
 
-        # Generate English release notes
-        echo "V2er ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-en-US
-        echo "" >> whatsnew/whatsnew-en-US
+        CURRENT_LEN=$(wc -c < whatsnew/whatsnew-zh-CN)
+        for notes in "${version_notes_zh[@]}"; do
+          NOTES_LEN=${#notes}
+          if [ $((CURRENT_LEN + NOTES_LEN + 2)) -lt $MAX_CHARS ]; then
+            echo "$notes" >> whatsnew/whatsnew-zh-CN
+            CURRENT_LEN=$((CURRENT_LEN + NOTES_LEN + 2))
+          else
+            break
+          fi
+        done
 
-        if [ ${#features[@]} -gt 0 ]; then
-          echo "🚀 New Features:" >> whatsnew/whatsnew-en-US
-          for msg in "${!features[@]}"; do
-            author="${features[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
-            else
-              echo "• $msg" >> whatsnew/whatsnew-en-US
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-en-US
-        fi
-
-        if [ ${#bugs[@]} -gt 0 ]; then
-          echo "🐛 Bug Fixes:" >> whatsnew/whatsnew-en-US
-          for msg in "${!bugs[@]}"; do
-            author="${bugs[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
-            else
-              echo "• $msg" >> whatsnew/whatsnew-en-US
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-en-US
-        fi
-
-        if [ ${#improvements[@]} -gt 0 ]; then
-          echo "💪 Improvements:" >> whatsnew/whatsnew-en-US
-          for msg in "${!improvements[@]}"; do
-            author="${improvements[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
-            else
-              echo "• $msg" >> whatsnew/whatsnew-en-US
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-en-US
-        fi
-
-        if [ ${#performance[@]} -gt 0 ]; then
-          echo "⚡ Performance:" >> whatsnew/whatsnew-en-US
-          for msg in "${!performance[@]}"; do
-            author="${performance[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (by $author)" >> whatsnew/whatsnew-en-US
-            else
-              echo "• $msg" >> whatsnew/whatsnew-en-US
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-en-US
-        fi
-
-        # Add contributors section if there are any
-        if [ ${#contributors[@]} -gt 0 ]; then
-          echo "👥 Contributors: ${!contributors[@]}" >> whatsnew/whatsnew-en-US
-          echo "" >> whatsnew/whatsnew-en-US
-        fi
-
-        echo "Thank you for using V2er! Please report any issues on GitHub." >> whatsnew/whatsnew-en-US
-
-        # Generate Chinese release notes
-        echo "V2er ${{ needs.prepare.outputs.version }}" > whatsnew/whatsnew-zh-CN
-        echo "" >> whatsnew/whatsnew-zh-CN
-
-        if [ ${#features[@]} -gt 0 ]; then
-          echo "🚀 新功能：" >> whatsnew/whatsnew-zh-CN
-          for msg in "${!features[@]}"; do
-            author="${features[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
-            else
-              echo "• $msg" >> whatsnew/whatsnew-zh-CN
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-zh-CN
-        fi
-
-        if [ ${#bugs[@]} -gt 0 ]; then
-          echo "🐛 问题修复：" >> whatsnew/whatsnew-zh-CN
-          for msg in "${!bugs[@]}"; do
-            author="${bugs[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
-            else
-              echo "• $msg" >> whatsnew/whatsnew-zh-CN
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-zh-CN
-        fi
-
-        if [ ${#improvements[@]} -gt 0 ]; then
-          echo "💪 改进优化：" >> whatsnew/whatsnew-zh-CN
-          for msg in "${!improvements[@]}"; do
-            author="${improvements[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
-            else
-              echo "• $msg" >> whatsnew/whatsnew-zh-CN
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-zh-CN
-        fi
-
-        if [ ${#performance[@]} -gt 0 ]; then
-          echo "⚡ 性能优化：" >> whatsnew/whatsnew-zh-CN
-          for msg in "${!performance[@]}"; do
-            author="${performance[$msg]}"
-            if [ -n "$author" ]; then
-              echo "• $msg (贡献者 $author)" >> whatsnew/whatsnew-zh-CN
-            else
-              echo "• $msg" >> whatsnew/whatsnew-zh-CN
-            fi
-          done
-          echo "" >> whatsnew/whatsnew-zh-CN
-        fi
-
-        # Add contributors section if there are any
-        if [ ${#contributors[@]} -gt 0 ]; then
-          echo "👥 贡献者：${!contributors[@]}" >> whatsnew/whatsnew-zh-CN
-          echo "" >> whatsnew/whatsnew-zh-CN
-        fi
-
-        echo "感谢您使用 V2er！如遇问题请在 GitHub 上反馈。" >> whatsnew/whatsnew-zh-CN
+        # Show generated content
+        echo "=== English whatsnew ($(wc -c < whatsnew/whatsnew-en-US) chars) ==="
+        cat whatsnew/whatsnew-en-US
+        echo ""
+        echo "=== Chinese whatsnew ($(wc -c < whatsnew/whatsnew-zh-CN) chars) ==="
+        cat whatsnew/whatsnew-zh-CN
         
     - name: Upload to Play Store (with debug symbols)
       if: steps.find-files.outputs.symbols_path != ''
