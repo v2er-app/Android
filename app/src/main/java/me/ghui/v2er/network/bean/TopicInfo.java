@@ -123,8 +123,20 @@ public class TopicInfo extends BaseInfo {
      * @return
      */
     public List<Item> getItems(boolean isLoadMore, boolean isInOrder) {
+        return getItems(isLoadMore, isInOrder, ReplySortType.BY_TIME);
+    }
+
+    /**
+     * 加载分页后的数据，支持按热门排序
+     *
+     * @param isLoadMore
+     * @param isInOrder  是否是正序加载
+     * @param sortType   排序类型
+     * @return
+     */
+    public List<Item> getItems(boolean isLoadMore, boolean isInOrder, ReplySortType sortType) {
         if (items == null) {
-            items = new ArrayList<>(Utils.listSize(replies) + 2);
+            items = new ArrayList<>(Utils.listSize(replies) + 3);
         } else {
             items.clear();
         }
@@ -145,7 +157,26 @@ public class TopicInfo extends BaseInfo {
             for (Reply reply : replies) {
                 reply.setOwner(owner);
             }
-            items.addAll(replies);
+
+            // 添加排序头部（仅在第一次加载且有回复时添加）
+            if (!isLoadMore) {
+                items.add(new ReplySortHeader(replies.size(), sortType));
+            }
+
+            // 根据排序类型添加回复
+            if (sortType == ReplySortType.BY_POPULARITY) {
+                List<Reply> sortedReplies = new ArrayList<>(replies);
+                Collections.sort(sortedReplies, (a, b) -> {
+                    // 按点赞数降序，相同点赞数按楼层升序
+                    if (a.getLove() != b.getLove()) {
+                        return b.getLove() - a.getLove();
+                    }
+                    return a.floor - b.floor;
+                });
+                items.addAll(sortedReplies);
+            } else {
+                items.addAll(replies);
+            }
         }
         return items;
     }
@@ -476,6 +507,68 @@ public class TopicInfo extends BaseInfo {
         }
 
 
+    }
+
+    /**
+     * 回复排序类型
+     */
+    public enum ReplySortType {
+        BY_TIME,       // 按时间排序（默认，即楼层顺序）
+        BY_POPULARITY  // 按热门排序（点赞数）
+    }
+
+    /**
+     * 回复排序头部项，用于显示排序切换控件
+     */
+    public static class ReplySortHeader implements Item {
+        private int replyCount;
+        private ReplySortType currentSortType;
+
+        public ReplySortHeader(int replyCount, ReplySortType sortType) {
+            this.replyCount = replyCount;
+            this.currentSortType = sortType;
+        }
+
+        public int getReplyCount() {
+            return replyCount;
+        }
+
+        public ReplySortType getCurrentSortType() {
+            return currentSortType;
+        }
+
+        public void setSortType(ReplySortType sortType) {
+            this.currentSortType = sortType;
+        }
+
+        @Override
+        public boolean isHeaderItem() {
+            return false;
+        }
+
+        @Override
+        public boolean isContentItem() {
+            return false;
+        }
+
+        @Override
+        public boolean isSelf() {
+            return false;
+        }
+
+        @Override
+        public String getUserName() {
+            return null;
+        }
+
+        @Override
+        public String getAvatar() {
+            return null;
+        }
+
+        public boolean isSortHeaderItem() {
+            return true;
+        }
     }
 
     public static class Reply implements Item {

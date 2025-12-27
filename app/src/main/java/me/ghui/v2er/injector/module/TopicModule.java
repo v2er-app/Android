@@ -25,6 +25,7 @@ import me.ghui.v2er.module.topic.TopicContract;
 import me.ghui.v2er.module.topic.TopicHeaderItemDelegate;
 import me.ghui.v2er.module.topic.TopicPresenter;
 import me.ghui.v2er.module.topic.TopicReplyItemDelegate;
+import me.ghui.v2er.module.topic.TopicReplySortHeaderDelegate;
 import me.ghui.v2er.module.user.UserHomeActivity;
 import me.ghui.v2er.network.GeneralConsumer;
 import me.ghui.v2er.network.bean.ThxResponseInfo;
@@ -115,6 +116,9 @@ public class TopicModule {
         };
         adapter.addItemViewDelegate(new TopicHeaderItemDelegate(mView));
         adapter.addItemViewDelegate(new TopicContentItemDelegate(mView));
+        TopicReplySortHeaderDelegate sortHeaderDelegate = new TopicReplySortHeaderDelegate(mView);
+        sortHeaderDelegate.setSortTypeChangeListener(mView);
+        adapter.addItemViewDelegate(sortHeaderDelegate);
         TopicReplyItemDelegate replyItemDelegate = new TopicReplyItemDelegate(mView);
         replyItemDelegate.setMemberClickListener(mView);
         adapter.addItemViewDelegate(replyItemDelegate);
