@@ -6,12 +6,12 @@
     android:title="设置">
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
-        android:title="问题反馈">
+        android:title="帮助">
         <Preference
             android:key="@string/pref_key_v2er_app"
             android:layout="@layout/preference_item"
-            android:summary="https://v2er.app/help"
-            android:title="唯一问题反馈渠道" />
+            android:summary="唯一问题反馈渠道: https://v2er.app/help"
+            android:title="问题反馈" />
     </PreferenceCategory>
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
