@@ -1,15 +1,29 @@
-# V2er-Android
+# V2er
+
+A beautiful V2EX client built for Android.
+
+## Download
+
+[![Google Play](https://img.shields.io/badge/Google%20Play-Download-green?style=flat-square&logo=google-play)](https://play.google.com/store/apps/details?id=me.ghui.v2er)
+
+[![Google Play Beta](https://img.shields.io/badge/Google%20Play-Beta-orange?style=flat-square&logo=google-play)](https://play.google.com/apps/testing/me.ghui.v2er)
+
+## Preview
+
+![Preview](https://s2.loli.net/2021/12/09/zHc68PgFmvMNOZh.png)
+
+## Contributing
+
+Contributions are welcome! You can contribute by:
+
+- **Submitting Pull Requests** - Fix bugs, add features, or improve code
+- **Opening Issues** - Report bugs, suggest features, or ask questions
+
+### Contributors
+
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-A beautiful V2EX client built for Android platform.
-
-You could download it from [Google Play](https://play.google.com/store/apps/details?id=me.ghui.v2er) or [CoolApk](https://www.coolapk.com/apk/155428)
-
-![GooglePlay.png](https://s2.loli.net/2021/12/09/zHc68PgFmvMNOZh.png)
-
-
-## Contributors
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -28,15 +42,9 @@ You could download it from [Google Play](https://play.google.com/store/apps/deta
 <!-- prettier-ignore-end -->
 
 <!-- ALL-CONTRIBUTORS-LIST:END -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
 
-<!-- markdownlint-restore -->
-<!-- prettier-ignore-end -->
+For details please visit [insights](https://github.com/v2er-app/Android/graphs/contributors).
 
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+## License
 
-For details please visit [insights](https://github.com/v2er-app/Android/graphs/contributors)
-
-# Licensing
-The source code is licensed under GPL. License is available [here](./LICENSE).
+This project is licensed under the GNU General Public License v3. See [LICENSE](./LICENSE) for details.
