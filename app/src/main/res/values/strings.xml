@@ -77,4 +77,7 @@
     <string name="sort_by_time">时间</string>
     <string name="sort_by_popularity">热门</string>
 
+    <!-- App version -->
+    <string name="pref_key_app_version">pref_key_app_version</string>
+
 </resources>
