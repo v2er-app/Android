@@ -55,8 +55,8 @@ jobs:
       if: github.event_name == 'push'
       run: |
         # Get current version from config.gradle with error handling
-        CURRENT_VERSION=$(grep versionName config.gradle | sed -E 's/.*versionName:\s*"([^"]+)".*/\1/' || echo "")
-        CURRENT_CODE=$(grep versionCode config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/' || echo "")
+        CURRENT_VERSION=$(grep versionName config.gradle | sed -E 's/.*versionName:[[:space:]]*"([^"]+)".*/\1/' || echo "")
+        CURRENT_CODE=$(grep versionCode config.gradle | sed -E 's/.*versionCode:[[:space:]]*([0-9]+).*/\1/' || echo "")
         
         # Validate extraction was successful
         if [ -z "$CURRENT_VERSION" ] || [ -z "$CURRENT_CODE" ]; then
@@ -77,8 +77,8 @@ jobs:
         if git rev-parse HEAD~1 >/dev/null 2>&1; then
           git show HEAD~1:config.gradle > prev_config.gradle 2>/dev/null || echo "No previous config.gradle"
           if [ -f prev_config.gradle ]; then
-            PREV_VERSION=$(grep versionName prev_config.gradle | sed -E 's/.*versionName:\s*"([^"]+)".*/\1/' || echo "")
-            PREV_CODE=$(grep versionCode prev_config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/' || echo "0")
+            PREV_VERSION=$(grep versionName prev_config.gradle | sed -E 's/.*versionName:[[:space:]]*"([^"]+)".*/\1/' || echo "")
+            PREV_CODE=$(grep versionCode prev_config.gradle | sed -E 's/.*versionCode:[[:space:]]*([0-9]+).*/\1/' || echo "0")
             rm prev_config.gradle
           else
             PREV_VERSION=""
@@ -133,7 +133,7 @@ jobs:
           VERSION_CODE="${{ steps.check_version.outputs.version_code }}"
         else
           # Only extract if not already available (for workflow_dispatch)
-          VERSION_CODE=$(grep "versionCode:" config.gradle | sed -E 's/.*versionCode:\s*([0-9]+).*/\1/')
+          VERSION_CODE=$(grep "versionCode:" config.gradle | sed -E 's/.*versionCode:[[:space:]]*([0-9]+).*/\1/')
         fi
         echo "version_code=$VERSION_CODE" >> $GITHUB_OUTPUT
         echo "Version Code: $VERSION_CODE"
@@ -155,7 +155,7 @@ jobs:
         fi
 
         # Check if changelog has entry for this version (with optional build number)
-        if grep -qE "^##\s+v?${VERSION_NUMBER}(\s+\(Build\s+[0-9]+\))?\s*$" CHANGELOG.md; then
+        if grep -qE "^##[[:space:]]+v?${VERSION_NUMBER}([[:space:]]+\(Build[[:space:]]+[0-9]+\))?[[:space:]]*$" CHANGELOG.md; then
           echo "✅ Changelog entry found for version $VERSION_NUMBER"
           echo "changelog_valid=true" >> $GITHUB_OUTPUT
         else
@@ -167,7 +167,7 @@ jobs:
           echo "1. Feature/Fix: Description of changes"
           echo ""
           echo "Available versions in CHANGELOG.md:"
-          grep -E "^##\s+v?\d+\.\d+\.\d+" CHANGELOG.md || echo "  (none found)"
+          grep -E "^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+" CHANGELOG.md || echo "  (none found)"
           exit 1
         fi
 
@@ -416,17 +416,17 @@ jobs:
           [ -z "$line" ] && continue
 
           # Extract type and description
-          if echo "$line" | grep -qE "^[0-9]+\.\s+Feature:"; then
-            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Feature:\s*//')
+          if echo "$line" | grep -qE "^[0-9]+\.[[:space:]]+Feature:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.[[:space:]]+Feature:[[:space:]]*//')
             features="${features}* ${desc}\n"
-          elif echo "$line" | grep -qE "^[0-9]+\.\s+Fix:"; then
-            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Fix:\s*//')
+          elif echo "$line" | grep -qE "^[0-9]+\.[[:space:]]+Fix:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.[[:space:]]+Fix:[[:space:]]*//')
             fixes="${fixes}* ${desc}\n"
-          elif echo "$line" | grep -qE "^[0-9]+\.\s+Improvement:"; then
-            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Improvement:\s*//')
+          elif echo "$line" | grep -qE "^[0-9]+\.[[:space:]]+Improvement:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.[[:space:]]+Improvement:[[:space:]]*//')
             improvements="${improvements}* ${desc}\n"
-          elif echo "$line" | grep -qE "^[0-9]+\.\s+Breaking:"; then
-            desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+Breaking:\s*//')
+          elif echo "$line" | grep -qE "^[0-9]+\.[[:space:]]+Breaking:"; then
+            desc=$(echo "$line" | sed -E 's/^[0-9]+\.[[:space:]]+Breaking:[[:space:]]*//')
             features="${features}* **BREAKING**: ${desc}\n"
           fi
         done < /tmp/raw_changelog.txt
@@ -559,15 +559,15 @@ jobs:
           echo "$content" | while IFS= read -r line; do
             [ -z "$line" ] && continue
             # Convert "1. Feature: xxx" to "• xxx"
-            if echo "$line" | grep -qE "^[0-9]+\.\s+(Feature|Fix|Improvement|Breaking):"; then
-              desc=$(echo "$line" | sed -E 's/^[0-9]+\.\s+(Feature|Fix|Improvement|Breaking):\s*//')
+            if echo "$line" | grep -qE "^[0-9]+\.[[:space:]]+(Feature|Fix|Improvement|Breaking):"; then
+              desc=$(echo "$line" | sed -E 's/^[0-9]+\.[[:space:]]+(Feature|Fix|Improvement|Breaking):[[:space:]]*//')
               echo "• $desc"
             fi
           done
         }
 
         # Get all versions from CHANGELOG.md (up to 3)
-        VERSIONS=($(grep -E "^##\s+v?[0-9]+\.[0-9]+\.[0-9]+" CHANGELOG.md | sed -E 's/^##\s+v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/' | head -3))
+        VERSIONS=($(grep -E "^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+" CHANGELOG.md | sed -E 's/^##[[:space:]]+v?([0-9]+\.[0-9]+\.[0-9]+).*/\1/' | head -3))
         echo "Found versions in CHANGELOG.md: ${VERSIONS[*]}"
 
         # Build whatsnew content
