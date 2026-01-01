@@ -345,14 +345,14 @@ jobs:
       uses: actions/checkout@v5
       
     - name: Download APK artifact
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v7
       with:
         name: release-apk
         path: release-artifacts/
         
     - name: Download AAB artifact
       if: ${{ vars.ENABLE_SIGNING == 'true' }}
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v7
       with:
         name: release-bundle
         path: release-artifacts/
@@ -481,7 +481,7 @@ jobs:
       uses: actions/checkout@v5
       
     - name: Download AAB artifact
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v7
       with:
         name: release-bundle
         path: release-artifacts/
