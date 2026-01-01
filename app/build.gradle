@@ -123,5 +123,5 @@ dependencies {
     // Temporarily disabled due to JitPack issues
     // implementation 'com.github.oasisfeng:condom:2.5.0'
     implementation 'org.slf4j:slf4j-nop:2.0.17'
-    implementation 'androidx.core:core-splashscreen:1.0.1'
+    implementation 'androidx.core:core-splashscreen:1.2.0'
 }
