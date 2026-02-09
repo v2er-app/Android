@@ -2,6 +2,11 @@
 
 All notable changes to V2er Android app will be documented in this file.
 
+## v2.3.16 (Build 246)
+1. Feature: Native VShare page for improved sharing experience
+2. Fix: VShare update check cache issue
+3. Improvement: General stability and dependency updates
+
 ## v2.3.15 (Build 245)
 1. Improvement: General stability and maintenance updates
 
