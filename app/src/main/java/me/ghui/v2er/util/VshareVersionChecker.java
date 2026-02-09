@@ -7,7 +7,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.bean.VshareVersionInfo;
 
 /**
  * Checks for vshare page version updates
@@ -75,19 +74,12 @@ public class VshareVersionChecker {
      * This should be called when the user clicks on the vshare menu item
      */
     public void markAsViewed() {
-        APIService.get()
-                .getVshareVersion()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(versionInfo -> {
-                    if (versionInfo != null && versionInfo.isValid()) {
-                        prefs.edit()
-                                .putInt(KEY_LAST_VERSION, versionInfo.getVersion())
-                                .apply();
-                    }
-                }, throwable -> {
-                    // Silently ignore errors
-                });
+        int serverVersion = prefs.getInt(KEY_SERVER_VERSION, 0);
+        if (serverVersion > 0) {
+            prefs.edit()
+                    .putInt(KEY_LAST_VERSION, serverVersion)
+                    .apply();
+        }
     }
 
     /**

@@ -2,7 +2,6 @@ package me.ghui.v2er.module.vshare;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -13,6 +12,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import butterknife.BindView;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.v2er.R;
 import me.ghui.v2er.adapter.base.CommonAdapter;
@@ -37,6 +37,9 @@ public class VshareActivity extends BaseActivity<BaseContract.IPresenter>
     BaseRecyclerView mRecyclerView;
 
     private CommonAdapter<VshareVersionInfo.Item> mAdapter;
+    private Disposable mDisposable;
+    private final RequestOptions mIconOptions = RequestOptions.bitmapTransform(
+            new RoundedCorners(ScaleUtils.dp(12)));
 
     public static void open(Context context) {
         Intent intent = new Intent(context, VshareActivity.class);
@@ -74,8 +77,7 @@ public class VshareActivity extends BaseActivity<BaseContract.IPresenter>
                 }
                 GlideApp.with(mContext)
                         .load(iconUrl)
-                        .apply(RequestOptions.bitmapTransform(
-                                new RoundedCorners(ScaleUtils.dp(12))))
+                        .apply(mIconOptions)
                         .placeholder(R.drawable.avatar_placeholder_drawable)
                         .into(iconView);
             }
@@ -90,7 +92,7 @@ public class VshareActivity extends BaseActivity<BaseContract.IPresenter>
 
     private void loadData() {
         showLoading();
-        APIService.get()
+        mDisposable = APIService.get()
                 .getVshareVersion()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -110,8 +112,15 @@ public class VshareActivity extends BaseActivity<BaseContract.IPresenter>
     public void onItemClick(View view, ViewHolder holder, int position) {
         VshareVersionInfo.Item item = mAdapter.getDatas().get(position);
         if (item.getUrl() != null) {
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getUrl()));
-            startActivity(intent);
+            Utils.openInBrowser(item.getUrl(), this);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mDisposable != null && !mDisposable.isDisposed()) {
+            mDisposable.dispose();
+        }
+        super.onDestroy();
     }
 }
