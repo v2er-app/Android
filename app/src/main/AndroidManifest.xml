@@ -151,10 +151,9 @@
             android:label="@string/my_uploads" />
         <activity android:name=".general.PageHost" />
         <activity
-            android:name=".module.vshare.VshareWebActivity"
+            android:name=".module.vshare.VshareActivity"
             android:exported="false"
-            android:theme="@style/NoneSlideBackableTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize" />
+            android:label="@string/vshare" />
     </application>
 
 </manifest>

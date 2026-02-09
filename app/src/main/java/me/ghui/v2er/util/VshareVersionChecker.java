@@ -7,7 +7,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 import me.ghui.v2er.network.APIService;
-import me.ghui.v2er.network.bean.VshareVersionInfo;
 
 /**
  * Checks for vshare page version updates
@@ -16,6 +15,7 @@ import me.ghui.v2er.network.bean.VshareVersionInfo;
 public class VshareVersionChecker {
     private static final String PREFS_NAME = "vshare_version";
     private static final String KEY_LAST_VERSION = "last_version";
+    private static final String KEY_SERVER_VERSION = "server_version";
     private static final String KEY_LAST_CHECK_TIME = "last_check_time";
     private static final long CHECK_INTERVAL = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
 
@@ -52,9 +52,10 @@ public class VshareVersionChecker {
                         int serverVersion = versionInfo.getVersion();
                         int localVersion = prefs.getInt(KEY_LAST_VERSION, 0);
 
-                        // Update last check time
+                        // Update last check time and server version
                         prefs.edit()
                                 .putLong(KEY_LAST_CHECK_TIME, currentTime)
+                                .putInt(KEY_SERVER_VERSION, serverVersion)
                                 .apply();
 
                         // If server version is newer, return true
@@ -73,19 +74,12 @@ public class VshareVersionChecker {
      * This should be called when the user clicks on the vshare menu item
      */
     public void markAsViewed() {
-        APIService.get()
-                .getVshareVersion()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(versionInfo -> {
-                    if (versionInfo != null && versionInfo.isValid()) {
-                        prefs.edit()
-                                .putInt(KEY_LAST_VERSION, versionInfo.getVersion())
-                                .apply();
-                    }
-                }, throwable -> {
-                    // Silently ignore errors
-                });
+        int serverVersion = prefs.getInt(KEY_SERVER_VERSION, 0);
+        if (serverVersion > 0) {
+            prefs.edit()
+                    .putInt(KEY_LAST_VERSION, serverVersion)
+                    .apply();
+        }
     }
 
     /**
@@ -95,14 +89,9 @@ public class VshareVersionChecker {
      * @return true if there's an update, false otherwise
      */
     private boolean hasUpdate() {
-        int lastVersion = prefs.getInt(KEY_LAST_VERSION, 0);
-        // If we haven't checked yet, assume no update
-        if (lastVersion == 0) {
-            return false;
-        }
-        // This would need server version to compare, but we're using cached data
-        // In practice, this will be updated by checkForUpdate()
-        return false;
+        int serverVersion = prefs.getInt(KEY_SERVER_VERSION, 0);
+        int lastViewedVersion = prefs.getInt(KEY_LAST_VERSION, 0);
+        return serverVersion > lastViewedVersion;
     }
 
     /**
