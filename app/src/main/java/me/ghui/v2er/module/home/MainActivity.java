@@ -254,7 +254,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener,
                     Navigator.from(getContext()).to(CreateTopicActivity.class).start();
                     break;
                 case R.id.vshare_nav_item:
-                    me.ghui.v2er.module.vshare.VshareWebActivity.open(getContext());
+                    me.ghui.v2er.module.vshare.VshareActivity.open(getContext());
                     mVshareVersionChecker.markAsViewed();
                     updateVshareBadge();
                     break;
