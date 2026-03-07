@@ -24,11 +24,16 @@ import me.ghui.v2er.util.UserUtils;
  */
 
 public class SignInWithGoogleActivity extends WapActivity {
-    private static final String REFER_GOOGLE = Constants.BASE_URL + "/signin?next=/mission/daily";
-    private static final String URL_GOOGLE_SIGNIN = Constants.BASE_URL + "/auth/google?once=";
+    private static String getReferGoogle() {
+        return Constants.getBaseUrl() + "/signin?next=/mission/daily";
+    }
+
+    private static String getGoogleSigninUrl() {
+        return Constants.getBaseUrl() + "/auth/google?once=";
+    }
 
     public static void open(Context context, String once) {
-        String url = URL_GOOGLE_SIGNIN + once;
+        String url = getGoogleSigninUrl() + once;
         Navigator.from(context)
                 .putExtra(URL_KEY, url)
                 .putExtra(FORCH_OPENED_WEBVIEW, true)
@@ -49,7 +54,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     @Override
     protected void firstLoad(Map<String, String> headers) {
         headers = new HashMap<>();
-        headers.put("Refer", REFER_GOOGLE);
+        headers.put("Refer", getReferGoogle());
         super.firstLoad(headers);
     }
 
@@ -61,7 +66,7 @@ public class SignInWithGoogleActivity extends WapActivity {
     @Override
     protected boolean checkIntercept(String currentUrl) {
         L.d("url: " + currentUrl);
-        if (currentUrl.startsWith(Constants.BASE_URL + "/mission/daily")) {
+        if (currentUrl.startsWith(Constants.getBaseUrl() + "/mission/daily")) {
             mWebView.getSettings().setUserAgentString(APIService.WAP_USER_AGENT);
             doGetUserInfo();
             return true;

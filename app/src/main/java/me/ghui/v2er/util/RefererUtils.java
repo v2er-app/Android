@@ -11,10 +11,10 @@ public interface RefererUtils {
     String TINY_REFER = Constants.BASE_URL + "/mission/daily";
 
     public static String topicReferer(String topicId) {
-        return Constants.BASE_URL + "/t/" + topicId;
+        return Constants.getBaseUrl() + "/t/" + topicId;
     }
 
     public static String userReferer(String username) {
-        return Constants.BASE_URL + "/member/" + username;
+        return Constants.getBaseUrl() + "/member/" + username;
     }
 }

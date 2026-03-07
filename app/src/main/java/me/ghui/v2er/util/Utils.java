@@ -472,7 +472,7 @@ public class Utils {
     }
 
     public static String generateTopicLinkById(String topicId) {
-        return "https://www.v2ex.com/t/" + topicId;
+        return Constants.getBaseUrl() + "/t/" + topicId;
     }
 
     public static boolean isNetworkAvailable() {

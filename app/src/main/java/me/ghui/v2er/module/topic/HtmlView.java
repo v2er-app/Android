@@ -37,6 +37,7 @@ import me.ghui.v2er.general.App;
 import me.ghui.v2er.general.GlideApp;
 import me.ghui.v2er.module.gallery.GalleryActivity;
 import me.ghui.v2er.module.imgviewer.ImagesInfo;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.network.BaseConsumer;
 import me.ghui.v2er.util.DarkModelUtils;
 import me.ghui.v2er.util.FontSizeUtil;
@@ -93,7 +94,7 @@ public class HtmlView extends WebView {
         String container = Assets.getString("html/v2er.html", getContext());
         container = injectParams(container);
         formattedHtml = container.replace("{injecttedContent}", formattedHtml);
-        loadDataWithBaseURL("https://www.v2ex.com", formattedHtml, "text/html", "UTF-8", null);
+        loadDataWithBaseURL(Constants.getBaseUrl(), formattedHtml, "text/html", "UTF-8", null);
     }
 
     private String injectParams(String html) {

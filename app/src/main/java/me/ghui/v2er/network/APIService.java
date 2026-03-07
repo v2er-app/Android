@@ -58,10 +58,16 @@ public class APIService {
                             .add(FruitConverterFactory.create(fruit()), Html.class)
                             .add(GsonConverterFactory.create(gson()), Json.class))
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .baseUrl(Constants.BASE_URL)
+                    .baseUrl(Constants.getBaseUrl())
                     .build();
             mAPI_SERVICE = retrofit.create(APIs.class);
         }
+    }
+
+    public static void reset() {
+        mAPI_SERVICE = null;
+        sHttpClient = null;
+        init();
     }
 
     public static APIs get() {
@@ -112,12 +118,20 @@ public class APIService {
         @Override
         public Response intercept(Chain chain) throws IOException {
             Request request = chain.request();
+            Request.Builder builder = request.newBuilder();
             String ua = request.header(UA_KEY);
             if (Check.isEmpty(ua)) {
-                request = request.newBuilder()
-                        .addHeader("user-agent", WAP_USER_AGENT)
-                        .build();
+                builder.addHeader("user-agent", WAP_USER_AGENT);
             }
+            // Rewrite Referer header if using a custom base URL
+            if (Constants.isCustomBaseUrl()) {
+                String referer = request.header("Referer");
+                if (Check.notEmpty(referer) && referer.contains(Constants.HOST_NAME)) {
+                    String newReferer = referer.replace(Constants.BASE_URL, Constants.getBaseUrl());
+                    builder.header("Referer", newReferer);
+                }
+            }
+            request = builder.build();
             try {
                 return chain.proceed(request);
             } catch (Exception e) {

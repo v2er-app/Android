@@ -52,7 +52,7 @@ public class NodeTopicInfo extends BaseInfo {
     }
 
     public String getFavoriteLink() {
-        return Constants.BASE_URL + favoriteLink;
+        return Constants.getBaseUrl() + favoriteLink;
     }
 
     public boolean hasStared() {
