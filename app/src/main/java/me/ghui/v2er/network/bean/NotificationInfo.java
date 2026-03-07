@@ -74,7 +74,7 @@ public class NotificationInfo extends BaseInfo {
         }
 
         public String getLink() {
-            return Constants.BASE_URL + link;
+            return Constants.getBaseUrl() + link;
         }
 
 

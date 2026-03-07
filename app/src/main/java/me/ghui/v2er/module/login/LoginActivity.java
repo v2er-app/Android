@@ -93,13 +93,13 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         toolBar.inflateMenu(R.menu.login_toolbar_menu);
         toolBar.setOnMenuItemClickListener(item -> {
             if (item.getItemId() == R.id.action_register) {
-                Utils.openInBrowser(Constants.BASE_URL + "/signup?r=ghui", this);
+                Utils.openInBrowser(Constants.getBaseUrl() + "/signup?r=ghui", this);
             } else if (item.getItemId() == R.id.action_forgot_psw) {
-                Utils.openInBrowser(Constants.BASE_URL + "/forgot", this);
+                Utils.openInBrowser(Constants.getBaseUrl() + "/forgot", this);
             } else if (item.getItemId() == R.id.action_faq) {
                 Navigator.from(this).to(UserManualActivity.class).start();
             } else if (item.getItemId() == R.id.action_about) {
-                Utils.openInBrowser(Constants.BASE_URL + "/about", this);
+                Utils.openInBrowser(Constants.getBaseUrl() + "/about", this);
             }
             return true;
         });
@@ -180,7 +180,7 @@ public class LoginActivity extends BaseActivity<LoginContract.IPresenter> implem
         L.d("加载登录参数成功");
         mLoginParam = loginParam;
         if (mLoginParam.needCaptcha()) {
-            String capchaUrl = Constants.BASE_URL + "/_captcha?once=" + loginParam.getOnce();
+            String capchaUrl = Constants.getBaseUrl() + "/_captcha?once=" + loginParam.getOnce();
             GlideApp.with(this).
                     load(capchaUrl)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)

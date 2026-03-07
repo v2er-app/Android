@@ -16,6 +16,14 @@
     <PreferenceCategory
         android:layout="@layout/preference_category_widget"
         android:title="常规设置">
+        <ListPreference
+            android:defaultValue="https://www.v2ex.com"
+            android:entries="@array/base_url_entries"
+            android:entryValues="@array/base_url_values"
+            android:key="@string/pref_key_base_url"
+            android:layout="@layout/preference_item"
+            android:summary="默认 (www.v2ex.com)"
+            android:title="网站地址" />
         <Preference
             android:key="@string/pref_key_clear_cache"
             android:layout="@layout/preference_item"

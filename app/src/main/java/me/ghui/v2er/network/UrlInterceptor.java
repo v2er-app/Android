@@ -51,9 +51,9 @@ public class UrlInterceptor {
         if (!url.startsWith(Constants.HTTPS_SCHEME) && !url.startsWith(Constants.HTTP_SCHEME)) {
             //url is path
             if (url.startsWith("/")) {
-                url = Constants.BASE_URL + url;
+                url = Constants.getBaseUrl() + url;
             } else {
-                url = Constants.BASE_URL + "/" + url;
+                url = Constants.getBaseUrl() + "/" + url;
             }
         }
 
@@ -71,7 +71,7 @@ public class UrlInterceptor {
         }
         String host = uri.getHost();
         if (Check.isEmpty(host)) return false;
-        if (!forchOpenedInWebview && !host.contains(Constants.HOST_NAME)) {
+        if (!forchOpenedInWebview && !host.contains(Constants.getHostName())) {
             // 1. 外站
             boolean useBuiltinBrowser = Pref.readBool(R.string.pref_key_use_builtin_browser);
             if (useBuiltinBrowser) {

@@ -31,6 +31,8 @@ import me.ghui.v2er.general.Navigator;
 import me.ghui.v2er.general.Page;
 import me.ghui.v2er.module.home.MainActivity;
 import me.ghui.v2er.module.login.LoginActivity;
+import me.ghui.v2er.network.APIService;
+import me.ghui.v2er.network.Constants;
 import me.ghui.v2er.util.FontSizeUtil;
 import me.ghui.v2er.util.GlideCatchUtil;
 import me.ghui.v2er.util.UserUtils;
@@ -87,6 +89,29 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
         imgurClientIdPref.setOnPreferenceClickListener(this);
         updateImgurClientIdSummary();
         findPreference(getString(R.string.pref_key_my_uploads)).setOnPreferenceClickListener(this);
+        // Base URL setting
+        ListPreference baseUrlPref = (ListPreference) findPreference(getString(R.string.pref_key_base_url));
+        updateBaseUrlSummary(baseUrlPref);
+        baseUrlPref.setOnPreferenceChangeListener((preference, newValue) -> {
+            String newUrl = (String) newValue;
+            String currentUrl = Constants.getBaseUrl();
+            if (newUrl.equals(currentUrl)) return true;
+            new ConfirmDialog.Builder(getActivity())
+                    .title(getString(R.string.base_url_dialog_title))
+                    .msg(getString(R.string.base_url_restart_msg))
+                    .positiveText(R.string.ok, dialog -> {
+                        Pref.save(Constants.PREF_KEY_BASE_URL, newUrl);
+                        updateBaseUrlSummary(baseUrlPref);
+                        APIService.reset();
+                        Navigator.from(getActivity())
+                                .setFlag(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                .to(MainActivity.class).start();
+                    })
+                    .negativeText(R.string.cancel)
+                    .build().show();
+            return false;
+        });
+
         ListPreference fontItem = (ListPreference) findPreference(getString(R.string.pref_key_fontsize));
         fontItem.setSummary(fontItem.getValue());
         fontItem.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -312,6 +337,13 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
             return true;
         }
         return false;
+    }
+
+    private void updateBaseUrlSummary(ListPreference pref) {
+        CharSequence entry = pref.getEntry();
+        if (entry != null) {
+            pref.setSummary(entry);
+        }
     }
 
     private void updateImgurClientIdSummary() {

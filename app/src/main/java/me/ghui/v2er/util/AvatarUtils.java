@@ -15,7 +15,7 @@ public class AvatarUtils {
             if (avatar.startsWith("//")) {
                 avatar = Constants.HTTPS_SCHEME + avatar;
             } else if (avatar.startsWith("/")) {
-                avatar = Constants.BASE_URL + avatar;
+                avatar = Constants.getBaseUrl() + avatar;
             }
         }
 

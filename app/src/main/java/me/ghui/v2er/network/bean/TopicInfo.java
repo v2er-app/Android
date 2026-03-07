@@ -409,7 +409,7 @@ public class TopicInfo extends BaseInfo {
             if (Check.isEmpty(favoriteLink)) {
                 return null;
             }
-            return UriUtils.getParamValue(Constants.BASE_URL + favoriteLink, "t");
+            return UriUtils.getParamValue(Constants.getBaseUrl() + favoriteLink, "t");
         }
 
         public boolean hadStared() {

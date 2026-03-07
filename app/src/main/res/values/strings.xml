@@ -77,6 +77,10 @@
     <string name="sort_by_time">时间</string>
     <string name="sort_by_popularity">热门</string>
 
+    <!-- Base URL -->
+    <string name="base_url_dialog_title">选择网站地址</string>
+    <string name="base_url_restart_msg">切换网站地址后需要重启应用，确定切换吗？</string>
+
     <!-- App version -->
     <string name="pref_key_app_version">pref_key_app_version</string>
 

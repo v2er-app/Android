@@ -33,4 +33,15 @@
         <item>1</item>
     </string-array>
 
+
+    <string-array name="base_url_entries">
+        <item>默认 (www.v2ex.com)</item>
+        <item>直连 (global.v2ex.co)</item>
+    </string-array>
+
+    <string-array name="base_url_values">
+        <item>https://www.v2ex.com</item>
+        <item>https://global.v2ex.co</item>
+    </string-array>
+
 </resources>

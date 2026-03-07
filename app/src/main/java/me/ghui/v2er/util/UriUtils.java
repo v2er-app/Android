@@ -51,7 +51,7 @@ public class UriUtils {
     }
 
     public static String topicLink(String id) {
-        return Constants.BASE_URL + "/t/" + id;
+        return Constants.getBaseUrl() + "/t/" + id;
     }
 
 
