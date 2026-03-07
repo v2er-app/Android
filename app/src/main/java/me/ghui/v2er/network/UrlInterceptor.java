@@ -71,7 +71,8 @@ public class UrlInterceptor {
         }
         String host = uri.getHost();
         if (Check.isEmpty(host)) return false;
-        if (!forchOpenedInWebview && !host.contains(Constants.getHostName())) {
+        boolean isInternalHost = host.endsWith(Constants.HOST_NAME) || host.endsWith(Constants.getHostName());
+        if (!forchOpenedInWebview && !isInternalHost) {
             // 1. 外站
             boolean useBuiltinBrowser = Pref.readBool(R.string.pref_key_use_builtin_browser);
             if (useBuiltinBrowser) {

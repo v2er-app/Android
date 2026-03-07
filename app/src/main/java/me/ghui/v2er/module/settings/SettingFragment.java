@@ -101,6 +101,7 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
                     .msg(getString(R.string.base_url_restart_msg))
                     .positiveText(R.string.ok, dialog -> {
                         Pref.save(Constants.PREF_KEY_BASE_URL, newUrl);
+                        baseUrlPref.setValue(newUrl);
                         updateBaseUrlSummary(baseUrlPref);
                         APIService.reset();
                         Navigator.from(getActivity())
