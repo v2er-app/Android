@@ -2,6 +2,16 @@
 
 All notable changes to V2er Android app will be documented in this file.
 
+## v2.3.17 (Build 247)
+
+### What's New
+- Support configurable V2EX website URL, allowing direct access via global.v2ex.co without proxy
+
+### All Changes
+- ✨ Added configurable base URL setting (www.v2ex.com / global.v2ex.co)
+
+---
+
 ## v2.3.16 (Build 246)
 1. Feature: Native VShare page for improved sharing experience
 2. Fix: VShare update check cache issue
